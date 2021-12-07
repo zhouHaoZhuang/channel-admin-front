@@ -298,7 +298,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/channel/channelAdmin/price")
+                  component: () => import("@/pages/finance/details/index.vue")
                 },
                 {
                   path: "recharge",
@@ -306,7 +306,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/channel/channelAdmin/price")
+                  component: () => import("@/pages/finance/recharge/index.vue")
                 }
               ]
             },
@@ -607,31 +607,115 @@ const options = {
           children: [
             {
               path: "account",
-              name: "账号管理",
+              name: "网站管理",
               meta: {
                 icon: "home"
               },
               component: BlankView,
               children: [
                 {
-                  path: "information",
-                  name: "个人信息",
+                  path: "banner",
+                  name: "banner管理",
                   meta: {
                     icon: "home"
                   },
-                  component: () =>
-                    import("@/pages/personal/account/information.vue")
+                  component: () => import("@/pages/personal/banner/banner.vue")
                 },
                 {
-                  path: "password",
-                  name: "修改密码",
+                  path: "add-banner",
+                  name: "Banner添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/addbanner.vue")
+                },
+                {
+                  path: "amend-banner",
+                  name: "Banner修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/amendbanner.vue")
+                },
+                {
+                  path: "blogroll",
+                  name: "友情链接",
                   meta: {
                     // invisible: true,
                     // back: true
                     icon: "home"
                   },
                   component: () =>
-                    import("@/pages/personal/account/password.vue")
+                    import("@/pages/personal/blogroll/blogroll.vue")
+                },
+                {
+                  path:"add-blogroll",
+                  name:"添加友情链接",
+                  meta:{
+                    invisible: true,
+                    back: true
+                  },
+                  component:() =>import("@/pages/personal/blogroll/addblogroll.vue")
+                },
+                {
+                  path:"amend-blogroll",
+                  name:"修改友情链接",
+                  meta:{
+                    invisible: true,
+                    back: true
+                  },
+                  component:() =>import("@/pages/personal/blogroll/amendblogroll.vue")
+                },
+                {
+                  path:"add-classify",
+                  name:"友情链接分类添加",
+                  meta:{
+                    invisible: true,
+                    back: true
+                  },
+                  component:() =>import("@/pages/personal/blogroll/addclassify.vue")
+                },
+                {
+                  path:"amend-classify",
+                  name:"友情链接分类修改",
+                  meta:{
+                    invisible: true,
+                    back: true
+                  },
+                  component:() =>import("@/pages/personal/blogroll/amendclassify.vue")
+                },
+                {
+                  path: "single",
+                  name: "单页管理",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/personal/single/single.vue")
+                },
+                {
+                  path: "seo",
+                  name: "SEO优化",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/personal/seo/seo.vue")
+                },
+                {
+                  path:"amend-seo",
+                  name:"seo修改",
+                  meta:{
+                    invisible:true,
+                    back:true
+                  },
+                  component:()=>import("@/pages/personal/seo/amendseo")
                 }
               ]
             }

@@ -1,5 +1,5 @@
 <template>
-  <div class="orderList">
+  <div class="Content">
     <div class="orderTop">
       <a-space>
         <a-select
@@ -44,11 +44,26 @@
             @openChange="handleEndOpenChange"
           />
         </div>
+        <a-select
+          style="width:150px"
+          :placeholder="title"
+          v-model="title"
+          @change="changeKey"
+        >
+          <a-select-option
+            :value="v.key"
+            v-for="v in useColumns"
+            :key="v.title"
+          >
+            {{ v.title }}
+          </a-select-option>
+        </a-select>
         <a-button type="primary" @click="secectClick">
           查询
         </a-button>
       </a-space>
     </div>
+    <!-- 表格 -->
     <div class="orderTable">
       <div>
         <a-table
@@ -60,13 +75,13 @@
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
           <div slot="originAmount" slot-scope="v">
-            {{v.toFixed(2)}}
+            {{ v.toFixed(2) }}
           </div>
           <div slot="actualAmount" slot-scope="v">
-            {{v.toFixed(2)}}
+            {{ v.toFixed(2) }}
           </div>
           <div slot="tradeType" slot-scope="v">
-             <span v-if="v === 1">新购</span>
+            <span v-if="v === 1">新购</span>
             <span v-if="v === 5">升配</span>
             <span v-if="v === 10">降配</span>
             <span v-if="v === 15">续费</span>
@@ -91,7 +106,11 @@
             {{ v === 1 ? "已支付" : "未支付" }}
           </div>
           <div slot="select" slot-scope="v">
-            <a-button v-if="v.payStatus === 1" type="link" @click="selectPool(v)">
+            <a-button
+              v-if="v.payStatus === 1"
+              type="link"
+              @click="selectPool(v)"
+            >
               查看(1)
             </a-button>
             <a-button v-else type="link">
@@ -119,81 +138,46 @@ export default {
       },
       columns: [
         {
-          title: "订单编号",
+          title: "编号ID",
           dataIndex: "orderNo",
           key: "orderNo",
-          width: 170
         },
         {
           title: "会员ID",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
-          width: 150
-        },
-        {
-          title: "专席销售",
           dataIndex: "",
           key: "",
-          width: 150
         },
         {
-          title: "订单类型",
+          title: "发生金额",
+          dataIndex: "",
+          key: "",
+        },
+        {
+          title: "当时余额",
           dataIndex: "tradeType",
           key: "tradeType",
           scopedSlots: { customRender: "tradeType" },
-          width: 100
         },
         {
-          title: "原价",
+          title: "款项类型",
           dataIndex: "originAmount",
           key: "originAmount",
           scopedSlots: { customRender: "originAmount" },
-          width: 100
         },
         {
-          title: "价格",
+          title: "交易描述",
           dataIndex: "actualAmount",
           key: "actualAmount",
           scopedSlots: { customRender: "actualAmount" },
-          width: 100
         },
         {
-          title: "状态",
-          dataIndex: "payStatus",
-          key: "payStatus",
-          width: 100,
-          scopedSlots: { customRender: "payStatus" }
-        },
-        {
-          title: "现金支付",
-          dataIndex: "cashPly",
-          key: "cashPly",
-          width: 100
-        },
-        {
-          title: "现金券支付",
-          dataIndex: "discountPly",
-          key: "discountPly",
-          width: 150
-        },
-        {
-          title: "创建时间",
+          title: "发生时间",
           dataIndex: "createTime",
           key: "createTime",
-          width: 190,
           scopedSlots: { customRender: "createTime" }
         },
-
         {
-          title: "支付时间",
-          dataIndex: "payTime",
-          key: "payTime",
-          width: 250,
-          scopedSlots: { customRender: "payTime" }
-        },
-        {
-          title: "业务",
-          fixed: "right",
+          title: "订单ID",
           key: "selects",
           scopedSlots: { customRender: "select" }
         },
@@ -228,21 +212,6 @@ export default {
       isTime: true
     };
   },
-  activated() {
-    this.$store.dispatch("financialOrder/getList").then(res => {
-      this.$store
-        .dispatch("financialOrder/getAllList", {
-          pageSize: res.data.totalCount * 1
-        })
-        .then(val => {
-          // console.log(val);
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.paginationProps.current = val.data.currentPage * 1;
-          this.dataAll = val.data.list;
-          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-        });
-    });
-  },
   computed: {
     useColumns() {
       return [
@@ -254,8 +223,8 @@ export default {
         },
         {
           title: "渠道ID",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
+          dataIndex: "",
+          key: "",
           width: 150
         },
         {
@@ -304,45 +273,6 @@ export default {
     },
     handleEndOpenChange(open) {
       this.endOpen = open;
-    },
-    changepage(current, pageSize) {
-      this.paginationProps.current = current;
-      this.paginationProps.pageSize = pageSize;
-      if (current === 1) {
-        this.data = this.dataAll.slice(0, pageSize);
-      } else {
-        this.data = this.dataAll.slice(
-          (current - 1) * pageSize,
-          current * pageSize
-        );
-      }
-      // console.log(current, pageSize);
-      // console.log(this.data, "data");
-    },
-    onShowSizeChange(current, pageSize) {
-      // console.log("改变了分页的大小", current, pageSize);
-      this.paginationProps.current = current;
-      this.paginationProps.pageSize = pageSize;
-      if (current === 1) {
-        this.data = this.dataAll.slice(0, pageSize);
-      } else {
-        this.data = this.dataAll.slice(
-          (current - 1) * pageSize,
-          current * pageSize
-        );
-      }
-    },
-    selectPool(v, i) {
-      // if (!i && i != undefined) {
-      //   return
-      // }
-      //  console.log(v.id);
-      this.$router.push({
-        path: "/finance/index/orderinfo",
-        query: {
-          id: v.id
-        }
-      });
     },
     secectClick() {
       this.listQuery.key = this.title;
@@ -409,7 +339,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.orderList {
+.Content {
   margin: 0 20px;
   padding: 10px;
   background-color: #fff;
@@ -425,28 +355,6 @@ export default {
     }
     .zhi {
       margin: 10px;
-    }
-  }
-  .orderTable {
-    .green {
-      background-color: rgb(115, 209, 61);
-      color: rgb(255, 255, 255);
-      font-size: 12px;
-      width: 52px;
-      height: 20px;
-      text-align: center;
-      line-height: 20px;
-      border-radius: 2px;
-    }
-    .blue {
-      background-color: rgb(64, 169, 255);
-      color: rgb(255, 255, 255);
-      font-size: 12px;
-      width: 52px;
-      height: 20px;
-      text-align: center;
-      line-height: 20px;
-      border-radius: 2px;
     }
   }
 }
