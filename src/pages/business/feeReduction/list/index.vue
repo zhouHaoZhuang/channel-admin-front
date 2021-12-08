@@ -1,5 +1,5 @@
 <template>
-  <div class="feeRed-content">
+  <div class="feeRed-container">
     <div class="feeRed-title">
       <a-select style="width:120px" allowClear placeholder="请选择">
         <a-select-option value="用户ID">
@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.feeRed-content {
+.feeRed-container {
   background-color: #fff;
   margin-left: 20px;
   padding: 20px;

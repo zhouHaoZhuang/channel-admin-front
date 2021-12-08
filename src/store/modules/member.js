@@ -3,36 +3,34 @@ import request from "@/utils/request";
 const member = {
   namespaced: true,
   state: {
-   
   },
 
   mutations: {
   },
-
   actions: {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: "/orderRoute",
+        url: "/ccCorporation",
         method: "get"
       });
     },
     delList({ commit, state }, id) {
       return request({
-        url: `/orderRoute/${id}`,
+        url: `/ccCorporation/${id}`,
         method: "delete"
       });
     },
     changeList({ commit, state }, data) {
       return request({
-        url: `/orderRoute/${data.id}`,
+        url: `/ccCorporation/${data.id}`,
         method: "put",
         data
       });
     },
     addList({ commit, state }, params) {
       return request({
-        url: "/orderRoute",
+        url: "/ccCorporation",
         method: "post",
         data: {
           ...params
@@ -42,7 +40,7 @@ const member = {
     getOne({ commit, state }, id) {
       console.log(state);
       return request({
-        url: `/orderRoute/one?id=${id}`,
+        url: `/ccCorporation/one?id=${id}`,
         method: "get"
       });
     }
