@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="member-content">
+    <div class="member-container">
       <div class="member-top">
         <a-button type="primary">
           +添加会员
@@ -531,7 +531,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.member-content {
+.member-container {
   background-color: #fff;
   margin-left: 20px;
   .member-top {
