@@ -352,7 +352,7 @@ export default {
           key: "1",
           name: "John Brown",
           age: 32,
-          address: "New York No. 1 Lake Park",
+          address: "New York No. 1 Lake Park"
         },
         {
           key: "2",
@@ -487,12 +487,22 @@ export default {
       ]
     };
   },
+  created() {
+    this.getList();
+  },
+
   methods: {
     handleMenuClick(e) {
       console.log(e);
     },
     handleChange(value) {
       console.log(`selected ${value}`);
+    },
+    getList() {
+      this.$store.dispatch("member/getList").then(res => {
+        // this.data = res.data;
+        console.log(res, "3333333");
+      });
     },
     selectInfo(key) {
       console.log(key);
