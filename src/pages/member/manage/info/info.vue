@@ -1,5 +1,5 @@
 <template>
-  <div class="member-content">
+  <div class="member-container">
     <div class="member-base">
       <p>基础资料</p>
       <div class="base-info">
@@ -467,7 +467,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.member-content {
+.member-container {
   .member-base {
     padding-bottom: 10px;
     p {

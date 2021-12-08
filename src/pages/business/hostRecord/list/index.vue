@@ -1,5 +1,5 @@
 <template>
-  <div class="hostrecord-concent">
+  <div class="hostrecord-container">
     <div>
       <div class="feeRed-title">
         <a-select style="width:120px" allowClear placeholder="请选择">

@@ -1,5 +1,5 @@
 <template>
-  <div class="automation-content">
+  <div class="automation-container">
     <div>
       <div class="public-header-wrap">
         <a-form-model layout="inline">
@@ -239,7 +239,7 @@ export default {
     }
   }
 }
-.automation-content {
+.automation-container {
   margin-left: 20px;
   background-color: #fff;
   padding: 20px;

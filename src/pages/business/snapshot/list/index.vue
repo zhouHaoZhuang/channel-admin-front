@@ -1,5 +1,5 @@
 <template>
-  <div class="snapshot-content">
+  <div class="snapshot-container">
     <div>
       <a-tabs type="card">
         <a-tab-pane key="1" tab="正常">
@@ -300,7 +300,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.snapshot-content {
+.snapshot-container {
   background-color: #fff;
   margin-left: 20px;
   padding: 20px;
