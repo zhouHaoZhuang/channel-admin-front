@@ -533,6 +533,7 @@ export default {
 <style lang="less" scoped>
 .member-content {
   background-color: #fff;
+  margin-left: 20px;
   .member-top {
     display: flex;
     width: 1230px;

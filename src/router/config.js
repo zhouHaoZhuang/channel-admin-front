@@ -359,23 +359,49 @@ const options = {
               component: BlankView,
               children: [
                 {
-                  path: "example",
-                  name: "实例列表",
+                  path: "businesslist",
+                  name: "业务列表",
                   meta: {
                     icon: "home"
                   },
                   component: () =>
-                    import("@/pages/business/cloudservers/example/living.vue")
+                    import("@/pages/business/businesslist/list/index.vue")
                 },
                 {
-                  path: "adds",
-                  name: "列表管理",
+                  path: "feeReduction",
+                  name: "续费降配列表",
                   meta: {
-                    invisible: true,
-                    back: true
+                    icon: "home"
                   },
                   component: () =>
-                    import("@/pages/business/cloudservers/example/regulate.vue")
+                    import("@/pages/business/feeReduction/list/index.vue")
+                },
+                {
+                  path: "snapshot",
+                  name: "快照列表",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () =>
+                    import("@/pages/business/snapshot/list/index.vue")
+                },
+                {
+                  path: "automation",
+                  name: "自动化列表",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () =>
+                    import("@/pages/business/automation/list/index.vue")
+                },
+                {
+                  path: "hostRecord",
+                  name: "宿主机异常记录",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () =>
+                    import("@/pages/business/hostRecord/list/index.vue")
                 }
               ]
             }
