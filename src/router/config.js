@@ -170,13 +170,13 @@ const options = {
         },
         // 会员
         {
-          path: "/channel",
+          path: "/member",
           name: "会员",
           component: PageView,
           children: [
             {
-              path: "index",
-              name: "渠道管理",
+              path: "manage",
+              name: "会员管理",
               meta: {
                 icon: "home"
               },
@@ -184,77 +184,23 @@ const options = {
               children: [
                 {
                   path: "list",
-                  name: "渠道列表",
+                  name: "会员列表",
                   meta: {
                     icon: "home"
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/list")
-                },
-                {
-                  path: "add",
-                  name: "新增渠道",
-                  meta: {
-                    invisible: true,
-                    back: true
                   },
                   component: () =>
-                    import("@/pages/channel/channelAdmin/addChannel")
+                    import("@/pages/member/manage/list/index.vue")
                 },
                 {
-                  path: "detail",
-                  name: "渠道详情",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/detail")
-                },
-                {
-                  path: "price",
-                  name: "渠道价格",
-                  meta: {
-                    icon: "home"
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/price")
-                },
-                {
-                  path: "update",
-                  name: "新增产品采购价格",
+                  path: "Info",
+                  name: "会员详情",
                   meta: {
                     icon: "home",
                     invisible: true,
                     back: true
                   },
-                  component: () => import("@/pages/channel/channelAdmin/update")
-                }
-              ]
-            },
-            {
-              path: "enterprise",
-              name: "企业管理",
-              meta: {
-                icon: "home"
-              },
-              component: BlankView,
-              children: [
-                {
-                  path: "list",
-                  name: "企业列表",
-                  meta: {
-                    icon: "home"
-                  },
                   component: () =>
-                    import("@/pages/channel/enterpriseAdmin/list")
-                },
-                {
-                  path: "detail",
-                  name: "企业详情",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/channel/enterpriseAdmin/detail")
+                    import("@/pages/member/manage/info/index.vue"),
                 }
               ]
             }
