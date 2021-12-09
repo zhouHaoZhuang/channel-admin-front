@@ -1,5 +1,5 @@
 <template>
-  <div class="friendship-content">
+  <div class="friendship-container">
     <div class="head">
       <a-tabs type="card" @change="callback" style="width:100%">
         <a-tab-pane key="1" tab="友情链接管理">
@@ -192,7 +192,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.friendship-content {
+.friendship-container {
   margin: 0 20px;
   padding: 10px;
   background-color: #fff;

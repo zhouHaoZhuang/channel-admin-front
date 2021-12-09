@@ -1,5 +1,5 @@
 <template>
-  <div class="add-banner">
+  <div class="add-banner-container">
     <div class="content">
       <a-form-model
         ref="ruleForm"
@@ -221,7 +221,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.add-banner {
+.add-banner-container {
   background: #fff;
   padding: 24px;
   display: flex;
