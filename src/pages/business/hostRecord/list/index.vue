@@ -104,7 +104,7 @@ export default {
       margin-left: 5px;
     }
   }
-  .hostrecord-concent{
+  .hostrecord-container{
     margin-left: 20px;
     padding: 20px;
     background-color: #fff;

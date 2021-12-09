@@ -2,7 +2,7 @@
   <div>
     <div class="member-container">
       <div class="member-top">
-        <a-button type="primary">
+        <a-button type="primary" @click="addMember">
           +添加会员
         </a-button>
         <a-button> <a-icon type="mobile" />发送短信 </a-button>
@@ -20,28 +20,27 @@
             ><a-icon type="appstore" /> 更多操作 <a-icon type="down" />
           </a-button>
         </a-dropdown>
-        <a-select
-          default-value="jack"
-          style="width: 120px"
-          @change="handleChange"
-        >
-          <a-select-option value="jack">
+        <a-select style="width: 120px" v-model="listQuery.key">
+          <a-select-option value="corporationCode">
             会员ID
           </a-select-option>
-          <a-select-option value="lucy">
+          <a-select-option value="corporationName">
             姓名
           </a-select-option>
-          <a-select-option value="disabled">
+          <a-select-option value="phoneNumber">
             手机号码
           </a-select-option>
-          <a-select-option value="Yiminghe">
+          <a-select-option value="qq">
+            QQ
+          </a-select-option>
+          <a-select-option value="email">
             邮箱
           </a-select-option>
         </a-select>
         <div class="search">
-          <a-input placeholder="搜索关键字" />
+          <a-input v-model="listQuery.search" placeholder="搜索关键字" />
         </div>
-        <a-button type="primary">
+        <a-button type="primary" @click="searchClick">
           查询
         </a-button>
         <a-button @click="isfilter = !isfilter">
@@ -297,15 +296,33 @@
       </div>
       <div class="member-contenttable">
         <a-table
-          :row-selection="rowSelection"
           :columns="columns"
           :data-source="data"
-          :scroll="{ x: 1300, y: 300 }"
-          tableLayout="auto"
+          :scroll="{ x: 1300 }"
+          rowKey="id"
+          :pagination="paginationProps"
         >
           <span slot="name" slot-scope="text">{{ text }}</span>
-          <span slot="action" slot-scope="v" class="action">
-            <a-button type="link" class="" @click="selectInfo(v.key)">
+          <span
+            :class="{ status0: text == 0, status1: text == 1, status: true }"
+            slot="status"
+            slot-scope="text"
+            >{{ text == 0 ? "冻结" : "正常" }}</span
+          >
+          <span
+            :class="{ status0: text == 1, status1: text == 0, status: true }"
+            slot="loginLock"
+            slot-scope="text"
+            >{{ text == 0 ? "正常" : "锁定" }}</span
+          >
+          <span slot="createTime" slot-scope="text">{{
+            text | formatDate
+          }}</span>
+          <span slot="modifyTime" slot-scope="text">{{
+            text | formatDate
+          }}</span>
+          <span slot="action" slot-scope="text" class="action">
+            <a-button type="link" class="" @click="selectInfo(text.id)">
               查看
             </a-button>
             <a-divider type="vertical" />
@@ -347,48 +364,33 @@ export default {
     return {
       lucy: "lucy",
       isfilter: false,
-      data: [
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park"
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 1 Lake Park"
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park"
-        },
-        {
-          key: "4",
-          name: "Disabled    User",
-          age: 32,
-          address: "Sidney No. 1 Lakezxz Park"
-        }
-      ],
+      data: [],
       columns: [
         {
           title: "会员ID",
-          dataIndex: "id",
-          scopedSlots: { customRender: "id" },
-          width: 80
+          dataIndex: "corporationCode",
+          scopedSlots: { customRender: "corporationCode" },
+          width: 180
         },
         {
           title: "姓名",
-          dataIndex: "name",
-          width: 80
+          dataIndex: "corporationName",
+          width: 100
         },
         {
           title: "手机",
-          dataIndex: "phone",
-          width: 80
+          dataIndex: "phoneNumber",
+          width: 120
+        },
+        {
+          title: "QQ",
+          dataIndex: "qq",
+          width: 120
+        },
+        {
+          title: "邮箱",
+          dataIndex: "email",
+          width: 180
         },
         {
           title: "服务器",
@@ -434,14 +436,16 @@ export default {
         },
         {
           title: "帐号状态",
-          dataIndex: "accStatus",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" },
           sorter: true,
           sortOrder: true,
           width: 110
         },
         {
           title: "锁定状态",
-          dataIndex: "lockStatus",
+          dataIndex: "loginLock",
+          scopedSlots: { customRender: "loginLock" },
           width: 100
         },
         {
@@ -453,26 +457,37 @@ export default {
         },
         {
           title: "授信额度",
-          dataIndex: "lineofcredit",
+          dataIndex: "creditNumber",
           sorter: true,
           sortOrder: true,
           width: 110
         },
         {
           title: "实名认证",
-          dataIndex: "realName",
+          dataIndex: "certificationStatus",
+          key: "shiming",
+          scopedSlots: { customRender: "certificationStatus" },
           width: 100
         },
         {
           title: "注册时间",
-          dataIndex: "registrationDate",
+          dataIndex: "createTime",
+          scopedSlots: { customRender: "createTime" },
           sorter: true,
           sortOrder: true,
-          width: 110
+          width: 200
         },
         {
-          title: "最后登录事件",
-          dataIndex: "login",
+          title: "最后登录时间",
+          dataIndex: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" },
+          sorter: true,
+          sortOrder: true,
+          width: 200
+        },
+        {
+          title: "备注",
+          dataIndex: "remark",
           sorter: true,
           sortOrder: true,
           width: 140
@@ -484,28 +499,62 @@ export default {
           scopedSlots: { customRender: "action" },
           width: 200
         }
-      ]
+      ],
+      listQuery: {
+        key: "corporationCode",
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
+      paginationProps: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        pageSizeOptions: ["5", "10", "20", "30"],
+        total: 0,
+        current: 1, //当前页
+        pageSize: 5, //每页显示数量
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.paginationProps.current} /  ${Math.ceil(
+            total / this.paginationProps.pageSize
+          )} 页`,
+        onChange: this.changepage,
+        onShowSizeChange: this.onShowSizeChange
+      }
     };
   },
   created() {
     this.getList();
   },
-
   methods: {
+    changepage(current) {
+      // console.log(a);
+      this.paginationProps.current = current;
+      this.getList();
+    },
+    onShowSizeChange(current,pageSize){
+      this.paginationProps.pageSize = pageSize;
+      this.paginationProps.current = current;
+      this.getList();
+    },
     handleMenuClick(e) {
       console.log(e);
+    },
+    addMember() {
+      this.$router.push({ path: "/member/manage/add" });
     },
     handleChange(value) {
       console.log(`selected ${value}`);
     },
     getList() {
       this.$store.dispatch("member/getList").then(res => {
-        // this.data = res.data;
-        console.log(res, "3333333");
+        this.data = res.data.list;
+        // console.log("3333333");
+        this.paginationProps.total = res.data.totalCount * 1;
       });
     },
     selectInfo(key) {
-      console.log(key);
+      // console.log(key);
       this.$router.push({
         path: "/member/manage/Info",
         query: {
@@ -514,27 +563,15 @@ export default {
       });
     },
     clickMore(key) {
-      console.log(key);
+      // console.log(key);
       this.isMoreId = key;
-    }
-  },
-  computed: {
-    rowSelection() {
-      return {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
-        },
-        getCheckboxProps: record => ({
-          props: {
-            disabled: record.name === "Disabled User", // Column configuration not to be checked
-            name: record.name
-          }
-        })
-      };
+    },
+    searchClick() {
+      this.$getList("member/getList", this.listQuery).then(res => {
+        // console.log(res);
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.totalCount * 1;
+      });
     }
   }
 };
@@ -612,6 +649,21 @@ export default {
       button {
         margin-right: 10px;
       }
+    }
+  }
+  .member-contenttable {
+    .status {
+      font-size: 12px;
+      color: #ffffff;
+      border-radius: 2px;
+      padding: 0 4px;
+      line-height: 18px;
+    }
+    .status0 {
+      background-color: #ccc;
+    }
+    .status1 {
+      background-color: #16b841;
     }
   }
 }

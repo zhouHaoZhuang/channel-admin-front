@@ -21,7 +21,7 @@
                       placeholder="请选择"
                     >
                       <a-select-option
-                        v-for="item in columns.slice(0, columns.length - 3)"
+                        v-for="item in searchColumns"
                         :key="item.dataIndex"
                         :value="item.dataIndex"
                       >
@@ -278,7 +278,7 @@
                       placeholder="请选择"
                     >
                       <a-select-option
-                        v-for="item in columns.slice(0, columns.length - 3)"
+                        v-for="item in searchColumns"
                         :key="item.dataIndex"
                         :value="item.dataIndex"
                       >
@@ -535,7 +535,7 @@
                       placeholder="请选择"
                     >
                       <a-select-option
-                        v-for="item in columns.slice(0, columns.length - 3)"
+                        v-for="item in searchColumns"
                         :key="item.dataIndex"
                         :value="item.dataIndex"
                       >
@@ -787,7 +787,7 @@
                       placeholder="请选择"
                     >
                       <a-select-option
-                        v-for="item in columns.slice(0, columns.length - 3)"
+                        v-for="item in searchColumns"
                         :key="item.dataIndex"
                         :value="item.dataIndex"
                       >
@@ -864,6 +864,28 @@ export default {
         pageSize: 10,
         total: 0
       },
+      searchColumns: [
+        {
+          title: "服务器IP",
+          dataIndex: "ecsBaseInfoResDto.ecsName",
+          key: "ecsBaseInfoResDto.ecsName"
+        },
+        {
+          title: "会员ID",
+          dataIndex: "ecsBaseInfoResDto.ecsType",
+          key: "ecsBaseInfoResDto.ecsType"
+        },
+        {
+          title: "会员手机",
+          dataIndex: "ecsBaseInfoResDto.ecsStatus",
+          key: "ecsBaseInfoResDto.ecsStatus"
+        },
+        {
+          title: "订单ID",
+          dataIndex: "ecsBaseInfoResDto.createTime",
+          key: "ecsBaseInfoResDto.createTime"
+        },
+      ],
       columns: [
         {
           title: "业务ID",

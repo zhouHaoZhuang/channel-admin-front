@@ -1,100 +1,100 @@
 <template>
-  <div class="member-container">
+  <div class="member-container" v-if="dataBase">
     <div class="member-base">
       <p>基础资料</p>
       <div class="base-info">
         <div>
           <span class="menber-title">ID：</span
-          ><span class="menber-info">1100022</span>
+          ><span class="menber-info">{{dataBase.id}}</span>
         </div>
         <div>
           <span class="menber-title">姓名：</span
-          ><span class="menber-info">用户1100022</span>
+          ><span class="menber-info">{{dataBase.corporationName}}</span>
         </div>
         <div>
           <span class="menber-title">注册时间：</span
-          ><span class="menber-info">2021-12-07 15：57：41</span>
+          ><span class="menber-info">{{dataBase.createTime | formatDate}}</span>
         </div>
         <div>
           <span class="menber-title">手机号码：</span
-          ><span class="menber-info">18712610494</span
+          ><span class="menber-info">{{dataBase.phoneNumber}}</span
           ><span class="verified">【已认证】</span>
         </div>
         <div>
           <span class="menber-title">邮箱：</span
-          ><span class="menber-info">18712610494@qq.com</span>
+          ><span class="menber-info">{{dataBase.email}}</span>
         </div>
         <div>
           <span class="menber-title">QQ：</span
-          ><span class="menber-info">18712610494</span>
+          ><span class="menber-info">{{dataBase.qq}}</span>
         </div>
         <div>
           <span class="menber-title">密码保护：</span
-          ><span class="menber-info">未设置</span>
+          ><span class="menber-info">-----未设置</span>
         </div>
         <div>
           <span class="menber-title">密码找回锁定：</span
-          ><span class="menber-info">未锁定</span>
+          ><span class="menber-info">----未锁定</span>
         </div>
         <div>
           <span class="menber-title">管理员锁定：</span
-          ><span class="menber-info">未锁定</span>
+          ><span class="menber-info">---未锁定</span>
         </div>
         <div>
           <span class="menber-title">登录锁定：</span
-          ><span class="menber-info">未锁定</span>
+          ><span class="menber-info">{{dataBase.loginLock==0?'正常':'锁定'}}</span>
         </div>
         <div>
           <span class="menber-title">状态：</span
-          ><span class="menber-state-normal">正常</span>
+          ><span :class="{'menber-state-normal':dataBase.status == 0,'menber-state-freeze':dataBase.status == 1}">{{dataBase.status == 0 ? "冻结" : "正常"}}</span>
         </div>
         <div>
           <span class="menber-title">密保锁定：</span
-          ><span class="menber-info">未锁定</span>
+          ><span class="menber-info">---未锁定</span>
         </div>
         <div>
           <span class="menber-title">账户余额：</span
-          ><span class="menber-info">10.00元</span
+          ><span class="menber-info">{{dataBase.balance}}元</span
           ><a class="mouse-enter" href="">[增减余额]</a>
         </div>
         <div>
           <span class="menber-title">现金券：</span
-          ><span class="menber-info">0元</span><a class="mouse-enter">(共0张)</a
+          ><span class="menber-info">---0元</span><a class="mouse-enter">(共0张)</a
           ><a class="mouse-enter">(0条使用记录)</a>
         </div>
         <div>
           <span class="menber-title">积分：</span
-          ><span class="menber-info">0分</span>
+          ><span class="menber-info">{{dataBase.integral}}分</span>
         </div>
         <div>
           <span class="menber-title">授信额度：</span
-          ><span class="menber-info">0.00元</span
+          ><span class="menber-info">{{dataBase.creditNumber}}</span
           ><a class="mouse-enter">[修改授信额度]</a>
         </div>
         <div>
           <span class="menber-title">专席销售：</span
-          ><span class="menber-info">未分配</span>
+          ><span class="menber-info">----未分配</span>
         </div>
         <div>
           <span class="menber-title">登录次数：</span
-          ><span class="menber-info">0次</span>
+          ><span class="menber-info">{{dataBase.loginFaileNumber}}次</span>
         </div>
         <div>
           <span class="menber-title">所属会员组：</span
-          ><span class="menber-info">普通会员</span
+          ><span class="menber-info">---普通会员</span
           ><a class="mouse-enter">[修改会员组]</a>
         </div>
         <div>
           <span class="menber-title">API状态：</span
-          ><span class="menber-info menber-apistate-nonactivated">未开通</span>
+          ><span class="menber-info menber-apistate-nonactivated">{{dataBase.apiStatus==0?'未开通':'正常'}}</span>
         </div>
         <div>
           <span class="menber-title">认证状态：</span
-          ><span class="menber-info menber-certstate-uncert">未认证</span>
+          ><span class="menber-info menber-certstate-uncert">{{dataBase.certificationStatus==0?'未认证':'已认证'}}</span>
         </div>
         <div>
           <span class="menber-title">备注：</span
-          ><span class="menber-info">xxxxx</span
+          ><span class="menber-info">{{dataBase.remark}}</span
           ><a class="mouse-enter">[修改备注]</a>
         </div>
       </div>
@@ -460,8 +460,22 @@ export default {
           dataIndex: "address"
         }
       ],
-      data: []
+      dataBase: null,
+      data:[]
     };
+  },
+  created() {
+    let id = this.$route.query.id;
+    // console.log(id,'子组件的id');
+    this.getData(id);
+  },
+  methods: {
+    getData(id) {
+      this.$store.dispatch("member/getOne", id).then(res => {
+        this.dataBase = res.data;
+        console.log(res.data,'子组件的data');
+      });
+    }
   }
 };
 </script>
@@ -503,8 +517,15 @@ export default {
     font-size: 12px;
     color: #292929;
   }
-  .menber-state-normal {
+  .menber-state-freeze {
     background-color: #16b841;
+    color: #fff;
+    padding: 0 4px;
+    font-size: 12px;
+    border-radius: 2px;
+  }
+  .menber-state-normal{
+    background-color: #ccc;
     color: #fff;
     padding: 0 4px;
     font-size: 12px;
