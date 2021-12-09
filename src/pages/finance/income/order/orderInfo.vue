@@ -57,14 +57,14 @@
             <span v-if="v === 15">续费</span>
             <span v-if="v === 20">退费</span>
           </div>
-          <div slot="ecsPrice" slot-scope="v">
-            <div>CPU：{{ v.cpu }}</div>
-            <div>内存：{{ v.memory }}</div>
-            <div>磁盘：{{ v.dataDiskSize }}</div>
-            <div>带宽：{{ v.internetMaxBandwidthOut }}</div>
+          <div slot="ecsPrice" slot-scope="">
+            <!-- <div>CPU：{{ v.cpu }}</div> -->
+            <!-- <div>内存：{{ v.memory }}</div> -->
+            <!-- <div>磁盘：{{ v.dataDiskSize }}</div> -->
+            <!-- <div>带宽：{{ v.internetMaxBandwidthOut }}</div> -->
             <div>防御：{{ "20G" }}</div>
-            <div>操作系统：{{ v.osName }}</div>
-            <div>所在区：{{ v.zoneId }}</div>
+            <!-- <div>操作系统：{{ v.osName }}</div>
+            <div>所在区：{{ v.zoneId }}</div> -->
           </div>
         </a-table>
       </div>
@@ -250,15 +250,15 @@ export default {
     // console.log(id);
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
       // console.log(res);
-      let dataDisk = res.data.ecsPrice.dataDisk;
-      let dataDiskSize = 0;
-      if (dataDisk) {
-        for (let index = 0; index < dataDisk.length; index++) {
-          dataDiskSize += dataDisk[index].size;
-        }
-        res.data.ecsPrice.dataDiskSize = dataDiskSize;
-      }
-      console.log(dataDisk);
+      // let dataDisk = res.data.ecsPrice.dataDisk;
+      // let dataDiskSize = 0;
+      // if (dataDisk) {
+      //   for (let index = 0; index < dataDisk.length; index++) {
+      //     dataDiskSize += dataDisk[index].size;
+      //   }
+      //   res.data.ecsPrice.dataDiskSize = dataDiskSize;
+      // }
+      // console.log(dataDisk);
       this.orderInfo = res.data;
       this.data = [res.data];
     });

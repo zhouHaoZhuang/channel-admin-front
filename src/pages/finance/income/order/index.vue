@@ -126,14 +126,8 @@ export default {
         },
         {
           title: "会员ID",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
-          width: 150
-        },
-        {
-          title: "专席销售",
-          dataIndex: "",
-          key: "",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
           width: 150
         },
         {
@@ -166,14 +160,14 @@ export default {
         },
         {
           title: "现金支付",
-          dataIndex: "cashPly",
-          key: "cashPly",
+          dataIndex: "cashPay",
+          key: "cashPay",
           width: 100
         },
         {
           title: "现金券支付",
-          dataIndex: "discountPly",
-          key: "discountPly",
+          dataIndex: "actualPrice",
+          key: "actualPrice",
           width: 150
         },
         {
@@ -229,19 +223,7 @@ export default {
     };
   },
   activated() {
-    this.$store.dispatch("financialOrder/getList").then(res => {
-      this.$store
-        .dispatch("financialOrder/getAllList", {
-          pageSize: res.data.totalCount * 1
-        })
-        .then(val => {
-          // console.log(val);
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.paginationProps.current = val.data.currentPage * 1;
-          this.dataAll = val.data.list;
-          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-        });
-    });
+   this.getList()
   },
   computed: {
     useColumns() {
@@ -253,25 +235,25 @@ export default {
           width: 170
         },
         {
-          title: "渠道ID",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
+          title: "会员ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
           width: 150
         },
         {
-          title: "订单类型",
-          dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
+          title: "会员手机号",
+          dataIndex: "phoneNumber",
+          key: "phoneNumber",
+          scopedSlots: { customRender: "phoneNumber" },
           width: 100
         },
-        {
-          title: "状态",
-          dataIndex: "payStatus",
-          key: "payStatus",
-          width: 100,
-          scopedSlots: { customRender: "payStatus" }
-        },
+        // {
+        //   title: "状态",
+        //   dataIndex: "payStatus",
+        //   key: "payStatus",
+        //   width: 100,
+        //   scopedSlots: { customRender: "payStatus" }
+        // },
         {
           title: "创建时间",
           dataIndex: "createTime",
@@ -283,6 +265,15 @@ export default {
     }
   },
   methods: {
+    //查询表格数据
+    getList(){
+      this.$getList("financialOrder/getList",this.listQuery)
+      .then(res=>{
+        console.log(res);
+        this.data = [...res.data.list];
+        this.paginationProps.total = res.data.totalCount * 1;
+      })
+    },
     disabledStartDate(startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
@@ -338,7 +329,7 @@ export default {
       // }
       //  console.log(v.id);
       this.$router.push({
-        path: "/finance/index/orderinfo",
+        path: "/finance/income/orderinfo",
         query: {
           id: v.id
         }
