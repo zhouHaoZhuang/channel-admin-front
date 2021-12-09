@@ -3,11 +3,6 @@
     <div>
       <div class="public-header-wrap">
         <a-form-model layout="inline">
-          <a-form-model-item>
-            <a-button type="primary" @click="search">
-              +业务开通
-            </a-button>
-          </a-form-model-item>
           <!-- 下拉框 -->
           <a-form-model-item>
             <a-select style="width:120px" allowClear placeholder="请选择">

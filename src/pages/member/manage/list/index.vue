@@ -296,6 +296,10 @@
       </div>
       <div class="member-contenttable">
         <a-table
+          :row-selection="{
+            selectedRowKeys: selectedRowKeys,
+            onChange: onSelectChange
+          }"
           :columns="columns"
           :data-source="data"
           :scroll="{ x: 1300 }"
@@ -365,6 +369,7 @@ export default {
       lucy: "lucy",
       isfilter: false,
       data: [],
+      selectedRowKeys: [],
       columns: [
         {
           title: "会员ID",
@@ -532,10 +537,14 @@ export default {
       this.paginationProps.current = current;
       this.getList();
     },
-    onShowSizeChange(current,pageSize){
+    onShowSizeChange(current, pageSize) {
       this.paginationProps.pageSize = pageSize;
       this.paginationProps.current = current;
       this.getList();
+    },
+    onSelectChange(selectedRowKeys) {
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys;
     },
     handleMenuClick(e) {
       console.log(e);
