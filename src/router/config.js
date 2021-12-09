@@ -201,6 +201,17 @@ const options = {
                   },
                   component: () =>
                     import("@/pages/member/manage/info/index.vue"),
+                },
+                {
+                  path: "add",
+                  name: "添加会员",
+                  meta: {
+                    icon: "home",
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/member/manage/addManage/index.vue"),
                 }
               ]
             }
