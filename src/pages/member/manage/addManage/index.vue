@@ -1,6 +1,6 @@
 <template>
   <div class="channel-list-add">
-    <div class="content">
+    <div class="container">
       <a-form-model
         ref="ruleForm"
         :model="form"
@@ -196,7 +196,7 @@ export default {
   padding: 24px;
   display: flex;
   justify-content: center;
-  .content {
+  .container {
     width: 100%;
   }
   .divider{
