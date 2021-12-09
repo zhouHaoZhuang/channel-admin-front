@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+import clonedeep from 'lodash.clonedeep'
 import { initRouter } from "./router";
 import "./theme/index.less";
 import Antd from "ant-design-vue";
@@ -28,6 +29,8 @@ Vue.use(Filters);
 
 Vue.prototype.$getArrOnceData = utilsFun.getArrOnceData;
 Vue.prototype.$getList = utilsFun.getList;
+// 深拷贝插件
+Vue.prototype.$clonedeep = clonedeep
 
 bootstrap({ router, store, i18n, message: Vue.prototype.$message });
 
