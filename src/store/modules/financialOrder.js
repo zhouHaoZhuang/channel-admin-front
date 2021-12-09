@@ -18,18 +18,18 @@ const financialOrder = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: `/order`,
+        url: `/tcOrder`,
         method: "get",
         params
       });
     },
-    getAllList({ commit, state }, params) {
-      return request({
-        url: `/order?pageSize=${params.pageSize}`,
-        method: "get",
-        params
-      });
-    },
+    // getAllList({ commit, state }, params) {
+    //   return request({
+    //     url: `/order?pageSize=${params.pageSize}`,
+    //     method: "get",
+    //     params
+    //   });
+    // },
     selectList({ commit, state }, params){
       return request({
         url: `/order?key=createTime&search=${params.startTime}&currentPage=1&pageSize=10&total=0&qp-createTime-gt=${params.startTime}&qp-createTime-lt=${params.endTime}`,
@@ -62,7 +62,7 @@ const financialOrder = {
     getOne({ commit, state }, id) {
       console.log(state);
       return request({
-        url: `/order/one?id=${id}`,
+        url: `/tcOrder/${id}`,
         method: "get"
       });
     }

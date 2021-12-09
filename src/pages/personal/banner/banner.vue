@@ -4,7 +4,7 @@
       <a-button type="primary" icon="plus" class="btn" @click="addbanner">
         添加Banner
       </a-button>
-      <a-button icon="delete" class="btn">
+      <a-button icon="delete" class="btn" @click="deleteinbatches">
         批量删除
       </a-button>
       <a-button icon="check" class="btn">
@@ -22,13 +22,26 @@
         :row-selection="rowSelection"
         :columns="columns"
         :data-source="data"
+        rowKey="id"
+        :pagination="paginationProps"
+        :scroll="{ x: 1300 }"
       >
-        <span slot="action" slot-scope="">
-          <a-button type="link" @click="updatePrice()">
+        <div slot="bannerType" slot-scope="text">
+          <div v-if="text === 0"></div>
+          <div v-else-if="text === 1"></div>
+          {{ text === 0 ? "首页banner" : "云服务器banner" }}
+        </div>
+        <div class="status" slot="status" slot-scope="text">
+          <div v-if="text === 0" class="dot"></div>
+          <div v-else class="dot dot-err"></div>
+          {{ text === 0 ? "正常" : "冻结" }}
+        </div>
+        <span slot="action" slot-scope="v">
+          <a-button type="link" @click="updatePrice(v)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel()">
+          <a-button type="link" @click="handleDel(v.id)">
             删除
           </a-button>
         </span>
@@ -43,12 +56,10 @@ export default {
   computed: {
     rowSelection() {
       return {
+        selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
+          this.selectedRowKeys = selectedRowKeys;
+          console.log(this.selectedRowKeys);
         }
       };
     }
@@ -56,27 +67,39 @@ export default {
   created() {},
   data() {
     return {
+      listQuery: {
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
       columns: [
         {
           title: "编号",
-          dataIndex: "name",
-          scopedSlots: { customRender: "name" }
+          dataIndex: "id",
+          key: ""
         },
         {
           title: "类型",
-          dataIndex: "age"
+          dataIndex: "bannerType",
+          key: "bannerType",
+          scopedSlots: { customRender: "bannerType" }
         },
         {
           title: "标题",
-          dataIndex: ""
+          dataIndex: "title",
+          key: "title"
         },
         {
           title: "描述",
-          dataIndex: ""
+          dataIndex: "describe",
+          key: "describe"
         },
         {
           title: "状态",
-          dataIndex: ""
+          dataIndex: "status",
+          key: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "操作",
@@ -85,42 +108,96 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      data: [
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park"
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 1 Lake Park"
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park"
-        },
-        {
-          key: "4",
-          name: "Disabled User",
-          age: 99,
-          address: "Sidney No. 1 Lake Park"
-        }
-      ]
+      data: [],
+      paginationProps: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 1,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )} 页`,
+        onChange: this.quickJump,
+        onShowSizeChange: this.onShowSizeChange
+      },
+      selectedRowKeys: []
     };
   },
+  activated() {
+    this.getList();
+  },
   methods: {
+    //查询
+    // search(){
+    //   this.listQuery.currentPage = 1;
+    //   this.getList();
+    // },
+    //查询数据表格
+    getList() {
+      this.$store.dispatch("banner/getList").then(res => {
+        console.log(res);
+        this.data = [...res.data.list];
+      });
+      // this.$getList("banner/getList",this.listQuery)
+      // .then(res=>{
+      //   this.data = [...res.data.list];
+      //   this.paginationProps.total = res.data.totalCount * 1;
+      // })
+      // .finally(() =>{
+
+      // })
+    },
+    //表格分页跳转
+    quickJump(currentPage) {
+      this.listQuery.currentPage = currentPage;
+      this.getList();
+    },
+    //表格分页切换每页条数
+    onShowSizeChange(current, pageSize) {
+      this.listQuery.currentPage = current;
+      this.listQuery.pageSize = pageSize;
+      this.getList();
+    },
     //添加banner
     addbanner() {
       this.$router.push("/personal/account/add-banner");
     },
     //修改
-    updatePrice() {
-      this.$router.push("/personal/account/amend-banner");
+    updatePrice(v) {
+      this.$router.push({
+        path: "/personal/account/amend-banner",
+        query: {
+          id: v.id
+        }
+      });
+    },
+    //删除
+    handleDel(id) {
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("", id).then(val => {
+            this.$message.success("操作成功");
+            this.$store.dispatch("").then(val => {
+              this.reqAfter(val);
+            });
+          });
+        }
+      });
+    },
+    //批量删除
+    deleteinbatches(){
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("", ).then(val => {
+            this.$message.success("操作成功");
+            this.$store.dispatch("").then(val => {
+              this.reqAfter(val);
+            });
+          });
+        }
+      });
     }
   }
 };
@@ -138,6 +215,22 @@ export default {
     margin-bottom: 25px;
     .btn {
       margin-right: 12px;
+    }
+  }
+  .table-content {
+    .status {
+      display: flex;
+      align-items: center;
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: green;
+        margin-right: 5px;
+      }
+      .dot-err {
+        background: red;
+      }
     }
   }
 }

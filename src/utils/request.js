@@ -3,11 +3,11 @@ import env from "@/config/env";
 import message from "ant-design-vue/es/message";
 import store from "@/store";
 const axiosSource = axios.CancelToken.source();
-const { AuthenticationClient } = require("authing-js-sdk");
-const authenticationClient = new AuthenticationClient({
-  appId: env.appId,
-  appHost: env.appHost
-});
+// const { AuthenticationClient } = require("authing-js-sdk");
+// const authenticationClient = new AuthenticationClient({
+//   appId: env.appId,
+//   appHost: env.appHost
+// });
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
