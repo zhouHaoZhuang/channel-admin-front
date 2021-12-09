@@ -1,5 +1,5 @@
 <template>
-  <div class="single-content">
+  <div class="single-container">
     <div class="btn-head">
       <a-button type="primary" icon="plus" class="btn">
         添加单页
@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.single-content {
+.single-container {
   margin: 0 20px;
   padding: 10px;
   background-color: #fff;

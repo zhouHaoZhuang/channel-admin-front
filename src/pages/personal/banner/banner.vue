@@ -1,5 +1,5 @@
 <template>
-  <div class="banner-content">
+  <div class="banner-container">
     <div class="btn-head">
       <a-button type="primary" icon="plus" class="btn" @click="addbanner">
         添加Banner
@@ -204,7 +204,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.banner-content {
+.banner-container {
   margin: 0 20px;
   padding: 10px;
   background-color: #fff;

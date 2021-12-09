@@ -1,5 +1,5 @@
 <template>
-  <div class="add-blogroll">
+  <div class="add-blogroll-container">
     <div class="content">
       <a-form-model
         ref="ruleForm"
@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.add-blogroll {
+.add-blogroll-container {
   background: #fff;
   padding: 24px;
   display: flex;
