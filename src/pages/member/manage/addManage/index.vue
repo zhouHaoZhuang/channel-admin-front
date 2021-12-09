@@ -1,6 +1,6 @@
 <template>
-  <div class="channel-list-add">
-    <div class="content">
+  <div class="channel-list-container">
+    <div class="container">
       <a-form-model
         ref="ruleForm"
         :model="form"
@@ -191,12 +191,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.channel-list-add {
+.channel-list-container {
   background: #fff;
   padding: 24px;
   display: flex;
   justify-content: center;
-  .content {
+  .container {
     width: 100%;
   }
   .divider{
