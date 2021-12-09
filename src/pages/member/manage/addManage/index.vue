@@ -1,5 +1,5 @@
 <template>
-  <div class="channel-list-add">
+  <div class="channel-list-container">
     <div class="container">
       <a-form-model
         ref="ruleForm"
@@ -191,7 +191,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.channel-list-add {
+.channel-list-container {
   background: #fff;
   padding: 24px;
   display: flex;
