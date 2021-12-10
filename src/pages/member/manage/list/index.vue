@@ -305,6 +305,7 @@
           :scroll="{ x: 1300 }"
           rowKey="id"
           :pagination="paginationProps"
+          @change="handleTableChange"
         >
           <span slot="name" slot-scope="text">{{ text }}</span>
           <span
@@ -318,6 +319,13 @@
             slot="loginLock"
             slot-scope="text"
             >{{ text == 0 ? "正常" : "锁定" }}</span
+          >
+          <!-- 认证状态 -->
+          <span
+            :class="{ status0: text == 0, status1: text == 1, status: true }"
+            slot="certificationStatus"
+            slot-scope="text"
+            >{{ text == 0 ? "未认证" : "已认证" }}</span
           >
           <span slot="createTime" slot-scope="text">{{
             text | formatDate
@@ -401,42 +409,42 @@ export default {
           title: "服务器",
           dataIndex: "server",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 100
         },
         {
           title: "托管",
           dataIndex: "hosting",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 80
         },
         {
           title: "主机",
           dataIndex: "host",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 80
         },
         {
           title: "SSL证书",
           dataIndex: "sslccit",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 110
         },
         {
           title: "域名",
           dataIndex: "domain",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 80
         },
         {
           title: "裸金属",
           dataIndex: "bareMetal",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 100
         },
         {
@@ -444,7 +452,7 @@ export default {
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 110
         },
         {
@@ -457,14 +465,14 @@ export default {
           title: "余额",
           dataIndex: "balance",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 80
         },
         {
           title: "授信额度",
           dataIndex: "creditNumber",
           sorter: true,
-          sortOrder: true,
+          sortDirections: ["ascend", "descend"],
           width: 110
         },
         {
@@ -479,7 +487,6 @@ export default {
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
           sorter: true,
-          sortOrder: true,
           width: 200
         },
         {
@@ -487,14 +494,12 @@ export default {
           dataIndex: "modifyTime",
           scopedSlots: { customRender: "modifyTime" },
           sorter: true,
-          sortOrder: true,
           width: 200
         },
         {
           title: "备注",
           dataIndex: "remark",
           sorter: true,
-          sortOrder: true,
           width: 140
         },
         {
@@ -532,6 +537,13 @@ export default {
     this.getList();
   },
   methods: {
+    // 点击排序之后的回调
+    handleTableChange(pagination, filters, sorter) {
+      // console.log(pagination, filters, sorter);
+      if (sorter) {
+        console.log("排序被点击了", sorter);
+      }
+    },
     changepage(current) {
       // console.log(a);
       this.paginationProps.current = current;
@@ -543,14 +555,14 @@ export default {
       this.getList();
     },
     onSelectChange(selectedRowKeys) {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
     handleMenuClick(e) {
       console.log(e);
     },
     addMember() {
-      this.$router.push({ path: "/member/manage/add" });
+      // this.$router.push({ path: "/member/manage/add" });
     },
     handleChange(value) {
       console.log(`selected ${value}`);

@@ -1,0 +1,313 @@
+<template>
+  <div>
+    <div class="business-container">
+      <div class="business-basic">
+        <a-tabs type="card">
+          <a-tab-pane key="1" tab="基础信息">
+            <div class="basicInformation">
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">GUID：</span
+                ><span class="basicInformation-info">1717995088760628</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">业务ID：</span
+                ><span class="basicInformation-info">7</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">线路：</span
+                ><span class="basicInformation-info">中国大连</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">服务器IP：</span
+                ><span class="basicInformation-info"> 43.226.39.91</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">内网IP：</span
+                ><span class="basicInformation-info"> 10.226.39.91</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type"></span
+                ><span class="basicInformation-info"> </span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">操作系统：</span
+                ><span class="basicInformation-info">
+                  Windows Server 2008 R2 64位 企业版</span
+                >
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">登录名：</span
+                ><span class="basicInformation-info">administrator</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">远程端口：</span
+                ><span class="basicInformation-info">3389</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">业务状态：</span
+                ><span class="basicInformation-info">正常</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">运行状态：</span
+                ><span class="basicInformation-info">运行中</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">操作状态：</span
+                ><span class="basicInformation-info">正常</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">API锁定：</span
+                ><span class="basicInformation-info">未锁定</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">快照状态：</span
+                ><span class="basicInformation-info">正常</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">同步时间：</span
+                ><span class="basicInformation-info">无</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">备注：</span
+                ><span class="basicInformation-info">备注</span
+                ><a href="">修改备注</a>
+              </div>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+      <div class="business-basic">
+        <a-tabs type="card">
+          <a-tab-pane key="1" tab="配置信息">
+            <div class="basicInformation">
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">CPU：</span
+                ><span class="basicInformation-info">1核</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">内存：</span
+                ><span class="basicInformation-info">1G</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">带宽：</span
+                ><span class="basicInformation-info">1M</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">防御：</span
+                ><span class="basicInformation-info"> 20G</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">数据磁盘：</span
+                ><span class="basicInformation-info"> 10G</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">下行带宽：</span
+                ><span class="basicInformation-info"> 0M</span>
+              </div>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+      <div class="business-basic">
+        <a-tabs type="card">
+          <a-tab-pane key="1" tab="付费信息">
+            <div class="basicInformation">
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">购买时间：</span
+                ><span class="basicInformation-info"
+                  >2021-12-02 09：16：31</span
+                >
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">购买时长：</span
+                ><span class="basicInformation-info">1个月</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">到期时间：</span
+                ><span class="basicInformation-info"
+                  >2022-01-02 09：16：13</span
+                >
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">续费方式：</span
+                ><span class="basicInformation-info"> 按系统自动结算</span>
+                <a href="">[设置]</a>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type"></span
+                ><span class="basicInformation-info"></span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type"></span
+                ><span class="basicInformation-info"></span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">备注：</span
+                ><span class="basicInformation-info"> 备注</span>
+              </div>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+      <div class="business-basic">
+        <a-tabs type="card">
+          <a-tab-pane key="1" tab="会员信息">
+            <div class="basicInformation">
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">所属会员ID：</span
+                ><span class="basicInformation-info">1100020</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">会员姓名：</span
+                ><span class="basicInformation-info">何以</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">联系电话：</span
+                ><span class="basicInformation-info">12546487679</span>
+              </div>
+              <div class="basicInformation-item">
+                <span class="basicInformation-type">联系QQ：</span
+                ><span class="basicInformation-info"> 301245878</span>
+              </div>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+      <div class="business-basic">
+        <a-tabs type="card">
+          <a-tab-pane key="1" tab="订单信息">
+            <div class="basicInformation">
+              <a-table :columns="columnsOrder" :data-source="dataOrder"
+              :scoll = {x:1200}
+              >
+                <span slot="query" slot-scope="text">
+                  <a-button type="link" class="" @click="selectInfo(text)">
+                    查看
+                  </a-button>
+                </span>
+              </a-table>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+        <div class="business-basic">
+        <a-tabs type="card">
+          <a-tab-pane key="1" tab="操作日志">
+            <div class="basicInformation">
+              <a-table :columns="columnsActive" :data-source="dataActive"
+              :scoll = {x:1200}
+              >
+                <span slot="query" slot-scope="text">
+                  <a-button type="link" class="" @click="selectInfo(text)">
+                    查看
+                  </a-button>
+                </span>
+              </a-table>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      dataOrder: [],
+      columnsOrder: [
+        {
+          title: "订单编号",
+          dataIndex: "orderId"
+        },
+        {
+          title: "类型",
+          dataIndex: "type"
+        },
+        {
+          title: "时间",
+          dataIndex: "time"
+        },
+        {
+          title: "订单金额",
+          dataIndex: "amount"
+        },
+        {
+          title: "配置信息",
+          dataIndex: "info"
+        },
+        {
+          title: "查看",
+          dataIndex: "id",
+          key: "query",
+          scopedSlots: {
+            customRender: "query"
+          }
+        }
+      ],
+      columnsActive: [
+        {
+          title: "编号",
+          dataIndex: "orderId"
+        },
+        {
+          title: "操作",
+          dataIndex: "type"
+        },
+        {
+          title: "操作人",
+          dataIndex: "time"
+        },
+        {
+          title: "时间",
+          dataIndex: "amount"
+        },
+        {
+          title: "查看",
+          dataIndex: "id",
+          key: "query",
+          scopedSlots: {
+            customRender: "query"
+          }
+        }
+      ],
+      dataActive:[]
+    };
+  },
+  methods: {
+    selectInfo(text) {
+      console.log(text);
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.business-container {
+  margin-left: 20px;
+  //   background-color: #fff;
+  .business-basic {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  .basicInformation {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .basicInformation-item {
+    width: 30%;
+    line-height: 30px;
+  }
+  .basicInformation-type {
+    display: inline-block;
+    width: 100px;
+    color: #a3a3a3;
+  }
+  .basicInformation-info {
+    color: #292929;
+  }
+}
+</style>

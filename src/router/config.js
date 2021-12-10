@@ -379,6 +379,26 @@ const options = {
                     import("@/pages/business/businesslist/list/index.vue")
                 },
                 {
+                  path: "businessOpening",
+                  name: "业务开通",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/business/businesslist/businessOpening/index.vue")
+                },
+                {
+                  path: "info",
+                  name: "业务详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/business/businesslist/info/index.vue")
+                },
+                {
                   path: "feeReduction",
                   name: "续费降配列表",
                   meta: {

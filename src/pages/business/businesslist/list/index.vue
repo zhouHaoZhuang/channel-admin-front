@@ -8,7 +8,7 @@
               <div class="public-header-wrap">
                 <a-form-model layout="inline" :model="listQuery">
                   <a-form-model-item>
-                    <a-button type="primary" @click="search">
+                    <a-button type="primary" @click="businessOpening">
                       +业务开通
                     </a-button>
                   </a-form-model-item>
@@ -858,7 +858,7 @@ export default {
     return {
       isfilter: false,
       listQuery: {
-        key: undefined,
+        key: "outIp",
         search: "",
         pageNo: 1,
         pageSize: 10,
@@ -867,24 +867,20 @@ export default {
       searchColumns: [
         {
           title: "服务器IP",
-          dataIndex: "ecsBaseInfoResDto.ecsName",
-          key: "ecsBaseInfoResDto.ecsName"
+          dataIndex: "outIp"
         },
         {
           title: "会员ID",
-          dataIndex: "ecsBaseInfoResDto.ecsType",
-          key: "ecsBaseInfoResDto.ecsType"
+          dataIndex: "corporationName"
         },
         {
           title: "会员手机",
-          dataIndex: "ecsBaseInfoResDto.ecsStatus",
-          key: "ecsBaseInfoResDto.ecsStatus"
+          dataIndex: "corporationPhone"
         },
         {
           title: "订单ID",
-          dataIndex: "ecsBaseInfoResDto.createTime",
-          key: "ecsBaseInfoResDto.createTime"
-        },
+          dataIndex: "orderNo"
+        }
       ],
       columns: [
         {
@@ -895,7 +891,7 @@ export default {
         {
           title: "IP",
           width: 100,
-          dataIndex: "publicIp"
+          dataIndex: "outIp"
         },
         { title: "弹性IP", dataIndex: "intranetIp", key: "intranetIp" },
         { title: "共享类型", dataIndex: "shareType", key: "shareType" },
@@ -904,13 +900,11 @@ export default {
         { title: "内存", dataIndex: "memory", key: "memory" },
         {
           title: "磁盘",
-          dataIndex: "internetMaxBandwidthOut",
-          key: "internetMaxBandwidthOut"
+          dataIndex: "systemSize"
         },
         {
           title: "带宽",
-          dataIndex: "internetMaxBandwidthIn",
-          key: "internetMaxBandwidthIn"
+          dataIndex: "internetMaxBandwidthOut"
         },
         {
           title: "会员ID",
@@ -919,21 +913,20 @@ export default {
         },
         {
           title: "购买时间",
-          dataIndex: "ecsProductOrderLogResDtoList[0].createTime",
-          key: "ecsProductOrderLogResDtoList.createTime",
+          dataIndex: "purchaseTime",
           sorter: true,
-          sortOrder: true
+          sortDirections: ["ascend", "descend"]
         },
         {
           title: "到期时间",
           dataIndex: "ecsProductOrderLogResDtoList[0].modifyTime",
           key: "ecsProductOrderLogResDtoList[0].modifyTime",
           sorter: true,
-          sortOrder: true
+          sortDirections: ["ascend", "descend"]
         },
-        { title: "业务状态", dataIndex: "", key: "" },
-        { title: "运行状态", dataIndex: "", key: "" },
-        { title: "操作状态", dataIndex: "", key: "" },
+        { title: "业务状态", dataIndex: "1", key: "" },
+        { title: "运行状态", dataIndex: "2", key: "" },
+        { title: "操作状态", dataIndex: "3", key: "" },
         {
           title: "操作",
           key: "operation",
@@ -964,14 +957,23 @@ export default {
     callback(key) {
       console.log(key);
     },
+    businessOpening(){
+      this.$router.push({
+        path: "/business/cloudservers/businessOpening"
+      });
+    },
     // 查询
     search() {
-      this.getList();
+      // this.getList();
+      console.log(this.listQuery,'-----');
+      this.$store.dispatch("business/getList", this.listQuery).then((val)=>{  
+        console.log(val,'-----');
+      });
     },
     // 查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$getList("instance/getLists", this.listQuery)
+      this.$getList("business/getLists", this.listQuery)
         .then(res => {
           console.log(res);
           this.data = [...res.data.list];
@@ -1022,7 +1024,7 @@ export default {
         margin-left: 10px;
       }
     }
-    .public-header-export{
+    .public-header-export {
       margin-left: 290px;
     }
   }
