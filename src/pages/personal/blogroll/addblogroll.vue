@@ -10,11 +10,8 @@
       >
         <a-form-model-item label="分类">
           <a-select v-model="form.linkTypeName" placeholder="公有云商">
-            <a-select-option value="001">
+            <a-select-option value="linkTypeCode">
               公有云商
-            </a-select-option>
-            <a-select-option value="beijing">
-              测速分类
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -51,7 +48,7 @@
           </a-radio-group>
         </a-form-model-item>
         <a-form-model-item label="排序">
-          <a-input v-model="form.linkSort" />
+          <a-input v-model.number="form.linkSort" />
           <span>注：越小越靠前</span>
         </a-form-model-item>
         <!-- 传图片 -->
@@ -88,12 +85,16 @@ export default {
       wrapperCol: { span: 18 },
       form: {
         linkTypeName: "",
+        linkTypeCode:"",
         linkName: "",
         linkUrl: "",
         linkDescribe: "",
         bottomShow: 0,
         status: 0,
-        linkSort: 0
+        linkSort: 0,
+        channelCode:"",
+        linkLogo:"",
+        linkTypeSort:0
       },
       rules: {
         linkName: [
@@ -117,7 +118,17 @@ export default {
   components: {
     Upload
   },
+  created() {
+    this.getLists();
+  },
   methods: {
+    //查询数据表格
+    getLists() {
+      this.$store.dispatch("blogroll/getLists").then(res => {
+        console.log(res);
+        this.datas = [...res.data.list];
+      });
+    },
     //上传图片
     imgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);

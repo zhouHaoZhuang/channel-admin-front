@@ -8,11 +8,16 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分类名称" prop="cutomerName">
-          <a-input v-model="form.shortName" />
+        <a-form-model-item label="分类名称" prop="linkTypeName">
+          <a-input v-model="form.linkTypeName" />
         </a-form-model-item>
-        <a-form-model-item label="排序" prop="shortName">
-          <a-input v-model="form.shortName" />
+        <a-form-model-item label="排序" prop="linkTypeSort">
+          <a-input v-model="form.linkTypeSort" :value="0" />
+        </a-form-model-item>
+         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button type="primary" @click="onSubmit" :loading="loading">
+            确定添加
+          </a-button>
         </a-form-model-item>
       </a-form-model>
     </div>
@@ -26,18 +31,18 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        cutomerName: "",
-        shortName: "",
+        linkTypeName: "",
+        linkTypeSort: 0,
       },
       rules: {
-        cutomerName: [
+        linkTypeName: [
           {
             required: true,
             message: "必填，分类名称长度必须在1-50之间",
             trigger: "blur"
           }
         ],
-        shortName: [
+        linkTypeSort: [
           {
             required: true,
             message: "必填，排序范围在0-32767之间。值越小越靠前",
@@ -55,7 +60,7 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("channel/add", this.form)
+            .dispatch("blogroll/adds", this.form)
             .then(res => {
               this.$message.success("新增渠道成功");
               this.resetForm();

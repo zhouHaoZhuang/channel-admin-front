@@ -54,6 +54,29 @@ const blogroll = {
           params
         });
       },
+       // 新增友情
+    adds({ commit, state }, data) {
+        return request({
+          url: "/ccLinkType",
+          method: "post",
+          data
+        });
+      },
+      // 删除友情
+    delPrices({ commit, state }, id) {
+        return request({
+          url: `/ccLinkType/${id}`,
+          method: "delete",
+        });
+      },
+      // 编辑友情
+    edits({ commit, state }, data) {
+        return request({
+          url: `/ccLinkType/${data.id}`,
+          method: "put",
+          data
+        });
+      },
   }
 };
 

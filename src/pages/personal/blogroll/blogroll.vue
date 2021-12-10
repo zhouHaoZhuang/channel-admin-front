@@ -70,14 +70,17 @@
             </a-button>
           </div>
           <div class="table-content">
-            <a-table :columns="columnss" :data-source="data">
+            <a-table :columns="columnss" :data-source="datas" rowKey="id">
+               <div slot="tableNumber" slot-scope="text, record, index">
+                {{ index * listQuery.currentPage + 1 }}
+              </div>
               <a slot="name" slot-scope="text">{{ text }}</a>
-              <span slot="action" slot-scope="">
-                <a-button type="link" @click="amendclassify()">
+              <span slot="action" slot-scope="text">
+                <a-button type="link" @click="amendclassify(text)">
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDel()">
+                <a-button type="link" @click="handleDels(text)">
                   删除
                 </a-button>
               </span>
@@ -155,17 +158,18 @@ export default {
       columnss: [
         {
           title: "ID",
-          dataIndex: "name",
-          scopedSlots: { customRender: "name" }
+          dataIndex: "tableNumber",
+          scopedSlots: { customRender: "tableNumber" }
         },
         {
           title: "名称",
           dataIndex: "linkTypeName",
-          key:"linkTypeName"
+          key: "linkTypeName"
         },
         {
           title: "友情链接数量",
-          dataIndex: "linkCount"
+          dataIndex: "linkCount",
+          key:"linkCount"
         },
         {
           title: "操作",
@@ -176,6 +180,8 @@ export default {
         }
       ],
       data: [],
+      // 友情管理表
+      datas:[],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -196,7 +202,7 @@ export default {
   },
   methods: {
     callback(key) {
-      console.log(key);
+      // console.log(key);
     },
     //查询数据表格
     getList() {
@@ -209,7 +215,7 @@ export default {
     getLists() {
       this.$store.dispatch("blogroll/getLists").then(res => {
         console.log(res);
-        this.data = [...res.data.list];
+        this.datas = [...res.data.list];
       });
     },
     //表格分页跳转
@@ -246,6 +252,19 @@ export default {
         }
       });
     },
+    handleDels(id){
+      console.log(id);
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("blogroll/delPrices", id).then(val => {
+            // this.$message.success("操作成功");
+            console.log(val, 9090);
+            this.getLists();
+          });
+        }
+      });
+    },
     //批量删除
     deleteinbatches() {
       // console.log(this.selectedRowKeys.toString());
@@ -270,8 +289,13 @@ export default {
       this.$router.push("/personal/account/add-classify");
     },
     //修改
-    amendclassify() {
-      this.$router.push("/personal/account/amend-classify");
+    amendclassify(text) {
+      this.$router.push({
+        path:"/personal/account/amend-classify",
+        query:{
+          id:text
+        }
+      })
     }
   }
 };
