@@ -10,7 +10,8 @@ import instance from "./instance";
 import purchase from "./purchase";
 import member from "./member";
 import banner from "./banner"
-import blogroll from "./blogroll"
+import blogroll from "./blogroll";
+import business from "./business";
 
 export default {
   user,
@@ -25,5 +26,6 @@ export default {
   instance,
   member,
   banner,
-  blogroll
+  blogroll,
+  business
 };

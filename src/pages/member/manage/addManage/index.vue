@@ -8,9 +8,9 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="所属会员组" prop="cutomerName">
+        <a-form-model-item label="所属会员组" prop="corporationName">
           <a-select
-            v-model="form.cutomerName"
+            v-model="form.certificationBankAccount"
             placeholder="please select your zone"
           >
             <a-select-option value="shanghai">
@@ -21,17 +21,17 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="手机号码" prop="shortName">
-          <a-input v-model="form.shortName" />
+        <a-form-model-item label="手机号码" prop="idNumber">
+          <a-input v-model="form.phoneNumber" />
         </a-form-model-item>
-        <a-form-model-item label="邮箱" prop="shortName">
-          <a-input v-model="form.shortName" />
+        <a-form-model-item label="邮箱" prop="idNumber">
+          <a-input v-model="form.email" />
         </a-form-model-item>
-        <a-form-model-item label="姓名" prop="shortName">
-          <a-input v-model="form.shortName" />
+        <a-form-model-item label="姓名" prop="idNumber">
+          <a-input v-model="form.idNumber" />
         </a-form-model-item>
-        <a-form-model-item label="密码" prop="shortName">
-          <a-input v-model="form.shortName" />
+        <a-form-model-item label="密码" prop="idNumber">
+          <a-input v-model="form.password" />
         </a-form-model-item>
         <a-form-model-item label="安全提问1">
           <a-select
@@ -100,21 +100,23 @@
           <a-input v-model="form.contract" />
         </a-form-model-item>
         <a-form-model-item label="QQ号码">
-          <a-input v-model="form.number" />
+          <a-input v-model="form.qq" />
         </a-form-model-item>
         <div class="divider">
           <a-divider />
         </div>
         <div>后台操作保护</div>
-        <a-form-model-item label="密码">
+        <a-form-model-item label="管理员密码">
           <a-input-password v-model="form.description" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 8 }">
-          <a-button  type="primary" @click="onSubmit" :loading="loading">
-            提交
+          <a-button type="primary" @click="onSubmit" :loading="loading">
+            确认添加
           </a-button>
         </a-form-model-item>
       </a-form-model>
+
+      <button @click="btn">gdhsgdshdgs</button>
     </div>
   </div>
 </template>
@@ -126,22 +128,43 @@ export default {
       labelCol: { span: 8 },
       wrapperCol: { span: 10 },
       form: {
-        cutomerName: "",
-        shortName: "",
-        addressProject: "",
-        contract: "",
-        number: "",
-        description: ""
+        adminLock: 0,
+        apiStatus: 0,
+        balance: 0,
+        bankName: "cx",
+        cash: 0,
+        certificationBankAccount: "s",
+        certificationPhone: "dsd",
+        certificationStatus: 0,
+        channelCode: "df",
+        channelName: "dfd",
+        corporationCode: "hg",
+        corporationName: "bvb",
+        creditNumber: 0,
+        email: "vb",
+        idNumber: "rer",
+        integral: 0,
+        loginFaileNumber: 0,
+        loginLock: 0,
+        password: "bn",
+        phoneNumber: "asasasa",
+        qq: "gh",
+        realName: "hghghggrtr",
+        realNameRemark: "sasasa",
+        registerTime: "12:45:10",
+        remark: "gh",
+        salesStaff: "gh",
+        status: 0
       },
       rules: {
-        cutomerName: [
+        corporationName: [
           {
             required: true,
             message: "请输入渠道商全称",
             trigger: "blur"
           }
         ],
-        shortName: [
+        idNumber: [
           {
             required: true,
             message: "请输入简称",
@@ -156,30 +179,47 @@ export default {
     this.resetForm();
   },
   methods: {
+    btn() {
+      console.log(this.form);
+      this.$store
+        .dispatch("member/addList", this.form)
+        .then(res => {
+          console.log(res);
+          // this.$message.success("新增渠道成功");
+          // this.resetForm();
+          // this.$router.back();
+        })
+        .finally(() => {
+          // this.loading = false;
+        });
+    },
     // 提交
     onSubmit() {
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("channel/add", this.form)
-            .then(res => {
-              this.$message.success("新增渠道成功");
-              this.resetForm();
-              this.$router.back();
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-        }
-      });
+      this.$store
+        .dispatch("member/addList", this.form)
+        .then(res => {
+          console.log(res);
+          // this.$message.success("新增渠道成功");
+          // this.resetForm();
+          // this.$router.back();
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+      console.log(this.form, "000000");
+      // this.$refs.ruleForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true;
+
+      //   }
+      // });
     },
     // 重置表单数据
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        cutomerName: "",
-        shortName: "",
+        corporationName: "",
+        idNumber: "",
         addressProject: "",
         contract: "",
         number: "",
@@ -199,9 +239,9 @@ export default {
   .container {
     width: 100%;
   }
-  .divider{
-    .ant-divider{
-      background: #ebebeb!important;
+  .divider {
+    .ant-divider {
+      background: #ebebeb !important;
     }
   }
 }
