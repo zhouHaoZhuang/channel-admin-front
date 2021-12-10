@@ -2,12 +2,13 @@ import axios from "axios";
 import env from "@/config/env";
 import message from "ant-design-vue/es/message";
 import store from "@/store";
+import { getDomainUrl } from "@/utils/index";
 const axiosSource = axios.CancelToken.source();
-const { AuthenticationClient } = require("authing-js-sdk");
-const authenticationClient = new AuthenticationClient({
-  appId: env.appId,
-  appHost: env.appHost
-});
+// const { AuthenticationClient } = require("authing-js-sdk");
+// const authenticationClient = new AuthenticationClient({
+//   appId: env.appId,
+//   appHost: env.appHost
+// });
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
@@ -25,6 +26,7 @@ const errorHandler = error => {
 // request interceptor 请求拦截
 request.interceptors.request.use(async config => {
   config.cancelToken = axiosSource.token;
+  config.headers.domain = getDomainUrl();
   const token = store.state.user.token;
   // 每次请求时需要判断登录状态，未登录直接跳转登录页，并且取消本次请求
   // if (config.url !== "/user/loginByUsername") {

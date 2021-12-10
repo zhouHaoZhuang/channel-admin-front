@@ -1,5 +1,5 @@
 <template>
-  <div class="seo-content">
+  <div class="seo-container">
     <div class="btn-head">
       <a-select
         default-value="CODE"
@@ -186,7 +186,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.seo-content {
+.seo-container {
   margin: 0 20px;
   padding: 10px;
   background-color: #fff;
