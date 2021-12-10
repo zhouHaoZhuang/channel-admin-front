@@ -9,6 +9,7 @@ import financialOrder from "./financialOrder";
 import instance from "./instance";
 import purchase from "./purchase";
 import member from "./member";
+import business from "./business";
 
 export default {
   user,
@@ -21,5 +22,6 @@ export default {
   purchase,
   financialOrder,
   instance,
-  member
+  member,
+  business
 };
