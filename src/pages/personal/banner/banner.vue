@@ -36,12 +36,12 @@
           <div v-else class="dot dot-err"></div>
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
-        <span slot="action" slot-scope="v">
-          <a-button type="link" @click="updatePrice(v)">
+        <span slot="action" slot-scope="text">
+          <a-button type="link" @click="updatePrice(text)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(v.id)">
+          <a-button type="link" @click="handleDel(text)">
             删除
           </a-button>
         </span>
@@ -104,6 +104,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          dataIndex: "id",
           fixed: "right",
           scopedSlots: { customRender: "action" }
         }
@@ -163,38 +164,39 @@ export default {
       this.$router.push("/personal/account/add-banner");
     },
     //修改
-    updatePrice(v) {
+    updatePrice(text) {
       this.$router.push({
         path: "/personal/account/amend-banner",
         query: {
-          id: v.id
+          id: text
         }
       });
     },
     //删除
     handleDel(id) {
+      console.log(id);
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("", id).then(val => {
+          this.$store.dispatch("banner/delPrice", id).then(val => {
             this.$message.success("操作成功");
-            this.$store.dispatch("").then(val => {
-              this.reqAfter(val);
-            });
+           this.getList();
           });
         }
       });
     },
     //批量删除
     deleteinbatches(){
+      console.log(this.selectedRowKeys.toString());
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("", ).then(val => {
+          this.$store.dispatch("banner/delPrice", this.selectedRowKeys.toString()).then(val => {
             this.$message.success("操作成功");
-            this.$store.dispatch("").then(val => {
-              this.reqAfter(val);
-            });
+            // this.$store.dispatch("操作成功").then(val => {
+            //   this.reqAfter(val);
+            // });
+            this.getList();
           });
         }
       });

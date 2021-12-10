@@ -335,7 +335,7 @@ export default {
       // }
       //  console.log(v.id);
       this.$router.push({
-        path: "/finance/income/orderInfo",
+        path: "/finance/index/orderInfo",
         query: {
           id: v.id
         }
