@@ -1,4 +1,5 @@
 import store from "@/store";
+import env from "@/config/env";
 // 根据id返回数组中对应id的对象---挂载全局 $getArrOnceData
 export const getArrOnceData = (id, arr) => {
   return arr.find(ele => ele.id === id);
@@ -44,3 +45,18 @@ export function base64ToFile(base64, filename) {
   Object.assign(file, { uid: file.lastModified });
   return file;
 }
+
+// 处理浏览器地址栏地址，截取地址中段,不需要http:// or https://和com后地址
+export const getWindowUrl = url => {
+  const newUrl = url.includes("http://")
+    ? url.replace("http://", "")
+    : url.replace("https://", "");
+  return newUrl.substring(0, newUrl.indexOf("/"));
+};
+
+// 根据环境返回domain地址--后端需要请求头携带浏览器地址，字段：domain
+export const getDomainUrl = () => {
+  return process.env.VUE_APP_ENV === "dev"
+    ? env.DOMAIN_URL
+    : getWindowUrl(window.location.href);
+};
