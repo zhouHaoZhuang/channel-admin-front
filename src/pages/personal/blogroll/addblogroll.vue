@@ -10,8 +10,8 @@
       >
         <a-form-model-item label="分类">
           <a-select v-model="form.linkTypeName" placeholder="公有云商">
-            <a-select-option value="linkTypeCode">
-              公有云商
+            <a-select-option v-for="(item) in datas " :key="item.linkTypeCode" :value="item.linkTypeCode">
+              {{item.linkTypeName}}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -112,7 +112,8 @@ export default {
           }
         ]
       },
-      loading: false
+      loading: false,
+      datas:[]
     };
   },
   components: {
@@ -126,7 +127,7 @@ export default {
     getLists() {
       this.$store.dispatch("blogroll/getLists").then(res => {
         console.log(res);
-        this.datas = [...res.data.list];
+        this.datas = res.data.list;
       });
     },
     //上传图片

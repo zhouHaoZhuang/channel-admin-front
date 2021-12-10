@@ -27,7 +27,7 @@ const blogroll = {
     // 删除友情
     delPrice({ commit, state }, id) {
       return request({
-        url: `/ccBanner/${id}`,
+        url: `/ccLink/${id}`,
         method: "delete",
       });
     },
