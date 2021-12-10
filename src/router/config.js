@@ -226,17 +226,17 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/finance/income/order")
+                  component: () => import("@/pages/finance/income/order/index")
                 },
                 {
-                  path: "orderinfo",
+                  path: "orderInfo",
                   name: "订单详情",
                   meta: {
                     invisible: true,
                     back: true
                   },
                   component: () =>
-                    import("@/pages/finance/income/order/orderInfo.vue")
+                    import("@/pages/finance/income/order/orderInfo")
                 },
                 {
                   path: "detailed",
