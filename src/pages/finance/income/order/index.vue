@@ -329,7 +329,7 @@ export default {
       // }
       //  console.log(v.id);
       this.$router.push({
-        path: "/finance/income/orderinfo",
+        path: "/finance/index/orderInfo",
         query: {
           id: v.id
         }

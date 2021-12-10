@@ -240,7 +240,7 @@ const options = {
                   component: () => import("@/pages/finance/income/order")
                 },
                 {
-                  path: "orderinfo",
+                  path: "orderInfo",
                   name: "订单详情",
                   meta: {
                     invisible: true,
