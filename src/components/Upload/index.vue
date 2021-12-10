@@ -25,6 +25,7 @@
       :accept="accept"
       :limit="limit"
       :multiple="multiple"
+      :headers="headers"
       :action="uploadUrl"
       list-type="picture-card"
       :file-list="fileList"
@@ -49,7 +50,7 @@
 <script>
 import lrz from "lrz";
 import env from "@/config/env";
-import { base64ToFile } from "@/utils/index";
+import { base64ToFile, getDomainUrl } from "@/utils/index";
 export default {
   props: {
     // 发送到后台的文件名
@@ -80,6 +81,10 @@ export default {
   },
   data() {
     return {
+      // 请求头
+      headers: {
+        domain: getDomainUrl()
+      },
       previewVisible: false,
       previewImage: "",
       imageList: [],
