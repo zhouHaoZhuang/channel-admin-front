@@ -12,7 +12,8 @@ const member = {
     getList({ commit, state }, params) {
       return request({
         url: "/ccCorporation",
-        method: "get"
+        method: "get",
+        params
       });
     },
     delList({ commit, state }, id) {
@@ -40,7 +41,7 @@ const member = {
     getOne({ commit, state }, id) {
       console.log(state);
       return request({
-        url: `/ccCorporation/one?id=${id}`,
+        url: `/ccCorporation/${id}`,
         method: "get"
       });
     }
