@@ -237,7 +237,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/finance/income/order")
+                  component: () => import("@/pages/finance/income/order/index")
                 },
                 {
                   path: "orderInfo",
@@ -247,7 +247,7 @@ const options = {
                     back: true
                   },
                   component: () =>
-                    import("@/pages/finance/income/order/orderInfo.vue")
+                    import("@/pages/finance/income/order/orderInfo")
                 },
                 {
                   path: "detailed",

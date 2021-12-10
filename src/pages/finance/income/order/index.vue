@@ -128,7 +128,9 @@ export default {
           title: "会员ID",
           dataIndex: "corporationCode",
           key: "corporationCode",
-          width: 150
+          width: 150,
+          sorter:true,
+          sortOrder:true
         },
         {
           title: "订单类型",
@@ -162,7 +164,9 @@ export default {
           title: "现金支付",
           dataIndex: "cashPay",
           key: "cashPay",
-          width: 100
+          width: 120,
+          sorter:true,
+          sortOrder:true
         },
         {
           title: "现金券支付",
@@ -175,7 +179,9 @@ export default {
           dataIndex: "createTime",
           key: "createTime",
           width: 190,
-          scopedSlots: { customRender: "createTime" }
+          scopedSlots: { customRender: "createTime" },
+          sorter:true,
+          sortOrder:true
         },
 
         {
