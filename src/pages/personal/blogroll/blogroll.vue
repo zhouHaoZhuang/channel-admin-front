@@ -70,7 +70,7 @@
             </a-button>
           </div>
           <div class="table-content">
-            <a-table :columns="columnss" :data-source="datas" rowKey="id">
+            <a-table :columns="columnss" :data-source="friendshipdata" rowKey="id">
                <div slot="tableNumber" slot-scope="text, record, index">
                 {{ index * listQuery.currentPage + 1 }}
               </div>
@@ -181,7 +181,7 @@ export default {
       ],
       data: [],
       // 友情管理表
-      datas:[],
+      friendshipdata:[],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -198,7 +198,7 @@ export default {
   },
   activated() {
     this.getList();
-    this.getLists();
+    this.getfriendshipList();
   },
   methods: {
     callback(key) {
@@ -211,11 +211,11 @@ export default {
         this.data = [...res.data.list];
       });
     },
-    //查询数据表格
-    getLists() {
-      this.$store.dispatch("blogroll/getLists").then(res => {
-        console.log(res);
-        this.datas = [...res.data.list];
+    //查询友情数据表格
+    getfriendshipList() {
+      this.$store.dispatch("blogroll/getfriendshipList").then(res => {
+        console.log('aa',res);
+        this.friendshipdata = [...res.data.list];
       });
     },
     //表格分页跳转

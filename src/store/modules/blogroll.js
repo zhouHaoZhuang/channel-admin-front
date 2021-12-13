@@ -27,7 +27,7 @@ const blogroll = {
     // 删除友情
     delPrice({ commit, state }, id) {
       return request({
-        url: `/ccBanner/${id}`,
+        url: `/ccLink/${id}`,
         method: "delete",
       });
     },
@@ -47,7 +47,7 @@ const blogroll = {
         });
       },
     //友情分类列表
-    getLists({ commit, state }, params) {
+    getfriendshipList({ commit, state }, params) {
         return request({
           url: "/ccLinkType",
           method: "get",

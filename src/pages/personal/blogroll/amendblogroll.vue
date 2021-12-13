@@ -82,6 +82,7 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
+        channelCode:"",
         linkTypeName: "",
         linkName: "",
         linkUrl: "",
@@ -89,6 +90,9 @@ export default {
         bottomShow: 0,
         status: 0,
         linkSort: 0,
+        linkLogo:"",
+        linkTypeCode:"",
+        linkTypeSort:0,
         id: ""
       },
       rules: {
