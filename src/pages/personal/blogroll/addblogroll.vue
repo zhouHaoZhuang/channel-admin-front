@@ -10,7 +10,7 @@
       >
         <a-form-model-item label="分类">
           <a-select v-model="form.linkTypeName" placeholder="公有云商">
-            <a-select-option v-for="(item) in datas " :key="item.linkTypeCode" :value="item.linkTypeCode">
+            <a-select-option v-for="(item) in data " :key="item.linkTypeCode" :value="item.linkTypeCode">
               {{item.linkTypeName}}
             </a-select-option>
           </a-select>
