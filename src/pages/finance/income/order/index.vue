@@ -60,39 +60,39 @@
           @change="handleChange"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="originAmount" slot-scope="v">
-            {{v.toFixed(2)}}
+          <div slot="originAmount" slot-scope="text">
+            {{text.toFixed(2)}}
           </div>
-          <div slot="actualAmount" slot-scope="v">
-            {{v.toFixed(2)}}
+          <div slot="actualAmount" slot-scope="text">
+            {{text.toFixed(2)}}
           </div>
-          <div slot="tradeType" slot-scope="v">
-            <span v-if="v === 1">新购</span>
-            <span v-if="v === 5">升配</span>
-            <span v-if="v === 10">降配</span>
-            <span v-if="v === 15">续费</span>
-            <span v-if="v === 20">退费</span>
+          <div slot="tradeType" slot-scope="text">
+            <span v-if="text === 1">新购</span>
+            <span v-if="text === 5">升配</span>
+            <span v-if="text === 10">降配</span>
+            <span v-if="text === 15">续费</span>
+            <span v-if="text === 20">退费</span>
           </div>
-          <div slot="action" slot-scope="v">
-            <a-button type="link" @click="selectPool(v)">
+          <div slot="action" slot-scope="text">
+            <a-button type="link" @click="selectPool(text)">
               查看
             </a-button>
           </div>
-          <div slot="createTime" slot-scope="v">
-            {{ v | formatDate }}
+          <div slot="createTime" slot-scope="text">
+            {{ text | formatDate }}
           </div>
-          <div slot="payTime" slot-scope="v">
-            {{ v | formatDate }}
+          <div slot="payTime" slot-scope="text">
+            {{ text | formatDate }}
           </div>
           <div
-            :class="{ green: v === 1, blue: v !== 1 }"
+            :class="{ green: text === 1, blue: text !== 1 }"
             slot="payStatus"
-            slot-scope="v"
+            slot-scope="text"
           >
-            {{ v === 1 ? "已支付" : "未支付" }}
+            {{ text === 1 ? "已支付" : "未支付" }}
           </div>
-          <div slot="select" slot-scope="v">
-            <a-button v-if="v.payStatus === 1" type="link" @click="selectPool(v)">
+          <div slot="select" slot-scope="text">
+            <a-button v-if="text.payStatus === 1" type="link" @click="selectPool(text)">
               查看(1)
             </a-button>
             <a-button v-else type="link">
@@ -336,7 +336,7 @@ export default {
         );
       }
     },
-    selectPool(v, i) {
+    selectPool(text, i) {
       // if (!i && i != undefined) {
       //   return
       // }
@@ -344,7 +344,7 @@ export default {
       this.$router.push({
         path: "/finance/index/orderInfo",
         query: {
-          id: v.id
+          id: text.id
         }
       });
     },
