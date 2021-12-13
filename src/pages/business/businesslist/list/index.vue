@@ -249,12 +249,7 @@
                 :pagination="paginationProps"
                 :scroll="{ x: 2100 }"
               >
-                <a
-                  slot="action"
-                  slot-scope="text, record"
-                  @click="
-                    addChannel(record.ecsBaseInfoResDto.ecsProductStockId)
-                  "
+                <a slot="action" slot-scope="text" @click="infoChannel(text)"
                   >管理</a
                 >
               </a-table>
@@ -506,12 +501,7 @@
                 :pagination="paginationProps"
                 :scroll="{ x: 2100 }"
               >
-                <a
-                  slot="action"
-                  slot-scope="text, record"
-                  @click="
-                    addChannel(record.ecsBaseInfoResDto.ecsProductStockId)
-                  "
+                <a slot="action" slot-scope="text" @click="infoChannel(text)"
                   >管理</a
                 >
               </a-table>
@@ -763,12 +753,7 @@
                 :pagination="paginationProps"
                 :scroll="{ x: 2100 }"
               >
-                <a
-                  slot="action"
-                  slot-scope="text, record"
-                  @click="
-                    addChannel(record.ecsBaseInfoResDto.ecsProductStockId)
-                  "
+                <a slot="action" slot-scope="text" @click="infoChannel(text)"
                   >管理</a
                 >
               </a-table>
@@ -835,12 +820,8 @@
                 :pagination="paginationProps"
                 :scroll="{ x: 2100 }"
               >
-                <a
-                  slot="action"
-                  slot-scope="text, record"
-                  @click="
-                    addChannel(record.ecsBaseInfoResDto.ecsProductStockId)
-                  "
+                <span slot="runningStatus" slot-scope="text">{{text+1}}</span>
+                <a slot="action" slot-scope="text" @click="infoChannel(text)"
                   >管理</a
                 >
               </a-table>
@@ -864,6 +845,17 @@ export default {
         pageSize: 10,
         total: 0
       },
+      selectkey: {
+        corporationName: "",
+        corporationPhone: "",
+        currentPage: "1",
+        endTimeSort: "asc",
+        orderNo: "",
+        outIp: "",
+        pageSize: "10",
+        saleTimeSort: "asc",
+        sort: "asc"
+      },
       searchColumns: [
         {
           title: "服务器IP",
@@ -886,17 +878,17 @@ export default {
         {
           title: "业务ID",
           width: 100,
-          dataIndex: "Id"
+          dataIndex: "id"
         },
         {
           title: "IP",
-          width: 100,
+          width: 130,
           dataIndex: "outIp"
         },
         { title: "弹性IP", dataIndex: "intranetIp", key: "intranetIp" },
         { title: "共享类型", dataIndex: "shareType", key: "shareType" },
         { title: "机房", dataIndex: "engineRoom" },
-        { title: "CPU", dataIndex: "cpu", key: "cpu" },
+        { title: "CPU", dataIndex: "cup", key: "cpu" },
         { title: "内存", dataIndex: "memory", key: "memory" },
         {
           title: "磁盘",
@@ -908,28 +900,36 @@ export default {
         },
         {
           title: "会员ID",
-          dataIndex: "ecsBaseInfoResDto.channelCode",
-          key: "ecsBaseInfoResDto.channelCode"
+          dataIndex: "corporationCode",
+          key: "corporationCode"
         },
         {
           title: "购买时间",
-          dataIndex: "purchaseTime",
+          dataIndex: "purchaseTimeStr",
           sorter: true,
+          width: 150,
           sortDirections: ["ascend", "descend"]
         },
         {
           title: "到期时间",
-          dataIndex: "ecsProductOrderLogResDtoList[0].modifyTime",
-          key: "ecsProductOrderLogResDtoList[0].modifyTime",
+          dataIndex: "endTimeStr",
+          key: "endTimeStr",
+          width: 180,
           sorter: true,
           sortDirections: ["ascend", "descend"]
         },
         { title: "业务状态", dataIndex: "1", key: "" },
-        { title: "运行状态", dataIndex: "2", key: "" },
+        {
+          title: "运行状态",
+          dataIndex: "runningStatus",
+          key: "runningStatus",
+          scopedSlots: { customRender: "runningStatus" },
+        },
         { title: "操作状态", dataIndex: "3", key: "" },
         {
           title: "操作",
-          key: "operation",
+          dataIndex: "id",
+          key: "action",
           fixed: "right",
           width: 100,
           scopedSlots: { customRender: "action" }
@@ -939,10 +939,13 @@ export default {
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
+        pageSizeOptions: ["5", "10", "20", "30"],
+        pageSize: 5,
+        current: 1, //当前页
         total: 1,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.listQuery.pageNo} / ${Math.ceil(
-            total / this.listQuery.pageSize
+          `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
+            total / this.paginationProps.pageSize
           )} 页`,
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
@@ -951,13 +954,25 @@ export default {
     };
   },
   activated() {
-    // this.getList();
+    this.getList();
   },
   methods: {
+    runningStatusall(runningStatus) {
+      console.log(runningStatus);
+      if (runningStatus == "0") {
+        return "黑洞中";
+      } else if (runningStatus == "1") {
+        return "运行中";
+      } else if (runningStatus == "2") {
+        return "已关机";
+      } else if (runningStatus == "3") {
+        return "已过期";
+      }
+    },
     callback(key) {
       console.log(key);
     },
-    businessOpening(){
+    businessOpening() {
       this.$router.push({
         path: "/business/cloudservers/businessOpening"
       });
@@ -965,19 +980,20 @@ export default {
     // 查询
     search() {
       // this.getList();
-      console.log(this.listQuery,'-----');
-      this.$store.dispatch("business/getList", this.listQuery).then((val)=>{  
-        console.log(val,'-----');
+      console.log(this.listQuery, "-----");
+      this.$getList("business/getList", this.listQuery).then(val => {
+        console.log(val, "data=========");
       });
     },
     // 查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$getList("business/getLists", this.listQuery)
+      this.$store
+        .dispatch("business/getList", this.selectkey)
         .then(res => {
           console.log(res);
-          this.data = [...res.data.list];
-          console.log(this.data);
+          this.data = res.data.list;
+          // console.log(this.data);
           this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
@@ -985,22 +1001,22 @@ export default {
         });
     },
     // 表格分页快速跳转n页
-    quickJump(pageNo) {
-      this.listQuery.pageNo = pageNo;
+    quickJump(current) {
+      this.paginationProps.current = current;
       this.getList();
     },
     // 表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
-      this.listQuery.pageNo = current;
-      this.listQuery.pageSize = pageSize;
+      this.paginationProps.current = current;
+      this.paginationProps.pageSize = pageSize;
       this.getList();
     },
     //
-    addChannel(record) {
-      console.log(record);
+    infoChannel(id) {
+      console.log(id);
       this.$router.push({
-        path: "/business/cloudservers/adds",
-        query: { id: record }
+        path: "/business/cloudservers/info",
+        query: { id }
       });
     },
     handleChange(value) {
@@ -1018,8 +1034,9 @@ export default {
   .public-header-wrap {
     padding-bottom: 10px;
     .public-header-filter {
-      margin-left: 297px;
+      // text-align: right;
       display: inline-block;
+      float: right;
       button {
         margin-left: 10px;
       }
@@ -1034,12 +1051,12 @@ export default {
 }
 .member-filterall {
   border: 1px solid #e0e0e0;
-  width: 1220px;
+  width: 100%;
   // margin-left: 25px;
   background-color: #fafafa;
   .member-filter {
     display: flex;
-    width: 1220px;
+    width: 100%;
     border: 1px solid #e0e0e0;
     background-color: #fafafa;
     margin-top: -1px;

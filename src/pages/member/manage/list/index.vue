@@ -605,7 +605,7 @@ export default {
   .member-top {
     display: flex;
     width: 1230px;
-    margin: 0 auto;
+    margin-left: 20px;
     padding: 24px 0;
     justify-content: space-between;
     .search {
