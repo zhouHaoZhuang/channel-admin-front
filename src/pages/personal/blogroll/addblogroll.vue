@@ -113,21 +113,21 @@ export default {
         ]
       },
       loading: false,
-      datas:[]
+      data:[]
     };
   },
   components: {
     Upload
   },
   created() {
-    this.getLists();
+    this.getfriendshipList();
   },
   methods: {
     //查询数据表格
-    getLists() {
-      this.$store.dispatch("blogroll/getLists").then(res => {
+    getfriendshipList() {
+      this.$store.dispatch("blogroll/getfriendshipList").then(res => {
         console.log(res);
-        this.datas = res.data.list;
+        this.data = res.data.list;
       });
     },
     //上传图片

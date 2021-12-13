@@ -47,7 +47,7 @@ const blogroll = {
         });
       },
     //友情分类列表
-    getLists({ commit, state }, params) {
+    getfriendshipList({ commit, state }, params) {
         return request({
           url: "/ccLinkType",
           method: "get",

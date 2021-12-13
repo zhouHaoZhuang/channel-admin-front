@@ -57,6 +57,7 @@
           rowKey="id"
           :pagination="paginationProps"
           :scroll="{ x: 1400 }"
+          @change="handleChange"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
           <div slot="originAmount" slot-scope="v">
@@ -66,7 +67,7 @@
             {{v.toFixed(2)}}
           </div>
           <div slot="tradeType" slot-scope="v">
-             <span v-if="v === 1">新购</span>
+            <span v-if="v === 1">新购</span>
             <span v-if="v === 5">升配</span>
             <span v-if="v === 10">降配</span>
             <span v-if="v === 15">续费</span>
@@ -130,7 +131,7 @@ export default {
           key: "corporationCode",
           width: 150,
           sorter:true,
-          sortOrder:true
+          sortDirections: ['ascend', 'descend'],
         },
         {
           title: "订单类型",
@@ -166,7 +167,7 @@ export default {
           key: "cashPay",
           width: 120,
           sorter:true,
-          sortOrder:true
+          sortDirections: ['ascend', 'descend'],
         },
         {
           title: "现金券支付",
@@ -181,7 +182,7 @@ export default {
           width: 190,
           scopedSlots: { customRender: "createTime" },
           sorter:true,
-          sortOrder:true
+          sortDirections: ['ascend', 'descend'],
         },
 
         {
@@ -279,6 +280,12 @@ export default {
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
       })
+    },
+    //排序
+    handleChange(pagination, filters, sorter) {
+      console.log('Various parameters', pagination, filters, sorter);
+      this.data.sorter = sorter.order
+      console.log(sorter);
     },
     disabledStartDate(startValue) {
       const endValue = this.endValue;
