@@ -38,7 +38,7 @@
         </div>
         <div>
           <span>订单备注:</span>
-          <span>{{ orderInfo.remark }}</span>
+          <span>{{ orderInfo.orderRemarks }}</span>
         </div>
         <div>
           <span>配置信息</span>
@@ -50,21 +50,24 @@
           :scroll="{ x: 1300 }"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="tradeType" slot-scope="v">
-            <span v-if="v === 1">新购</span>
-            <span v-if="v === 5">升配</span>
-            <span v-if="v === 10">降配</span>
-            <span v-if="v === 15">续费</span>
-            <span v-if="v === 20">退费</span>
+          <div slot="tradeType" slot-scope="text">
+            <span v-if="text === 1">新购</span>
+            <span v-if="text === 5">升配</span>
+            <span v-if="text === 10">降配</span>
+            <span v-if="text === 15">续费</span>
+            <span v-if="text === 20">退费</span>
           </div>
-          <div slot="ecsPrice" slot-scope="">
-            <!-- <div>CPU：{{ v.cpu }}</div> -->
-            <!-- <div>内存：{{ v.memory }}</div> -->
-            <!-- <div>磁盘：{{ v.dataDiskSize }}</div> -->
-            <!-- <div>带宽：{{ v.internetMaxBandwidthOut }}</div> -->
-            <div>防御：{{ "20G" }}</div>
-            <!-- <div>操作系统：{{ v.osName }}</div>
-            <div>所在区：{{ v.zoneId }}</div> -->
+          <div slot="productConfig" slot-scope="text">
+            <div>CPU:{{ text.cpu }}</div>
+            <div>内存:{{ text.memory }}</div>
+            <div>磁盘:{{ text.disk }}</div>
+            <div>带宽:{{ text.internetMaxBandwidthOut }}</div>
+            <div>防御:{{ "20G" }}</div>
+            <div>操作系统:{{ text.osName }}</div>
+            <div>所在区:{{ text.regionId }}</div>
+          </div>
+          <div slot="">
+
           </div>
         </a-table>
       </div>
@@ -75,27 +78,27 @@
       <ul>
         <li>
           <span>会员ID:</span>
-          <span>{{ data[0].cutomerCode }}</span>
-        </li>
-        <li>
-          <span>姓名:</span>
-          <span>{{ data[0].customerName }} </span>
-        </li>
-        <li>
-          <span>实名认证:</span>
-          <span>{{ data[0].customerShortName }}</span>
-        </li>
-        <li>
-          <span>联系电话:</span>
           <span>{{ data[0].corporationCode }}</span>
         </li>
         <li>
+          <span>姓名:</span>
+          <span>{{ data[0].realName }} </span>
+        </li>
+        <li>
+          <span>实名认证:</span>
+          <span>{{ data[0].remark }}</span>
+        </li>
+        <li>
+          <span>联系电话:</span>
+          <span>{{ data[0].phoneNumber }}</span>
+        </li>
+        <li>
           <span>电子邮箱:</span>
-          <span>{{ data[0].corporationName }}</span>
+          <span>{{ data[0].email }}</span>
         </li>
         <li>
           <span>qq账号:</span>
-          <span>{{ data[0].certificationStatus }}</span>
+          <span>{{ data[0].qq }}</span>
         </li>
       </ul>
     </div>
@@ -105,52 +108,25 @@
       <ul>
         <li>
           <span>业务ID:</span>
-          <span>{{ data[0].cutomerCode }}</span>
+          <span>{{ data[0].id }}</span>
         </li>
         <li>
           <span>产品类型:</span>
-          <span>{{ data[0].customerName }} </span>
+          <span>{{ data[0].tradeType }} </span>
         </li>
         <li>
           <span>IP地址:</span>
-          <span>{{ data[0].customerShortName }}</span>
+          <span>{{ data[0].outIp }}</span>
         </li>
         <li>
           <span>创建时间:</span>
-          <span>{{ data[0].corporationCode }}</span>
+          <span>{{ data[0].createTime | formatDate }}</span>
         </li>
         <li>
           <span>到期时间:</span>
-          <span>{{ data[0].corporationName }}</span>
+          <span>{{ data[0].stockEndTime | formatDate }}</span>
         </li>
       </ul>
-      <div>
-        <span class="allocation">售后服务</span>
-      </div>
-      <a-table
-        :columns="columnss"
-        :data-source="data"
-        rowKey="id"
-        :scroll="{ x: 1300 }"
-      >
-        <a slot="name" slot-scope="text">{{ text }}</a>
-        <!-- <div slot="tradeType" slot-scope="v">
-          <span v-if="v === 1">新购</span>
-          <span v-if="v === 5">升配</span>
-          <span v-if="v === 10">降配</span>
-          <span v-if="v === 15">续费</span>
-          <span v-if="v === 20">退费</span>
-        </div>
-        <div slot="ecsPrice" slot-scope="v">
-          <div>CPU：{{ v.cpu }}</div>
-          <div>内存：{{ v.memory }}</div>
-          <div>磁盘：{{ v.dataDiskSize }}</div>
-          <div>带宽：{{ v.internetMaxBandwidthOut }}</div>
-          <div>防御：{{ "20G" }}</div>
-          <div>操作系统：{{ v.osName }}</div>
-          <div>所在区：{{ v.zoneId }}</div>
-        </div> -->
-      </a-table>
     </div>
   </div>
 </template>
@@ -176,19 +152,18 @@ export default {
         },
         {
           title: "配置信息",
-          dataIndex: "ecsPrice",
-          key: "ecsPrice",
-          scopedSlots: { customRender: "ecsPrice" }
+          key: "productConfig",
+          scopedSlots: { customRender: "productConfig" }
         },
         {
           title: "数量",
-          dataIndex: "ecsPrice.amount",
-          key: "ecsPrice.amount"
+          dataIndex: "quantity",
+          key: "quantity"
         },
         {
           title: "付费方式",
-          dataIndex: "ecsPrice.chargeModel",
-          key: "ecsPrice.chargeModel"
+          dataIndex: "chargeModel",
+          key: "chargeModel"
         },
         {
           title: "原价",
@@ -202,45 +177,18 @@ export default {
         },
         {
           title: "推广优惠",
-          key: "discountAmount",
-          dataIndex: "discountAmount"
+          key: "promotionPreference",
+          dataIndex: "promotionPreference"
         },
         {
           title: "代金券抵扣",
-          key: "discountRate",
-          dataIndex: "discountRate"
+          key: "deduction",
+          dataIndex: "deduction"
         },
         {
           title: "现金实付",
-          key: "cash",
-          dataIndex: "cash"
-        }
-      ],
-      columnss: [
-        {
-          title: "功能",
-          dataIndex: "",
-          key: ""
-        },
-        {
-          title: "功能状态",
-          dataIndex: "",
-          key: ""
-        },
-        {
-          title: "状态",
-          dataIndex: "",
-          key: ""
-        },
-        {
-          title: "时间",
-          dataIndex: "",
-          key: ""
-        },
-        {
-          title: "查看",
-          dataIndex: "",
-          key: ""
+          key: "cashActualPay",
+          dataIndex: "cashActualPay"
         }
       ]
     };
@@ -249,7 +197,7 @@ export default {
     let id = this.$route.query.id;
     // console.log(id);
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
-      // console.log(res);
+      console.log(res);
       // let dataDisk = res.data.ecsPrice.dataDisk;
       // let dataDiskSize = 0;
       // if (dataDisk) {

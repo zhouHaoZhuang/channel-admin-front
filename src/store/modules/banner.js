@@ -24,21 +24,28 @@ const banner = {
         data
       });
     },
-    // 获取详情
-    getDetail({ commit, state }, data) {
+    // 删除banner
+    delPrice({ commit, state }, id) {
       return request({
-        url: `/channelCustomer/${data.id}`,
-        method: "get"
+        url: `/ccBanner/${id}`,
+        method: "delete",
       });
     },
     // 编辑banner
     edit({ commit, state }, data) {
       return request({
-        url: `/channelCustomer/${data.id}`,
+        url: `/ccBanner/${data.id}`,
         method: "put",
         data
       });
     },
+    //获取id
+    getId({ commit, state }, id) {
+        return request({
+          url: `/ccBanner/${id}`,
+          method: "get",
+        });
+      },
   }
 };
 

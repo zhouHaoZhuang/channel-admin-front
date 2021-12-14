@@ -9,8 +9,9 @@ import financialOrder from "./financialOrder";
 import instance from "./instance";
 import purchase from "./purchase";
 import member from "./member";
+import banner from "./banner"
+import blogroll from "./blogroll";
 import business from "./business";
-import banner from "./banner";
 
 export default {
   user,
@@ -24,6 +25,7 @@ export default {
   financialOrder,
   instance,
   member,
-  business,
-  banner
+  banner,
+  blogroll,
+  business
 };
