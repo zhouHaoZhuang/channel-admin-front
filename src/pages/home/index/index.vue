@@ -34,28 +34,14 @@
         </div>
       </div>
     </div>
-    <img
-      style="width:100px;height:100px"
-      src="https://yd-idc.oss-cn-beijing.aliyuncs.com/c8087d47-1d55-4e6d-974e-068bee35977d.jpg"
-      alt=""
-    />
-    <Upload :defaultFileList="imgList" @change="imgChange" />
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import Upload from "@/components/Upload/index";
 export default {
   data() {
-    return {
-      imgList: [
-        "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
-      ]
-    };
-  },
-  components: {
-    Upload
+    return {};
   },
   computed: {
     ...mapState({
@@ -67,13 +53,7 @@ export default {
   // activated() {
   //   this.getList();
   // },
-  methods: {
-    // 上传图片
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
-    }
-  }
+  methods: {}
 };
 </script>
 
