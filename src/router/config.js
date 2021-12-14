@@ -784,6 +784,24 @@ const options = {
                 //   component: () => import("@/pages/channel/channelAdmin/update")
                 // }
               ]
+            },
+            {
+              path: "basics",
+              name: "基础设置",
+              meta: {
+                icon: "home"
+              },
+              component: BlankView,
+              children:[
+                {
+                  path: "whole",
+                  name: "全局设置",
+                  meta: {
+                    icon: "home"
+                  },
+                  component:()=>("@/pages/system/basics/whole")
+                }
+              ]
             }
           ]
         }

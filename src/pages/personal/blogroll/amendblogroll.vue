@@ -82,7 +82,7 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        channelCode:"",
+        channelCode: "",
         linkTypeName: "",
         linkName: "",
         linkUrl: "",
@@ -90,9 +90,9 @@ export default {
         bottomShow: 0,
         status: 0,
         linkSort: 0,
-        linkLogo:"",
-        linkTypeCode:"",
-        linkTypeSort:0,
+        linkLogo: "",
+        linkTypeCode: "",
+        linkTypeSort: 0,
         id: ""
       },
       rules: {
@@ -129,6 +129,7 @@ export default {
     // 提交
     onSubmit() {
       // console.log(this.$router.query.id);
+      this.form.linkLogo = this.imgList.toString();
       this.$refs.ruleForm.validate(valid => {
         this.$store.dispatch("blogroll/edit", this.form).then(res => {
           this.$message.success("提交成功");

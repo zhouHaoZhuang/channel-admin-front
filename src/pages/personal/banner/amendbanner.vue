@@ -88,7 +88,7 @@
         </a-form-model-item>
         <a-form-model-item label="上传手机图片">
           <div class="addimages">
-            <Upload :defaultFileList="imgList" @change="imgChange" />
+            <Upload :defaultFileList="phonePicture" @change="imgChanges" />
             <span>注：推荐尺寸:640*560,不超过500kb</span>
           </div>
         </a-form-model-item>
@@ -116,6 +116,7 @@ export default {
       imgList: [
         // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
       ],
+      phonePicture: [],
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
@@ -127,7 +128,9 @@ export default {
         pcButtonLink: "",
         openLinkType: "",
         status: 0,
-        sort: 0
+        sort: 0,
+        pcPicture: "",
+        phonePicture: ""
       },
       rules: {
         title: [
@@ -162,6 +165,10 @@ export default {
     imgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.imgList = urlList;
+    },
+     imgChanges({urlList,firstImageUrl}) {
+      console.log("上传图片回调asaswasas", urlList, firstImageUrl);
+      this.phonePicture = urlList;
     },
     // 提交
     onSubmit() {

@@ -344,7 +344,7 @@ export default {
       this.$router.push({
         path: "/finance/index/orderInfo",
         query: {
-          id: text.id
+          id: text.orderNo
         }
       });
     },
