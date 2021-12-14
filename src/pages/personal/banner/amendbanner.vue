@@ -82,13 +82,13 @@
         <!-- 传图片 -->
         <a-form-model-item label="上传PC图片">
           <div class="addimages">
-            <Upload :defaultFileList="imgList" @change="imgChange" />
+            <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </div>
         </a-form-model-item>
         <a-form-model-item label="上传手机图片">
           <div class="addimages">
-            <Upload :defaultFileList="phonePicture" @change="imgChanges" />
+            <Upload :defaultFile="form.phonePicture" @change="mbImgChange" />
             <span>注：推荐尺寸:640*560,不超过500kb</span>
           </div>
         </a-form-model-item>
@@ -113,10 +113,6 @@ import Upload from "@/components/Upload/index";
 export default {
   data() {
     return {
-      imgList: [
-        // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
-      ],
-      phonePicture: [],
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
@@ -161,14 +157,15 @@ export default {
     });
   },
   methods: {
-    //上传图片
-    imgChange({ urlList, firstImageUrl }) {
+    // 上传pc图片
+    pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+      this.form.pcPicture = firstImageUrl;
     },
-     imgChanges({urlList,firstImageUrl}) {
+    // 上传手机图片
+    mbImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调asaswasas", urlList, firstImageUrl);
-      this.phonePicture = urlList;
+      this.form.phonePicture = firstImageUrl;
     },
     // 提交
     onSubmit() {
@@ -184,31 +181,6 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {};
-    },
-    handleChange(info) {
-      if (info.file.status === "uploading") {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, imageUrl => {
-          this.imageUrl = imageUrl;
-          this.loading = false;
-        });
-      }
-    },
-    beforeUpload(file) {
-      const isJpgOrPng =
-        file.type === "image/jpeg" || file.type === "image/png";
-      if (!isJpgOrPng) {
-        this.$message.error("You can only upload JPG file!");
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error("Image must smaller than 2MB!");
-      }
-      return isJpgOrPng && isLt2M;
     }
   }
 };

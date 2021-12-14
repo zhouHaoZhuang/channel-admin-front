@@ -82,13 +82,13 @@
         <!-- 传图片 -->
         <a-form-model-item label="上传PC图片">
           <div class="addimages">
-            <Upload :defaultFileList="imgList" @change="imgChange" />
+            <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </div>
         </a-form-model-item>
         <a-form-model-item label="上传手机图片">
           <div class="addimages">
-            <Upload :defaultFileList="phonePicture" @change="imgChanges" />
+            <Upload :defaultFile="form.phonePicture" @change="mbImgChange" />
             <span>注：推荐尺寸:640*560,不超过500kb</span>
           </div>
         </a-form-model-item>
@@ -109,8 +109,6 @@ import Upload from "@/components/Upload/index";
 export default {
   data() {
     return {
-      imgList: [],
-      phonePicture: [],
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
@@ -149,26 +147,25 @@ export default {
     Upload
   },
   methods: {
-    //上传图片
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调bnbhnbnbn", urlList, firstImageUrl);
-      this.imgList = urlList;
+    // 上传pc图片
+    pcImgChange({ urlList, firstImageUrl }) {
+      console.log("上传图片回调", urlList, firstImageUrl);
+      this.form.pcPicture = firstImageUrl;
     },
-    imgChanges({urlList,firstImageUrl}) {
+    // 上传手机图片
+    mbImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调asaswasas", urlList, firstImageUrl);
-      this.phonePicture = urlList;
+      this.form.phonePicture = firstImageUrl;
     },
     // 提交
     onSubmit() {
-      this.form.pcPicture = this.imgList.toString()
-      this.form.phonePicture = this.phonePicture.toString()
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("banner/add", this.form)
             .then(res => {
-              this.$message.success("新增列表成功");
+              this.$message.success("新增轮播图成功");
               this.resetForm();
               this.$router.back();
             })
