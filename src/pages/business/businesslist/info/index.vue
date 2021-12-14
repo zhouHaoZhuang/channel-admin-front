@@ -9,14 +9,14 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">GUID：</span>
-                <span class="basicInformation-info">1717995088760628----</span>
+                <span class="basicInformation-info">{{ dataOrder[0].id }}????</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">业务ID：</span>
                 <span class="basicInformation-info">{{ dataOrder[0].id }}</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">线路：</span><span class="basicInformation-info">中国大连----</span>
+                <span class="basicInformation-type">线路：</span><span class="basicInformation-info">{{address(dataOrder[0].regionId)}}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">服务器IP：</span><span class="basicInformation-info">
@@ -218,10 +218,12 @@
 </template>
 
 <script>
+import { regionMapData } from '@/utils/enum'
 export default {
   data () {
     return {
       dataOrder: null,
+      regionMapData,
       columnsOrder: [
         {
           title: "订单编号",
@@ -285,6 +287,9 @@ export default {
     selectInfo (text) {
       console.log(text);
     },
+    address (text) {
+      return this.regionMapData[text]
+    }
   },
   created () {
     let id = this.$route.query.id;

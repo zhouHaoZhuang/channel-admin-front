@@ -746,16 +746,25 @@ const options = {
                   },
                   component: () => import("@/pages/system/admin/index")
                 },
-                // {
-                //   path: "add",
-                //   name: "新增渠道",
-                //   meta: {
-                //     invisible: true,
-                //     back: true
-                //   },
-                //   component: () =>
-                //     import("@/pages/channel/channelAdmin/addChannel")
-                // },
+                {
+                  path: "addManage",
+                  name: "管理员添加",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/system/admin/addmanage")
+                },
+                {
+                  path: "add",
+                  name: "权限组管理",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/system/admin/addChannel")
+                },
                 // {
                 //   path: "detail",
                 //   name: "渠道详情",
@@ -799,7 +808,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component:()=>("@/pages/system/basics/whole")
+                  component:()=>import("@/pages/system/basics/whole")
                 }
               ]
             }

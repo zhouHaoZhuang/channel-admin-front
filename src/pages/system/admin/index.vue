@@ -2,37 +2,44 @@
   <div class="system-admin-index-container">
     <div class="btns">
       <a-space>
-        <a-button type="primary" icon="plus" @click="addAdmin">
+        <a-button type="primary"
+                  icon="plus"
+                  @click="addAdmin">
           添加管理员
         </a-button>
-        <a-button :disabled="selectedRowKeys.length === 0" icon="check">启用</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0" icon="stop">禁用</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0" icon="check">解锁</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0" icon="stop">锁定</a-button>
+        <a-button :disabled="selectedRowKeys.length === 0"
+                  icon="check">启用</a-button>
+        <a-button :disabled="selectedRowKeys.length === 0"
+                  icon="stop">禁用</a-button>
+        <a-button :disabled="selectedRowKeys.length === 0"
+                  icon="check">解锁</a-button>
+        <a-button :disabled="selectedRowKeys.length === 0"
+                  icon="stop">锁定</a-button>
       </a-space>
     </div>
     <div class="table-con">
-      <a-table
-        :loading="tableLoading"
-        :columns="columns"
-        :data-source="data"
-        rowKey="id"
-        :pagination="paginationProps"
-        :row-selection="{
+      <a-table :loading="tableLoading"
+               :columns="columns"
+               :data-source="data"
+               rowKey="id"
+               :pagination="paginationProps"
+               :row-selection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange,
           getCheckboxProps: record => ({
             props: { disabled: record.id === 1 }
           })
         }"
-        :scroll="{ x: 1300 }"
-      >
-        <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="handleDel(record)">
+               :scroll="{ x: 1300 }">
+        <span slot="action"
+              slot-scope="text, record">
+          <a-button type="link"
+                    @click="handleDel(record)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(record)">
+          <a-button type="link"
+                    @click="handleDel(record)">
             删除
           </a-button>
         </span>
@@ -43,7 +50,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       listQuery: {
         currentPage: 1,
@@ -109,17 +116,17 @@ export default {
       selectedRowKeys: []
     };
   },
-  activated() {
+  activated () {
     this.getList();
   },
   methods: {
     // 查询
-    search() {
+    search () {
       this.listQuery.currentPage = 1;
       this.getList();
     },
     // 查询表格数据
-    getList() {
+    getList () {
       this.tableLoading = true;
       this.$getList("channel/getList", this.listQuery)
         .then(res => {
@@ -131,23 +138,25 @@ export default {
         });
     },
     // 表格分页快速跳转n页
-    quickJump(currentPage) {
+    quickJump (currentPage) {
       this.listQuery.currentPage = currentPage;
       this.getList();
     },
     // 表格分页切换每页条数
-    onShowSizeChange(current, pageSize) {
+    onShowSizeChange (current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
     // 表格选择
-    onSelectChange(selectedRowKeys) {
+    onSelectChange (selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
     // 添加管理员
-    addAdmin() {}
+    addAdmin () {
+      this.$router.push({ path: "/system/admin/addManage" });
+    }
   }
 };
 </script>
