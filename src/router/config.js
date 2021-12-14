@@ -281,7 +281,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/channel/channelAdmin/list")
+                  component: () => import("@/pages/channel/payment/list")
                 },
                 {
                   path: "remittance",
