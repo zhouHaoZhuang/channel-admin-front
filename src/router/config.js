@@ -281,7 +281,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/channel/channelAdmin/list")
+                  component: () => import("@/pages/channel/payment/list")
                 },
                 {
                   path: "remittance",
@@ -752,6 +752,34 @@ const options = {
                   },
                   component: () => import("@/pages/system/admin/index")
                 },
+                {
+                  path: "addManage",
+                  name: "管理员添加",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/system/admin/addmanage")
+                },
+                {
+                  path: "add",
+                  name: "权限组管理",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/system/admin/addChannel")
+                },
+                // {
+                //   path: "detail",
+                //   name: "渠道详情",
+                //   meta: {
+                //     invisible: true,
+                //     back: true
+                //   },
+                //   component: () => import("@/pages/channel/channelAdmin/detail")
+                // },
                 {
                   path: "role",
                   name: "权限管理",

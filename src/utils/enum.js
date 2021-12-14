@@ -13,3 +13,10 @@ export const corporationStatusEnum = {
   0: "正常",
   1: "冻结"
 };
+// 地域map数据
+export const regionMapData = {
+  "cn-hangzhou": "杭州",
+  "cn-dalian": "大连",
+  "cn-beijing": "北京",
+  "cn-shanghai": "上海",
+};
