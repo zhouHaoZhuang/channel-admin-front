@@ -10,8 +10,12 @@
       >
         <a-form-model-item label="分类">
           <a-select v-model="form.linkTypeName" placeholder="公有云商">
-            <a-select-option v-for="(item) in data " :key="item.linkTypeCode" :value="item.linkTypeCode">
-              {{item.linkTypeName}}
+            <a-select-option
+              v-for="item in data"
+              :key="item.linkTypeCode"
+              :value="item.linkTypeCode"
+            >
+              {{ item.linkTypeName }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -85,16 +89,16 @@ export default {
       wrapperCol: { span: 18 },
       form: {
         linkTypeName: "",
-        linkTypeCode:"",
+        linkTypeCode: "",
         linkName: "",
         linkUrl: "",
         linkDescribe: "",
         bottomShow: 0,
         status: 0,
         linkSort: 0,
-        channelCode:"",
-        linkLogo:"",
-        linkTypeSort:0
+        channelCode: "",
+        linkLogo: "",
+        linkTypeSort: 0
       },
       rules: {
         linkName: [
@@ -113,7 +117,7 @@ export default {
         ]
       },
       loading: false,
-      data:[]
+      data: []
     };
   },
   components: {
@@ -137,6 +141,7 @@ export default {
     },
     // 提交
     onSubmit() {
+      this.form.linkLogo = this.imgList.toString();
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;

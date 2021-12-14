@@ -60,11 +60,14 @@
           <div slot="productConfig" slot-scope="text">
             <div>CPU:{{ text.cpu }}</div>
             <div>内存:{{ text.memory }}</div>
-            <div>磁盘:{{ text.disk  }}</div>
+            <div>磁盘:{{ text.disk }}</div>
             <div>带宽:{{ text.internetMaxBandwidthOut }}</div>
             <div>防御:{{ "20G" }}</div>
-           <div>操作系统:{{ text.osName }}</div>
-            <div>所在区:{{ text.localName }}</div>
+            <div>操作系统:{{ text.osName }}</div>
+            <div>所在区:{{ text.regionId }}</div>
+          </div>
+          <div slot="">
+
           </div>
         </a-table>
       </div>
@@ -117,11 +120,11 @@
         </li>
         <li>
           <span>创建时间:</span>
-          <span>{{ data[0].createTime | formatDate}}</span>
+          <span>{{ data[0].createTime | formatDate }}</span>
         </li>
         <li>
           <span>到期时间:</span>
-          <span>{{ data[0].endTime | formatDate}}</span>
+          <span>{{ data[0].stockEndTime | formatDate }}</span>
         </li>
       </ul>
     </div>
@@ -149,19 +152,18 @@ export default {
         },
         {
           title: "配置信息",
-          dataIndex: "productConfig",
           key: "productConfig",
           scopedSlots: { customRender: "productConfig" }
         },
         {
           title: "数量",
-          dataIndex: "ecsPrice.quantity",
-          key: "ecsPrice.quantity"
+          dataIndex: "quantity",
+          key: "quantity"
         },
         {
           title: "付费方式",
-          dataIndex: "ecsPrice.chargeModel",
-          key: "ecsPrice.chargeModel"
+          dataIndex: "chargeModel",
+          key: "chargeModel"
         },
         {
           title: "原价",
@@ -188,7 +190,7 @@ export default {
           key: "cashActualPay",
           dataIndex: "cashActualPay"
         }
-      ],
+      ]
     };
   },
   activated() {
