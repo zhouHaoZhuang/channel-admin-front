@@ -200,7 +200,7 @@ const options = {
                     back: true
                   },
                   component: () =>
-                    import("@/pages/member/manage/info/index.vue"),
+                    import("@/pages/member/manage/info/index.vue")
                 },
                 {
                   path: "add",
@@ -211,7 +211,7 @@ const options = {
                     back: true
                   },
                   component: () =>
-                    import("@/pages/member/manage/addManage/index.vue"),
+                    import("@/pages/member/manage/addManage/index.vue")
                 }
               ]
             }
@@ -386,7 +386,9 @@ const options = {
                     back: true
                   },
                   component: () =>
-                    import("@/pages/business/businesslist/businessOpening/index.vue")
+                    import(
+                      "@/pages/business/businesslist/businessOpening/index.vue"
+                    )
                 },
                 {
                   path: "info",
@@ -656,40 +658,44 @@ const options = {
                     import("@/pages/personal/blogroll/blogroll.vue")
                 },
                 {
-                  path:"add-blogroll",
-                  name:"添加友情链接",
-                  meta:{
+                  path: "add-blogroll",
+                  name: "添加友情链接",
+                  meta: {
                     invisible: true,
                     back: true
                   },
-                  component:() =>import("@/pages/personal/blogroll/addblogroll.vue")
+                  component: () =>
+                    import("@/pages/personal/blogroll/addblogroll.vue")
                 },
                 {
-                  path:"amend-blogroll",
-                  name:"修改友情链接",
-                  meta:{
+                  path: "amend-blogroll",
+                  name: "修改友情链接",
+                  meta: {
                     invisible: true,
                     back: true
                   },
-                  component:() =>import("@/pages/personal/blogroll/amendblogroll.vue")
+                  component: () =>
+                    import("@/pages/personal/blogroll/amendblogroll.vue")
                 },
                 {
-                  path:"add-classify",
-                  name:"友情链接分类添加",
-                  meta:{
+                  path: "add-classify",
+                  name: "友情链接分类添加",
+                  meta: {
                     invisible: true,
                     back: true
                   },
-                  component:() =>import("@/pages/personal/blogroll/addclassify.vue")
+                  component: () =>
+                    import("@/pages/personal/blogroll/addclassify.vue")
                 },
                 {
-                  path:"amend-classify",
-                  name:"友情链接分类修改",
-                  meta:{
+                  path: "amend-classify",
+                  name: "友情链接分类修改",
+                  meta: {
                     invisible: true,
                     back: true
                   },
-                  component:() =>import("@/pages/personal/blogroll/amendclassify.vue")
+                  component: () =>
+                    import("@/pages/personal/blogroll/amendclassify.vue")
                 },
                 {
                   path: "single",
@@ -712,13 +718,13 @@ const options = {
                   component: () => import("@/pages/personal/seo/seo.vue")
                 },
                 {
-                  path:"amend-seo",
-                  name:"seo修改",
-                  meta:{
-                    invisible:true,
-                    back:true
+                  path: "amend-seo",
+                  name: "seo修改",
+                  meta: {
+                    invisible: true,
+                    back: true
                   },
-                  component:()=>import("@/pages/personal/seo/amendseo")
+                  component: () => import("@/pages/personal/seo/amendseo")
                 }
               ]
             }
@@ -782,16 +788,6 @@ const options = {
                   },
                   component: () => import("@/pages/system/admin/role")
                 }
-                // {
-                //   path: "update",
-                //   name: "新增产品采购价格",
-                //   meta: {
-                //     icon: "home",
-                //     invisible: true,
-                //     back: true
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/update")
-                // }
               ]
             },
             {
@@ -801,14 +797,14 @@ const options = {
                 icon: "home"
               },
               component: BlankView,
-              children:[
+              children: [
                 {
                   path: "whole",
                   name: "全局设置",
                   meta: {
                     icon: "home"
                   },
-                  component:()=>import("@/pages/system/basics/whole")
+                  component: () => import("@/pages/system/basics/whole")
                 }
               ]
             }
