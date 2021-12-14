@@ -63,10 +63,9 @@ export default {
       type: Number,
       default: 10
     },
-    // 默认图片列表
-    defaultFileList: {
-      type: Array,
-      default: () => []
+    // 默认图片,可以是字符串，单张图片，也可是数组，多个图片
+    defaultFile: {
+      type: [Array, String]
     },
     // 是否可弹窗预览
     showPreview: {
@@ -102,21 +101,22 @@ export default {
     }
   },
   watch: {
-    defaultFileList: {
+    defaultFile: {
       handler() {
-        if (!Array.isArray(this.defaultFileList) || this.imageList.length)
-          return;
+        console.log("上传组件查看", this.defaultFile);
+        if (!this.defaultFile) return;
+        const newDefaultFile = Array.isArray(this.defaultFile)
+          ? this.$clonedeep(this.defaultFile)
+          : [this.defaultFile];
         // 将数据处理成upload组件需要的格式
-        const newImgList = this.$clonedeep(this.defaultFileList).map(
-          (item, index) => {
-            return {
-              uid: -index - 1,
-              name: `image${index}.png`,
-              status: "done",
-              url: item
-            };
-          }
-        );
+        const newImgList = newDefaultFile.map((item, index) => {
+          return {
+            uid: -index - 1,
+            name: `image${index}.png`,
+            status: "done",
+            url: item
+          };
+        });
         this.imageList = this.$clonedeep(newImgList);
         this.fileList = this.$clonedeep(newImgList);
       },
@@ -163,7 +163,8 @@ export default {
         fileList
           .filter(item => item.response || item.url)
           .map(item => item.response?.data || item.url) || [];
-      const firstImageUrl = urlList.length && urlList[0];
+      const firstImageUrl =
+        urlList.length && urlList.length > 0 ? urlList[0] : "";
       this.imageList = this.$clonedeep(fileList).map(item => {
         return {
           ...item,
@@ -182,7 +183,8 @@ export default {
       this.fileList.splice(index, 1);
       const urlList =
         this.fileList.map(item => item.response?.data || item.url) || [];
-      const firstImageUrl = urlList.length && urlList[0];
+      const firstImageUrl =
+        urlList.length && urlList.length > 0 ? urlList[0] : "";
       this.$emit("change", {
         urlList, // 图片列表
         firstImageUrl // 图片列表第一张图片

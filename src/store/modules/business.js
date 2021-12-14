@@ -11,9 +11,9 @@ const business = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: "/scEcsStock",
-        method: "get",
-        params
+        url: "/scEcsStock/queryEcsPage",
+        method: "post",
+        data: params
       });
     },
     delList({ commit, state }, id) {
@@ -39,7 +39,6 @@ const business = {
       });
     },
     getOne({ commit, state }, id) {
-      console.log(state);
       return request({
         url: `/scEcsStock/${id}`,
         method: "get"
