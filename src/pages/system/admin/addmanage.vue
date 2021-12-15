@@ -6,31 +6,72 @@
                     :rules="rules"
                     :label-col="labelCol"
                     :wrapper-col="wrapperCol">
-        <a-form-model-item label="组别名称"
+        <a-form-model-item label="姓名"
                            prop="cutomerName">
           <a-input v-model="form.cutomerName" />
         </a-form-model-item>
-        <a-form-model-item label="组别状态"
+        <a-form-model-item label="手机"
                            prop="cutomerName">
-          <!-- <a-input v-model="form.cutomerName" /> -->
+          <a-input v-model="form.cutomerName" />
+        </a-form-model-item>
+        <a-form-model-item label="邮箱"
+                           prop="cutomerName">
+          <a-input v-model="form.cutomerName" />
+        </a-form-model-item>
+
+        <a-form-model-item label="工号">
+          <a-input v-model="form.cutomerName" />
+        </a-form-model-item>
+        <a-form-model-item label="密码"
+                           prop="cutomerName">
+          <a-input v-model="form.cutomerName" />
+        </a-form-model-item>
+        <a-form-model-item label="确认密码"
+                           prop="cutomerName">
+          <a-input v-model="form.cutomerName" />
+        </a-form-model-item>
+        <a-form-model-item label="角色">
+          <a-select v-model="form.region"
+                    placeholder="请选择">
+            <a-select-option value="shanghai">
+              系统管理员
+            </a-select-option>
+            <a-select-option value="beijing">
+              客服经理
+            </a-select-option>
+            <a-select-option value="beijing">
+              客服专员
+            </a-select-option>
+            <a-select-option value="beijing">
+              技术支持
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item label="状态"
+                           prop="cutomerName">
           <a-radio-group v-model="form.resource">
             <a-radio value="1">
-              启用
+              正常
             </a-radio>
             <a-radio value="2">
-              关闭
+              禁用
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="备注说明">
+        <div>
+          <hr>
+          <span>后台操作保护</span>
+
+        </div>
+        <a-form-model-item label="管理员密码">
           <a-input v-model="form.addressProject" />
         </a-form-model-item>
 
-        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+        <a-form-model-item :wrapper-col="{ span:8, offset: 8 }">
           <a-button type="primary"
                     @click="onSubmit"
                     :loading="loading">
-            添加
+            确定
           </a-button>
         </a-form-model-item>
       </a-form-model>
@@ -42,8 +83,8 @@
 export default {
   data () {
     return {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 18 },
+      labelCol: { span: 8 },
+      wrapperCol: { span: 8 },
       form: {
         cutomerName: "",
         shortName: "",
@@ -107,10 +148,8 @@ export default {
 .channel-list-add {
   background: #fff;
   padding: 24px;
-  display: flex;
-  justify-content: center;
+
   .content {
-    width: 600px;
   }
 }
 </style>
