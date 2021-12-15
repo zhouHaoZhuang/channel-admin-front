@@ -178,6 +178,15 @@
                        :data-source="dataOrder"
                        :scoll="{ x: 1200 }"
                        rowKey="id">
+                <span slot="discountAmount"
+                      slot-scope="text">
+                  ￥{{text}}
+                </span>
+                <span slot="info"
+                      slot-scope="text">
+                  {{'cpu:' + text.cup + '核，内存:' + text.memory + 'G，硬盘:' + text.systemSize + 'G，带宽:' + text.internetMaxBandwidthOut + 'M'}}
+                </span>
+
                 <span slot="query"
                       slot-scope="text">
                   <a-button type="link"
@@ -240,16 +249,17 @@ export default {
         {
           title: "订单金额",
           dataIndex: "discountAmount",
-          customRender: (text, record) => {
-            return '￥' + text
-          }
+          scopedSlots: {
+            customRender: "discountAmount",
+          },
         },
         {
           title: "配置信息",
           key: "info",
-          customRender: (text, record) => {
-            return 'cpu:' + record.cup + '核，内存:' + record.memory + 'G，硬盘:' + record.systemSize + 'G，带宽:' + record.internetMaxBandwidthOut + 'M'
-          }
+          scopedSlots: {
+            customRender: "info",
+          },
+
         },
         {
           title: "查看",
