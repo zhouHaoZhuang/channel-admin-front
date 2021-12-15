@@ -236,6 +236,17 @@
                        rowKey="id"
                        :pagination="paginationProps"
                        :scroll="{ x: 2100 }">
+                <div slot="runningStatus"
+                     slot-scope="text">
+                  <span v-if="text == 0"
+                        class="runningStatus blackhole">黑洞中</span>
+                  <span v-if="text == 1"
+                        class="runningStatus running">运行中</span>
+                  <span v-if="text == 2"
+                        class="runningStatus shutdown">已关机</span>
+                  <span v-if="text == 3"
+                        class="runningStatus expired">已过期</span>
+                </div>
                 <a slot="action"
                    slot-scope="text"
                    @click="infoChannel(text)">管理</a>
@@ -821,7 +832,7 @@ export default {
         },
         {
           title: "会员ID",
-          dataIndex: "corporationName"
+          dataIndex: "corporationCode"
         },
         {
           title: "会员手机",
@@ -889,17 +900,7 @@ export default {
         {
           title: "运行状态",
           dataIndex: "runningStatus",
-          customRender: (text, record, index) => {
-            if (record.runningStatus == 0) {
-              return (<span class="runningStatus blackhole">黑洞中</span>)
-            } else if (record.runningStatus == 1) {
-              return (<span class="runningStatus running">运行中</span>)
-            } else if (record.runningStatus == 2) {
-              return (<span class="runningStatus shutdown">已关机</span>)
-            } else if (record.runningStatus == 3) {
-              return (<span class="runningStatus expired">已过期</span>)
-            }
-          }
+          scopedSlots: { customRender: "runningStatus" },
         },
         { title: "操作状态", dataIndex: "3", key: "" },
         {
@@ -943,23 +944,11 @@ export default {
     },
     // 查询
     search () {
-      // this.getList();
-      console.log(this.listQuery, "-----");
-      console.log(this.selectkey, "-----");
+      // console.log(this.listQuery, "-----");
+      // console.log(this.selectkey, "-----");
       this.listQuery.search = this.listQuery.search.trim();
-      if (this.listQuery.key == "outIp") {
-        this.selectkey.outIp = this.listQuery.search;
-        this.getList();
-      } else if (this.listQuery.key == "corporationName") {
-        this.selectkey.corporationName = this.listQuery.search;
-        this.getList();
-      } else if (this.listQuery.key == "corporationPhone") {
-        this.selectkey.corporationPhone = this.listQuery.search;
-        this.getList();
-      } else if (this.listQuery.key == "orderNo") {
-        this.selectkey.orderNo = this.listQuery.search;
-        this.getList();
-      }
+      this.selectkey[this.listQuery.key] = this.listQuery.search;
+      this.getList();
     },
     // 查询表格数据
     getList () {
