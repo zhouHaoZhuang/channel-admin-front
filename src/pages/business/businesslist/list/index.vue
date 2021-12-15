@@ -235,6 +235,7 @@
                        :data-source="data"
                        rowKey="id"
                        :pagination="paginationProps"
+                       @change="handleChangeSort"
                        :scroll="{ x: 2100 }">
                 <div slot="runningStatus"
                      slot-scope="text">
@@ -885,7 +886,7 @@ export default {
           title: "购买时间",
           dataIndex: "purchaseTimeStr",
           sorter: true,
-          width: 150,
+          width: 180,
           sortDirections: ["ascend", "descend"]
         },
         {
@@ -937,6 +938,25 @@ export default {
     callback (key) {
       console.log(key);
     },
+    handleChangeSort (pagination, filters, sorter) {
+      if (sorter) {
+        if (sorter.columnKey === 'saleTimeSort') {
+          if (sorter.order === 'ascend') {
+            this.selectkey.saleTimeSort = 'asc'
+          } else if (sorter.order === 'descend') {
+            this.selectkey.saleTimeSort = 'desc'
+          }
+        }
+        else if (sorter.columnKey === 'endTimeStr') {
+          if (sorter.order === 'ascend') {
+            this.selectkey.endTimeSort = 'asc'
+          } else if (sorter.order === 'descend') {
+            this.selectkey.endTimeSort = 'desc'
+          }
+        }
+        this.getList()
+      }
+    },
     businessOpening () {
       this.$router.push({
         path: "/business/cloudservers/businessOpening"
@@ -953,6 +973,8 @@ export default {
     // 查询表格数据
     getList () {
       this.tableLoading = true;
+      this.selectkey.currentPage = this.paginationProps.current;
+      this.selectkey.pageSize = this.paginationProps.pageSize;
       this.$store
         .dispatch("business/getList", this.selectkey)
         .then(res => {

@@ -1,15 +1,14 @@
 <template>
   <div class="add-banner-container">
     <div class="content">
-      <a-form-model
-        ref="ruleForm"
-        :model="form"
-        :rules="rules"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-      >
+      <a-form-model ref="ruleForm"
+                    :model="form"
+                    :rules="rules"
+                    :label-col="labelCol"
+                    :wrapper-col="wrapperCol">
         <a-form-model-item label="类型">
-          <a-select v-model="form.bannerType" placeholder="首页banner">
+          <a-select v-model="form.bannerType"
+                    placeholder="首页banner">
             <a-select-option :value="0">
               首页banner
             </a-select-option>
@@ -30,10 +29,12 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="标题" prop="title">
+        <a-form-model-item label="标题"
+                           prop="title">
           <a-input v-model="form.title" />
         </a-form-model-item>
-        <a-form-model-item label="描述" prop="describe">
+        <a-form-model-item label="描述"
+                           prop="describe">
           <a-input v-model="form.describe" />
         </a-form-model-item>
         <a-form-model-item label="PC版标题和描述">
@@ -82,18 +83,22 @@
         <!-- 传图片 -->
         <a-form-model-item label="上传PC图片">
           <div class="addimages">
-            <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
+            <Upload :defaultFile="form.pcPicture"
+                    @change="pcImgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </div>
         </a-form-model-item>
         <a-form-model-item label="上传手机图片">
           <div class="addimages">
-            <Upload :defaultFile="form.phonePicture" @change="mbImgChange" />
+            <Upload :defaultFile="form.phonePicture"
+                    @change="mbImgChange" />
             <span>注：推荐尺寸:640*560,不超过500kb</span>
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button type="primary"
+                    @click="onSubmit"
+                    :loading="loading">
             确定添加
           </a-button>
         </a-form-model-item>
@@ -103,15 +108,10 @@
 </template>
 
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 import Upload from "@/components/Upload/index";
 
 export default {
-  data() {
+  data () {
     return {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
@@ -150,7 +150,7 @@ export default {
   components: {
     Upload
   },
-  activated() {
+  activated () {
     let id = this.$route.query.id;
     this.$store.dispatch("banner/getId", id).then(res => {
       this.form = res.data;
@@ -158,17 +158,17 @@ export default {
   },
   methods: {
     // 上传pc图片
-    pcImgChange({ urlList, firstImageUrl }) {
+    pcImgChange ({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.form.pcPicture = firstImageUrl;
     },
     // 上传手机图片
-    mbImgChange({ urlList, firstImageUrl }) {
+    mbImgChange ({ urlList, firstImageUrl }) {
       console.log("上传图片回调asaswasas", urlList, firstImageUrl);
       this.form.phonePicture = firstImageUrl;
     },
     // 提交
-    onSubmit() {
+    onSubmit () {
       this.$refs.ruleForm.validate(valid => {
         this.$store.dispatch("banner/edit", this.form).then(res => {
           this.$message.success("提交成功");
@@ -178,7 +178,7 @@ export default {
       });
     },
     // 重置表单数据
-    resetForm() {
+    resetForm () {
       this.$refs.ruleForm.clearValidate();
       this.form = {};
     }
