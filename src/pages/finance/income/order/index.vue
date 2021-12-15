@@ -50,7 +50,7 @@
       </a-space>
     </div>
     <div class="orderTable">
-      <div>
+      <div v-if="data">
         <a-table
           :columns="columns"
           :data-source="data"
@@ -63,7 +63,7 @@
           <div slot="originAmount" slot-scope="text">
             {{text.toFixed(2)}}
           </div>
-          <div slot="actualAmount" slot-scope="text">
+          <div v-if="text" slot="actualAmount" slot-scope="text">
             {{text.toFixed(2)}}
           </div>
           <div slot="tradeType" slot-scope="text">
@@ -206,7 +206,7 @@ export default {
         }
       ],
       dataAll: [],
-      data: [],
+      data: null,
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,

@@ -200,7 +200,7 @@
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
-      <div class="backstage">
+      <!-- <div class="backstage">
         后台操作保护
         <a-form-model
           ref="ruleForm"
@@ -218,7 +218,7 @@
               </a-button>
             </a-form-model-item>
         </a-form-model>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -293,6 +293,9 @@ export default {
   .backstage {
     background: #fff;
     padding-top: 15px;
+  }
+  .ant-collapse{
+    background-color: white;
   }
 }
 </style>

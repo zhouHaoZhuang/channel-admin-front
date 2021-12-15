@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-container">
+  <div class="member-container">
     <div class="content">
       <a-collapse default-active-key="1" :bordered="false" class="aa">
         <a-collapse-panel key="1" header="注册">
@@ -341,7 +341,7 @@
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
-      <div class="backstage">
+      <!-- <div class="backstage">
         后台操作保护
         <a-form-model
           ref="ruleForm"
@@ -354,7 +354,7 @@
             <a-input v-model="form.linkName" />
           </a-form-model-item>
         </a-form-model>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -426,6 +426,9 @@ export default {
   .backstage {
     background: #fff;
     padding-top: 15px;
+  }
+  .ant-collapse{
+    background-color: white;
   }
 }
 </style>

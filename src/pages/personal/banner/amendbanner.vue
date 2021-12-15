@@ -103,11 +103,6 @@
 </template>
 
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 import Upload from "@/components/Upload/index";
 
 export default {
