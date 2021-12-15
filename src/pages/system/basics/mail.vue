@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-container">
+  <div class="mail-container">
     <div class="content">
       <a-collapse default-active-key="1" :bordered="false" class="aa">
         <a-collapse-panel key="1" header="注册">
@@ -11,16 +11,60 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="SMTP服务器" prop="linkDescribe">
-              <a-input v-model="form.linkName" />
+              <a-row :gutter="5">
+                <a-col :span="22">
+                  <a-input v-model="form.linkName" />
+                </a-col>
+                <a-col :span="2">
+                  <a-popconfirm
+                    title="必填，用于邮件发送，填写完整信息后将可发送邮件给用户，发件人显示名称可为中文，若需修改模板可在通知模板中自行修改。使用详情可参考：邮件设置说明，或各邮件供应商的SMTP设置使用方法。"
+                  >
+                    <a-icon type="question-circle" />
+                  </a-popconfirm>
+                </a-col>
+              </a-row>
             </a-form-model-item>
             <a-form-model-item label="发送邮箱地址" prop="linkDescribe">
-              <a-input v-model="form.linkName" />
+              <a-row :gutter="5">
+                <a-col :span="22">
+                  <a-input v-model="form.linkName" />
+                </a-col>
+                <a-col :span="2">
+                  <a-popconfirm
+                    title="必填，用于邮件发送，填写完整信息后将可发送邮件给用户，发件人显示名称可为中文，若需修改模板可在通知模板中自行修改。使用详情可参考：邮件设置说明，或各邮件供应商的SMTP设置使用方法。"
+                  >
+                    <a-icon type="question-circle" />
+                  </a-popconfirm>
+                </a-col>
+              </a-row>
             </a-form-model-item>
             <a-form-model-item label="发件人显示名称" prop="linkDescribe">
-              <a-input v-model="form.linkName" />
+               <a-row :gutter="5">
+                <a-col :span="22">
+                  <a-input v-model="form.linkName" />
+                </a-col>
+                <a-col :span="2">
+                  <a-popconfirm
+                    title="必填，用于邮件发送，填写完整信息后将可发送邮件给用户，发件人显示名称可为中文，若需修改模板可在通知模板中自行修改。使用详情可参考：邮件设置说明，或各邮件供应商的SMTP设置使用方法。"
+                  >
+                    <a-icon type="question-circle" />
+                  </a-popconfirm>
+                </a-col>
+              </a-row>
             </a-form-model-item>
             <a-form-model-item label="发件邮箱密码" prop="linkDescribe">
-              <a-input v-model="form.linkName" />
+              <a-row :gutter="5">
+                <a-col :span="22">
+                  <a-input v-model="form.linkName" />
+                </a-col>
+                <a-col :span="2">
+                  <a-popconfirm
+                    title="必填，用于邮件发送，填写完整信息后将可发送邮件给用户，发件人显示名称可为中文，若需修改模板可在通知模板中自行修改。使用详情可参考：邮件设置说明，或各邮件供应商的SMTP设置使用方法。"
+                  >
+                    <a-icon type="question-circle" />
+                  </a-popconfirm>
+                </a-col>
+              </a-row>
             </a-form-model-item>
             <a-form-model-item label="加密方式">
               <a-radio-group v-model="form.status">
@@ -31,6 +75,11 @@
                   关闭
                 </a-radio>
               </a-radio-group>
+              <a-popconfirm
+                title="必选，由于合作商的环境配置略有差异，这里提供的两种加密方式，若确认填写的邮件配置无误，测试发件不成功时，可尝试更换一种加密方式。"
+              >
+                <a-icon type="question-circle" />
+              </a-popconfirm>
             </a-form-model-item>
             <a-form-model-item label="邮箱SSL端口">
               <a-radio-group v-model="form.status">
@@ -44,6 +93,11 @@
                   其他
                 </a-radio>
               </a-radio-group>
+              <a-popconfirm
+                title="邮箱发送服务器端口，可为空，默认TLS模式为25，SSL为465，如需其他端口可自行设置"
+              >
+                <a-icon type="question-circle" />
+              </a-popconfirm>
             </a-form-model-item>
             <a-form-model-item label="测试收件箱" prop="linkDescribe">
               <a-row :gutter="1">
@@ -60,7 +114,7 @@
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
-      <div class="backstage">
+      <!-- <div class="backstage">
         后台操作保护
         <a-form-model
           ref="ruleForm"
@@ -73,7 +127,7 @@
             <a-input v-model="form.linkName" />
           </a-form-model-item>
         </a-form-model>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -142,6 +196,9 @@ export default {
   .backstage {
     background: #fff;
     padding-top: 15px;
+  }
+  .ant-collapse{
+    background-color: white;
   }
 }
 </style>

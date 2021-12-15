@@ -41,6 +41,7 @@
       </a-space>
     </div>
     <div class="orderTable">
+
       <div>
         <a-table :columns="columns"
                  :data-source="data"
@@ -207,7 +208,7 @@ export default {
         }
       ],
       dataAll: [],
-      data: [],
+      data: null,
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,
