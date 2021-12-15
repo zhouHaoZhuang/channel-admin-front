@@ -12,7 +12,7 @@ import member from "./member";
 import banner from "./banner"
 import blogroll from "./blogroll";
 import business from "./business";
-
+import globalBasic from "./globalBasic";
 export default {
   user,
   account,
@@ -27,5 +27,6 @@ export default {
   member,
   banner,
   blogroll,
-  business
+  business,
+  globalBasic
 };

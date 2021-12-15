@@ -12,7 +12,7 @@ const business = {
     getList({ commit, state }, params) {
       return request({
         url: "/scEcsStock/queryEcsPage",
-        method: "post",
+        method: "get",
         data: params
       });
     },
