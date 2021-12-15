@@ -239,11 +239,17 @@ export default {
         },
         {
           title: "订单金额",
-          dataIndex: "amount",
+          dataIndex: "discountAmount",
+          customRender: (text, record) => {
+            return '￥' + text
+          }
         },
         {
           title: "配置信息",
-          dataIndex: "info",
+          key: "info",
+          customRender: (text, record) => {
+            return 'cpu:' + record.cup + '核，内存:' + record.memory + 'G，硬盘:' + record.systemSize + 'G，带宽:' + record.internetMaxBandwidthOut + 'M'
+          }
         },
         {
           title: "查看",

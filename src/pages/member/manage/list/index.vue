@@ -2,13 +2,19 @@
   <div>
     <div class="member-container">
       <div class="member-top">
-        <a-button type="primary" @click="addMember">
+        <a-button type="primary"
+                  @click="addMember">
           +添加会员
         </a-button>
-        <a-button> <a-icon type="mobile" />发送短信 </a-button>
+        <a-button>
+          <a-icon type="mobile" />发送短信
+        </a-button>
         <a-dropdown>
-          <a-menu slot="overlay" @click="handleMenuClick">
-            <a-menu-item key="1"> <a-icon type="mail" />发送邮件 </a-menu-item>
+          <a-menu slot="overlay"
+                  @click="handleMenuClick">
+            <a-menu-item key="1">
+              <a-icon type="mail" />发送邮件
+            </a-menu-item>
             <a-menu-item key="2">
               <a-icon type="sound" />发送站内消息
             </a-menu-item>
@@ -16,11 +22,13 @@
               <a-icon type="form" />批量修改会员组
             </a-menu-item>
           </a-menu>
-          <a-button
-            ><a-icon type="appstore" /> 更多操作 <a-icon type="down" />
+          <a-button>
+            <a-icon type="appstore" /> 更多操作
+            <a-icon type="down" />
           </a-button>
         </a-dropdown>
-        <a-select style="width: 120px" v-model="listQuery.key">
+        <a-select style="width: 120px"
+                  v-model="listQuery.key">
           <a-select-option value="corporationCode">
             会员ID
           </a-select-option>
@@ -38,9 +46,11 @@
           </a-select-option>
         </a-select>
         <div class="search">
-          <a-input v-model="listQuery.search" placeholder="搜索关键字" />
+          <a-input v-model="listQuery.search"
+                   placeholder="搜索关键字" />
         </div>
-        <a-button type="primary" @click="searchClick">
+        <a-button type="primary"
+                  @click="searchClick">
           查询
         </a-button>
         <a-button @click="isfilter = !isfilter">
@@ -48,7 +58,9 @@
           <!-- <a-icon type="up" /> -->
           高级筛选
         </a-button>
-        <a-button> <a-icon type="setting" /> 自定义列表 </a-button>
+        <a-button>
+          <a-icon type="setting" /> 自定义列表
+        </a-button>
         <a-button>
           <a-icon type="import" />
           导入
@@ -58,16 +70,15 @@
           导出
         </a-button>
       </div>
-      <div v-show="isfilter" class="member-filterall">
+      <div v-show="isfilter"
+           class="member-filterall">
         <div class="member-filter">
           <div>
             <div>
               <span class="filter-type">状态</span>
-              <a-select
-                style="width: 120px"
-                @change="handleChange"
-                placeholder="请选择"
-              >
+              <a-select style="width: 120px"
+                        @change="handleChange"
+                        placeholder="请选择">
                 <a-select-option value="jack">
                   不限
                 </a-select-option>
@@ -87,11 +98,9 @@
             </div>
             <div>
               <span class="filter-type">登陆次数</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   大于
                 </a-select-option>
@@ -118,11 +127,9 @@
             </div>
             <div>
               <span class="filter-type">账户余额</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   大于
                 </a-select-option>
@@ -149,11 +156,9 @@
             </div>
             <div>
               <span class="filter-type">会员组等级</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   普通会员
                 </a-select-option>
@@ -165,22 +170,19 @@
           </div>
           <div>
             <div class="registerDate">
-              <span class="filter-type">注册日期 </span
-              ><span class="date-picker"
-                ><a-date-picker placeholder="起始日期"></a-date-picker
-              ></span>
+              <span class="filter-type">注册日期 </span><span class="date-picker">
+                <a-date-picker placeholder="起始日期"></a-date-picker>
+              </span>
               <span class="left5"> 至 </span>
-              <span class="date-picker left5"
-                ><a-date-picker placeholder="结束日期"></a-date-picker
-              ></span>
+              <span class="date-picker left5">
+                <a-date-picker placeholder="结束日期"></a-date-picker>
+              </span>
             </div>
             <div>
               <span class="filter-type">有无产品</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   不限
                 </a-select-option>
@@ -194,11 +196,9 @@
             </div>
             <div>
               <span class="filter-type">实名认证</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   不限
                 </a-select-option>
@@ -214,11 +214,9 @@
           <div>
             <div>
               <span class="filter-type">活跃度</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   不限登陆时间
                 </a-select-option>
@@ -241,11 +239,9 @@
             </div>
             <div>
               <span class="filter-type">业务</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   不限
                 </a-select-option>
@@ -268,11 +264,9 @@
             </div>
             <div>
               <span class="filter-type">API状态</span>
-              <a-select
-                placeholder="请选择"
-                style="width: 120px"
-                @change="handleChange"
-              >
+              <a-select placeholder="请选择"
+                        style="width: 120px"
+                        @change="handleChange">
                 <a-select-option value="jack">
                   请选择
                 </a-select-option>
@@ -291,56 +285,55 @@
         </div>
         <div class="enter">
           <a-button @click="isfilter = false">清除 </a-button>
-          <a-button type="primary" @click="isfilter = false"> 确定 </a-button>
+          <a-button type="primary"
+                    @click="isfilter = false"> 确定 </a-button>
         </div>
       </div>
       <div class="member-contenttable">
-        <a-table
-          :row-selection="{
+        <a-table :row-selection="{
             selectedRowKeys: selectedRowKeys,
             onChange: onSelectChange
           }"
-          :columns="columns"
-          :data-source="data"
-          :scroll="{ x: 1300 }"
-          rowKey="id"
-          :pagination="paginationProps"
-          @change="handleTableChange"
-        >
-          <span slot="name" slot-scope="text">{{ text }}</span>
-          <span
-            :class="{ status0: text == 0, status1: text == 1, status: true }"
-            slot="status"
-            slot-scope="text"
-            >{{ text == 0 ? "冻结" : "正常" }}</span
-          >
-          <span
-            :class="{ status0: text == 1, status1: text == 0, status: true }"
-            slot="loginLock"
-            slot-scope="text"
-            >{{ text == 0 ? "正常" : "锁定" }}</span
-          >
+                 :columns="columns"
+                 :data-source="data"
+                 :scroll="{ x: 1300 }"
+                 rowKey="id"
+                 :pagination="paginationProps"
+                 @change="handleTableChange">
+          <span slot="name"
+                slot-scope="text">{{ text }}</span>
+          <span :class="{ status0: text == 0, status1: text == 1, status: true }"
+                slot="status"
+                slot-scope="text">{{ text == 0 ? "冻结" : "正常" }}</span>
+          <span :class="{ status0: text == 1, status1: text == 0, status: true }"
+                slot="loginLock"
+                slot-scope="text">{{ text == 0 ? "正常" : "锁定" }}</span>
           <!-- 认证状态 -->
-          <span
-            :class="{ status0: text == 0, status1: text == 1, status: true }"
-            slot="certificationStatus"
-            slot-scope="text"
-            >{{ text == 0 ? "未认证" : "已认证" }}</span
-          >
-          <span slot="createTime" slot-scope="text">{{
+          <span :class="{ status0: text == 0, status1: text == 1, status: true }"
+                slot="certificationStatus"
+                slot-scope="text">{{ text == 0 ? "未认证" : "已认证" }}</span>
+          <span slot="createTime"
+                slot-scope="text">{{
             text | formatDate
           }}</span>
-          <span slot="modifyTime" slot-scope="text">{{
+          <span slot="modifyTime"
+                slot-scope="text">{{
             text | formatDate
           }}</span>
-          <span slot="action" slot-scope="text" class="action">
-            <a-button type="link" class="" @click="selectInfo(text.id)">
+          <span slot="action"
+                slot-scope="text"
+                class="action">
+            <a-button type="link"
+                      class=""
+                      @click="selectInfo(text.id)">
               查看
             </a-button>
             <a-divider type="vertical" />
             <a-dropdown>
-              <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                更多 <a-icon type="down" />
+              <a class="ant-dropdown-link"
+                 @click="e => e.preventDefault()">
+                更多
+                <a-icon type="down" />
               </a>
               <a-menu slot="overlay">
                 <a-menu-item>
@@ -372,7 +365,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       lucy: "lucy",
       isfilter: false,
@@ -533,48 +526,48 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     this.getList();
   },
   methods: {
     // 点击排序之后的回调
-    handleTableChange(pagination, filters, sorter) {
+    handleTableChange (pagination, filters, sorter) {
       // console.log(pagination, filters, sorter);
       if (sorter) {
         console.log("排序被点击了", sorter);
       }
     },
-    changepage(current) {
+    changepage (current) {
       // console.log(a);
       this.paginationProps.current = current;
       this.getList();
     },
-    onShowSizeChange(current, pageSize) {
+    onShowSizeChange (current, pageSize) {
       this.paginationProps.pageSize = pageSize;
       this.paginationProps.current = current;
       this.getList();
     },
-    onSelectChange(selectedRowKeys) {
+    onSelectChange (selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    handleMenuClick(e) {
+    handleMenuClick (e) {
       console.log(e);
     },
-    addMember() {
+    addMember () {
       // this.$router.push({ path: "/member/manage/add" });
     },
-    handleChange(value) {
+    handleChange (value) {
       console.log(`selected ${value}`);
     },
-    getList() {
-      this.$store.dispatch("member/getList").then(res => {
+    getList () {
+      this.$store.dispatch("member/getList", { currentPage: this.paginationProps.current, pageSize: this.paginationProps.pageSize }).then(res => {
         this.data = res.data.list;
         // console.log("3333333");
         this.paginationProps.total = res.data.totalCount * 1;
       });
     },
-    selectInfo(key) {
+    selectInfo (key) {
       // console.log(key);
       this.$router.push({
         path: "/member/manage/Info",
@@ -583,11 +576,11 @@ export default {
         }
       });
     },
-    clickMore(key) {
+    clickMore (key) {
       // console.log(key);
       this.isMoreId = key;
     },
-    searchClick() {
+    searchClick () {
       this.$getList("member/getList", this.listQuery).then(res => {
         // console.log(res);
         this.data = res.data.list;
