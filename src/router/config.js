@@ -11,6 +11,11 @@ const options = {
       component: () => import("@/pages/passport/login")
     },
     {
+      path: "/register",
+      name: "注册页",
+      component: () => import("@/pages/passport/register")
+    },
+    {
       path: "*",
       name: "404",
       component: () => import("@/pages/exception/404")
@@ -778,8 +783,7 @@ const options = {
                     invisible: true,
                     back: true
                   },
-                  component: () =>
-                    import("@/pages/system/admin/addChannel")
+                  component: () => import("@/pages/system/admin/addChannel")
                 },
                 // {
                 //   path: "detail",

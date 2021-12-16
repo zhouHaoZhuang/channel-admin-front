@@ -72,70 +72,8 @@
             </div>
           </div>
         </a-form-model-item>
-        <a-form-model-item v-show="diskNumber>=2"
-                           label=""
-                           :wrapper-col="{ span: 18, offset: 8 }">
-          <div class="disk-size">
-            <span>
-              <a-input v-model="form.shortName" />
-            </span>
-            <div class="add-reduce">
-              <a-button size="small">
-                <a-icon type="caret-up" />
-              </a-button>
-              <a-button size="small">
-                <a-icon type="caret-down" />
-              </a-button>
-            </div>
-            <div @click="deldisk">
-              <a-icon type="minus-circle" />
-              删除硬盘
-            </div>
-          </div>
-        </a-form-model-item>
-        <a-form-model-item v-show="diskNumber>=3"
-                           label=""
-                           :wrapper-col="{ span: 18, offset: 8 }">
-          <div class="disk-size">
-            <span>
-              <a-input v-model="form.shortName" />
-            </span>
-            <div class="add-reduce">
-              <a-button size="small">
-                <a-icon type="caret-up" />
-              </a-button>
-              <a-button size="small">
-                <a-icon type="caret-down" />
-              </a-button>
-            </div>
-            <div @click="deldisk">
-              <a-icon type="minus-circle" />
-              删除硬盘
-            </div>
-          </div>
-        </a-form-model-item>
-        <a-form-model-item v-show="diskNumber>=4"
-                           label=""
-                           :wrapper-col="{ span: 18, offset: 8 }">
-          <div class="disk-size">
-            <span>
-              <a-input v-model="form.shortName" />
-            </span>
-            <div class="add-reduce">
-              <a-button size="small">
-                <a-icon type="caret-up" />
-              </a-button>
-              <a-button size="small">
-                <a-icon type="caret-down" />
-              </a-button>
-            </div>
-            <div @click="deldisk">
-              <a-icon type="minus-circle" />
-              删除硬盘
-            </div>
-          </div>
-        </a-form-model-item>
-        <a-form-model-item v-show="diskNumber===5"
+        <a-form-model-item v-for="(index) in diskNumber"
+                           :key="index"
                            label=""
                            :wrapper-col="{ span: 18, offset: 8 }">
           <div class="disk-size">
@@ -158,7 +96,7 @@
         </a-form-model-item>
         <a-form-model-item label=""
                            :wrapper-col="{ span: 18, offset: 8 }">
-          <a @click="adddisk">添加一块硬盘 还可以添加{{5-diskNumber}}块</a>
+          <a @click="adddisk">添加一块硬盘 还可以添加{{4-diskNumber}}块</a>
         </a-form-model-item>
         <a-form-model-item label="
              公网带宽">
@@ -316,7 +254,7 @@ export default {
     return {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 },
-      diskNumber: 1,
+      diskNumber: 0,
       form: {
         cutomerName: "",
         shortName: "",
@@ -368,13 +306,13 @@ export default {
     },
     // adddisk添加磁盘
     adddisk () {
-      if (this.diskNumber === 5) {
+      if (this.diskNumber === 4) {
         return
       }
       this.diskNumber++;
     },
     deldisk () {
-      if (this.diskNumber === 1) {
+      if (this.diskNumber === 0) {
         return
       }
       this.diskNumber--;
