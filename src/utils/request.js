@@ -13,7 +13,7 @@ const axiosSource = axios.CancelToken.source();
 const request = axios.create({
   // API 请求的默认前缀
   baseURL: env.VUE_APP_BASE_URL,
-  timeout: 3000 // 请求超时时间
+  timeout: 5000 // 请求超时时间
 });
 const downloadUrl = [];
 
