@@ -44,13 +44,13 @@
                 <span class="basicInformation-type">业务状态：</span><span class="basicInformation-info">正常----</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">运行状态：</span><span class="basicInformation-info"
+                <span class="basicInformation-type">运行状态：</span><span class="basicInformation-info basicInformation-info-ash"
                       v-if="dataOrder[0].runningStatus == 0">黑洞中</span>
-                <span class="basicInformation-info"
+                <span class="basicInformation-info basicInformation-info-run"
                       v-else-if="dataOrder[0].runningStatus == 1">运行中</span>
-                <span class="basicInformation-info"
+                <span class="basicInformation-info basicInformation-info-ash"
                       v-else-if="dataOrder[0].runningStatus == 2">已关机</span>
-                <span class="basicInformation-info"
+                <span class="basicInformation-info basicInformation-info-ash"
                       v-else-if="dataOrder[0].runningStatus == 3">已过期</span>
               </div>
               <div class="basicInformation-item">
@@ -178,6 +178,15 @@
                        :data-source="dataOrder"
                        :scoll="{ x: 1200 }"
                        rowKey="id">
+                <span slot="discountAmount"
+                      slot-scope="text">
+                  ￥{{text}}
+                </span>
+                <span slot="info"
+                      slot-scope="text">
+                  {{'cpu:' + text.cup + '核，内存:' + text.memory + 'G，硬盘:' + text.systemSize + 'G，带宽:' + text.internetMaxBandwidthOut + 'M'}}
+                </span>
+
                 <span slot="query"
                       slot-scope="text">
                   <a-button type="link"
@@ -240,16 +249,17 @@ export default {
         {
           title: "订单金额",
           dataIndex: "discountAmount",
-          customRender: (text, record) => {
-            return '￥' + text
-          }
+          scopedSlots: {
+            customRender: "discountAmount",
+          },
         },
         {
           title: "配置信息",
           key: "info",
-          customRender: (text, record) => {
-            return 'cpu:' + record.cup + '核，内存:' + record.memory + 'G，硬盘:' + record.systemSize + 'G，带宽:' + record.internetMaxBandwidthOut + 'M'
-          }
+          scopedSlots: {
+            customRender: "info",
+          },
+
         },
         {
           title: "查看",
@@ -333,6 +343,18 @@ export default {
   }
   .basicInformation-info {
     color: #292929;
+  }
+  .basicInformation-info-ash {
+    background-color: #a3a3a3;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
+  }
+  .basicInformation-info-run {
+    background-color: #16b841;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
   }
 }
 </style>

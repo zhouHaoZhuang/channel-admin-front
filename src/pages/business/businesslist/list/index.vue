@@ -939,20 +939,13 @@ export default {
       console.log(key);
     },
     handleChangeSort (pagination, filters, sorter) {
-      if (sorter) {
-        if (sorter.columnKey === 'saleTimeSort') {
-          if (sorter.order === 'ascend') {
-            this.selectkey.saleTimeSort = 'asc'
-          } else if (sorter.order === 'descend') {
-            this.selectkey.saleTimeSort = 'desc'
-          }
+      console.log(sorter);
+      if (sorter && sorter.order) {
+        if (sorter.columnKey === 'purchaseTimeStr') {
+          this.selectkey.saleTimeSort = sorter.order.replace('end', '')
         }
         else if (sorter.columnKey === 'endTimeStr') {
-          if (sorter.order === 'ascend') {
-            this.selectkey.endTimeSort = 'asc'
-          } else if (sorter.order === 'descend') {
-            this.selectkey.endTimeSort = 'desc'
-          }
+          this.selectkey.endTimeSort = sorter.order.replace('end', '')
         }
         this.getList()
       }

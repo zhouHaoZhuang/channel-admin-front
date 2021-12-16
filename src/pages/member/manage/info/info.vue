@@ -54,7 +54,7 @@
           <span class="menber-title">授信额度：</span><span class="menber-info">{{dataBase.creditNumber}}</span><a class="mouse-enter">[修改授信额度]</a>
         </div>
         <div>
-          <span class="menber-title">专席销售：</span><span class="menber-info">----未分配</span>
+          <span class="menber-title">专席销售：</span><span class="menber-info">{{dataBase.salesStaff}}</span>
         </div>
         <div>
           <span class="menber-title">登录次数：</span><span class="menber-info">{{dataBase.loginFaileNumber}}次</span>
