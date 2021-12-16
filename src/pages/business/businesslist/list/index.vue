@@ -342,8 +342,8 @@ export default {
         },
         {
           title: "机房", dataIndex: "regionId", customRender: (text, record, index) => {
-            return this.regionMapData[text]
-          }
+            return this.regionMapData[text] || text
+          }, width: 150
         },
         { title: "CPU", dataIndex: "cup", key: "cpu" },
         { title: "内存", dataIndex: "memory", key: "memory" },
