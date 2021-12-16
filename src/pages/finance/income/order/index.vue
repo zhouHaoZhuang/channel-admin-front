@@ -258,13 +258,6 @@ export default {
           scopedSlots: { customRender: "phoneNumber" },
           width: 100
         },
-        // {
-        //   title: "状态",
-        //   dataIndex: "payStatus",
-        //   key: "payStatus",
-        //   width: 100,
-        //   scopedSlots: { customRender: "payStatus" }
-        // },
         {
           title: "创建时间",
           dataIndex: "createTime",
@@ -284,13 +277,41 @@ export default {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
-      });
+      })
+       .finally(() => {
+          this.tableLoading = false;
+          this.selectkey = {
+            corporationName: "",
+            corporationPhone: "",
+            currentPage: "1",
+            endTimeSort: "asc",
+            orderNo: "",
+            outIp: "",
+            pageSize: "10",
+            saleTimeSort: "asc",
+            sort: "asc"
+          }
+        });
     },
     //排序
     handleChange(pagination, filters, sorter) {
-      console.log("Various parameters", pagination, filters, sorter);
-      this.data.sorter = sorter.order;
-      console.log(sorter);
+      if(sorter){
+        if(sorter.columnKey === 'saleTimeSort'){
+          if (sorter.order === 'ascend') {
+            this.selectkey.saleTimeSort = 'asc'
+          } else if (sorter.order === 'descend') {
+            this.selectkey.saleTimeSort = 'desc'
+          }
+        }
+         else if (sorter.columnKey === 'endTimeStr') {
+          if (sorter.order === 'ascend') {
+            this.selectkey.endTimeSort = 'asc'
+          } else if (sorter.order === 'descend') {
+            this.selectkey.endTimeSort = 'desc'
+          }
+        }
+        this.getList()
+      }
     },
     disabledStartDate(startValue) {
       const endValue = this.endValue;
