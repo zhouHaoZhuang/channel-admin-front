@@ -940,7 +940,7 @@ export default {
     },
     handleChangeSort (pagination, filters, sorter) {
       console.log(sorter);
-      if (sorter) {
+      if (sorter && sorter.order) {
         if (sorter.columnKey === 'purchaseTimeStr') {
           this.selectkey.saleTimeSort = sorter.order.replace('end', '')
         }

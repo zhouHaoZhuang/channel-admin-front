@@ -44,13 +44,13 @@
                 <span class="basicInformation-type">业务状态：</span><span class="basicInformation-info">正常----</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">运行状态：</span><span class="basicInformation-info"
+                <span class="basicInformation-type">运行状态：</span><span class="basicInformation-info basicInformation-info-ash"
                       v-if="dataOrder[0].runningStatus == 0">黑洞中</span>
-                <span class="basicInformation-info"
+                <span class="basicInformation-info basicInformation-info-run"
                       v-else-if="dataOrder[0].runningStatus == 1">运行中</span>
-                <span class="basicInformation-info"
+                <span class="basicInformation-info basicInformation-info-ash"
                       v-else-if="dataOrder[0].runningStatus == 2">已关机</span>
-                <span class="basicInformation-info"
+                <span class="basicInformation-info basicInformation-info-ash"
                       v-else-if="dataOrder[0].runningStatus == 3">已过期</span>
               </div>
               <div class="basicInformation-item">
@@ -343,6 +343,18 @@ export default {
   }
   .basicInformation-info {
     color: #292929;
+  }
+  .basicInformation-info-ash {
+    background-color: #a3a3a3;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
+  }
+  .basicInformation-info-run {
+    background-color: #16b841;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
   }
 }
 </style>
