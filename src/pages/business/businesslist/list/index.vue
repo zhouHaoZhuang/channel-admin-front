@@ -2,800 +2,261 @@
   <div>
     <div class="purchase-list-container">
       <div>
-        <a-tabs default-active-key="1"
-                @change="callback">
-          <a-tab-pane key="1"
-                      tab="正常">
-            <div>
-              <div class="public-header-wrap">
-                <a-form-model layout="inline"
-                              :model="listQuery">
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="businessOpening">
-                      +业务开通
-                    </a-button>
-                  </a-form-model-item>
-                  <!-- 下拉框 -->
-                  <a-form-model-item>
-                    <a-select style="width:120px"
-                              allowClear
-                              v-model="listQuery.key"
-                              placeholder="请选择">
-                      <a-select-option v-for="item in searchColumns"
-                                       :key="item.dataIndex"
-                                       :value="item.dataIndex">
-                        {{ item.title }}
-                      </a-select-option>
-                    </a-select>
-                  </a-form-model-item>
-                  <!-- 搜索 -->
-                  <a-form-model-item>
-                    <a-input v-model="listQuery.search"
-                             placeholder="搜索关键词" />
-                  </a-form-model-item>
-                  <!-- 按钮 -->
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="search">
-                      查询
-                    </a-button>
-                  </a-form-model-item>
-                  <div class="public-header-filter">
-                    <a-form-model-item>
-                      <a-button>
-                        <a-icon type="setting" />自定义列表
-                      </a-button>
-                      <a-button @click="isfilter = !isfilter">
-                        <a-icon :type="isfilter ? 'up' : 'down'" />
-                        <!-- <a-icon type="up" /> -->
-                        高级筛选
-                      </a-button>
-                      <a-button>
-                        <a-icon type="export" />
-                        导出
-                      </a-button>
-                    </a-form-model-item>
-                  </div>
-                </a-form-model>
-                <div v-show="isfilter"
-                     class="member-filterall">
-                  <div class="member-filter">
-                    <div>
-                      <div>
-                        <span class="filter-type">线路</span>
-                        <a-select style="width: 120px"
-                                  @change="handleChange"
-                                  placeholder="请选择">
-                          <a-select-option value="jack">
-                            不限线路
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            自生产
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            小鸟云资源池
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            云引擎大陆版资源池
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            云引擎国际版资源池
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">业务状态</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已回收
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            开通中
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            正常
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            过户中
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            已过期
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            已退款
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">配置</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            CPU不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            1核
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            2核
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            4核
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            8核
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            16核
-                          </a-select-option>
-                        </a-select>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            内存不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            1G
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            2G
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            4G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            8G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            16G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            32G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            64G
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="registerDate">
-                        <span class="filter-type">购买时间段 </span><span class="date-picker">
-                          <a-date-picker placeholder="起始日期"></a-date-picker>
-                        </span>
-                        <span class="left5"> 至 </span>
-                        <span class="date-picker left5">
-                          <a-date-picker placeholder="结束日期"></a-date-picker>
-                        </span>
-                      </div>
-                      <div>
-                        <span class="filter-type">运行状态</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已锁定
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已关机
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已挂起
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            运行中
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">带宽</span>
-                        <span class="div-input100">
-                          <a-input />
-                        </span>
-                        <span>M</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        <div class="registerDate">
-                          <span class="filter-type">到期时间段 </span><span class="date-picker">
-                            <a-date-picker placeholder="起始日期"></a-date-picker>
-                          </span>
-                          <span class="left5"> 至 </span>
-                          <span class="date-picker left5">
-                            <a-date-picker placeholder="结束日期"></a-date-picker>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="enter">
-                    <a-button @click="isfilter = false">清除 </a-button>
-                    <a-button type="primary"
-                              @click="isfilter = false">
-                      确定
-                    </a-button>
-                  </div>
-                </div>
+        <p class="purchase-list-title">
+          <span :class="{'purchase-title-active':selectkey.runningStatus===text.key}"
+                v-for="(text,index) in titleList"
+                :key="index"
+                @click="changeRunningstatus(text)">
+            {{text.title}}
+          </span>
+        </p>
+        <div>
+          <div class="public-header-wrap">
+            <a-form-model layout="inline"
+                          :model="listQuery">
+              <a-form-model-item>
+                <a-button type="primary"
+                          @click="businessOpening">
+                  +业务开通
+                </a-button>
+              </a-form-model-item>
+              <!-- 下拉框 -->
+              <a-form-model-item>
+                <a-select style="width:120px"
+                          allowClear
+                          v-model="listQuery.key"
+                          placeholder="请选择">
+                  <a-select-option v-for="item in searchColumns"
+                                   :key="item.dataIndex"
+                                   :value="item.dataIndex">
+                    {{ item.title }}
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+              <!-- 搜索 -->
+              <a-form-model-item>
+                <a-input v-model="listQuery.search"
+                         placeholder="搜索关键词" />
+              </a-form-model-item>
+              <!-- 按钮 -->
+              <a-form-model-item>
+                <a-button type="primary"
+                          @click="search">
+                  查询
+                </a-button>
+              </a-form-model-item>
+              <div class="public-header-filter">
+                <a-form-model-item>
+                  <a-button>
+                    <a-icon type="setting" />自定义列表
+                  </a-button>
+                  <a-button @click="isfilter = !isfilter">
+                    <a-icon :type="isfilter ? 'up' : 'down'" />
+                    <!-- <a-icon type="up" /> -->
+                    高级筛选
+                  </a-button>
+                  <a-button>
+                    <a-icon type="export" />
+                    导出
+                  </a-button>
+                </a-form-model-item>
               </div>
-              <!-- 表格 -->
-              <a-table :loading="tableLoading"
-                       :columns="columns"
-                       :data-source="data"
-                       rowKey="id"
-                       :pagination="paginationProps"
-                       @change="handleChangeSort"
-                       :scroll="{ x: 2100 }">
-                <div slot="runningStatus"
-                     slot-scope="text">
-                  <span v-if="text == 0"
-                        class="runningStatus blackhole">黑洞中</span>
-                  <span v-if="text == 1"
-                        class="runningStatus running">运行中</span>
-                  <span v-if="text == 2"
-                        class="runningStatus shutdown">已关机</span>
-                  <span v-if="text == 3"
-                        class="runningStatus expired">已过期</span>
-                </div>
-                <a slot="action"
-                   slot-scope="text"
-                   @click="infoChannel(text)">管理</a>
-              </a-table>
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="2"
-                      tab="即将到期"
-                      force-render>
-            <div>
-              <div class="public-header-wrap">
-                <a-form-model layout="inline"
-                              :model="listQuery">
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="search">
-                      +业务开通
-                    </a-button>
-                  </a-form-model-item>
-                  <!-- 下拉框 -->
-                  <a-form-model-item>
-                    <a-select style="width:120px"
-                              allowClear
-                              v-model="listQuery.key"
+            </a-form-model>
+            <div v-show="isfilter"
+                 class="member-filterall">
+              <div class="member-filter">
+                <div>
+                  <div>
+                    <span class="filter-type">线路</span>
+                    <a-select style="width: 120px"
+                              @change="handleChange"
                               placeholder="请选择">
-                      <a-select-option v-for="item in searchColumns"
-                                       :key="item.dataIndex"
-                                       :value="item.dataIndex">
-                        {{ item.title }}
+                      <a-select-option value="jack">
+                        不限线路
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        自生产
+                      </a-select-option>
+                      <a-select-option value="disabled">
+                        小鸟云资源池
+                      </a-select-option>
+                      <a-select-option value="Yiminghe">
+                        云引擎大陆版资源池
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        云引擎国际版资源池
                       </a-select-option>
                     </a-select>
-                  </a-form-model-item>
-                  <!-- 搜索 -->
-                  <a-form-model-item>
-                    <a-input v-model="listQuery.search"
-                             placeholder="搜索关键词" />
-                  </a-form-model-item>
-                  <!-- 按钮 -->
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="search">
-                      查询
-                    </a-button>
-                  </a-form-model-item>
-                  <div class="public-header-filter">
-                    <a-form-model-item>
-                      <a-button>
-                        <a-icon type="setting" />自定义列表
-                      </a-button>
-                      <a-button @click="isfilter = !isfilter">
-                        <a-icon :type="isfilter ? 'up' : 'down'" />
-                        <!-- <a-icon type="up" /> -->
-                        高级筛选
-                      </a-button>
-                      <a-button>
-                        <a-icon type="export" />
-                        导出
-                      </a-button>
-                    </a-form-model-item>
                   </div>
-                </a-form-model>
-                <div v-show="isfilter"
-                     class="member-filterall">
-                  <div class="member-filter">
-                    <div>
-                      <div>
-                        <span class="filter-type">线路</span>
-                        <a-select style="width: 120px"
-                                  @change="handleChange"
-                                  placeholder="请选择">
-                          <a-select-option value="jack">
-                            不限线路
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            自生产
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            小鸟云资源池
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            云引擎大陆版资源池
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            云引擎国际版资源池
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">业务状态</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已回收
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            开通中
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            正常
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            过户中
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            已过期
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            已退款
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">配置</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            CPU不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            1核
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            2核
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            4核
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            8核
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            16核
-                          </a-select-option>
-                        </a-select>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            内存不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            1G
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            2G
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            4G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            8G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            16G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            32G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            64G
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="registerDate">
-                        <span class="filter-type">购买时间段 </span><span class="date-picker">
-                          <a-date-picker placeholder="起始日期"></a-date-picker>
-                        </span>
-                        <span class="left5"> 至 </span>
-                        <span class="date-picker left5">
-                          <a-date-picker placeholder="结束日期"></a-date-picker>
-                        </span>
-                      </div>
-                      <div>
-                        <span class="filter-type">运行状态</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已锁定
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已关机
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已挂起
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            运行中
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">带宽</span>
-                        <span class="div-input100">
-                          <a-input />
-                        </span>
-                        <span>M</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        <div class="registerDate">
-                          <span class="filter-type">到期时间段 </span><span class="date-picker">
-                            <a-date-picker placeholder="起始日期"></a-date-picker>
-                          </span>
-                          <span class="left5"> 至 </span>
-                          <span class="date-picker left5">
-                            <a-date-picker placeholder="结束日期"></a-date-picker>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="enter">
-                    <a-button @click="isfilter = false">清除 </a-button>
-                    <a-button type="primary"
-                              @click="isfilter = false">
-                      确定
-                    </a-button>
-                  </div>
-                </div>
-              </div>
-              <!-- 表格 -->
-              <a-table :loading="tableLoading"
-                       :columns="columns"
-                       :data-source="data"
-                       rowKey="id"
-                       :pagination="paginationProps"
-                       :scroll="{ x: 2100 }">
-                <a slot="action"
-                   slot-scope="text"
-                   @click="infoChannel(text)">管理</a>
-              </a-table>
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="3"
-                      tab="已到期">
-            <div>
-              <div class="public-header-wrap">
-                <a-form-model layout="inline"
-                              :model="listQuery">
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="search">
-                      +业务开通
-                    </a-button>
-                  </a-form-model-item>
-                  <!-- 下拉框 -->
-                  <a-form-model-item>
-                    <a-select style="width:120px"
-                              allowClear
-                              v-model="listQuery.key"
-                              placeholder="请选择">
-                      <a-select-option v-for="item in searchColumns"
-                                       :key="item.dataIndex"
-                                       :value="item.dataIndex">
-                        {{ item.title }}
+                  <div>
+                    <span class="filter-type">业务状态</span>
+                    <a-select placeholder="请选择"
+                              style="width: 120px"
+                              @change="handleChange">
+                      <a-select-option value="jack">
+                        不限
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        已回收
+                      </a-select-option>
+                      <a-select-option value="disabled">
+                        开通中
+                      </a-select-option>
+                      <a-select-option value="Yiminghe">
+                        正常
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        过户中
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        已过期
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        已退款
                       </a-select-option>
                     </a-select>
-                  </a-form-model-item>
-                  <!-- 搜索 -->
-                  <a-form-model-item>
-                    <a-input v-model="listQuery.search"
-                             placeholder="搜索关键词" />
-                  </a-form-model-item>
-                  <!-- 按钮 -->
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="search">
-                      查询
-                    </a-button>
-                  </a-form-model-item>
-                  <div class="public-header-filter">
-                    <a-form-model-item>
-                      <a-button>
-                        <a-icon type="setting" />自定义列表
-                      </a-button>
-                      <a-button @click="isfilter = !isfilter">
-                        <a-icon :type="isfilter ? 'up' : 'down'" />
-                        <!-- <a-icon type="up" /> -->
-                        高级筛选
-                      </a-button>
-                      <a-button>
-                        <a-icon type="export" />
-                        导出
-                      </a-button>
-                    </a-form-model-item>
                   </div>
-                </a-form-model>
-                <div v-show="isfilter"
-                     class="member-filterall">
-                  <div class="member-filter">
-                    <div>
-                      <div>
-                        <span class="filter-type">线路</span>
-                        <a-select style="width: 120px"
-                                  @change="handleChange"
-                                  placeholder="请选择">
-                          <a-select-option value="jack">
-                            不限线路
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            自生产
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            小鸟云资源池
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            云引擎大陆版资源池
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            云引擎国际版资源池
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">业务状态</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已回收
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            开通中
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            正常
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            过户中
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            已过期
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            已退款
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">配置</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            CPU不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            1核
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            2核
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            4核
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            8核
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            16核
-                          </a-select-option>
-                        </a-select>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            内存不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            1G
-                          </a-select-option>
-                          <a-select-option value="disabled">
-                            2G
-                          </a-select-option>
-                          <a-select-option value="Yiminghe">
-                            4G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            8G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            16G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            32G
-                          </a-select-option>
-                          <a-select-option value="delete">
-                            64G
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="registerDate">
-                        <span class="filter-type">购买时间段 </span><span class="date-picker">
-                          <a-date-picker placeholder="起始日期"></a-date-picker>
-                        </span>
-                        <span class="left5"> 至 </span>
-                        <span class="date-picker left5">
-                          <a-date-picker placeholder="结束日期"></a-date-picker>
-                        </span>
-                      </div>
-                      <div>
-                        <span class="filter-type">运行状态</span>
-                        <a-select placeholder="请选择"
-                                  style="width: 120px"
-                                  @change="handleChange">
-                          <a-select-option value="jack">
-                            不限
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已锁定
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已关机
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            已挂起
-                          </a-select-option>
-                          <a-select-option value="lucy">
-                            运行中
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                      <div>
-                        <span class="filter-type">带宽</span>
-                        <span class="div-input100">
-                          <a-input />
-                        </span>
-                        <span>M</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        <div class="registerDate">
-                          <span class="filter-type">到期时间段 </span><span class="date-picker">
-                            <a-date-picker placeholder="起始日期"></a-date-picker>
-                          </span>
-                          <span class="left5"> 至 </span>
-                          <span class="date-picker left5">
-                            <a-date-picker placeholder="结束日期"></a-date-picker>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="enter">
-                    <a-button @click="isfilter = false">清除 </a-button>
-                    <a-button type="primary"
-                              @click="isfilter = false">
-                      确定
-                    </a-button>
-                  </div>
-                </div>
-              </div>
-              <!-- 表格 -->
-              <a-table :loading="tableLoading"
-                       :columns="columns"
-                       :data-source="data"
-                       rowKey="id"
-                       :pagination="paginationProps"
-                       :scroll="{ x: 2100 }">
-                <a slot="action"
-                   slot-scope="text"
-                   @click="infoChannel(text)">管理</a>
-              </a-table>
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="4"
-                      tab="已删除">
-            <div>
-              <div class="public-header-wrap">
-                <a-form-model layout="inline"
-                              :model="listQuery">
-                  <!-- 下拉框 -->
-                  <a-form-model-item>
-                    <a-select style="width:120px"
-                              allowClear
-                              v-model="listQuery.key"
-                              placeholder="请选择">
-                      <a-select-option v-for="item in searchColumns"
-                                       :key="item.dataIndex"
-                                       :value="item.dataIndex">
-                        {{ item.title }}
+                  <div>
+                    <span class="filter-type">配置</span>
+                    <a-select placeholder="请选择"
+                              style="width: 120px"
+                              @change="handleChange">
+                      <a-select-option value="jack">
+                        CPU不限
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        1核
+                      </a-select-option>
+                      <a-select-option value="disabled">
+                        2核
+                      </a-select-option>
+                      <a-select-option value="Yiminghe">
+                        4核
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        8核
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        16核
                       </a-select-option>
                     </a-select>
-                  </a-form-model-item>
-                  <!-- 搜索 -->
-                  <a-form-model-item>
-                    <a-input v-model="listQuery.search"
-                             placeholder="搜索关键词" />
-                  </a-form-model-item>
-                  <a-form-model-item>
-                    <span class="date-picker">
+                    <a-select placeholder="请选择"
+                              style="width: 120px"
+                              @change="handleChange">
+                      <a-select-option value="jack">
+                        内存不限
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        1G
+                      </a-select-option>
+                      <a-select-option value="disabled">
+                        2G
+                      </a-select-option>
+                      <a-select-option value="Yiminghe">
+                        4G
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        8G
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        16G
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        32G
+                      </a-select-option>
+                      <a-select-option value="delete">
+                        64G
+                      </a-select-option>
+                    </a-select>
+                  </div>
+                </div>
+                <div>
+                  <div class="registerDate">
+                    <span class="filter-type">购买时间段 </span><span class="date-picker">
                       <a-date-picker placeholder="起始日期"></a-date-picker>
                     </span>
+                    <span class="left5"> 至 </span>
                     <span class="date-picker left5">
                       <a-date-picker placeholder="结束日期"></a-date-picker>
                     </span>
-                  </a-form-model-item>
-                  <!-- 按钮 -->
-                  <a-form-model-item>
-                    <a-button type="primary"
-                              @click="search">
-                      查询
-                    </a-button>
-                  </a-form-model-item>
-                  <span class="public-header-export">
-                    <a-form-model-item>
-                      <a-button>
-                        <a-icon type="export" />
-                        导出
-                      </a-button>
-                    </a-form-model-item>
-                  </span>
-                </a-form-model>
+                  </div>
+                  <div>
+                    <span class="filter-type">运行状态</span>
+                    <a-select placeholder="请选择"
+                              style="width: 120px"
+                              @change="handleChange">
+                      <a-select-option value="jack">
+                        不限
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        已锁定
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        已关机
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        已挂起
+                      </a-select-option>
+                      <a-select-option value="lucy">
+                        运行中
+                      </a-select-option>
+                    </a-select>
+                  </div>
+                  <div>
+                    <span class="filter-type">带宽</span>
+                    <span class="div-input100">
+                      <a-input />
+                    </span>
+                    <span>M</span>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <div class="registerDate">
+                      <span class="filter-type">到期时间段 </span><span class="date-picker">
+                        <a-date-picker placeholder="起始日期"></a-date-picker>
+                      </span>
+                      <span class="left5"> 至 </span>
+                      <span class="date-picker left5">
+                        <a-date-picker placeholder="结束日期"></a-date-picker>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <!-- 表格 -->
-              <a-table :loading="tableLoading"
-                       :columns="columns"
-                       :data-source="data"
-                       rowKey="id"
-                       :pagination="paginationProps"
-                       :scroll="{ x: 2100 }">
-                <span slot="runningStatus"
-                      slot-scope="text">{{text+1}}</span>
-                <a slot="action"
-                   slot-scope="text"
-                   @click="infoChannel(text)">管理</a>
-              </a-table>
+              <div class="enter">
+                <a-button @click="isfilter = false">清除 </a-button>
+                <a-button type="primary"
+                          @click="isfilter = false">
+                  确定
+                </a-button>
+              </div>
             </div>
-          </a-tab-pane>
-        </a-tabs>
+          </div>
+          <!-- 表格 -->
+          <a-table :loading="tableLoading"
+                   :columns="columns"
+                   :data-source="data"
+                   rowKey="id"
+                   :pagination="paginationProps"
+                   @change="handleChangeSort"
+                   :scroll="{ x: 2100 }">
+            <div slot="runningStatus"
+                 slot-scope="text">
+              <span v-if="text == 0"
+                    class="runningStatus blackhole">黑洞中</span>
+              <span v-if="text == 1"
+                    class="runningStatus running">运行中</span>
+              <span v-if="text == 2"
+                    class="runningStatus shutdown">已关机</span>
+              <span v-if="text == 3"
+                    class="runningStatus expired">已过期</span>
+            </div>
+            <a slot="action"
+               slot-scope="text"
+               @click="infoChannel(text)">管理</a>
+          </a-table>
+        </div>
       </div>
     </div>
   </div>
@@ -815,6 +276,22 @@ export default {
         pageSize: 10,
         total: 0
       },
+      titleList: [
+        {
+          key: 0,
+          title: '正常'
+        },
+        {
+          key: 1,
+          title: '即将到期'
+        }, {
+          key: 2,
+          title: '已到期'
+        }, {
+          key: 3,
+          title: '已删除'
+        }
+      ],
       selectkey: {
         corporationName: "",
         corporationPhone: "",
@@ -824,7 +301,8 @@ export default {
         outIp: "",
         pageSize: "10",
         saleTimeSort: "asc",
-        sort: "asc"
+        sort: "asc",
+        runningStatus: 0,
       },
       searchColumns: [
         {
@@ -955,10 +433,12 @@ export default {
         path: "/business/cloudservers/businessOpening"
       });
     },
+    changeRunningstatus (text) {
+      this.selectkey.runningStatus = text.key;
+      this.getList();
+    },
     // 查询
     search () {
-      // console.log(this.listQuery, "-----");
-      // console.log(this.selectkey, "-----");
       this.listQuery.search = this.listQuery.search.trim();
       this.selectkey[this.listQuery.key] = this.listQuery.search;
       this.getList();
@@ -977,17 +457,18 @@ export default {
         })
         .finally(() => {
           this.tableLoading = false;
-          this.selectkey = {
-            corporationName: "",
-            corporationPhone: "",
-            currentPage: "1",
-            endTimeSort: "asc",
-            orderNo: "",
-            outIp: "",
-            pageSize: "10",
-            saleTimeSort: "asc",
-            sort: "asc"
-          }
+          // this.selectkey = {
+          //   corporationName: "",
+          //   corporationPhone: "",
+          //   currentPage: "1",
+          //   endTimeSort: "asc",
+          //   orderNo: "",
+          //   outIp: "",
+          //   pageSize: "10",
+          //   saleTimeSort: "asc",
+          //   sort: "asc",
+          //   runningstatus: "0",
+          // }
         });
     },
     // 表格分页快速跳转n页
@@ -1011,7 +492,7 @@ export default {
     handleChange (value) {
       console.log(value);
     }
-  }
+  },
 };
 </script>
 
@@ -1033,6 +514,23 @@ export default {
     .public-header-export {
       margin-left: 290px;
     }
+  }
+}
+.purchase-list-title {
+  height: 40px;
+  // margin: 0;
+  border-bottom: 1px solid #e8e8e8;
+  span {
+    display: inline-block;
+    padding: 0 20px;
+    line-height: 38px;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  .purchase-title-active {
+    border-color: #1890ff;
+    color: #1890ff;
+    border-bottom: 1px solid #fff;
   }
 }
 .left5 {

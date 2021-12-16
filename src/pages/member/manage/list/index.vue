@@ -28,6 +28,7 @@
           </a-button>
         </a-dropdown>
         <a-select style="width: 120px"
+                  placeholder="请选择"
                   v-model="listQuery.key">
           <a-select-option value="corporationCode">
             会员ID
@@ -444,7 +445,9 @@ export default {
           title: "帐号状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
-          sorter: true,
+          sorter: (a, b) => {
+            return a.status - b.status;
+          },
           sortDirections: ["ascend", "descend"],
           width: 110
         },
@@ -457,14 +460,18 @@ export default {
         {
           title: "余额",
           dataIndex: "balance",
-          sorter: true,
+          sorter: (a, b) => {
+            return a.balance - b.balance;
+          },
           sortDirections: ["ascend", "descend"],
           width: 80
         },
         {
           title: "授信额度",
           dataIndex: "creditNumber",
-          sorter: true,
+          sorter: (a, b) => {
+            return a.creditNumber - b.creditNumber;
+          },
           sortDirections: ["ascend", "descend"],
           width: 110
         },
@@ -504,11 +511,12 @@ export default {
         }
       ],
       listQuery: {
-        key: "corporationCode",
+        key: "",
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        sorter: "",
       },
       paginationProps: {
         showQuickJumper: true,
@@ -532,9 +540,11 @@ export default {
   methods: {
     // 点击排序之后的回调
     handleTableChange (pagination, filters, sorter) {
-      // console.log(pagination, filters, sorter);
-      if (sorter) {
-        console.log("排序被点击了", sorter);
+      if (sorter && sorter.order) {
+        this.listQuery.key = sorter.columnKey;
+        this.listQuery.sorter = sorter.order.replace('end', '') + `-${sorter.columnKey}`;
+        this.getList();
+        // console.log("排序被点击了", sorter.columnKey);
       }
     },
     changepage (current) {
@@ -561,10 +571,21 @@ export default {
       console.log(`selected ${value}`);
     },
     getList () {
-      this.$store.dispatch("member/getList", { currentPage: this.paginationProps.current, pageSize: this.paginationProps.pageSize }).then(res => {
+      this.listQuery.currentPage = this.paginationProps.current;
+      this.listQuery.pageSize = this.paginationProps.pageSize;
+      this.$store.dispatch("member/getList", this.listQuery).then(res => {
         this.data = res.data.list;
         // console.log("3333333");
         this.paginationProps.total = res.data.totalCount * 1;
+      }).finally(() => {
+        this.listQuery = {
+          key: "",
+          search: "",
+          currentPage: 1,
+          pageSize: 10,
+          total: 0,
+          sorter: "",
+        }
       });
     },
     selectInfo (key) {
