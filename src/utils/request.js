@@ -4,18 +4,25 @@ import message from "ant-design-vue/es/message";
 import store from "@/store";
 import { getDomainUrl } from "@/utils/index";
 const axiosSource = axios.CancelToken.source();
-// const { AuthenticationClient } = require("authing-js-sdk");
-// const authenticationClient = new AuthenticationClient({
-//   appId: env.appId,
-//   appHost: env.appHost
-// });
+const { AuthenticationClient } = require("authing-js-sdk");
+const authenticationClient = new AuthenticationClient({
+  appId: env.appId,
+  appHost: env.appHost
+});
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
   baseURL: env.VUE_APP_BASE_URL,
   timeout: 5000 // 请求超时时间
 });
+// 下载请求地址集合
 const downloadUrl = [];
+// 白名单请求地址集合-无需校验登录状态的接口
+const whileRequestUrl = [
+  "/user/channelRegister",
+  "/sms/sendSms",
+  "/user/channelUserLogin"
+];
 
 // 异常拦截处理器
 const errorHandler = error => {
@@ -29,14 +36,14 @@ request.interceptors.request.use(async config => {
   config.headers.domain = getDomainUrl();
   const token = store.state.user.token;
   // 每次请求时需要判断登录状态，未登录直接跳转登录页，并且取消本次请求
-  // if (config.url !== "/user/loginByUsername") {
-  //   const data = await authenticationClient.checkLoginStatus(token);
-  //   if (data.code !== 200) {
-  //     axiosSource.cancel("取消请求");
-  //     store.dispatch("user/logout");
-  //     window.location.replace("/");
-  //   }
-  // }
+  if (whileRequestUrl.indexOf(config.url) === -1) {
+    const data = await authenticationClient.checkLoginStatus(token);
+    if (data.code !== 200) {
+      axiosSource.cancel("取消请求");
+      store.dispatch("user/logout");
+      window.location.replace("/");
+    }
+  }
   if (token) {
     // 让每个请求携带token-- ['token']为自定义key 请根据实际情况自行修改
     config.headers["token"] = token;

@@ -56,7 +56,11 @@
           >
             注册
           </a-button>
-          <a-button type="link" style="padding-right:0" @click="handleJumpLogin">
+          <a-button
+            type="link"
+            style="padding-right:0"
+            @click="handleJumpLogin"
+          >
             使用已有账户登录
           </a-button>
         </a-form-model-item>
@@ -144,8 +148,12 @@ export default {
           this.$store
             .dispatch("user/register", this.form)
             .then(res => {
-              this.$message.success("注册成功");
-              this.$router.push("/login");
+              if (res.data?.id) {
+                this.$message.success("注册成功");
+                this.$router.push("/login");
+              } else {
+                this.$message.warning("注册失败");
+              }
             })
             .finally(() => {
               this.loading = false;
