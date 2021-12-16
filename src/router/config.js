@@ -708,6 +708,16 @@ const options = {
                   component: () => import("@/pages/personal/single/single.vue")
                 },
                 {
+                  path: "add-single",
+                  name: "单页添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/single/addsingle.vue")
+                },
+                {
                   path: "seo",
                   name: "SEO优化",
                   meta: {

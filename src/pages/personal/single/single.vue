@@ -1,7 +1,7 @@
 <template>
   <div class="single-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn">
+      <a-button type="primary" icon="plus" class="btn" @click="addsingle">
         添加单页
       </a-button>
       <a-button icon="delete" class="btn">
@@ -19,7 +19,19 @@
         :row-selection="rowSelection"
         :columns="columns"
         :data-source="data"
+        rowKey="id"
+        :pagination="paginationProps"
+        :scroll="{ x: 1300 }"
       >
+        <span slot="action" slot-scope="text">
+          <a-button type="link" @click="updatePrice(text)">
+            修改
+          </a-button>
+          <a-divider type="vertical" />
+          <a-button type="link" @click="handleDel(text)">
+            删除
+          </a-button>
+        </span>
         <a slot="name" slot-scope="text">{{ text }}</a>
       </a-table>
     </div>
@@ -43,6 +55,12 @@ export default {
   created() {},
   data() {
     return {
+      listQuery: {
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
       columns: [
         {
           title: "编号",
@@ -75,36 +93,34 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: ""
+          key: "action",
+          dataIndex: "id",
+          fixed: "right",
+          scopedSlots: { customRender: "action" }
         }
       ],
-      data: [
-        // {
-        //   key: "1",
-        //   name: "John Brown",
-        //   age: 32,
-        //   address: "New York No. 1 Lake Park"
-        // },
-        // {
-        //   key: "2",
-        //   name: "Jim Green",
-        //   age: 42,
-        //   address: "London No. 1 Lake Park"
-        // },
-        // {
-        //   key: "3",
-        //   name: "Joe Black",
-        //   age: 32,
-        //   address: "Sidney No. 1 Lake Park"
-        // },
-        // {
-        //   key: "4",
-        //   name: "Disabled User",
-        //   age: 99,
-        //   address: "Sidney No. 1 Lake Park"
-        // }
-      ]
+      data: [],
+      friendshipdata: [],
+      paginationProps: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 1,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )} 页`,
+        onChange: this.quickJump,
+        onShowSizeChange: this.onShowSizeChange
+      },
+      selectedRowKeys: []
     };
+  },
+  activated() {},
+  methods: {
+    //添加单页
+    addsingle() {
+      this.$router.push("/personal/account/add-single");
+    }
   }
 };
 </script>
