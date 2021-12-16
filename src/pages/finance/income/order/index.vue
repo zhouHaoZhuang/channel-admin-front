@@ -120,7 +120,8 @@ export default {
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        sorter: ""
       },
       columns: [
         {
@@ -170,8 +171,6 @@ export default {
           dataIndex: "cashPay",
           key: "cashPay",
           width: 120,
-          sorter: true,
-          sortDirections: ["ascend", "descend"]
         },
         {
           title: "现金券支付",
@@ -273,44 +272,33 @@ export default {
     getList() {
       this.listQuery.currentPage = this.paginationProps.current;
       this.listQuery.pageSize = this.paginationProps.pageSize;
-      this.$getList("financialOrder/getList", this.listQuery).then(res => {
-        console.log(res);
-        this.data = [...res.data.list];
-        this.paginationProps.total = res.data.totalCount * 1;
-      })
-       .finally(() => {
+      this.$getList("financialOrder/getList", this.listQuery)
+        .then(res => {
+          console.log(res);
+          this.data = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
+        })
+        .finally(() => {
           this.tableLoading = false;
-          this.selectkey = {
-            corporationName: "",
-            corporationPhone: "",
-            currentPage: "1",
-            endTimeSort: "asc",
-            orderNo: "",
-            outIp: "",
-            pageSize: "10",
-            saleTimeSort: "asc",
-            sort: "asc"
-          }
+          this.listQuery = {
+            key: undefined,
+            search: "",
+            currentPage: 1,
+            pageSize: 10,
+            total: 0,
+            sorter: ""
+          };
         });
     },
     //排序
     handleChange(pagination, filters, sorter) {
-      if(sorter){
-        if(sorter.columnKey === 'saleTimeSort'){
-          if (sorter.order === 'ascend') {
-            this.selectkey.saleTimeSort = 'asc'
-          } else if (sorter.order === 'descend') {
-            this.selectkey.saleTimeSort = 'desc'
-          }
+      if (sorter && sorter.order) {
+        if (sorter.columnKey === "createTime") {
+          this.listQuery.createTimeSort = sorter.order.replace("end", "");
+        } else if (sorter.columnKey === "corporationCode") {
+          this.listQuery.corporationCodeSort = sorter.order.replace("end", "");
         }
-         else if (sorter.columnKey === 'endTimeStr') {
-          if (sorter.order === 'ascend') {
-            this.selectkey.endTimeSort = 'asc'
-          } else if (sorter.order === 'descend') {
-            this.selectkey.endTimeSort = 'desc'
-          }
-        }
-        this.getList()
+        this.getList();
       }
     },
     disabledStartDate(startValue) {
