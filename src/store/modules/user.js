@@ -19,19 +19,36 @@ const user = {
   },
 
   actions: {
+    // 注册
+    register({ commit, state }, data) {
+      return request({
+        url: "/user/channelRegister",
+        method: "post",
+        data
+      });
+    },
+    // 发送验证码
+    sendCode({ commit, state }, data) {
+      return request({
+        url: "/sms/sendSms",
+        method: "post",
+        data
+      });
+    },
     // 登录
     login({ commit, state, dispatch }, data) {
       return new Promise((resolve, reject) => {
         request({
-          url: "/user/loginByUsername",
+          url: "/user/channelUserLogin",
           method: "post",
           data
         })
           .then(res => {
-            const token = res.data.token;
-            commit("SET_TOKEN", token);
-            dispatch("getUserInfo");
-            resolve();
+            console.log("login", res);
+            // const token = res.data.token;
+            // commit("SET_TOKEN", token);
+            // dispatch("getUserInfo");
+            // resolve();
           })
           .catch(error => {
             reject(error);
