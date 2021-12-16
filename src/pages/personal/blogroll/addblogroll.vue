@@ -58,7 +58,7 @@
         <!-- 传图片 -->
         <div class="addimages">
           <a-form-model-item label="LOGO">
-            <Upload :defaultFileList="imgList" @change="imgChange" />
+            <Upload :defaultFileList="form.linkLogo" @change="imgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </a-form-model-item>
         </div>
@@ -73,11 +73,6 @@
 </template>
 
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 import Upload from "@/components/Upload/index";
 export default {
   data() {
@@ -137,11 +132,11 @@ export default {
     //上传图片
     imgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+      this.form.linkLogo = firstImageUrl;
     },
     // 提交
     onSubmit() {
-      this.form.linkLogo = this.imgList.toString();
+      // this.form.linkLogo = this.imgList.toString();
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
@@ -170,31 +165,6 @@ export default {
         description: ""
       };
     },
-    handleChange(info) {
-      if (info.file.status === "uploading") {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, imageUrl => {
-          this.imageUrl = imageUrl;
-          this.loading = false;
-        });
-      }
-    },
-    beforeUpload(file) {
-      const isJpgOrPng =
-        file.type === "image/jpeg" || file.type === "image/png";
-      if (!isJpgOrPng) {
-        this.$message.error("You can only upload JPG file!");
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error("Image must smaller than 2MB!");
-      }
-      return isJpgOrPng && isLt2M;
-    }
   }
 };
 </script>

@@ -11,6 +11,11 @@ const options = {
       component: () => import("@/pages/passport/login")
     },
     {
+      path: "/register",
+      name: "注册页",
+      component: () => import("@/pages/passport/register")
+    },
+    {
       path: "*",
       name: "404",
       component: () => import("@/pages/exception/404")
@@ -708,6 +713,16 @@ const options = {
                   component: () => import("@/pages/personal/single/single.vue")
                 },
                 {
+                  path: "add-single",
+                  name: "单页添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/single/addsingle.vue")
+                },
+                {
                   path: "seo",
                   name: "SEO优化",
                   meta: {
@@ -768,8 +783,7 @@ const options = {
                     invisible: true,
                     back: true
                   },
-                  component: () =>
-                    import("@/pages/system/admin/addChannel")
+                  component: () => import("@/pages/system/admin/addChannel")
                 },
                 // {
                 //   path: "detail",
