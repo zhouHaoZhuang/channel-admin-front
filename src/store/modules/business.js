@@ -13,7 +13,7 @@ const business = {
       return request({
         url: "/scEcsStock/queryEcsPage",
         method: "get",
-        data: params
+        params
       });
     },
     delList({ commit, state }, id) {
