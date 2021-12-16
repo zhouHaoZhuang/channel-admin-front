@@ -44,11 +44,10 @@ const user = {
           data
         })
           .then(res => {
-            console.log("login", res);
-            // const token = res.data.token;
-            // commit("SET_TOKEN", token);
-            // dispatch("getUserInfo");
-            // resolve();
+            const token = res.data.token;
+            commit("SET_TOKEN", token);
+            commit("SET_USERINFO", res.data);
+            resolve();
           })
           .catch(error => {
             reject(error);
@@ -59,6 +58,7 @@ const user = {
     logout({ commit, state }) {
       return new Promise(resolve => {
         commit("SET_TOKEN", "");
+        commit("SET_USERINFO", {});
         const authenticationClient = new AuthenticationClient({
           appId: env.appId,
           appHost: env.appHost,
@@ -69,16 +69,16 @@ const user = {
       });
     },
     // 获取用户信息
-    getUserInfo({ commit, state }) {
-      const authenticationClient = new AuthenticationClient({
-        appId: env.appId,
-        appHost: env.appHost,
-        token: state.token
-      });
-      authenticationClient.getCurrentUser().then(user => {
-        commit("SET_USERINFO", user);
-      });
-    },
+    // getUserInfo({ commit, state }) {
+    //   const authenticationClient = new AuthenticationClient({
+    //     appId: env.appId,
+    //     appHost: env.appHost,
+    //     token: state.token
+    //   });
+    //   authenticationClient.getCurrentUser().then(user => {
+    //     commit("SET_USERINFO", user);
+    //   });
+    // },
     //修改密码
     changePassword({ commit, state }, data) {
       return request({
