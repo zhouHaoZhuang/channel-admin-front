@@ -97,21 +97,20 @@ export default {
   methods: {
     // 登录
     onSubmit() {
-      this.$router.push("/");
-      // this.$refs.ruleForm.validate(valid => {
-      //   if (valid) {
-      //     this.loading = true;
-      //     this.$store
-      //       .dispatch("user/login", this.form)
-      //       .then(res => {
-      //         this.$message.success("登录成功");
-      //         this.$router.push("/");
-      //       })
-      //       .finally(() => {
-      //         this.loading = false;
-      //       });
-      //   }
-      // });
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.$store
+            .dispatch("user/login", this.form)
+            .then(res => {
+              this.$message.success("登录成功");
+              this.$router.push("/");
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
+      });
     },
     // 跳转注册
     handleJumpRegister() {
