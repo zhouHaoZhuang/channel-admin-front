@@ -44,8 +44,6 @@
             删除
           </a-button>
         </span>
-        <a slot="name"
-           slot-scope="text">{{ text }}</a>
       </a-table>
     </div>
   </div>
@@ -98,7 +96,7 @@ export default {
         },
         {
           title: "修改时间",
-          dataIndex: "createTime"
+          dataIndex: "modifyTime"
         },
         {
           title: "开启状态",
@@ -141,12 +139,26 @@ export default {
       this.$store.dispatch("page/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = res.data.list;
-        this.paginationProps.total = res.data.totalCount;
+        this.paginationProps.total = res.data.totalCount * 1;
       })
+    },
+    quickJump (page) {
+      this.listQuery.currentPage = page;
+      this.getList();
+    },
+    onShowSizeChange (current, pageSize) {
+      this.listQuery.pageSize = pageSize;
+      this.listQuery.currentPage = current;
+      this.getList();
     },
     //修改单页
     updatePrice (id) {
-
+      this.$router.push({
+        path: "/personal/account/amend-single",
+        query: {
+          id: id
+        }
+      });
     },
     // 删除单页
     handleDel (id) {
