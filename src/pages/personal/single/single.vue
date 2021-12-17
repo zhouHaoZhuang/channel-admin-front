@@ -88,17 +88,17 @@ export default {
           title: "访问路径",
           dataIndex: "resourceAddress"
         },
-        {
-          title: "模板",
-          dataIndex: "modeFileName"
-        },
+        // {
+        //   title: "模板",
+        //   dataIndex: "modeFileName"
+        // },
         {
           title: "创建时间",
           dataIndex: "createTime"
         },
         {
           title: "修改时间",
-          dataIndex: "createTime"
+          dataIndex: "modifyTime"
         },
         {
           title: "开启状态",
@@ -125,7 +125,7 @@ export default {
           )} 页`,
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
-      },
+      }, 
       selectedRowKeys: []
     };
   },
@@ -141,7 +141,7 @@ export default {
       this.$store.dispatch("page/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = res.data.list;
-        this.paginationProps.total = res.data.totalCount;
+        this.paginationProps.total = res.data.totalCount * 1;
       })
     },
     //修改单页
