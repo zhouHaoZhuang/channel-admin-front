@@ -122,9 +122,6 @@ export default {
 
 <style lang="less" scoped>
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #26a6f5;
   .login {
     width: 460px;
@@ -132,6 +129,11 @@ export default {
     border-radius: 4px;
     padding: 30px 20px 40px;
     background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 999;
   }
 }
 </style>
