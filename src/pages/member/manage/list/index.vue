@@ -616,10 +616,10 @@ export default {
 .member-container {
   background-color: #fff;
   margin-left: 20px;
+  padding: 20px;
   .member-top {
     display: flex;
-    width: 1230px;
-    margin-left: 20px;
+    width: 80%;
     padding: 24px 0;
     justify-content: space-between;
     .search {
@@ -629,13 +629,11 @@ export default {
   }
   .member-filterall {
     border: 1px solid #e0e0e0;
-    width: 1220px;
-    margin-left: 25px;
+    width: 100%;
     background-color: #fafafa;
-
     .member-filter {
       display: flex;
-      width: 1220px;
+      width: 100%;
       border: 1px solid #e0e0e0;
       background-color: #fafafa;
       margin-top: -1px;

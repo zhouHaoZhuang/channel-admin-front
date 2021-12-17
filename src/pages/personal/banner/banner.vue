@@ -1,51 +1,66 @@
 <template>
   <div class="banner-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn" @click="addbanner">
+      <a-button type="primary"
+                icon="plus"
+                class="btn"
+                @click="addbanner">
         添加Banner
       </a-button>
-      <a-button icon="delete" class="btn" @click="deleteinbatches">
+      <a-button icon="delete"
+                class="btn"
+                @click="deleteinbatches">
         批量删除
       </a-button>
-      <a-button icon="check" class="btn">
+      <a-button icon="check"
+                class="btn">
         显示
       </a-button>
-      <a-button icon="stop" class="btn">
+      <a-button icon="stop"
+                class="btn">
         隐藏
       </a-button>
-      <a-button icon="column-height" class="btn">
+      <a-button icon="column-height"
+                class="btn">
         排序
       </a-button>
     </div>
     <div class="table-content">
-      <a-table
-        :row-selection="rowSelection"
-        :columns="columns"
-        :data-source="data"
-        rowKey="id"
-        :pagination="paginationProps"
-        :scroll="{ x: 1300 }"
-      >
-        <div slot="bannerType" slot-scope="text">
+      <a-table :row-selection="rowSelection"
+               :columns="columns"
+               :data-source="data"
+               rowKey="id"
+               :pagination="paginationProps"
+               :scroll="{ x: 1300 }">
+        <div slot="bannerType"
+             slot-scope="text">
           <div v-if="text === 0"></div>
           <div v-else-if="text === 1"></div>
           {{ text === 0 ? "首页banner" : "云服务器banner" }}
         </div>
-        <div class="status" slot="status" slot-scope="text">
-          <div v-if="text === 0" class="dot"></div>
-          <div v-else class="dot dot-err"></div>
+        <div class="status"
+             slot="status"
+             slot-scope="text">
+          <div v-if="text === 0"
+               class="dot"></div>
+          <div v-else
+               class="dot dot-err"></div>
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
-        <span slot="action" slot-scope="text">
-          <a-button type="link" @click="updatePrice(text)">
+        <span slot="action"
+              slot-scope="text">
+          <a-button type="link"
+                    @click="updatePrice(text)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(text)">
+          <a-button type="link"
+                    @click="handleDel(text)">
             删除
           </a-button>
         </span>
-        <a slot="name" slot-scope="text">{{ text }}</a>
+        <a slot="name"
+           slot-scope="text">{{ text }}</a>
       </a-table>
     </div>
   </div>
@@ -54,7 +69,7 @@
 <script>
 export default {
   computed: {
-    rowSelection() {
+    rowSelection () {
       return {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
@@ -64,8 +79,8 @@ export default {
       };
     }
   },
-  created() {},
-  data() {
+  created () { },
+  data () {
     return {
       listQuery: {
         search: "",
@@ -124,7 +139,7 @@ export default {
       selectedRowKeys: []
     };
   },
-  activated() {
+  activated () {
     this.getList();
   },
   methods: {
@@ -134,7 +149,7 @@ export default {
     //   this.getList();
     // },
     //查询数据表格
-    getList() {
+    getList () {
       this.$store.dispatch("banner/getList").then(res => {
         console.log(res);
         this.data = [...res.data.list];
@@ -149,22 +164,22 @@ export default {
       // })
     },
     //表格分页跳转
-    quickJump(currentPage) {
+    quickJump (currentPage) {
       this.listQuery.currentPage = currentPage;
       this.getList();
     },
     //表格分页切换每页条数
-    onShowSizeChange(current, pageSize) {
+    onShowSizeChange (current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
     //添加banner
-    addbanner() {
+    addbanner () {
       this.$router.push("/personal/account/add-banner");
     },
     //修改
-    updatePrice(text) {
+    updatePrice (text) {
       this.$router.push({
         path: "/personal/account/amend-banner",
         query: {
@@ -173,21 +188,25 @@ export default {
       });
     },
     //删除
-    handleDel(id) {
+    handleDel (id) {
       console.log(id);
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
           this.$store.dispatch("banner/delPrice", id).then(val => {
             this.$message.success("操作成功");
-           this.getList();
+            this.getList();
           });
         }
       });
     },
     //批量删除
-    deleteinbatches(){
-      console.log(this.selectedRowKeys.toString());
+    deleteinbatches () {
+      // console.log(this.selectedRowKeys.toString());
+      if (this.selectedRowKeys.length === 0) {
+        this.$message.error("请选择要删除的数据");
+        return;
+      }
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {

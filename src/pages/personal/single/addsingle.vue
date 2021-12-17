@@ -1,42 +1,45 @@
 <template>
   <div class="add-blogroll-container">
     <div class="content">
-      <a-form-model
-        ref="ruleForm"
-        :model="form"
-        :rules="rules"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-      >
-        <a-form-model-item label="页面名称" prop="linkName">
+      <a-form-model ref="ruleForm"
+                    :model="form"
+                    :rules="rules"
+                    :label-col="labelCol"
+                    :wrapper-col="wrapperCol">
+        <a-form-model-item label="页面名称"
+                           prop="linkName">
           <a-input v-model="form.linkName" />
         </a-form-model-item>
-        <a-form-model-item label="页面标题" prop="linkUrl">
+        <a-form-model-item label="页面标题"
+                           prop="linkUrl">
           <a-input v-model="form.linkUrl" />
         </a-form-model-item>
-        <a-form-model-item label="关键词" type="linkDescribe">
+        <a-form-model-item label="关键词"
+                           type="linkDescribe">
           <a-input v-model="form.linkDescribe" />
         </a-form-model-item>
-         <a-form-model-item label="描述" type="textarea" >
+        <a-form-model-item label="描述"
+                           type="textarea">
           <a-input v-model="form.linkDescribe" />
         </a-form-model-item>
-        <a-form-model-item label="访问地址" type="linkDescribe">
+        <a-form-model-item label="访问地址"
+                           type="linkDescribe">
           <a-input v-model="form.linkDescribe" />
         </a-form-model-item>
         <a-form-model-item label="模板文件名">
-          <a-select v-model="form.linkTypeName" placeholder="公有云商">
-            <a-select-option
-              v-for="item in data"
-              :key="item.linkTypeCode"
-              :value="item.linkTypeCode"
-            >
+          <a-select v-model="form.linkTypeName"
+                    placeholder="公有云商">
+            <a-select-option v-for="item in data"
+                             :key="item.linkTypeCode"
+                             :value="item.linkTypeCode">
               {{ item.linkTypeName }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
-         <a-form-model-item label="banner图">
+        <a-form-model-item label="banner图">
           <div class="addimages">
-            <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
+            <Upload :defaultFile="form.pcPicture"
+                    @change="pcImgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </div>
         </a-form-model-item>
@@ -58,7 +61,7 @@
 <script>
 import Upload from "@/components/Upload/index";
 export default {
-  data() {
+  data () {
     return {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
@@ -98,24 +101,24 @@ export default {
   components: {
     Upload
   },
-  created() {
+  created () {
     this.getfriendshipList();
   },
   methods: {
     //查询数据表格
-    getfriendshipList() {
+    getfriendshipList () {
       this.$store.dispatch("blogroll/getfriendshipList").then(res => {
         console.log(res);
         this.data = res.data.list;
       });
     },
     // 上传pc图片
-    pcImgChange({ urlList, firstImageUrl }) {
+    pcImgChange ({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.form.pcPicture = firstImageUrl;
     },
     // 提交
-    onSubmit() {
+    onSubmit () {
       // this.form.linkLogo = this.imgList.toString();
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
@@ -134,7 +137,7 @@ export default {
       });
     },
     // 重置表单数据
-    resetForm() {
+    resetForm () {
       this.$refs.ruleForm.clearValidate();
       this.form = {
         cutomerName: "",
