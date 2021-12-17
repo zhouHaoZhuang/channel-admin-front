@@ -86,6 +86,14 @@ const user = {
         method: "post",
         data
       });
+    },
+    // 上传图片
+    uploadImg({ commit, state }, data) {
+      return request({
+        url: "/ccOss/uploadFile",
+        method: "post",
+        data
+      });
     }
   }
 };
