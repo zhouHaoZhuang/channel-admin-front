@@ -13,7 +13,7 @@ const authenticationClient = new AuthenticationClient({
 const request = axios.create({
   // API 请求的默认前缀
   baseURL: env.VUE_APP_BASE_URL,
-  timeout: 5000 // 请求超时时间
+  timeout: 10000 // 请求超时时间
 });
 // 下载请求地址集合
 const downloadUrl = [];

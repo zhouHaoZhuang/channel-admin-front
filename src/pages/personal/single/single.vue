@@ -119,7 +119,7 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
     };
   },
   activated() {
@@ -136,6 +136,15 @@ export default {
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });
+    },
+    quickJump (page) {
+      this.listQuery.currentPage = page;
+      this.getList();
+    },
+    onShowSizeChange (current, pageSize) {
+      this.listQuery.pageSize = pageSize;
+      this.listQuery.currentPage = current;
+      this.getList();
     },
     //修改单页
     updatePrice(id) {
