@@ -35,7 +35,7 @@ const page = {
     edit({ commit, state }, data) {
       return request({
         url: `/ccPage/${data.id}`,
-        method: "put",
+        method: "patch",
         data
       });
     },

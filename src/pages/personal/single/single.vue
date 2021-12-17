@@ -44,8 +44,8 @@
             删除
           </a-button>
         </span>
-        <a slot="name"
-           slot-scope="text">{{ text }}</a>
+        <!-- <a slot="name"
+           slot-scope="text">{{ text }}</a> -->
       </a-table>
     </div>
   </div>
@@ -146,11 +146,26 @@ export default {
     },
     //修改单页
     updatePrice (id) {
-
+      this.$router.push({
+        path: "/personal/account/amend-single",
+        query: {
+          id: id
+        }
+      });
     },
     // 删除单页
     handleDel (id) {
-
+ console.log(id);
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("page/delPrice", id).then(val => {
+            // this.$message.success("操作成功");
+            console.log(val, 9090);
+            this.getList();
+          });
+        }
+      });
     }
   }
 };

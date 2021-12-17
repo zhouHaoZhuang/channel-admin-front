@@ -8,23 +8,23 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="页面名称" prop="linkName">
-          <a-input v-model="form.linkName" />
+        <a-form-model-item label="页面名称" prop="pageName">
+          <a-input v-model="form.pageName" />
         </a-form-model-item>
-        <a-form-model-item label="页面标题" prop="linkUrl">
-          <a-input v-model="form.linkUrl" />
+        <a-form-model-item label="页面标题" prop="pageTitle">
+          <a-input v-model="form.pageTitle" />
         </a-form-model-item>
-        <a-form-model-item label="关键词" type="linkDescribe">
-          <a-input v-model="form.linkDescribe" />
+        <a-form-model-item label="关键词" type="keyWords">
+          <a-input v-model="form.keyWords" />
         </a-form-model-item>
-         <a-form-model-item label="描述" type="textarea" >
-          <a-input v-model="form.linkDescribe" />
+         <a-form-model-item label="描述" type="describe" >
+          <a-input v-model="form.describe" />
         </a-form-model-item>
-        <a-form-model-item label="访问地址" type="linkDescribe">
-          <a-input v-model="form.linkDescribe" />
+        <a-form-model-item label="访问地址" type="resourceAddress">
+          <a-input v-model="form.resourceAddress" />
         </a-form-model-item>
-        <a-form-model-item label="模板文件名">
-          <a-select v-model="form.linkTypeName" placeholder="公有云商">
+        <!-- <a-form-model-item label="模板文件名">
+          <a-select v-model="form.modeFileName" placeholder="公有云商">
             <a-select-option
               v-for="item in data"
               :key="item.linkTypeCode"
@@ -33,10 +33,10 @@
               {{ item.linkTypeName }}
             </a-select-option>
           </a-select>
-        </a-form-model-item>
+        </a-form-model-item> -->
          <a-form-model-item label="banner图">
           <div class="addimages">
-            <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
+            <Upload :defaultFile="form.bannerPicture" @change="pcImgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </div>
         </a-form-model-item>
@@ -49,6 +49,11 @@
               关闭
             </a-radio>
           </a-radio-group>
+        </a-form-model-item>
+         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button type="primary" @click="onSubmit" :loading="loading">
+            确定添加
+          </a-button>
         </a-form-model-item>
       </a-form-model>
     </div>
@@ -63,17 +68,28 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        linkTypeName: "",
-        linkTypeCode: "",
-        linkName: "",
-        linkUrl: "",
-        linkDescribe: "",
-        bottomShow: 0,
-        status: 0,
-        linkSort: 0,
-        channelCode: "",
-        linkLogo: "",
-        linkTypeSort: 0
+          bannerPicture:"",
+          // channelCode:"",
+          context:"",
+          describe:"",
+          keyWords:"",
+          modeFileName:"",
+          pageName:"",
+          pageTitle:"",
+          resourceAddress:"",
+          status:"",
+          id:""
+        // linkTypeName: "",
+        // linkTypeCode: "",
+        // linkName: "",
+        // linkUrl: "",
+        // linkDescribe: "",
+        // bottomShow: 0,
+        // status: 0,
+        // linkSort: 0,
+        // channelCode: "",
+        // linkLogo: "",
+        // linkTypeSort: 0
       },
       rules: {
         linkName: [
@@ -99,12 +115,13 @@ export default {
     Upload
   },
   created() {
-    this.getfriendshipList();
+    this.getList();
+     this.form.id = this.$route.query.id;
   },
   methods: {
     //查询数据表格
-    getfriendshipList() {
-      this.$store.dispatch("blogroll/getfriendshipList").then(res => {
+    getList() {
+      this.$store.dispatch("page/getList").then(res => {
         console.log(res);
         this.data = res.data.list;
       });
@@ -112,39 +129,31 @@ export default {
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
-      this.form.pcPicture = firstImageUrl;
+      this.form.bannerPicture = firstImageUrl;
     },
     // 提交
     onSubmit() {
       // this.form.linkLogo = this.imgList.toString();
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("blogroll/add", this.form)
-            .then(res => {
-              this.$message.success("新增列表成功");
-              this.resetForm();
-              this.$router.back();
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-        }
+     this.$refs.ruleForm.validate(valid => {
+        this.$store.dispatch("page/edit", this.form).then(res => {
+          this.$message.success("提交成功");
+          // this.resetForm();
+          this.$router.back();
+        });
       });
     },
     // 重置表单数据
-    resetForm() {
-      this.$refs.ruleForm.clearValidate();
-      this.form = {
-        cutomerName: "",
-        shortName: "",
-        addressProject: "",
-        contract: "",
-        number: "",
-        description: ""
-      };
-    }
+    // resetForm() {
+    //   this.$refs.ruleForm.clearValidate();
+    //   this.form = {
+    //     cutomerName: "",
+    //     shortName: "",
+    //     addressProject: "",
+    //     contract: "",
+    //     number: "",
+    //     description: ""
+    //   };
+    // }
   }
 };
 </script>

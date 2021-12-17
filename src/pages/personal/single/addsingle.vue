@@ -127,7 +127,7 @@ export default {
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
-      this.form.pcPicture = firstImageUrl;
+      this.form.bannerPicture = firstImageUrl;
     },
     // 提交
     onSubmit() {
