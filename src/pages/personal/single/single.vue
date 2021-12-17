@@ -1,38 +1,51 @@
 <template>
   <div class="single-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn" @click="addsingle">
+      <a-button type="primary"
+                icon="plus"
+                class="btn"
+                @click="addsingle">
         添加单页
       </a-button>
-      <a-button icon="delete" class="btn">
+      <a-button icon="delete"
+                class="btn">
         批量删除
       </a-button>
-      <a-button icon="check" class="btn">
+      <a-button icon="check"
+                class="btn">
         显示
       </a-button>
-      <a-button icon="stop" class="btn">
+      <a-button icon="stop"
+                class="btn">
         隐藏
       </a-button>
     </div>
     <div class="table-content">
-      <a-table
-        :row-selection="rowSelection"
-        :columns="columns"
-        :data-source="data"
-        rowKey="id"
-        :pagination="paginationProps"
-        :scroll="{ x: 1300 }"
-      >
-        <span slot="action" slot-scope="text">
-          <a-button type="link" @click="updatePrice(text)">
+      <a-table :row-selection="rowSelection"
+               :columns="columns"
+               :data-source="data"
+               rowKey="id"
+               :pagination="paginationProps"
+               :scroll="{ x: 1300 }">
+        <span slot="status"
+              slot-scope="text">
+          {{text.status==1?'关闭':'开启'}}
+        </span>
+
+        <span slot="action"
+              slot-scope="text">
+          <a-button type="link"
+                    @click="updatePrice(text)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(text)">
+          <a-button type="link"
+                    @click="handleDel(text)">
             删除
           </a-button>
         </span>
-        <a slot="name" slot-scope="text">{{ text }}</a>
+        <a slot="name"
+           slot-scope="text">{{ text }}</a>
       </a-table>
     </div>
   </div>
@@ -40,7 +53,7 @@
 <script>
 export default {
   computed: {
-    rowSelection() {
+    rowSelection () {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
           console.log(
@@ -52,8 +65,8 @@ export default {
       };
     }
   },
-  created() {},
-  data() {
+  created () { },
+  data () {
     return {
       listQuery: {
         search: "",
@@ -64,32 +77,33 @@ export default {
       columns: [
         {
           title: "编号",
-          dataIndex: "name",
+          dataIndex: "id",
           scopedSlots: { customRender: "name" }
         },
         {
           title: "页面名称",
-          dataIndex: "age"
+          dataIndex: "pageName"
         },
         {
           title: "访问路径",
-          dataIndex: ""
+          dataIndex: "resourceAddress"
         },
         {
           title: "模板",
-          dataIndex: ""
+          dataIndex: "modeFileName"
         },
         {
           title: "创建时间",
-          dataIndex: ""
+          dataIndex: "createTime"
         },
         {
           title: "修改时间",
-          dataIndex: ""
+          dataIndex: "createTime"
         },
         {
           title: "开启状态",
-          dataIndex: ""
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "操作",
@@ -115,11 +129,28 @@ export default {
       selectedRowKeys: []
     };
   },
-  activated() {},
+  activated () {
+    this.getList();
+  },
   methods: {
     //添加单页
-    addsingle() {
+    addsingle () {
       this.$router.push("/personal/account/add-single");
+    },
+    getList () {
+      this.$store.dispatch("page/getList", this.listQuery).then(res => {
+        console.log(res);
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.totalCount;
+      })
+    },
+    //修改单页
+    updatePrice (id) {
+
+    },
+    // 删除单页
+    handleDel (id) {
+
     }
   }
 };

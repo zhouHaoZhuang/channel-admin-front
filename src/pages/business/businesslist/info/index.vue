@@ -16,7 +16,7 @@
                 <span class="basicInformation-info">{{ dataOrder[0].id }}</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">线路：</span><span class="basicInformation-info">{{address(dataOrder[0].regionId)}}</span>
+                <span class="basicInformation-type">线路：</span><span class="basicInformation-info">{{address(dataOrder[0].regionId)||dataOrder[0].regionId}}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">服务器IP：</span><span class="basicInformation-info">

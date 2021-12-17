@@ -240,7 +240,7 @@
                    rowKey="id"
                    :pagination="paginationProps"
                    @change="handleChangeSort"
-                   :scroll="{ x: 2100 }">
+                   :scroll="{ x: 2200 }">
             <div slot="runningStatus"
                  slot-scope="text">
               <span v-if="text == 0"
@@ -296,12 +296,12 @@ export default {
         corporationName: "",
         corporationPhone: "",
         currentPage: "1",
-        endTimeSort: "asc",
+        endTimeSort: "",
         orderNo: "",
         outIp: "",
         pageSize: "10",
-        saleTimeSort: "asc",
-        sort: "asc",
+        saleTimeSort: "",
+        sort: "",
         runningStatus: 0,
       },
       searchColumns: [
@@ -342,8 +342,8 @@ export default {
         },
         {
           title: "机房", dataIndex: "regionId", customRender: (text, record, index) => {
-            return this.regionMapData[text]
-          }
+            return this.regionMapData[text] || text
+          }, width: 150
         },
         { title: "CPU", dataIndex: "cup", key: "cpu" },
         { title: "内存", dataIndex: "memory", key: "memory" },
@@ -358,13 +358,14 @@ export default {
         {
           title: "会员ID",
           dataIndex: "corporationCode",
-          key: "corporationCode"
+          key: "corporationCode",
+          width: 190
         },
         {
           title: "购买时间",
           dataIndex: "purchaseTimeStr",
           sorter: true,
-          width: 180,
+          width: 190,
           sortDirections: ["ascend", "descend"]
         },
         {
@@ -421,11 +422,17 @@ export default {
       if (sorter && sorter.order) {
         if (sorter.columnKey === 'purchaseTimeStr') {
           this.selectkey.saleTimeSort = sorter.order.replace('end', '')
+          this.getList(() => {
+            this.selectkey.saleTimeSort = ''
+          })
         }
         else if (sorter.columnKey === 'endTimeStr') {
           this.selectkey.endTimeSort = sorter.order.replace('end', '')
+          this.getList(() => {
+            this.selectkey.endTimeSort = ''
+          })
         }
-        this.getList()
+
       }
     },
     businessOpening () {
@@ -444,7 +451,7 @@ export default {
       this.getList();
     },
     // 查询表格数据
-    getList () {
+    getList (callBack) {
       this.tableLoading = true;
       this.selectkey.currentPage = this.paginationProps.current;
       this.selectkey.pageSize = this.paginationProps.pageSize;
@@ -457,6 +464,9 @@ export default {
         })
         .finally(() => {
           this.tableLoading = false;
+          if (callBack) {
+            callBack();
+          }
           // this.selectkey = {
           //   corporationName: "",
           //   corporationPhone: "",
