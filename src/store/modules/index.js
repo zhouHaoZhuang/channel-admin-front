@@ -13,6 +13,8 @@ import banner from "./banner"
 import blogroll from "./blogroll";
 import business from "./business";
 import globalBasic from "./globalBasic";
+import page from "./page";
+
 export default {
   user,
   account,
@@ -28,5 +30,6 @@ export default {
   banner,
   blogroll,
   business,
-  globalBasic
+  globalBasic,
+  page
 };
