@@ -124,7 +124,7 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
     };
   },
   activated () {

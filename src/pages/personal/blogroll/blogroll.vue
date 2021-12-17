@@ -1,86 +1,112 @@
 <template>
   <div class="friendship-container">
     <div class="head">
-      <a-tabs type="card" @change="callback" style="width:100%">
-        <a-tab-pane key="1" tab="友情链接管理">
+      <a-tabs type="card"
+              @change="callback"
+              style="width:100%">
+        <a-tab-pane key="1"
+                    tab="友情链接管理">
           <div class="btn-head">
-            <a-button type="primary" icon="plus" class="btn" @click="addfriend">
+            <a-button type="primary"
+                      icon="plus"
+                      class="btn"
+                      @click="addfriend">
               添加友情链接
             </a-button>
-            <a-button icon="delete" class="btn" @click="deleteinbatches">
+            <a-button icon="delete"
+                      class="btn"
+                      @click="deleteinbatches">
               批量删除
             </a-button>
-            <a-button icon="check" class="btn">
+            <a-button icon="check"
+                      class="btn">
               显示
             </a-button>
-            <a-button icon="stop" class="btn">
+            <a-button icon="stop"
+                      class="btn">
               隐藏
             </a-button>
-            <a-button icon="column-height" class="btn">
+            <a-button icon="column-height"
+                      class="btn">
               排序
             </a-button>
           </div>
           <div class="table-content">
-            <a-table
-              :row-selection="rowSelection"
-              :columns="columns"
-              :data-source="data"
-              rowKey="id"
-              :pagination="paginationProps"
-              :scroll="{ x: 1300 }"
-            >
-              <div slot="tableNumber" slot-scope="text, record, index">
+            <a-table :row-selection="rowSelection"
+                     :columns="columns"
+                     :data-source="data"
+                     rowKey="id"
+                     :pagination="paginationProps"
+                     :scroll="{ x: 1300 }">
+              <div slot="tableNumber"
+                   slot-scope="text, record, index">
                 {{ index * listQuery.currentPage + 1 }}
               </div>
-              <div class="status" slot="status" slot-scope="text">
-                <div v-if="text === 0" class="dot"></div>
-                <div v-else class="dot dot-err"></div>
+              <div class="status"
+                   slot="status"
+                   slot-scope="text">
+                <div v-if="text === 0"
+                     class="dot"></div>
+                <div v-else
+                     class="dot dot-err"></div>
                 {{ text === 0 ? "正常" : "冻结" }}
               </div>
-              <div slot="bottomShow" slot-scope="text">
+              <div slot="bottomShow"
+                   slot-scope="text">
                 <div v-if="text === 0"></div>
                 <div v-else-if="text === 1"></div>
                 {{ text === 0 ? "全站展示" : "只显示首页" }}
               </div>
-              <a slot="name" slot-scope="text">{{ text }}</a>
-              <span slot="action" slot-scope="text">
-                <a-button type="link" @click="updatePrice(text)">
+              <a slot="name"
+                 slot-scope="text">{{ text }}</a>
+              <span slot="action"
+                    slot-scope="text">
+                <a-button type="link"
+                          @click="updatePrice(text)">
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDel(text)">
+                <a-button type="link"
+                          @click="handleDel(text)">
                   删除
                 </a-button>
               </span>
             </a-table>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="友情链接分类管理">
+        <a-tab-pane key="2"
+                    tab="友情链接分类管理">
           <div class="btn-head">
-            <a-button
-              type="primary"
-              icon="plus"
-              class="btn"
-              @click="addclassify"
-            >
+            <a-button type="primary"
+                      icon="plus"
+                      class="btn"
+                      @click="addclassify">
               添加分类
             </a-button>
-            <a-button icon="column-height" class="btn">
+            <a-button icon="column-height"
+                      class="btn">
               排序
             </a-button>
           </div>
           <div class="table-content">
-            <a-table :columns="columnss" :data-source="friendshipdata" rowKey="id">
-               <div slot="tableNumber" slot-scope="text, record, index">
+            <a-table :columns="columnss"
+                     :data-source="friendshipdata"
+                     rowKey="id">
+              <div slot="tableNumber"
+                   slot-scope="text, record, index">
                 {{ index * listQuery.currentPage + 1 }}
               </div>
-              <a slot="name" slot-scope="text">{{ text }}</a>
-              <span slot="action" slot-scope="text">
-                <a-button type="link" @click="amendclassify(text)">
+              <a slot="name"
+                 slot-scope="text">{{ text }}</a>
+              <span slot="action"
+                    slot-scope="text">
+                <a-button type="link"
+                          @click="amendclassify(text)">
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDels(text)">
+                <a-button type="link"
+                          @click="handleDels(text)">
                   删除
                 </a-button>
               </span>
@@ -95,7 +121,7 @@
 <script>
 export default {
   computed: {
-    rowSelection() {
+    rowSelection () {
       return {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
@@ -105,7 +131,7 @@ export default {
       };
     }
   },
-  data() {
+  data () {
     return {
       listQuery: {
         search: "",
@@ -169,7 +195,7 @@ export default {
         {
           title: "友情链接数量",
           dataIndex: "linkCount",
-          key:"linkCount"
+          key: "linkCount"
         },
         {
           title: "操作",
@@ -181,7 +207,7 @@ export default {
       ],
       data: [],
       // 友情管理表
-      friendshipdata:[],
+      friendshipdata: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -196,41 +222,41 @@ export default {
       selectedRowKeys: []
     };
   },
-  activated() {
+  activated () {
     this.getList();
     this.getfriendshipList();
   },
   methods: {
-    callback(key) {
+    callback (key) {
       // console.log(key);
     },
     //查询数据表格
-    getList() {
+    getList () {
       this.$store.dispatch("blogroll/getList").then(res => {
         console.log(res);
         this.data = [...res.data.list];
       });
     },
     //查询友情数据表格
-    getfriendshipList() {
+    getfriendshipList () {
       this.$store.dispatch("blogroll/getfriendshipList").then(res => {
-        console.log('aa',res);
+        console.log('aa', res);
         this.friendshipdata = [...res.data.list];
       });
     },
     //表格分页跳转
-    quickJump(currentPage) {
+    quickJump (currentPage) {
       this.listQuery.currentPage = currentPage;
       this.getList();
     },
     //表格分页切换每页条数
-    onShowSizeChange(current, pageSize) {
+    onShowSizeChange (current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
     //修改
-    updatePrice(text) {
+    updatePrice (text) {
       this.$router.push({
         path: "/personal/account/amend-blogroll",
         query: {
@@ -239,7 +265,7 @@ export default {
       });
     },
     //删除
-    handleDel(id) {
+    handleDel (id) {
       console.log(id);
       this.$confirm({
         title: "确定要删除吗?",
@@ -252,7 +278,7 @@ export default {
         }
       });
     },
-    handleDels(id){
+    handleDels (id) {
       console.log(id);
       this.$confirm({
         title: "确定要删除吗?",
@@ -266,8 +292,12 @@ export default {
       });
     },
     //批量删除
-    deleteinbatches() {
+    deleteinbatches () {
       // console.log(this.selectedRowKeys.toString());
+      if (this.selectedRowKeys.length === 0) {
+        this.$message.error("请选择要删除的数据");
+        return;
+      }
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
@@ -281,19 +311,19 @@ export default {
       });
     },
     //添加
-    addfriend() {
+    addfriend () {
       this.$router.push("/personal/account/add-blogroll");
     },
     //添加
-    addclassify() {
+    addclassify () {
       this.$router.push("/personal/account/add-classify");
     },
     //修改
-    amendclassify(text) {
+    amendclassify (text) {
       this.$router.push({
-        path:"/personal/account/amend-classify",
-        query:{
-          id:text
+        path: "/personal/account/amend-classify",
+        query: {
+          id: text
         }
       })
     }
