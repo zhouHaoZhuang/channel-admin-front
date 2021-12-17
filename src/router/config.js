@@ -723,6 +723,16 @@ const options = {
                     import("@/pages/personal/single/addsingle.vue")
                 },
                 {
+                  path: "amend-single",
+                  name: "单页修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/single/amendsingle.vue")
+                },
+                {
                   path: "seo",
                   name: "SEO优化",
                   meta: {
