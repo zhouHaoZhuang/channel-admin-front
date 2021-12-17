@@ -7,13 +7,13 @@
       <a-button icon="delete" class="btn" @click="deleteinbatches">
         批量删除
       </a-button>
-      <a-button icon="check" class="btn">
+      <a-button icon="check" class="btn" @click="show">
         显示
       </a-button>
-      <a-button icon="stop" class="btn">
+      <a-button icon="stop" class="btn" @click="conceal">
         隐藏
       </a-button>
-      <a-button icon="column-height" class="btn">
+      <a-button icon="column-height" class="btn" @click="sort">
         排序
       </a-button>
     </div>
@@ -200,6 +200,29 @@ export default {
           });
         }
       });
+    },
+    //显示
+    show(){
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("banner/delPrice", this.selectedRowKeys.toString()).then(val => {
+            this.$message.success("操作成功");
+            // this.$store.dispatch("操作成功").then(val => {
+            //   this.reqAfter(val);
+            // });
+            this.getList();
+          });
+        }
+      });
+    },
+    //隐藏
+    conceal(){
+
+    },
+    //排序
+    sort(){
+
     }
   }
 };
