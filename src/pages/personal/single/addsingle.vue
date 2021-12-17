@@ -17,7 +17,7 @@
         <a-form-model-item label="关键词" type="keyWords">
           <a-input v-model="form.keyWords" />
         </a-form-model-item>
-         <a-form-model-item label="描述" type="describe" >
+        <a-form-model-item label="描述" type="describe">
           <a-input v-model="form.describe" />
         </a-form-model-item>
         <a-form-model-item label="访问地址" type="resourceAddress">
@@ -34,7 +34,7 @@
             </a-select-option>
           </a-select>
         </a-form-model-item> -->
-         <a-form-model-item label="banner图">
+        <a-form-model-item label="banner图">
           <div class="addimages">
             <Upload :defaultFile="form.bannerPicture" @change="pcImgChange" />
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
@@ -50,7 +50,12 @@
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
-         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+        <a-form-model-item label="内容">
+          <div class="Deputy">
+            <Tinymce @tinymceinput="tinymceinput" />
+          </div>
+        </a-form-model-item>
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
             确定添加
           </a-button>
@@ -62,22 +67,23 @@
 
 <script>
 import Upload from "@/components/Upload/index";
+import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   data() {
     return {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-          bannerPicture:"",
-          channelCode:"",
-          context:"",
-          describe:"",
-          keyWords:"",
-          modeFileName:"",
-          pageName:"",
-          pageTitle:"",
-          resourceAddress:"",
-          status:"",
+        bannerPicture: "",
+        channelCode: "",
+        context: "",
+        describe: "",
+        keyWords: "",
+        modeFileName: "",
+        pageName: "",
+        pageTitle: "",
+        resourceAddress: "",
+        status: ""
         // linkTypeName: "",
         // linkTypeCode: "",
         // linkName: "",
@@ -111,7 +117,8 @@ export default {
     };
   },
   components: {
-    Upload
+    Upload,
+    Tinymce
   },
   created() {
     this.getList();
@@ -128,6 +135,11 @@ export default {
     pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.form.bannerPicture = firstImageUrl;
+    },
+    //上传富文本
+     tinymceinput(value) {
+      console.log("富文本输入", value);
+      this.form.context = value
     },
     // 提交
     onSubmit() {

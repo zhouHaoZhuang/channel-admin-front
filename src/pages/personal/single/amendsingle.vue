@@ -50,6 +50,11 @@
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
+         <a-form-model-item label="内容">
+          <div class="Deputy">
+            <Tinymce @tinymceinput="tinymceinput" />
+          </div>
+        </a-form-model-item>
          <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
             确定添加
@@ -62,6 +67,8 @@
 
 <script>
 import Upload from "@/components/Upload/index";
+import Tinymce from "@/components/Tinymce/index.vue";
+
 export default {
   data() {
     return {
@@ -112,7 +119,7 @@ export default {
     };
   },
   components: {
-    Upload
+    Upload,Tinymce
   },
   created() {
     this.getList();
@@ -130,6 +137,11 @@ export default {
     pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.form.bannerPicture = firstImageUrl;
+    },
+     //上传富文本
+     tinymceinput(value) {
+      console.log("富文本输入", value);
+      this.form.context = value
     },
     // 提交
     onSubmit() {
