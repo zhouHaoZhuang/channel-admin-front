@@ -752,7 +752,56 @@ const options = {
                   component: () => import("@/pages/personal/seo/amendseo")
                 }
               ]
-            }
+            },
+            {
+              path: "news",
+              name: "新闻公告",
+              meta: {
+                icon: "home"
+              },
+              component: BlankView,
+              children: [
+                {
+                  path: "banner",
+                  name: "类别管理",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/personal/banner/banner.vue")
+                },
+                {
+                  path: "add-banner",
+                  name: "Banner添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/addbanner.vue")
+                },
+                {
+                  path: "amend-banner",
+                  name: "Banner修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/amendbanner.vue")
+                },
+                {
+                  path: "blogroll",
+                  name: "新闻列表",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () =>
+                    import("@/pages/personal/blogroll/blogroll.vue")
+                },
+              ]
+            },
           ]
         },
         // 系统
