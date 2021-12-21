@@ -754,6 +754,66 @@ const options = {
               ]
             },
             {
+              path: "helpword",
+              name: "帮助文档",
+              meta: {
+                icon: "home"
+              },
+              component: BlankView,
+              children: [
+                {
+                  path: "typemanage",
+                  name: "类别管理",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/helpword/category/index.vue")
+                },
+                {
+                  path: "add-banner",
+                  name: "Banner添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/addbanner.vue")
+                },
+                {
+                  path: "amend-banner",
+                  name: "Banner修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/amendbanner.vue")
+                },
+                {
+                  path: "wordmanage",
+                  name: "文档管理",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () =>
+                    import("@/pages/helpword/word/index.vue")
+                },
+                {
+                  path: "hotproblem",
+                  name: "常见热点问题",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () =>
+                    import("@/pages/helpword/common/index.vue")
+                },
+              ]
+            },
+            {
               path: "news",
               name: "新闻公告",
               meta: {
@@ -767,7 +827,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/personal/banner/banner.vue")
+                  component: () => import("@/pages/news/category/index.vue")
                 },
                 {
                   path: "add-banner",
@@ -798,7 +858,7 @@ const options = {
                     icon: "home"
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/blogroll.vue")
+                    import("@/pages/news/list/index.vue")
                 },
               ]
             },
