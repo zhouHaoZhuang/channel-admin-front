@@ -565,7 +565,7 @@ export default {
       console.log(e);
     },
     addMember () {
-      // this.$router.push({ path: "/member/manage/add" });
+      this.$router.push({ path: "/member/manage/add" });
     },
     handleChange (value) {
       console.log(`selected ${value}`);
