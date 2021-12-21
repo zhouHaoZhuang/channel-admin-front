@@ -69,7 +69,7 @@
 import Upload from "@/components/Upload/index";
 import Tinymce from "@/components/Tinymce/index.vue";
 export default {
-  data() {
+  data () {
     return {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
@@ -132,7 +132,7 @@ export default {
       });
     },
     // 上传pc图片
-    pcImgChange({ urlList, firstImageUrl }) {
+    pcImgChange ({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.form.bannerPicture = firstImageUrl;
     },
@@ -142,7 +142,7 @@ export default {
       this.form.context = value
     },
     // 提交
-    onSubmit() {
+    onSubmit () {
       // this.form.linkLogo = this.imgList.toString();
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
@@ -161,7 +161,7 @@ export default {
       });
     },
     // 重置表单数据
-    resetForm() {
+    resetForm () {
       this.$refs.ruleForm.clearValidate();
       this.form = {
         cutomerName: "",
