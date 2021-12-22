@@ -263,6 +263,15 @@ const options = {
                   component: () => import("@/pages/finance/details/index.vue")
                 },
                 {
+                  path: "detailedInfo",
+                  name: "财务明细详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/finance/details/info.vue")
+                },
+                {
                   path: "recharge",
                   name: "充值记录",
                   meta: {

@@ -2,120 +2,85 @@
   <div class="Content">
     <div class="orderTop">
       <a-space>
-        <a-select
-          style="width:150px"
-          :placeholder="title"
-          v-model="title"
-          @change="changeKey"
-        >
-          <a-select-option
-            :value="v.key"
-            v-for="v in useColumns"
-            :key="v.title"
-          >
+        <a-select style="width:150px"
+                  v-model="title"
+                  @change="changeKey">
+          <a-select-option :value="v.dataIndex"
+                           v-for="v in useColumns"
+                           :key="v.title">
             {{ v.title }}
           </a-select-option>
         </a-select>
         <div class="sechkey">
-          <a-input
-            :disabled="!isTime"
-            placeholder="搜索关键词"
-            v-model="listQuery.search"
-          />
+          <a-input :disabled="!isTime"
+                   placeholder="搜索关键词"
+                   v-model="listQuery.search" />
         </div>
         <div>
-          <a-date-picker
-            v-model="startValue"
-            :disabled-date="disabledStartDate"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder="开始时间"
-            :disabled="isTime"
-            @openChange="handleStartOpenChange"
-          />
+          <a-date-picker v-model="startValue"
+                         :disabled-date="disabledStartDate"
+                         show-time
+                         format="YYYY-MM-DD HH:mm:ss"
+                         placeholder="开始时间"
+                         :disabled="isTime"
+                         @openChange="handleStartOpenChange" />
           <span class="zhi">至</span>
-          <a-date-picker
-            v-model="endValue"
-            :disabled="isTime"
-            :disabled-date="disabledEndDate"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder="结束时间"
-            @openChange="handleEndOpenChange"
-          />
+          <a-date-picker v-model="endValue"
+                         :disabled="isTime"
+                         :disabled-date="disabledEndDate"
+                         show-time
+                         format="YYYY-MM-DD HH:mm:ss"
+                         placeholder="结束时间"
+                         @openChange="handleEndOpenChange" />
         </div>
-        <a-select
-          style="width:150px"
-          :placeholder="title"
-          v-model="title"
-          @change="changeKey"
-        >
-          <a-select-option
-            :value="v.key"
-            v-for="v in useColumns"
-            :key="v.title"
-          >
+        <a-select style="width:150px"
+                  v-model="title"
+                  @change="changeKey">
+          <a-select-option :value="v.dataIndex"
+                           v-for="v in useMoneyColumns"
+                           :key="v.title">
             {{ v.title }}
           </a-select-option>
         </a-select>
-        <a-button type="primary" @click="secectClick">
+        <a-button type="primary"
+                  @click="secectClick">
           查询
+        </a-button>
+        <a-button>
+          <a-icon type="setting" />
+          自定义列表
+        </a-button>
+        <a-button>
+          <a-icon type="export" />
+          导出
         </a-button>
       </a-space>
     </div>
     <!-- 表格 -->
     <div class="orderTable">
       <div>
-        <a-table
-          :columns="columns"
-          :data-source="data"
-          rowKey="id"
-          :pagination="paginationProps"
-          :scroll="{ x: 1400 }"
-        >
-          <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="originAmount" slot-scope="v">
+        <a-table :columns="columns"
+                 :data-source="data"
+                 rowKey="id"
+                 @change="handleChange"
+                 :pagination="paginationProps"
+                 :scroll="{ x: 1400 }">
+          <a slot="name"
+             slot-scope="text">{{ text }}</a>
+          <div slot="originAmount"
+               slot-scope="v">
             {{ v.toFixed(2) }}
           </div>
-          <div slot="actualAmount" slot-scope="v">
-            {{ v.toFixed(2) }}
-          </div>
-          <div slot="tradeType" slot-scope="v">
-            <span v-if="v === 1">新购</span>
-            <span v-if="v === 5">升配</span>
-            <span v-if="v === 10">降配</span>
-            <span v-if="v === 15">续费</span>
-            <span v-if="v === 20">退费</span>
-          </div>
-          <div slot="action" slot-scope="v">
-            <a-button type="link" @click="selectPool(v)">
+          <div slot="action"
+               slot-scope="v">
+            <a-button type="link"
+                      @click="selectPool(v)">
               查看
             </a-button>
           </div>
-          <div slot="createTime" slot-scope="v">
+          <div slot="payTime"
+               slot-scope="v">
             {{ v | formatDate }}
-          </div>
-          <div slot="payTime" slot-scope="v">
-            {{ v | formatDate }}
-          </div>
-          <div
-            :class="{ green: v === 1, blue: v !== 1 }"
-            slot="payStatus"
-            slot-scope="v"
-          >
-            {{ v === 1 ? "已支付" : "未支付" }}
-          </div>
-          <div slot="select" slot-scope="v">
-            <a-button
-              v-if="v.payStatus === 1"
-              type="link"
-              @click="selectPool(v)"
-            >
-              查看(1)
-            </a-button>
-            <a-button v-else type="link">
-              ——————
-            </a-button>
           </div>
         </a-table>
       </div>
@@ -125,10 +90,10 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      title: "orderNo",
-      // search: "",
+      isfilter: false,
+      title: '1',
       listQuery: {
         key: undefined,
         search: "",
@@ -141,28 +106,27 @@ export default {
           title: "编号ID",
           dataIndex: "orderNo",
           key: "orderNo",
+          sorter: true,
+          sortDirections: ["ascend", "descend"],
         },
         {
           title: "会员ID",
-          dataIndex: "",
+          dataIndex: "vipID",
           key: "",
         },
         {
           title: "发生金额",
-          dataIndex: "",
-          key: "",
+          dataIndex: "dealAmount",
         },
         {
           title: "当时余额",
-          dataIndex: "tradeType",
-          key: "tradeType",
+          dataIndex: "afterAmount",
           scopedSlots: { customRender: "tradeType" },
         },
         {
           title: "款项类型",
-          dataIndex: "originAmount",
-          key: "originAmount",
-          scopedSlots: { customRender: "originAmount" },
+          dataIndex: "memo",
+          scopedSlots: { customRender: "memo" },
         },
         {
           title: "交易描述",
@@ -182,27 +146,27 @@ export default {
           scopedSlots: { customRender: "select" }
         },
         {
+          title: "操作管理员",
+          dataIndex: "modifyUserName",
+        },
+        {
           title: "操作",
           key: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
         }
       ],
-      dataAll: [],
       data: [],
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "20", "30"],
         total: 0,
-        current: 1, //当前页
-        pageSize: 5, //每页显示数量
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
-            this.paginationProps.total / this.paginationProps.pageSize
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
           )}  页`,
-        onChange: this.changepage,
+        onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
       num: "",
@@ -213,68 +177,107 @@ export default {
     };
   },
   computed: {
-    useColumns() {
+    useColumns () {
       return [
         {
-          title: "订单编号",
+          title: "全部",
+          dataIndex: "1",
+        },
+        {
+          title: "账号ID",
           dataIndex: "orderNo",
-          key: "orderNo",
-          width: 170
         },
         {
-          title: "渠道ID",
-          dataIndex: "",
-          key: "",
-          width: 150
+          title: "会员ID",
+          dataIndex: "vipID",
         },
         {
-          title: "订单类型",
-          dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
-          width: 100
-        },
-        {
-          title: "状态",
+          title: "业务ID",
           dataIndex: "payStatus",
-          key: "payStatus",
-          width: 100,
-          scopedSlots: { customRender: "payStatus" }
         },
         {
-          title: "创建时间",
+          title: "推广人ID",
           dataIndex: "createTime",
-          key: "createTime",
-          width: 190,
-          scopedSlots: { customRender: "createTime" }
+        },
+        {
+          title: "交易描述",
+          dataIndex: "mo",
+        }
+      ];
+    },
+    useMoneyColumns () {
+      return [
+        {
+          title: "款项类型",
+          dataIndex: "1",
+        },
+        {
+          title: "消费",
+          dataIndex: "xiaofei",
+        },
+        {
+          title: "充值",
+          dataIndex: "chongzhi",
+        },
+        {
+          title: "提现",
+          dataIndex: "tixxian",
+        },
+        {
+          title: "退款",
+          dataIndex: "tuikuan",
+        },
+        {
+          title: "交易",
+          dataIndex: "jiaoyi",
+        },
+        {
+          title: "手续费",
+          dataIndex: "shouxv",
+        },
+        {
+          title: "佣金",
+          dataIndex: "yongjin",
         }
       ];
     }
   },
+  created () {
+    this.getList();
+  },
   methods: {
-    disabledStartDate(startValue) {
+    // 点击排序之后的回调
+    handleChange (pagination, filters, sorter) {
+      if (sorter && sorter.order) {
+        this.listQuery.key = sorter.columnKey;
+        // this.listQuery.sorter = sorter.order.replace('end', '') + `-${sorter.columnKey}`;
+        // this.getList();
+        console.log("排序被点击了", sorter.columnKey, sorter.order);
+      }
+    },
+    disabledStartDate (startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
         return false;
       }
       return startValue.valueOf() > endValue.valueOf();
     },
-    disabledEndDate(endValue) {
+    disabledEndDate (endValue) {
       const startValue = this.startValue;
       if (!endValue || !startValue) {
         return false;
       }
       return startValue.valueOf() >= endValue.valueOf();
     },
-    handleStartOpenChange(open) {
+    handleStartOpenChange (open) {
       if (!open) {
         this.endOpen = true;
       }
     },
-    handleEndOpenChange(open) {
+    handleEndOpenChange (open) {
       this.endOpen = open;
     },
-    secectClick() {
+    secectClick () {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
         let startTime = this.startValue._d
@@ -319,13 +322,11 @@ export default {
           // console.log(val, "时间请求结果");
           this.paginationProps.total = val.data.totalCount * 1;
           this.paginationProps.current = val.data.currentPage * 1;
-          this.dataAll = val.data.list;
-          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
           this.listQuery.search = tempSearch;
         });
       }
     },
-    changeKey(val) {
+    changeKey (val) {
       // console.log(val);
       this.title = val;
       if (this.title !== "createTime") {
@@ -333,6 +334,28 @@ export default {
       } else {
         this.isTime = false;
       }
+    },
+    // 通用写法
+    quickJump (current) {
+      this.listQuery.currentPage = current;
+      this.getList();
+    },
+    onShowSizeChange (current, pageSize) {
+      this.listQuery.pageSize = pageSize;
+      this.listQuery.currentPage = current;
+      this.getList();
+    },
+    getList () {
+      this.$store.dispatch("financialDetails/getList", this.listQuery).then(res => {
+        console.log(res, "获取列表");
+        // this.data = res.data.list;
+        // this.paginationProps.total = res.data.total;
+      });
+    },
+    onSearch (value) {
+      this.listQuery.search = value;
+      console.log(value, this.listQuery.key);
+      this.getList();
     }
   }
 };
@@ -350,7 +373,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type="button"] {
+    [type='button'] {
       margin-left: 20px;
     }
     .zhi {
