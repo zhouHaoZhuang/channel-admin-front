@@ -1,15 +1,20 @@
-let VUE_APP_BASE_URL = "";
 let appId = "619c93dc69a93fbb8a1faf8c";
 let appHost = "https://resource-poor.authing.cn";
 
-if (process.env.VUE_APP_ENV === "dev") {
-  VUE_APP_BASE_URL = "http://ims.dev.ydidc.com";
-  // VUE_APP_BASE_URL = "http://127.0.0.1:8080";
-} else if (process.env.VUE_APP_ENV === "test") {
-  VUE_APP_BASE_URL = "http://ims.dev.ydidc.com";
-} else if (process.env.VUE_APP_ENV === "prod") {
-  VUE_APP_BASE_URL = "http://ims.dev.ydidc.com";
-}
+// 默认请求地址
+const baseUrl = {
+  dev: "http://ims.dev.ydidc.com",
+  test: "http://ims.dev.ydidc.com",
+  preprod: "http://ims.dev.ydidc.com",
+  prod: "http://ims.dev.ydidc.com"
+};
+// 支付相关请求地址
+const payBaseUrl = {
+  dev: "http://pay.dev.ydidc.com",
+  test: "http://pay.dev.ydidc.com",
+  preprod: "http://pay.dev.ydidc.com",
+  prod: "http://pay.dev.ydidc.com"
+};
 
 const domains = {
   dev: "localhost"
@@ -19,7 +24,8 @@ const domains = {
 };
 
 export default {
-  VUE_APP_BASE_URL,
+  BASE_URL: baseUrl[process.env.VUE_APP_ENV],
+  PAY_BASE_URL: payBaseUrl[process.env.VUE_APP_ENV],
   appId,
   appHost,
   DOMAIN_URL: domains[process.env.VUE_APP_ENV]
