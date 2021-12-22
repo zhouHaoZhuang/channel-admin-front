@@ -5,106 +5,136 @@
         <a-button icon="stop">
           批量关闭
         </a-button>
-        <a-select
-          style="width:150px"
-          :placeholder="title"
-          v-model="title"
-          @change="changeKey"
-        >
-          <a-select-option
-            :value="v.key"
-            v-for="v in useColumns"
-            :key="v.title"
-          >
+        <a-select style="width:150px"
+                  v-model="listQuery.key"
+                  @change="changeKey">
+          <a-select-option :value="v.dataIndex"
+                           v-for="v in useColumns"
+                           :key="v.title">
             {{ v.title }}
           </a-select-option>
         </a-select>
         <div class="sechkey">
-          <a-input
-            :disabled="!isTime"
-            placeholder="搜索关键词"
-            v-model="listQuery.search"
-          />
+          <a-input :disabled="!isTime"
+                   placeholder="搜索关键词"
+                   v-model="listQuery.search" />
         </div>
         <div>
-          <a-date-picker
-            v-model="startValue"
-            :disabled-date="disabledStartDate"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder="开始时间"
-            :disabled="isTime"
-            @openChange="handleStartOpenChange"
-          />
+          <a-date-picker v-model="startValue"
+                         :disabled-date="disabledStartDate"
+                         show-time
+                         format="YYYY-MM-DD HH:mm:ss"
+                         placeholder="开始时间"
+                         :disabled="isTime"
+                         @openChange="handleStartOpenChange" />
           <span class="zhi">至</span>
-          <a-date-picker
-            v-model="endValue"
-            :disabled="isTime"
-            :disabled-date="disabledEndDate"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder="结束时间"
-            @openChange="handleEndOpenChange"
-          />
+          <a-date-picker v-model="endValue"
+                         :disabled="isTime"
+                         :disabled-date="disabledEndDate"
+                         show-time
+                         format="YYYY-MM-DD HH:mm:ss"
+                         placeholder="结束时间"
+                         @openChange="handleEndOpenChange" />
         </div>
-        <a-button type="primary" @click="secectClick">
+        <a-button type="primary"
+                  @click="secectClick">
           查询
         </a-button>
+        <a-button @click="isfilter = !isfilter">
+          <a-icon :type="isfilter ? 'up' : 'down'" />
+          高级筛选
+        </a-button>
+        <a-button>
+          <a-icon type="export" />
+          导出
+        </a-button>
       </a-space>
+    </div>
+    <div v-show="isfilter"
+         class="member-filterall">
+      <div class="member-filter">
+        <div>
+          <div>
+            <span class="filter-type">来源</span>
+            <a-select style="width: 120px"
+                      @change="handleChange"
+                      placeholder="全部来源">
+              <a-select-option value="jack">
+                PC端
+              </a-select-option>
+              <a-select-option value="lucy">
+                手机端
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="filter-type">充值状态</span>
+            <a-select style="width: 120px"
+                      @change="handleChange"
+                      placeholder="请选择">
+              <a-select-option value="jack">
+                充值状态
+              </a-select-option>
+              <a-select-option value="lucy">
+                未完成
+              </a-select-option>
+              <a-select-option value="jack">
+                已完成
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="filter-type">支付通道</span>
+            <a-select placeholder="请选择"
+                      style="width: 120px"
+                      @change="handleChange">
+              <a-select-option value="jack">
+                线下汇款
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+      </div>
+      <div class="enter">
+        <a-button @click="isfilter = false">清除 </a-button>
+        <a-button type="primary"
+                  @click="isfilter = false"> 确定 </a-button>
+      </div>
     </div>
     <!-- 表格 -->
     <div class="orderTable">
       <div>
-        <a-table
-          :columns="columns"
-          :data-source="data"
-          rowKey="id"
-          :pagination="paginationProps"
-          :scroll="{ x: 1400 }"
-        >
-          <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="originAmount" slot-scope="v">
+        <a-table :columns="columns"
+                 :data-source="data"
+                 rowKey="id"
+                 :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+                 :pagination="paginationProps"
+                 :scroll="{ x: 1400 }">
+          <a slot="name"
+             slot-scope="text">{{ text }}</a>
+          <div slot="originAmount"
+               slot-scope="v">
             {{ v.toFixed(2) }}
           </div>
-          <div slot="actualAmount" slot-scope="v">
-            {{ v.toFixed(2) }}
-          </div>
-          <div slot="tradeType" slot-scope="v">
-            <span v-if="v === 1">新购</span>
-            <span v-if="v === 5">升配</span>
-            <span v-if="v === 10">降配</span>
-            <span v-if="v === 15">续费</span>
-            <span v-if="v === 20">退费</span>
-          </div>
-          <div slot="action" slot-scope="v">
-            <a-button type="link" @click="selectPool(v)">
+          <div slot="action"
+               slot-scope="v">
+            <a-button type="link"
+                      @click="selectPool(v)">
               查看
             </a-button>
           </div>
-          <div slot="createTime" slot-scope="v">
+          <div slot="createTime"
+               slot-scope="v">
             {{ v | formatDate }}
           </div>
-          <div slot="payTime" slot-scope="v">
-            {{ v | formatDate }}
-          </div>
-          <div
-            :class="{ green: v === 1, blue: v !== 1 }"
-            slot="payStatus"
-            slot-scope="v"
-          >
+          <div :class="{ green: v === 1, blue: v !== 1 }"
+               slot="payStatus"
+               slot-scope="v">
             {{ v === 1 ? "已支付" : "未支付" }}
-          </div>
-          <div slot="select" slot-scope="v">
-            <a-button
-              v-if="v.payStatus === 1"
-              type="link"
-              @click="selectPool(v)"
-            >
-              查看(1)
-            </a-button>
-            <a-button v-else type="link">
-              ——————
-            </a-button>
           </div>
         </a-table>
       </div>
@@ -114,12 +144,13 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       title: "orderNo",
+      isfilter: false,
       // search: "",
       listQuery: {
-        key: undefined,
+        key: 'orderNo',
         search: "",
         currentPage: 1,
         pageSize: 10,
@@ -182,19 +213,18 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
+      selectedRowKeys: [],// 已选中的行
+
       dataAll: [],
       data: [],
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "20", "30"],
         total: 0,
-        current: 1, //当前页
-        pageSize: 5, //每页显示数量
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
-            this.paginationProps.total / this.paginationProps.pageSize
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
           )}  页`,
         onChange: this.changepage,
         onShowSizeChange: this.onShowSizeChange
@@ -207,68 +237,55 @@ export default {
     };
   },
   computed: {
-    useColumns() {
+    useColumns () {
       return [
         {
-          title: "订单编号",
+          title: "会员ID",
           dataIndex: "orderNo",
-          key: "orderNo",
-          width: 170
         },
         {
-          title: "渠道ID",
+          title: "充值订单号",
           dataIndex: "",
-          key: "",
-          width: 150
         },
         {
-          title: "订单类型",
+          title: "交易号",
           dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
-          width: 100
         },
         {
-          title: "状态",
+          title: "充值ID",
           dataIndex: "payStatus",
-          key: "payStatus",
-          width: 100,
-          scopedSlots: { customRender: "payStatus" }
         },
         {
           title: "创建时间",
           dataIndex: "createTime",
-          key: "createTime",
-          width: 190,
-          scopedSlots: { customRender: "createTime" }
         }
       ];
     }
   },
   methods: {
-    disabledStartDate(startValue) {
+    disabledStartDate (startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
         return false;
       }
       return startValue.valueOf() > endValue.valueOf();
     },
-    disabledEndDate(endValue) {
+    disabledEndDate (endValue) {
       const startValue = this.startValue;
       if (!endValue || !startValue) {
         return false;
       }
       return startValue.valueOf() >= endValue.valueOf();
     },
-    handleStartOpenChange(open) {
+    handleStartOpenChange (open) {
       if (!open) {
         this.endOpen = true;
       }
     },
-    handleEndOpenChange(open) {
+    handleEndOpenChange (open) {
       this.endOpen = open;
     },
-    secectClick() {
+    secectClick () {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
         let startTime = this.startValue._d
@@ -319,7 +336,7 @@ export default {
         });
       }
     },
-    changeKey(val) {
+    changeKey (val) {
       // console.log(val);
       this.title = val;
       if (this.title !== "createTime") {
@@ -327,6 +344,39 @@ export default {
       } else {
         this.isTime = false;
       }
+    },
+    handleChange (val) {
+      console.log(val);
+    },
+    // 多选框改变之后的回调
+    onSelectChange (selectedRowKeys) {
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys;
+    },
+    // 通用写法
+    // 切换页码回调
+    quickJump (current) {
+      this.listQuery.currentPage = current;
+      this.getList();
+    },
+    // 切换每页条数回调
+    onShowSizeChange (current, pageSize) {
+      this.listQuery.pageSize = pageSize;
+      this.listQuery.currentPage = current;
+      this.getList();
+    },
+    // 发送请求回调
+    getList () {
+      this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.total;
+      });
+    },
+    // 搜索功能回调
+    onSearch (value) {
+      this.listQuery.search = value;
+      // console.log(value, this.listQuery.key);
+      this.getList();
     }
   }
 };
@@ -344,11 +394,65 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type="button"] {
+    [type='button'] {
       margin-left: 20px;
     }
     .zhi {
       margin: 10px;
+    }
+  }
+  .member-filterall {
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    background-color: #fafafa;
+    .member-filter {
+      display: flex;
+      width: 100%;
+      border: 1px solid #e0e0e0;
+      background-color: #fafafa;
+      margin-top: -1px;
+      margin-left: -1px;
+      padding: 20px;
+      .div-input100 {
+        display: inline-block;
+        width: 100px;
+      }
+      .left5 {
+        margin-left: 5px;
+      }
+      > div {
+        flex: 1;
+        > div {
+          margin-bottom: 20px;
+        }
+        > div:last-child {
+          margin-bottom: 0;
+        }
+      }
+      .filter-type {
+        display: inline-block;
+        width: 67px;
+        height: 16px;
+        color: #a3a3a3;
+        font-size: 12px;
+        text-align: left;
+      }
+      .registerDate {
+        width: 320px;
+        display: flex;
+        align-items: center;
+        .date-picker {
+          width: 120px;
+        }
+      }
+    }
+    .enter {
+      text-align: right;
+      padding: 10px 0;
+      padding-right: 30px;
+      button {
+        margin-right: 10px;
+      }
     }
   }
 }

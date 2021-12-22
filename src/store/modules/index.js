@@ -14,6 +14,8 @@ import blogroll from "./blogroll";
 import business from "./business";
 import globalBasic from "./globalBasic";
 import page from "./page";
+import financialDetails from "./financialDetails";
+import rechargeRecord from "./rechargeRecord";
 
 export default {
   user,
@@ -31,5 +33,7 @@ export default {
   blogroll,
   business,
   globalBasic,
-  page
+  page,
+  financialDetails,
+  rechargeRecord
 };
