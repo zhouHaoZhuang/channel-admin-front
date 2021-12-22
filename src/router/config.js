@@ -797,8 +797,7 @@ const options = {
                     // back: true
                     icon: "home"
                   },
-                  component: () =>
-                    import("@/pages/helpword/word/index.vue")
+                  component: () => import("@/pages/helpword/word/index.vue")
                 },
                 {
                   path: "hotproblem",
@@ -808,9 +807,8 @@ const options = {
                     // back: true
                     icon: "home"
                   },
-                  component: () =>
-                    import("@/pages/helpword/common/index.vue")
-                },
+                  component: () => import("@/pages/helpword/common/index.vue")
+                }
               ]
             },
             {
@@ -857,11 +855,10 @@ const options = {
                     // back: true
                     icon: "home"
                   },
-                  component: () =>
-                    import("@/pages/news/list/index.vue")
-                },
+                  component: () => import("@/pages/news/list/index.vue")
+                }
               ]
-            },
+            }
           ]
         },
         // 系统
@@ -887,32 +884,14 @@ const options = {
                   component: () => import("@/pages/system/admin/index")
                 },
                 {
-                  path: "addManage",
+                  path: "updateAdmin",
                   name: "管理员添加",
                   meta: {
                     invisible: true,
                     back: true
                   },
-                  component: () => import("@/pages/system/admin/addmanage")
+                  component: () => import("@/pages/system/admin/updateAdmin")
                 },
-                {
-                  path: "add",
-                  name: "权限组管理",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () => import("@/pages/system/admin/addChannel")
-                },
-                // {
-                //   path: "detail",
-                //   name: "渠道详情",
-                //   meta: {
-                //     invisible: true,
-                //     back: true
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/detail")
-                // },
                 {
                   path: "role",
                   name: "权限管理",
@@ -920,6 +899,15 @@ const options = {
                     icon: "home"
                   },
                   component: () => import("@/pages/system/admin/role")
+                },
+                {
+                  path: "updateRole",
+                  name: "权限组管理",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/system/admin/updateRole")
                 }
               ]
             },
