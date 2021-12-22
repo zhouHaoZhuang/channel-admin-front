@@ -15,6 +15,7 @@ import business from "./business";
 import globalBasic from "./globalBasic";
 import page from "./page";
 import financialDetails from "./financialDetails";
+import rechargeRecord from "./rechargeRecord";
 
 export default {
   user,
@@ -33,5 +34,6 @@ export default {
   business,
   globalBasic,
   page,
-  financialDetails
+  financialDetails,
+  rechargeRecord
 };

@@ -1,14 +1,15 @@
 <template>
   <div class="details-container">
     <h1 class="details-title">财务信息</h1>
-    <div class="details-info">
-      <div><span class="details-type">发生金额：</span><span class="details-value">100.00</span></div>
-      <div><span class="details-type">当前金额：</span><span class="details-value">100.00</span></div>
-      <div><span class="details-type">时间：</span><span class="details-value">2021.12.12</span></div>
-      <div><span class="details-type">会员ID：</span><span class="details-value">1100023</span></div>
-      <div><span class="details-type">类型：</span><span class="details-value">赠送</span></div>
-      <div><span class="details-type">具体详情：</span><span class="details-value">具体时间</span></div>
-      <div><span class="details-type">款项描述：</span><span class="details-value">10.00</span></div>
+    <div class="details-info"
+         v-if="data">
+      <div><span class="details-type">发生金额：</span><span class="details-value">{{data.dealAmount.toFixed(2)}}</span></div>
+      <div><span class="details-type">当前金额：</span><span class="details-value">{{data.afterAmount.toFixed(2)}}</span></div>
+      <div><span class="details-type">时间：</span><span class="details-value">{{data.createTime | formatDate}}</span></div>
+      <div><span class="details-type">会员ID：</span><span class="details-value">{{data.accountCode}}</span></div>
+      <div><span class="details-type">类型：</span><span class="details-value">{{data.memo}}</span></div>
+      <div><span class="details-type">具体详情：</span><span class="details-value">{{data.actualAmount}}----</span></div>
+      <div><span class="details-type">款项描述：</span><span class="details-value">{{data.actualAmount}}----</span></div>
     </div>
   </div>
 </template>
@@ -17,10 +18,22 @@
 export default {
   data () {
     return {
-
+      data: null
     }
   },
-
+  created () {
+    let id = this.$route.query.id
+    this.getList(id)
+  },
+  methods: {
+    getList (id) {
+      this.$store.dispatch('financialDetails/getOne', id).then(res => {
+        console.log(res);
+        this.data = res.data
+      })
+      console.log(id);
+    }
+  },
 }
 </script>
 
@@ -62,7 +75,7 @@ export default {
     .details-value {
       display: inline-block;
       line-height: 24px;
-      width: 100px;
+      width: 180px;
       text-align: left;
       color: #292929;
       font-weight: normal;

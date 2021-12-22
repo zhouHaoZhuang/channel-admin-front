@@ -42,7 +42,6 @@
         </a-button>
         <a-button @click="isfilter = !isfilter">
           <a-icon :type="isfilter ? 'up' : 'down'" />
-          <!-- <a-icon type="up" /> -->
           高级筛选
         </a-button>
         <a-button>
@@ -368,7 +367,7 @@ export default {
     },
     // 发送请求回调
     getList () {
-      this.$store.dispatch("finance/getRechargeList", this.listQuery).then(res => {
+      this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
         this.data = res.data.list;
         this.paginationProps.total = res.data.total;
       });

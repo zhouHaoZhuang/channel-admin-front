@@ -278,6 +278,15 @@ const options = {
                     icon: "home"
                   },
                   component: () => import("@/pages/finance/recharge/index.vue")
+                },
+                {
+                  path: "rechargeinfo",
+                  name: "充值记录详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/finance/recharge/info.vue")
                 }
               ]
             },
