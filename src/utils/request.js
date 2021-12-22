@@ -12,8 +12,8 @@ const authenticationClient = new AuthenticationClient({
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
-  baseURL: env.VUE_APP_BASE_URL,
-  timeout: 5000 // 请求超时时间
+  baseURL: env.BASE_URL,
+  timeout: 10000 // 请求超时时间
 });
 // 下载请求地址集合
 const downloadUrl = [];
@@ -32,6 +32,11 @@ const errorHandler = error => {
 
 // request interceptor 请求拦截
 request.interceptors.request.use(async config => {
+  // 多个请求地址兼容
+  // 支付请求地址
+  if (config.pay) {
+    config.baseURL = env.PAY_BASE_URL;
+  }
   config.cancelToken = axiosSource.token;
   config.headers.domain = getDomainUrl();
   const token = store.state.user.token;
