@@ -28,8 +28,7 @@
           </a-button>
         </a-dropdown>
         <a-select style="width: 120px"
-                  placeholder="请选择"
-                  v-model="listQuery.key">
+                  v-model="title">
           <a-select-option value="corporationCode">
             会员ID
           </a-select-option>
@@ -370,6 +369,7 @@ export default {
     return {
       lucy: "lucy",
       isfilter: false,
+      title: "corporationCode",
       data: [],
       selectedRowKeys: [],
       columns: [
@@ -565,7 +565,7 @@ export default {
       console.log(e);
     },
     addMember () {
-      // this.$router.push({ path: "/member/manage/add" });
+      this.$router.push({ path: "/member/manage/add" });
     },
     handleChange (value) {
       console.log(`selected ${value}`);
@@ -578,14 +578,14 @@ export default {
         // console.log("3333333");
         this.paginationProps.total = res.data.totalCount * 1;
       }).finally(() => {
-        this.listQuery = {
-          key: "",
-          search: "",
-          currentPage: 1,
-          pageSize: 10,
-          total: 0,
-          sorter: "",
-        }
+        // this.listQuery = {
+        //   key: "",
+        //   search: "",
+        //   currentPage: 1,
+        //   pageSize: 10,
+        //   total: 0,
+        //   sorter: "",
+        // }
       });
     },
     selectInfo (key) {
@@ -602,6 +602,7 @@ export default {
       this.isMoreId = key;
     },
     searchClick () {
+      this.listQuery.key = this.title;
       this.$getList("member/getList", this.listQuery).then(res => {
         // console.log(res);
         this.data = res.data.list;

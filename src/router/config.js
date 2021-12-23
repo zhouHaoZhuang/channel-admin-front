@@ -263,12 +263,30 @@ const options = {
                   component: () => import("@/pages/finance/details/index.vue")
                 },
                 {
+                  path: "detailedInfo",
+                  name: "财务明细详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/finance/details/info.vue")
+                },
+                {
                   path: "recharge",
                   name: "充值记录",
                   meta: {
                     icon: "home"
                   },
                   component: () => import("@/pages/finance/recharge/index.vue")
+                },
+                {
+                  path: "rechargeinfo",
+                  name: "充值记录详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/finance/recharge/info.vue")
                 }
               ]
             },
@@ -752,6 +770,112 @@ const options = {
                   component: () => import("@/pages/personal/seo/amendseo")
                 }
               ]
+            },
+            {
+              path: "helpword",
+              name: "帮助文档",
+              meta: {
+                icon: "home"
+              },
+              component: BlankView,
+              children: [
+                {
+                  path: "typemanage",
+                  name: "类别管理",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/helpword/category/index.vue")
+                },
+                {
+                  path: "add-banner",
+                  name: "Banner添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/addbanner.vue")
+                },
+                {
+                  path: "amend-banner",
+                  name: "Banner修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/amendbanner.vue")
+                },
+                {
+                  path: "wordmanage",
+                  name: "文档管理",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/helpword/word/index.vue")
+                },
+                {
+                  path: "hotproblem",
+                  name: "常见热点问题",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/helpword/common/index.vue")
+                }
+              ]
+            },
+            {
+              path: "news",
+              name: "新闻公告",
+              meta: {
+                icon: "home"
+              },
+              component: BlankView,
+              children: [
+                {
+                  path: "banner",
+                  name: "类别管理",
+                  meta: {
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/news/category/index.vue")
+                },
+                {
+                  path: "add-banner",
+                  name: "Banner添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/addbanner.vue")
+                },
+                {
+                  path: "amend-banner",
+                  name: "Banner修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/personal/banner/amendbanner.vue")
+                },
+                {
+                  path: "blogroll",
+                  name: "新闻列表",
+                  meta: {
+                    // invisible: true,
+                    // back: true
+                    icon: "home"
+                  },
+                  component: () => import("@/pages/news/list/index.vue")
+                }
+              ]
             }
           ]
         },
@@ -778,32 +902,14 @@ const options = {
                   component: () => import("@/pages/system/admin/index")
                 },
                 {
-                  path: "addManage",
+                  path: "updateAdmin",
                   name: "管理员添加",
                   meta: {
                     invisible: true,
                     back: true
                   },
-                  component: () => import("@/pages/system/admin/addmanage")
+                  component: () => import("@/pages/system/admin/updateAdmin")
                 },
-                {
-                  path: "add",
-                  name: "权限组管理",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () => import("@/pages/system/admin/addChannel")
-                },
-                // {
-                //   path: "detail",
-                //   name: "渠道详情",
-                //   meta: {
-                //     invisible: true,
-                //     back: true
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/detail")
-                // },
                 {
                   path: "role",
                   name: "权限管理",
@@ -811,6 +917,15 @@ const options = {
                     icon: "home"
                   },
                   component: () => import("@/pages/system/admin/role")
+                },
+                {
+                  path: "updateRole",
+                  name: "权限组管理",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/system/admin/updateRole")
                 }
               ]
             },
