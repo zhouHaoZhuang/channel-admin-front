@@ -307,6 +307,16 @@ const options = {
                   component: () => import("@/pages/channel/payment/list")
                 },
                 {
+                  path: "details",
+                  name: "入款管理详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/channel/payment/details")
+                },
+                {
                   path: "remittance",
                   name: "线下汇款",
                   meta: {

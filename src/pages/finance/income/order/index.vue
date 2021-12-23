@@ -184,7 +184,6 @@ export default {
           sorter: true,
           sortDirections: ["ascend", "descend"]
         },
-
         {
           title: "支付时间",
           dataIndex: "payTime",
