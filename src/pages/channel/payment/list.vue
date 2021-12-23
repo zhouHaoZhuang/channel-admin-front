@@ -74,13 +74,13 @@
                   <a-select-option value="Yiminghe">
                     正常
                   </a-select-option>
-                  <a-select-option value="delete">
+                  <a-select-option value="delete1">
                     过户中
                   </a-select-option>
-                  <a-select-option value="delete">
+                  <a-select-option value="delete2">
                     已过期
                   </a-select-option>
-                  <a-select-option value="delete">
+                  <a-select-option value="delete3">
                     已退款
                   </a-select-option>
                 </a-select>
@@ -296,7 +296,7 @@
             rowKey="id"
             :pagination="paginationProps"
             @change="handleChangeSort"
-            :scroll="{ x: 2200 }"
+            :scroll="{ x: 1200 }"
           >
             <div slot="runningStatus" slot-scope="text">
               <span v-if="text == 0" class="runningStatus blackhole"
@@ -309,7 +309,7 @@
               <span v-if="text == 3" class="runningStatus expired">已过期</span>
             </div>
             <a slot="action" slot-scope="text" @click="infoChannel(text)"
-              >管理</a
+              >查看</a
             >
           </a-table>
         </div>
@@ -382,70 +382,40 @@ export default {
       ],
       columns: [
         {
-          title: "业务ID",
-          width: 180,
+          title: "ID",
           dataIndex: "id"
         },
         {
-          title: "IP",
-          width: 130,
-          dataIndex: "outIp"
-        },
-        { title: "弹性IP", dataIndex: "intranetIp", key: "intranetIp" },
-        {
-          title: "共享类型",
-          dataIndex: "shareType",
-          key: "shareType",
-          customRender: (text, record, index) => {
-            return "通用";
-          }
-        },
-        {
-          title: "机房",
-          dataIndex: "regionId",
-          customRender: (text, record, index) => {
-            return this.regionMapData[text] || text;
-          },
-          width: 150
-        },
-        { title: "CPU", dataIndex: "cup", key: "cpu" },
-        { title: "内存", dataIndex: "memory", key: "memory" },
-        {
-          title: "磁盘",
-          dataIndex: "systemSize"
-        },
-        {
-          title: "带宽",
-          dataIndex: "internetMaxBandwidthOut"
-        },
-        {
           title: "会员ID",
+          dataIndex: "accountCode"
+        },
+        { 
+          title: "会员名称", 
+          dataIndex: "intranetIp", 
+          key: "intranetIp" 
+        },
+        {
+          title: "款项类型",
+          dataIndex: "memo",
+          scopedSlots: { customRender: "memo" },
+        },
+        {
+          title: "申请金额",
           dataIndex: "corporationCode",
           key: "corporationCode",
-          width: 190
         },
         {
-          title: "购买时间",
+          title: "申请时间",
           dataIndex: "purchaseTimeStr",
-          sorter: true,
           width: 190,
-          sortDirections: ["ascend", "descend"]
         },
+        // { title: "业务状态", dataIndex: "1", key: "" },
         {
-          title: "到期时间",
-          dataIndex: "endTimeStr",
-          key: "endTimeStr",
-          width: 180,
-          sorter: true,
-          sortDirections: ["ascend", "descend"]
-        },
-        { title: "业务状态", dataIndex: "1", key: "" },
-        {
-          title: "运行状态",
+          title: "处理状态",
           dataIndex: "runningStatus",
           scopedSlots: { customRender: "runningStatus" }
         },
-        { title: "操作状态", dataIndex: "3", key: "" },
+        // { title: "操作状态", dataIndex: "3", key: "" },
         {
           title: "操作",
           dataIndex: "id",
@@ -512,35 +482,12 @@ export default {
       this.getList();
     },
     // 查询表格数据
-    getList(callBack) {
-      this.tableLoading = true;
-      this.selectkey.currentPage = this.paginationProps.current;
-      this.selectkey.pageSize = this.paginationProps.pageSize;
-      this.$store
-        .dispatch("business/getList", this.selectkey)
-        .then(res => {
-          console.log(res);
-          this.data = res.data.list;
-          this.paginationProps.total = res.data.totalCount * 1;
-        })
-        .finally(() => {
-          this.tableLoading = false;
-          if (callBack) {
-            callBack();
-          }
-          // this.selectkey = {
-          //   corporationName: "",
-          //   corporationPhone: "",
-          //   currentPage: "1",
-          //   endTimeSort: "asc",
-          //   orderNo: "",
-          //   outIp: "",
-          //   pageSize: "10",
-          //   saleTimeSort: "asc",
-          //   sort: "asc",
-          //   runningstatus: "0",
-          // }
-        });
+    getList() {
+      this.$store.dispatch("financialDetails/getList", this.listQuery).then(res => {
+        console.log(res, "获取列表");
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.total * 1;
+      });
     },
     // 表格分页快速跳转n页
     quickJump(current) {
