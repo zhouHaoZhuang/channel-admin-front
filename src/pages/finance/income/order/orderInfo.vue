@@ -66,9 +66,6 @@
             <div>操作系统:{{ text.osName }}</div>
             <div>所在区:{{ text.regionId }}</div>
           </div>
-          <div slot="">
-
-          </div>
         </a-table>
       </div>
     </div>

@@ -326,7 +326,7 @@ export default {
       regionMapData,
       isfilter: false,
       listQuery: {
-        key: "outIp",
+        key: "ID",
         search: "",
         pageNo: 1,
         pageSize: 10,
@@ -335,20 +335,16 @@ export default {
       titleList: [
         {
           key: 0,
-          title: "正常"
+          title: "全部"
         },
         {
           key: 1,
-          title: "即将到期"
+          title: "处理中"
         },
         {
           key: 2,
-          title: "已到期"
+          title: "处理完成"
         },
-        {
-          key: 3,
-          title: "已删除"
-        }
       ],
       selectkey: {
         corporationName: "",
@@ -356,28 +352,21 @@ export default {
         currentPage: "1",
         endTimeSort: "",
         orderNo: "",
-        outIp: "",
+        ID: "",
         pageSize: "10",
         saleTimeSort: "",
         sort: "",
-        runningStatus: 0
+        runningStatus: 0,
+        accountCode:""
       },
       searchColumns: [
         {
-          title: "服务器IP",
-          dataIndex: "outIp"
+          title: "ID",
+          dataIndex: "ID"
         },
         {
           title: "会员ID",
-          dataIndex: "corporationCode"
-        },
-        {
-          title: "会员手机",
-          dataIndex: "corporationPhone"
-        },
-        {
-          title: "订单ID",
-          dataIndex: "orderNo"
+          dataIndex: "accountCode"
         }
       ],
       columns: [
@@ -478,7 +467,7 @@ export default {
     // 查询
     search() {
       this.listQuery.search = this.listQuery.search.trim();
-      this.selectkey[this.listQuery.key] = this.listQuery.search;
+      this.selectkey[this.listQuery.ID] = this.listQuery.search;
       this.getList();
     },
     // 查询表格数据
@@ -503,7 +492,7 @@ export default {
     //
     infoChannel(id) {
       this.$router.push({
-        path: "/business/cloudservers/info",
+        path: "/finance/examine/details",
         query: { id }
       });
     },
