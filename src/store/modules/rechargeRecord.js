@@ -8,17 +8,16 @@ const rechargeRecord = {
     // 获取充值记录列表
     getList({ commit, state }, params) {
       return request({
-        url: "/purchaseAccount",
+        url: "/rechargeRecord",
         method: "get",
         params
       });
     },
     // 新增采购
-    add({ commit, state }, data) {
+    getOne({ commit, state }, id) {
       return request({
-        url: "/purchaseAccount",
-        method: "post",
-        data
+        url: `/rechargeRecord/${id}`,
+        method: "get",
       });
     },
   }
