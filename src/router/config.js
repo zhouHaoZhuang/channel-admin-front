@@ -263,7 +263,7 @@ const options = {
                   component: () => import("@/pages/finance/details/index.vue")
                 },
                 {
-                  path: "detailedInfo",
+                  path: "detailedinfo",
                   name: "财务明细详情",
                   meta: {
                     invisible: true,
