@@ -36,7 +36,7 @@
         <a-select v-model="listQuery.detailType"
                   style="width: 120px"
                   @change="handleChange">
-          <a-select-option value="0">
+          <a-select-option value="">
             款项类型
           </a-select-option>
           <a-select-option v-for="(value,key) in detailTypeMapData"
@@ -115,7 +115,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        detailType: '0',
+        detailType: '',
         startTime: '',
         endTime: ''
       },
@@ -218,11 +218,9 @@ export default {
   methods: {
     // 获取开始日期
     changeStart (date, dateString) {
-      this.startValue = dateString;
       this.listQuery.startTime = dateString;
     },
     changeEnd (date, dateString) {
-      this.endValue = dateString;
       this.listQuery.endTime = dateString;
     },
     // 点击排序之后的回调
@@ -296,6 +294,9 @@ export default {
       this.getList();
     },
     getList () {
+      // if (condition) {
+
+      // }
       this.$getList("financialDetails/getList", this.listQuery).then(res => {
         console.log(res, "获取列表");
         this.data = res.data.list;
@@ -303,7 +304,7 @@ export default {
       });
     },
     selectPool (data) {
-      localStorage.setItem("detailedinfo", JSON.stringify(data));
+      this.$store.commit("financialDetails/SET_DETAILEDINFO", data);
       this.$router.push({
         path: `/finance/index/detailedinfo`,
         query: {

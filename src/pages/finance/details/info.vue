@@ -1,8 +1,7 @@
 <template>
   <div class="details-container">
     <h1 class="details-title">财务信息</h1>
-    <div class="details-info"
-         v-if="data">
+    <div class="details-info">
       <div><span class="details-type">发生金额：</span><span class="details-value">{{data.dealAmount.toFixed(2)}}</span></div>
       <div><span class="details-type">当前金额：</span><span class="details-value">{{data.afterAmount.toFixed(2)}}</span></div>
       <div><span class="details-type">时间：</span><span class="details-value">{{data.createTime | formatDate}}</span></div>
@@ -31,9 +30,8 @@ export default {
       //   console.log(res);
       //   this.data = res.data
       // })
-      // console.log(id);
-      let data = JSON.parse(localStorage.getItem("detailedinfo"));
-      this.data = data;
+      this.data = this.$store.state.financialDetails.detailedinfo;
+      // console.log(this.data, 'this.data');
     }
   },
 }

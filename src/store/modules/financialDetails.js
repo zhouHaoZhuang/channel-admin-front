@@ -2,6 +2,15 @@ import request from "@/utils/request";
 
 const financialDetails = {
   namespaced: true,
+  state: {
+    detailedinfo: {},
+  },
+  mutations: {
+    SET_DETAILEDINFO: (state, detailedinfo) => {
+      console.log("SET_DETAILEDINFO", detailedinfo);
+      state.detailedinfo = detailedinfo;
+    }
+  },
   actions: {
     // 财务明细列表------------------------
     // 获取列表

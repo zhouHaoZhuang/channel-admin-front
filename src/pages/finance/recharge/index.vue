@@ -314,11 +314,9 @@ export default {
       console.log(val);
     },
     handleStartChange (date, dateString) {
-      this.startValue = dateString;
       this.listQuery.startTime = dateString;
     },
     handleEndChange (date, dateString) {
-      this.endValue = dateString;
       this.listQuery.endTime = dateString;
     },
     // 多选框改变之后的回调
