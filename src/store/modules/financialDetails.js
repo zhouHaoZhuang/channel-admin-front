@@ -9,12 +9,12 @@ const financialDetails = {
     SET_DETAILEDINFO: (state, detailedinfo) => {
       console.log("SET_DETAILEDINFO", detailedinfo);
       state.detailedinfo = detailedinfo;
-    }
+    },
   },
   actions: {
     // 财务明细列表------------------------
     // 获取列表
-    getList ({ commit, state }, data) {
+    getList({ commit, state }, data) {
       return request({
         url: "/customerAccountLog/qu",
         method: "post",
@@ -37,7 +37,7 @@ const financialDetails = {
     //     // pay:true
     //   });
     // },
-  }
+  },
 };
 
 export default financialDetails;

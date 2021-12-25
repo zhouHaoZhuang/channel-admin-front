@@ -16,7 +16,8 @@ import globalBasic from "./globalBasic";
 import page from "./page";
 import financialDetails from "./financialDetails";
 import rechargeRecord from "./rechargeRecord";
-
+import newsType from "./newsType";
+import newsList from "./newsList";
 export default {
   user,
   account,
@@ -35,5 +36,7 @@ export default {
   globalBasic,
   page,
   financialDetails,
-  rechargeRecord
+  rechargeRecord,
+  newsType,
+  newsList
 };
