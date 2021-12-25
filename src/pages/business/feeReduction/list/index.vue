@@ -99,7 +99,7 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: "id",
+          dataIndex: "orderNo",
           key: "action",
           fixed: "right",
           width: 100,

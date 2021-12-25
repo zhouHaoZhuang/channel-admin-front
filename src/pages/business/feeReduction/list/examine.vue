@@ -7,11 +7,11 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">订单ID:</span>
-                <span class="basicInformation-info">{{ detail.id }}????</span>
+                <span class="basicInformation-info">{{ detail.orderNo }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">服务器IP:</span>
-                <span class="basicInformation-info">{{ detail.id }}</span>
+                <span class="basicInformation-info">{{ detail.innerIp }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">订单类型:</span
@@ -21,15 +21,15 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">创建时间:</span
-                ><span class="basicInformation-info"> {{ detail.outIp }}</span>
+                ><span class="basicInformation-info"> {{ detail.createTimeStr }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">状态:</span
-                ><span class="basicInformation-info">{{ detail.innerIp }}</span>
+                ><span class="basicInformation-info">{{ detail.runningStatus }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">执行时间:</span
-                ><span class="basicInformation-info">{{ detail.osName }} </span>
+                ><span class="basicInformation-info">{{ detail.createTimeStr }} </span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">回退金额:</span
@@ -69,7 +69,7 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">产品名称:</span
-                ><span class="basicInformation-info"> {{ detail.cup }}</span>
+                ><span class="basicInformation-info"> {{ detail.instanceName }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">类型:</span
@@ -78,12 +78,19 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">配置信息:</span>
                 <span class="basicInformation-type">cpu:</span>
+                <span class="basicInformation-info"> {{ detail.cpu }}</span>
                 <span class="basicInformation-type">内存:</span>
+                <span class="basicInformation-info"> {{ detail.memory }}</span>
                 <span class="basicInformation-type">磁盘:</span>
+                <span class="basicInformation-info"> {{ detail.dataDisk.size }}</span>
                 <span class="basicInformation-type">带宽:</span>
+                <span class="basicInformation-info"> {{ detail.internetMaxBandwidthOut }}</span>
                 <span class="basicInformation-type">防御:</span>
+                <span class="basicInformation-info"> {{ detail.memory }}</span>
                 <span class="basicInformation-type">操作系统:</span>
+                <span class="basicInformation-info"> {{ detail.memory }}</span>
                 <span class="basicInformation-type">所在区:</span>
+                <span class="basicInformation-info"> {{ detail.regionId }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数量:</span
@@ -184,7 +191,7 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">会员姓名:</span
                 ><span class="basicInformation-info">{{
-                  detail.corporationName
+                  detail.realName
                 }}</span>
               </div>
               <div class="basicInformation-item">
@@ -192,16 +199,6 @@
                 ><span class="basicInformation-info">{{
                   detail.phoneNumber
                 }}</span>
-              </div>
-              <div class="basicInformation-item">
-                <span class="basicInformation-type">邮箱:</span
-                ><span class="basicInformation-info">{{
-                  detail.phoneNumber
-                }}</span>
-              </div>
-              <div class="basicInformation-item">
-                <span class="basicInformation-type">QQ账号:</span
-                ><span class="basicInformation-info"> {{ detail.qq }}----</span>
               </div>
             </div>
           </a-tab-pane>

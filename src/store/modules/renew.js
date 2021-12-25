@@ -17,7 +17,7 @@ const renew = {
       return request({
         url: `/scEcsStock/orderLog/${params.orderNo}`,
         method: "get",
-        params
+        
       });
     },
   }
