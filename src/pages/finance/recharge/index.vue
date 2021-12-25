@@ -6,7 +6,7 @@
           批量关闭
         </a-button> -->
         <a-select style="width:150px"
-                  v-model="title"
+                  v-model="this.listQuery.key"
                   @change="changeKey">
           <a-select-option :value="v.dataIndex"
                            v-for="v in useColumns"
@@ -133,10 +133,7 @@
           <div :class="{ green: text === 1, blue: text !== 1 }"
                slot="status"
                slot-scope="text">
-            <span v-if="text==0">待支付</span>
-            <span v-if="text==1">已取消</span>
-            <span v-if="text==2">支付失败</span>
-            <span v-if="text==9">支付完成</span>
+            <span>{{detailsMapData[text]}}</span>
           </div>
         </a-table>
       </div>
@@ -145,18 +142,21 @@
 </template>
 
 <script>
+import { detailsMapData } from '@/utils/enum.js'
 export default {
   data () {
     return {
-      title: "customerCode",
       isfilter: false,
+      detailsMapData,
       // search: "",
       listQuery: {
-        key: '',
+        key: 'customerCode',
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        startTime: '',
+        endTime: '',
       },
       columns: [
         {
@@ -288,30 +288,23 @@ export default {
     secectClick () {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
-        this.$store
-          .dispatch("rechargeRecord/getList", {
-            startTime: this.startValue,
-            endTime: this.endValue,
-          })
+        this.$getList("rechargeRecord/getList", this.listQuery)
           .then(res => {
             this.data = res.data.list;
             this.paginationProps.total = res.data.total * 1;
           });
       } else {
-        this.listQuery[this.listQuery.key] = this.listQuery.search;
-        this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
+        this.$getList("rechargeRecord/getList", this.listQuery).then(res => {
           // console.log(res, "请求结果");
           this.data = res.data.list;
           this.paginationProps.total = res.data.total * 1;
-        }).finally(() => {
-          this.listQuery[this.listQuery.key] = null;
         });
       }
     },
     changeKey (val) {
       // console.log(val);
-      this.title = val;
-      if (this.title !== "createTime") {
+      this.listQuery.key = val;
+      if (this.listQuery.key !== "createTime") {
         this.isTime = true;
       } else {
         this.isTime = false;
@@ -322,9 +315,11 @@ export default {
     },
     handleStartChange (date, dateString) {
       this.startValue = dateString;
+      this.listQuery.startTime = dateString;
     },
     handleEndChange (date, dateString) {
       this.endValue = dateString;
+      this.listQuery.endTime = dateString;
     },
     // 多选框改变之后的回调
     onSelectChange (selectedRowKeys) {

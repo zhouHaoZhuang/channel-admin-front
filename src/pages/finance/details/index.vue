@@ -33,7 +33,25 @@
                          placeholder="结束时间"
                          @openChange="handleEndOpenChange" />
         </div>
-
+        <a-select v-model="listQuery.detailType"
+                  style="width: 120px"
+                  @change="handleChange">
+          <a-select-option value="0">
+            款项类型
+          </a-select-option>
+          <a-select-option :value="1">
+            在线充值
+          </a-select-option>
+          <a-select-option :value="2">
+            线下充值
+          </a-select-option>
+          <a-select-option :value="3">
+            下单
+          </a-select-option>
+          <a-select-option :value="4">
+            退款
+          </a-select-option>
+        </a-select>
         <a-button type="primary"
                   @click="secectClick">
           查询
@@ -71,10 +89,7 @@
           </div>
           <div slot="detailType"
                slot-scope="text">
-            <span v-if="text==1">在线充值</span>
-            <span v-else-if="text==2">线下充值</span>
-            <span v-else-if="text==3">下单</span>
-            <span v-else-if="text==4">退款</span>
+            <span>{{detailTypeMapData[text]}}</span>
           </div>
           <div slot="action"
                slot-scope="text">
@@ -84,8 +99,8 @@
             </a-button>
           </div>
           <div slot="payTime"
-               slot-scope="v">
-            {{ v | formatDate }}
+               slot-scope="text">
+            {{ text | formatDate }}
           </div>
         </a-table>
       </div>
@@ -94,17 +109,20 @@
 </template>
 
 <script>
+import { detailTypeMapData } from '@/utils/enum.js';
 export default {
   data () {
     return {
       isfilter: false,
       title: 'customerCode',
+      detailTypeMapData,
       listQuery: {
         key: undefined,
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        detailType: '0',
       },
       columns: [
         {
@@ -195,11 +213,7 @@ export default {
         {
           title: "起始日期",
           dataIndex: "createTime",
-        },
-        {
-          title: "款项类型",
-          dataIndex: "detailType",
-        },
+        }
       ];
     },
   },
@@ -207,13 +221,12 @@ export default {
     this.getList();
   },
   methods: {
+    // 获取开始日期
     changeStart (date, dateString) {
-      // console.log(date, dateString);
-      this.startValue = dateString
+      this.startValue = dateString;
     },
     changeEnd (date, dateString) {
-      // console.log(date, dateString);
-      this.endValue = dateString
+      this.endValue = dateString;
     },
     // 点击排序之后的回调
     handleChange (pagination, filters, sorter) {
@@ -255,31 +268,14 @@ export default {
         this.$store.dispatch("financialDetails/getList", {
           startTime: this.startValue,
           endTime: this.endValue,
-        })   //此处需要改变financialDetails.js文件
+        })
           .then(res => {
-            // console.log(res, "时间请求结果");
             this.data = res.data.list;
             this.paginationProps.total = res.data.total * 1;
           });
       } else {
         this.listQuery.search = this.listQuery.search.trim();
         this.listQuery[this.listQuery.key] = this.listQuery.search
-        if (this.listQuery.key == 'detailType') {
-          let search = '';
-          if (this.listQuery.search == '在线充值') {
-            search = 1
-          } else if (this.listQuery.search == '线下充值') {
-            search = 2
-          } else if (this.listQuery.search == '下单') {
-            search = 3
-          } else if (this.listQuery.search == '退款') {
-            search = 4
-          } else {
-            this.$message.warning('不支持当前关键字查询');
-            return;
-          }
-          this.listQuery[this.listQuery.key] = search;
-        }
         // console.log('---' + this.listQuery.search + '---');
         this.$getList("financialDetails/getList", this.listQuery).then(res => {
           // console.log(res, "请求结果");

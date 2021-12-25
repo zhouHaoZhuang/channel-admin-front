@@ -16,14 +16,9 @@
         <span class="details-type">充值时间：</span><span class="details-value">{{data.payTime}}</span>
       </div>
       <div>
-        <span class="details-type">充值状态：</span><span class="details-value"
-              v-if="data.status==0">待支付</span>
-        <span class="details-value"
-              v-if="data.status==1">已取消</span>
-        <span class="details-value"
-              v-if="data.status==2">支付失败</span>
-        <span class="details-value"
-              v-if="data.status==9">支付完成</span>
+        <span class="details-type">充值状态：</span><span class="details-value">
+          {{detailsMapData[data.status]}}</span>
+
       </div>
       <div>
         <span class="details-type">充值渠道：</span><span class="details-value">{{data.channelCode  }}</span>
@@ -54,25 +49,29 @@
 </template>
 
 <script>
+import { detailsMapData } from '@/utils/enum.js'
 export default {
   data () {
     return {
-      data: null
+      data: null,
+      detailsMapData,
     }
   },
   created () {
-    let id = this.$route.query.id
-    this.getList(id)
+    this.getList()
+  },
+  activated () {
+    this.getList()
   },
   methods: {
-    getList (id) {
-      this.$store.dispatch('rechargeRecord/getOne', id).then(res => {
+    getList () {
+      this.$store.dispatch('rechargeRecord/getOne', this.$route.query.id).then(res => {
         console.log(res);
         this.data = res.data.list[0]
       })
-      console.log(id);
     }
   },
+
 }
 </script>
 
