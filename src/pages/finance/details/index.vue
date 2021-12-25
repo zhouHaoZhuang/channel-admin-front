@@ -17,18 +17,18 @@
                    v-model="listQuery.search" />
         </div>
         <div>
-          <a-date-picker v-model="startValue"
-                         :disabled-date="disabledStartDate"
+          <a-date-picker :disabled-date="disabledStartDate"
                          show-time
                          format="YYYY-MM-DD HH:mm:ss"
                          placeholder="开始时间"
                          :disabled="isTime"
+                         @change="changeStart"
                          @openChange="handleStartOpenChange" />
           <span class="zhi">至</span>
-          <a-date-picker v-model="endValue"
-                         :disabled="isTime"
+          <a-date-picker :disabled="isTime"
                          :disabled-date="disabledEndDate"
                          show-time
+                         @change="changeEnd"
                          format="YYYY-MM-DD HH:mm:ss"
                          placeholder="结束时间"
                          @openChange="handleEndOpenChange" />
@@ -92,7 +92,7 @@ export default {
   data () {
     return {
       isfilter: false,
-      title: 'accountCode',
+      title: 'customerCode',
       listQuery: {
         key: undefined,
         search: "",
@@ -110,7 +110,7 @@ export default {
         },
         {
           title: "会员ID",
-          dataIndex: "accountCode",
+          dataIndex: "customerCode",
         },
         {
           title: "发生金额(元)",
@@ -127,23 +127,23 @@ export default {
           dataIndex: "memo",
           scopedSlots: { customRender: "memo" },
         },
-        {
-          title: "交易描述",
-          dataIndex: "actualAmount",
-          key: "actualAmount",
-          scopedSlots: { customRender: "actualAmount" },
-        },
+        // {
+        //   title: "交易描述",
+        //   dataIndex: "actualAmount",
+        //   key: "actualAmount",
+        //   scopedSlots: { customRender: "actualAmount" },
+        // },
         {
           title: "发生时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
           width: 180
         },
-        {
-          title: "订单ID",
-          key: "selects",
-          scopedSlots: { customRender: "select" }
-        },
+        // {
+        //   title: "订单ID",
+        //   key: "selects",
+        //   scopedSlots: { customRender: "select" }
+        // },
         {
           title: "操作管理员",
           dataIndex: "modifyUserName",
@@ -180,7 +180,7 @@ export default {
       return [
         {
           title: "会员ID",
-          dataIndex: "accountCode",
+          dataIndex: "customerCode",
         },
         {
           title: "业务ID",
@@ -201,6 +201,14 @@ export default {
     this.getList();
   },
   methods: {
+    changeStart (date, dateString) {
+      // console.log(date, dateString);
+      this.startValue = dateString;
+    },
+    changeEnd (date, dateString) {
+      // console.log(date, dateString);
+      this.endValue = dateString;
+    },
     // 点击排序之后的回调
     handleChange (pagination, filters, sorter) {
       if (sorter && sorter.order) {
@@ -236,18 +244,13 @@ export default {
     secectClick () {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
-        let startTime = this.startValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        let endTime = this.endValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
+        // console.log(this.startValue, this.endValue);
         this.$store.dispatch("financialDetails/selectList", {
-          startTime,
-          endTime
+          startTime: this.startValue,
+          endTime: this.endValue,
         })   //此处需要改变financialDetails.js文件
           .then(res => {
-            console.log(res, "时间请求结果");
+            // console.log(res, "时间请求结果");
             this.data = res.data.list;
             this.paginationProps.total = res.data.total * 1;
           });

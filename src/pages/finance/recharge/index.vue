@@ -2,9 +2,9 @@
   <div class="Content">
     <div class="orderTop">
       <a-space>
-        <a-button icon="stop">
+        <!-- <a-button icon="stop">
           批量关闭
-        </a-button>
+        </a-button> -->
         <a-select style="width:150px"
                   v-model="listQuery.key"
                   @change="changeKey">
@@ -20,7 +20,7 @@
                    v-model="listQuery.search" />
         </div>
         <div>
-          <a-date-picker v-model="startValue"
+          <a-date-picker @change="handleStartChange"
                          :disabled-date="disabledStartDate"
                          show-time
                          format="YYYY-MM-DD HH:mm:ss"
@@ -28,8 +28,8 @@
                          :disabled="isTime"
                          @openChange="handleStartOpenChange" />
           <span class="zhi">至</span>
-          <a-date-picker v-model="endValue"
-                         :disabled="isTime"
+          <a-date-picker :disabled="isTime"
+                         @change="handleEndChange"
                          :disabled-date="disabledEndDate"
                          show-time
                          format="YYYY-MM-DD HH:mm:ss"
@@ -111,7 +111,6 @@
         <a-table :columns="columns"
                  :data-source="data"
                  rowKey="id"
-                 :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
                  :pagination="paginationProps"
                  :scroll="{ x: 1400 }">
           <a slot="name"
@@ -159,62 +158,58 @@ export default {
       columns: [
         {
           title: "充值ID",
-          dataIndex: "orderNo",
-          key: "orderNo"
-        },
-        {
-          title: "来源",
-          dataIndex: "",
-          key: ""
+          dataIndex: "id",
+          key: "id"
         },
         {
           title: "方式",
-          dataIndex: "",
-          key: ""
+          dataIndex: "memo",
         },
         {
           title: "会员ID",
-          dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
+          dataIndex: "customerCode",
+          key: "customerCode",
+          scopedSlots: { customRender: "customerCode" }
         },
         {
           title: "充值金额",
-          dataIndex: "originAmount",
-          key: "originAmount",
-          scopedSlots: { customRender: "originAmount" }
+          dataIndex: "amount",
+          key: "amount",
+          scopedSlots: { customRender: "amount" }
         },
-        {
-          title: "交易号",
-          dataIndex: "actualAmount",
-          key: "actualAmount",
-          scopedSlots: { customRender: "actualAmount" }
-        },
+        // {
+        //   title: "交易号",
+        //   dataIndex: "actualAmount",
+        //   key: "actualAmount",
+        //   scopedSlots: { customRender: "actualAmount" }
+        // },
         {
           title: "充值时间",
-          dataIndex: "createTime",
-          key: "createTime",
-          scopedSlots: { customRender: "createTime" }
+          dataIndex: "payTime",
+          key: "payTime",
+          scopedSlots: { customRender: "payTime" }
         },
         {
           title: "充值状态",
-          key: "selects",
-          scopedSlots: { customRender: "select" }
+          dataIndex: "status",
+          key: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
-          title: "处理人",
-          key: "",
-          scopedSlots: { customRender: "select" }
+          title: "操作人",
+          dataIndex: "createUserName",
+          key: "createUserName",
+          scopedSlots: { customRender: "createUserName" }
         },
         {
           title: "操作",
+          dataIndex: "id",
           key: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
         }
       ],
-      selectedRowKeys: [],// 已选中的行
-
+      // selectedRowKeys: [],// 已选中的行
       dataAll: [],
       data: [],
       // 表格分页器配置
@@ -243,20 +238,20 @@ export default {
           title: "会员ID",
           dataIndex: "orderNo",
         },
-        {
-          title: "充值订单号",
-          dataIndex: "",
-        },
-        {
-          title: "交易号",
-          dataIndex: "tradeType",
-        },
+        // {
+        //   title: "充值订单号",
+        //   dataIndex: "",
+        // },
+        // {
+        //   title: "交易号",
+        //   dataIndex: "tradeType",
+        // },
         {
           title: "充值ID",
           dataIndex: "payStatus",
         },
         {
-          title: "创建时间",
+          title: "起始时间",
           dataIndex: "createTime",
         }
       ];
@@ -288,51 +283,17 @@ export default {
     secectClick () {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
-        let startTime = this.startValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        let endTime = this.endValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        // console.log(this.title, this.search, startTime, endTime);
         this.$store
-          .dispatch("financialOrder/selectList", {
-            startTime,
-            endTime
+          .dispatch("rechargeRecord/selectList", {
+            startTime: this.startValue,
+            endTime: this.endValue,
           })
-          .then(val => {
-            // console.log(val, "时间请求结果");
-            this.paginationProps.total = val.data.totalCount * 1;
-            this.paginationProps.current = val.data.currentPage * 1;
-            this.dataAll = val.data.list;
-            this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
+          .then(res => {
+            // console.log(res, "时间请求结果");
           });
       } else {
-        // this.$getList(this.title, this.search, this.startValue, this.endValue);
-        let tempSearch = this.listQuery.search;
-        if (this.title == "tradeType") {
-          if (this.listQuery.search == "销售") {
-            this.listQuery.search = 5;
-          }
-          if (this.listQuery.search == "采购") {
-            this.listQuery.search = 1;
-          }
-        }
-        if (this.title == "payStatus") {
-          if (this.listQuery.search == "支付") {
-            this.listQuery.search = 1;
-          }
-          if (this.listQuery.search == "未支付") {
-            this.listQuery.search = 0;
-          }
-        }
-        this.$getList("financialOrder/getList", this.listQuery).then(val => {
-          // console.log(val, "时间请求结果");
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.paginationProps.current = val.data.currentPage * 1;
-          this.dataAll = val.data.list;
-          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-          this.listQuery.search = tempSearch;
+        this.$getList("rechargeRecord/getList", this.listQuery).then(res => {
+          // console.log(res, "请求结果");
         });
       }
     },
@@ -347,6 +308,12 @@ export default {
     },
     handleChange (val) {
       console.log(val);
+    },
+    handleStartChange (date, dateString) {
+      this.startValue = dateString;
+    },
+    handleEndChange (date, dateString) {
+      this.endValue = dateString;
     },
     // 多选框改变之后的回调
     onSelectChange (selectedRowKeys) {
@@ -369,7 +336,7 @@ export default {
     getList () {
       this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
         this.data = res.data.list;
-        this.paginationProps.total = res.data.total;
+        this.paginationProps.total = res.data.total * 1;
       });
     },
     // 搜索功能回调
