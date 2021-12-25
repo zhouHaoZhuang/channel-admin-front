@@ -8,7 +8,14 @@ const renew = {
     // 获取充值记录列表
     getList({ commit, state }, params) {
       return request({
-        url: "/scEcsStock/query/upDown/ecsPage",
+        url: "/scEcsStock/query/renew/ecsPage",
+        method: "get",
+        params
+      });
+    },
+    inquireList({ commit, state }, params) {
+      return request({
+        url: "/scEcsStock/orderLog/{orderNo}",
         method: "get",
         params
       });

@@ -8,9 +8,6 @@
         <a-select-option value="云服务器ID">
           云服务器ID
         </a-select-option>
-        <a-select-option value="GUID">
-          GUID
-        </a-select-option>
       </a-select>
       <span>
         <a-input placeholder="搜索关键词"></a-input>
@@ -44,12 +41,11 @@
         :pagination="paginationProps"
         :scroll="{ x: 1200 }"
       >
-        <a
-          slot="action"
-          slot-scope=""
-          @click="addChannel()"
-          >查看</a
-        >
+        <div slot="runningStatus" slot-scope="text">
+          <span v-if="text == 1" class="runningStatus blackhole">待降配</span>
+          <span v-if="text == 2" class="runningStatus running">已完成</span>
+        </div>
+        <a slot="action" slot-scope="text" @click="addChannel(text)">查看</a>
       </a-table>
     </div>
   </div>
@@ -60,7 +56,7 @@ export default {
   data() {
     return {
       isfilter: false,
-      title: 'accountCode',
+      title: "accountCode",
       listQuery: {
         key: "",
         search: "",
@@ -95,11 +91,12 @@ export default {
           sorter: true,
           sortOrder: true
         },
-        {
-          title: "状态",
-          dataIndex: "runningStatus"
-        },
          {
+          title: "状态",
+          dataIndex: "runningStatus",
+          scopedSlots: { customRender: "runningStatus" },
+        },
+        {
           title: "操作",
           dataIndex: "id",
           key: "action",
@@ -108,11 +105,10 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-       paginationProps: {
+      paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-  
-      
+
         total: 1,
         showTotal: (total, range) =>
           `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
@@ -132,27 +128,26 @@ export default {
   },
   methods: {
     //查询表格数据
-    getList () {
-      this.$getList("renew/getList", this.listQuery)
-        .then(res => {
-          console.log(res);
-          this.data = [...res.data.list];
-          this.paginationProps.total = res.data.totalCount * 1;
-        })
-        // .finally(() => {
-        //   this.tableLoading = false;
-        //   this.listQuery = {
-        //     key: undefined,
-        //     search: "",
-        //     currentPage: 1,
-        //     pageSize: 10,
-        //     total: 0,
-        //     sorter: ""
-        //   };
-        // });
+    getList() {
+      this.$getList("renew/getList", this.listQuery).then(res => {
+        console.log(res);
+        this.data = [...res.data.list];
+        this.paginationProps.total = res.data.totalCount * 1;
+      });
+      // .finally(() => {
+      //   this.tableLoading = false;
+      //   this.listQuery = {
+      //     key: undefined,
+      //     search: "",
+      //     currentPage: 1,
+      //     pageSize: 10,
+      //     total: 0,
+      //     sorter: ""
+      //   };
+      // });
     },
     //排序
-    handleChange (pagination, filters, sorter) {
+    handleChange(pagination, filters, sorter) {
       if (sorter && sorter.order) {
         if (sorter.columnKey === "createTime") {
           this.listQuery.createTimeSort = sorter.order.replace("end", "");
@@ -162,34 +157,34 @@ export default {
         this.getList();
       }
     },
-    disabledStartDate (startValue) {
+    disabledStartDate(startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
         return false;
       }
       return startValue.valueOf() > endValue.valueOf();
     },
-    disabledEndDate (endValue) {
+    disabledEndDate(endValue) {
       const startValue = this.startValue;
       if (!endValue || !startValue) {
         return false;
       }
       return startValue.valueOf() >= endValue.valueOf();
     },
-    handleStartOpenChange (open) {
+    handleStartOpenChange(open) {
       if (!open) {
         this.endOpen = true;
       }
     },
-    handleEndOpenChange (open) {
+    handleEndOpenChange(open) {
       this.endOpen = open;
     },
-    changepage (current, pageSize) {
+    changepage(current, pageSize) {
       this.paginationProps.current = current;
       this.paginationProps.pageSize = pageSize;
       this.getList();
     },
-    onShowSizeChange (current, pageSize) {
+    onShowSizeChange(current, pageSize) {
       // console.log("改变了分页的大小", current, pageSize);
       this.paginationProps.current = current;
       this.paginationProps.pageSize = pageSize;
@@ -203,7 +198,7 @@ export default {
     //     }
     //   });
     // },
-    secectClick () {
+    secectClick() {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
         let startTime = this.startValue._d
@@ -254,7 +249,7 @@ export default {
         });
       }
     },
-    changeKey (val) {
+    changeKey(val) {
       // console.log(val);
       this.title = val;
       if (this.title !== "createTime") {
@@ -263,10 +258,10 @@ export default {
         this.isTime = false;
       }
     },
-    addChannel(){
+    addChannel(orderNo) {
       this.$router.push({
         path: "/business/cloudservers/feeReduction-examine",
-        query: {  }
+        query: {orderNo}
       });
     }
   }

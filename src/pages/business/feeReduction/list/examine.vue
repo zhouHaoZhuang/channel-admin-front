@@ -369,7 +369,7 @@ export default {
   created() {
     let id = this.$route.query.id;
     // console.log(id);
-    this.$store.dispatch("renew/getList", id).then(res => {
+    this.$store.dispatch("renew/inquireList", id).then(res => {
       this.dataOrder = [res.data];
       console.log(res);
     });
