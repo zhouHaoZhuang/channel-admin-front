@@ -39,17 +39,10 @@
           <a-select-option value="0">
             款项类型
           </a-select-option>
-          <a-select-option :value="1">
-            在线充值
-          </a-select-option>
-          <a-select-option :value="2">
-            线下充值
-          </a-select-option>
-          <a-select-option :value="3">
-            下单
-          </a-select-option>
-          <a-select-option :value="4">
-            退款
+          <a-select-option v-for="(value,key) in detailTypeMapData"
+                           :value="key"
+                           :key="key">
+            {{ value }}
           </a-select-option>
         </a-select>
         <a-button type="primary"
@@ -123,6 +116,8 @@ export default {
         pageSize: 10,
         total: 0,
         detailType: '0',
+        startTime: '',
+        endTime: ''
       },
       columns: [
         {
@@ -224,9 +219,11 @@ export default {
     // 获取开始日期
     changeStart (date, dateString) {
       this.startValue = dateString;
+      this.listQuery.startTime = dateString;
     },
     changeEnd (date, dateString) {
       this.endValue = dateString;
+      this.listQuery.endTime = dateString;
     },
     // 点击排序之后的回调
     handleChange (pagination, filters, sorter) {
@@ -265,24 +262,17 @@ export default {
       console.log(`查询的值是: ${this.listQuery.key}`);
       if (this.title == "createTime") {
         // console.log(this.startValue, this.endValue);
-        this.$store.dispatch("financialDetails/getList", {
-          startTime: this.startValue,
-          endTime: this.endValue,
-        })
+        this.$getList("financialDetails/getList", this.listQuery)
           .then(res => {
             this.data = res.data.list;
             this.paginationProps.total = res.data.total * 1;
           });
       } else {
-        this.listQuery.search = this.listQuery.search.trim();
-        this.listQuery[this.listQuery.key] = this.listQuery.search
-        // console.log('---' + this.listQuery.search + '---');
         this.$getList("financialDetails/getList", this.listQuery).then(res => {
           // console.log(res, "请求结果");
           this.data = res.data.list;
           this.paginationProps.total = res.data.total * 1;
         }).finally(() => {
-          this.listQuery[this.listQuery.key] = null
         });
       }
     },
@@ -306,7 +296,7 @@ export default {
       this.getList();
     },
     getList () {
-      this.$store.dispatch("financialDetails/getList", this.listQuery).then(res => {
+      this.$getList("financialDetails/getList", this.listQuery).then(res => {
         console.log(res, "获取列表");
         this.data = res.data.list;
         this.paginationProps.total = res.data.total * 1;
