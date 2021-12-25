@@ -18,7 +18,7 @@ const financialOrder = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: `/tcOrder`,
+        url: `/tcOrder/store`,
         method: "get",
         params
       });
