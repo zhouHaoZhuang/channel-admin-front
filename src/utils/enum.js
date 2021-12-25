@@ -20,6 +20,11 @@ export const regionMapData = {
   "cn-beijing": "北京",
   "cn-shanghai": "上海",
 };
+//续费降配列表状态
+export const renewalStatusEnum = {
+  1:"待降配",
+  2:"已完成"
+};
 // 充值状态map数据
 export const detailsMapData = {
   "0": "待支付",
@@ -34,4 +39,3 @@ export const detailTypeMapData = {
   "3": "下单",
   "4": "退款",
 };
-

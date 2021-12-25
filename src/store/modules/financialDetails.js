@@ -18,7 +18,7 @@ const financialDetails = {
       return request({
         url: "/customerAccountLog/qu",
         method: "post",
-        data,
+        data
       });
     },
     //根据id获取详情
