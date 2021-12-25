@@ -2,7 +2,7 @@
   <div>
     <div class="purchase-list-container">
       <div>
-        <p class="purchase-list-title">
+        <!-- <p class="purchase-list-title">
           <span
             :class="{
               'purchase-title-active': selectkey.runningStatus === text.key
@@ -13,7 +13,7 @@
           >
             {{ text.title }}
           </span>
-        </p>
+        </p> -->
         <div>
           <div class="public-header-wrap">
             <a-form-model layout="inline" :model="listQuery">
@@ -26,16 +26,13 @@
               <a-form-model-item>
                 <a-select
                   style="width:120px"
-                  allowClear
-                  v-model="listQuery.key"
-                  placeholder="请选择"
+                  v-model="title"
                 >
-                  <a-select-option
-                    v-for="item in searchColumns"
-                    :key="item.dataIndex"
-                    :value="item.dataIndex"
-                  >
-                    {{ item.title }}
+                  <a-select-option value="ID">
+                    ID
+                  </a-select-option>
+                  <a-select-option value="accountCode">
+                    会员ID
                   </a-select-option>
                 </a-select>
               </a-form-model-item>
@@ -54,36 +51,6 @@
                     <a-date-picker placeholder="结束日期"></a-date-picker>
                   </span>
                 </div>
-              </a-form-model-item>
-              <!-- 下拉框 -->
-              <a-form-model-item>
-                <a-select
-                  placeholder="请选择"
-                  style="width: 120px"
-                  @change="handleChange"
-                >
-                  <a-select-option value="jack">
-                    不限
-                  </a-select-option>
-                  <a-select-option value="lucy">
-                    已回收
-                  </a-select-option>
-                  <a-select-option value="disabled">
-                    开通中
-                  </a-select-option>
-                  <a-select-option value="Yiminghe">
-                    正常
-                  </a-select-option>
-                  <a-select-option value="delete1">
-                    过户中
-                  </a-select-option>
-                  <a-select-option value="delete2">
-                    已过期
-                  </a-select-option>
-                  <a-select-option value="delete3">
-                    已退款
-                  </a-select-option>
-                </a-select>
               </a-form-model-item>
               <!-- 按钮 -->
               <a-form-model-item>
@@ -293,20 +260,20 @@
             :loading="tableLoading"
             :columns="columns"
             :data-source="data"
-            rowKey="id"
+            rowKey="paymentLineId"
             :pagination="paginationProps"
             @change="handleChangeSort"
             :scroll="{ x: 1200 }"
           >
-            <div slot="runningStatus" slot-scope="text">
+            <div slot="status" slot-scope="text">
               <span v-if="text == 0" class="runningStatus blackhole"
-                >黑洞中</span
+                >在线充值</span
               >
-              <span v-if="text == 1" class="runningStatus running">运行中</span>
+              <span v-if="text == 1" class="runningStatus running">线下充值</span>
               <span v-if="text == 2" class="runningStatus shutdown"
-                >已关机</span
+                >下单</span
               >
-              <span v-if="text == 3" class="runningStatus expired">已过期</span>
+              <span v-if="text == 3" class="runningStatus expired">退款</span>
             </div>
             <a slot="action" slot-scope="text" @click="infoChannel(text)"
               >查看</a
@@ -325,10 +292,11 @@ export default {
     return {
       regionMapData,
       isfilter: false,
+      title:"paymentLineId",
       listQuery: {
-        key: "ID",
+        key: "",
         search: "",
-        pageNo: 1,
+        currentPage: 1,
         pageSize: 10,
         total: 0
       },
@@ -356,13 +324,13 @@ export default {
         pageSize: "10",
         saleTimeSort: "",
         sort: "",
-        runningStatus: 0,
+        Status: 0,
         accountCode:""
       },
       searchColumns: [
         {
           title: "ID",
-          dataIndex: "ID"
+          dataIndex: "id"
         },
         {
           title: "会员ID",
@@ -372,7 +340,7 @@ export default {
       columns: [
         {
           title: "ID",
-          dataIndex: "id"
+          dataIndex: "paymentLineId"
         },
         {
           title: "会员ID",
@@ -380,29 +348,29 @@ export default {
         },
         { 
           title: "会员名称", 
-          dataIndex: "intranetIp", 
-          key: "intranetIp" 
+          dataIndex: "customerName", 
+          key: "customerName" 
         },
-        {
-          title: "款项类型",
-          dataIndex: "memo",
-          scopedSlots: { customRender: "memo" },
-        },
+        // {
+        //   title: "款项类型",
+        //   dataIndex: "detailType",
+        //   scopedSlots: { customRender: "detailType" },
+        // },
         {
           title: "申请金额",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
+          dataIndex: "dealAmount",
+          key: "dealAmount",
         },
         {
           title: "申请时间",
-          dataIndex: "purchaseTimeStr",
+          dataIndex: "createTime",
           width: 190,
         },
         // { title: "业务状态", dataIndex: "1", key: "" },
         {
-          title: "处理状态",
-          dataIndex: "runningStatus",
-          scopedSlots: { customRender: "runningStatus" }
+          title: "款项类型",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         // { title: "操作状态", dataIndex: "3", key: "" },
         {
@@ -466,9 +434,13 @@ export default {
     },
     // 查询
     search() {
-      this.listQuery.search = this.listQuery.search.trim();
-      this.selectkey[this.listQuery.ID] = this.listQuery.search;
-      this.getList();
+    this.listQuery.key = this.title;
+    this.listQuery[this.listQuery.key] = this.listQuery.search
+      this.$getList("financialDetails/getList", this.listQuery).then(res => {
+        // console.log(res);
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.totalCount * 1;
+      });
     },
     // 查询表格数据
     getList() {
@@ -490,10 +462,10 @@ export default {
       this.getList();
     },
     //
-    infoChannel(id) {
+    infoChannel(paymentLineId) {
       this.$router.push({
         path: "/finance/examine/details",
-        query: { id }
+        query: { paymentLineId }
       });
     },
     handleChange(value) {
@@ -608,7 +580,7 @@ export default {
   border-radius: 2px;
 }
 .blackhole {
-  background: #a5a5a5;
+  background: #16b841;
 }
 .running {
   background: #16b841;

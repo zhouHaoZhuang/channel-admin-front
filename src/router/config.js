@@ -444,6 +444,16 @@ const options = {
                     import("@/pages/business/feeReduction/list/index.vue"),
                 },
                 {
+                  path: "feeReduction-examine",
+                  name: "续费降配列表详情",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () =>
+                    import("@/pages/business/feeReduction/list/examine.vue")
+                },
+                {
                   path: "snapshot",
                   name: "快照列表",
                   meta: {
