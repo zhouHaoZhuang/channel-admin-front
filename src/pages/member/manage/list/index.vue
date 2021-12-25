@@ -377,7 +377,7 @@ export default {
           title: "会员ID",
           dataIndex: "corporationCode",
           scopedSlots: { customRender: "corporationCode" },
-          width: 180
+          width: 190
         },
         {
           title: "姓名",

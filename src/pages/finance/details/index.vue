@@ -33,7 +33,18 @@
                          placeholder="结束时间"
                          @openChange="handleEndOpenChange" />
         </div>
-
+        <a-select v-model="listQuery.detailType"
+                  style="width: 120px"
+                  @change="handleChange">
+          <a-select-option value="">
+            款项类型
+          </a-select-option>
+          <a-select-option v-for="(value,key) in detailTypeMapData"
+                           :value="key"
+                           :key="key">
+            {{ value }}
+          </a-select-option>
+        </a-select>
         <a-button type="primary"
                   @click="secectClick">
           查询
@@ -69,7 +80,10 @@
                slot-scope="text">
             {{ text | formatDate }}
           </div>
-
+          <div slot="detailType"
+               slot-scope="text">
+            <span>{{detailTypeMapData[text]}}</span>
+          </div>
           <div slot="action"
                slot-scope="text">
             <a-button type="link"
@@ -78,8 +92,8 @@
             </a-button>
           </div>
           <div slot="payTime"
-               slot-scope="v">
-            {{ v | formatDate }}
+               slot-scope="text">
+            {{ text | formatDate }}
           </div>
         </a-table>
       </div>
@@ -88,17 +102,22 @@
 </template>
 
 <script>
+import { detailTypeMapData } from '@/utils/enum.js';
 export default {
   data () {
     return {
       isfilter: false,
       title: 'customerCode',
+      detailTypeMapData,
       listQuery: {
         key: undefined,
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        detailType: '',
+        startTime: '',
+        endTime: ''
       },
       columns: [
         {
@@ -124,8 +143,8 @@ export default {
         },
         {
           title: "款项类型",
-          dataIndex: "memo",
-          scopedSlots: { customRender: "memo" },
+          dataIndex: "detailType",
+          scopedSlots: { customRender: "detailType" },
         },
         // {
         //   title: "交易描述",
@@ -150,7 +169,7 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: "id",
+          // dataIndex: "id",
           key: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
@@ -189,11 +208,7 @@ export default {
         {
           title: "起始日期",
           dataIndex: "createTime",
-        },
-        {
-          title: "款项类型",
-          dataIndex: "memo",
-        },
+        }
       ];
     },
   },
@@ -201,13 +216,12 @@ export default {
     this.getList();
   },
   methods: {
+    // 获取开始日期
     changeStart (date, dateString) {
-      // console.log(date, dateString);
-      this.startValue = dateString;
+      this.listQuery.startTime = dateString;
     },
     changeEnd (date, dateString) {
-      // console.log(date, dateString);
-      this.endValue = dateString;
+      this.listQuery.endTime = dateString;
     },
     // 点击排序之后的回调
     handleChange (pagination, filters, sorter) {
@@ -243,14 +257,11 @@ export default {
     // 查询的回调
     secectClick () {
       this.listQuery.key = this.title;
+      console.log(`查询的值是: ${this.listQuery.key}`);
       if (this.title == "createTime") {
         // console.log(this.startValue, this.endValue);
-        this.$store.dispatch("financialDetails/selectList", {
-          startTime: this.startValue,
-          endTime: this.endValue,
-        })   //此处需要改变financialDetails.js文件
+        this.$getList("financialDetails/getList", this.listQuery)
           .then(res => {
-            // console.log(res, "时间请求结果");
             this.data = res.data.list;
             this.paginationProps.total = res.data.total * 1;
           });
@@ -259,6 +270,7 @@ export default {
           // console.log(res, "请求结果");
           this.data = res.data.list;
           this.paginationProps.total = res.data.total * 1;
+        }).finally(() => {
         });
       }
     },
@@ -282,17 +294,21 @@ export default {
       this.getList();
     },
     getList () {
-      this.$store.dispatch("financialDetails/getList", this.listQuery).then(res => {
+      // if (condition) {
+
+      // }
+      this.$getList("financialDetails/getList", this.listQuery).then(res => {
         console.log(res, "获取列表");
         this.data = res.data.list;
         this.paginationProps.total = res.data.total * 1;
       });
     },
-    selectPool (id) {
+    selectPool (data) {
+      this.$store.commit("financialDetails/SET_DETAILEDINFO", data);
       this.$router.push({
         path: `/finance/index/detailedinfo`,
         query: {
-          id
+          id: data.id,
         }
       })
     }
