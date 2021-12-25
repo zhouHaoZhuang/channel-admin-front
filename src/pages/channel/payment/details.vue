@@ -3,31 +3,31 @@
     <h1 class="details-title">财务信息</h1>
     <div class="details-info" v-if="data">
       <div>
-        <span class="details-type">入款会员:</span
-        ><span class="details-value">{{ data.dealAmount }}</span>
+        <span class="details-type">入款会员:</span>
+        <span class="details-value">{{ data.accountCode }}</span>
       </div>
       <div>
-        <span class="details-type">管理员:</span
-        ><span class="details-value" v-if="data.afterAmount">{{
-          data.afterAmount.toFixed(2)
-        }}</span>
+        <span class="details-type">管理员:</span>
+        <span class="details-value">
+          {{ data.createUserName }}
+        </span>
       </div>
       <div>
         <span class="details-type">申请时间:</span
-        ><span class="details-value" v-if="data.afterAmount">{{
-          data.afterAmount.toFixed(2)
+        ><span class="details-value">{{
+          data.createTime| formatDate
         }}</span>
       </div>
       <div>
         <span class="details-type">处理状态:</span
-        ><span class="details-value" v-if="data.afterAmount">{{
-          data.afterAmount.toFixed(2)
+        ><span class="details-value">{{
+          data.status
         }}</span>
       </div>
       <div>
         <span class="details-type">操作金额:</span
         ><span class="details-value" v-if="data.afterAmount">{{
-          data.afterAmount.toFixed(2)
+          data.dealAmount.toFixed(2)
         }}</span>
       </div>
       <div>
@@ -38,7 +38,7 @@
       </div>
       <div>
         <span class="details-type">备注信息:</span
-        ><span class="details-value">{{ data.createTime | formatDate }}</span>
+        ><span class="details-value">{{ data.memo }}</span>
       </div>
       <div>
         <span class="details-type">入款凭证:</span

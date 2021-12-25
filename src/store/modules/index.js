@@ -16,6 +16,7 @@ import globalBasic from "./globalBasic";
 import page from "./page";
 import financialDetails from "./financialDetails";
 import rechargeRecord from "./rechargeRecord";
+import renew from "./renew";
 
 export default {
   user,
@@ -35,5 +36,6 @@ export default {
   globalBasic,
   page,
   financialDetails,
-  rechargeRecord
+  rechargeRecord,
+  renew
 };

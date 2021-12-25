@@ -5,12 +5,12 @@ const financialDetails = {
   actions: {
     // 财务明细列表------------------------
     // 获取列表
-    getList ({ commit, state }, params) {
+    getList ({ commit, state }, data) {
       return request({
-        url: "/customerAccountLog",
-        method: "get",
-        params,
-        pay:true
+        url: "/customerAccountLog/qu",
+        method: "post",
+        data,
+        // pay:true
       });
     },
     //根据id获取详情

@@ -40,14 +40,15 @@
         :loading="tableLoading"
         :columns="columns"
         :data-source="data"
-        rowKey="id"
-        :scroll="{ x:1200 }"
+        rowKey="orderNo"
+        :pagination="paginationProps"
+        :scroll="{ x: 1200 }"
       >
         <a
           slot="action"
-          slot-scope="text, record"
-          @click="addChannel(record.ecsBaseInfoResDto.ecsProductStockId)"
-          >管理</a
+          slot-scope=""
+          @click="addChannel()"
+          >查看</a
         >
       </a-table>
     </div>
@@ -58,48 +59,216 @@
 export default {
   data() {
     return {
+      isfilter: false,
+      title: 'accountCode',
+      listQuery: {
+        key: "",
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
       data: [],
       tableLoading: false,
       columns: [
         {
           title: "ID",
-          dataIndex: "Id"
-        },
-        {
-          title: "guid",
-          dataIndex: "guid"
+          dataIndex: "id"
         },
         {
           title: "用户ID",
-          dataIndex: "userid"
+          dataIndex: "corporationCode"
         },
         {
           title: "服务器",
-          dataIndex: "server"
+          dataIndex: "instanceName"
         },
         {
           title: "创建时间",
-          dataIndex: "createTime",
+          dataIndex: "createTimeStr",
           sorter: true,
           sortOrder: true
         },
         {
           title: "执行时间",
-          dataIndex: "implementTime",
+          dataIndex: "endTimeStr",
           sorter: true,
           sortOrder: true
         },
         {
           title: "状态",
-          dataIndex: "state"
+          dataIndex: "runningStatus"
         },
-        {
+         {
           title: "操作",
-          dataIndex: "action",
-          fixed: "right"
+          dataIndex: "id",
+          key: "action",
+          fixed: "right",
+          width: 100,
+          scopedSlots: { customRender: "action" }
         }
-      ]
+      ],
+       paginationProps: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+  
+      
+        total: 1,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )}  页`,
+        onChange: this.quickJump,
+        onShowSizeChange: this.onShowSizeChange
+      },
+      startValue: null,
+      endValue: null,
+      endOpen: false,
+      isTime: true
     };
+  },
+  created() {
+    this.getList();
+  },
+  methods: {
+    //查询表格数据
+    getList () {
+      this.$getList("renew/getList", this.listQuery)
+        .then(res => {
+          console.log(res);
+          this.data = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
+        })
+        // .finally(() => {
+        //   this.tableLoading = false;
+        //   this.listQuery = {
+        //     key: undefined,
+        //     search: "",
+        //     currentPage: 1,
+        //     pageSize: 10,
+        //     total: 0,
+        //     sorter: ""
+        //   };
+        // });
+    },
+    //排序
+    handleChange (pagination, filters, sorter) {
+      if (sorter && sorter.order) {
+        if (sorter.columnKey === "createTime") {
+          this.listQuery.createTimeSort = sorter.order.replace("end", "");
+        } else if (sorter.columnKey === "corporationCode") {
+          this.listQuery.corporationCodeSort = sorter.order.replace("end", "");
+        }
+        this.getList();
+      }
+    },
+    disabledStartDate (startValue) {
+      const endValue = this.endValue;
+      if (!startValue || !endValue) {
+        return false;
+      }
+      return startValue.valueOf() > endValue.valueOf();
+    },
+    disabledEndDate (endValue) {
+      const startValue = this.startValue;
+      if (!endValue || !startValue) {
+        return false;
+      }
+      return startValue.valueOf() >= endValue.valueOf();
+    },
+    handleStartOpenChange (open) {
+      if (!open) {
+        this.endOpen = true;
+      }
+    },
+    handleEndOpenChange (open) {
+      this.endOpen = open;
+    },
+    changepage (current, pageSize) {
+      this.paginationProps.current = current;
+      this.paginationProps.pageSize = pageSize;
+      this.getList();
+    },
+    onShowSizeChange (current, pageSize) {
+      // console.log("改变了分页的大小", current, pageSize);
+      this.paginationProps.current = current;
+      this.paginationProps.pageSize = pageSize;
+      this.getList();
+    },
+    // selectPool (text, i) {
+    //   this.$router.push({
+    //     path: "/finance/index/orderInfo",
+    //     query: {
+    //       id: text.orderNo
+    //     }
+    //   });
+    // },
+    secectClick () {
+      this.listQuery.key = this.title;
+      if (this.title == "createTime") {
+        let startTime = this.startValue._d
+          .toLocaleString("chinese", { hour12: false })
+          .replaceAll("/", "-");
+        let endTime = this.endValue._d
+          .toLocaleString("chinese", { hour12: false })
+          .replaceAll("/", "-");
+        // console.log(this.title, this.search, startTime, endTime);
+        this.$store
+          .dispatch("renew/selectList", {
+            startTime,
+            endTime
+          })
+          .then(val => {
+            // console.log(val, "时间请求结果");
+            this.paginationProps.total = val.data.totalCount * 1;
+            this.paginationProps.current = val.data.currentPage * 1;
+            this.dataAll = val.data.list;
+            this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
+          });
+      } else {
+        // this.$getList(this.title, this.search, this.startValue, this.endValue);
+        let tempSearch = this.listQuery.search;
+        if (this.title == "tradeType") {
+          if (this.listQuery.search == "销售") {
+            this.listQuery.search = 5;
+          }
+          if (this.listQuery.search == "采购") {
+            this.listQuery.search = 1;
+          }
+        }
+        if (this.title == "payStatus") {
+          if (this.listQuery.search == "支付") {
+            this.listQuery.search = 1;
+          }
+          if (this.listQuery.search == "未支付") {
+            this.listQuery.search = 0;
+          }
+        }
+        this.$getList("financialOrder/getList", this.listQuery).then(val => {
+          // console.log(val, "时间请求结果");
+          this.paginationProps.total = val.data.totalCount * 1;
+          this.paginationProps.current = val.data.currentPage * 1;
+          this.dataAll = val.data.list;
+          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
+          this.listQuery.search = tempSearch;
+        });
+      }
+    },
+    changeKey (val) {
+      // console.log(val);
+      this.title = val;
+      if (this.title !== "createTime") {
+        this.isTime = true;
+      } else {
+        this.isTime = false;
+      }
+    },
+    addChannel(){
+      this.$router.push({
+        path: "/business/cloudservers/feeReduction-examine",
+        query: {  }
+      });
+    }
   }
 };
 </script>
