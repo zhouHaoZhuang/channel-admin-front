@@ -1,69 +1,61 @@
 <template>
   <div>
-    <div class="business-container" v-if="dataOrder">
+    <div class="business-container">
       <div class="business-basic">
         <a-tabs type="card">
           <a-tab-pane key="1" tab="订单信息">
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">订单ID:</span>
-                <span class="basicInformation-info"
-                  >{{ dataOrder[0].id }}????</span
-                >
+                <span class="basicInformation-info">{{ detail.id }}????</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">服务器IP:</span>
-                <span class="basicInformation-info">{{ dataOrder[0].id }}</span>
+                <span class="basicInformation-info">{{ detail.id }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">订单类型:</span
                 ><span class="basicInformation-info">{{
-                  address(dataOrder[0].regionId) || dataOrder[0].regionId
+                  address(detail.regionId) || detail.regionId
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">创建时间:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].outIp }}</span
-                >
+                ><span class="basicInformation-info"> {{ detail.outIp }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">状态:</span
-                ><span class="basicInformation-info">{{
-                  dataOrder[0].innerIp
-                }}</span>
+                ><span class="basicInformation-info">{{ detail.innerIp }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">执行时间:</span
-                ><span class="basicInformation-info">{{dataOrder[0].osName}} </span>
+                ><span class="basicInformation-info">{{ detail.osName }} </span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">回退金额:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].osName }}</span
-                >
+                ><span class="basicInformation-info"> {{ detail.osName }}</span>
               </div>
               <!-- 运行状态 -->
               <!-- <div class="basicInformation-item">
                 <span class="basicInformation-type">运行状态：</span
                 ><span
                   class="basicInformation-info basicInformation-info-ash"
-                  v-if="dataOrder[0].runningStatus == 0"
+                  v-if="detail.runningStatus == 0"
                   >黑洞中</span
                 >
                 <span
                   class="basicInformation-info basicInformation-info-run"
-                  v-else-if="dataOrder[0].runningStatus == 1"
+                  v-else-if="detail.runningStatus == 1"
                   >运行中</span
                 >
                 <span
                   class="basicInformation-info basicInformation-info-ash"
-                  v-else-if="dataOrder[0].runningStatus == 2"
+                  v-else-if="detail.runningStatus == 2"
                   >已关机</span
                 >
                 <span
                   class="basicInformation-info basicInformation-info-ash"
-                  v-else-if="dataOrder[0].runningStatus == 3"
+                  v-else-if="detail.runningStatus == 3"
                   >已过期</span
                 >
               </div> -->
@@ -77,15 +69,11 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">产品名称:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].cup }}</span
-                >
+                ><span class="basicInformation-info"> {{ detail.cup }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">类型:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].memory }}</span
-                >
+                ><span class="basicInformation-info"> {{ detail.memory }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">配置信息:</span>
@@ -104,7 +92,7 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">付费方式:</span
                 ><span class="basicInformation-info">
-                  {{ dataOrder[0].systemSize }}</span
+                  {{ detail.systemSize }}</span
                 >
               </div>
               <div class="basicInformation-item">
@@ -130,18 +118,14 @@
       <div class="business-basic">
         <a-tabs type="card">
           <a-tab-pane key="1" tab="降配信息">
-             <div class="basicInformation">
+            <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">产品名称:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].cup }}</span
-                >
+                ><span class="basicInformation-info"> {{ detail.cup }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">类型:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].memory }}</span
-                >
+                ><span class="basicInformation-info"> {{ detail.memory }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">配置信息:</span>
@@ -160,7 +144,7 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">使用时长:</span
                 ><span class="basicInformation-info">
-                  {{ dataOrder[0].systemSize }}</span
+                  {{ detail.systemSize }}</span
                 >
               </div>
               <div class="basicInformation-item">
@@ -194,32 +178,30 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">会员ID：</span
                 ><span class="basicInformation-info">{{
-                  dataOrder[0].corporationCode
+                  detail.corporationCode
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">会员姓名:</span
                 ><span class="basicInformation-info">{{
-                  dataOrder[0].corporationName
+                  detail.corporationName
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">手机号码:</span
                 ><span class="basicInformation-info">{{
-                  dataOrder[0].phoneNumber
+                  detail.phoneNumber
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">邮箱:</span
                 ><span class="basicInformation-info">{{
-                  dataOrder[0].phoneNumber
+                  detail.phoneNumber
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">QQ账号:</span
-                ><span class="basicInformation-info">
-                  {{ dataOrder[0].qq }}----</span
-                >
+                ><span class="basicInformation-info"> {{ detail.qq }}----</span>
               </div>
             </div>
           </a-tab-pane>
@@ -292,6 +274,7 @@ export default {
   data() {
     return {
       dataOrder: null,
+      detail: {},
       regionMapData,
       columnsOrder: [
         {
@@ -367,10 +350,11 @@ export default {
     }
   },
   created() {
-    let id = this.$route.query.id;
+    let orderNo = this.$route.query.orderNo;
     // console.log(id);
-    this.$store.dispatch("renew/inquireList", id).then(res => {
+    this.$store.dispatch("renew/inquireList", { orderNo }).then(res => {
       this.dataOrder = [res.data];
+      this.detail = { ...res.data };
       console.log(res);
     });
   }

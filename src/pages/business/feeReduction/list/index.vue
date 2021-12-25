@@ -42,8 +42,7 @@
         :scroll="{ x: 1200 }"
       >
         <div slot="runningStatus" slot-scope="text">
-          <span v-if="text == 1" class="runningStatus blackhole">待降配</span>
-          <span v-if="text == 2" class="runningStatus running">已完成</span>
+          {{ renewalStatusEnum[text] }}
         </div>
         <a slot="action" slot-scope="text" @click="addChannel(text)">查看</a>
       </a-table>
@@ -52,9 +51,11 @@
 </template>
 
 <script>
+import { renewalStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
+      renewalStatusEnum,
       isfilter: false,
       title: "accountCode",
       listQuery: {
@@ -91,10 +92,10 @@ export default {
           sorter: true,
           sortOrder: true
         },
-         {
+        {
           title: "状态",
           dataIndex: "runningStatus",
-          scopedSlots: { customRender: "runningStatus" },
+          scopedSlots: { customRender: "runningStatus" }
         },
         {
           title: "操作",
@@ -184,12 +185,12 @@ export default {
       this.paginationProps.pageSize = pageSize;
       this.getList();
     },
-    onShowSizeChange(current, pageSize) {
-      // console.log("改变了分页的大小", current, pageSize);
-      this.paginationProps.current = current;
-      this.paginationProps.pageSize = pageSize;
-      this.getList();
-    },
+    // onShowSizeChange(current, pageSize) {
+    //   // console.log("改变了分页的大小", current, pageSize);
+    //   this.paginationProps.current = current;
+    //   this.paginationProps.pageSize = pageSize;
+    //   this.getList();
+    // },
     // selectPool (text, i) {
     //   this.$router.push({
     //     path: "/finance/index/orderInfo",
@@ -200,7 +201,6 @@ export default {
     // },
     secectClick() {
       this.listQuery.key = this.title;
-      if (this.title == "createTime") {
         let startTime = this.startValue._d
           .toLocaleString("chinese", { hour12: false })
           .replaceAll("/", "-");
@@ -220,32 +220,13 @@ export default {
             this.dataAll = val.data.list;
             this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
           });
-      } else {
-        // this.$getList(this.title, this.search, this.startValue, this.endValue);
-        let tempSearch = this.listQuery.search;
-        if (this.title == "tradeType") {
-          if (this.listQuery.search == "销售") {
-            this.listQuery.search = 5;
-          }
-          if (this.listQuery.search == "采购") {
-            this.listQuery.search = 1;
-          }
-        }
-        if (this.title == "payStatus") {
-          if (this.listQuery.search == "支付") {
-            this.listQuery.search = 1;
-          }
-          if (this.listQuery.search == "未支付") {
-            this.listQuery.search = 0;
-          }
-        }
         this.$getList("financialOrder/getList", this.listQuery).then(val => {
           // console.log(val, "时间请求结果");
           this.paginationProps.total = val.data.totalCount * 1;
           this.paginationProps.current = val.data.currentPage * 1;
           this.dataAll = val.data.list;
           this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-          this.listQuery.search = tempSearch;
+          // this.listQuery.search = tempSearch;
         });
       }
     },
@@ -261,10 +242,10 @@ export default {
     addChannel(orderNo) {
       this.$router.push({
         path: "/business/cloudservers/feeReduction-examine",
-        query: {orderNo}
+        query: { orderNo }
       });
     }
-  }
+  
 };
 </script>
 

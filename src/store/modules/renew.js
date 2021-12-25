@@ -15,7 +15,7 @@ const renew = {
     },
     inquireList({ commit, state }, params) {
       return request({
-        url: "/scEcsStock/orderLog/{orderNo}",
+        url: `/scEcsStock/orderLog/${params.orderNo}`,
         method: "get",
         params
       });
