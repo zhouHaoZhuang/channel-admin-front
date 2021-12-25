@@ -16,7 +16,14 @@
         <span class="details-type">充值时间：</span><span class="details-value">{{data.payTime}}</span>
       </div>
       <div>
-        <span class="details-type">充值状态：</span><span class="details-value">{{data.status}}</span>
+        <span class="details-type">充值状态：</span><span class="details-value"
+              v-if="data.status==0">待支付</span>
+        <span class="details-value"
+              v-if="data.status==1">已取消</span>
+        <span class="details-value"
+              v-if="data.status==2">支付失败</span>
+        <span class="details-value"
+              v-if="data.status==9">支付完成</span>
       </div>
       <div>
         <span class="details-type">充值渠道：</span><span class="details-value">{{data.channelCode  }}</span>
@@ -31,7 +38,7 @@
     <h1 class="details-title">会员信息</h1>
     <div class="details-info">
       <div>
-        <span class="details-type">会员ID：</span><span class="details-value">{{data.corporationCode}}</span>
+        <span class="details-type">会员ID：</span><span class="details-value">{{data.customerCode}}</span>
       </div>
       <div>
         <span class="details-type">会员姓名：</span><span class="details-value">{{data.realName}}</span>
@@ -61,7 +68,7 @@ export default {
     getList (id) {
       this.$store.dispatch('rechargeRecord/getOne', id).then(res => {
         console.log(res);
-        this.data = res.data
+        this.data = res.data.list[0]
       })
       console.log(id);
     }

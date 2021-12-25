@@ -69,7 +69,13 @@
                slot-scope="text">
             {{ text | formatDate }}
           </div>
-
+          <div slot="detailType"
+               slot-scope="text">
+            <span v-if="text==1">在线充值</span>
+            <span v-else-if="text==2">线下充值</span>
+            <span v-else-if="text==3">下单</span>
+            <span v-else-if="text==4">退款</span>
+          </div>
           <div slot="action"
                slot-scope="text">
             <a-button type="link"
@@ -124,8 +130,8 @@ export default {
         },
         {
           title: "款项类型",
-          dataIndex: "memo",
-          scopedSlots: { customRender: "memo" },
+          dataIndex: "detailType",
+          scopedSlots: { customRender: "detailType" },
         },
         // {
         //   title: "交易描述",
@@ -150,7 +156,7 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: "id",
+          // dataIndex: "id",
           key: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
@@ -192,7 +198,7 @@ export default {
         },
         {
           title: "款项类型",
-          dataIndex: "memo",
+          dataIndex: "detailType",
         },
       ];
     },
@@ -203,11 +209,11 @@ export default {
   methods: {
     changeStart (date, dateString) {
       // console.log(date, dateString);
-      this.startValue = dateString;
+      this.startValue = dateString
     },
     changeEnd (date, dateString) {
       // console.log(date, dateString);
-      this.endValue = dateString;
+      this.endValue = dateString
     },
     // 点击排序之后的回调
     handleChange (pagination, filters, sorter) {
@@ -243,9 +249,10 @@ export default {
     // 查询的回调
     secectClick () {
       this.listQuery.key = this.title;
+      console.log(`查询的值是: ${this.listQuery.key}`);
       if (this.title == "createTime") {
         // console.log(this.startValue, this.endValue);
-        this.$store.dispatch("financialDetails/selectList", {
+        this.$store.dispatch("financialDetails/getList", {
           startTime: this.startValue,
           endTime: this.endValue,
         })   //此处需要改变financialDetails.js文件
@@ -255,10 +262,31 @@ export default {
             this.paginationProps.total = res.data.total * 1;
           });
       } else {
+        this.listQuery.search = this.listQuery.search.trim();
+        this.listQuery[this.listQuery.key] = this.listQuery.search
+        if (this.listQuery.key == 'detailType') {
+          let search = '';
+          if (this.listQuery.search == '在线充值') {
+            search = 1
+          } else if (this.listQuery.search == '线下充值') {
+            search = 2
+          } else if (this.listQuery.search == '下单') {
+            search = 3
+          } else if (this.listQuery.search == '退款') {
+            search = 4
+          } else {
+            this.$message.warning('不支持当前关键字查询');
+            return;
+          }
+          this.listQuery[this.listQuery.key] = search;
+        }
+        // console.log('---' + this.listQuery.search + '---');
         this.$getList("financialDetails/getList", this.listQuery).then(res => {
           // console.log(res, "请求结果");
           this.data = res.data.list;
           this.paginationProps.total = res.data.total * 1;
+        }).finally(() => {
+          this.listQuery[this.listQuery.key] = null
         });
       }
     },
@@ -288,11 +316,12 @@ export default {
         this.paginationProps.total = res.data.total * 1;
       });
     },
-    selectPool (id) {
+    selectPool (data) {
+      localStorage.setItem("detailedinfo", JSON.stringify(data));
       this.$router.push({
         path: `/finance/index/detailedinfo`,
         query: {
-          id
+          id: data.id,
         }
       })
     }

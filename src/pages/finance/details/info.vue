@@ -27,11 +27,13 @@ export default {
   },
   methods: {
     getList (id) {
-      this.$store.dispatch('financialDetails/getOne', id).then(res => {
-        console.log(res);
-        this.data = res.data
-      })
-      console.log(id);
+      // this.$store.dispatch('financialDetails/getOne', id).then(res => {
+      //   console.log(res);
+      //   this.data = res.data
+      // })
+      // console.log(id);
+      let data = JSON.parse(localStorage.getItem("detailedinfo"));
+      this.data = data;
     }
   },
 }

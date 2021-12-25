@@ -6,7 +6,7 @@
           批量关闭
         </a-button> -->
         <a-select style="width:150px"
-                  v-model="listQuery.key"
+                  v-model="title"
                   @change="changeKey">
           <a-select-option :value="v.dataIndex"
                            v-for="v in useColumns"
@@ -116,24 +116,27 @@
           <a slot="name"
              slot-scope="text">{{ text }}</a>
           <div slot="originAmount"
-               slot-scope="v">
-            {{ v.toFixed(2) }}
+               slot-scope="text">
+            {{ text.toFixed(2) }}
           </div>
           <div slot="action"
-               slot-scope="v">
+               slot-scope="text">
             <a-button type="link"
-                      @click="selectPool(v)">
+                      @click="selectPool(text)">
               查看
             </a-button>
           </div>
-          <div slot="createTime"
-               slot-scope="v">
-            {{ v | formatDate }}
+          <div slot="payTime"
+               slot-scope="text">
+            {{ text  }}
           </div>
-          <div :class="{ green: v === 1, blue: v !== 1 }"
-               slot="payStatus"
-               slot-scope="v">
-            {{ v === 1 ? "已支付" : "未支付" }}
+          <div :class="{ green: text === 1, blue: text !== 1 }"
+               slot="status"
+               slot-scope="text">
+            <span v-if="text==0">待支付</span>
+            <span v-if="text==1">已取消</span>
+            <span v-if="text==2">支付失败</span>
+            <span v-if="text==9">支付完成</span>
           </div>
         </a-table>
       </div>
@@ -145,11 +148,11 @@
 export default {
   data () {
     return {
-      title: "orderNo",
+      title: "customerCode",
       isfilter: false,
       // search: "",
       listQuery: {
-        key: 'orderNo',
+        key: '',
         search: "",
         currentPage: 1,
         pageSize: 10,
@@ -210,7 +213,6 @@ export default {
         }
       ],
       // selectedRowKeys: [],// 已选中的行
-      dataAll: [],
       data: [],
       // 表格分页器配置
       paginationProps: {
@@ -236,7 +238,7 @@ export default {
       return [
         {
           title: "会员ID",
-          dataIndex: "orderNo",
+          dataIndex: "customerCode",
         },
         // {
         //   title: "充值订单号",
@@ -248,7 +250,7 @@ export default {
         // },
         {
           title: "充值ID",
-          dataIndex: "payStatus",
+          dataIndex: "id",
         },
         {
           title: "起始时间",
@@ -256,6 +258,9 @@ export default {
         }
       ];
     }
+  },
+  created () {
+    this.getList();
   },
   methods: {
     disabledStartDate (startValue) {
@@ -284,16 +289,22 @@ export default {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
         this.$store
-          .dispatch("rechargeRecord/selectList", {
+          .dispatch("rechargeRecord/getList", {
             startTime: this.startValue,
             endTime: this.endValue,
           })
           .then(res => {
-            // console.log(res, "时间请求结果");
+            this.data = res.data.list;
+            this.paginationProps.total = res.data.total * 1;
           });
       } else {
-        this.$getList("rechargeRecord/getList", this.listQuery).then(res => {
+        this.listQuery[this.listQuery.key] = this.listQuery.search;
+        this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
           // console.log(res, "请求结果");
+          this.data = res.data.list;
+          this.paginationProps.total = res.data.total * 1;
+        }).finally(() => {
+          this.listQuery[this.listQuery.key] = null;
         });
       }
     },
@@ -335,15 +346,19 @@ export default {
     // 发送请求回调
     getList () {
       this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
+        // console.log(res, "请求结果");
         this.data = res.data.list;
         this.paginationProps.total = res.data.total * 1;
       });
     },
-    // 搜索功能回调
-    onSearch (value) {
-      this.listQuery.search = value;
-      // console.log(value, this.listQuery.key);
-      this.getList();
+    // 跳转详情的回调
+    selectPool (id) {
+      this.$router.push({
+        path: "/finance/index/rechargeinfo",
+        query: {
+          id
+        }
+      });
     }
   }
 };
