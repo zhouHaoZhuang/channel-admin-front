@@ -4,78 +4,75 @@
     <h1 class="details-title">交易信息</h1>
     <div class="details-info">
       <div>
-        <span class="details-type">充值ID：</span><span class="details-value">{{data.id}}</span>
+        <span class="details-type">充值ID：</span><span class="details-value">{{ data.id }}</span>
       </div>
       <div>
-        <span class="details-type">充值方式：</span><span class="details-value">{{data.memo}}</span>
+        <span class="details-type">充值方式：</span><span class="details-value">{{ data.memo }}</span>
       </div>
       <div>
-        <span class="details-type">充值金额：</span><span class="details-value">{{data.amount}}</span>
+        <span class="details-type">充值金额：</span><span class="details-value">{{ data.amount }}</span>
       </div>
       <div>
-        <span class="details-type">充值时间：</span><span class="details-value">{{data.payTime}}</span>
+        <span class="details-type">充值时间：</span><span class="details-value">{{ data.payTime }}</span>
       </div>
       <div>
-        <span class="details-type">充值状态：</span><span class="details-value">
-          {{detailsMapData[data.status]}}</span>
-
+        <span class="details-type">充值状态：</span><span class="details-value">{{ detailsMapData[data.status] }}</span>
       </div>
       <div>
-        <span class="details-type">充值渠道：</span><span class="details-value">{{data.channelCode  }}</span>
+        <span class="details-type">充值渠道：</span><span class="details-value">{{ data.channelCode }}</span>
       </div>
       <div>
-        <span class="details-type">操作人：</span><span class="details-value">{{data.createUserName}}</span>
+        <span class="details-type">操作人：</span><span class="details-value">{{ data.createUserName }}</span>
       </div>
     </div>
-    <div class="placeholder">
-
-    </div>
+    <div class="placeholder"></div>
     <h1 class="details-title">会员信息</h1>
     <div class="details-info">
       <div>
-        <span class="details-type">会员ID：</span><span class="details-value">{{data.customerCode}}</span>
+        <span class="details-type">会员ID：</span><span class="details-value">{{ data.customerCode }}</span>
       </div>
       <div>
-        <span class="details-type">会员姓名：</span><span class="details-value">{{data.realName}}</span>
+        <span class="details-type">会员姓名：</span><span class="details-value">{{ data.realName }}</span>
       </div>
       <div>
-        <span class="details-type">手机号码：</span><span class="details-value">{{data.phoneNumber}}</span>
+        <span class="details-type">手机号码：</span><span class="details-value">{{ data.phoneNumber }}</span>
       </div>
       <div>
-        <span class="details-type">邮箱：</span><span class="details-value">{{data.email}}</span>
+        <span class="details-type">邮箱：</span><span class="details-value">{{ data.email }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { detailsMapData } from '@/utils/enum.js'
+import { detailsMapData } from "@/utils/enum.js";
 export default {
   data () {
     return {
       data: null,
       detailsMapData,
-    }
+    };
   },
   created () {
-    this.getList()
+    this.getList();
   },
   activated () {
-    this.getList()
+    this.getList();
   },
   methods: {
     getList () {
-      this.$store.dispatch('rechargeRecord/getOne', this.$route.query.id).then(res => {
-        console.log(res);
-        this.data = res.data.list[0]
-      })
-    }
+      this.$store
+        .dispatch("rechargeRecord/getOne", this.$route.query.id)
+        .then((res) => {
+          console.log(res);
+          this.data = res.data.list[0];
+        });
+    },
   },
-
-}
+};
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .details-container {
   margin: 10px 20px;
   background-color: #fff;

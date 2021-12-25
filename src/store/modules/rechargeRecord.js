@@ -10,7 +10,7 @@ const rechargeRecord = {
       return request({
         url: "/customer/rechargeRecord",
         method: "get",
-        params
+        params,
       });
     },
     // 获取充值记录详情
@@ -20,7 +20,7 @@ const rechargeRecord = {
         method: "get",
       });
     },
-  }
+  },
 };
 
 export default rechargeRecord;

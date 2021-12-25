@@ -5,39 +5,48 @@
         <!-- <a-button icon="stop">
           批量关闭
         </a-button> -->
-        <a-select style="width:150px"
-                  v-model="this.listQuery.key"
-                  @change="changeKey">
-          <a-select-option :value="v.dataIndex"
-                           v-for="v in useColumns"
-                           :key="v.title">
+        <a-select
+          style="width:150px"
+          v-model="this.listQuery.key"
+          @change="changeKey"
+        >
+          <a-select-option
+            :value="v.dataIndex"
+            v-for="v in useColumns"
+            :key="v.title"
+          >
             {{ v.title }}
           </a-select-option>
         </a-select>
         <div class="sechkey">
-          <a-input :disabled="!isTime"
-                   placeholder="搜索关键词"
-                   v-model="listQuery.search" />
+          <a-input
+            :disabled="!isTime"
+            placeholder="搜索关键词"
+            v-model="listQuery.search"
+          />
         </div>
         <div>
-          <a-date-picker @change="handleStartChange"
-                         :disabled-date="disabledStartDate"
-                         show-time
-                         format="YYYY-MM-DD HH:mm:ss"
-                         placeholder="开始时间"
-                         :disabled="isTime"
-                         @openChange="handleStartOpenChange" />
+          <a-date-picker
+            @change="handleStartChange"
+            :disabled-date="disabledStartDate"
+            show-time
+            format="YYYY-MM-DD HH:mm:ss"
+            placeholder="开始时间"
+            :disabled="isTime"
+            @openChange="handleStartOpenChange"
+          />
           <span class="zhi">至</span>
-          <a-date-picker :disabled="isTime"
-                         @change="handleEndChange"
-                         :disabled-date="disabledEndDate"
-                         show-time
-                         format="YYYY-MM-DD HH:mm:ss"
-                         placeholder="结束时间"
-                         @openChange="handleEndOpenChange" />
+          <a-date-picker
+            :disabled="isTime"
+            @change="handleEndChange"
+            :disabled-date="disabledEndDate"
+            show-time
+            format="YYYY-MM-DD HH:mm:ss"
+            placeholder="结束时间"
+            @openChange="handleEndOpenChange"
+          />
         </div>
-        <a-button type="primary"
-                  @click="secectClick">
+        <a-button type="primary" @click="secectClick">
           查询
         </a-button>
         <a-button @click="isfilter = !isfilter">
@@ -50,15 +59,16 @@
         </a-button>
       </a-space>
     </div>
-    <div v-show="isfilter"
-         class="member-filterall">
+    <div v-show="isfilter" class="member-filterall">
       <div class="member-filter">
         <div>
           <div>
             <span class="filter-type">来源</span>
-            <a-select style="width: 120px"
-                      @change="handleChange"
-                      placeholder="全部来源">
+            <a-select
+              style="width: 120px"
+              @change="handleChange"
+              placeholder="全部来源"
+            >
               <a-select-option value="jack">
                 PC端
               </a-select-option>
@@ -71,9 +81,11 @@
         <div>
           <div>
             <span class="filter-type">充值状态</span>
-            <a-select style="width: 120px"
-                      @change="handleChange"
-                      placeholder="请选择">
+            <a-select
+              style="width: 120px"
+              @change="handleChange"
+              placeholder="请选择"
+            >
               <a-select-option value="jack">
                 充值状态
               </a-select-option>
@@ -89,9 +101,11 @@
         <div>
           <div>
             <span class="filter-type">支付通道</span>
-            <a-select placeholder="请选择"
-                      style="width: 120px"
-                      @change="handleChange">
+            <a-select
+              placeholder="请选择"
+              style="width: 120px"
+              @change="handleChange"
+            >
               <a-select-option value="jack">
                 线下汇款
               </a-select-option>
@@ -101,39 +115,37 @@
       </div>
       <div class="enter">
         <a-button @click="isfilter = false">清除 </a-button>
-        <a-button type="primary"
-                  @click="isfilter = false"> 确定 </a-button>
+        <a-button type="primary" @click="isfilter = false"> 确定 </a-button>
       </div>
     </div>
     <!-- 表格 -->
     <div class="orderTable">
       <div>
-        <a-table :columns="columns"
-                 :data-source="data"
-                 rowKey="id"
-                 :pagination="paginationProps"
-                 :scroll="{ x: 1400 }">
-          <a slot="name"
-             slot-scope="text">{{ text }}</a>
-          <div slot="originAmount"
-               slot-scope="text">
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          rowKey="id"
+          :pagination="paginationProps"
+          :scroll="{ x: 1400 }"
+        >
+          <a slot="name" slot-scope="text">{{ text }}</a>
+          <div slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-          <div slot="action"
-               slot-scope="text">
-            <a-button type="link"
-                      @click="selectPool(text)">
+          <div slot="action" slot-scope="text">
+            <a-button type="link" @click="selectPool(text)">
               查看
             </a-button>
           </div>
-          <div slot="payTime"
-               slot-scope="text">
-            {{ text  }}
+          <div slot="payTime" slot-scope="text">
+            {{ text }}
           </div>
-          <div :class="{ green: text === 1, blue: text !== 1 }"
-               slot="status"
-               slot-scope="text">
-            <span>{{detailsMapData[text]}}</span>
+          <div
+            :class="{ green: text === 1, blue: text !== 1 }"
+            slot="status"
+            slot-scope="text"
+          >
+            <span>{{ detailsMapData[text] }}</span>
           </div>
         </a-table>
       </div>
@@ -142,27 +154,27 @@
 </template>
 
 <script>
-import { detailsMapData } from '@/utils/enum.js'
+import { detailsMapData } from "@/utils/enum.js";
 export default {
-  data () {
+  data() {
     return {
       isfilter: false,
       detailsMapData,
       // search: "",
       listQuery: {
-        key: 'customerCode',
+        key: "customerCode",
         search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        startTime: '',
-        endTime: '',
+        startTime: "",
+        endTime: "",
       },
       columns: [
         {
           title: "充值ID",
           dataIndex: "id",
-          key: "id"
+          key: "id",
         },
         {
           title: "方式",
@@ -172,13 +184,13 @@ export default {
           title: "会员ID",
           dataIndex: "customerCode",
           key: "customerCode",
-          scopedSlots: { customRender: "customerCode" }
+          scopedSlots: { customRender: "customerCode" },
         },
         {
           title: "充值金额",
           dataIndex: "amount",
           key: "amount",
-          scopedSlots: { customRender: "amount" }
+          scopedSlots: { customRender: "amount" },
         },
         // {
         //   title: "交易号",
@@ -190,27 +202,27 @@ export default {
           title: "充值时间",
           dataIndex: "payTime",
           key: "payTime",
-          scopedSlots: { customRender: "payTime" }
+          scopedSlots: { customRender: "payTime" },
         },
         {
           title: "充值状态",
           dataIndex: "status",
           key: "status",
-          scopedSlots: { customRender: "status" }
+          scopedSlots: { customRender: "status" },
         },
         {
           title: "操作人",
           dataIndex: "createUserName",
           key: "createUserName",
-          scopedSlots: { customRender: "createUserName" }
+          scopedSlots: { customRender: "createUserName" },
         },
         {
           title: "操作",
           dataIndex: "id",
           key: "action",
           fixed: "right",
-          scopedSlots: { customRender: "action" }
-        }
+          scopedSlots: { customRender: "action" },
+        },
       ],
       // selectedRowKeys: [],// 已选中的行
       data: [],
@@ -224,17 +236,17 @@ export default {
             total / this.listQuery.pageSize
           )}  页`,
         onChange: this.changepage,
-        onShowSizeChange: this.onShowSizeChange
+        onShowSizeChange: this.onShowSizeChange,
       },
       num: "",
       startValue: null,
       endValue: null,
       endOpen: false,
-      isTime: true
+      isTime: true,
     };
   },
   computed: {
-    useColumns () {
+    useColumns() {
       return [
         {
           title: "会员ID",
@@ -255,53 +267,40 @@ export default {
         {
           title: "起始时间",
           dataIndex: "createTime",
-        }
+        },
       ];
-    }
+    },
   },
-  created () {
+  created() {
     this.getList();
   },
   methods: {
-    disabledStartDate (startValue) {
+    disabledStartDate(startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
         return false;
       }
       return startValue.valueOf() > endValue.valueOf();
     },
-    disabledEndDate (endValue) {
+    disabledEndDate(endValue) {
       const startValue = this.startValue;
       if (!endValue || !startValue) {
         return false;
       }
       return startValue.valueOf() >= endValue.valueOf();
     },
-    handleStartOpenChange (open) {
+    handleStartOpenChange(open) {
       if (!open) {
         this.endOpen = true;
       }
     },
-    handleEndOpenChange (open) {
+    handleEndOpenChange(open) {
       this.endOpen = open;
     },
-    secectClick () {
-      this.listQuery.key = this.title;
-      if (this.title == "createTime") {
-        this.$getList("rechargeRecord/getList", this.listQuery)
-          .then(res => {
-            this.data = res.data.list;
-            this.paginationProps.total = res.data.total * 1;
-          });
-      } else {
-        this.$getList("rechargeRecord/getList", this.listQuery).then(res => {
-          // console.log(res, "请求结果");
-          this.data = res.data.list;
-          this.paginationProps.total = res.data.total * 1;
-        });
-      }
+    secectClick() {
+      this.getList();
     },
-    changeKey (val) {
+    changeKey(val) {
       // console.log(val);
       this.listQuery.key = val;
       if (this.listQuery.key !== "createTime") {
@@ -310,50 +309,50 @@ export default {
         this.isTime = false;
       }
     },
-    handleChange (val) {
+    handleChange(val) {
       console.log(val);
     },
-    handleStartChange (date, dateString) {
+    handleStartChange(date, dateString) {
       this.listQuery.startTime = dateString;
     },
-    handleEndChange (date, dateString) {
+    handleEndChange(date, dateString) {
       this.listQuery.endTime = dateString;
     },
     // 多选框改变之后的回调
-    onSelectChange (selectedRowKeys) {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
+    onSelectChange(selectedRowKeys) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
     // 通用写法
     // 切换页码回调
-    quickJump (current) {
+    quickJump(current) {
       this.listQuery.currentPage = current;
       this.getList();
     },
     // 切换每页条数回调
-    onShowSizeChange (current, pageSize) {
+    onShowSizeChange(current, pageSize) {
       this.listQuery.pageSize = pageSize;
       this.listQuery.currentPage = current;
       this.getList();
     },
     // 发送请求回调
-    getList () {
-      this.$store.dispatch("rechargeRecord/getList", this.listQuery).then(res => {
+    getList() {
+      this.$getList("rechargeRecord/getList", this.listQuery).then((res) => {
         // console.log(res, "请求结果");
         this.data = res.data.list;
         this.paginationProps.total = res.data.total * 1;
       });
     },
     // 跳转详情的回调
-    selectPool (id) {
+    selectPool(id) {
       this.$router.push({
         path: "/finance/index/rechargeinfo",
         query: {
-          id
-        }
+          id,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -369,7 +368,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type='button'] {
+    [type="button"] {
       margin-left: 20px;
     }
     .zhi {

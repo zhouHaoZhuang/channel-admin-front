@@ -16,8 +16,9 @@ import globalBasic from "./globalBasic";
 import page from "./page";
 import financialDetails from "./financialDetails";
 import rechargeRecord from "./rechargeRecord";
+import newsType from "./newsType";
+import newsList from "./newsList";
 import renew from "./renew";
-
 export default {
   user,
   account,
@@ -37,5 +38,8 @@ export default {
   page,
   financialDetails,
   rechargeRecord,
+  newsType,
+  newsList,
   renew
+
 };
