@@ -25,15 +25,18 @@
           <span>排序</span>
           <div class="sort-list">
             <a-radio-group v-model="value" @change="onChange" size="small">
-              <a-radio-button value="a" >
-                Hangzhou </a-radio-button
-              ><br />
-              <a-radio-button value="b" >
-                Shanghai </a-radio-button
-              ><br />
+              <a-radio-button value="a">
+                Hangzhou
+              </a-radio-button>
+              <br />
+              <a-radio-button value="b">
+                Shanghai
+              </a-radio-button>
+              <br />
               <a-radio-button value="c">
-                Beijing </a-radio-button
-              ><br />
+                Beijing
+              </a-radio-button>
+              <br />
               <a-radio-button value="d">
                 Chengdu
               </a-radio-button>
@@ -48,9 +51,7 @@
             <a-button type="primary">
               移至第一
             </a-button>
-            <a-button type="primary">
-              <a-icon type="arrow-up" />上移
-            </a-button>
+            <a-button type="primary"> <a-icon type="arrow-up" />上移 </a-button>
             <a-button type="primary">
               <a-icon type="arrow-down" />下移
             </a-button>
@@ -189,12 +190,14 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this.$store.dispatch("newsType/deleteNews", {
-            id,
-          }).then((res) => {
+          this.$store
+            .dispatch("newsType/deleteNews", {
+              id,
+            })
+            .then((res) => {
               this.$message.success("删除成功");
               this.getList();
-          });
+            });
         })
         .catch(() => {
           this.$message({
@@ -236,7 +239,7 @@ export default {
 };
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .sort-icon {
   transform: rotate(90deg);
   margin-right: 10px;
