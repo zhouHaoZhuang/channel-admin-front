@@ -802,7 +802,7 @@ const options = {
               children: [
                 {
                   path: "typemanage",
-                  name: "类别管理",
+                  name: "帮助中心类别管理",
                   meta: {
                     icon: "home",
                   },
@@ -810,24 +810,24 @@ const options = {
                     import("@/pages/helpword/category/index.vue"),
                 },
                 {
-                  path: "add-banner",
-                  name: "Banner添加",
+                  path: "add-category",
+                  name: "帮助中心类别添加",
                   meta: {
                     invisible: true, // 不显示在左侧菜单
                     back: true, // 后退
                   },
                   component: () =>
-                    import("@/pages/personal/banner/addbanner.vue"),
+                    import("@/pages/helpword/category/addcategory")
                 },
                 {
-                  path: "amend-banner",
-                  name: "Banner修改",
+                  path: "amend-category",
+                  name: "帮助中心类别修改",
                   meta: {
                     invisible: true, // 不显示在左侧菜单
                     back: true, // 后退
                   },
                   component: () =>
-                    import("@/pages/personal/banner/amendbanner.vue"),
+                    import("@/pages/helpword/category/amendcategory")
                 },
                 {
                   path: "wordmanage",
@@ -838,6 +838,26 @@ const options = {
                     icon: "home",
                   },
                   component: () => import("@/pages/helpword/word/index.vue"),
+                },
+                {
+                  path: "add-word",
+                  name: "帮助文档添加",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/helpword/word/addword")
+                },
+                {
+                  path: "amend-word",
+                  name: "帮助文档修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/helpword/word/amendword")
                 },
                 {
                   path: "hotproblem",
