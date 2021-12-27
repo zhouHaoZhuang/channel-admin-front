@@ -16,6 +16,7 @@
         </a-form-model-item>
         <a-form-model-item label="排序">
           <a-input v-model="form.sort" />
+          注：数字越小越靠前
         </a-form-model-item>
         <a-form-model-item label="状态" prop="status">
           <a-radio-group v-model="form.status">

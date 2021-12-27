@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     getData(){
-      this.$store.dispatch("newsType/getOne",{newTypeCode:this.$route.query.newTypeCode}).then((res) => {
+      this.$store.dispatch("newsType/getOne",{id:this.$route.query.id}).then((res) => {
         console.log(res);
         this.form = {...res.data};
       });

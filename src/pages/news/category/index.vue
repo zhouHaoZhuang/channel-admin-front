@@ -6,7 +6,7 @@
           <a-button type="primary" @click="addNewsType">
             <a-icon type="plus" />添加类别
           </a-button>
-          <a-button>
+          <a-button @click="showModal">
             <span class="sort-icon">
               <a-icon type="swap" />
             </span>
@@ -14,6 +14,53 @@
           </a-button>
         </a-space>
       </div>
+      <a-modal
+        title="排序"
+        :visible="visible"
+        :confirm-loading="confirmLoading"
+        @ok="handleOk"
+        @cancel="handleCancel"
+      >
+        <div class="sort-container">
+          <span>排序</span>
+          <div class="sort-list">
+            <a-radio-group v-model="value" @change="onChange" size="small">
+              <a-radio-button value="a">
+                Hangzhou
+              </a-radio-button>
+              <br />
+              <a-radio-button value="b">
+                Shanghai
+              </a-radio-button>
+              <br />
+              <a-radio-button value="c">
+                Beijing
+              </a-radio-button>
+              <br />
+              <a-radio-button value="d">
+                Chengdu
+              </a-radio-button>
+            </a-radio-group>
+          </div>
+        </div>
+        <div>
+          <span type="link">
+            操作
+          </span>
+          <a-space>
+            <a-button type="primary">
+              移至第一
+            </a-button>
+            <a-button type="primary"> <a-icon type="arrow-up" />上移 </a-button>
+            <a-button type="primary">
+              <a-icon type="arrow-down" />下移
+            </a-button>
+            <a-button type="primary">
+              移至最后
+            </a-button>
+          </a-space>
+        </div>
+      </a-modal>
       <div class="category-list-table">
         <a-table
           :columns="columns"
@@ -22,8 +69,8 @@
           rowKey="newTypeCode"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="status" v-if="text" slot-scope="text">
-            {{ text === "0" ? "正常" : "不显示" }}
+          <div slot="status" slot-scope="text">
+            {{ text === 0 ? "正常" : "不显示" }}
           </div>
           <div slot="actions" slot-scope="text">
             <a-button type="link" @click="change(text)">
@@ -44,6 +91,9 @@
 export default {
   data() {
     return {
+      value: "",
+      visible: false,
+      confirmLoading: false,
       listQuery: {
         key: "",
         search: "",
@@ -51,6 +101,7 @@ export default {
         pageSize: 10,
         total: 0,
       },
+      isSortView: true,
       columns: [
         {
           title: "ID",
@@ -77,7 +128,7 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: "newTypeCode",
+          dataIndex: "id",
           key: "actions",
           fixed: "right",
           scopedSlots: { customRender: "actions" },
@@ -105,19 +156,55 @@ export default {
     this.getList();
   },
   methods: {
-    change(newTypeCode) {
-      console.log(newTypeCode);
-      this.$router.push(
-        {
-          path: "/personal/news/upcategory",
-          query: {
-            newTypeCode: newTypeCode,
-          },
-        }
-      );
+    showModal() {
+      this.visible = true;
     },
-    deleteNews(newTypeCode) {
-      console.log(newTypeCode);
+    onChange(e) {
+      console.log(`checked = ${e.target.value}`);
+    },
+    handleOk(e) {
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.visible = false;
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    change(id) {
+      console.log(id);
+      this.$router.push({
+        path: "/personal/news/upcategory",
+        query: {
+          id,
+        },
+      });
+    },
+    deleteNews(id) {
+      console.log(id);
+      this.$confirm("确定删除该类型吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$store
+            .dispatch("newsType/deleteNews", {
+              id,
+            })
+            .then((res) => {
+              this.$message.success("删除成功");
+              this.getList();
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     addNewsType() {
       this.$router.push({
@@ -152,7 +239,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .sort-icon {
   transform: rotate(90deg);
   margin-right: 10px;
@@ -164,5 +251,12 @@ export default {
 }
 .category-list-table {
   margin-top: 10px;
+}
+.sort-container {
+  display: flex;
+  .sort-list {
+    margin-left: 10px;
+  }
+  margin-bottom: 10px;
 }
 </style>
