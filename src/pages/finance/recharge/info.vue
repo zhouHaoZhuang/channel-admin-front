@@ -16,7 +16,9 @@
         <span class="details-type">充值时间：</span><span class="details-value">{{data.payTime}}</span>
       </div>
       <div>
-        <span class="details-type">充值状态：</span><span class="details-value">{{data.status}}</span>
+        <span class="details-type">充值状态：</span><span class="details-value">
+          {{detailsMapData[data.status]}}</span>
+
       </div>
       <div>
         <span class="details-type">充值渠道：</span><span class="details-value">{{data.channelCode  }}</span>
@@ -31,7 +33,7 @@
     <h1 class="details-title">会员信息</h1>
     <div class="details-info">
       <div>
-        <span class="details-type">会员ID：</span><span class="details-value">{{data.corporationCode}}</span>
+        <span class="details-type">会员ID：</span><span class="details-value">{{data.customerCode}}</span>
       </div>
       <div>
         <span class="details-type">会员姓名：</span><span class="details-value">{{data.realName}}</span>
@@ -47,25 +49,29 @@
 </template>
 
 <script>
+import { detailsMapData } from '@/utils/enum.js'
 export default {
   data () {
     return {
-      data: null
+      data: null,
+      detailsMapData,
     }
   },
   created () {
-    let id = this.$route.query.id
-    this.getList(id)
+    this.getList()
+  },
+  activated () {
+    this.getList()
   },
   methods: {
-    getList (id) {
-      this.$store.dispatch('rechargeRecord/getOne', id).then(res => {
+    getList () {
+      this.$store.dispatch('rechargeRecord/getOne', this.$route.query.id).then(res => {
         console.log(res);
-        this.data = res.data
+        this.data = res.data.list[0]
       })
-      console.log(id);
     }
   },
+
 }
 </script>
 
