@@ -2,13 +2,27 @@
   <div class="details-container">
     <h1 class="details-title">财务信息</h1>
     <div class="details-info">
-      <div><span class="details-type">发生金额：</span><span class="details-value">{{data.dealAmount.toFixed(2)}}</span></div>
-      <div><span class="details-type">当前金额：</span><span class="details-value">{{data.afterAmount.toFixed(2)}}</span></div>
-      <div><span class="details-type">时间：</span><span class="details-value">{{data.createTime | formatDate}}</span></div>
-      <div><span class="details-type">会员ID：</span><span class="details-value">{{data.accountCode}}</span></div>
-      <div><span class="details-type">类型：</span><span class="details-value">{{data.memo}}</span></div>
-      <div><span class="details-type">具体详情：</span><span class="details-value">{{data.actualAmount}}----</span></div>
-      <div><span class="details-type">款项描述：</span><span class="details-value">{{data.actualAmount}}----</span></div>
+      <div>
+        <span class="details-type">发生金额：</span><span class="details-value">{{ data.dealAmount.toFixed(2) }}</span>
+      </div>
+      <div>
+        <span class="details-type">当前金额：</span><span class="details-value">{{ data.afterAmount.toFixed(2) }}</span>
+      </div>
+      <div>
+        <span class="details-type">时间：</span><span class="details-value">{{ data.createTime | formatDate }}</span>
+      </div>
+      <div>
+        <span class="details-type">会员ID：</span><span class="details-value">{{ data.customerCode }}</span>
+      </div>
+      <div>
+        <span class="details-type">类型：</span><span class="details-value">{{ data.memo }}</span>
+      </div>
+      <div>
+        <span class="details-type">具体详情：</span><span class="details-value">{{ data.actualAmount }}----</span>
+      </div>
+      <div>
+        <span class="details-type">款项描述：</span><span class="details-value">{{ data.actualAmount }}----</span>
+      </div>
     </div>
   </div>
 </template>
@@ -17,12 +31,12 @@
 export default {
   data () {
     return {
-      data: null
-    }
+      data: null,
+    };
   },
   created () {
-    let id = this.$route.query.id
-    this.getList(id)
+    let id = this.$route.query.id;
+    this.getList(id);
   },
   methods: {
     getList (id) {
@@ -32,12 +46,12 @@ export default {
       // })
       this.data = this.$store.state.financialDetails.detailedinfo;
       // console.log(this.data, 'this.data');
-    }
+    },
   },
-}
+};
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .details-container {
   margin: 10px 20px;
   background-color: #fff;
