@@ -44,8 +44,9 @@ const newsType = {
     getOne({ commit, state }, params) {
       console.log(state);
       return request({
-        url: `/ccNewsType/one/${params.id}`,
+        url: `/ccNewsType/${params.id}`,
         method: "get",
+        params,
       });
     }
   }

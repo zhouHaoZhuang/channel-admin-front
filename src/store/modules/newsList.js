@@ -15,10 +15,11 @@ const newsList = {
         params
       });
     },
-    delList({ commit, state }, id) {
+    delList({ commit, state }, params) {
       return request({
-        url: `/ccNews/${id}`,
-        method: "delete"
+        url: `/ccNews/${params.id}`,
+        method: "delete",
+        params
       });
     },
     changeList({ commit, state }, data) {
