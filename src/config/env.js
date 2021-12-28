@@ -4,13 +4,8 @@ let appHost = "https://resource-poor.authing.cn";
 // 默认请求地址
 const baseUrl = {
   dev: "http://ims.dev.ydidc.com",
-  test: "http://ims.dev.ydidc.com",
-  preprod: "http://ims.dev.ydidc.com",
-  prod: "http://ims.dev.ydidc.com",
-  // dev: "http://192.168.0.13:8082",
-  // test: "http://192.168.0.13:8082",
-  // preprod: "http://192.168.0.13:8082",
-  // prod: "http://192.168.0.13:8082"
+  test: "http://ims.test.ydidc.com",
+  prod: "http://ims.prod.ydidc.com"
 };
 // 支付相关请求地址
 const payBaseUrl = {
