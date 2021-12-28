@@ -21,9 +21,9 @@ const newsType = {
         method: "get",
       });
     },
-    delList({ commit, state }, id) {
+    delList({ commit, state }, params) {
       return request({
-        url: `/ccNewsType/${id}`,
+        url: `/ccNewsType/${params.id}`,
         method: "delete"
       });
     },
@@ -46,7 +46,7 @@ const newsType = {
       return request({
         url: `/ccNewsType/${params.id}`,
         method: "get",
-        params,
+        // params,
       });
     }
   }

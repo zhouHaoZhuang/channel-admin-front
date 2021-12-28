@@ -105,7 +105,7 @@ export default {
       columns: [
         {
           title: "ID",
-          dataIndex: "newTypeCode",
+          dataIndex: "id",
           scopedSlots: { customRender: "id" },
           width: 230,
         },
@@ -187,7 +187,7 @@ export default {
       this.$confirm({
         title: `确认删除吗？`,
         onOk: () => {
-          this.$store.dispatch("newsType/deleteNews", {id,})
+          this.$store.dispatch("newsType/delList", {id,})
             .then((res) => {
               this.$message.success("删除成功");
               this.getList();
