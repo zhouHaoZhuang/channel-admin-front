@@ -19,6 +19,8 @@ import rechargeRecord from "./rechargeRecord";
 import newsType from "./newsType";
 import newsList from "./newsList";
 import renew from "./renew";
+import category from "./category"
+import word from "./word"
 export default {
   user,
   account,
@@ -40,6 +42,8 @@ export default {
   rechargeRecord,
   newsType,
   newsList,
-  renew
+  renew,
+  category,
+  word
 
 };
