@@ -151,7 +151,7 @@ export default {
         console.log(res);
         this.data = [...res.data.list];
       });
-      // this.$getList("banner/getList",this.listQuery)
+      // this.$getListQp("banner/getList",this.listQuery)
       // .then(res=>{
       //   this.data = [...res.data.list];
       //   this.paginationProps.total = res.data.totalCount * 1;

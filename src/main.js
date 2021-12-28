@@ -29,6 +29,7 @@ Vue.use(Filters);
 
 Vue.prototype.$getArrOnceData = utilsFun.getArrOnceData;
 Vue.prototype.$getList = utilsFun.getList;
+Vue.prototype.$getListQp = utilsFun.getListQp;
 // 深拷贝插件
 Vue.prototype.$clonedeep = clonedeep
 

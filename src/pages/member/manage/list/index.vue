@@ -602,7 +602,7 @@ export default {
       this.isMoreId = key;
     },
     searchClick () {
-      this.$getList("member/getList", this.listQuery).then(res => {
+      this.$getListQp("member/getList", this.listQuery).then(res => {
         // console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
