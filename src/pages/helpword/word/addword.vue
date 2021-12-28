@@ -9,29 +9,23 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="分类">
-          <a-select v-model="form.bannerType" placeholder="首页banner">
+          <a-select v-model="form.helpTypeCode" placeholder="注册与购买">
             <a-select-option :value="0">
-              首页banner
+              注册与购买
             </a-select-option>
             <a-select-option :value="1">
-              云服务器banner
+              云服务器问题
             </a-select-option>
             <a-select-option :value="2">
-              帮助中心banner
+              备案问题
             </a-select-option>
             <a-select-option :value="3">
-              新闻公告banner
-            </a-select-option>
-            <a-select-option :value="4">
-              关于我们banner
-            </a-select-option>
-            <a-select-option :value="5">
-              登录banner
+              使用规则
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="标题" prop="pageName">
-          <a-input v-model="form.pageName" />
+        <a-form-model-item label="标题" prop="title">
+          <a-input v-model="form.title" />
         </a-form-model-item>
         <a-form-model-item label="关键词" type="keyWords">
           <a-input v-model="form.keyWords" />
@@ -39,35 +33,32 @@
         <a-form-model-item label="描述" type="describe">
           <a-input v-model="form.describe" />
         </a-form-model-item>
-        <a-form-model-item label="访问地址" type="resourceAddress">
-          <a-input v-model="form.resourceAddress" />
-        </a-form-model-item>
         <a-form-model-item label="推荐">
-          <a-radio-group v-model="form.status">
-            <a-radio :value="0">
+          <a-radio-group v-model="form.recommended">
+            <a-radio :value="true">
               是
             </a-radio>
-            <a-radio :value="1">
+            <a-radio :value="false">
               否
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
         <a-form-model-item label="置顶">
-          <a-radio-group v-model="form.status">
-            <a-radio :value="0">
+          <a-radio-group v-model="form.top">
+            <a-radio :value="true">
               是
             </a-radio>
-            <a-radio :value="1">
+            <a-radio :value="false">
               否
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
         <a-form-model-item label="热门">
-          <a-radio-group v-model="form.status">
-            <a-radio :value="0">
+          <a-radio-group v-model="form.hot">
+            <a-radio :value="true">
               是
             </a-radio>
-            <a-radio :value="1">
+            <a-radio :value="false">
               否
             </a-radio>
           </a-radio-group>
@@ -95,37 +86,38 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        bannerPicture: "",
-        channelCode: "",
-        context: "",
-        describe: "",
-        keyWords: "",
-        modeFileName: "",
-        pageName: "",
-        pageTitle: "",
-        resourceAddress: "",
-        status: ""
-        // linkTypeName: "",
-        // linkTypeCode: "",
-        // linkName: "",
-        // linkUrl: "",
-        // linkDescribe: "",
-        // bottomShow: 0,
-        // status: 0,
-        // linkSort: 0,
+        title:"",
+        keyWords:"",
+        describe:"",
+        recommended:true,
+        top:true,
+        hot:true,
+        context:"",
+        helpTypeCode:"",
+        channelCode:"",
+        feedback:0,
+        useful:0,
+        useless:0
+        // bannerPicture: "",
         // channelCode: "",
-        // linkLogo: "",
-        // linkTypeSort: 0
+        // context: "",
+        // describe: "",
+        // keyWords: "",
+        // modeFileName: "",
+        // pageName: "",
+        // pageTitle: "",
+        // resourceAddress: "",
+        // status: ""
       },
       rules: {
-        linkName: [
+        title: [
           {
             required: true,
             message: "必填，链接名称长度必须在2-50之间。",
             trigger: "blur"
           }
         ],
-        linkUrl: [
+        keyWords: [
           {
             required: true,
             message: "必填，链接URL长度必须在2-50之间。",
@@ -146,7 +138,7 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch("page/getList").then(res => {
+      this.$store.dispatch("word/getList").then(res => {
         console.log(res);
         this.data = res.data.list;
       });
@@ -168,7 +160,7 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("page/add", this.form)
+            .dispatch("word/add", this.form)
             .then(res => {
               this.$message.success("新增列表成功");
               this.resetForm();
