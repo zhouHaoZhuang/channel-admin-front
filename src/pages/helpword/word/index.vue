@@ -17,7 +17,7 @@
         推荐设置
       </a-button>
       <div class="btn">
-        <a-input placeholder="搜索关键词" v-model="listQuery.search"  />
+        <a-input placeholder="搜索关键词" v-model="listQuery.search" />
       </div>
       <a-select
         style="width:120px"
@@ -65,12 +65,22 @@
         <div slot="bannerType" slot-scope="text">
           <div v-if="text === 0"></div>
           <div v-else-if="text === 1"></div>
-          {{ text === 0 ? "首页banner" : "云服务器banner" }}
+          {{ text === 0 ? "API" : "本地" }}
         </div>
-        <div class="status" slot="status" slot-scope="text">
+        <div class="status" slot="hot" slot-scope="text">
           <div v-if="text === 0" class="dot"></div>
           <div v-else class="dot dot-err"></div>
-          {{ text === 0 ? "正常" : "冻结" }}
+          {{ text === 0 ? "禁止" : "开启" }}
+        </div>
+         <div class="status" slot="top" slot-scope="text">
+          <div v-if="text === 0" class="dot"></div>
+          <div v-else class="dot dot-err"></div>
+          {{ text === 0 ? "禁止" : "开启" }}
+        </div>
+         <div class="status" slot="recommended" slot-scope="text">
+          <div v-if="text === 0" class="dot"></div>
+          <div v-else class="dot dot-err"></div>
+          {{ text === 0 ? "禁止" : "开启" }}
         </div>
         <span slot="action" slot-scope="text">
           <a-button type="link" @click="updatePrice(text)">
@@ -86,7 +96,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   computed: {
@@ -111,8 +120,18 @@ export default {
       },
       columns: [
         {
-          title: "编号",
+          title: "ID",
           dataIndex: "id",
+          key: ""
+        },
+        {
+          title: "标题",
+          dataIndex: "title",
+          key: "title"
+        },
+        {
+          title: "分类",
+          dataIndex: "",
           key: ""
         },
         {
@@ -122,20 +141,40 @@ export default {
           scopedSlots: { customRender: "bannerType" }
         },
         {
-          title: "标题",
-          dataIndex: "title",
-          key: "title"
+          title: "热门",
+          dataIndex: "hot",
+          key: "hot",
+          scopedSlots:{customRender:"hot"}
         },
         {
-          title: "描述",
-          dataIndex: "describe",
-          key: "describe"
+          title: "置顶",
+          dataIndex: "top",
+          key: "top",
+          scopedSlots:{customRender:"top"}
         },
         {
-          title: "状态",
-          dataIndex: "status",
-          key: "status",
-          scopedSlots: { customRender: "status" }
+          title: "推荐",
+          dataIndex: "recommended",
+          key: "recommended",
+          scopedSlots:{customRender:"recommended"}
+        },
+        {
+          title: "有用",
+          dataIndex: "useful",
+          key: "useful",
+          scopedSlots:{}
+        },
+        {
+          title: "没用",
+          dataIndex: "useless",
+          key: "useless",
+          scopedSlots:{}
+        },
+        {
+          title: "反馈",
+          dataIndex: "feedback",
+          key: "feedback",
+          scopedSlots: { customRender: "feedback" }
         },
         {
           title: "操作",
@@ -171,7 +210,7 @@ export default {
     // },
     //查询数据表格
     getList() {
-      this.$store.dispatch("banner/getList").then(res => {
+      this.$store.dispatch("word/getList").then(res => {
         console.log(res);
         this.data = [...res.data.list];
       });
@@ -197,12 +236,12 @@ export default {
     },
     //添加banner
     addbanner() {
-      this.$router.push("/personal/account/add-banner");
+      this.$router.push("/personal/helpword/add-word");
     },
     //修改
     updatePrice(text) {
       this.$router.push({
-        path: "/personal/account/amend-banner",
+        path: "/personal/helpword/amend-word",
         query: {
           id: text
         }
@@ -214,7 +253,7 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("banner/delPrice", id).then(val => {
+          this.$store.dispatch("word/delPrice", id).then(val => {
             this.$message.success("操作成功");
             this.getList();
           });
@@ -232,7 +271,7 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys.toString())
+            .dispatch("word/delPrice", this.selectedRowKeys.toString())
             .then(val => {
               this.$message.success("操作成功");
               // this.$store.dispatch("操作成功").then(val => {
@@ -249,7 +288,7 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys.toString())
+            .dispatch("word/delPrice", this.selectedRowKeys.toString())
             .then(val => {
               this.$message.success("操作成功");
               // this.$store.dispatch("操作成功").then(val => {
@@ -294,11 +333,11 @@ export default {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: green;
+        background: red;
         margin-right: 5px;
       }
       .dot-err {
-        background: red;
+        background: green;
       }
     }
   }

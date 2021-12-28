@@ -85,25 +85,25 @@ export default {
         },
         {
           title: "名称",
-          dataIndex: "bannerType",
-          key: "bannerType",
-          scopedSlots: { customRender: "bannerType" }
+          dataIndex: "typeName",
+          key: "typeName",
+          scopedSlots: { customRender: "typeName" }
         },
         {
           title: "英文",
-          dataIndex: "title",
-          key: "title"
+          dataIndex: "typeNameEn",
+          key: "typeNameEn"
         },
         {
           title: "类型",
-          dataIndex: "describe",
-          key: "describe"
+          dataIndex: "typeCode",
+          key: "typeCode"
         },
         {
           title: "子类别",
-          dataIndex: "status",
-          key: "status",
-          scopedSlots: { customRender: "status" }
+          dataIndex: "typeSort",
+          key: "typeSort",
+          scopedSlots: { customRender: "typeSort" }
         },
         {
           title: "操作",
@@ -139,7 +139,7 @@ export default {
     // },
     //查询数据表格
     getList() {
-      this.$store.dispatch("banner/getList").then(res => {
+      this.$store.dispatch("category/getList").then(res => {
         console.log(res);
         this.data = [...res.data.list];
       });
@@ -165,12 +165,12 @@ export default {
     },
     //添加banner
     addbanner() {
-      this.$router.push("/personal/account/add-banner");
+      this.$router.push("/personal/helpword/add-category");
     },
     //修改
     updatePrice(text) {
       this.$router.push({
-        path: "/personal/account/amend-banner",
+        path: "/personal/helpword/amend-category",
         query: {
           id: text
         }
@@ -182,7 +182,7 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("banner/delPrice", id).then(val => {
+          this.$store.dispatch("category/delPrice", id).then(val => {
             this.$message.success("操作成功");
             this.getList();
           });
@@ -200,7 +200,7 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys.toString())
+            .dispatch("category/delPrice", this.selectedRowKeys.toString())
             .then(val => {
               this.$message.success("操作成功");
               // this.$store.dispatch("操作成功").then(val => {
@@ -217,7 +217,7 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys.toString())
+            .dispatch("category/delPrice", this.selectedRowKeys.toString())
             .then(val => {
               this.$message.success("操作成功");
               // this.$store.dispatch("操作成功").then(val => {
@@ -231,7 +231,11 @@ export default {
     //隐藏
     conceal() {},
     //排序
-    sort() {}
+    sort() {},
+    //添加子栏
+    addaFence(){
+
+    }
   }
 };
 </script>

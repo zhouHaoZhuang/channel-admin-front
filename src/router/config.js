@@ -869,6 +869,16 @@ const options = {
                   },
                   component: () => import("@/pages/helpword/common/index.vue"),
                 },
+                {
+                  path: "amend-common",
+                  name: "常见热点问题修改",
+                  meta: {
+                    invisible: true, // 不显示在左侧菜单
+                    back: true // 后退
+                  },
+                  component: () =>
+                    import("@/pages/helpword/common/amendcommon")
+                }
               ],
             },
             {
