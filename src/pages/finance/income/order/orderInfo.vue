@@ -46,7 +46,7 @@
         <a-table
           :columns="columns"
           :data-source="data"
-          rowKey="id"
+          rowKey="corporationCode"
           :scroll="{ x: 1300 }"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
@@ -65,9 +65,6 @@
             <div>防御:{{ "20G" }}</div>
             <div>操作系统:{{ text.osName }}</div>
             <div>所在区:{{ text.regionId }}</div>
-          </div>
-          <div slot="">
-
           </div>
         </a-table>
       </div>

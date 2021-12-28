@@ -2,17 +2,16 @@
   <div class="Content">
     <div class="orderTop">
       <a-space>
-        <a-button icon="stop">
+        <!-- <a-button icon="stop">
           批量关闭
-        </a-button>
+        </a-button> -->
         <a-select
           style="width:150px"
-          :placeholder="title"
-          v-model="title"
+          v-model="this.listQuery.key"
           @change="changeKey"
         >
           <a-select-option
-            :value="v.key"
+            :value="v.dataIndex"
             v-for="v in useColumns"
             :key="v.title"
           >
@@ -28,7 +27,7 @@
         </div>
         <div>
           <a-date-picker
-            v-model="startValue"
+            @change="handleStartChange"
             :disabled-date="disabledStartDate"
             show-time
             format="YYYY-MM-DD HH:mm:ss"
@@ -38,8 +37,8 @@
           />
           <span class="zhi">至</span>
           <a-date-picker
-            v-model="endValue"
             :disabled="isTime"
+            @change="handleEndChange"
             :disabled-date="disabledEndDate"
             show-time
             format="YYYY-MM-DD HH:mm:ss"
@@ -50,7 +49,74 @@
         <a-button type="primary" @click="secectClick">
           查询
         </a-button>
+        <a-button @click="isfilter = !isfilter">
+          <a-icon :type="isfilter ? 'up' : 'down'" />
+          高级筛选
+        </a-button>
+        <a-button>
+          <a-icon type="export" />
+          导出
+        </a-button>
       </a-space>
+    </div>
+    <div v-show="isfilter" class="member-filterall">
+      <div class="member-filter">
+        <div>
+          <div>
+            <span class="filter-type">来源</span>
+            <a-select
+              style="width: 120px"
+              @change="handleChange"
+              placeholder="全部来源"
+            >
+              <a-select-option value="jack">
+                PC端
+              </a-select-option>
+              <a-select-option value="lucy">
+                手机端
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="filter-type">充值状态</span>
+            <a-select
+              style="width: 120px"
+              @change="handleChange"
+              placeholder="请选择"
+            >
+              <a-select-option value="jack">
+                充值状态
+              </a-select-option>
+              <a-select-option value="lucy">
+                未完成
+              </a-select-option>
+              <a-select-option value="jack">
+                已完成
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="filter-type">支付通道</span>
+            <a-select
+              placeholder="请选择"
+              style="width: 120px"
+              @change="handleChange"
+            >
+              <a-select-option value="jack">
+                线下汇款
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+      </div>
+      <div class="enter">
+        <a-button @click="isfilter = false">清除 </a-button>
+        <a-button type="primary" @click="isfilter = false"> 确定 </a-button>
+      </div>
     </div>
     <!-- 表格 -->
     <div class="orderTable">
@@ -63,48 +129,23 @@
           :scroll="{ x: 1400 }"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="originAmount" slot-scope="v">
-            {{ v.toFixed(2) }}
+          <div slot="originAmount" slot-scope="text">
+            {{ text.toFixed(2) }}
           </div>
-          <div slot="actualAmount" slot-scope="v">
-            {{ v.toFixed(2) }}
-          </div>
-          <div slot="tradeType" slot-scope="v">
-            <span v-if="v === 1">新购</span>
-            <span v-if="v === 5">升配</span>
-            <span v-if="v === 10">降配</span>
-            <span v-if="v === 15">续费</span>
-            <span v-if="v === 20">退费</span>
-          </div>
-          <div slot="action" slot-scope="v">
-            <a-button type="link" @click="selectPool(v)">
+          <div slot="action" slot-scope="text">
+            <a-button type="link" @click="selectPool(text)">
               查看
             </a-button>
           </div>
-          <div slot="createTime" slot-scope="v">
-            {{ v | formatDate }}
-          </div>
-          <div slot="payTime" slot-scope="v">
-            {{ v | formatDate }}
+          <div slot="payTime" slot-scope="text">
+            {{ text }}
           </div>
           <div
-            :class="{ green: v === 1, blue: v !== 1 }"
-            slot="payStatus"
-            slot-scope="v"
+            :class="{ green: text === 1, blue: text !== 1 }"
+            slot="status"
+            slot-scope="text"
           >
-            {{ v === 1 ? "已支付" : "未支付" }}
-          </div>
-          <div slot="select" slot-scope="v">
-            <a-button
-              v-if="v.payStatus === 1"
-              type="link"
-              @click="selectPool(v)"
-            >
-              查看(1)
-            </a-button>
-            <a-button v-else type="link">
-              ——————
-            </a-button>
+            <span>{{ detailsMapData[text] }}</span>
           </div>
         </a-table>
       </div>
@@ -113,137 +154,125 @@
 </template>
 
 <script>
+import { detailsMapData } from "@/utils/enum.js";
 export default {
   data() {
     return {
-      title: "orderNo",
+      isfilter: false,
+      detailsMapData,
       // search: "",
       listQuery: {
-        key: undefined,
+        key: "customerCode",
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        startTime: "",
+        endTime: "",
       },
       columns: [
         {
           title: "充值ID",
-          dataIndex: "orderNo",
-          key: "orderNo"
-        },
-        {
-          title: "来源",
-          dataIndex: "",
-          key: ""
+          dataIndex: "id",
+          key: "id",
         },
         {
           title: "方式",
-          dataIndex: "",
-          key: ""
+          dataIndex: "memo",
         },
         {
           title: "会员ID",
-          dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
+          dataIndex: "customerCode",
+          key: "customerCode",
+          scopedSlots: { customRender: "customerCode" },
         },
         {
           title: "充值金额",
-          dataIndex: "originAmount",
-          key: "originAmount",
-          scopedSlots: { customRender: "originAmount" }
+          dataIndex: "amount",
+          key: "amount",
+          scopedSlots: { customRender: "amount" },
         },
-        {
-          title: "交易号",
-          dataIndex: "actualAmount",
-          key: "actualAmount",
-          scopedSlots: { customRender: "actualAmount" }
-        },
+        // {
+        //   title: "交易号",
+        //   dataIndex: "actualAmount",
+        //   key: "actualAmount",
+        //   scopedSlots: { customRender: "actualAmount" }
+        // },
         {
           title: "充值时间",
-          dataIndex: "createTime",
-          key: "createTime",
-          scopedSlots: { customRender: "createTime" }
+          dataIndex: "payTime",
+          key: "payTime",
+          scopedSlots: { customRender: "payTime" },
         },
         {
           title: "充值状态",
-          key: "selects",
-          scopedSlots: { customRender: "select" }
+          dataIndex: "status",
+          key: "status",
+          scopedSlots: { customRender: "status" },
         },
         {
-          title: "处理人",
-          key: "",
-          scopedSlots: { customRender: "select" }
+          title: "操作人",
+          dataIndex: "createUserName",
+          key: "createUserName",
+          scopedSlots: { customRender: "createUserName" },
         },
         {
           title: "操作",
+          dataIndex: "id",
           key: "action",
           fixed: "right",
-          scopedSlots: { customRender: "action" }
-        }
+          scopedSlots: { customRender: "action" },
+        },
       ],
-      dataAll: [],
+      // selectedRowKeys: [],// 已选中的行
       data: [],
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "20", "30"],
         total: 0,
-        current: 1, //当前页
-        pageSize: 5, //每页显示数量
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
-            this.paginationProps.total / this.paginationProps.pageSize
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
           )}  页`,
         onChange: this.changepage,
-        onShowSizeChange: this.onShowSizeChange
+        onShowSizeChange: this.onShowSizeChange,
       },
       num: "",
       startValue: null,
       endValue: null,
       endOpen: false,
-      isTime: true
+      isTime: true,
     };
   },
   computed: {
     useColumns() {
       return [
         {
-          title: "订单编号",
-          dataIndex: "orderNo",
-          key: "orderNo",
-          width: 170
+          title: "会员ID",
+          dataIndex: "customerCode",
+        },
+        // {
+        //   title: "充值订单号",
+        //   dataIndex: "",
+        // },
+        // {
+        //   title: "交易号",
+        //   dataIndex: "tradeType",
+        // },
+        {
+          title: "充值ID",
+          dataIndex: "id",
         },
         {
-          title: "渠道ID",
-          dataIndex: "",
-          key: "",
-          width: 150
-        },
-        {
-          title: "订单类型",
-          dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
-          width: 100
-        },
-        {
-          title: "状态",
-          dataIndex: "payStatus",
-          key: "payStatus",
-          width: 100,
-          scopedSlots: { customRender: "payStatus" }
-        },
-        {
-          title: "创建时间",
+          title: "起始时间",
           dataIndex: "createTime",
-          key: "createTime",
-          width: 190,
-          scopedSlots: { customRender: "createTime" }
-        }
+        },
       ];
-    }
+    },
+  },
+  created() {
+    this.getList();
   },
   methods: {
     disabledStartDate(startValue) {
@@ -269,66 +298,61 @@ export default {
       this.endOpen = open;
     },
     secectClick() {
-      this.listQuery.key = this.title;
-      if (this.title == "createTime") {
-        let startTime = this.startValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        let endTime = this.endValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        // console.log(this.title, this.search, startTime, endTime);
-        this.$store
-          .dispatch("financialOrder/selectList", {
-            startTime,
-            endTime
-          })
-          .then(val => {
-            // console.log(val, "时间请求结果");
-            this.paginationProps.total = val.data.totalCount * 1;
-            this.paginationProps.current = val.data.currentPage * 1;
-            this.dataAll = val.data.list;
-            this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-          });
-      } else {
-        // this.$getListQp(this.title, this.search, this.startValue, this.endValue);
-        let tempSearch = this.listQuery.search;
-        if (this.title == "tradeType") {
-          if (this.listQuery.search == "销售") {
-            this.listQuery.search = 5;
-          }
-          if (this.listQuery.search == "采购") {
-            this.listQuery.search = 1;
-          }
-        }
-        if (this.title == "payStatus") {
-          if (this.listQuery.search == "支付") {
-            this.listQuery.search = 1;
-          }
-          if (this.listQuery.search == "未支付") {
-            this.listQuery.search = 0;
-          }
-        }
-        this.$getListQp("financialOrder/getList", this.listQuery).then(val => {
-          // console.log(val, "时间请求结果");
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.paginationProps.current = val.data.currentPage * 1;
-          this.dataAll = val.data.list;
-          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-          this.listQuery.search = tempSearch;
-        });
-      }
+      this.getList();
     },
     changeKey(val) {
       // console.log(val);
-      this.title = val;
-      if (this.title !== "createTime") {
+      this.listQuery.key = val;
+      if (this.listQuery.key !== "createTime") {
         this.isTime = true;
       } else {
         this.isTime = false;
       }
-    }
-  }
+    },
+    handleChange(val) {
+      console.log(val);
+    },
+    handleStartChange(date, dateString) {
+      this.listQuery.startTime = dateString;
+    },
+    handleEndChange(date, dateString) {
+      this.listQuery.endTime = dateString;
+    },
+    // 多选框改变之后的回调
+    onSelectChange(selectedRowKeys) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys;
+    },
+    // 通用写法
+    // 切换页码回调
+    quickJump(current) {
+      this.listQuery.currentPage = current;
+      this.getList();
+    },
+    // 切换每页条数回调
+    onShowSizeChange(current, pageSize) {
+      this.listQuery.pageSize = pageSize;
+      this.listQuery.currentPage = current;
+      this.getList();
+    },
+    // 发送请求回调
+    getList() {
+      this.$getList("rechargeRecord/getList", this.listQuery).then((res) => {
+        // console.log(res, "请求结果");
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.total * 1;
+      });
+    },
+    // 跳转详情的回调
+    selectPool(id) {
+      this.$router.push({
+        path: "/finance/index/rechargeinfo",
+        query: {
+          id,
+        },
+      });
+    },
+  },
 };
 </script>
 
@@ -349,6 +373,60 @@ export default {
     }
     .zhi {
       margin: 10px;
+    }
+  }
+  .member-filterall {
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    background-color: #fafafa;
+    .member-filter {
+      display: flex;
+      width: 100%;
+      border: 1px solid #e0e0e0;
+      background-color: #fafafa;
+      margin-top: -1px;
+      margin-left: -1px;
+      padding: 20px;
+      .div-input100 {
+        display: inline-block;
+        width: 100px;
+      }
+      .left5 {
+        margin-left: 5px;
+      }
+      > div {
+        flex: 1;
+        > div {
+          margin-bottom: 20px;
+        }
+        > div:last-child {
+          margin-bottom: 0;
+        }
+      }
+      .filter-type {
+        display: inline-block;
+        width: 67px;
+        height: 16px;
+        color: #a3a3a3;
+        font-size: 12px;
+        text-align: left;
+      }
+      .registerDate {
+        width: 320px;
+        display: flex;
+        align-items: center;
+        .date-picker {
+          width: 120px;
+        }
+      }
+    }
+    .enter {
+      text-align: right;
+      padding: 10px 0;
+      padding-right: 30px;
+      button {
+        margin-right: 10px;
+      }
     }
   }
 }

@@ -458,7 +458,6 @@ export default {
       this.$store
         .dispatch("business/getList", this.selectkey)
         .then(res => {
-          console.log(res);
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -467,18 +466,6 @@ export default {
           if (callBack) {
             callBack();
           }
-          // this.selectkey = {
-          //   corporationName: "",
-          //   corporationPhone: "",
-          //   currentPage: "1",
-          //   endTimeSort: "asc",
-          //   orderNo: "",
-          //   outIp: "",
-          //   pageSize: "10",
-          //   saleTimeSort: "asc",
-          //   sort: "asc",
-          //   runningstatus: "0",
-          // }
         });
     },
     // 表格分页快速跳转n页
