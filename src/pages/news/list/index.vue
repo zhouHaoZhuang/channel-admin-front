@@ -192,7 +192,7 @@ export default {
     change(id) {
       console.log(id);
       this.$router.push({
-        path: "/personal/news/addnewslist",
+        path: "/personal/news/upnewslist",
         query: {
           id,
         },

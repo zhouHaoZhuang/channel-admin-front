@@ -15,6 +15,13 @@ const newsType = {
         params
       });
     },
+    sortList({ commit, state }, data) {
+      return request({
+        url: `/ccNewsType/sort`,
+        method: "post",
+        data
+      });
+    },
     getAllType({ commit, state }) {
       return request({
         url: "/ccNewsType/AllNewsList",
