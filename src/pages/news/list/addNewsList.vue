@@ -146,7 +146,7 @@ export default {
           this.$store
             .dispatch("newsList/addList", this.form)
             .then((res) => {
-              this.$message.success("新增渠道成功");
+              this.$message.success("新增新闻列表成功");
               this.resetForm();
               this.$router.back();
             })

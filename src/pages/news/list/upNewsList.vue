@@ -40,6 +40,7 @@
             show-time
             format="YYYY-MM-DD HH:mm:ss"
             @change="onChange"
+            v-model="moment(form.newsPublishTime).format('YYYY-MM-DD HH:mm:ss')"
           />
         </a-form-model-item>
         <a-form-model-item label="标题" prop="newsTitle">
@@ -150,9 +151,9 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("newsList/addList", this.form)
+            .dispatch("newsList/changeList", {...this.form,id:this.$route.query.id})
             .then((res) => {
-              this.$message.success("新增渠道成功");
+              this.$message.success("修改新闻列表成功");
               this.resetForm();
               this.$router.back();
             })
