@@ -8,7 +8,7 @@ export const getArrOnceData = (id, arr) => {
 // request: 调用vuex的actions名   listQuery: 传递给后端的参数
 // 设置需要处理为精确查询的名单
 const filterList = ["id", "tradeType", "payStatus", "createTime"];
-export const getList = (request, listQuery) => {
+export const getListQp = (request, listQuery) => {
   return new Promise((resolve, reject) => {
     store
       .dispatch(
@@ -19,6 +19,27 @@ export const getList = (request, listQuery) => {
               [`qp-${listQuery.key}-${
                 filterList.indexOf(listQuery.key) !== -1 ? "eq" : "like"
               }`]: listQuery.search
+            }
+          : listQuery
+      )
+      .then(res => {
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};
+
+export const getList = (request, listQuery) => {
+  return new Promise((resolve, reject) => {
+    store
+      .dispatch(
+        request,
+        listQuery.key
+          ? {
+              ...listQuery,
+              [`${listQuery.key}`]: listQuery.search
             }
           : listQuery
       )

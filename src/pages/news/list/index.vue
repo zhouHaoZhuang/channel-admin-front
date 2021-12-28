@@ -4,7 +4,9 @@
       <div>
         <a-row :gutter="8">
           <a-col :span="2">
-            <a-button type="primary" @click="addNewsList"> <a-icon type="plus" />添加新闻 </a-button>
+            <a-button type="primary" @click="addNewsList">
+              <a-icon type="plus" />添加新闻
+            </a-button>
           </a-col>
           <a-col :span="2">
             <a-select v-model="listQuery.key" style="width: 120px">
@@ -20,38 +22,59 @@
             <a-input placeholder="搜索关键词" />
           </a-col>
           <a-col :span="6">
-            <a-date-picker
-              v-model="startValue"
-              :disabled-date="disabledStartDate"
-              show-time
-              format="YYYY-MM-DD HH:mm:ss"
-              placeholder="开始日期"
-              @change="changeStart"
-              @openChange="handleStartOpenChange"
-            />
-            <a-date-picker
-              v-model="endValue"
-              :disabled-date="disabledEndDate"
-              show-time
-              format="YYYY-MM-DD HH:mm:ss"
-              placeholder="结束日期"
-              :open="endOpen"
-              @change="changeEnd"
-              @openChange="handleEndOpenChange"
-            />
+            <a-space size="small">
+              <a-date-picker
+                v-model="startValue"
+                :disabled-date="disabledStartDate"
+                show-time
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="开始日期"
+                @change="changeStart"
+                @openChange="handleStartOpenChange"
+              />
+              <a-date-picker
+                v-model="endValue"
+                :disabled-date="disabledEndDate"
+                show-time
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="结束日期"
+                :open="endOpen"
+                @change="changeEnd"
+                @openChange="handleEndOpenChange"
+              />
+            </a-space>
           </a-col>
 
           <a-col :span="2">
-            <a-select default-value="jack" style="width: 120px">
-              <a-select-option value="jack">
+            <a-select v-model="listQuery.newTypeCode" style="width: 120px">
+              <a-select-option value="">
                 分类
+              </a-select-option>
+              <a-select-option
+                :value="item.newTypeCode"
+                v-for="item in typeList"
+                :key="item.newTypeCode"
+              >
+                {{ item.newTypeName }}
               </a-select-option>
             </a-select>
           </a-col>
-          <a-button type="primary">
+          <a-button type="primary" @click="selectNewsList">
             查询
           </a-button>
         </a-row>
+      </div>
+      <div class="query-conditions">
+        <span>当前条件：</span>
+        <a-select
+          mode="multiple"
+          :value="selectList"
+          style="width: 95%"
+          placeholder="当前无条件"
+          @change="handleChange"
+          :open="false"
+        >
+        </a-select>
       </div>
       <div class="news-list-table">
         <a-table
@@ -61,13 +84,13 @@
           rowKey="newsCode"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot-scope="text" slot="createTime">{{text | formatDate}}</div>
+          <div slot-scope="text" slot="createTime">{{ text | formatDate }}</div>
           <div slot="actions" slot-scope="text">
             <a-button type="link" @click="change(text)">
               修改
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link">
+            <a-button type="link" @click="delNewsList(text)">
               删除
             </a-button>
           </div>
@@ -84,6 +107,7 @@ export default {
       startValue: null,
       endValue: null,
       endOpen: false,
+      selectList:['a1', 'b2'],
       listQuery: {
         key: "newsTitle",
         search: "",
@@ -92,6 +116,7 @@ export default {
         total: 0,
         startTime: "",
         endTime: "",
+        newTypeCode: "",
       },
       data: [],
       columns: [
@@ -119,7 +144,7 @@ export default {
         },
         {
           title: "跳转状态",
-          dataIndex: "websiteJump",//有就跳转  数据为地址
+          dataIndex: "websiteJump", //有就跳转  数据为地址
         },
         {
           title: "操作",
@@ -128,6 +153,7 @@ export default {
           scopedSlots: { customRender: "actions" },
         },
       ],
+      typeList: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -143,8 +169,17 @@ export default {
   },
   created() {
     this.getList();
+    this.getAllType();
   },
   methods: {
+    handleChange(value) {
+      let index = this.selectList.findIndex(item => item === value);
+      this.selectList.splice(index, 1);
+      console.log(`selected ${value}`);
+    },
+    selectNewsList() {
+      // this.getList();
+    },
     addNewsList() {
       this.$router.push("/personal/news/addnewslist");
     },
@@ -154,9 +189,16 @@ export default {
     changeEnd(date, dateString) {
       this.listQuery.endTime = dateString;
     },
-    change(text) {
-      console.log(text);
+    change(newsCode) {
+      console.log(newsCode);
+      this.$router.push({
+        path: "/personal/news/addnewslist",
+        query: {
+          newsCode,
+        },
+      });
     },
+
     disabledStartDate(startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
@@ -195,6 +237,28 @@ export default {
         this.paginationProps.total = res.data.total * 1;
       });
     },
+    getAllType() {
+      this.$store.dispatch("newsType/getAllType").then((res) => {
+        // console.log(res.data, "获取分类");
+        this.typeList = res.data;
+      });
+    },
+    delNewsList(newsCode) {
+      this.$confirm("确定删除该新闻吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$store
+          .dispatch("newsList/delList", {
+            newsCode,
+          })
+          .then((res) => {
+            this.$message.success("删除成功");
+            this.getList();
+          });
+      });
+    },
     selectPool(data) {
       this.$router.push({
         path: `/personal/news/bannerinfo`,
@@ -216,5 +280,8 @@ export default {
 }
 .news-list-table {
   margin-top: 10px;
+}
+.query-conditions{
+  margin: 10px 0;
 }
 </style>

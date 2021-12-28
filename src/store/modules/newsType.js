@@ -15,6 +15,12 @@ const newsType = {
         params
       });
     },
+    getAllType({ commit, state }) {
+      return request({
+        url: "/ccNewsType/AllNewsList",
+        method: "get",
+      });
+    },
     delList({ commit, state }, id) {
       return request({
         url: `/ccNewsType/${id}`,
@@ -23,7 +29,7 @@ const newsType = {
     },
     changeList({ commit, state }, data) {
       return request({
-        url: `/ccNewsType/${data.newTypeCode}`,
+        url: `/ccNewsType/${data.id}`,
         method: "put",
         data
       });
@@ -38,9 +44,8 @@ const newsType = {
     getOne({ commit, state }, params) {
       console.log(state);
       return request({
-        url: `/ccNewsType/one`,
+        url: `/ccNewsType/one/${params.id}`,
         method: "get",
-        params
       });
     }
   }

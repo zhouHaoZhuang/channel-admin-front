@@ -9,7 +9,7 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="分类" prop="newTypeName">
-          <a-select v-model="form.region" placeholder="请选择">
+          <a-select v-model="form.newTypeName" placeholder="请选择">
             <a-select-option value="shanghai">
               Zone one
             </a-select-option>
@@ -20,35 +20,38 @@
         </a-form-model-item>
         <a-form-model-item label="属性" prop="newTypeEn">
           <a-checkbox-group v-model="form.type">
-            <a-checkbox value="1" name="type">
+            <a-checkbox value="newsRoll" name="type">
               首页滚动
             </a-checkbox>
-            <a-checkbox value="2" name="type">
+            <a-checkbox value="firstTop" name="type">
               优先置顶
             </a-checkbox>
-            <a-checkbox value="3" name="type">
+            <a-checkbox value="userCore" name="type">
               用户中心
             </a-checkbox>
-            <a-checkbox value="4" name="type">
+            <a-checkbox value="websiteJump" name="type">
               网址跳转
             </a-checkbox>
           </a-checkbox-group>
         </a-form-model-item>
         <a-form-model-item label="发布时间">
-          <a-date-picker @change="onChange" />
+          <a-date-picker
+            show-time
+            format="YYYY-MM-DD HH:MM:SS"
+            @change="onChange"
+          />
         </a-form-model-item>
-        <a-form-model-item label="标题" prop="newTypeEn">
-          <a-input v-model="form.sort" />
+        <a-form-model-item label="标题" prop="newsTitle">
+          <a-input v-model="form.newsTitle" />
         </a-form-model-item>
         <a-form-model-item label="SEO关键词">
-          <a-input v-model="form.sort" />
+          <a-input v-model="form.seoKeywords" />
         </a-form-model-item>
         <a-form-model-item label="SEO描述">
-          <a-input v-model="form.sort" type="textarea" />
+          <a-input v-model="form.seoDescribe" type="textarea" />
         </a-form-model-item>
-
-        <a-form-model-item label="内容"
-          ><Tinymce @tinymceinput="tinymceinput" />
+        <a-form-model-item label="内容">
+          <Tinymce @tinymceinput="tinymceinput" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 19, offset: 4 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
@@ -75,19 +78,22 @@ export default {
         newTypeEn: "",
         sort: "",
         status: 0,
+        newsTitle: "",
+        context: "",
+        newsPublishTime: "",//发布时间
       },
       rules: {
         newTypeName: [
           {
             required: true,
-            message: "请输入名称",
+            message: "请输入分类",
             trigger: "blur",
           },
         ],
-        newTypeEn: [
+        newsTitle: [
           {
             required: true,
-            message: "请输入英文名",
+            message: "请输入标题",
             trigger: "blur",
           },
         ],
