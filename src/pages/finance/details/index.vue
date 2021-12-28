@@ -260,7 +260,7 @@ export default {
     },
     // 查询的回调
     secectClick() {
-      console.log(`查询的值是: ${this.listQuery.key}`);
+      console.log('查询的值是:',this.listQuery);
       this.getList();
     },
     changeKey(val) {

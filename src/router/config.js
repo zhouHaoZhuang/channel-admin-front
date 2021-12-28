@@ -933,6 +933,14 @@ const options = {
                     back: true
                   },
                   component: () => import("@/pages/news/list/addNewsList.vue"),
+                },{
+                  path: "upnewslist",
+                  name: "修改新闻列表",
+                  meta: {
+                    invisible: true,
+                    back: true
+                  },
+                  component: () => import("@/pages/news/list/upNewsList.vue"),
                 },
               ],
             },

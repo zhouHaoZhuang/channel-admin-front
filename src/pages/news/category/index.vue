@@ -24,23 +24,18 @@
         <div class="sort-container">
           <span>排序</span>
           <div class="sort-list">
-            <a-radio-group v-model="value" @change="onChange" size="small">
-              <a-radio-button value="a">
-                Hangzhou
-              </a-radio-button>
-              <br />
-              <a-radio-button value="b">
-                Shanghai
-              </a-radio-button>
-              <br />
-              <a-radio-button value="c">
-                Beijing
-              </a-radio-button>
-              <br />
-              <a-radio-button value="d">
-                Chengdu
-              </a-radio-button>
-            </a-radio-group>
+            <p
+              @click="onChange"
+              :id="index"
+              v-for="(item, index) in data"
+              :key="index"
+              :class="{
+                'sort-list-item': true,
+                'sort-ash': index === sortSwitch * 1,
+              }"
+            >
+              {{ index + 1 }}、{{ item.newTypeName }}
+            </p>
           </div>
         </div>
         <div>
@@ -48,14 +43,16 @@
             操作
           </span>
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="topClick">
               移至第一
             </a-button>
-            <a-button type="primary"> <a-icon type="arrow-up" />上移 </a-button>
-            <a-button type="primary">
+            <a-button @click="moveUp" type="primary">
+              <a-icon type="arrow-up" />上移
+            </a-button>
+            <a-button @click="moveDown" type="primary">
               <a-icon type="arrow-down" />下移
             </a-button>
-            <a-button type="primary">
+            <a-button @click="moveBottom" type="primary">
               移至最后
             </a-button>
           </a-space>
@@ -105,7 +102,7 @@ export default {
       columns: [
         {
           title: "ID",
-          dataIndex: "newTypeCode",
+          dataIndex: "id",
           scopedSlots: { customRender: "id" },
           width: 230,
         },
@@ -147,6 +144,7 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange,
       },
+      sortSwitch: "",
     };
   },
   created() {
@@ -160,14 +158,48 @@ export default {
       this.visible = true;
     },
     onChange(e) {
-      console.log(`checked = ${e.target.value}`);
+      // console.log('checked = ',e.path[0].id);
+      this.sortSwitch = e.path[0].id;
+    },
+    topClick() {
+      console.log("移至第一");
+      this.data.unshift(this.data.splice(this.sortSwitch, 1)[0]);
+      this.sortSwitch = 0;
+    },
+    moveUp() {
+      console.log("上移");
+      if (this.sortSwitch * 1 === 0) {
+        return;
+      }
+      let temp = this.data.splice(this.sortSwitch, 1)[0];
+      this.data.splice(this.sortSwitch - 1, 0, temp);
+      this.sortSwitch--;
+    },
+    moveDown() {
+      // console.log("下移");
+      if (this.sortSwitch * 1 === this.data.length - 1) {
+        return;
+      }
+      let temp = this.data.splice(this.sortSwitch, 1)[0];
+      this.data.splice(this.sortSwitch + 1, 0, temp);
+      this.sortSwitch++;
+    },
+    moveBottom() {
+      // console.log("移至最后");
+      this.data.push(this.data.splice(this.sortSwitch, 1)[0]);
+      this.sortSwitch = this.data.length - 1;
     },
     handleOk(e) {
       this.confirmLoading = true;
-      setTimeout(() => {
+      for (let index = 0; index < this.data.length; index++) {
+        this.data[index].sort = index+1;
+      }
+      this.$store.dispatch("newsType/sortList",this.data).then((res) => {
+        console.log(res);
         this.visible = false;
         this.confirmLoading = false;
-      }, 2000);
+        this.$message.success("修改顺序成功");
+      });
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
@@ -184,27 +216,15 @@ export default {
     },
     deleteNews(id) {
       console.log(id);
-      this.$confirm("确定删除该类型吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.$store
-            .dispatch("newsType/deleteNews", {
-              id,
-            })
-            .then((res) => {
-              this.$message.success("删除成功");
-              this.getList();
-            });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
+      this.$confirm({
+        title: `确认删除吗？`,
+        onOk: () => {
+          this.$store.dispatch("newsType/delList", { id }).then((res) => {
+            this.$message.success("删除成功");
+            this.getList();
           });
-        });
+        },
+      });
     },
     addNewsType() {
       this.$router.push({
@@ -256,6 +276,14 @@ export default {
   display: flex;
   .sort-list {
     margin-left: 10px;
+    .sort-list-item {
+      width: 400px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+    .sort-ash {
+      background-color: #cecece;
+    }
   }
   margin-bottom: 10px;
 }

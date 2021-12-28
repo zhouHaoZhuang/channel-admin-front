@@ -15,15 +15,22 @@ const newsType = {
         params
       });
     },
+    sortList({ commit, state }, data) {
+      return request({
+        url: `/ccNewsType/sort`,
+        method: "post",
+        data
+      });
+    },
     getAllType({ commit, state }) {
       return request({
         url: "/ccNewsType/AllNewsList",
         method: "get",
       });
     },
-    delList({ commit, state }, id) {
+    delList({ commit, state }, params) {
       return request({
-        url: `/ccNewsType/${id}`,
+        url: `/ccNewsType/${params.id}`,
         method: "delete"
       });
     },
@@ -44,8 +51,9 @@ const newsType = {
     getOne({ commit, state }, params) {
       console.log(state);
       return request({
-        url: `/ccNewsType/one/${params.id}`,
+        url: `/ccNewsType/${params.id}`,
         method: "get",
+        // params,
       });
     }
   }

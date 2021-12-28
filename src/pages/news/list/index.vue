@@ -107,7 +107,7 @@ export default {
       startValue: null,
       endValue: null,
       endOpen: false,
-      selectList:['a1', 'b2'],
+      selectList: ["a1", "b2"],
       listQuery: {
         key: "newsTitle",
         search: "",
@@ -148,7 +148,7 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: "newsCode",
+          dataIndex: "id",
           key: "actions",
           scopedSlots: { customRender: "actions" },
         },
@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     handleChange(value) {
-      let index = this.selectList.findIndex(item => item === value);
+      let index = this.selectList.findIndex((item) => item === value);
       this.selectList.splice(index, 1);
       console.log(`selected ${value}`);
     },
@@ -189,12 +189,12 @@ export default {
     changeEnd(date, dateString) {
       this.listQuery.endTime = dateString;
     },
-    change(newsCode) {
-      console.log(newsCode);
+    change(id) {
+      console.log(id);
       this.$router.push({
-        path: "/personal/news/addnewslist",
+        path: "/personal/news/upnewslist",
         query: {
-          newsCode,
+          id,
         },
       });
     },
@@ -243,20 +243,19 @@ export default {
         this.typeList = res.data;
       });
     },
-    delNewsList(newsCode) {
-      this.$confirm("确定删除该新闻吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(() => {
-        this.$store
-          .dispatch("newsList/delList", {
-            newsCode,
-          })
-          .then((res) => {
-            this.$message.success("删除成功");
-            this.getList();
-          });
+    delNewsList(id) {
+      this.$confirm({
+        title: "确认要删除吗？",
+        onOk: () => {
+          this.$store
+            .dispatch("newsList/delList", {
+              id,
+            })
+            .then((res) => {
+              this.$message.success("删除成功");
+              this.getList();
+            });
+        },
       });
     },
     selectPool(data) {
@@ -281,7 +280,7 @@ export default {
 .news-list-table {
   margin-top: 10px;
 }
-.query-conditions{
+.query-conditions {
   margin: 10px 0;
 }
 </style>

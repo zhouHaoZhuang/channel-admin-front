@@ -20,7 +20,7 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="属性" prop="newTypeEn">
-          <a-checkbox-group v-model="form.type">
+          <a-checkbox-group v-model="type">
             <a-checkbox value="newsRoll" name="type">
               首页滚动
             </a-checkbox>
@@ -40,6 +40,7 @@
             show-time
             format="YYYY-MM-DD HH:mm:ss"
             @change="onChange"
+            v-model="moment(form.newsPublishTime).format('YYYY-MM-DD HH:mm:ss')"
           />
         </a-form-model-item>
         <a-form-model-item label="标题" prop="newsTitle">
@@ -65,6 +66,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   components: {
@@ -74,6 +76,7 @@ export default {
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 19 },
+      type: [],
       form: {
         newTypeCode: "",
         newTypeEn: "",
@@ -116,12 +119,14 @@ export default {
       this.resetForm();
     });
     this.getAllType();
+    this.getOne();
   },
   activated() {
     this.$nextTick(() => {
       this.resetForm();
     });
     this.getAllType();
+    this.getOne();
   },
   methods: {
     tinymceinput(value) {
@@ -130,23 +135,25 @@ export default {
     },
     // 获取日期
     onChange(date, dateString) {
-      console.log(date, dateString);
-      this.form.newsPublishTime = dateString ;
+      console.log(
+        "dadsada",
+        dateString
+      );
+      this.form.newsPublishTime = dateString;
     },
     // 提交
     onSubmit() {
-      for (let index = 0; index < this.form.type.length; index++) {
-        this.form[this.form.type[index]] = 1;
+      for (let index = 0; index < this.type.length; index++) {
+        this.form[this.type[index]] = 1;
       }
       console.log(this.form, "提交");
-
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("newsList/addList", this.form)
+            .dispatch("newsList/changeList", {...this.form,id:this.$route.query.id})
             .then((res) => {
-              this.$message.success("新增新闻列表成功");
+              this.$message.success("修改新闻列表成功");
               this.resetForm();
               this.$router.back();
             })
@@ -158,9 +165,24 @@ export default {
     },
     getAllType() {
       this.$store.dispatch("newsType/getAllType").then((res) => {
-        console.log(res.data, "获取分类");
         this.typeList = res.data;
       });
+    },
+    getOne() {
+      this.$store
+        .dispatch("newsList/getOne", this.$route.query.id)
+        .then((res) => {
+          this.form = { ...res.data };
+          let list = ["newsRoll", "firstTop", "userCore", "websiteJump"];
+          this.form.type = [];
+          for (let index = 0; index < list.length; index++) {
+            if (res.data[list[index]] == 1) {
+              this.form.type.push(list[index]);
+            }
+          }
+          this.type = this.form.type;
+          console.log(this.form, "获取单个");
+        });
     },
     // 重置表单数据
     resetForm() {
