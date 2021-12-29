@@ -40,7 +40,7 @@
             show-time
             format="YYYY-MM-DD HH:mm:ss"
             @change="onChange"
-            v-model="moment(form.newsPublishTime).format('YYYY-MM-DD HH:mm:ss')"
+            v-model="newsPublishTime"
           />
         </a-form-model-item>
         <a-form-model-item label="标题" prop="newsTitle">
@@ -52,8 +52,11 @@
         <a-form-model-item label="SEO描述">
           <a-input v-model="form.seoDescribe" type="textarea" />
         </a-form-model-item>
-        <a-form-model-item label="内容">
-          <Tinymce @tinymceinput="tinymceinput" />
+        <a-form-model-item v-if="isWebsiteJump" label="跳转到">
+          <a-input v-model="WebsiteJumpUrl" />
+        </a-form-model-item>
+        <a-form-model-item v-if="!isWebsiteJump" label="内容">
+          <Tinymce :tinyvalue="form.context" @tinymceinput="tinymceinput" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 19, offset: 4 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
@@ -78,14 +81,16 @@ export default {
       wrapperCol: { span: 19 },
       type: [],
       form: {
+        newsCode: "",
         newTypeCode: "",
         newTypeEn: "",
-        sort: "",
         type: [],
-        status: 0,
         newsTitle: "",
+        seoKeywords: "",
+        seoDescribe: "",
+        websiteJump: "",
         context: "",
-        newsPublishTime: "", //发布时间
+        newsPublishTime: null, //发布时间
       },
       rules: {
         newTypeCode: [
@@ -102,16 +107,10 @@ export default {
             trigger: "blur",
           },
         ],
-        status: [
-          {
-            required: true,
-            message: "请选择状态",
-            trigger: "blur",
-          },
-        ],
       },
       loading: false,
       typeList: [],
+      WebsiteJumpUrl: "",
     };
   },
   created() {
@@ -121,12 +120,30 @@ export default {
     this.getAllType();
     this.getOne();
   },
+
   activated() {
     this.$nextTick(() => {
       this.resetForm();
     });
     this.getAllType();
     this.getOne();
+  },
+  computed: {
+    newsPublishTime: {
+      get() {
+        if (this.form.newsPublishTime) {
+          return moment(this.form.newsPublishTime, "YYYY-MM-DD HH:mm:ss");
+        } else {
+          return null;
+        }
+      },
+      set(val) {
+        this.form.newsPublishTime = val;
+      },
+    },
+    isWebsiteJump() {
+      return this.type.includes("websiteJump");
+    },
   },
   methods: {
     tinymceinput(value) {
@@ -135,10 +152,7 @@ export default {
     },
     // 获取日期
     onChange(date, dateString) {
-      console.log(
-        "dadsada",
-        dateString
-      );
+      console.log("dadsada", dateString);
       this.form.newsPublishTime = dateString;
     },
     // 提交
@@ -147,11 +161,21 @@ export default {
         this.form[this.type[index]] = 1;
       }
       console.log(this.form, "提交");
+      if (this.form.websiteJump == 1) {
+        this.form.websiteJump = this.WebsiteJumpUrl;
+        this.form.context = "";
+      }if(this.form.context){
+        this.form.websiteJump = 0;
+      }
+      this.form.newsPublishTime = this.form.newsPublishTime.replace("T", " ");
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("newsList/changeList", {...this.form,id:this.$route.query.id})
+            .dispatch("newsList/changeList", {
+              ...this.form,
+              id: this.$route.query.id,
+            })
             .then((res) => {
               this.$message.success("修改新闻列表成功");
               this.resetForm();
@@ -173,6 +197,27 @@ export default {
         .dispatch("newsList/getOne", this.$route.query.id)
         .then((res) => {
           this.form = { ...res.data };
+          let {
+            newsCode,
+            newTypeCode,
+            newsPublishTime,
+            newsTitle,
+            seoKeywords,
+            seoDescribe,
+            websiteJump,
+            context,
+          } = res.data;
+          this.form = {
+            newsCode,
+            newTypeCode,
+            newTypeEn: "",
+            newsPublishTime,
+            newsTitle,
+            seoKeywords,
+            seoDescribe,
+            websiteJump,
+            context,
+          };
           let list = ["newsRoll", "firstTop", "userCore", "websiteJump"];
           this.form.type = [];
           for (let index = 0; index < list.length; index++) {
@@ -188,14 +233,16 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
+        newsCode: "",
         newTypeCode: "",
         newTypeEn: "",
-        sort: "",
         type: [],
-        status: 0,
         newsTitle: "",
+        seoKeywords: "",
+        seoDescribe: "",
+        websiteJump: "",
         context: "",
-        newsPublishTime: "", //发布时间
+        newsPublishTime: null, //发布时间
       };
     },
   },

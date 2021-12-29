@@ -25,7 +25,7 @@ const newsList = {
     changeList({ commit, state }, data) {
       return request({
         url: `/ccNews/${data.id}`,
-        method: "put",
+        method: "patch",
         data
       });
     },

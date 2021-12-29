@@ -51,7 +51,10 @@
         <a-form-model-item label="SEO描述">
           <a-input v-model="form.seoDescribe" type="textarea" />
         </a-form-model-item>
-        <a-form-model-item label="内容">
+        <a-form-model-item v-if="isWebsiteJump" label="跳转到">
+          <a-input v-model="form.WebsiteJumpUrl" />
+        </a-form-model-item>
+        <a-form-model-item v-if="!isWebsiteJump" label="内容">
           <Tinymce @tinymceinput="tinymceinput" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 19, offset: 4 }">
@@ -83,6 +86,7 @@ export default {
         newsTitle: "",
         context: "",
         newsPublishTime: "", //发布时间
+        WebsiteJumpUrl: "", //跳转到
       },
       rules: {
         newTypeCode: [
@@ -111,6 +115,11 @@ export default {
       typeList: [],
     };
   },
+  computed: {
+    isWebsiteJump() {
+      return this.form.type.includes("websiteJump");
+    },
+  },
   created() {
     this.$nextTick(() => {
       this.resetForm();
@@ -131,15 +140,22 @@ export default {
     // 获取日期
     onChange(date, dateString) {
       console.log(date, dateString);
-      this.form.newsPublishTime = dateString ;
+      this.form.newsPublishTime = dateString;
     },
     // 提交
     onSubmit() {
       for (let index = 0; index < this.form.type.length; index++) {
         this.form[this.form.type[index]] = 1;
       }
+      if (this.form.WebsiteJump == 1) {
+        this.form.WebsiteJump = this.form.WebsiteJumpUrl;
+        this.form.context = "";
+        return;
+      }
+      if (this.form.context) {
+        this.form.WebsiteJump = "";
+      }
       console.log(this.form, "提交");
-
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;

@@ -61,11 +61,15 @@
       <div class="category-list-table">
         <a-table
           :columns="columns"
-          :data-source="data"
+          :data-source="dataList"
           :pagination="paginationProps"
           rowKey="newTypeCode"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
+          <div slot="newsCount" slot-scope="text">
+            <span v-if="text.newsCount===0">--</span>
+            <router-link v-else :to="`/personal/news/newslist?newTypeCode=${text.newTypeCode}&newTypeName=${text.newTypeName}`">{{ text.newsCount }}篇</router-link>
+          </div>
           <div slot="status" slot-scope="text">
             {{ text === 0 ? "正常" : "不显示" }}
           </div>
@@ -116,7 +120,9 @@ export default {
         },
         {
           title: "新闻数量",
-          dataIndex: "newsCount",
+          // dataIndex: "newsCount",
+          key: "newsCount",
+          scopedSlots: { customRender: "newsCount" },
         },
         {
           title: "状态",
@@ -132,6 +138,7 @@ export default {
         },
       ],
       data: [],
+      dataList: [],
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,
@@ -147,9 +154,6 @@ export default {
       sortSwitch: "",
     };
   },
-  created() {
-    this.getList();
-  },
   activated() {
     this.getList();
   },
@@ -162,12 +166,12 @@ export default {
       this.sortSwitch = e.path[0].id;
     },
     topClick() {
-      console.log("移至第一");
+      // console.log("移至第一");
       this.data.unshift(this.data.splice(this.sortSwitch, 1)[0]);
       this.sortSwitch = 0;
     },
     moveUp() {
-      console.log("上移");
+      // console.log("上移");
       if (this.sortSwitch * 1 === 0) {
         return;
       }
@@ -192,10 +196,11 @@ export default {
     handleOk(e) {
       this.confirmLoading = true;
       for (let index = 0; index < this.data.length; index++) {
-        this.data[index].sort = index+1;
+        this.data[index].sort = index + 1;
       }
-      this.$store.dispatch("newsType/sortList",this.data).then((res) => {
+      this.$store.dispatch("newsType/sortList", this.data).then((res) => {
         console.log(res);
+        this.getList();
         this.visible = false;
         this.confirmLoading = false;
         this.$message.success("修改顺序成功");
@@ -244,6 +249,8 @@ export default {
       this.$getList("newsType/getList", this.listQuery).then((res) => {
         console.log(res, "获取列表");
         this.data = res.data.list;
+        let dataList = JSON.stringify(res.data.list);
+        this.dataList = JSON.parse(dataList);
         this.paginationProps.total = res.data.total * 1;
       });
     },
