@@ -2,10 +2,10 @@
   <div>
     <div class="purchase-list-container">
       <div>
-        <!-- <p class="purchase-list-title">
+        <p class="purchase-list-title">
           <span
             :class="{
-              'purchase-title-active': selectkey.runningStatus === text.key
+              'purchase-title-active': listQuery.status === text.key,
             }"
             v-for="(text, index) in titleList"
             :key="index"
@@ -13,22 +13,19 @@
           >
             {{ text.title }}
           </span>
-        </p> -->
+        </p>
         <div>
           <div class="public-header-wrap">
-            <a-form-model layout="inline" :model="listQuery">
+            <a-form-model layout="inline">
               <a-form-model-item>
                 <a-button type="primary" @click="businessOpening">
-                  +增加会员余额
+                  +增减会员余额
                 </a-button>
               </a-form-model-item>
               <!-- 下拉框 -->
               <a-form-model-item>
-                <a-select
-                  style="width:120px"
-                  v-model="title"
-                >
-                  <a-select-option value="ID">
+                <a-select style="width:120px" v-model="listQuery.key">
+                  <a-select-option value="id">
                     ID
                   </a-select-option>
                   <a-select-option value="accountCode">
@@ -52,6 +49,16 @@
                   </span>
                 </div>
               </a-form-model-item>
+              <a-form-model-item>
+                <a-select style="width:120px" v-model="listQuery.status">
+                  <a-select-option value="">
+                    款项类型
+                  </a-select-option>
+                  <a-select-option value="accountCode">
+                    会员ID
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
               <!-- 按钮 -->
               <a-form-model-item>
                 <a-button type="primary" @click="search">
@@ -61,199 +68,12 @@
               <!-- <div class="public-header-filter">
                 <a-form-model-item>
                   <a-button>
-                    <a-icon type="setting" />自定义列表
-                  </a-button>
-                  <a-button @click="isfilter = !isfilter">
-                    <a-icon :type="isfilter ? 'up' : 'down'" /> -->
-              <!-- <a-icon type="up" /> -->
-              <!-- </a-button>
-                  <a-button>
                     <a-icon type="export" />
                     导出
                   </a-button>
                 </a-form-model-item>
               </div> -->
             </a-form-model>
-            <!-- <div v-show="isfilter" class="member-filterall">
-              <div class="member-filter">
-                <div>
-                  <div>
-                    <span class="filter-type">线路</span>
-                    <a-select
-                      style="width: 120px"
-                      @change="handleChange"
-                      placeholder="请选择"
-                    >
-                      <a-select-option value="jack">
-                        不限线路
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        自生产
-                      </a-select-option>
-                      <a-select-option value="disabled">
-                        小鸟云资源池
-                      </a-select-option>
-                      <a-select-option value="Yiminghe">
-                        云引擎大陆版资源池
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        云引擎国际版资源池
-                      </a-select-option>
-                    </a-select>
-                  </div>
-                  <div>
-                    <span class="filter-type">业务状态</span>
-                    <a-select
-                      placeholder="请选择"
-                      style="width: 120px"
-                      @change="handleChange"
-                    >
-                      <a-select-option value="jack">
-                        不限
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        已回收
-                      </a-select-option>
-                      <a-select-option value="disabled">
-                        开通中
-                      </a-select-option>
-                      <a-select-option value="Yiminghe">
-                        正常
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        过户中
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        已过期
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        已退款
-                      </a-select-option>
-                    </a-select>
-                  </div>
-                  <div>
-                    <span class="filter-type">配置</span>
-                    <a-select
-                      placeholder="请选择"
-                      style="width: 120px"
-                      @change="handleChange"
-                    >
-                      <a-select-option value="jack">
-                        CPU不限
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        1核
-                      </a-select-option>
-                      <a-select-option value="disabled">
-                        2核
-                      </a-select-option>
-                      <a-select-option value="Yiminghe">
-                        4核
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        8核
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        16核
-                      </a-select-option>
-                    </a-select>
-                    <a-select
-                      placeholder="请选择"
-                      style="width: 120px"
-                      @change="handleChange"
-                    >
-                      <a-select-option value="jack">
-                        内存不限
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        1G
-                      </a-select-option>
-                      <a-select-option value="disabled">
-                        2G
-                      </a-select-option>
-                      <a-select-option value="Yiminghe">
-                        4G
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        8G
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        16G
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        32G
-                      </a-select-option>
-                      <a-select-option value="delete">
-                        64G
-                      </a-select-option>
-                    </a-select>
-                  </div>
-                </div>
-                <div>
-                  <div class="registerDate">
-                    <span class="filter-type">购买时间段 </span
-                    ><span class="date-picker">
-                      <a-date-picker placeholder="起始日期"></a-date-picker>
-                    </span>
-                    <span class="left5"> 至 </span>
-                    <span class="date-picker left5">
-                      <a-date-picker placeholder="结束日期"></a-date-picker>
-                    </span>
-                  </div>
-                  <div>
-                    <span class="filter-type">运行状态</span>
-                    <a-select
-                      placeholder="请选择"
-                      style="width: 120px"
-                      @change="handleChange"
-                    >
-                      <a-select-option value="jack">
-                        不限
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        已锁定
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        已关机
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        已挂起
-                      </a-select-option>
-                      <a-select-option value="lucy">
-                        运行中
-                      </a-select-option>
-                    </a-select>
-                  </div>
-                  <div>
-                    <span class="filter-type">带宽</span>
-                    <span class="div-input100">
-                      <a-input />
-                    </span>
-                    <span>M</span>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <div class="registerDate">
-                      <span class="filter-type">到期时间段 </span
-                      ><span class="date-picker">
-                        <a-date-picker placeholder="起始日期"></a-date-picker>
-                      </span>
-                      <span class="left5"> 至 </span>
-                      <span class="date-picker left5">
-                        <a-date-picker placeholder="结束日期"></a-date-picker>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="enter">
-                <a-button @click="isfilter = false">清除 </a-button>
-                <a-button type="primary" @click="isfilter = false">
-                  确定
-                </a-button>
-              </div>
-            </div> -->
           </div>
           <!-- 表格 -->
           <a-table
@@ -266,14 +86,8 @@
             :scroll="{ x: 1200 }"
           >
             <div slot="status" slot-scope="text">
-              <span v-if="text == 0" class="runningStatus blackhole"
-                >在线充值</span
-              >
-              <span v-if="text == 1" class="runningStatus running">线下充值</span>
-              <span v-if="text == 2" class="runningStatus shutdown"
-                >下单</span
-              >
-              <span v-if="text == 3" class="runningStatus expired">退款</span>
+              {{detailTypeMapData[text]}}
+              <!-- runningStatus公共 -->
             </div>
             <a slot="action" slot-scope="text" @click="infoChannel(text)"
               >查看</a
@@ -286,121 +100,98 @@
 </template>
 
 <script>
-import { regionMapData } from "@/utils/enum";
+import { detailTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
-      regionMapData,
-      isfilter: false,
-      title:"paymentLineId",
+      detailTypeMapData,
       listQuery: {
-        key: "",
+        key: "id",
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        status: "",
       },
       titleList: [
         {
+          key: "",
+          title: "全部",
+        },
+        {
           key: 0,
-          title: "全部"
+          title: "处理中",
         },
         {
-          key: 1,
-          title: "处理中"
+          key: 9,
+          title: "处理完成",
         },
-        {
-          key: 2,
-          title: "处理完成"
-        },
-      ],
-      selectkey: {
-        corporationName: "",
-        corporationPhone: "",
-        currentPage: "1",
-        endTimeSort: "",
-        orderNo: "",
-        ID: "",
-        pageSize: "10",
-        saleTimeSort: "",
-        sort: "",
-        Status: 0,
-        accountCode:""
-      },
-      searchColumns: [
-        {
-          title: "ID",
-          dataIndex: "id"
-        },
-        {
-          title: "会员ID",
-          dataIndex: "accountCode"
-        }
       ],
       columns: [
         {
           title: "ID",
-          dataIndex: "paymentLineId"
+          dataIndex: "id",
         },
         {
           title: "会员ID",
-          dataIndex: "accountCode"
+          dataIndex: "applyUserCode",
         },
-        { 
-          title: "会员名称", 
-          dataIndex: "customerName", 
-          key: "customerName" 
+        {
+          title: "会员名称",
+          dataIndex: "accountName",
+          key: "accountName",
         },
-        // {
-        //   title: "款项类型",
-        //   dataIndex: "detailType",
-        //   scopedSlots: { customRender: "detailType" },
-        // },
+        {
+          title: "款项类型",
+          dataIndex: "accountType",
+          scopedSlots: { customRender: "accountType" },
+          // 2 线下充值 4 退款 1 在线充值 3 下单
+        },
         {
           title: "申请金额",
-          dataIndex: "dealAmount",
-          key: "dealAmount",
+          dataIndex: "amount",
+          key: "amount",
         },
         {
           title: "申请时间",
           dataIndex: "createTime",
           width: 190,
         },
-        // { title: "业务状态", dataIndex: "1", key: "" },
+        { title: "备注信息", dataIndex: "memo", key: "" },
         {
-          title: "款项类型",
+          title: "处理状态",
           dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          key: "",
+          scopedSlots: { customRender: "status" },
         },
-        // { title: "操作状态", dataIndex: "3", key: "" },
         {
           title: "操作",
           dataIndex: "id",
           key: "action",
           fixed: "right",
           width: 100,
-          scopedSlots: { customRender: "action" }
-        }
+          scopedSlots: { customRender: "action" },
+        },
       ],
       data: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "20", "30"],
-        pageSize: 5,
-        current: 1, //当前页
         total: 1,
         showTotal: (total, range) =>
           `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
             total / this.paginationProps.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
+        onShowSizeChange: this.onShowSizeChange,
       },
-      tableLoading: false
+      tableLoading: false,
     };
   },
   activated() {
+    this.getList();
+  },
+  created() {
     this.getList();
   },
   methods: {
@@ -410,45 +201,48 @@ export default {
     handleChangeSort(pagination, filters, sorter) {
       console.log(sorter);
       if (sorter && sorter.order) {
-        if (sorter.columnKey === "purchaseTimeStr") {
-          this.selectkey.saleTimeSort = sorter.order.replace("end", "");
-          this.getList(() => {
-            this.selectkey.saleTimeSort = "";
-          });
-        } else if (sorter.columnKey === "endTimeStr") {
-          this.selectkey.endTimeSort = sorter.order.replace("end", "");
-          this.getList(() => {
-            this.selectkey.endTimeSort = "";
-          });
-        }
+        // if (sorter.columnKey === "purchaseTimeStr") {
+        //   this.selectkey.saleTimeSort = sorter.order.replace("end", "");
+        //   this.getList(() => {
+        //     this.selectkey.saleTimeSort = "";
+        //   });
+        // } else if (sorter.columnKey === "endTimeStr") {
+        //   this.selectkey.endTimeSort = sorter.order.replace("end", "");
+        //   this.getList(() => {
+        //     this.selectkey.endTimeSort = "";
+        //   });
+        // }
       }
     },
     businessOpening() {
       this.$router.push({
-        path: "/business/cloudservers/businessOpening"
+        path: "/finance/examine/addpayment",
       });
     },
     changeRunningstatus(text) {
-      this.selectkey.runningStatus = text.key;
+      this.listQuery.status = text.key;
       this.getList();
     },
     // 查询
     search() {
-    this.listQuery.key = this.title;
-    this.listQuery[this.listQuery.key] = this.listQuery.search
-      this.$getList("financialDetails/getList", this.listQuery).then(res => {
+      this.listQuery.key = this.title;
+      this.listQuery[this.listQuery.key] = this.listQuery.search;
+      this.$getList("financialDetails/getList", this.listQuery).then((res) => {
         // console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });
+      this.getList();
     },
     // 查询表格数据
     getList() {
-      this.$store.dispatch("financialDetails/getList", this.listQuery).then(res => {
-        console.log(res, "获取列表");
-        this.data = res.data.list;
-        this.paginationProps.total = res.data.total * 1;
-      });
+      this.$store
+        .dispatch("manualDeposit/getList", this.listQuery)
+        .then((res) => {
+          console.log(res, "获取列表");
+          this.data = res.data.list;
+          this.paginationProps.total = res.data.total * 1;
+        });
     },
     // 表格分页快速跳转n页
     quickJump(current) {
@@ -465,13 +259,13 @@ export default {
     infoChannel(paymentLineId) {
       this.$router.push({
         path: "/finance/examine/details",
-        query: { paymentLineId }
+        query: { paymentLineId },
       });
     },
     handleChange(value) {
       console.log(value);
-    }
-  }
+    },
+  },
 };
 </script>
 
