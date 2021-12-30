@@ -357,19 +357,7 @@ export default {
     imgChange(urlList, firstImageUrl, type) {
       console.log("上传图片回调", urlList, firstImageUrl, type);
       // this.imgList = urlList;
-      if (type == 'websiteLogo') {
-        this.form.websiteLogo = firstImageUrl;
-      } else if (type == 'userCenterMiniLogo') {
-        this.form.userCenterMiniLogo = firstImageUrl;
-      } else if (type == 'userCenterLogo') {
-        this.form.userCenterLogo = firstImageUrl;
-      } else if (type == 'wechatQrCode') {
-        this.form.wechatQrCode = firstImageUrl;
-      } else if (type == 'websitieIcon') {
-        this.form.websitieIcon = firstImageUrl;
-      } else if (type == 'phoneLogo') {
-        this.form.phoneLogo = firstImageUrl;
-      }
+      this.form[type] = firstImageUrl;
     },
     onSubmit() {
       console.log(this.form);
