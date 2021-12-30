@@ -93,7 +93,7 @@ export default {
   computed: {
     // 图片上传地址
     uploadUrl() {
-      return env.VUE_APP_BASE_URL + "/ccOss/uploadFile";
+      return env.BASE_URL + "/ccOss/uploadFile";
     },
     // 是否可多选文件上传
     multiple() {

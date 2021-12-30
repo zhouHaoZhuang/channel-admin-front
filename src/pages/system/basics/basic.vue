@@ -10,13 +10,13 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="网站名称" prop="linkName">
+            <a-form-model-item ref="websiteName" label="网站名称" prop="websiteName">
               <a-input v-model="form.websiteName" />
             </a-form-model-item>
-            <a-form-model-item label="首页标题" prop="linkUrl">
+            <a-form-model-item label="首页标题" prop="title" ref="title">
               <a-input v-model="form.title" />
             </a-form-model-item>
-            <a-form-model-item label="网站关键字" prop="linkDescribe">
+            <a-form-model-item label="网站关键字" prop="keyWords">
               <a-input v-model="form.keyWords" />
             </a-form-model-item>
             <a-form-model-item label="网站描述">
@@ -173,8 +173,11 @@
             <div class="addimages">
               <a-form-model-item label="上传用户中心小LOGO">
                 <Upload
-                  :defaultFileList="form.userCenterMiniLogo"
-                  @change="imgChange"
+                  :defaultFile="form.userCenterMiniLogo"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'userCenterMiniLogo')
+                  "
                 />
                 <span>注：推荐尺寸:37*36</span>
               </a-form-model-item>
@@ -182,61 +185,84 @@
             <div class="addimages">
               <a-form-model-item label="上传用户中心大LOGO">
                 <Upload
-                  :defaultFileList="form.userCenterLogo"
-                  @change="imgChange"
+                  :defaultFile="form.userCenterLogo"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'userCenterLogo')
+                  "
                 />
                 <span>注：推荐尺寸:107*38</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="官网LOGO">
-                <Upload :defaultFile="imgList" @change="imgChange" />
+                <Upload
+                  :defaultFile="form.websiteLogo"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'websiteLogo')
+                  "
+                />
                 <span>注：推荐尺寸:122*44</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="手机网站logo">
-                <Upload :defaultFile="form.websiteLogo" @change="imgChange" />
+                <Upload
+                  :defaultFile="form.phoneLogo"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'phoneLogo')
+                  "
+                />
                 <span>注：推荐尺寸:130*40</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="关注微信二维码">
-                <Upload :defaultFile="form.wechatQrCode" @change="imgChange" />
+                <Upload
+                  :defaultFile="form.wechatQrCode"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'wechatQrCode')
+                  "
+                />
                 <span>注：推荐尺寸:120*120</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="网站ICO图标">
                 <Upload
-                  :defaultFileList="form.websitieIcon"
-                  @change="imgChange"
+                  :defaultFile="form.websitieIcon"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'websitieIcon')
+                  "
                 />
               </a-form-model-item>
             </div>
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
-      <!-- <div class="backstage">
-        后台操作保护
-        <a-form-model ref="ruleForm"
-                      :model="form"
-                      :rules="rules"
-                      :label-col="labelCol"
-                      :wrapper-col="wrapperCol">
-          <a-form-model-item label="管理员密码"
-                             prop="linkName">
+      <div class="backstage">
+        <!-- 后台操作保护 -->
+        <a-form-model
+          ref="ruleForm"
+          :model="form"
+          :rules="rules"
+          :label-col="labelCol"
+          :wrapper-col="wrapperCol"
+        >
+          <!-- <a-form-model-item label="管理员密码" prop="linkName">
             <a-input v-model="form.linkName" />
-          </a-form-model-item>
-          <a-form-model-item :wrapper-col="{span:18,offset:6}">
-            <a-button type="primary"
-                      @click="onSubmit"
-                      :loading="loading">
+          </a-form-model-item> -->
+          <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+            <a-button type="primary" @click="onSubmit" :loading="loading">
               保存设置
             </a-button>
           </a-form-model-item>
         </a-form-model>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -278,6 +304,7 @@ export default {
         openBank: "",
         bankAccount: "",
         id: "",
+        phoneLogo: "",
 
         linkTypeName: "",
         linkTypeCode: "",
@@ -289,74 +316,76 @@ export default {
         linkSort: "",
         channelCode: "",
         linkLogo: "",
-        linkTypeSort: 0
+        linkTypeSort: 0,
       },
       rules: {
-        linkName: [
+        websiteName: [
           {
             required: true,
             message:
               "必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_），且长度在2-20个字符内。",
-            trigger: "change"
-          }
+            trigger: "blur",
+          },
         ],
-        linkUrl: [
+        title: [
           {
             required: true,
             message: "必填，用于网站首页的标题展示，且长度在2-100字以内。",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
-        linkDescribe: [
+        keyWords: [
           {
             required: true,
             message:
               "必填，代表了网站的市场定位，可用于搜索引擎的条件，如填写XX云，百度搜索XX云，将出现本站点首页，关键词限制中英文数字以及短横线（-）、下划线（_）、半角逗号（,）,且长度在2-300个字符内。",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       loading: false,
-      data: []
+      data: [],
     };
   },
   components: {
-    Upload
+    Upload,
   },
   activated() {
     this.getInfo();
   },
   methods: {
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+    imgChange(urlList, firstImageUrl, type) {
+      console.log("上传图片回调", urlList, firstImageUrl, type);
+      // this.imgList = urlList;
+      this.form[type] = firstImageUrl;
     },
     onSubmit() {
       console.log(this.form);
-      this.$store.dispatch("globalBasic/amendInfo", this.form).then(res => {
-        console.log(res, "--------");
+      this.$store.dispatch("globalBasic/amendInfo", this.form).then((res) => {
+        // console.log(res, "--------");
+        this.$message.success("网站信息保存成功");
       });
       this.$store
         .dispatch("globalBasic/amendBasicCompanyInfo", this.form)
-        .then(res => {
-          console.log(res, "==========");
+        .then((res) => {
+          this.$message.success("公司信息保存成功");
         });
     },
     getInfo() {
-      this.$store.dispatch("globalBasic/getInfo").then(res => {
+      this.$store.dispatch("globalBasic/getInfo").then((res) => {
         this.form = res.data.list[0];
         this.form.gid = this.form.id;
         console.log(res.data.list[0]);
       });
-      this.$store.dispatch("globalBasic/getBasicCompanyInfo").then(res => {
+      this.$store.dispatch("globalBasic/getBasicCompanyInfo").then((res) => {
         this.form = {
           ...this.form,
-          ...res.data.list[0]
+          ...res.data.list[0],
         };
         console.log(res.data.list[0]);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
