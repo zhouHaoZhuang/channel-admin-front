@@ -13,13 +13,13 @@
               <a-select-option value="newsTitle">
                 标题
               </a-select-option>
-              <a-select-option value="context">
+              <!-- <a-select-option value="context">
                 内容
-              </a-select-option>
+              </a-select-option> -->
             </a-select>
           </a-col>
           <a-col :span="2">
-            <a-input placeholder="搜索关键词" />
+            <a-input v-model="listQuery.search" placeholder="搜索关键词" />
           </a-col>
           <a-col :span="6">
             <a-space size="small">
@@ -46,7 +46,11 @@
           </a-col>
 
           <a-col :span="2">
-            <a-select v-model="listQuery.newTypeCode" style="width: 120px">
+            <a-select
+              v-model="listQuery.newTypeCode"
+              style="width: 120px"
+              @change="sortType"
+            >
               <a-select-option value="">
                 分类
               </a-select-option>
@@ -64,7 +68,7 @@
           </a-button>
         </a-row>
       </div>
-      <div class="query-conditions">
+      <div class="query-conditions" v-if="isCondition">
         <span>当前条件：</span>
         <a-select
           mode="multiple"
@@ -84,7 +88,13 @@
           rowKey="newsCode"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot-scope="text" slot="createTime">{{ text | formatDate }}</div>
+          <div v-if="text" slot-scope="text" slot="createTime">
+            {{ text | formatDate }}
+          </div>
+          <div v-if="text" slot-scope="text" slot="firstTop">
+            {{ text * 1 === 0 ? "不置顶" : "置顶" }}
+          </div>
+          <a slot="websiteJump" slot-scope="text" :href="text">{{ text }}</a>
           <div slot="actions" slot-scope="text">
             <a-button type="link" @click="change(text)">
               修改
@@ -107,7 +117,8 @@ export default {
       startValue: null,
       endValue: null,
       endOpen: false,
-      selectList: ["a1", "b2"],
+      selectList: [],
+      isCondition: false,
       listQuery: {
         key: "newsTitle",
         search: "",
@@ -141,10 +152,12 @@ export default {
         {
           title: "置顶状态",
           dataIndex: "firstTop",
+          scopedSlots: { customRender: "firstTop" },
         },
         {
           title: "跳转状态",
           dataIndex: "websiteJump", //有就跳转  数据为地址
+          scopedSlots: { customRender: "websiteJump" },
         },
         {
           title: "操作",
@@ -165,20 +178,67 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange,
       },
+      typeName: "",
     };
   },
-  created() {
+  activated() {
     this.getList();
     this.getAllType();
+    if (this.$route.query.newTypeCode) {
+      this.selectList = [];
+      this.listQuery.newTypeCode = this.$route.query.newTypeCode;
+      this.isCondition = true;
+      this.selectList.push(`分类：${this.$route.query.newTypeName}`);
+      this.getList();
+    }
   },
   methods: {
-    handleChange(value) {
-      let index = this.selectList.findIndex((item) => item === value);
-      this.selectList.splice(index, 1);
-      console.log(`selected ${value}`);
+    handleChange(value, a) {
+      console.log(value,'前');
+      this.selectList = value;
+      console.log(value,'后');
+      let selectString = value.toString()
+      if (!selectString.includes("分类")) {
+        this.listQuery.newTypeCode = "";
+      }
+      if (!selectString.includes("标题")) {
+        this.listQuery.search = "";
+      }
+      if (!selectString.includes("开始时间")) {
+        this.listQuery.startTime = "";
+        this.startValue = null;
+      }
+      if (!selectString.includes("结束时间")) {
+        this.listQuery.endTime = "";
+        this.endValue = null;
+      }
+      if (this.selectList.length === 0) {
+        this.isCondition = false;
+      }
+      this.getList();
+
+      // console.log(a);
+    },
+    sortType(value, option) {
+      this.typeName = option.componentOptions.children[0].text;
     },
     selectNewsList() {
-      // this.getList();
+      console.log(this.listQuery);
+      this.isCondition = true;
+      this.selectList = [];
+      if (this.listQuery.startTime) {
+        this.selectList.push(`开始时间：${this.listQuery.startTime}`);
+      }
+      if (this.listQuery.endTime) {
+        this.selectList.push(`结束时间：${this.listQuery.endTime}`);
+      }
+      if (this.typeName) {
+        this.selectList.push(`分类：${this.typeName}`);
+      }
+      if (this.listQuery.key == "newsTitle" && this.listQuery.search) {
+        this.selectList.push(`标题：${this.listQuery.search}`);
+      }
+      this.getList();
     },
     addNewsList() {
       this.$router.push("/personal/news/addnewslist");
