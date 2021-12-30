@@ -9,7 +9,7 @@ import financialOrder from "./financialOrder";
 import instance from "./instance";
 import purchase from "./purchase";
 import member from "./member";
-import banner from "./banner"
+import banner from "./banner";
 import blogroll from "./blogroll";
 import business from "./business";
 import globalBasic from "./globalBasic";
@@ -19,8 +19,9 @@ import rechargeRecord from "./rechargeRecord";
 import newsType from "./newsType";
 import newsList from "./newsList";
 import renew from "./renew";
-import category from "./category"
-import word from "./word"
+import category from "./category";
+import word from "./word";
+import manualDeposit from "./manualDeposit";
 export default {
   user,
   account,
@@ -44,6 +45,6 @@ export default {
   newsList,
   renew,
   category,
-  word
-
+  word,
+  manualDeposit,
 };

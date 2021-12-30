@@ -318,75 +318,84 @@ const options = {
                   component: () => import("@/pages/channel/payment/details"),
                 },
                 {
-                  path: "remittance",
-                  name: "线下汇款",
+                  path: "addpayment",
+                  name: "增减会员余额",
                   meta: {
-                    icon: "home",
+                    invisible: true,
+                    back: true,
                   },
-                  component: () => import("@/pages/channel/channelAdmin/price"),
+                  component: () => import("@/pages/channel/payment/addbalance"),
                 },
-                {
-                  path: "invoice",
-                  name: "发票管理",
-                  meta: {
-                    icon: "home",
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/price"),
-                },
-                {
-                  path: "contract",
-                  name: "合同管理",
-                  meta: {
-                    icon: "home",
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/list"),
-                },
-                {
-                  path: "withdrawal",
-                  name: "提现管理",
-                  meta: {
-                    icon: "home",
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/price"),
-                },
-                {
-                  path: "refund",
-                  name: "退款管理",
-                  meta: {
-                    icon: "home",
-                  },
-                  component: () => import("@/pages/channel/channelAdmin/price"),
-                },
+                // {
+                //   path: "remittance",
+                //   name: "线下汇款",
+                //   meta: {
+                //     icon: "home",
+                //   },
+                //   component: () => import("@/pages/channel/channelAdmin/price"),
+                // },
+                // {
+                //   path: "invoice",
+                //   name: "发票管理",
+                //   meta: {
+                //     icon: "home",
+                //   },
+                //   component: () => import("@/pages/channel/channelAdmin/price"),
+                // },
+                // {
+                //   path: "contract",
+                //   name: "合同管理",
+                //   meta: {
+                //     icon: "home",
+                //   },
+                //   component: () => import("@/pages/channel/channelAdmin/list"),
+                // },
+                // {
+                //   path: "withdrawal",
+                //   name: "提现管理",
+                //   meta: {
+                //     icon: "home",
+                //   },
+                //   component: () => import("@/pages/channel/channelAdmin/price"),
+                // },
+                // {
+                //   path: "refund",
+                //   name: "退款管理",
+                //   meta: {
+                //     icon: "home",
+                //   },
+                //   component: () => import("@/pages/channel/channelAdmin/price"),
+                // },
               ],
             },
-            {
-              path: "report",
-              name: "财务报表",
-              meta: {
-                icon: "home",
-              },
-              component: BlankView,
-              children: [
-                {
-                  path: "reconciliation",
-                  name: "渠道对账表",
-                  meta: {
-                    icon: "home",
-                  },
-                  component: () =>
-                    import("@/pages/channel/enterpriseAdmin/list"),
-                },
-                {
-                  path: "income",
-                  name: "收入分摊表",
-                  meta: {
-                    icon: "home",
-                  },
-                  component: () =>
-                    import("@/pages/channel/enterpriseAdmin/list"),
-                },
-              ],
-            },
+            // {
+            //   path: "report",
+            //   name: "财务报表",
+            //   meta: {
+            //     icon: "home",
+            //   },
+            //   component: BlankView,
+            //   children: [
+            //     {
+            //       path: "reconciliation",
+            //       name: "渠道对账表",
+            //       meta: {
+            //         icon: "home",
+            //       },
+            //       component: () =>
+            //         import("@/pages/channel/enterpriseAdmin/list"),
+            //     },
+            //     {
+            //       path: "income",
+            //       name: "收入分摊表",
+            //       meta: {
+            //         icon: "home",
+            //       },
+            //       component: () =>
+            //         import("@/pages/channel/enterpriseAdmin/list"),
+            //     },
+            //   ],
+            // },
           ],
         },
         //业务

@@ -34,15 +34,15 @@
         </div>
       </div>
     </div>
-    <Tinymce @tinymceinput="tinymceinput" />
+    <!-- <Tinymce @tinymceinput="tinymceinput" /> -->
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import Tinymce from "@/components/Tinymce/index.vue";
+// import Tinymce from "@/components/Tinymce/index.vue";
 export default {
-  components: { Tinymce },
+  // components: { Tinymce },
   data() {
     return {};
   },
@@ -57,9 +57,9 @@ export default {
   //   this.getList();
   // },
   methods: {
-    tinymceinput(value) {
-      console.log("富文本输入", value);
-    }
+    // tinymceinput(value) {
+    //   console.log("富文本输入", value);
+    // }
   }
 };
 </script>
