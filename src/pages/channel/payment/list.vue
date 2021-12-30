@@ -16,7 +16,7 @@
         </p>
         <div>
           <div class="public-header-wrap">
-            <a-form-model layout="inline" >
+            <a-form-model layout="inline">
               <a-form-model-item>
                 <a-button type="primary" @click="businessOpening">
                   +增减会员余额
@@ -50,10 +50,7 @@
                 </div>
               </a-form-model-item>
               <a-form-model-item>
-                <a-select 
-                style="width:120px"
-                v-model="listQuery.status"
-                >
+                <a-select style="width:120px" v-model="listQuery.status">
                   <a-select-option value="">
                     款项类型
                   </a-select-option>
@@ -89,14 +86,8 @@
             :scroll="{ x: 1200 }"
           >
             <div slot="status" slot-scope="text">
-              <span v-if="text == 0" class="runningStatus blackhole"
-                >在线充值</span
-              >
-              <span v-if="text == 1" class="runningStatus running"
-                >线下充值</span
-              >
-              <span v-if="text == 2" class="runningStatus shutdown">下单</span>
-              <span v-if="text == 3" class="runningStatus expired">退款</span>
+              {{detailTypeMapData[text]}}
+              <!-- runningStatus公共 -->
             </div>
             <a slot="action" slot-scope="text" @click="infoChannel(text)"
               >查看</a
@@ -109,22 +100,22 @@
 </template>
 
 <script>
-import { regionMapData } from "@/utils/enum";
+import { detailTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
-      regionMapData,
+      detailTypeMapData,
       listQuery: {
         key: "id",
         search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        status:''
+        status: "",
       },
       titleList: [
         {
-          key: '',
+          key: "",
           title: "全部",
         },
         {
@@ -167,7 +158,12 @@ export default {
           width: 190,
         },
         { title: "备注信息", dataIndex: "memo", key: "" },
-        { title: "处理状态", dataIndex: "status", key: "" },
+        {
+          title: "处理状态",
+          dataIndex: "status",
+          key: "",
+          scopedSlots: { customRender: "status" },
+        },
         {
           title: "操作",
           dataIndex: "id",
