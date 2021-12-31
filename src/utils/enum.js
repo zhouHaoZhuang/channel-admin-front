@@ -39,3 +39,8 @@ export const detailTypeMapData = {
   "2": "支付失败",
   "9": "支付完成",
 };
+// 会员折扣方式
+export const memberDiscountType = {
+  "0": "固定价格",
+  "1": "比例折扣"
+};
