@@ -32,10 +32,17 @@ export const detailsMapData = {
   "2": "支付失败",
   "3": "支付完成",
 };
-// 款项类型map数据
+// 处理状态map数据
 export const detailTypeMapData = {
   "0": "待审核",
   "1": "待充值",
   "2": "支付失败",
   "9": "支付完成",
 };
+// 款项类型map数据
+export const paymentTypeMapData = {
+  "1": "在线充值",
+  "2": "线下充值",
+  "3": "下单",
+  "4": "退款",
+}

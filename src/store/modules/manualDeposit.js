@@ -16,6 +16,14 @@ const manualDeposit = {
         params
       });
     },
+
+    getVipList({ commit, state }, params) {
+      return request({
+        url: "/pcOfflineRecharge/corporation",
+        method: "get",
+        params
+      });
+    },
     delList({ commit, state }, id) {
       return request({
         url: `/pcOfflineRecharge/${id}`,
@@ -29,13 +37,18 @@ const manualDeposit = {
         data
       });
     },
-    addList({ commit, state }, params) {
+    changeReview({ commit, state }, data) {
+      return request({
+        url: `/pcOfflineRecharge/modifyStatus/${data.id}`,
+        method: "patch",
+        data
+      });
+    },
+    addList({ commit, state }, data) {
       return request({
         url: "/pcOfflineRecharge",
         method: "post",
-        data: {
-          ...params
-        }
+        data
       });
     },
     getOne({ commit, state }, id) {
