@@ -30,7 +30,7 @@
                   src="@/assets/img/passport/makeadeal.png"
                   alt=""
                 />
-                <span>232人</span>
+                <span><a>232</a> 人</span>
               </div>
               <p class="moon-num">
                 <span>本月成交用户</span><span>2341人</span>
@@ -48,7 +48,7 @@
                   src="@/assets/img/passport/Order.png"
                   alt=""
                 />
-                <span>232人</span>
+                <span><a>232</a> 人</span>
               </div>
               <p class="moon-num">
                 <span>本月成交用户</span><span>2341人</span>
@@ -66,7 +66,7 @@
                   src="@/assets/img/passport/Consumption.png"
                   alt=""
                 />
-                <span>232人</span>
+                <span><a>232</a> 人</span>
               </div>
               <p class="moon-num">
                 <span>本月成交用户</span><span>2341人</span>
@@ -76,24 +76,26 @@
         </a-col>
       </a-row>
     </div>
-    <div class="top-header">
-      <div class="left">
-        <img
-          src="https://tcs-devops.aliyuncs.com/thumbnail/112ba1538eba7923507a4e75c569d754eb5a/w/200/h/200"
-          alt=""
-          class="left-img"
-        />
-        <div class="con">
-          <div class="user">
-            早安，云小二 [超级管理员]，祝你开心每一天！
+    <div class="home-info">
+      <div class="home-info-left">
+        <div class="top-header">
+          <div class="left">
+            <img
+              src="https://tcs-devops.aliyuncs.com/thumbnail/112ba1538eba7923507a4e75c569d754eb5a/w/200/h/200"
+              alt=""
+              class="left-img"
+            />
+            <div class="con">
+              <div class="user">
+                早安，云小二 [超级管理员]，祝你开心每一天！
+              </div>
+              <div class="info">
+                您的上次登录信息: 115.196.230.183 (IP地址) 2021-10-23 18:14:56
+                (登录时间)
+              </div>
+            </div>
           </div>
-          <div class="info">
-            您的上次登录信息: 115.196.230.183 (IP地址) 2021-10-23 18:14:56
-            (登录时间)
-          </div>
-        </div>
-      </div>
-      <!-- <div class="right">
+          <!-- <div class="right">
         <div class="item">
           <span>企业数量</span>
           <span>56</span>
@@ -109,19 +111,21 @@
           <span>2,250</span>
         </div>
       </div> -->
-    </div>
-    <!-- 业务统计模块 -->
-    <div class="business-statistics">
-      <h1>业务统计</h1>
-      <div class="business-info">
-        云服务器（3台）
+        </div>
+        <!-- 业务统计模块 -->
+        <div class="business-statistics">
+          <h1>业务统计</h1>
+          <div class="business-info">
+            云服务器（3台）
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- 消息提醒页面 -->
-    <div class="message-notification">
-      <h1>消息提醒</h1>
-      <div class="message-info">
-        <p>关于‘2021金秋上云季’活动下线通知</p>
+      <!-- 消息提醒页面 -->
+      <div class="message-notification">
+        <h1>消息提醒</h1>
+        <div class="message-info">
+          <p>关于‘2021金秋上云季’活动下线通知</p>
+        </div>
       </div>
     </div>
     <!-- <Tinymce @tinymceinput="tinymceinput" /> -->
@@ -187,10 +191,12 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+  .home-info-left{
+    width: 61%;
+  }
   .top-header {
     display: flex;
     justify-content: space-between;
-    width: 60%;
     background-color: #fff;
     padding: 24px;
     .left {
@@ -243,7 +249,6 @@ export default {
   }
   .business-statistics {
     margin-top: 24px;
-    width: 60%;
     background-color: #fff;
     padding-bottom: 24px;
     h1 {
@@ -253,18 +258,19 @@ export default {
       font-weight: 400;
       border-bottom: 1px solid #e3e3e3;
     }
-    .business-info{
+    .business-info {
       padding-left: 24px;
     }
   }
+  .home-info{
+    display: flex;
+    width: 100%;
+  }
   .message-notification {
-    position: absolute;
-    top: 255px;
-    right: 45px;
-    margin-top: 24px;
     width: 36%;
     background-color: #fff;
     padding-bottom: 24px;
+    margin-left: 24px;
     h1 {
       padding: 24px;
       font-size: 25px;
@@ -272,7 +278,7 @@ export default {
       font-weight: 400;
       border-bottom: 1px solid #e3e3e3;
     }
-    .message-info{
+    .message-info {
       padding-left: 24px;
     }
   }

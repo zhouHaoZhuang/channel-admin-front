@@ -4,13 +4,13 @@ const frontPage = {
   namespaced: true,
   state: {
     poolList: [],
-    userInfo: {}
+    userInfo: {},
   },
 
   mutations: {
     SET_POOL: (state, poolList) => {
       state.poolList = poolList;
-    }
+    },
   },
 
   actions: {
@@ -19,43 +19,46 @@ const frontPage = {
       return request({
         url: "/tcOrder/orderCount",
         method: "get",
-				params
+        params,
       });
     },
-		// 成交客户数
+    // 成交客户数
     coountInfo({ commit, state }, params) {
       return request({
         url: `/tcOrder/coount`,
         method: "get",
-				params
+        params,
       });
     },
-		// 注册客户数
-		getBasicCompanyInfo({ commit, state }, params) {
+    // 注册客户数
+    getBasicCompanyInfo({ commit, state }, params) {
       return request({
         url: "/ccCorporation/count",
-        method: "get"
+        method: "get",
+        params,
       });
     },
-		// 修改公司基本信息接口
-		amendBasicCompanyInfo({ commit, state }, data) {
+    // 消费金额数
+    orderSumInfo({ commit, state }, params) {
       return request({
-        url: `/ccCompanyInfo/${data.id}`,
-        method: "put",
-				data
+        url: `/tcOrder/orderSum`,
+        method: "get",
+        params,
       });
     },
+
+    
     delList({ commit, state }, id) {
       return request({
         url: `/ccWebsiteInfo/${id}`,
-        method: "delete"
+        method: "delete",
       });
     },
     changeList({ commit, state }, data) {
       return request({
         url: `/ccWebsiteInfo/${data.id}`,
         method: "put",
-        data
+        data,
       });
     },
     addList({ commit, state }, params) {
@@ -63,18 +66,18 @@ const frontPage = {
         url: "/ccWebsiteInfo",
         method: "post",
         data: {
-          ...params
-        }
+          ...params,
+        },
       });
     },
     getOne({ commit, state }, id) {
       console.log(state);
       return request({
         url: `/ccWebsiteInfo/one?id=${id}`,
-        method: "get"
+        method: "get",
       });
-    }
-  }
+    },
+  },
 };
 
 export default frontPage;
