@@ -142,11 +142,13 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import moment from "moment";
 // import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   // components: { Tinymce },
   data() {
     return {
+      moment,
       registerDay: "",
       registerMonth: "",
       clinchDay: "",
@@ -176,42 +178,17 @@ export default {
 
   methods: {
     currentMonth() {
-      //获取当前月份
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      var d = new Date(year, month, 0); //获取当前月份的天数
-      if (month < 10) {
-        month = "0" + month;
-      }
-      if (day < 10) {
-        day = "0" + day;
-      }
-      let startTime = year + "-" + month + "-" + "01" + " 00:00:00";
-      let endTime = year + "-" + month + "-" + d.getDate() + " 23:59:59";
+      // //获取当前月份
       return {
-        startTime,
-        endTime,
+        startTime:this.moment().startOf('month').format("YYYY-MM-DD HH:mm:ss"),
+        endTime:this.moment().endOf('month').format("YYYY-MM-DD HH:mm:ss"),
       };
     },
     currentDay() {
-      //获取当前日
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      if (month < 10) {
-        month = "0" + month;
-      }
-      if (day < 10) {
-        day = "0" + day;
-      }
-      let startTime = year + "-" + month + "-" + day + " 00:00:00";
-      let endTime = year + "-" + month + "-" + day + " 23:59:59";
+      // //获取当前日
       return {
-        startTime,
-        endTime,
+        startTime:this.moment().startOf('day').format("YYYY-MM-DD HH:mm:ss"),
+        endTime:this.moment().startOf('day').format("YYYY-MM-DD HH:mm:ss"),
       };
     },
     // 获取交易订单数
