@@ -1,86 +1,69 @@
 <template>
-  <div class="channel-price-container">
-    <div class="price-content">
+  <div class="system-role-container">
+    <div class="role-content">
       <div class="public-header-wrap">
-        <a-form-model layout="inline"
-                      :model="listQuery">
+        <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
-            <a-button type="primary"
-                      icon="plus"
-                      @click="updatePrice('add')">
-              添加权限组
+            <a-button type="primary" icon="plus" @click="handleAddRole">
+              添加角色
             </a-button>
           </a-form-model-item>
         </a-form-model>
       </div>
       <div class="public-table-wrap">
-        <a-table :loading="tableLoading"
-                 :columns="columns"
-                 :data-source="data"
-                 rowKey="id"
-                 :pagination="paginationProps"
-                 :scroll="{ x: 1300 }">
-          <span slot="discountType"
-                slot-scope="text">
-            {{ channelPriceType[text] }}
-          </span>
-          <span slot="action"
-                slot-scope="text, record">
-            <a-button type="link"
-                      @click="updatePrice('edit', record)">
-              修改
+        <a-table
+          :loading="tableLoading"
+          :columns="columns"
+          :data-source="data"
+          rowKey="id"
+          :pagination="paginationProps"
+        >
+          <span slot="action" slot-scope="text, record">
+            <a-button type="link" @click="handleEditRole(record)">
+              编辑
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link"
-                      @click="handleDel(record)">
+            <a-button type="link" @click="handleDel(record)">
               删除
             </a-button>
           </span>
         </a-table>
       </div>
     </div>
+    <!-- 添加/编辑权限弹窗 -->
+    <UpdateRoleModal v-model="visible" :detail="modalDetail" />
   </div>
 </template>
 
 <script>
-import { channelPriceType } from "@/utils/enum";
+import UpdateRoleModal from "@/components/System/updateRoleModal";
 export default {
-  data () {
+  components: {
+    UpdateRoleModal
+  },
+  data() {
     return {
-      channelPriceType,
       listQuery: {
-        key: undefined,
-        topSearch: "",
-        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0
       },
       columns: [
         {
-          title: "ID",
-          dataIndex: "id",
-          key: "id"
+          title: "角色Code",
+          dataIndex: "code"
         },
         {
-          title: "组别名称",
-          dataIndex: "channelCustomerName",
-          key: "channelCustomerName"
+          title: "角色描述",
+          dataIndex: "description"
         },
         {
-          title: "状态",
-          dataIndex: "productName",
-          key: "productName"
-        },
-        {
-          title: "权限",
-          dataIndex: "productCode",
-          key: "productCode"
+          title: "创建时间",
+          dataIndex: "createdAt"
         },
         {
           title: "操作",
-          key: "action",
-          fixed: "right",
+          dataIndex: "action",
           scopedSlots: { customRender: "action" }
         }
       ],
@@ -96,26 +79,26 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      tableLoading: false
+      tableLoading: false,
+      // 弹窗相关数据
+      visible: false,
+      modalDetail: {}
     };
   },
-  activated () {
+  activated() {
     this.getList();
   },
   methods: {
     // 查询
-    search () {
+    search() {
       this.listQuery.currentPage = 1;
       this.getList();
     },
     // 查询表格数据
-    getList () {
+    getList() {
       this.tableLoading = true;
-      const newListQuery = {
-        ...this.listQuery,
-        ["qp-channelCustomerName-like"]: this.listQuery.topSearch
-      };
-      this.$getListQp("channel/getPriceList", newListQuery)
+      this.$store
+        .dispatch("system/getRoleList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -125,34 +108,33 @@ export default {
         });
     },
     // 表格分页快速跳转n页
-    quickJump (currentPage) {
+    quickJump(currentPage) {
       this.listQuery.currentPage = currentPage;
       this.getList();
     },
     // 表格分页切换每页条数
-    onShowSizeChange (current, pageSize) {
+    onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
-    // 新增/编辑
-    updatePrice (type, record) {
-      if (type === "add") {
-        this.$router.push("/system/admin/add");
-      } else {
-        this.$router.push({
-          path: "/channel/index/update",
-          query: { id: record.id }
-        });
-      }
+    // 新增角色
+    handleAddRole() {
+      this.modalDetail = {};
+      this.visible = true;
+    },
+    // 编辑角色
+    handleEditRole(record) {
+      this.modalDetail = { ...record };
+      this.visible = true;
     },
     // 删除
-    handleDel (record) {
+    handleDel(record) {
       this.$confirm({
         title: "确认要删除吗？",
         onOk: () => {
           this.$store
-            .dispatch("channel/delPrice", { id: record.id })
+            .dispatch("system/delRole", { code: record.code })
             .then(res => {
               this.$message.success("删除成功");
               this.getList();
@@ -165,7 +147,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.channel-price-container {
+.system-role-container {
   margin-top: -24px;
   .top-search {
     height: 80px;
@@ -180,7 +162,7 @@ export default {
       border-radius: 0 4px 4px 0 !important;
     }
   }
-  .price-content {
+  .role-content {
     padding: 20px;
     margin: 20px;
     background: #fff;

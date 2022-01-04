@@ -987,7 +987,7 @@ const options = {
               children: [
                 {
                   path: "index",
-                  name: "管理员管理",
+                  name: "权限管理",
                   meta: {
                     icon: "home"
                   },
@@ -1004,7 +1004,7 @@ const options = {
                 },
                 {
                   path: "role",
-                  name: "权限管理",
+                  name: "角色管理",
                   meta: {
                     icon: "home"
                   },

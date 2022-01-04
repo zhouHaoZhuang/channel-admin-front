@@ -1,102 +1,81 @@
 <template>
-  <div class="system-admin-index-container">
+  <div class="system-admin-container">
     <div class="btns">
       <a-space>
-        <a-button type="primary"
-                  icon="plus"
-                  @click="addAdmin">
-          添加管理员
+        <a-button
+          v-permission.or="['add']"
+          type="primary"
+          icon="plus"
+          @click="handleAdd"
+        >
+          添加权限
         </a-button>
-        <a-button :disabled="selectedRowKeys.length === 0"
-                  icon="check">启用</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0"
-                  icon="stop">禁用</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0"
-                  icon="check">解锁</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0"
-                  icon="stop">锁定</a-button>
       </a-space>
     </div>
     <div class="table-con">
-      <a-table :loading="tableLoading"
-               :columns="columns"
-               :data-source="data"
-               rowKey="id"
-               :pagination="paginationProps"
-               :row-selection="{
-          selectedRowKeys: selectedRowKeys,
-          onChange: onSelectChange,
-          getCheckboxProps: record => ({
-            props: { disabled: record.id === 1 }
-          })
-        }"
-               :scroll="{ x: 1300 }">
-        <span slot="action"
-              slot-scope="text, record">
-          <a-button type="link"
-                    @click="handleDel(record)">
-            修改
+      <a-table
+        :loading="tableLoading"
+        :columns="columns"
+        :data-source="data"
+        rowKey="code"
+        :pagination="paginationProps"
+      >
+        <span slot="type" slot-scope="text">
+          {{ systemAdminMapEnum[text] }}
+        </span>
+        <span slot="action" slot-scope="text, record">
+          <a-button type="link" @click="handleEdit(record)">
+            编辑
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link"
-                    @click="handleDel(record)">
+          <a-button type="link" @click="handleDel(record)">
             删除
           </a-button>
         </span>
       </a-table>
     </div>
+    <!-- 添加/编辑权限弹窗 -->
+    <UpdateAdminModal
+      v-model="visible"
+      :detail="modalDetail"
+      @success="modalSuccess"
+    />
   </div>
 </template>
 
 <script>
+import UpdateAdminModal from "@/components/System/updateAdminModal";
+import { systemAdminMapEnum } from "@/utils/enum";
 export default {
-  data () {
+  components: {
+    UpdateAdminModal
+  },
+  data() {
     return {
+      systemAdminMapEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        isAll: false
       },
       columns: [
         {
-          title: "ID",
-          dataIndex: "id",
-          key: "id",
-          width: 260
+          title: "权限名称",
+          dataIndex: "code"
         },
         {
-          title: "手机号(登录账号)",
-          dataIndex: "cutomerName",
-          key: "cutomerName"
+          title: "权限",
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
         },
         {
-          title: "姓名",
-          dataIndex: "shortName",
-          key: "shortName"
-        },
-        {
-          title: "权限组",
-          dataIndex: "addressProject",
-          key: "addressProject",
-          scopedSlots: { customRender: "addressProject" }
-        },
-        {
-          title: "状态",
-          dataIndex: "customerStatus",
-          key: "customerStatus",
-          scopedSlots: { customRender: "customerStatus" }
-        },
-        {
-          title: "锁定状态",
-          dataIndex: "createTime",
-          key: "createTime",
-          scopedSlots: { customRender: "createTime" },
-          width: 250
+          title: "描述",
+          dataIndex: "description"
         },
         {
           title: "操作",
-          key: "action",
-          fixed: "right",
+          dataIndex: "action",
           scopedSlots: { customRender: "action" }
         }
       ],
@@ -113,22 +92,25 @@ export default {
         onShowSizeChange: this.onShowSizeChange
       },
       tableLoading: false,
-      selectedRowKeys: []
+      // 弹窗相关数据
+      visible: false,
+      modalDetail: {}
     };
   },
-  activated () {
+  activated() {
     this.getList();
   },
   methods: {
     // 查询
-    search () {
+    search() {
       this.listQuery.currentPage = 1;
       this.getList();
     },
     // 查询表格数据
-    getList () {
+    getList() {
       this.tableLoading = true;
-      this.$getListQp("channel/getList", this.listQuery)
+      this.$store
+        .dispatch("system/getAdminList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -138,38 +120,57 @@ export default {
         });
     },
     // 表格分页快速跳转n页
-    quickJump (currentPage) {
+    quickJump(currentPage) {
       this.listQuery.currentPage = currentPage;
       this.getList();
     },
     // 表格分页切换每页条数
-    onShowSizeChange (current, pageSize) {
+    onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
-    // 表格选择
-    onSelectChange (selectedRowKeys) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
-      this.selectedRowKeys = selectedRowKeys;
+    // 添加权限
+    handleAdd() {
+      this.modalDetail = {};
+      this.visible = true;
     },
-    // 添加管理员
-    addAdmin () {
-      this.$router.push({ path: "/system/admin/addManage" });
+    // 编辑权限
+    handleEdit(record) {
+      this.modalDetail = { ...record };
+      this.visible = true;
+    },
+    // 添加/编辑弹窗事件成功的回调
+    modalSuccess() {
+      this.getList();
+    },
+    // 删除
+    handleDel(record) {
+      this.$confirm({
+        title: "确认要删除吗？",
+        onOk: () => {
+          this.$store
+            .dispatch("system/delAdmin", { code: record.code })
+            .then(res => {
+              this.$message.success("删除成功");
+              this.getList();
+            });
+        }
+      });
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.system-admin-index-container {
+.system-admin-container {
   background: #fff;
   padding: 20px;
   margin: 0 24px;
   .btns {
     margin-bottom: 20px;
   }
-  .table-con {
-  }
+  // .table-con {
+  // }
 }
 </style>
