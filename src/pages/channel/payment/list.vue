@@ -28,7 +28,7 @@
                   <a-select-option value="id">
                     ID
                   </a-select-option>
-                  <a-select-option value="accountCode">
+                  <a-select-option value="applyUserCode">
                     会员ID
                   </a-select-option>
                 </a-select>
@@ -41,21 +41,33 @@
               <a-form-model-item>
                 <div class="registerDate">
                   <span class="date-picker">
-                    <a-date-picker placeholder="起始日期"></a-date-picker>
+                    <a-date-picker
+                      placeholder="起始日期"
+                      format="YYYY-MM-DD HH:mm:ss"
+                      @change="startValue"
+                    ></a-date-picker>
                   </span>
                   <span class="left5"> 至 </span>
                   <span class="date-picker left5">
-                    <a-date-picker placeholder="结束日期"></a-date-picker>
+                    <a-date-picker
+                      placeholder="结束日期"
+                      format="YYYY-MM-DD HH:mm:ss"
+                      @change="endValue"
+                    ></a-date-picker>
                   </span>
                 </div>
               </a-form-model-item>
               <a-form-model-item>
-                <a-select style="width:120px" v-model="listQuery.status">
+                <a-select style="width:120px" v-model="listQuery.accountType">
                   <a-select-option value="">
                     款项类型
                   </a-select-option>
-                  <a-select-option value="accountCode">
-                    会员ID
+                  <a-select-option
+                    :value="val"
+                    v-for="(item, val) in paymentTypeMapData"
+                    :key="val"
+                  >
+                    {{ item }}
                   </a-select-option>
                 </a-select>
               </a-form-model-item>
@@ -80,18 +92,34 @@
             :loading="tableLoading"
             :columns="columns"
             :data-source="data"
-            rowKey="paymentLineId"
+            rowKey="id"
             :pagination="paginationProps"
-            @change="handleChangeSort"
             :scroll="{ x: 1200 }"
           >
-            <div slot="status" slot-scope="text">
-              {{detailTypeMapData[text]}}
+            <div
+              slot="status"
+              slot-scope="text"
+              :class="{
+                runningStatus: true,
+                blackhole: text == 9,
+                gray: text == 2,
+                lightGreen: text == 0,
+                yellow: text == 1,
+              }"
+            >
+              {{ detailTypeMapData[text] }}
               <!-- runningStatus公共 -->
             </div>
-            <a slot="action" slot-scope="text" @click="infoChannel(text)"
-              >查看</a
+            <div slot="accountType" slot-scope="text">
+              {{ paymentTypeMapData[text] }}
+            </div>
+            <a
+              slot="action"
+              slot-scope="text"
+              @click="infoChannel(text.id, text.applyUserCode)"
             >
+              查看
+            </a>
           </a-table>
         </div>
       </div>
@@ -100,11 +128,12 @@
 </template>
 
 <script>
-import { detailTypeMapData } from "@/utils/enum";
+import { detailTypeMapData, paymentTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
       detailTypeMapData,
+      paymentTypeMapData,
       listQuery: {
         key: "id",
         search: "",
@@ -112,6 +141,9 @@ export default {
         pageSize: 10,
         total: 0,
         status: "",
+        startTime: "",
+        endTime: "",
+        accountType: "",
       },
       titleList: [
         {
@@ -166,7 +198,7 @@ export default {
         },
         {
           title: "操作",
-          dataIndex: "id",
+          // dataIndex: "id",
           key: "action",
           fixed: "right",
           width: 100,
@@ -179,8 +211,8 @@ export default {
         showSizeChanger: true,
         total: 1,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
-            total / this.paginationProps.pageSize
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange,
@@ -195,24 +227,14 @@ export default {
     this.getList();
   },
   methods: {
+    startValue(date, dateString) {
+      this.listQuery.startTime = dateString;
+    },
+    endValue(date, dateString) {
+      this.listQuery.endTime = dateString;
+    },
     callback(key) {
       console.log(key);
-    },
-    handleChangeSort(pagination, filters, sorter) {
-      console.log(sorter);
-      if (sorter && sorter.order) {
-        // if (sorter.columnKey === "purchaseTimeStr") {
-        //   this.selectkey.saleTimeSort = sorter.order.replace("end", "");
-        //   this.getList(() => {
-        //     this.selectkey.saleTimeSort = "";
-        //   });
-        // } else if (sorter.columnKey === "endTimeStr") {
-        //   this.selectkey.endTimeSort = sorter.order.replace("end", "");
-        //   this.getList(() => {
-        //     this.selectkey.endTimeSort = "";
-        //   });
-        // }
-      }
     },
     businessOpening() {
       this.$router.push({
@@ -225,41 +247,35 @@ export default {
     },
     // 查询
     search() {
-      this.listQuery.key = this.title;
-      this.listQuery[this.listQuery.key] = this.listQuery.search;
-      this.$getList("financialDetails/getList", this.listQuery).then((res) => {
-        // console.log(res);
-        this.data = res.data.list;
-        this.paginationProps.total = res.data.totalCount * 1;
-      });
       this.getList();
     },
     // 查询表格数据
     getList() {
-      this.$store
-        .dispatch("manualDeposit/getList", this.listQuery)
-        .then((res) => {
-          console.log(res, "获取列表");
-          this.data = res.data.list;
-          this.paginationProps.total = res.data.total * 1;
-        });
+      this.$getList("manualDeposit/getList", this.listQuery).then((res) => {
+        console.log(res, "获取列表");
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.total * 1;
+      });
     },
     // 表格分页快速跳转n页
     quickJump(current) {
-      this.paginationProps.current = current;
+      this.listQuery.current = current;
       this.getList();
     },
     // 表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
-      this.paginationProps.current = current;
-      this.paginationProps.pageSize = pageSize;
+      this.listQuery.current = current;
+      this.listQuery.pageSize = pageSize;
       this.getList();
     },
     //
-    infoChannel(paymentLineId) {
+    infoChannel(id, applyUserCode) {
       this.$router.push({
         path: "/finance/examine/details",
-        query: { paymentLineId },
+        query: {
+          id,
+          applyUserCode,
+        },
       });
     },
     handleChange(value) {
@@ -376,7 +392,13 @@ export default {
 .blackhole {
   background: #16b841;
 }
-.running {
-  background: #16b841;
+.gray {
+  background: #ccc;
+}
+.lightGreen {
+  background: #14ac8b;
+}
+.yellow {
+  background: #d3b109;
 }
 </style>

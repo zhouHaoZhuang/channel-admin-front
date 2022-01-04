@@ -22,6 +22,7 @@ import renew from "./renew";
 import category from "./category";
 import word from "./word";
 import manualDeposit from "./manualDeposit";
+import frontPage from "./frontPage";
 export default {
   user,
   account,
@@ -47,4 +48,5 @@ export default {
   category,
   word,
   manualDeposit,
+  frontPage
 };

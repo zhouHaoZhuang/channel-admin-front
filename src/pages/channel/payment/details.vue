@@ -4,109 +4,169 @@
     <div class="details-info" v-if="data">
       <div>
         <span class="details-type">入款会员:</span>
-        <span class="details-value">{{ data.accountCode }}</span>
+        <span class="details-value">{{ data.accountName }}</span>
       </div>
       <div>
         <span class="details-type">管理员:</span>
-        <span class="details-value">
-          {{ data.createUserName }}
+        <span class="details-value">{{ data.modifyUserName }}</span>
+      </div>
+      <div>
+        <span class="details-type">申请时间:</span>
+        <span class="details-value">{{ data.createTime | formatDate }}</span>
+      </div>
+      <div>
+        <span class="details-type">处理状态:</span>
+        <span class="details-value">{{ data.status }}</span>
+      </div>
+      <div>
+        <span class="details-type">操作金额:</span>
+        <span class="details-value" v-if="data.amount">
+          {{ data.amount.toFixed(2) }}
         </span>
       </div>
       <div>
-        <span class="details-type">申请时间:</span
-        ><span class="details-value">{{
-          data.createTime| formatDate
-        }}</span>
+        <span class="details-type">款项类型:</span>
+        <span class="details-value">
+          {{ paymentTypeMapData[data.accountType] }}
+        </span>
       </div>
       <div>
-        <span class="details-type">处理状态:</span
-        ><span class="details-value">{{
-          data.status
-        }}</span>
+        <span class="details-type">备注信息:</span>
+        <span class="details-value">{{ data.memo }}</span>
       </div>
       <div>
-        <span class="details-type">操作金额:</span
-        ><span class="details-value" v-if="data.afterAmount">{{
-          data.dealAmount.toFixed(2)
-        }}</span>
-      </div>
-      <div>
-        <span class="details-type">款项类型:</span
-        ><span class="details-value" v-if="data.afterAmount">{{
-          data.afterAmount.toFixed(2)
-        }}</span>
-      </div>
-      <div>
-        <span class="details-type">备注信息:</span
-        ><span class="details-value">{{ data.memo }}</span>
-      </div>
-      <div>
-        <span class="details-type">入款凭证:</span
-        ><span class="details-value">{{ data.actualAmount }}----</span>
+        <span class="details-type">入款凭证:</span>
+        <img
+          height="90px"
+          :src="url"
+          alt=""
+          v-for="(url, index) in imgList"
+          :key="index"
+        />
       </div>
     </div>
-    <h1 class="details-title">审核过程</h1>
+    <div class="Placeholder"></div>
+    <!-- <h1 class="details-title">审核过程</h1>
     <a-table :columns="columns" rowKey="ID" :scroll="{ x: 1000 }">
-      <!-- <a slot="name" slot-scope="text">{{ text }}</a> -->
-    </a-table>
-    <h1 class="details-title">备注</h1>
-    <a-textarea placeholder="" :rows="4" />
+      <a slot="name" slot-scope="text">{{ text }}</a>
+    </a-table> -->
+    <div class="Placeholder"></div>
+    <h1 class="details-title">审核</h1>
+    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
+      <a-form-model-item label="审核结果" :wrapper-col="{ span: 3 }">
+        <a-select v-model="form.status">
+          <a-select-option value="">
+            请选择
+          </a-select-option>
+          <a-select-option value="9">
+            通过
+          </a-select-option>
+          <a-select-option value="2">
+            拒绝
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+      <a-form-model-item label="审核意见" :wrapper-col="{ span: 5 }">
+        <a-textarea
+          v-model="form.checkMemo"
+          :auto-size="{ minRows: 2, maxRows: 4 }"
+        />
+        <div class="annotation">
+          注：仅供内部查看，不面向用户
+        </div>
+      </a-form-model-item>
+    </a-form-model>
     <div class="btn">
-      <a-button type="primary" class="btn1">
-        备注
+      <a-button type="primary" class="btn1" @click="confirmReview">
+        确认审核
       </a-button>
     </div>
   </div>
 </template>
 
 <script>
+import { paymentTypeMapData } from '@/utils/enum'
 export default {
   data() {
     return {
       data: [],
+      paymentTypeMapData,
       columns: [
         {
           title: "步骤",
           dataIndex: "productName",
-          key: "productName"
+          key: "productName",
         },
         {
           title: "审核节点",
           dataIndex: "tradeType",
           key: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
+          scopedSlots: { customRender: "tradeType" },
         },
         {
           title: "审核状态",
           key: "productConfig",
-          scopedSlots: { customRender: "productConfig" }
+          scopedSlots: { customRender: "productConfig" },
         },
         {
           title: "审核人",
           dataIndex: "quantity",
-          key: "quantity"
+          key: "quantity",
         },
         {
           title: "审核意见",
           dataIndex: "chargeModel",
-          key: "chargeModel"
-        }
-      ]
+          key: "chargeModel",
+        },
+      ],
+      form: {
+        applyUserCode: "",
+        checkMemo: "",
+        status: '',
+        id: '',
+      },
+      labelCol: {
+        span: 8,
+      },
+      wrapperCol: {
+        span: 10,
+      },
     };
   },
   created() {
-    let id = this.$route.query.id;
-    this.getList(id);
+    this.getList();
+  },
+  computed: {
+    imgList() {
+      if (this.data.voucher) {
+        return this.data.voucher.split(",");
+      } else {
+        return [];
+      }
+    },
   },
   methods: {
-    getList(id) {
-      this.$store.dispatch("financialDetails/getOne", id).then(res => {
-        console.log(res);
-        this.data = res.data;
-      });
-      console.log(id);
+    getList() {
+      this.$store
+        .dispatch("manualDeposit/getOne", this.$route.query.id)
+        .then((res) => {
+          console.log(res);
+          this.data = res.data;
+        });
+    },
+    confirmReview(){
+      this.form.applyUserCode = this.$route.query.applyUserCode;
+      this.form.id = this.$route.query.id;
+       this.$store
+        .dispatch("manualDeposit/changeReview", this.form)
+        .then((res) => {
+          console.log(res);
+          this.$message.success("审核成功");
+        }).catch((val)=>{  
+          this.$message.error('操作失败');
+        });
     }
-  }
+  },
 };
 </script>
 
@@ -116,6 +176,7 @@ export default {
   background-color: #fff;
   padding-bottom: 20px;
   .details-title {
+    margin-top: 20px;
     border-bottom: 1px solid #ebebeb;
     padding-left: 32px;
     height: 48px;
@@ -126,17 +187,24 @@ export default {
     background-color: #fff;
     color: #292929;
   }
+  .Placeholder {
+    height: 20px;
+    background-color: #edeff2;
+  }
   .details-info {
     display: flex;
     margin-left: 32px;
     width: 100%;
     flex-wrap: wrap;
+    padding-bottom: 90px;
     div {
       width: 32%;
       height: 32px;
+      display: flex;
+      align-items: start;
     }
     .details-type {
-      display: inline-block;
+      display: block;
       line-height: 24px;
       width: 100px;
       text-align: left;
@@ -146,7 +214,7 @@ export default {
       padding: 4px 0;
     }
     .details-value {
-      display: inline-block;
+      display: block;
       line-height: 24px;
       width: 180px;
       text-align: left;
@@ -156,13 +224,9 @@ export default {
       padding: 4px 0;
     }
   }
-  .ant-input {
-    margin-left: 30px;
-    width: 450px;
-    height: 130px;
-  }
   .btn {
     margin-top: 20px;
+    margin-left: 510px;
     .btn1 {
       margin-left: 30px;
     }

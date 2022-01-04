@@ -7,6 +7,9 @@
       <a-button icon="delete" class="btn" @click="deleteinbatches">
         批量删除
       </a-button>
+      <a-button icon="delete" class="btn" @click="deleteinbatches">
+        强制删除
+      </a-button>
       <!-- <a-button icon="check" class="btn" @click="show">
         显示
       </a-button>
@@ -41,14 +44,28 @@
             添加子栏
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="updatePrice(text)">
-            修改
-          </a-button>
-          <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(text)">
-            删除
-          </a-button>
+          <a-dropdown>
+            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+              更多 <a-icon type="down" />
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="javascript:;">修改</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">删除</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">强制删除</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
         </span>
+        <div slot="typeSort" slot-scope="text">
+          <a-button type="link" @click="addaFence(text)">
+            查看({{text}})
+          </a-button>
+        </div>
         <a slot="name" slot-scope="text">{{ text }}</a>
       </a-table>
     </div>
@@ -64,9 +81,9 @@ export default {
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedRowKeys = selectedRowKeys;
           console.log(this.selectedRowKeys);
-        }
+        },
       };
-    }
+    },
   },
   created() {},
   data() {
@@ -75,43 +92,43 @@ export default {
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
       },
       columns: [
         {
           title: "编号",
           dataIndex: "id",
-          key: ""
+          key: "",
         },
         {
           title: "名称",
           dataIndex: "typeName",
           key: "typeName",
-          scopedSlots: { customRender: "typeName" }
+          scopedSlots: { customRender: "typeName" },
         },
         {
           title: "英文",
           dataIndex: "typeNameEn",
-          key: "typeNameEn"
+          key: "typeNameEn",
         },
         {
           title: "类型",
           dataIndex: "typeCode",
-          key: "typeCode"
+          key: "typeCode",
         },
         {
           title: "子类别",
           dataIndex: "typeSort",
           key: "typeSort",
-          scopedSlots: { customRender: "typeSort" }
+          scopedSlots: { customRender: "typeSort" },
         },
         {
           title: "操作",
           key: "action",
           dataIndex: "id",
           // fixed: "right",
-          scopedSlots: { customRender: "action" }
-        }
+          scopedSlots: { customRender: "action" },
+        },
       ],
       data: [],
       paginationProps: {
@@ -123,9 +140,9 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
+        onShowSizeChange: this.onShowSizeChange,
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
     };
   },
   activated() {
@@ -139,7 +156,7 @@ export default {
     // },
     //查询数据表格
     getList() {
-      this.$store.dispatch("category/getList").then(res => {
+      this.$store.dispatch("category/getList").then((res) => {
         console.log(res);
         this.data = [...res.data.list];
       });
@@ -172,8 +189,8 @@ export default {
       this.$router.push({
         path: "/personal/helpword/amend-category",
         query: {
-          id: text
-        }
+          id: text,
+        },
       });
     },
     //删除
@@ -182,11 +199,11 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("category/delPrice", id).then(val => {
+          this.$store.dispatch("category/delPrice", id).then((val) => {
             this.$message.success("操作成功");
             this.getList();
           });
-        }
+        },
       });
     },
     //批量删除
@@ -201,14 +218,14 @@ export default {
         onOk: () => {
           this.$store
             .dispatch("category/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
+            .then((val) => {
               this.$message.success("操作成功");
               // this.$store.dispatch("操作成功").then(val => {
               //   this.reqAfter(val);
               // });
               this.getList();
             });
-        }
+        },
       });
     },
     //显示
@@ -218,14 +235,14 @@ export default {
         onOk: () => {
           this.$store
             .dispatch("category/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
+            .then((val) => {
               this.$message.success("操作成功");
               // this.$store.dispatch("操作成功").then(val => {
               //   this.reqAfter(val);
               // });
               this.getList();
             });
-        }
+        },
       });
     },
     //隐藏
@@ -233,10 +250,8 @@ export default {
     //排序
     sort() {},
     //添加子栏
-    addaFence(){
-
-    }
-  }
+    addaFence() {},
+  },
 };
 </script>
 
