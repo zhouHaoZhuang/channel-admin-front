@@ -45,12 +45,12 @@
         />
       </div>
     </div>
-    <div class="Placeholder"></div>
+    <div class="placeholder"></div>
     <!-- <h1 class="details-title">审核过程</h1>
     <a-table :columns="columns" rowKey="ID" :scroll="{ x: 1000 }">
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table> -->
-    <div class="Placeholder"></div>
+    <div class="placeholder"></div>
     <h1 class="details-title">审核</h1>
     <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-model-item label="审核结果" :wrapper-col="{ span: 3 }">
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { paymentTypeMapData } from '@/utils/enum'
+import { paymentTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
@@ -95,42 +95,42 @@ export default {
         {
           title: "步骤",
           dataIndex: "productName",
-          key: "productName",
+          key: "productName"
         },
         {
           title: "审核节点",
           dataIndex: "tradeType",
           key: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
+          scopedSlots: { customRender: "tradeType" }
         },
         {
           title: "审核状态",
           key: "productConfig",
-          scopedSlots: { customRender: "productConfig" },
+          scopedSlots: { customRender: "productConfig" }
         },
         {
           title: "审核人",
           dataIndex: "quantity",
-          key: "quantity",
+          key: "quantity"
         },
         {
           title: "审核意见",
           dataIndex: "chargeModel",
-          key: "chargeModel",
-        },
+          key: "chargeModel"
+        }
       ],
       form: {
         applyUserCode: "",
         checkMemo: "",
-        status: '',
-        id: '',
+        status: "",
+        id: ""
       },
       labelCol: {
-        span: 8,
+        span: 8
       },
       wrapperCol: {
-        span: 10,
-      },
+        span: 10
+      }
     };
   },
   created() {
@@ -143,30 +143,31 @@ export default {
       } else {
         return [];
       }
-    },
+    }
   },
   methods: {
     getList() {
       this.$store
         .dispatch("manualDeposit/getOne", this.$route.query.id)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.data = res.data;
         });
     },
-    confirmReview(){
+    confirmReview() {
       this.form.applyUserCode = this.$route.query.applyUserCode;
       this.form.id = this.$route.query.id;
-       this.$store
+      this.$store
         .dispatch("manualDeposit/changeReview", this.form)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.$message.success("审核成功");
-        }).catch((val)=>{  
-          this.$message.error('操作失败');
+        })
+        .catch(val => {
+          this.$message.error("操作失败");
         });
     }
-  },
+  }
 };
 </script>
 
@@ -187,7 +188,7 @@ export default {
     background-color: #fff;
     color: #292929;
   }
-  .Placeholder {
+  .placeholder {
     height: 20px;
     background-color: #edeff2;
   }
@@ -201,7 +202,7 @@ export default {
       width: 32%;
       height: 32px;
       display: flex;
-      align-items: start;
+      align-items: flex-start;
     }
     .details-type {
       display: block;
