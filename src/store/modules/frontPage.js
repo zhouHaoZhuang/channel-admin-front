@@ -25,7 +25,7 @@ const frontPage = {
     // 成交客户数
     coountInfo({ commit, state }, params) {
       return request({
-        url: `/tcOrder/coount`,
+        url: `/tcOrder/count`,
         method: "get",
         params,
       });

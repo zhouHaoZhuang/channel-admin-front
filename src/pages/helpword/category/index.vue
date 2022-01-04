@@ -10,15 +10,57 @@
       <a-button icon="delete" class="btn" @click="deleteinbatches">
         强制删除
       </a-button>
-      <!-- <a-button icon="check" class="btn" @click="show">
-        显示
-      </a-button>
-      <a-button icon="stop" class="btn" @click="conceal">
-        隐藏
-      </a-button> -->
-      <a-button icon="column-height" class="btn" @click="sort">
+      <a-button @click="showModal">
+        <span class="sort-icon">
+          <a-icon type="swap" />
+        </span>
         排序
       </a-button>
+      <a-modal
+        title="排序"
+        :visible="visible"
+        :confirm-loading="confirmLoading"
+        @ok="handleOk"
+        @cancel="handleCancel"
+      >
+        <div class="sort-container">
+          <span>排序</span>
+          <div class="sort-list">
+            <p
+              @click="onChange"
+              :id="index"
+              v-for="(item, index) in data"
+              :key="index"
+              :class="{
+                'sort-list-item': true,
+                'sort-ash': index === sortSwitch * 1,
+              }"
+            >
+              {{ index + 1 }}、{{ item.newTypeName }}
+            </p>
+          </div>
+        </div>
+        <div>
+          <span type="link">
+            操作
+          </span>
+          <a-space>
+            <a-button type="primary" @click="topClick">
+              移至第一
+            </a-button>
+            <a-button @click="moveUp" type="primary">
+              <a-icon type="arrow-up" />上移
+            </a-button>
+            <a-button @click="moveDown" type="primary">
+              <a-icon type="arrow-down" />下移
+            </a-button>
+            <a-button @click="moveBottom" type="primary">
+              移至最后
+            </a-button>
+          </a-space>
+        </div>
+      </a-modal>
+      <!-- </div> -->
     </div>
     <div class="table-content">
       <a-table
@@ -63,7 +105,7 @@
         </span>
         <div slot="typeSort" slot-scope="text">
           <a-button type="link" @click="addaFence(text)">
-            查看({{text}})
+            查看({{ text }})
           </a-button>
         </div>
         <a slot="name" slot-scope="text">{{ text }}</a>
@@ -85,10 +127,12 @@ export default {
       };
     },
   },
-  created() {},
   data() {
     return {
+      confirmLoading: false,
+      visible: false,
       listQuery: {
+        key: "",
         search: "",
         currentPage: 1,
         pageSize: 10,
@@ -98,7 +142,7 @@ export default {
         {
           title: "编号",
           dataIndex: "id",
-          key: "",
+          key: "id",
         },
         {
           title: "名称",
@@ -148,7 +192,58 @@ export default {
   activated() {
     this.getList();
   },
+  created() {
+    this.getList();
+  },
   methods: {
+    showModal() {
+      this.visible = true;
+    },
+    handleOk(e) {
+      this.confirmLoading = true;
+      for (let index = 0; index < this.data.length; index++) {
+        this.data[index].sort = index + 1;
+      }
+      this.$store.dispatch("newsType/sortList", this.data).then((res) => {
+        console.log(res);
+        this.getList();
+        this.visible = false;
+        this.confirmLoading = false;
+        this.$message.success("修改顺序成功");
+      });
+    },
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    topClick() {
+      // console.log("移至第一");
+      this.data.unshift(this.data.splice(this.sortSwitch, 1)[0]);
+      this.sortSwitch = 0;
+    },
+    moveUp() {
+      // console.log("上移");
+      if (this.sortSwitch * 1 === 0) {
+        return;
+      }
+      let temp = this.data.splice(this.sortSwitch, 1)[0];
+      this.data.splice(this.sortSwitch - 1, 0, temp);
+      this.sortSwitch--;
+    },
+    moveDown() {
+      // console.log("下移");
+      if (this.sortSwitch * 1 === this.data.length - 1) {
+        return;
+      }
+      let temp = this.data.splice(this.sortSwitch, 1)[0];
+      this.data.splice(this.sortSwitch + 1, 0, temp);
+      this.sortSwitch++;
+    },
+    moveBottom() {
+      // console.log("移至最后");
+      this.data.push(this.data.splice(this.sortSwitch, 1)[0]);
+      this.sortSwitch = this.data.length - 1;
+    },
     //查询
     // search(){
     //   this.listQuery.currentPage = 1;
@@ -156,18 +251,10 @@ export default {
     // },
     //查询数据表格
     getList() {
-      this.$store.dispatch("category/getList").then((res) => {
+      this.$getList("helpCategory/getList",this.listQuery).then((res) => {
         console.log(res);
-        this.data = [...res.data.list];
+        // this.data = res.data.list;
       });
-      // this.$getList("banner/getList",this.listQuery)
-      // .then(res=>{
-      //   this.data = [...res.data.list];
-      //   this.paginationProps.total = res.data.totalCount * 1;
-      // })
-      // .finally(() =>{
-
-      // })
     },
     //表格分页跳转
     quickJump(currentPage) {
@@ -256,6 +343,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.sort-icon {
+  transform: rotate(90deg);
+  margin-right: 10px;
+}
 .category-container {
   margin: 0 20px;
   padding: 10px;

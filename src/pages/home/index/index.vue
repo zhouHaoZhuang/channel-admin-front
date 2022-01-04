@@ -12,10 +12,12 @@
                   src="@/assets/img/passport/register.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ loginDay }}</a> 人
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月注册用户</span><span>2341人</span>
+                <span>本月注册用户</span><span>{{ loginMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -30,10 +32,12 @@
                   src="@/assets/img/passport/makeadeal.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ clinchDay }}</a> 人
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月成交用户</span><span>2341人</span>
+                <span>本月成交用户</span><span>{{ clinchMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -48,10 +52,12 @@
                   src="@/assets/img/passport/Order.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ registerDay }}</a> 笔
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月成交用户</span><span>2341人</span>
+                <span>本月成交用户</span><span>{{ registerMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -66,10 +72,12 @@
                   src="@/assets/img/passport/Consumption.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ orderSumDay }}</a> 元
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月成交用户</span><span>2341人</span>
+                <span>本月成交用户</span><span>{{ orderSumMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -138,7 +146,16 @@ import { mapState, mapGetters } from "vuex";
 export default {
   // components: { Tinymce },
   data() {
-    return {};
+    return {
+      registerDay: "",
+      registerMonth: "",
+      clinchDay: "",
+      clinchMonth: "",
+      loginDay: "",
+      loginMonth: "",
+      orderSumDay: "",
+      orderSumMonth: "",
+    };
   },
   computed: {
     ...mapState({
@@ -146,24 +163,105 @@ export default {
     }),
     ...mapGetters(["token"]),
   },
-  created() {},
-  // activated() {
-  //   this.getList();
-  // },
+  created() {
+    this.getRegister(this.currentDay(), "day");
+    this.getRegister(this.currentMonth(), "month");
+    this.getBasicCompanyInfo(this.currentDay(), "day");
+    this.getBasicCompanyInfo(this.currentMonth(), "month");
+    this.coountInfo(this.currentDay(), "day");
+    this.coountInfo(this.currentMonth(), "month");
+    this.orderSumInfo(this.currentDay(), "day");
+    this.orderSumInfo(this.currentMonth(), "month");
+  },
+
   methods: {
-    // tinymceinput(value) {
-    //   console.log("富文本输入", value);
-    // }
-    //获得本月的开端日期
-    // function getMonthStartDate(){
-    //     var monthStartDate = new Date(nowYear, nowMonth, 1);
-    //     return formatDate(monthStartDate);
-    // }
-    // //获得本月的停止日期
-    // function getMonthEndDate(){
-    //     var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth));
-    //     return formatDate(monthEndDate);
-    // }
+    currentMonth() {
+      //获取当前月份
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      var d = new Date(year, month, 0); //获取当前月份的天数
+      if (month < 10) {
+        month = "0" + month;
+      }
+      if (day < 10) {
+        day = "0" + day;
+      }
+      let startTime = year + "-" + month + "-" + "01" + " 00:00:00";
+      let endTime = year + "-" + month + "-" + d.getDate() + " 23:59:59";
+      return {
+        startTime,
+        endTime,
+      };
+    },
+    currentDay() {
+      //获取当前日
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      if (month < 10) {
+        month = "0" + month;
+      }
+      if (day < 10) {
+        day = "0" + day;
+      }
+      let startTime = year + "-" + month + "-" + day + " 00:00:00";
+      let endTime = year + "-" + month + "-" + day + " 23:59:59";
+      return {
+        startTime,
+        endTime,
+      };
+    },
+    // 获取交易订单数
+    getRegister(date, type) {
+      this.$store.dispatch("frontPage/orderCountNum", date).then((val) => {
+        if (type == "day") {
+          this.registerDay = val.data;
+        }
+        if (type == "month") {
+          this.registerMonth = val.data;
+        }
+        console.log(val);
+      });
+    },
+    // 注册客户
+    getBasicCompanyInfo(date, type) {
+      this.$store
+        .dispatch("frontPage/getBasicCompanyInfo", date)
+        .then((val) => {
+          if (type == "day") {
+            this.loginDay = val.data;
+          }
+          if (type == "month") {
+            this.loginMonth = val.data;
+          }
+        });
+    },
+    // 成交客户
+    coountInfo(date, type) {
+      this.$store.dispatch("frontPage/coountInfo", date).then((val) => {
+        if (type == "day") {
+          this.clinchDay = val.data;
+        }
+        if (type == "month") {
+          this.clinchMonth = val.data;
+        }
+      });
+    },
+    // 消费金额
+    orderSumInfo(date, type) {
+      this.$store.dispatch("frontPage/orderSumInfo", date).then((val) => {
+        if (type == "day") {
+          this.orderSumDay = val.data;
+        }
+        if (type == "month") {
+          this.orderSumMonth = val.data;
+        }
+        // console.log(val, "消费金额");
+      });
+    },
   },
 };
 </script>
@@ -191,7 +289,7 @@ export default {
     display: flex;
     justify-content: space-between;
   }
-  .home-info-left{
+  .home-info-left {
     width: 61%;
   }
   .top-header {
@@ -262,7 +360,7 @@ export default {
       padding-left: 24px;
     }
   }
-  .home-info{
+  .home-info {
     display: flex;
     width: 100%;
   }

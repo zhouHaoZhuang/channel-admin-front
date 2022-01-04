@@ -829,7 +829,7 @@ const options = {
               children: [
                 {
                   path: "typemanage",
-                  name: "帮助中心类别管理",
+                  name: "类别管理",
                   meta: {
                     icon: "home"
                   },

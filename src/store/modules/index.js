@@ -23,6 +23,7 @@ import category from "./category";
 import word from "./word";
 import manualDeposit from "./manualDeposit";
 import frontPage from "./frontPage";
+import helpCategory from "./helpCategory";
 export default {
   user,
   account,
@@ -48,5 +49,6 @@ export default {
   category,
   word,
   manualDeposit,
-  frontPage
+  frontPage,
+  helpCategory
 };
