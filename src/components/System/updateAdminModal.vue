@@ -20,6 +20,7 @@
       <a-form-model-item label="权限名称" prop="code">
         <a-input
           v-model="form.code"
+          :disabled="type === 'edit'"
           placeholder="请输入权限名称，填写一个名词，例如：order"
         />
       </a-form-model-item>
@@ -135,10 +136,6 @@ export default {
           this.loading = true;
           const req =
             this.type === "add" ? "system/addAdmin" : "system/editAdmin";
-          // const data =
-          //   this.type === "add"
-          //     ? { ...this.form }
-          //     : { id: this.detail.id, ...this.form };
           this.$store
             .dispatch(req, this.form)
             .then(res => {

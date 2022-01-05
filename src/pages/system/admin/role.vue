@@ -18,9 +18,16 @@
           rowKey="id"
           :pagination="paginationProps"
         >
+          <span slot="createdAt" slot-scope="text">
+            {{ text | formatDate }}
+          </span>
           <span slot="action" slot-scope="text, record">
             <a-button type="link" @click="handleEditRole(record)">
               编辑
+            </a-button>
+            <a-divider type="vertical" />
+            <a-button type="link" @click="handleGoDetail(record)">
+              详情
             </a-button>
             <a-divider type="vertical" />
             <a-button type="link" @click="handleDel(record)">
@@ -31,7 +38,11 @@
       </div>
     </div>
     <!-- 添加/编辑权限弹窗 -->
-    <UpdateRoleModal v-model="visible" :detail="modalDetail" />
+    <UpdateRoleModal
+      v-model="visible"
+      :detail="modalDetail"
+      @success="modalSuccess"
+    />
   </div>
 </template>
 
@@ -59,7 +70,8 @@ export default {
         },
         {
           title: "创建时间",
-          dataIndex: "createdAt"
+          dataIndex: "createdAt",
+          scopedSlots: { customRender: "createdAt" }
         },
         {
           title: "操作",
@@ -127,6 +139,19 @@ export default {
     handleEditRole(record) {
       this.modalDetail = { ...record };
       this.visible = true;
+    },
+    // 添加/编辑弹窗事件成功的回调
+    modalSuccess() {
+      this.getList();
+    },
+    // 跳转详情
+    handleGoDetail(record) {
+      this.$router.push({
+        path: "/system/admin/detail",
+        query: {
+          code: record.code
+        }
+      });
     },
     // 删除
     handleDel(record) {
