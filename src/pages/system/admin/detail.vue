@@ -7,65 +7,58 @@
       <div class="public-con">
         <div class="item">
           <div class="label">角色Code：</div>
-          <div class="value">goods</div>
+          <div class="value text-overflow">{{ detail.code }}</div>
         </div>
         <div class="item">
           <div class="label">角色描述：</div>
-          <div class="value">商品管理员</div>
+          <div class="value text-overflow">{{ detail.description }}</div>
         </div>
       </div>
     </div>
     <!-- 已授权用户 -->
-    <div class="public-box">
-      <div class="public-title">
-        <div class="left-tit">已授权用户</div>
-      </div>
-      <div class="public-con">
-        <div class="table-box">
-          <a-table
-            :loading="tableLoading"
-            :columns="columns"
-            :data-source="data"
-            rowKey="id"
-            :pagination="paginationProps"
-          >
-            <span slot="createdAt" slot-scope="text">
-              {{ text | formatDate }}
-            </span>
-            <span slot="action" slot-scope="text, record">
-              <a-button type="link" @click="handleGoDetail(record)">
-                详情
-              </a-button>
-              <a-divider type="vertical" />
-              <a-button type="link" @click="handleDel(record)">
-                删除
-              </a-button>
-            </span>
-          </a-table>
-        </div>
-      </div>
-    </div>
+    <AuthUser :code="code" />
     <!-- 已授权规则 -->
-    <div class="public-box">
-      <div class="public-title">
-        <div class="left-tit">已授权规则</div>
-      </div>
-      <div class="public-con">
-        <div class="item">
-          <div class="label"></div>
-          <div class="value"></div>
-        </div>
-      </div>
-    </div>
+    <AuthRule />
   </div>
 </template>
 
 <script>
+import AuthUser from "@/components/System/authUser";
+import AuthRule from "@/components/System/authRule";
 export default {
-  data() {
-    return {};
+  components: {
+    AuthUser,
+    AuthRule
   },
-  methods: {}
+  data() {
+    return {
+      detail: {}
+    };
+  },
+  computed: {
+    code() {
+      return this.$route.query.code;
+    }
+  },
+  watch: {
+    $route: {
+      handler() {
+        this.getDetail();
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  methods: {
+    // 获取角色详情
+    getDetail() {
+      this.$store
+        .dispatch("system/getRoleDetail", { code: this.code })
+        .then(res => {
+          this.detail = { ...res.data };
+        });
+    }
+  }
 };
 </script>
 
@@ -104,8 +97,6 @@ export default {
         .value {
           margin-left: 5px;
         }
-      }
-      .rule-item {
       }
     }
   }

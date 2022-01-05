@@ -72,23 +72,22 @@ const channel = {
     // 获取角色详情
     getRoleDetail({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/role/getByCode",
         method: "post",
         data
       });
     },
     // 获取已授权用户列表
-    getAuthUserList({ commit, state }, data) {
+    getAuthUserList({ commit, state }, params) {
       return request({
-        url: "/permission/queryPage",
-        method: "post",
-        data
+        url: `/role/${params.code}`,
+        method: "get"
       });
     },
     // 弹窗中用户列表
     getModalUserList({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/manageUser/searchUsers",
         method: "post",
         data
       });
@@ -96,7 +95,7 @@ const channel = {
     // 添加授权用户
     addAuthUser({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/role/addUsers",
         method: "post",
         data
       });
@@ -104,17 +103,16 @@ const channel = {
     // 取消授权用户
     cancelAuthUser({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/role/removeUser",
         method: "post",
         data
       });
     },
     // 获取已授权规则
-    getRuleList({ commit, state }, data) {
+    getRuleList({ commit, state }, params) {
       return request({
-        url: "/permission/queryPage",
-        method: "post",
-        data
+        url: `/role/permission/${params.code}`,
+        method: "get"
       });
     },
     // 添加授权

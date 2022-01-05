@@ -149,7 +149,8 @@ export default {
       this.$router.push({
         path: "/system/admin/detail",
         query: {
-          code: record.code
+          code: record.code,
+          description: record.description
         }
       });
     },
