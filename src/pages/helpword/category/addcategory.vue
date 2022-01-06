@@ -9,24 +9,15 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="所属分类">
-          <a-select v-model="form.typeCode" placeholder="顶级分类">
-            <a-select-option :value="0">
-              顶级分类
-            </a-select-option>
-            <a-select-option :value="1">
-              注册与购买
-            </a-select-option>
-            <a-select-option :value="2">
-              云服务器问题
-            </a-select-option>
-            <a-select-option :value="3">
-              备案问题
-            </a-select-option>
-            <a-select-option :value="4">
-              使用规则
-            </a-select-option>
-            <a-select-option :value="5">
-              法律法规
+          <a-select v-model="form.parentCode">
+            <a-select-option
+              :value="item.typeCode"
+              v-for="(item, index) in arr"
+              :key="index"
+            >
+              <span v-if="item.typeCode" :style="`margin-left: ${item.typeCode.length-12}ex;`">
+                 |-{{ item.typeName }}
+              </span>
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -61,65 +52,70 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        bannerType: 0,
-        title: "",
-        describe: "",
-        display: true,
-        pcButtonName: "",
-        pcButtonLink: "",
-        openLinkType: "",
-        status: 0,
-        typeSort: 0,
+        parentCode: "",
+        typeName: "",
+        typeNameEn: "",
         typeIcon: "",
-        typeNameEn:"",
-        typeName:"",
-        typeCode:"",
-        parentCode:"",
-        channelCode:"",
-        phonePicture: ""
       },
       rules: {
         typeName: [
           {
             required: true,
             message: "必填，名称必须是中文或英文组成，且在20个字以内。",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         typeNameEn: [
           {
             required: true,
             message: "必填，名称必须是中文或英文组成，且在20个字以内。",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
-      loading: false
+      loading: false,
+      arr: [],
     };
   },
   components: {
-    Upload
+    Upload,
+  },
+  created() {
+    this.getAllType();
+  },
+  activated() {
+    this.resetForm() 
+    this.getAllType();
+    console.log("activated",this.$route.query.typeCode);
+    this.form.parentCode = this.$route.query.typeCode;
   },
   methods: {
+    handleChange(value) {
+      console.log(`selected ${value}`);
+    },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
+      // console.log("上传图片回调99999", urlList, firstImageUrl);
       this.form.typeIcon = firstImageUrl;
     },
-    // 上传手机图片
-    mbImgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调asaswasas", urlList, firstImageUrl);
-      this.form.phonePicture = firstImageUrl;
+    getAllType() {
+      this.$store.dispatch("helpCategory/getList").then((val) => {
+        console.log("获取所有分类", val.data.list);
+        this.arr = val.data.list;
+        this.arr.reverse()
+        // this.printObjRec(val.data);
+      });
     },
     // 提交
     onSubmit() {
-      this.$refs.ruleForm.validate(valid => {
+
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("category/add", this.form)
-            .then(res => {
-              this.$message.success("新增轮播图成功");
+            .dispatch("helpCategory/addList", this.form)
+            .then((res) => {
+              this.$message.success("新增帮助类别成功");
               this.resetForm();
               this.$router.back();
             })
@@ -132,9 +128,14 @@ export default {
     // 重置表单数据
     resetForm() {
       this.$refs.ruleForm.clearValidate();
-      this.form = {};
-    }
-  }
+      this.form = {
+        parentCode: "",
+        typeName: "",
+        typeNameEn: "",
+        typeIcon: "",
+      };
+    },
+  },
 };
 </script>
 

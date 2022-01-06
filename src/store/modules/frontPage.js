@@ -25,7 +25,7 @@ const frontPage = {
     // 成交客户数
     coountInfo({ commit, state }, params) {
       return request({
-        url: `/tcOrder/coount`,
+        url: `/tcOrder/count`,
         method: "get",
         params,
       });
@@ -46,37 +46,15 @@ const frontPage = {
         params,
       });
     },
-
-    
-    delList({ commit, state }, id) {
+     // 获取所在企业终端客户的售出的云服务器台数
+     getSuccessCount({ commit, state }, params) {
       return request({
-        url: `/ccWebsiteInfo/${id}`,
-        method: "delete",
-      });
-    },
-    changeList({ commit, state }, data) {
-      return request({
-        url: `/ccWebsiteInfo/${data.id}`,
-        method: "put",
-        data,
-      });
-    },
-    addList({ commit, state }, params) {
-      return request({
-        url: "/ccWebsiteInfo",
-        method: "post",
-        data: {
-          ...params,
-        },
-      });
-    },
-    getOne({ commit, state }, id) {
-      console.log(state);
-      return request({
-        url: `/ccWebsiteInfo/one?id=${id}`,
+        url: `/scEcsStock/getSuccessCount`,
         method: "get",
+        params,
       });
     },
+ 
   },
 };
 

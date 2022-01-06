@@ -8,19 +8,16 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分类">
-          <a-select v-model="form.helpTypeCode" placeholder="注册与购买">
-            <a-select-option :value="0">
-              注册与购买
-            </a-select-option>
-            <a-select-option :value="1">
-              云服务器问题
-            </a-select-option>
-            <a-select-option :value="2">
-              备案问题
-            </a-select-option>
-            <a-select-option :value="3">
-              使用规则
+         <a-form-model-item label="分类">
+          <a-select v-model="form.parentCode">
+            <a-select-option
+              :value="item.typeCode"
+              v-for="(item, index) in arr"
+              :key="index"
+            >
+              <span v-if="item.typeCode" :style="`margin-left: ${item.typeCode.length-12}ex;`">
+                 |-{{ item.typeName }}
+              </span>
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -98,16 +95,6 @@ export default {
         feedback:0,
         useful:0,
         useless:0
-        // bannerPicture: "",
-        // channelCode: "",
-        // context: "",
-        // describe: "",
-        // keyWords: "",
-        // modeFileName: "",
-        // pageName: "",
-        // pageTitle: "",
-        // resourceAddress: "",
-        // status: ""
       },
       rules: {
         title: [
@@ -126,7 +113,8 @@ export default {
         ]
       },
       loading: false,
-      data: []
+      data: [],
+      arr: [],
     };
   },
   components: {
@@ -134,8 +122,17 @@ export default {
   },
   created() {
     this.getList();
+    this.getAllType();
   },
   methods: {
+     getAllType() {
+      this.$store.dispatch("helpCategory/getList").then((val) => {
+        console.log("获取所有分类", val.data.list);
+        this.arr = val.data.list;
+        this.arr.reverse()
+        // this.printObjRec(val.data);
+      });
+    },
     //查询数据表格
     getList() {
       this.$store.dispatch("word/getList").then(res => {

@@ -12,10 +12,12 @@
                   src="@/assets/img/passport/register.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ loginDay }}</a> 人
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月注册用户</span><span>2341人</span>
+                <span>本月注册用户</span><span>{{ loginMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -30,10 +32,12 @@
                   src="@/assets/img/passport/makeadeal.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ clinchDay }}</a> 人
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月成交用户</span><span>2341人</span>
+                <span>本月成交用户</span><span>{{ clinchMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -48,10 +52,12 @@
                   src="@/assets/img/passport/Order.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ registerDay }}</a> 笔
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月成交用户</span><span>2341人</span>
+                <span>本月成交用户</span><span>{{ registerMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -66,10 +72,12 @@
                   src="@/assets/img/passport/Consumption.png"
                   alt=""
                 />
-                <span><a>232</a> 人</span>
+                <span>
+                  <a>{{ orderSumDay }}</a> 元
+                </span>
               </div>
               <p class="moon-num">
-                <span>本月成交用户</span><span>2341人</span>
+                <span>本月成交用户</span><span>{{ orderSumMonth }}人</span>
               </p>
             </div>
           </a-card>
@@ -116,7 +124,7 @@
         <div class="business-statistics">
           <h1>业务统计</h1>
           <div class="business-info">
-            云服务器（3台）
+            云服务器（{{SuccessCountNum}}台）
           </div>
         </div>
       </div>
@@ -134,11 +142,24 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import moment from "moment";
 // import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   // components: { Tinymce },
   data() {
-    return {};
+    return {
+      moment,
+      registerDay: "",
+      registerMonth: "",
+      clinchDay: "",
+      clinchMonth: "",
+      loginDay: "",
+      loginMonth: "",
+      orderSumDay: "",
+      orderSumMonth: "",
+
+      SuccessCountNum: "",
+    };
   },
   computed: {
     ...mapState({
@@ -146,24 +167,88 @@ export default {
     }),
     ...mapGetters(["token"]),
   },
-  created() {},
-  // activated() {
-  //   this.getList();
-  // },
+  created() {
+    this.getRegister(this.currentDay(), "day");
+    this.getRegister(this.currentMonth(), "month");
+    this.getBasicCompanyInfo(this.currentDay(), "day");
+    this.getBasicCompanyInfo(this.currentMonth(), "month");
+    this.coountInfo(this.currentDay(), "day");
+    this.coountInfo(this.currentMonth(), "month");
+    this.orderSumInfo(this.currentDay(), "day");
+    this.orderSumInfo(this.currentMonth(), "month");
+    this.getSuccessCount(this.currentDay())
+  },
+
   methods: {
-    // tinymceinput(value) {
-    //   console.log("富文本输入", value);
-    // }
-    //获得本月的开端日期
-    // function getMonthStartDate(){
-    //     var monthStartDate = new Date(nowYear, nowMonth, 1);
-    //     return formatDate(monthStartDate);
-    // }
-    // //获得本月的停止日期
-    // function getMonthEndDate(){
-    //     var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth));
-    //     return formatDate(monthEndDate);
-    // }
+    currentMonth() {
+      // //获取当前月份
+      return {
+        startTime:this.moment().startOf('month').format("YYYY-MM-DD HH:mm:ss"),
+        endTime:this.moment().endOf('month').format("YYYY-MM-DD HH:mm:ss"),
+      };
+    },
+    currentDay() {
+      // //获取当前日
+      return {
+        startTime:this.moment().startOf('day').format("YYYY-MM-DD HH:mm:ss"),
+        endTime:this.moment().startOf('day').format("YYYY-MM-DD HH:mm:ss"),
+      };
+    },
+    // 获取交易订单数
+    getRegister(date, type) {
+      this.$store.dispatch("frontPage/orderCountNum", date).then((val) => {
+        if (type == "day") {
+          this.registerDay = val.data;
+        }
+        if (type == "month") {
+          this.registerMonth = val.data;
+        }
+        // console.log(val);
+      });
+    },
+    // 注册客户
+    getBasicCompanyInfo(date, type) {
+      this.$store
+        .dispatch("frontPage/getBasicCompanyInfo", date)
+        .then((val) => {
+          if (type == "day") {
+            this.loginDay = val.data;
+          }
+          if (type == "month") {
+            this.loginMonth = val.data;
+          }
+        });
+    },
+    // 成交客户
+    coountInfo(date, type) {
+      this.$store.dispatch("frontPage/coountInfo", date).then((val) => {
+        if (type == "day") {
+          this.clinchDay = val.data;
+        }
+        if (type == "month") {
+          this.clinchMonth = val.data;
+        }
+      });
+    },
+    // 消费金额
+    orderSumInfo(date, type) {
+      this.$store.dispatch("frontPage/orderSumInfo", date).then((val) => {
+        if (type == "day") {
+          this.orderSumDay = val.data;
+        }
+        if (type == "month") {
+          this.orderSumMonth = val.data;
+        }
+      });
+    },
+
+    // getSuccessCount获取当日云服务器台数
+    getSuccessCount(date) {
+      this.$store.dispatch("frontPage/getSuccessCount", date).then((val) => {
+          this.SuccessCountNum = val.data;
+          // console.log(val);
+      });
+    },
   },
 };
 </script>
@@ -191,7 +276,7 @@ export default {
     display: flex;
     justify-content: space-between;
   }
-  .home-info-left{
+  .home-info-left {
     width: 61%;
   }
   .top-header {
@@ -262,7 +347,7 @@ export default {
       padding-left: 24px;
     }
   }
-  .home-info{
+  .home-info {
     display: flex;
     width: 100%;
   }
