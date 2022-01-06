@@ -59,6 +59,9 @@ export default {
       },
     };
   },
+	created() {
+		this.getRoles()
+	},
   methods: {
     onSubmit() {
       console.log("submit!", this.form);
@@ -70,6 +73,11 @@ export default {
         this.$message.error("两次密码不一致");
       }
     },
+		getRoles() {
+			this.$store.dispatch("user/getRoleList",{id:this.userInfo.id}).then((val) => {
+				console.log("获取角色", val);
+			});
+		},
     
   },
 

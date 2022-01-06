@@ -19,7 +19,7 @@ const word = {
     // 新增
     add({ commit, state }, data) {
       return request({
-        url: "/ccHelpDocument",
+        url: `/ccHelpDocument`,
         method: "post",
         data
       });
