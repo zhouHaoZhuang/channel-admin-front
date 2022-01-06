@@ -18,7 +18,7 @@
     <!-- 已授权用户 -->
     <AuthUser :code="code" />
     <!-- 已授权规则 -->
-    <AuthRule />
+    <AuthRule :code="code" />
   </div>
 </template>
 

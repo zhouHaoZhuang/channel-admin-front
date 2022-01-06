@@ -142,8 +142,8 @@ export default {
     getAllUserList() {
       this.$store
         .dispatch("system/getModalUserList", {
-          currentPage: "1",
-          pageSize: "100"
+          currentPage: 1,
+          pageSize: 100
         })
         .then(res => {
           this.userData = [...res.data.list];
