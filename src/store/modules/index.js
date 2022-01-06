@@ -24,6 +24,7 @@ import word from "./word";
 import manualDeposit from "./manualDeposit";
 import frontPage from "./frontPage";
 import helpCategory from "./helpCategory";
+import system from "./system";
 export default {
   user,
   account,
@@ -50,5 +51,7 @@ export default {
   word,
   manualDeposit,
   frontPage,
-  helpCategory
+  helpCategory,
+  system
+
 };

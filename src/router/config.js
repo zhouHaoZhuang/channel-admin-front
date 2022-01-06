@@ -990,13 +990,14 @@ const options = {
               children: [
                 {
                   path: "index",
-                  name: "管理员管理",
+                  name: "权限管理",
                   meta: {
                     icon: "home",
                   },
                   component: () => import("@/pages/system/admin/index"),
                 },
                 {
+
                   path: "updateAdmin",
                   name: "管理员添加",
                   meta: {
@@ -1006,23 +1007,31 @@ const options = {
                   component: () => import("@/pages/system/admin/updateAdmin"),
                 },
                 {
+
+
                   path: "role",
-                  name: "权限管理",
+                  name: "角色管理",
                   meta: {
                     icon: "home",
                   },
                   component: () => import("@/pages/system/admin/role"),
                 },
                 {
-                  path: "updateRole",
-                  name: "权限组管理",
+                  path: "detail",
+                  name: "角色详情",
                   meta: {
                     invisible: true,
                     back: true,
                   },
+
                   component: () => import("@/pages/system/admin/updateRole"),
                 },
               ],
+
+                  component: () => import("@/pages/system/admin/detail")
+                }
+              ]
+
             },
             {
               path: "basics",
