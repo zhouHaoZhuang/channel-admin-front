@@ -242,9 +242,6 @@ export default {
           this.visible = false;
           this.confirmLoading = false;
         })
-        .catch(function(err) {
-          this.$message.error("修改顺序失败");
-        });
     },
     handleCancel(e) {
       console.log("Clicked cancel button");

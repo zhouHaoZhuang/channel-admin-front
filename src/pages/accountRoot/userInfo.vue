@@ -5,13 +5,13 @@
         <span>{{ userInfo.userPoolId }}</span>
       </a-form-model-item>
       <a-form-model-item label="姓名">
-        <span>{{ this.nameOrphone() }}</span>
+        <span>{{ nameOrphone }}</span>
       </a-form-model-item>
       <a-form-model-item label="角色权限">
         <span>{{ userInfo.name }}</span>
       </a-form-model-item>
       <a-form-model-item label="手机">
-        <span>{{ this.nameOrphone() }}</span>
+        <span>{{ nameOrphone }}</span>
       </a-form-model-item>
     </a-form-model>
   </div>
@@ -32,15 +32,13 @@ export default {
   created() {
     console.log("userInfo", this.userInfo);
   },
-  methods: {
-    nameOrphone() {
-      return this.userInfo.username.slice(0, 11);
-    },
-  },
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
     }),
+    nameOrphone() {
+      return this.userInfo.username.slice(0, 11);
+    },
   },
 };
 </script>

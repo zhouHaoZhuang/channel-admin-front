@@ -2,10 +2,10 @@
   <div class="user-info-container">
     <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-model-item label="姓名">
-        <span>{{ nameOrphone() }}</span>
+        <span>{{ nameOrphone }}</span>
       </a-form-model-item>
       <a-form-model-item label="手机">
-        <span>{{ nameOrphone() }}</span>
+        <span>{{ nameOrphone }}</span>
       </a-form-model-item>
       <a-form-model-item label="角色">
         <span>{{ form.name }}</span>
@@ -70,17 +70,16 @@ export default {
         this.$message.error("两次密码不一致");
       }
     },
-    nameOrphone() {
-      return this.userInfo.username.slice(0, 11);
-    },
+    
   },
-	created() {
-		console.log(this.nameOrphone());
-	},
+
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
     }),
+		nameOrphone() {
+      return this.userInfo.username.slice(0, 11);
+    },
   },
 };
 </script>
