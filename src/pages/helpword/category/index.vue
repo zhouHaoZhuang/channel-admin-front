@@ -7,24 +7,78 @@
       <a-button icon="delete" class="btn" @click="deleteinbatches">
         批量删除
       </a-button>
-      <a-button icon="delete" class="btn" @click="deleteinbatches">
+      <a-button icon="delete" class="btn" @click="forceDelete">
         强制删除
       </a-button>
-      <!-- <a-button icon="check" class="btn" @click="show">
-        显示
-      </a-button>
-      <a-button icon="stop" class="btn" @click="conceal">
-        隐藏
-      </a-button> -->
-      <a-button icon="column-height" class="btn" @click="sort">
+      <a-button @click="showModal">
+        <span class="sort-icon">
+          <a-icon type="swap" />
+        </span>
         排序
+      </a-button>
+      <a-modal
+        title="排序"
+        :visible="visible"
+        :confirm-loading="confirmLoading"
+        @ok="handleOk"
+        @cancel="handleCancel"
+      >
+        <div class="sort-container">
+          <span>排序</span>
+          <div class="sort-list">
+            <p
+              @click="onChange"
+              :id="index"
+              v-for="(item, index) in data"
+              :key="index"
+              :class="{
+                'sort-list-item': true,
+                'sort-ash': index === sortSwitch * 1,
+              }"
+            >
+              {{ index + 1 }}、{{ item.typeName }}
+            </p>
+          </div>
+        </div>
+        <div>
+          <span type="link">
+            操作
+          </span>
+          <a-space>
+            <a-button type="primary" @click="topClick">
+              移至第一
+            </a-button>
+            <a-button @click="moveUp" type="primary">
+              <a-icon type="arrow-up" />上移
+            </a-button>
+            <a-button @click="moveDown" type="primary">
+              <a-icon type="arrow-down" />下移
+            </a-button>
+            <a-button @click="moveBottom" type="primary">
+              移至最后
+            </a-button>
+          </a-space>
+        </div>
+      </a-modal>
+      <!-- </div> -->
+      <a-button
+        style="margin-left: 15px;"
+        type="primary"
+        v-show="codeList.length > 1"
+        class="btn"
+        @click="comeBack"
+      >
+        返回上级
       </a-button>
     </div>
     <div class="table-content">
       <a-table
-        :row-selection="rowSelection"
+        :row-selection="{
+          selectedRowKeys: selectedRowKeys,
+          onChange: onSelectChange,
+        }"
         :columns="columns"
-        :data-source="data"
+        :data-source="dataList"
         rowKey="id"
         :pagination="paginationProps"
         :scroll="{ x: 1300 }"
@@ -39,8 +93,8 @@
           <div v-else class="dot dot-err"></div>
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
-        <span slot="action" slot-scope="text">
-          <a-button type="link" @click="addaFence(text)">
+        <span slot="action" slot-scope="text,record">
+          <a-button type="link" @click="addaFence(record.typeCode)">
             添加子栏
           </a-button>
           <a-divider type="vertical" />
@@ -50,20 +104,22 @@
             </a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a href="javascript:;">修改</a>
+                <a href="javascript:;" @click="updatahelp(text)">修改</a>
               </a-menu-item>
               <a-menu-item>
-                <a href="javascript:;">删除</a>
+                <a href="javascript:;" @click="handleDel(text)">删除</a>
               </a-menu-item>
               <a-menu-item>
-                <a href="javascript:;">强制删除</a>
+                <a href="javascript:;" @click="forceDeleteOne(record.typeCode)"
+                  >强制删除</a
+                >
               </a-menu-item>
             </a-menu>
           </a-dropdown>
         </span>
-        <div slot="typeSort" slot-scope="text">
-          <a-button type="link" @click="addaFence(text)">
-            查看({{text}})
+        <div slot="ccHelpTypeList" slot-scope="text, record">
+          <a-button type="link" @click="lookOver(record.typeCode)">
+            查看({{ text.length }})
           </a-button>
         </div>
         <a slot="name" slot-scope="text">{{ text }}</a>
@@ -74,21 +130,12 @@
 
 <script>
 export default {
-  computed: {
-    rowSelection() {
-      return {
-        selectedRowKeys: this.selectedRowKeys,
-        onChange: (selectedRowKeys, selectedRows) => {
-          this.selectedRowKeys = selectedRowKeys;
-          console.log(this.selectedRowKeys);
-        },
-      };
-    },
-  },
-  created() {},
   data() {
     return {
+      confirmLoading: false,
+      visible: false,
       listQuery: {
+        key: "",
         search: "",
         currentPage: 1,
         pageSize: 10,
@@ -97,13 +144,12 @@ export default {
       columns: [
         {
           title: "编号",
-          dataIndex: "id",
-          key: "",
+          dataIndex: "typeCode",
+          key: "typeCode",
         },
         {
           title: "名称",
           dataIndex: "typeName",
-          key: "typeName",
           scopedSlots: { customRender: "typeName" },
         },
         {
@@ -112,15 +158,9 @@ export default {
           key: "typeNameEn",
         },
         {
-          title: "类型",
-          dataIndex: "typeCode",
-          key: "typeCode",
-        },
-        {
           title: "子类别",
-          dataIndex: "typeSort",
-          key: "typeSort",
-          scopedSlots: { customRender: "typeSort" },
+          dataIndex: "ccHelpTypeList",
+          scopedSlots: { customRender: "ccHelpTypeList" },
         },
         {
           title: "操作",
@@ -131,6 +171,7 @@ export default {
         },
       ],
       data: [],
+      dataList: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -143,31 +184,116 @@ export default {
         onShowSizeChange: this.onShowSizeChange,
       },
       selectedRowKeys: [],
+      forceDeletes: [],
+      sortSwitch: 0,
+      codeList: ["help_type_01"],
     };
   },
   activated() {
     this.getList();
   },
+  created() {
+    this.getList();
+  },
+  watch: {
+    codeList: {
+      handler() {
+        this.getList();
+      },
+      immediate: true,
+    },
+  },
   methods: {
-    //查询
-    // search(){
-    //   this.listQuery.currentPage = 1;
-    //   this.getList();
-    // },
+    onChange(e) {
+      // console.log('checked = ',e.path[0].id);
+      this.sortSwitch = e.path[0].id;
+    },
+    // 返回上一级的回调
+    comeBack() {
+      this.codeList.pop();
+    },
+    lookOver(code) {
+      console.log(code);
+      this.codeList.push(code);
+    },
+    onSelectChange(selectedRowKeys, selectedRows) {
+      //选中行的回调
+      console.log("selectedRowKeys", selectedRowKeys,selectedRows);
+      for (let index = 0; index < selectedRows.length; index++) {
+        this.forceDeletes.push(selectedRows[index].typeCode);
+      }
+      this.selectedRowKeys = selectedRowKeys;
+    },
+    showModal() {
+      this.visible = true;
+    },
+    handleOk(e) {
+      this.confirmLoading = true;
+      for (let index = 0; index < this.data.length; index++) {
+        this.data[index].sort = index + 1;
+      }
+      console.log(this.data);
+      this.$store
+        .dispatch("helpCategory/sortList", this.data)
+        .then((res) => {
+          console.log(res);
+          this.getList();
+          this.$message.success("修改顺序成功");
+          this.visible = false;
+          this.confirmLoading = false;
+        })
+    },
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    topClick() {
+      // console.log("移至第一");
+      this.data.unshift(this.data.splice(this.sortSwitch, 1)[0]);
+      this.sortSwitch = 0;
+    },
+    moveUp() {
+      // console.log("上移");
+      if (this.sortSwitch * 1 === 0) {
+        return;
+      }
+      let temp = this.data.splice(this.sortSwitch, 1)[0];
+      this.data.splice(this.sortSwitch - 1, 0, temp);
+      this.sortSwitch--;
+    },
+    moveDown() {
+      // console.log("下移");
+      if (this.sortSwitch * 1 === this.data.length - 1) {
+        return;
+      }
+      let temp = this.data.splice(this.sortSwitch, 1)[0];
+      this.data.splice(this.sortSwitch + 1, 0, temp);
+      this.sortSwitch++;
+    },
+    moveBottom() {
+      // console.log("移至最后");
+      this.data.push(this.data.splice(this.sortSwitch, 1)[0]);
+      this.sortSwitch = this.data.length - 1;
+    },
     //查询数据表格
     getList() {
-      this.$store.dispatch("category/getList").then((res) => {
-        console.log(res);
-        this.data = [...res.data.list];
-      });
-      // this.$getList("banner/getList",this.listQuery)
-      // .then(res=>{
-      //   this.data = [...res.data.list];
-      //   this.paginationProps.total = res.data.totalCount * 1;
-      // })
-      // .finally(() =>{
-
-      // })
+      this.$store
+        .dispatch("helpCategory/getAll", {
+          code: this.codeList[this.codeList.length - 1],
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.ccHelpTypeList) {
+            let data = JSON.parse(JSON.stringify(res.data.ccHelpTypeList));
+            this.data = data;
+            this.dataList = res.data.ccHelpTypeList;
+            this.listQuery.total = res.data.total * 1;
+          }else{
+            this.data = [];
+            this.dataList = [];
+            this.listQuery.total = 0;
+          }
+        });
     },
     //表格分页跳转
     quickJump(currentPage) {
@@ -185,11 +311,11 @@ export default {
       this.$router.push("/personal/helpword/add-category");
     },
     //修改
-    updatePrice(text) {
+    updatahelp(id) {
       this.$router.push({
-        path: "/personal/helpword/amend-category",
+        path: "/personal/helpword/edithelp",
         query: {
-          id: text,
+          id,
         },
       });
     },
@@ -199,7 +325,7 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("category/delPrice", id).then((val) => {
+          this.$store.dispatch("helpCategory/delList", id).then((val) => {
             this.$message.success("操作成功");
             this.getList();
           });
@@ -213,49 +339,67 @@ export default {
         this.$message.error("请选择要删除的数据");
         return;
       }
+      console.log(this.selectedRowKeys.toString());
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("category/delPrice", this.selectedRowKeys.toString())
+            .dispatch("helpCategory/delList", this.selectedRowKeys.toString())
             .then((val) => {
               this.$message.success("操作成功");
-              // this.$store.dispatch("操作成功").then(val => {
-              //   this.reqAfter(val);
-              // });
               this.getList();
             });
         },
       });
     },
-    //显示
-    show() {
+    // 强制删除-----批量
+    forceDelete(id) {
+        // console.log(this.selectedRowKeys.toString());
+      if (this.forceDeletes.length === 0) {
+        this.$message.error("请选择要删除的数据");
+        return;
+      }
+      console.log(this.forceDeletes.toString());
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store
-            .dispatch("category/delPrice", this.selectedRowKeys.toString())
-            .then((val) => {
-              this.$message.success("操作成功");
-              // this.$store.dispatch("操作成功").then(val => {
-              //   this.reqAfter(val);
-              // });
-              this.getList();
-            });
+          this.$store.dispatch("helpCategory/forceDelete", this.forceDeletes.toString()).then((val) => {
+            this.$message.success("操作成功");
+            this.getList();
+          });
         },
       });
     },
-    //隐藏
-    conceal() {},
-    //排序
-    sort() {},
+    // 强制删除-----单个
+    forceDeleteOne(id) {
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("helpCategory/forceDelete", id).then((val) => {
+            this.$message.success("操作成功");
+            this.getList();
+          });
+        },
+      });
+    },
     //添加子栏
-    addaFence() {},
+    addaFence(typeCode) {
+      this.$router.push({
+        path: "/personal/helpword/add-category",
+        query: {
+          typeCode,
+        },
+      });
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
+.sort-icon {
+  transform: rotate(90deg);
+  margin-right: 10px;
+}
 .category-container {
   margin: 0 20px;
   padding: 10px;
@@ -285,5 +429,20 @@ export default {
       }
     }
   }
+}
+.sort-container {
+  display: flex;
+  .sort-list {
+    margin-left: 10px;
+    .sort-list-item {
+      width: 400px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+    .sort-ash {
+      background-color: #cecece;
+    }
+  }
+  margin-bottom: 10px;
 }
 </style>
