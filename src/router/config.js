@@ -1004,11 +1004,9 @@ const options = {
                     invisible: true,
                     back: true,
                   },
-                  component: () => import("@/pages/system/admin/updateAdmin"),
+                  component: () => import("@/pages/system/admin/index"),
                 },
                 {
-
-
                   path: "role",
                   name: "角色管理",
                   meta: {
@@ -1023,15 +1021,9 @@ const options = {
                     invisible: true,
                     back: true,
                   },
-
-                  component: () => import("@/pages/system/admin/updateRole"),
+                  component: () => import("@/pages/system/admin/role"),
                 },
               ],
-
-                  component: () => import("@/pages/system/admin/detail")
-                }
-              ]
-
             },
             {
               path: "basics",
@@ -1084,7 +1076,7 @@ const options = {
                     invisible: true,
                     back: true,
                   },
-                  component: () => import("@/pages/system/admin/updateAdmin"),
+                  component: () => import("@/pages/system/admin/role"),
                 },
                 {
                   path: "changePassword",
@@ -1099,7 +1091,7 @@ const options = {
         },
       ],
     },
-  ],
-};
+  ]
+}
 
 export default options;
