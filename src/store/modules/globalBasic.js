@@ -14,6 +14,23 @@ const globalBasic = {
   },
 
   actions: {
+    // 获取充值支付宝设置参数
+    getAlipayConfig({ commit, state }, params) {
+      return request({
+        url: `/pay/business/one`,
+        method: "get",
+        params,
+      });
+    },
+    // 更新充值支付宝设置参数
+    updateAlipayConfig({ commit, state }, data) {
+      return request({
+        url: `/pay/updateByBusinessCodeAndAccountType`,
+        method: "patch",
+        data,
+      });
+    },
+
     // 获取网站详情、网站logo信息
     getInfo({ commit, state }, params) {
       return request({

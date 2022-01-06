@@ -27,6 +27,14 @@ const user = {
         data
       });
     },
+    // 获取角色列表
+    getRoleList({ commit, state }, params) {
+      return request({
+        url: `/manageUser/queryUserRoles/${params.id}`,
+        method: "get",
+        // params
+      });
+    },
     // 发送验证码
     sendCode({ commit, state }, data) {
       return request({

@@ -1,7 +1,7 @@
 <template>
   <div class="topup-container">
     <div class="content">
-      <div>
+      <!-- <div>
         <a-form-model
           ref="ruleForm"
           :model="form"
@@ -33,7 +33,7 @@
             </a-radio-group>
           </a-form-model-item>
         </a-form-model>
-      </div>
+      </div> -->
       <a-collapse default-active-key="1" :bordered="false" class="aa">
         <a-collapse-panel key="1" header="支付宝设置">
           <a-form-model
@@ -43,7 +43,7 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="支付宝PC充值开关">
+            <!-- <a-form-model-item label="支付宝PC充值开关">
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   开启
@@ -72,29 +72,33 @@
                   关闭
                 </a-radio>
               </a-radio-group>
-            </a-form-model-item>
+            </a-form-model-item> -->
             <a-form-model-item label="签名方式">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group :value="2">
+                <!-- <a-radio :value="0">
                   MD5
                 </a-radio>
                 <a-radio :value="1">
                   RSA
-                </a-radio>
+                </a-radio> -->
+                <!-- 固定第三个 -->
                 <a-radio :value="2">
                   RSA2
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
             <a-form-model-item label="支付宝合作ID">
-              <a-input v-model="form.linkSort" />
+              <a-input v-model="form.aliAppId" />
             </a-form-model-item>
-            <a-form-model-item label="支付宝密钥">
-              <a-input v-model="form.linkSort" />
+            <a-form-model-item label="支付宝公钥">
+              <a-input v-model="form.alipayPublicKey" />
+            </a-form-model-item>
+            <a-form-model-item label="支付宝商户私钥">
+              <a-input v-model="form.merchantPrivateKey" />
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="2" header="微信支付设置">
+        <!-- <a-collapse-panel key="2" header="微信支付设置">
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -148,14 +152,19 @@
                <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel>
+        </a-collapse-panel> -->
       </a-collapse>
+      <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+        <a-button type="primary" @click="onSubmit">
+          保存设置
+        </a-button>
+      </a-form-model-item>
     </div>
   </div>
 </template>
 
 <script>
-import Upload from "@/components/Upload/index";
+// import Upload from "@/components/Upload/index";
 
 export default {
   data() {
@@ -173,7 +182,7 @@ export default {
         linkSort: "",
         channelCode: "",
         linkLogo: "",
-        linkTypeSort: 0
+        linkTypeSort: 0,
       },
       rules: {
         linkName: [
@@ -181,39 +190,65 @@ export default {
             required: true,
             message:
               "必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_），且长度在2-20个字符内。",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         linkUrl: [
           {
             required: true,
             message: "必填，用于网站首页的标题展示，且长度在2-100字以内。",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         linkDescribe: [
           {
             required: true,
             message:
               "必填，代表了网站的市场定位，可用于搜索引擎的条件，如填写XX云，百度搜索XX云，将出现本站点首页，关键词限制中英文数字以及短横线（-）、下划线（_）、半角逗号（,）,且长度在2-300个字符内。",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       loading: false,
-      data: []
+      data: [],
     };
   },
   components: {
-    Upload
+    // Upload
   },
-   methods: {
+  created() {
+    this.getAlipay()
+  },
+  methods: {
+    onSubmit() {
+      this.form.accountType = "ali";
+      this.form.accountConfig = {
+        aliAppId: this.form.aliAppId,
+        merchantPprivateKey: this.form.merchantPrivateKey,
+        alipayPublicKey: this.form.alipayPublicKey,
+      };
+      // console.log(this.form);
+      this.$store.dispatch("globalBasic/updateAlipayConfig", this.form).then(() => {
+        this.$message.success("保存成功");
+      });
+    },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
       this.form.pcPicture = firstImageUrl;
     },
-   }
+    // 获取支付宝设置
+    getAlipay() {
+      this.loading = true;
+      this.$store
+        .dispatch("globalBasic/getAlipayConfig", {accountType:'ali'})
+        .then((res) => {
+          console.log(res);
+          this.loading = false;
+          this.form = {...res.data.accountConfig};
+        })
+    },
+  },
 };
 </script>
 

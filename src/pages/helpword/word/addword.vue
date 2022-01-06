@@ -9,7 +9,7 @@
         :wrapper-col="wrapperCol"
       >
          <a-form-model-item label="分类">
-          <a-select v-model="form.parentCode">
+          <a-select v-model="form.helpTypeCode">
             <a-select-option
               :value="item.typeCode"
               v-for="(item, index) in arr"
@@ -147,12 +147,18 @@ export default {
     },
     //上传富文本
     tinymceinput(value) {
-      console.log("富文本输入", value);
+      // console.log("富文本输入", value);
       this.form.context = value;
     },
     // 提交
     onSubmit() {
-      // this.form.linkLogo = this.imgList.toString();
+      // this.form.typeName = this.imgList.toString();
+      this.arr.findIndex(item => {
+        if (item.typeCode == this.form.helpTypeCode) {
+          this.form.typeName = item.typeName;
+        }
+      });
+      console.log("提交", this.form);
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;

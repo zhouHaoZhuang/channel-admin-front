@@ -7,13 +7,13 @@
       <a-button icon="delete" class="btn" @click="deleteinbatches">
         批量删除
       </a-button>
-      <a-button icon="check" class="btn" @click="show">
+      <a-button icon="check" class="btn" @click="hotset">
         热门设置
       </a-button>
-      <a-button icon="check" class="btn" @click="conceal">
+      <a-button icon="check" class="btn" @click="topset">
         置顶设置
       </a-button>
-      <a-button icon="check" class="btn" @click="conceal">
+      <a-button icon="check" class="btn" @click="recommendedset">
         推荐设置
       </a-button>
       <div class="btn">
@@ -121,7 +121,6 @@ export default {
         {
           title: "ID",
           dataIndex: "id",
-          key: ""
         },
         {
           title: "标题",
@@ -130,7 +129,7 @@ export default {
         },
         {
           title: "分类",
-          dataIndex: "",
+          dataIndex: "helpTypeCode",
           key: ""
         },
         {
@@ -278,9 +277,6 @@ export default {
             .dispatch("word/delPrice", this.selectedRowKeys.toString())
             .then(val => {
               this.$message.success("操作成功");
-              // this.$store.dispatch("操作成功").then(val => {
-              //   this.reqAfter(val);
-              // });
               this.getList();
             });
         }
@@ -303,12 +299,22 @@ export default {
         }
       });
     },
-    //隐藏
-    conceal() {},
-    //排序
-    sort() {},
-    //查询
-    secectClick() {}
+    // 查询
+    secectClick(val) {
+      console.log(val);
+    },
+    //热门设置
+    hotset() {
+
+    },
+    //置顶设置
+    topset() {
+
+    },
+    //推荐设置
+    recommendedset() {
+
+    }
   }
 };
 </script>

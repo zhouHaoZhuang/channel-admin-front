@@ -9,18 +9,15 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="分类">
-          <a-select v-model="form.helpTypeCode" placeholder="注册与购买">
-            <a-select-option :value="0">
-              注册与购买
-            </a-select-option>
-            <a-select-option :value="1">
-              云服务器问题
-            </a-select-option>
-            <a-select-option :value="2">
-              备案问题
-            </a-select-option>
-            <a-select-option :value="3">
-              使用规则
+          <a-select v-model="form.helpTypeCode">
+            <a-select-option
+              :value="item.typeCode"
+              v-for="(item, index) in arr"
+              :key="index"
+            >
+              <span v-if="item.typeCode" :style="`margin-left: ${item.typeCode.length-12}ex;`">
+                 |-{{ item.typeName }}
+              </span>
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -65,12 +62,12 @@
         </a-form-model-item>
         <a-form-model-item label="内容">
           <div class="Deputy">
-            <Tinymce @tinymceinput="tinymceinput" />
+            <Tinymce :tinyvalue='form.context' @tinymceinput="tinymceinput" />
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
-            确定添加
+            确定修改
           </a-button>
         </a-form-model-item>
       </a-form-model>
@@ -79,7 +76,6 @@
 </template>
 
 <script>
-import Upload from "@/components/Upload/index";
 import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   data() {
@@ -117,7 +113,8 @@ export default {
         ]
       },
       loading: false,
-      data: []
+      data: [],
+          arr: [],
     };
   },
   components: {
@@ -126,22 +123,34 @@ export default {
   created() {
     this.getList();
   },
+  activated() {
+    this.getList();
+    this.getAllType();
+  },
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch("word/getList").then(res => {
+      this.$store.dispatch("word/getId",this.$route.query.id).then(res => {
         console.log(res);
-        this.data = res.data.list;
+        this.form = res.data;
+      });
+    },
+     getAllType() {
+      this.$store.dispatch("helpCategory/getList").then((val) => {
+        console.log("获取所有分类", val.data.list);
+        this.arr = val.data.list;
+        this.arr.reverse()
+        // this.printObjRec(val.data);
       });
     },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
+      // console.log("上传图片回调", urlList, firstImageUrl);
       this.form.bannerPicture = firstImageUrl;
     },
     //上传富文本
     tinymceinput(value) {
-      console.log("富文本输入", value);
+      // console.log("富文本输入", value);
       this.form.context = value;
     },
     // 提交
@@ -153,7 +162,7 @@ export default {
           this.$store
             .dispatch("word/add", this.form)
             .then(res => {
-              this.$message.success("新增列表成功");
+              this.$message.success("修改列表成功");
               this.resetForm();
               this.$router.back();
             })

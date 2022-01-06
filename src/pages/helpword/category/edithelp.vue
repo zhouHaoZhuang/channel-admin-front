@@ -83,7 +83,14 @@ export default {
   created() {
     this.getAllType();
     this.getInfo();
-    console.log(this.$route.query.id);
+    // console.log(this.$route.query.id);
+    this.resetForm();
+  },
+  activated() {
+    this.getAllType();
+    this.getInfo();
+    this.resetForm();
+    // console.log(this.$route.query.id);
   },
   methods: {
     handleChange(value) {
