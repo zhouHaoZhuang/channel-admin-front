@@ -22,49 +22,59 @@ const helpCategory = {
         params
       });
     },
-    // getAllList({ commit, state }, params) {
-    //   return request({
-    //     url: `/order?pageSize=${params.pageSize}`,
-    //     method: "get",
-    //     params
-    //   });
-    // },
-    selectList ({ commit, state }, params) {
+    // 获取所有的类别  没有参数获取所有类别，有参数获取当前类别下面的子类别
+    getAll ({ commit, state }, params) {
       return request({
-        url: `/ccHelpType`,
+        url: `/ccHelpType/getChildByCode`,
         method: "get",
         params
       });
     },
+    // 查询一个资源对象
+    getOne ({ commit, state }, params) {
+      return request({
+        url: `/ccHelpType/${params.id}`,
+        method: "get",
+        params
+      });
+    },
+    // 删除一个资源对象或多个资源对象
     delList ({ commit, state }, id) {
       return request({
         url: `/ccHelpType/${id}`,
         method: "delete"
       });
     },
-    changeList ({ commit, state }, data) {
+    // 强制删除一个资源对象或多个资源对象
+    forceDelete({ commit, state }, id){
       return request({
-        url: `/ccHelpType/${data.id}`,
-        method: "put",
+        url: `/ccHelpType/batchDeleteNodeAndChildNode/${id}`,
+        method: "delete"
+      });
+    },
+    sortList ({ commit, state }, data) {
+      return request({
+        url: `/ccHelpType/sort`,
+        method: "post",
         data
       });
     },
-    addList ({ commit, state }, params) {
+    // 修改一个资源对象
+    changeList ({ commit, state }, data) {
+      return request({
+        url: `/ccHelpType/${data.id}`,
+        method: "patch",
+        data
+      });
+    },
+    // 新增一个资源对象
+    addList ({ commit, state }, data) {
       return request({
         url: "/ccHelpType",
         method: "post",
-        data: {
-          ...params
-        }
+        data
       });
     },
-    getOne ({ commit, state }, id) {
-      console.log(state);
-      return request({
-        url: `/ccHelpType/${id}`,
-        method: "get"
-      });
-    }
   }
 };
 

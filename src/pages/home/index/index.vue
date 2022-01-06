@@ -124,7 +124,7 @@
         <div class="business-statistics">
           <h1>业务统计</h1>
           <div class="business-info">
-            云服务器（3台）
+            云服务器（{{SuccessCountNum}}台）
           </div>
         </div>
       </div>
@@ -157,6 +157,8 @@ export default {
       loginMonth: "",
       orderSumDay: "",
       orderSumMonth: "",
+
+      SuccessCountNum: "",
     };
   },
   computed: {
@@ -174,6 +176,7 @@ export default {
     this.coountInfo(this.currentMonth(), "month");
     this.orderSumInfo(this.currentDay(), "day");
     this.orderSumInfo(this.currentMonth(), "month");
+    this.getSuccessCount(this.currentDay())
   },
 
   methods: {
@@ -200,7 +203,7 @@ export default {
         if (type == "month") {
           this.registerMonth = val.data;
         }
-        console.log(val);
+        // console.log(val);
       });
     },
     // 注册客户
@@ -236,7 +239,14 @@ export default {
         if (type == "month") {
           this.orderSumMonth = val.data;
         }
-        // console.log(val, "消费金额");
+      });
+    },
+
+    // getSuccessCount获取当日云服务器台数
+    getSuccessCount(date) {
+      this.$store.dispatch("frontPage/getSuccessCount", date).then((val) => {
+          this.SuccessCountNum = val.data;
+          // console.log(val);
       });
     },
   },

@@ -63,8 +63,6 @@
         :scroll="{ x: 1300 }"
       >
         <div slot="bannerType" slot-scope="text">
-          <div v-if="text === 0"></div>
-          <div v-else-if="text === 1"></div>
           {{ text === 0 ? "API" : "本地" }}
         </div>
         <div class="status" slot="hot" slot-scope="text">
@@ -113,6 +111,7 @@ export default {
   data() {
     return {
       listQuery: {
+        key: "",
         search: "",
         currentPage: 1,
         pageSize: 10,
@@ -162,18 +161,21 @@ export default {
           title: "有用",
           dataIndex: "useful",
           key: "useful",
+          sorter: (a, b) => a.useful - b.useful,
           scopedSlots:{}
         },
         {
           title: "没用",
           dataIndex: "useless",
           key: "useless",
+          sorter: (a, b) => a.useless - b.useless,
           scopedSlots:{}
         },
         {
           title: "反馈",
           dataIndex: "feedback",
           key: "feedback",
+          sorter: (a, b) => a.feedback - b.feedback,
           scopedSlots: { customRender: "feedback" }
         },
         {
@@ -196,9 +198,11 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
+      arr: [],
     };
   },
+ 
   activated() {
     this.getList();
   },
