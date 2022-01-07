@@ -27,7 +27,7 @@ const progressStart = (to, from, next) => {
  */
 const loginGuard = (to, from, next, options) => {
   const { store, message } = options;
-  // console.log("登录守卫", to, loginIgnore.includes(to), store.state.user.token);
+  console.log("登录守卫", to, loginIgnore.includes(to), store.state.user.token);
   if (!loginIgnore.includes(to) && !store.state.user.token) {
     message.warning("登录已失效，请重新登录");
     next({ path: "/login" });
@@ -37,7 +37,27 @@ const loginGuard = (to, from, next, options) => {
 };
 
 /**
- * 权限守卫
+ * 权限守卫--只负责检测本地是否有权限数据
+ * 同时获取下用户信息更新本地数据
+ * @param to
+ * @param form
+ * @param next
+ * @param options
+ */
+const permsGuard = (to, from, next, options) => {
+  const { store, message } = options;
+  const perms = store.state.user.perms;
+  if (!loginIgnore.includes(to) && perms.length === 0) {
+    // 获取用户信息
+    store.dispatch("user/getUserInfo");
+    // 获取权限数据
+    store.dispatch("user/getUserPerms");
+  }
+  next();
+};
+
+/**
+ * 权限守卫--负责具体的权限控制
  * @param to
  * @param form
  * @param next
@@ -103,6 +123,12 @@ const progressDone = () => {
 };
 
 export default {
-  beforeEach: [progressStart, loginGuard, authorityGuard, redirectGuard],
+  beforeEach: [
+    progressStart,
+    loginGuard,
+    permsGuard,
+    authorityGuard,
+    redirectGuard
+  ],
   afterEach: [progressDone]
 };
