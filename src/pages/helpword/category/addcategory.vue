@@ -11,14 +11,16 @@
         <a-form-model-item label="所属分类">
           <a-select v-model="form.parentCode">
             <a-select-option
+              value="help_type_01"
+            >
+              <span> |-帮助中心</span>
+            </a-select-option>
+            <a-select-option
               :value="item.typeCode"
               v-for="(item, index) in arr"
               :key="index"
             >
-              <span
-                v-if="item.typeCode"
-                :style="`margin-left: ${item.typeCode.length - 12}ex;`"
-              >
+              <span :style="`margin-left: ${item.level}em;`">
                 |-{{ item.typeName }}
               </span>
             </a-select-option>
@@ -55,7 +57,7 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        parentCode: "",
+        parentCode: "help_type_01",
         typeName: "",
         typeNameEn: "",
         typeIcon: "",
@@ -79,21 +81,17 @@ export default {
       loading: false,
       arr: [],
       objarr: [],
+      jibie: 0,
     };
   },
   components: {
     Upload,
   },
-  created() {
-    this.getAllType();
-  },
   activated() {
     this.resetForm();
-    this.getAllType();
-    // console.log("activated",this.$route.query.typeCode);
-    console.log(this.form.typeIcon, "55555555555");
+    // console.log(this.form.typeIcon, "55555555555");
     this.form.parentCode = this.$route.query.typeCode;
-    this.getaaa();
+    this.getAllType();
   },
   methods: {
     handleChange(value) {
@@ -105,29 +103,10 @@ export default {
       this.form.typeIcon = firstImageUrl;
     },
     getAllType() {
-      this.$store.dispatch("helpCategory/getList").then((val) => {
-        console.log("获取所有分类", val.data.list);
-        this.arr = val.data.list;
-        this.arr.reverse();
-        // this.printObjRec(val.data);
+      this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+        console.log("获取所有分类------------", val.data);
+        this.arr = val.data;
       });
-    },
-    getaaa() {
-      this.$store.dispatch("helpCategory/getAll").then((val) => {
-        // console.log("获取所有分类------------", val.data);
-        this.digui(val.data);
-        console.log("获取所有分类------------", this.objarr);
-      });
-    },
-    digui(obj) {
-      if (obj.typeName) {
-        this.objarr.push(obj);
-        for (let index = 0; index < obj.ccHelpTypeList.length; index++) {
-          const element = obj.ccHelpTypeList[index];
-          this.objarr.push(element);
-          this.digui(element);
-        }
-      }
     },
     // 提交
     onSubmit() {

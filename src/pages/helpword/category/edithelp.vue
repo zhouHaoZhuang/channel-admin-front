@@ -11,11 +11,16 @@
         <a-form-model-item label="所属分类">
           <a-select v-model="form.typeCode">
             <a-select-option
+              value="help_type_01"
+            >
+              <span> |-帮助中心</span>
+            </a-select-option>
+            <a-select-option
               :value="item.typeCode"
               v-for="(item, index) in arr"
               :key="index"
             >
-              <span v-if="item.typeCode" :style="`margin-left: ${item.typeCode.length - 12}ex;`">
+              <span :style="`margin-left: ${item.level}em;`">
                 |-{{ item.typeName }}
               </span>
             </a-select-option>
@@ -80,12 +85,6 @@ export default {
   components: {
     Upload,
   },
-  created() {
-    this.getAllType();
-    this.getInfo();
-    // console.log(this.$route.query.id);
-    this.resetForm();
-  },
   activated() {
     this.getAllType();
     this.getInfo();
@@ -109,9 +108,9 @@ export default {
     },
     // 请求到所有分类
     getAllType() {
-      this.$store.dispatch("helpCategory/getList").then((val) => {
-        this.arr = val.data.list;
-        this.arr.reverse()
+     this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+        console.log("获取所有分类------------", val.data);
+        this.arr = val.data;
       });
     },
     // 提交

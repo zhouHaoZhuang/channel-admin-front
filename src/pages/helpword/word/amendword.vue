@@ -9,14 +9,19 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="分类">
-          <a-select v-model="form.helpTypeCode">
+           <a-select v-model="form.helpTypeCode">
+            <a-select-option
+              value="help_type_01"
+            >
+              <span> |-帮助中心</span>
+            </a-select-option>
             <a-select-option
               :value="item.typeCode"
               v-for="(item, index) in arr"
               :key="index"
             >
-              <span v-if="item.typeCode" :style="`margin-left: ${item.typeCode.length-12}ex;`">
-                 |-{{ item.typeName }}
+              <span :style="`margin-left: ${item.level}em;`">
+                |-{{ item.typeName }}
               </span>
             </a-select-option>
           </a-select>
@@ -30,7 +35,7 @@
         <a-form-model-item label="描述" type="describe">
           <a-input v-model="form.describe" />
         </a-form-model-item>
-       <a-form-model-item label="推荐">
+        <a-form-model-item label="推荐">
           <a-radio-group v-model="form.recommended">
             <a-radio :value="true">
               是
@@ -40,7 +45,7 @@
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
-         <a-form-model-item label="置顶">
+        <a-form-model-item label="置顶">
           <a-radio-group v-model="form.top">
             <a-radio :value="true">
               是
@@ -50,7 +55,7 @@
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
-         <a-form-model-item label="热门">
+        <a-form-model-item label="热门">
           <a-radio-group v-model="form.hot">
             <a-radio :value="true">
               是
@@ -62,7 +67,7 @@
         </a-form-model-item>
         <a-form-model-item label="内容">
           <div class="Deputy">
-            <Tinymce :tinyvalue='form.context' @tinymceinput="tinymceinput" />
+            <Tinymce :tinyvalue="form.context" @tinymceinput="tinymceinput" />
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
@@ -83,42 +88,42 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        title:"",
-        keyWords:"",
-        describe:"",
-        recommended:true,
-        top:true,
-        hot:true,
-        context:"",
-        helpTypeCode:"",
-        channelCode:"",
-        feedback:0,
-        useful:0,
-        useless:0
+        title: "",
+        keyWords: "",
+        describe: "",
+        recommended: true,
+        top: true,
+        hot: true,
+        context: "",
+        helpTypeCode: "",
+        channelCode: "",
+        feedback: 0,
+        useful: 0,
+        useless: 0,
       },
       rules: {
         title: [
           {
             required: true,
             message: "必填，链接名称长度必须在2-50之间。",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         linkUrl: [
           {
             required: true,
             message: "必填，链接URL长度必须在2-50之间。",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       loading: false,
       data: [],
-          arr: [],
+      arr: [],
     };
   },
   components: {
-    Tinymce
+    Tinymce,
   },
   created() {
     this.getList();
@@ -130,17 +135,15 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch("word/getId",this.$route.query.id).then(res => {
+      this.$store.dispatch("word/getId", this.$route.query.id).then((res) => {
         console.log(res);
         this.form = res.data;
       });
     },
-     getAllType() {
-      this.$store.dispatch("helpCategory/getList").then((val) => {
-        console.log("获取所有分类", val.data.list);
-        this.arr = val.data.list;
-        this.arr.reverse()
-        // this.printObjRec(val.data);
+    getAllType() {
+      this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+        console.log("获取所有分类------------", val.data);
+        this.arr = val.data;
       });
     },
     // 上传pc图片
@@ -156,12 +159,13 @@ export default {
     // 提交
     onSubmit() {
       // this.form.linkLogo = this.imgList.toString();
-      this.$refs.ruleForm.validate(valid => {
+      this.form.id = this.$route.query.id
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("word/add", this.form)
-            .then(res => {
+            .dispatch("word/edit", this.form)
+            .then((res) => {
               this.$message.success("修改列表成功");
               this.resetForm();
               this.$router.back();
@@ -181,10 +185,10 @@ export default {
         addressProject: "",
         contract: "",
         number: "",
-        description: ""
+        description: "",
       };
-    }
-  }
+    },
+  },
 };
 </script>
 
