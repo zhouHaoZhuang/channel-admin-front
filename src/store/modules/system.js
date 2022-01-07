@@ -111,22 +111,22 @@ const channel = {
     // 获取已授权规则
     getRuleList({ commit, state }, params) {
       return request({
-        url: `/role/permission/${params.code}`,
+        url: `/role/permissionList/${params.code}`,
         method: "get"
       });
     },
-    // 添加授权
+    // 添加授权规则
     addRule({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/role/addPermissions",
         method: "post",
         data
       });
     },
-    // 取消授权
+    // 取消授权规则
     cancelRule({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/role/revokeResource",
         method: "post",
         data
       });

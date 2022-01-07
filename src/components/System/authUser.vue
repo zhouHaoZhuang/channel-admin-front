@@ -3,7 +3,9 @@
     <div class="public-title">
       <div class="left-tit">已授权用户</div>
       <a-space>
-        <a-button>取消授权</a-button>
+        <a-button v-if="selectedRowKeys.length > 0" @click="cancelAuthUser"
+          >取消授权</a-button
+        >
         <a-button type="primary" @click="handleAdd">添加授权</a-button>
       </a-space>
     </div>
@@ -15,6 +17,10 @@
           :data-source="data"
           rowKey="id"
           :pagination="false"
+          :row-selection="{
+            selectedRowKeys: selectedRowKeys,
+            onChange: onSelectChange
+          }"
         >
           <span slot="createdAt" slot-scope="text">
             {{ text | formatDate }}
@@ -102,6 +108,7 @@ export default {
       ],
       data: [],
       tableLoading: false,
+      selectedRowKeys: [],
       // 弹窗
       visible: false,
       loading: false,
@@ -112,8 +119,10 @@ export default {
   },
   watch: {
     code: {
-      handler() {
-        this.getAuthUserList();
+      handler(newVal) {
+        if (newVal) {
+          this.getAuthUserList();
+        }
       },
       immediate: true
     },
@@ -126,6 +135,10 @@ export default {
     }
   },
   methods: {
+    // 表格多选
+    onSelectChange(selectedRowKeys) {
+      this.selectedRowKeys = selectedRowKeys;
+    },
     // 查询已授权用户列表
     getAuthUserList() {
       this.tableLoading = true;
@@ -191,8 +204,24 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-    }
+    },
     // 批量取消授权
+    cancelAuthUser() {
+      this.$confirm({
+        title: "确认要批量取消授权吗？",
+        onOk: () => {
+          this.$store
+            .dispatch("system/cancelAuthUser", {
+              code: this.code,
+              userIds: [...this.selectedRowKeys]
+            })
+            .then(res => {
+              this.$message.success("批量取消授权成功");
+              this.getAuthUserList();
+            });
+        }
+      });
+    }
   }
 };
 </script>

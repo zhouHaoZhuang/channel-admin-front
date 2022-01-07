@@ -15,8 +15,11 @@
           rowKey="id"
           :pagination="false"
         >
-          <span slot="createdAt" slot-scope="text">
-            {{ text | formatDate }}
+          <span slot="type">
+            角色
+          </span>
+          <span slot="code" slot-scope="text">
+            {{ text.replace(":*", "") }}
           </span>
           <span slot="action" slot-scope="text, record">
             <a-button type="link" @click="handleCancelAuth(record)">
@@ -45,17 +48,31 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="被授权主体类型" prop="code">
+        <a-form-model-item label="被授权主体类型" prop="type">
+          <a-radio-group v-model="form.type">
+            <a-radio value="role">
+              角色
+            </a-radio>
+          </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="被授权主体" prop="code">
-          <a-select mode="multiple" style="width: 100%" placeholder="选择角色">
-            <a-select-option v-for="item in roleList" :key="item.id">
+        <a-form-model-item label="被授权角色" prop="roleCodes">
+          <a-select
+            v-model="form.roleCodes"
+            mode="multiple"
+            style="width: 100%"
+            placeholder="选择角色"
+          >
+            <a-select-option
+              v-for="item in roleList"
+              :key="item.id"
+              :value="item.code"
+            >
               <div>{{ item.code }}</div>
               <div>{{ item.description }}</div>
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="授权作用">
+        <!-- <a-form-model-item label="授权作用">
           <a-radio-group v-model="form.type">
             <a-radio :value="1">
               允许
@@ -64,16 +81,24 @@
               拒绝
             </a-radio>
           </a-radio-group>
-        </a-form-model-item>
-        <a-form-model-item label="权限">
+        </a-form-model-item> -->
+        <a-form-model-item label="权限" prop="permissionCode">
           <a-select
+            v-model="form.permissionCode"
             show-search
             placeholder="请选择权限"
             option-filter-prop="children"
             style="width: 100%"
             :filter-option="filterOption"
           >
-            <a-select-option v-for="item in adminList" :key="item.id">
+            <!-- <a-select-option value='all'>
+              <span>所有资源</span>
+            </a-select-option> -->
+            <a-select-option
+              v-for="item in adminList"
+              :key="item.id"
+              :value="item.code"
+            >
               <span>{{ item.code }}</span>
               <span>({{ item.description }})</span>
             </a-select-option>
@@ -94,15 +119,24 @@ export default {
     }
   },
   data() {
+    const validateRoleCodes = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error("请选择被授权角色"));
+      } else {
+        callback();
+      }
+    };
     return {
       columns: [
         {
-          title: "授权作用",
-          dataIndex: "code"
+          title: "被授权主体类型",
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
         },
         {
           title: "权限",
-          dataIndex: "descripation"
+          dataIndex: "code",
+          scopedSlots: { customRender: "code" }
         },
         {
           title: "权限描述",
@@ -124,16 +158,29 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 15 },
       form: {
-        code: "",
-        type: "DATA",
-        description: ""
+        type: "role",
+        roleCodes: [],
+        permissionCode: undefined
       },
       rules: {
-        code: [
+        type: [
           {
             required: true,
-            message: "请输入权限名称",
-            tigger: ["blur", "change"]
+            message: "请选择授权主体类型",
+            tigger: ["change"]
+          }
+        ],
+        roleCodes: [
+          {
+            validator: validateRoleCodes,
+            tigger: ["change"]
+          }
+        ],
+        permissionCode: [
+          {
+            required: true,
+            message: "请选择权限",
+            tigger: ["change"]
           }
         ]
       }
@@ -141,8 +188,10 @@ export default {
   },
   watch: {
     code: {
-      handler() {
-        this.getAuthRuleList();
+      handler(newVal) {
+        if (newVal) {
+          this.getAuthRuleList();
+        }
       },
       immediate: true
     },
@@ -151,6 +200,7 @@ export default {
         if (newVal) {
           this.getRoleList();
           this.getAdminList();
+          this.form.roleCodes = [this.code];
         }
       }
     }
@@ -160,7 +210,9 @@ export default {
     getAuthRuleList() {
       this.tableLoading = true;
       this.$store
-        .dispatch("system/getRuleList", { code: this.code })
+        .dispatch("system/getRuleList", {
+          code: this.code
+        })
         .then(res => {
           this.data = [...res.data.list];
         })
@@ -189,7 +241,8 @@ export default {
       this.$store
         .dispatch("system/getAdminList", {
           currentPage: 1,
-          pageSize: 100
+          pageSize: 100,
+          isAll: false
         })
         .then(res => {
           this.adminList = [...res.data.list];
@@ -198,9 +251,7 @@ export default {
     // 权限下拉选择的搜索
     filterOption(input, option) {
       return (
-        option.componentOptions.children[0].text
-          .toLowerCase()
-          .indexOf(input.toLowerCase()) >= 0
+        option.componentOptions.children[0].children[0].text.indexOf(input) >= 0
       );
     },
     // 关闭弹窗
@@ -211,9 +262,9 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        code: "",
-        type: "DATA",
-        description: ""
+        type: "role",
+        roleCodes: [],
+        permissionCode: undefined
       };
     },
     // 弹窗提交
@@ -222,9 +273,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.$store
-            .dispatch("system/addRule", {
-              code: this.code
-            })
+            .dispatch("system/addRule", this.form)
             .then(res => {
               this.$message.success("授权成功");
               this.getAuthRuleList();
@@ -243,7 +292,10 @@ export default {
         title: "确认要取消授权吗？",
         onOk: () => {
           this.$store
-            .dispatch("system/cancelRule", { code: record.code })
+            .dispatch("system/cancelRule", {
+              permissionCode: record.code,
+              roleCode: this.code
+            })
             .then(res => {
               this.$message.success("取消授权成功");
               this.getAuthRuleList();

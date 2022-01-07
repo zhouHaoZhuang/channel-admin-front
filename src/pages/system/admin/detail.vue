@@ -42,8 +42,10 @@ export default {
   },
   watch: {
     $route: {
-      handler() {
-        this.getDetail();
+      handler(newVal) {
+        if (newVal.path === "/system/admin/detail") {
+          this.getDetail();
+        }
       },
       immediate: true,
       deep: true
