@@ -35,7 +35,7 @@ const word = {
     edit({ commit, state }, data) {
       return request({
         url: `/ccHelpDocument/${data.id}`,
-        method: "put",
+        method: "patch",
         data
       });
     },

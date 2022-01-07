@@ -30,6 +30,14 @@ const helpCategory = {
         params
       });
     },
+    // 获取所有的类别  有级别
+    getAllLevel ({ commit, state }, params) {
+      return request({
+        url: `/ccHelpType/getHelpTypeTree`,
+        method: "get",
+        params
+      });
+    },
     // 查询一个资源对象
     getOne ({ commit, state }, params) {
       return request({

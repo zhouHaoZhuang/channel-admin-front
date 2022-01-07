@@ -10,45 +10,81 @@
       <a-button icon="check" class="btn" @click="hotset">
         热门设置
       </a-button>
+      <a-modal
+        title="确认"
+        :visible="hotvisible"
+        :confirm-loading="hotconfirmLoading"
+        @ok="hothandleOk"
+        @cancel="hothandleCancel"
+      >
+        <p>是否热门</p>
+        <a-radio-group v-model="ishot">
+          <a-radio value="true">
+            是
+          </a-radio>
+          <a-radio value="false">
+            否
+          </a-radio>
+        </a-radio-group>
+      </a-modal>
       <a-button icon="check" class="btn" @click="topset">
         置顶设置
       </a-button>
+      <a-modal
+        title="确认"
+        :visible="topvisible"
+        :confirm-loading="topconfirmLoading"
+        @ok="tophandleOk"
+        @cancel="tophandleCancel"
+      >
+        <p>是否置顶</p>
+        <a-radio-group v-model="istop">
+          <a-radio value="true">
+            是
+          </a-radio>
+          <a-radio value="false">
+            否
+          </a-radio>
+        </a-radio-group>
+      </a-modal>
       <a-button icon="check" class="btn" @click="recommendedset">
         推荐设置
       </a-button>
+      <a-modal
+        title="确认"
+        :visible="recvisible"
+        :confirm-loading="recconfirmLoading"
+        @ok="rechandleOk"
+        @cancel="rechandleCancel"
+      >
+        <p>是否置顶</p>
+        <a-radio-group v-model="isrec">
+          <a-radio value="true">
+            是
+          </a-radio>
+          <a-radio value="false">
+            否
+          </a-radio>
+        </a-radio-group>
+      </a-modal>
+      <a-select
+        style="width:120px"
+        allowClear
+        v-model="listQuery.key"
+        placeholder="请选择"
+        class="btn"
+      >
+        <a-select-option
+          v-for="item in columns.slice(0, columns.length - 3)"
+          :key="item.dataIndex"
+          :value="item.dataIndex"
+        >
+          {{ item.title }}
+        </a-select-option>
+      </a-select>
       <div class="btn">
-        <a-input placeholder="搜索关键词" v-model="listQuery.search" />
+        <a-input placeholder="搜索关键词" v-model="listQuery.value" />
       </div>
-      <a-select
-        style="width:120px"
-        allowClear
-        v-model="listQuery.key"
-        placeholder="请选择"
-        class="btn"
-      >
-        <a-select-option
-          v-for="item in columns.slice(0, columns.length - 3)"
-          :key="item.dataIndex"
-          :value="item.dataIndex"
-        >
-          {{ item.title }}
-        </a-select-option>
-      </a-select>
-      <a-select
-        style="width:120px"
-        allowClear
-        v-model="listQuery.key"
-        placeholder="请选择"
-        class="btn"
-      >
-        <a-select-option
-          v-for="item in columns.slice(0, columns.length - 3)"
-          :key="item.dataIndex"
-          :value="item.dataIndex"
-        >
-          {{ item.title }}
-        </a-select-option>
-      </a-select>
       <a-button type="primary" @click="secectClick" class="btn">
         查询
       </a-button>
@@ -62,23 +98,20 @@
         :pagination="paginationProps"
         :scroll="{ x: 1300 }"
       >
-        <div slot="bannerType" slot-scope="text">
-          {{ text === 0 ? "API" : "本地" }}
-        </div>
         <div class="status" slot="hot" slot-scope="text">
-          <div v-if="text === 0" class="dot"></div>
+          <div v-if="!text" class="dot"></div>
           <div v-else class="dot dot-err"></div>
-          {{ text === 0 ? "禁止" : "开启" }}
+          {{ text ? "开启" : "禁止" }}
         </div>
-         <div class="status" slot="top" slot-scope="text">
-          <div v-if="text === 0" class="dot"></div>
+        <div class="status" slot="top" slot-scope="text">
+          <div v-if="!text" class="dot"></div>
           <div v-else class="dot dot-err"></div>
-          {{ text === 0 ? "禁止" : "开启" }}
+          {{ text ? "开启" : "禁止" }}
         </div>
-         <div class="status" slot="recommended" slot-scope="text">
-          <div v-if="text === 0" class="dot"></div>
+        <div class="status" slot="recommended" slot-scope="text">
+          <div v-if="!text" class="dot"></div>
           <div v-else class="dot dot-err"></div>
-          {{ text === 0 ? "禁止" : "开启" }}
+          {{ text ? "开启" : "禁止" }}
         </div>
         <span slot="action" slot-scope="text">
           <a-button type="link" @click="updatePrice(text)">
@@ -102,20 +135,21 @@ export default {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedRowKeys = selectedRowKeys;
-          console.log(this.selectedRowKeys);
-        }
+          this.selectHelpObj = selectedRows;
+        },
       };
-    }
+    },
   },
   created() {},
   data() {
     return {
       listQuery: {
-        key: "",
+        key: "id",
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        value: "",
       },
       columns: [
         {
@@ -125,65 +159,59 @@ export default {
         {
           title: "标题",
           dataIndex: "title",
-          key: "title"
+          key: "title",
         },
         {
           title: "分类",
           dataIndex: "helpTypeCode",
-          key: ""
-        },
-        {
-          title: "类型",
-          dataIndex: "bannerType",
-          key: "bannerType",
-          scopedSlots: { customRender: "bannerType" }
+          key: "",
         },
         {
           title: "热门",
           dataIndex: "hot",
           key: "hot",
-          scopedSlots:{customRender:"hot"}
+          scopedSlots: { customRender: "hot" },
         },
         {
           title: "置顶",
           dataIndex: "top",
           key: "top",
-          scopedSlots:{customRender:"top"}
+          scopedSlots: { customRender: "top" },
         },
         {
           title: "推荐",
           dataIndex: "recommended",
           key: "recommended",
-          scopedSlots:{customRender:"recommended"}
+          scopedSlots: { customRender: "recommended" },
         },
         {
           title: "有用",
           dataIndex: "useful",
           key: "useful",
           sorter: (a, b) => a.useful - b.useful,
-          scopedSlots:{}
+          scopedSlots: {},
         },
         {
           title: "没用",
           dataIndex: "useless",
           key: "useless",
           sorter: (a, b) => a.useless - b.useless,
-          scopedSlots:{}
+          scopedSlots: {},
         },
         {
           title: "反馈",
           dataIndex: "feedback",
           key: "feedback",
           sorter: (a, b) => a.feedback - b.feedback,
-          scopedSlots: { customRender: "feedback" }
+          scopedSlots: { customRender: "feedback" },
         },
         {
           title: "操作",
           key: "action",
           dataIndex: "id",
           fixed: "right",
-          scopedSlots: { customRender: "action" }
-        }
+          scopedSlots: { customRender: "action" },
+        },
       ],
       data: [],
       paginationProps: {
@@ -195,36 +223,97 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
+        onShowSizeChange: this.onShowSizeChange,
       },
       selectedRowKeys: [],
       arr: [],
+      selectHelpObj: [],
+      hotvisible: false,
+      hotconfirmLoading: false,
+      ishot: "false",
+      istop: "false",
+      topvisible: false,
+      topconfirmLoading: false,
+      isrec: "false",
+      recvisible: false,
+      recconfirmLoading: false,
     };
   },
- 
+
   activated() {
     this.getList();
   },
   methods: {
-    //查询
-    // search(){
-    //   this.listQuery.currentPage = 1;
-    //   this.getList();
-    // },
+    hothandleOk(e) {
+      this.hotconfirmLoading = true;
+      for (let index = 0; index < this.selectHelpObj.length; index++) {
+        const element = this.selectHelpObj[index];
+        element.hot = this.ishot;
+        this.$store
+          .dispatch("word/edit", element)
+          .then((res) => {})
+          .finally(() => {
+            if (index == this.selectHelpObj.length - 1) {
+              this.hotvisible = false;
+              this.hotconfirmLoading = false;
+              this.$message.success("修改列表成功");
+              this.getList();
+            }
+          });
+      }
+    },
+    hothandleCancel(e) {
+      this.hotvisible = false;
+    },
+    tophandleOk(e) {
+      this.topconfirmLoading = true;
+      for (let index = 0; index < this.selectHelpObj.length; index++) {
+        const element = this.selectHelpObj[index];
+        element.top = this.istop;
+        this.$store
+          .dispatch("word/edit", element)
+          .then((res) => {})
+          .finally(() => {
+            if (index == this.selectHelpObj.length - 1) {
+              this.topvisible = false;
+              this.topconfirmLoading = false;
+              this.$message.success("修改列表成功");
+              this.getList();
+            }
+          });
+      }
+    },
+    tophandleCancel(e) {
+      this.topvisible = false;
+    },
+    rechandleOk(e) {
+      this.recconfirmLoading = true;
+      for (let index = 0; index < this.selectHelpObj.length; index++) {
+        const element = this.selectHelpObj[index];
+        element.recommended = this.isrec;
+        this.$store
+          .dispatch("word/edit", element)
+          .then((res) => {})
+          .finally(() => {
+            if (index == this.selectHelpObj.length - 1) {
+              this.recvisible = false;
+              this.recconfirmLoading = false;
+              this.$message.success("修改列表成功");
+              this.getList();
+            }
+          });
+      }
+    },
+    rechandleCancel(e) {
+      this.recvisible = false;
+    },
     //查询数据表格
     getList() {
-      this.$store.dispatch("word/getList").then(res => {
+      this.$getListQp("word/getList", this.listQuery).then((res) => {
         console.log(res);
         this.data = [...res.data.list];
+        this.paginationProps.total = res.data.totalCount * 1;
       });
-      // this.$getList("banner/getList",this.listQuery)
-      // .then(res=>{
-      //   this.data = [...res.data.list];
-      //   this.paginationProps.total = res.data.totalCount * 1;
-      // })
-      // .finally(() =>{
-
-      // })
     },
     //表格分页跳转
     quickJump(currentPage) {
@@ -246,8 +335,8 @@ export default {
       this.$router.push({
         path: "/personal/helpword/amend-word",
         query: {
-          id: text
-        }
+          id: text,
+        },
       });
     },
     //删除
@@ -256,11 +345,11 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("word/delPrice", id).then(val => {
+          this.$store.dispatch("word/delPrice", id).then((val) => {
             this.$message.success("操作成功");
             this.getList();
           });
-        }
+        },
       });
     },
     //批量删除
@@ -275,47 +364,55 @@ export default {
         onOk: () => {
           this.$store
             .dispatch("word/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
+            .then((val) => {
               this.$message.success("操作成功");
               this.getList();
             });
-        }
-      });
-    },
-    //显示
-    show() {
-      this.$confirm({
-        title: "确定要删除吗?",
-        onOk: () => {
-          this.$store
-            .dispatch("word/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
-              this.$message.success("操作成功");
-              // this.$store.dispatch("操作成功").then(val => {
-              //   this.reqAfter(val);
-              // });
-              this.getList();
-            });
-        }
+        },
       });
     },
     // 查询
-    secectClick(val) {
-      console.log(val);
+    secectClick() {
+      if (
+        this.listQuery.key === "hot" ||
+        this.listQuery.key === "top" ||
+        this.listQuery.key === "recommended"
+      ) {
+        if (this.listQuery.value === "开启") {
+          this.listQuery.search = "true";
+        } else if (this.listQuery.value === "关闭") {
+          this.listQuery.search = "false";
+        }
+      } else {
+        this.listQuery.search = this.listQuery.value;
+      }
+      this.getList();
     },
     //热门设置
     hotset() {
-
+      if (this.selectedRowKeys.length === 0) {
+        this.$message.error("请选择要热门的数据");
+        return;
+      }
+      this.hotvisible = true;
     },
     //置顶设置
     topset() {
-
+      if (this.selectedRowKeys.length === 0) {
+        this.$message.error("请选择要置顶的数据");
+        return;
+      }
+      this.topvisible = true;
     },
     //推荐设置
     recommendedset() {
-
-    }
-  }
+      if (this.selectedRowKeys.length === 0) {
+        this.$message.error("请选择要推荐的数据");
+        return;
+      }
+      this.recvisible = true;
+    },
+  },
 };
 </script>
 
