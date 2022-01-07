@@ -60,7 +60,7 @@ export default {
     };
   },
 	created() {
-		this.getRoles()
+		// this.getRoles()
 	},
   methods: {
     onSubmit() {

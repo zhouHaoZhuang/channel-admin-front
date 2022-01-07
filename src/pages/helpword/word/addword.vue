@@ -8,15 +8,20 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-         <a-form-model-item label="分类">
+        <a-form-model-item label="分类">
           <a-select v-model="form.helpTypeCode">
+            <a-select-option
+              value="help_type_01"
+            >
+              <span> |-帮助中心</span>
+            </a-select-option>
             <a-select-option
               :value="item.typeCode"
               v-for="(item, index) in arr"
               :key="index"
             >
-              <span v-if="item.typeCode" :style="`margin-left: ${item.typeCode.length-12}ex;`">
-                 |-{{ item.typeName }}
+              <span :style="`margin-left: ${item.level}em;`">
+                |-{{ item.typeName }}
               </span>
             </a-select-option>
           </a-select>
@@ -83,34 +88,34 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        title:"",
-        keyWords:"",
-        describe:"",
-        recommended:true,
-        top:true,
-        hot:true,
-        context:"",
-        helpTypeCode:"",
-        channelCode:"",
-        feedback:0,
-        useful:0,
-        useless:0
+        title: "",
+        keyWords: "",
+        describe: "",
+        recommended: true,
+        top: true,
+        hot: true,
+        context: "",
+        helpTypeCode: "",
+        channelCode: "",
+        feedback: 0,
+        useful: 0,
+        useless: 0,
       },
       rules: {
         title: [
           {
             required: true,
-            message: "必填，链接名称长度必须在2-50之间。",
-            trigger: "blur"
-          }
+            message: "必填，标题名称长度必须在2-50之间。",
+            trigger: "blur",
+          },
         ],
         keyWords: [
           {
             required: true,
             message: "必填，链接URL长度必须在2-50之间。",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       loading: false,
       data: [],
@@ -118,26 +123,17 @@ export default {
     };
   },
   components: {
-    Tinymce
+    Tinymce,
   },
-  created() {
-    this.getList();
-    this.getAllType();
+  activated() {
+     this.getAllType();
+     this.resetForm()
   },
   methods: {
-     getAllType() {
-      this.$store.dispatch("helpCategory/getList").then((val) => {
-        console.log("获取所有分类", val.data.list);
-        this.arr = val.data.list;
-        this.arr.reverse()
-        // this.printObjRec(val.data);
-      });
-    },
-    //查询数据表格
-    getList() {
-      this.$store.dispatch("word/getList").then(res => {
-        console.log(res);
-        this.data = res.data.list;
+    getAllType() {
+      this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+        console.log("获取所有分类------------", val.data);
+        this.arr = val.data;
       });
     },
     // 上传pc图片
@@ -153,18 +149,18 @@ export default {
     // 提交
     onSubmit() {
       // this.form.typeName = this.imgList.toString();
-      this.arr.findIndex(item => {
+      this.arr.findIndex((item) => {
         if (item.typeCode == this.form.helpTypeCode) {
           this.form.typeName = item.typeName;
         }
       });
       console.log("提交", this.form);
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("word/add", this.form)
-            .then(res => {
+            .then((res) => {
               this.$message.success("新增列表成功");
               this.resetForm();
               this.$router.back();
@@ -184,10 +180,10 @@ export default {
         addressProject: "",
         contract: "",
         number: "",
-        description: ""
+        description: "",
       };
-    }
-  }
+    },
+  },
 };
 </script>
 
