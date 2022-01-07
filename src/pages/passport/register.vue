@@ -16,7 +16,7 @@
           <a-input
             v-model="form.password"
             type="password"
-            :max-length="20"
+            :max-length="16"
             placeholder="6 - 16位密码，区分大小写"
           />
         </a-form-model-item>
@@ -97,7 +97,7 @@ export default {
     return {
       labelCol: { span: 0 },
       wrapperCol: { span: 22, offset: 1 },
-      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{8,20}/,
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{8,16}/,
       form: {
         channelName: "",
         password: "",

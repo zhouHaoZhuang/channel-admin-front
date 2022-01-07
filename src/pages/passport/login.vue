@@ -14,7 +14,12 @@
           </a-input>
         </a-form-model-item>
         <a-form-model-item prop="password">
-          <a-input v-model="form.password" placeholder="密码" type="password">
+          <a-input
+            v-model="form.password"
+            placeholder="密码"
+            type="password"
+            :max-length="16"
+          >
             <a-icon slot="prefix" type="lock" />
           </a-input>
         </a-form-model-item>
@@ -133,7 +138,7 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: 999;
   }
 }
