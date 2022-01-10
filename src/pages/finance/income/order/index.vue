@@ -62,11 +62,7 @@
           </div>
           <div slot="tradeType"
                slot-scope="text">
-            <span v-if="text === 1">新购</span>
-            <span v-if="text === 5">升配</span>
-            <span v-if="text === 10">降配</span>
-            <span v-if="text === 15">续费</span>
-            <span v-if="text === 20">退费</span>
+            <span >{{OrderTypeMap[text]}}</span>
           </div>
           <div slot="action"
                slot-scope="text">
@@ -84,9 +80,9 @@
             {{ text | formatDate }}
           </div>
           <div :class="{ green: text === 1, blue: text !== 1 }"
-               slot="payStatus"
+               slot="tradeStatus"
                slot-scope="text">
-            {{ text === 1 ? "已支付" : "未支付" }}
+            {{ orderStatusEnum[text]}}
           </div>
           <div slot="select"
                slot-scope="text">
@@ -107,10 +103,13 @@
 </template>
 
 <script>
+import { orderStatusEnum,OrderTypeMap } from '@/utils/enum.js'
 export default {
   data () {
     return {
       title: "orderNo",
+      orderStatusEnum,
+      OrderTypeMap,
       // search: "",
       listQuery: {
         key: undefined,
@@ -158,10 +157,10 @@ export default {
         },
         {
           title: "状态",
-          dataIndex: "payStatus",
-          key: "payStatus",
+          dataIndex: "tradeStatus",
+          key: "tradeStatus",
           width: 100,
-          scopedSlots: { customRender: "payStatus" }
+          scopedSlots: { customRender: "tradeStatus" }
         },
         {
           title: "现金支付",
