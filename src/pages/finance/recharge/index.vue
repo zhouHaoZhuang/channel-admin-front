@@ -137,15 +137,18 @@
               查看
             </a-button>
           </div>
-          <div slot="payTime" slot-scope="text">
-            {{ text }}
+          <div slot="createTime" slot-scope="text">
+            {{ text | formatDate }}
+          </div>
+          <div slot="modifyTime" slot-scope="text">
+            {{ text | formatDate }}
           </div>
           <div
             :class="{ green: text === 1, blue: text !== 1 }"
             slot="status"
             slot-scope="text"
           >
-            <span>{{ detailsMapData[text] }}</span>
+            <span>{{ detailTypeMapData[text] }}</span>
           </div>
         </a-table>
       </div>
@@ -154,12 +157,12 @@
 </template>
 
 <script>
-import { detailsMapData } from "@/utils/enum.js";
+import { detailTypeMapData } from "@/utils/enum.js";
 export default {
   data() {
     return {
       isfilter: false,
-      detailsMapData,
+      detailTypeMapData,
       // search: "",
       listQuery: {
         key: "customerCode",
@@ -200,9 +203,15 @@ export default {
         // },
         {
           title: "充值时间",
-          dataIndex: "payTime",
-          key: "payTime",
-          scopedSlots: { customRender: "payTime" },
+          dataIndex: "createTime",
+          key: "createTime",
+          scopedSlots: { customRender: "createTime" },
+        },
+         {
+          title: "到账时间",
+          dataIndex: "modifyTime",
+          key: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" },
         },
         {
           title: "充值状态",

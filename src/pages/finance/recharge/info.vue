@@ -13,7 +13,7 @@
         <span class="details-type">充值金额：</span><span class="details-value">{{ data.amount }}</span>
       </div>
       <div>
-        <span class="details-type">充值时间：</span><span class="details-value">{{ data.payTime }}</span>
+        <span class="details-type">充值时间：</span><span class="details-value">{{ data.createTime }}</span>
       </div>
       <div>
         <span class="details-type">充值状态：</span><span class="details-value">{{ detailsMapData[data.status] }}</span>

@@ -29,9 +29,6 @@
         </a-dropdown>
         <a-select style="width: 120px"
                   v-model="title">
-          <a-select-option value="corporationCode">
-            会员ID
-          </a-select-option>
           <a-select-option value="corporationName">
             姓名
           </a-select-option>
@@ -369,7 +366,7 @@ export default {
     return {
       lucy: "lucy",
       isfilter: false,
-      title: "corporationCode",
+      title: "corporationName",
       data: [],
       selectedRowKeys: [],
       columns: [
@@ -578,14 +575,6 @@ export default {
         // console.log("3333333");
         this.paginationProps.total = res.data.totalCount * 1;
       }).finally(() => {
-        // this.listQuery = {
-        //   key: "",
-        //   search: "",
-        //   currentPage: 1,
-        //   pageSize: 10,
-        //   total: 0,
-        //   sorter: "",
-        // }
       });
     },
     selectInfo (key) {
@@ -603,7 +592,7 @@ export default {
     },
     searchClick () {
       this.listQuery.key = this.title;
-      this.$getList("member/getList", this.listQuery).then(res => {
+      this.$getListQp("member/getList", this.listQuery).then(res => {
         // console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
