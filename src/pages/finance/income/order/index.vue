@@ -2,97 +2,100 @@
   <div class="orderList">
     <div class="orderTop">
       <a-space>
-        <a-select style="width:150px"
-                  :placeholder="title"
-                  v-model="title"
-                  @change="changeKey">
-          <a-select-option :value="v.key"
-                           v-for="v in useColumns"
-                           :key="v.title">
+        <a-select
+          style="width:150px"
+          :placeholder="title"
+          v-model="title"
+          @change="changeKey"
+        >
+          <a-select-option
+            :value="v.key"
+            v-for="v in useColumns"
+            :key="v.title"
+          >
             {{ v.title }}
           </a-select-option>
         </a-select>
         <div class="sechkey">
-          <a-input :disabled="!isTime"
-                   placeholder="搜索关键词"
-                   v-model="listQuery.search" />
+          <a-input
+            :disabled="!isTime"
+            placeholder="搜索关键词"
+            v-model="listQuery.search"
+          />
         </div>
         <div>
-          <a-date-picker v-model="startValue"
-                         :disabled-date="disabledStartDate"
-                         show-time
-                         format="YYYY-MM-DD HH:mm:ss"
-                         placeholder="开始时间"
-                         :disabled="isTime"
-                         @openChange="handleStartOpenChange" />
+          <a-date-picker
+            v-model="startValue"
+            :disabled-date="disabledStartDate"
+            show-time
+            format="YYYY-MM-DD HH:mm:ss"
+            placeholder="开始时间"
+            :disabled="isTime"
+            @openChange="handleStartOpenChange"
+          />
           <span class="zhi">至</span>
-          <a-date-picker v-model="endValue"
-                         :disabled="isTime"
-                         :disabled-date="disabledEndDate"
-                         show-time
-                         format="YYYY-MM-DD HH:mm:ss"
-                         placeholder="结束时间"
-                         @openChange="handleEndOpenChange" />
+          <a-date-picker
+            v-model="endValue"
+            :disabled="isTime"
+            :disabled-date="disabledEndDate"
+            show-time
+            format="YYYY-MM-DD HH:mm:ss"
+            placeholder="结束时间"
+            @openChange="handleEndOpenChange"
+          />
         </div>
-        <a-button type="primary"
-                  @click="secectClick">
+        <a-button type="primary" @click="secectClick">
           查询
         </a-button>
       </a-space>
     </div>
     <div class="orderTable">
       <div>
-        <a-table :columns="columns"
-                 :data-source="data"
-                 rowKey="id"
-                 :pagination="paginationProps"
-                 :scroll="{ x: 1400 }"
-                 @change="handleChange">
-          <a slot="name"
-             slot-scope="text">{{ text }}</a>
-          <div v-if="text"
-               slot="originAmount"
-               slot-scope="text">
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          rowKey="id"
+          :pagination="paginationProps"
+          :scroll="{ x: 1400 }"
+          @change="handleChange"
+        >
+          <a slot="name" slot-scope="text">{{ text }}</a>
+          <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-          <div v-if="text"
-               slot="actualAmount"
-               slot-scope="text">
+          <div v-if="text" slot="actualAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-          <div slot="tradeType"
-               slot-scope="text">
-            <span >{{OrderTypeMap[text]}}</span>
+          <div slot="tradeType" slot-scope="text">
+            <span>{{ OrderTypeMap[text] }}</span>
           </div>
-          <div slot="action"
-               slot-scope="text">
-            <a-button type="link"
-                      @click="selectPool(text)">
+          <div slot="action" slot-scope="text">
+            <a-button type="link" @click="selectPool(text)">
               查看
             </a-button>
           </div>
-          <div slot="createTime"
-               slot-scope="text">
+          <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div slot="payTime"
-               slot-scope="text">
+          <div slot="payTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div :class="{ green: text === 1, blue: text !== 1 }"
-               slot="tradeStatus"
-               slot-scope="text">
-            {{ orderStatusEnum[text]}}
+          <div
+            :class="{ green: text === 1, blue: text !== 1 }"
+            slot="tradeStatus"
+            slot-scope="text"
+          >
+            {{ orderStatusEnum[text] }}
           </div>
-          <div slot="select"
-               slot-scope="text">
-            <a-button v-if="text.payStatus === 1"
-                      type="link"
-                      @click="selectPool(text)">
+          <div slot="select" slot-scope="text">
+            <a-button
+              v-if="text.payStatus === 1"
+              type="link"
+              @click="selectPool(text)"
+            >
               查看(1)
             </a-button>
-            <a-button v-else
-                      type="link">
+            <a-button v-else type="link">
               ——————
             </a-button>
           </div>
@@ -103,9 +106,9 @@
 </template>
 
 <script>
-import { orderStatusEnum,OrderTypeMap } from '@/utils/enum.js'
+import { orderStatusEnum, OrderTypeMap } from "@/utils/enum.js";
 export default {
-  data () {
+  data() {
     return {
       title: "orderNo",
       orderStatusEnum,
@@ -166,7 +169,7 @@ export default {
           title: "现金支付",
           dataIndex: "cashPay",
           key: "cashPay",
-          width: 120,
+          width: 120
         },
         {
           title: "现金券支付",
@@ -227,11 +230,11 @@ export default {
       isTime: true
     };
   },
-  activated () {
+  activated() {
     this.getList();
   },
   computed: {
-    useColumns () {
+    useColumns() {
       return [
         {
           title: "订单编号",
@@ -264,10 +267,10 @@ export default {
   },
   methods: {
     //查询表格数据
-    getList () {
+    getList() {
       this.listQuery.currentPage = this.paginationProps.current;
       this.listQuery.pageSize = this.paginationProps.pageSize;
-      this.$getListQp("financialOrder/getList", this.listQuery)
+      this.$getList("financialOrder/getList", this.listQuery)
         .then(res => {
           console.log(res);
           this.data = [...res.data.list];
@@ -286,7 +289,7 @@ export default {
         });
     },
     //排序
-    handleChange (pagination, filters, sorter) {
+    handleChange(pagination, filters, sorter) {
       if (sorter && sorter.order) {
         if (sorter.columnKey === "createTime") {
           this.listQuery.createTimeSort = sorter.order.replace("end", "");
@@ -296,40 +299,40 @@ export default {
         this.getList();
       }
     },
-    disabledStartDate (startValue) {
+    disabledStartDate(startValue) {
       const endValue = this.endValue;
       if (!startValue || !endValue) {
         return false;
       }
       return startValue.valueOf() > endValue.valueOf();
     },
-    disabledEndDate (endValue) {
+    disabledEndDate(endValue) {
       const startValue = this.startValue;
       if (!endValue || !startValue) {
         return false;
       }
       return startValue.valueOf() >= endValue.valueOf();
     },
-    handleStartOpenChange (open) {
+    handleStartOpenChange(open) {
       if (!open) {
         this.endOpen = true;
       }
     },
-    handleEndOpenChange (open) {
+    handleEndOpenChange(open) {
       this.endOpen = open;
     },
-    changepage (current, pageSize) {
+    changepage(current, pageSize) {
       this.paginationProps.current = current;
       this.paginationProps.pageSize = pageSize;
       this.getList();
     },
-    onShowSizeChange (current, pageSize) {
+    onShowSizeChange(current, pageSize) {
       // console.log("改变了分页的大小", current, pageSize);
       this.paginationProps.current = current;
       this.paginationProps.pageSize = pageSize;
       this.getList();
     },
-    selectPool (text, i) {
+    selectPool(text, i) {
       this.$router.push({
         path: "/finance/index/orderInfo",
         query: {
@@ -337,7 +340,7 @@ export default {
         }
       });
     },
-    secectClick () {
+    secectClick() {
       this.listQuery.key = this.title;
       if (this.title == "createTime") {
         let startTime = this.startValue._d
@@ -388,7 +391,7 @@ export default {
         });
       }
     },
-    changeKey (val) {
+    changeKey(val) {
       // console.log(val);
       this.title = val;
       if (this.title !== "createTime") {
@@ -413,7 +416,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type='button'] {
+    [type="button"] {
       margin-left: 20px;
     }
     .zhi {
