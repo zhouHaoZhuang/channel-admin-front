@@ -278,17 +278,17 @@ export default {
       },
       titleList: [
         {
-          key: 0,
+          key: 1,
           title: '正常'
         },
         {
-          key: 1,
+          key: 6,
           title: '即将到期'
         }, {
-          key: 2,
+          key: 3,
           title: '已到期'
         }, {
-          key: 3,
+          key: -1,
           title: '已删除'
         }
       ],
@@ -302,7 +302,7 @@ export default {
         pageSize: "10",
         saleTimeSort: "",
         sort: "",
-        runningStatus: 0,
+        runningStatus: 1,
       },
       searchColumns: [
         {
