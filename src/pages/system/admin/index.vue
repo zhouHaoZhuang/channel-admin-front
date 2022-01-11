@@ -32,6 +32,27 @@
             删除
           </a-button>
         </span>
+        <!-- 展开的行 -->
+        <div slot="expandedRowRender" slot-scope="record" class="actions-wrap">
+          <div class="title">权限操作：</div>
+          <div v-if="record.actions.length === 0" class="none">暂无操作</div>
+          <div v-else class="list">
+            <div
+              v-for="(ele, index) in record.actions"
+              :key="index"
+              class="item"
+            >
+              <a-tooltip placement="top">
+                <template slot="title">
+                  <span>{{ ele.description }}</span>
+                </template>
+                <span>
+                  {{ ele.name }}
+                </span>
+              </a-tooltip>
+            </div>
+          </div>
+        </div>
       </a-table>
     </div>
     <!-- 添加/编辑权限弹窗 -->
@@ -170,7 +191,27 @@ export default {
   .btns {
     margin-bottom: 20px;
   }
-  // .table-con {
-  // }
+  .table-con {
+    .actions-wrap {
+      .title {
+        font-size: 16px;
+      }
+      .list {
+        display: flex;
+        margin-top: 10px;
+        .item {
+          margin: 0 8px 0 0;
+          padding: 0 7px;
+          font-size: 12px;
+          line-height: 20px;
+          white-space: nowrap;
+          background: #fafafa;
+          border: 1px solid #d9d9d9;
+          border-radius: 2px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
 </style>

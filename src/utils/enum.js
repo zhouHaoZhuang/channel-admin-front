@@ -56,8 +56,8 @@ export const memberDiscountType = {
 
 // 权限管理-权限单选map
 export const systemAdminMapEnum = {
-  DATA: "数据",
+  // DATA: "数据",
   // API: "API",
-  MENU: "菜单",
-  BUTTON: "按钮"
+  MENU: "菜单"
+  // BUTTON: "按钮"
 };
