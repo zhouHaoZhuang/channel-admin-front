@@ -25,14 +25,14 @@ export const renewalStatusEnum = {
   1: "待降配",
   2: "已完成",
 };
-// 充值状态map数据
+// 状态map数据
 export const detailsMapData = {
   "0": "待支付",
   "1": "已取消",
   "2": "支付失败",
   "3": "支付完成",
 };
-// 处理状态map数据
+// 充值状态map数据
 export const detailTypeMapData = {
   "0": "待审核",
   "1": "待充值",
