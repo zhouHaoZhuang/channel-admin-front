@@ -18,22 +18,21 @@
       <a-button icon="stop" class="btn" @click="handleChangeShow('hide')">
         隐藏
       </a-button>
-      <a-button icon="column-height" class="btn">
+      <a-button icon="column-height" class="btn" @click="handleSort">
         排序
       </a-button>
     </div>
     <div class="table-content">
       <a-table
+        :loading="tableLoading"
         :row-selection="rowSelection"
         :columns="columns"
         :data-source="data"
         rowKey="id"
         :pagination="paginationProps"
-        :scroll="{ x: 1300 }"
       >
-        <a slot="name" slot-scope="text">{{ text }}</a>
         <div slot="bannerType" slot-scope="text">
-          {{ text === 0 ? "首页banner" : "云服务器banner" }}
+          {{ bannerTypeEnum[text] }}
         </div>
         <div class="status" slot="status" slot-scope="text">
           <div v-if="text === 0" class="dot"></div>
@@ -51,18 +50,24 @@
         </div>
       </a-table>
     </div>
+    <!-- 轮播图排序 -->
+    <SortBanner v-model="sortVisible" @success="getList" />
   </div>
 </template>
 
 <script>
+import { bannerTypeEnum } from "@/utils/enum";
+import SortBanner from "@/components/Banner/sortBanner";
 export default {
+  components: {
+    SortBanner
+  },
   computed: {
     rowSelection() {
       return {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedRowKeys = selectedRowKeys;
-          console.log(this.selectedRowKeys);
         }
       };
     }
@@ -70,11 +75,14 @@ export default {
   created() {},
   data() {
     return {
+      bannerTypeEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        sorter: "asc-sort"
       },
+      tableLoading: false,
       columns: [
         {
           title: "编号",
@@ -117,21 +125,25 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
+      sortVisible: false
     };
   },
   activated() {
     this.getList();
   },
   methods: {
-    //查询数据表格
+    //查询轮播图数据
     getList() {
+      this.tableLoading = true;
       this.$store
-        .dispatch("banner/getList")
+        .dispatch("banner/getList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
         })
-        .finally(() => {});
+        .finally(() => {
+          this.tableLoading = false;
+        });
     },
     //表格分页跳转
     quickJump(currentPage) {
@@ -188,16 +200,23 @@ export default {
       this.$confirm({
         title: `确定要批量${type === "show" ? "显示" : "隐藏"}吗?`,
         onOk: () => {
-          this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys)
-            .then(res => {
-              this.$message.success("操作成功");
-              this.getList();
-            });
+          const data = this.selectedRowKeys.map(ele => {
+            return {
+              id: ele,
+              status: type === "show" ? 0 : 1
+            };
+          });
+          this.$store.dispatch("banner/changeBannerShow", data).then(res => {
+            this.$message.success("操作成功");
+            this.getList();
+          });
         }
       });
-    }
+    },
     // 排序
+    handleSort() {
+      this.sortVisible = true;
+    }
   }
 };
 </script>

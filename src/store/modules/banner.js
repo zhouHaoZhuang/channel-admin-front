@@ -38,6 +38,22 @@ const banner = {
         data
       });
     },
+    // 批量显示/隐藏
+    changeBannerShow({ commit, state }, data) {
+      return request({
+        url: `/ccBanner/sort`,
+        method: "post",
+        data
+      });
+    },
+    // 排序
+    bannerSort({ commit, state }, data) {
+      return request({
+        url: `/ccBanner/sort`,
+        method: "post",
+        data
+      });
+    },
     //获取轮播图详情
     getDetail({ commit, state }, id) {
       return request({
