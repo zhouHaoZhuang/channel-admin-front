@@ -345,7 +345,7 @@ export default {
             return this.regionMapData[text] || text
           }, width: 150
         },
-        { title: "CPU", dataIndex: "cup", key: "cpu" },
+        { title: "CPU", dataIndex: "cpu", key: "cpu" },
         { title: "内存", dataIndex: "memory", key: "memory" },
         {
           title: "磁盘",
@@ -363,7 +363,7 @@ export default {
         },
         {
           title: "购买时间",
-          dataIndex: "purchaseTimeStr",
+          dataIndex: "createTimeStr",
           sorter: true,
           width: 190,
           sortDirections: ["ascend", "descend"]

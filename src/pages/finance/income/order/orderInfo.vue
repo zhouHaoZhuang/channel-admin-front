@@ -19,11 +19,7 @@
         <li>
           <span>状态:</span>
           <span
-            :class="{
-              green: orderInfo.payStatus === 1,
-              blue: orderInfo.payStatus !== 1
-            }"
-            >{{ orderInfo.payStatus === 1 ? "已支付" : "未支付" }}</span
+            >{{ orderStatusEnum[orderInfo.tradeStatus]  }}</span
           >
         </li>
         <li>
@@ -129,11 +125,13 @@
 </template>
 
 <script>
+import { orderStatusEnum, OrderTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       orderInfo: null,
       data: [],
+      orderStatusEnum,
       columns: [
         {
           title: "产品名称",
