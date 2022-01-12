@@ -21,10 +21,11 @@
         <a-input
           v-model="form.code"
           :disabled="type === 'edit'"
+          :maxLength="20"
           placeholder="请输入权限名称，填写一个名词，例如：order"
         />
       </a-form-model-item>
-      <a-form-model-item label="权限">
+      <a-form-model-item label="权限类型">
         <a-radio-group v-model="form.type">
           <a-radio
             v-for="(value, key) in systemAdminMapEnum"
@@ -41,6 +42,50 @@
       <a-form-model-item label="权限描述">
         <a-input v-model="form.description" placeholder="请输入权限描述" />
       </a-form-model-item>
+      <a-form-model-item label="操作类型" style="margin-bottom:0">
+        <div class="btn-wrap">
+          <a-button
+            type="link"
+            icon="plus"
+            size="small"
+            @click="handleAddAction"
+          >
+            添加Action（操作类型）
+          </a-button>
+        </div>
+      </a-form-model-item>
+      <div
+        v-for="(item, index) in form.actions"
+        :key="item.id"
+        class="actions-item"
+      >
+        <a-form-model-item
+          label="操作"
+          :prop="'actions.' + index + '.action'"
+          :rules="{
+            required: true,
+            message: '请输入操作名称',
+            trigger: ['blur', 'change']
+          }"
+        >
+          <a-input
+            :addon-before="form.code + '：'"
+            v-model="item.action"
+            placeholder="动作，例如add"
+          />
+        </a-form-model-item>
+        <a-form-model-item label="操作描述">
+          <a-input
+            v-model="item.description"
+            placeholder="描述信息，例如：添加商品"
+          />
+        </a-form-model-item>
+        <a-icon
+          class="close"
+          type="close-circle"
+          @click="handleDelAction(index)"
+        />
+      </div>
     </a-form-model>
   </a-modal>
 </template>
@@ -101,8 +146,9 @@ export default {
       loading: false,
       form: {
         code: "",
-        type: "DATA",
-        description: ""
+        type: "MENU",
+        description: "",
+        actions: []
       },
       rules: {
         code: [
@@ -125,14 +171,34 @@ export default {
       this.$refs.ruleForm.clearValidate();
       this.form = {
         code: "",
-        type: "DATA",
+        type: "MENU",
+        description: "",
+        actions: []
+      };
+    },
+    // 添加操作类型
+    handleAddAction() {
+      const data = {
+        id: -1,
+        action: "",
         description: ""
       };
+      if (this.form.actions.length === 0) {
+        this.form.actions.push({ ...data });
+      } else {
+        const id = this.form.actions[this.form.actions.length - 1].id - 1;
+        this.form.actions.push({ ...data, id });
+      }
+    },
+    // 删除操作类型
+    handleDelAction(index) {
+      this.form.actions.splice(index, 1);
     },
     // 弹窗提交
     handleOk() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          console.log(this.form);
           this.loading = true;
           const req =
             this.type === "add" ? "system/addAdmin" : "system/editAdmin";
@@ -152,3 +218,19 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+.actions-item {
+  background: #f8f9fb;
+  border-radius: 4px;
+  padding: 26px 0 10px;
+  position: relative;
+  margin-bottom: 10px;
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+}
+</style>

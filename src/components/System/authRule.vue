@@ -12,7 +12,7 @@
           :loading="tableLoading"
           :columns="columns"
           :data-source="data"
-          rowKey="id"
+          rowKey="code"
           :pagination="false"
         >
           <span slot="type">
@@ -90,21 +90,35 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item style="margin-bottom:0" label="授权规则">
-          <a-button type="link" icon="plus">添加授权规则</a-button>
+          <a-button type="link" icon="plus" @click="handleAddRule">
+            添加授权规则
+          </a-button>
         </a-form-model-item>
-        <div class="actions-item">
-          <a-form-model-item label="权限" prop="permissionCode">
+        <div
+          v-for="(item, index) in form.permissions"
+          :key="item.id"
+          class="actions-item"
+        >
+          <a-form-model-item
+            label="权限"
+            :prop="'permissions.' + index + '.permissionCode'"
+            :rules="{
+              required: true,
+              message: '请选择权限',
+              trigger: ['blur', 'change']
+            }"
+          >
             <a-select
-              v-model="form.permissionCode"
+              v-model="item.permissionCode"
               show-search
               placeholder="请选择权限"
               option-filter-prop="children"
               style="width: 100%"
               :filter-option="filterOption"
             >
-              <!-- <a-select-option value='all'>
-              <span>所有资源</span>
-            </a-select-option> -->
+              <a-select-option value="all">
+                <span>所有资源</span>
+              </a-select-option>
               <a-select-option
                 v-for="item in adminList"
                 :key="item.id"
@@ -115,8 +129,16 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
-          <a-form-model-item label="操作">
-            <a-radio-group v-model="form.type">
+          <a-form-model-item
+            label="操作"
+            :prop="'permissions.' + index + '.type'"
+            :rules="{
+              required: true,
+              message: '请选择操作类型',
+              trigger: ['blur', 'change']
+            }"
+          >
+            <a-radio-group v-model="item.type">
               <a-radio :value="1">
                 所有操作
               </a-radio>
@@ -125,9 +147,18 @@
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <a-form-model-item :wrapper-col="{ span: 15, offset: 6 }">
+          <a-form-model-item
+            v-if="item.type === 0"
+            :wrapper-col="{ span: 15, offset: 6 }"
+            :prop="'permissions.' + index + '.actions'"
+            :rules="{
+              required: true,
+              message: '请选择操作类型',
+              trigger: ['blur', 'change']
+            }"
+          >
             <a-select
-              v-model="form.permissionCode"
+              v-model="item.actions"
               mode="multiple"
               show-search
               placeholder="请选择操作"
@@ -144,6 +175,12 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
+          <a-icon
+            v-if="!item.default"
+            class="close"
+            type="close-circle"
+            @click="handleDelRule(index)"
+          />
         </div>
       </a-form-model>
     </a-modal>
@@ -206,7 +243,15 @@ export default {
       form: {
         type: "role",
         roleCodes: [],
-        permissionCode: undefined
+        permissions: [
+          {
+            id: -1,
+            permissionCode: undefined,
+            type: 1,
+            actions: [],
+            default: true
+          }
+        ]
       },
       rules: {
         type: [
@@ -219,13 +264,6 @@ export default {
         roleCodes: [
           {
             validator: validateRoleCodes,
-            tigger: ["change"]
-          }
-        ],
-        permissionCode: [
-          {
-            required: true,
-            message: "请选择权限",
             tigger: ["change"]
           }
         ]
@@ -247,6 +285,10 @@ export default {
           this.getRoleList();
           this.getAdminList();
           this.form.roleCodes = [this.code];
+        } else {
+          this.$nextTick(() => {
+            this.resetForm();
+          });
         }
       }
     }
@@ -310,14 +352,38 @@ export default {
       this.form = {
         type: "role",
         roleCodes: [],
-        permissionCode: undefined
+        permissions: [
+          {
+            id: -1,
+            permissionCode: undefined,
+            type: 1,
+            actions: [],
+            default: true
+          }
+        ]
       };
+    },
+    // 添加授权规则
+    handleAddRule() {
+      const id = this.form.permissions[this.form.permissions.length - 1].id - 1;
+      const data = {
+        id,
+        permissionCode: undefined,
+        type: 1,
+        actions: [],
+        default: false
+      };
+      this.form.permissions.push({ ...data });
+    },
+    // 删除授权规则
+    handleDelRule(index) {
+      this.form.permissions.splice(index, 1);
     },
     // 弹窗提交
     handleOk() {
-      this.loading = true;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          this.loading = true;
           this.$store
             .dispatch("system/addRule", this.form)
             .then(res => {
@@ -398,5 +464,14 @@ export default {
   background: #f8f9fb;
   border-radius: 4px;
   padding: 26px 0 10px;
+  position: relative;
+  margin-bottom: 10px;
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
 }
 </style>
