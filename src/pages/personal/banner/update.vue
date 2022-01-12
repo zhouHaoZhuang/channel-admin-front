@@ -8,32 +8,21 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="类型">
-          <a-select v-model="form.bannerType" placeholder="首页banner">
-            <a-select-option :value="0">
-              首页banner
-            </a-select-option>
-            <a-select-option :value="1">
-              云服务器banner
-            </a-select-option>
-            <a-select-option :value="2">
-              帮助中心banner
-            </a-select-option>
-            <a-select-option :value="3">
-              新闻公告banner
-            </a-select-option>
-            <a-select-option :value="4">
-              关于我们banner
-            </a-select-option>
-            <a-select-option :value="5">
-              登录banner
+        <a-form-model-item label="轮播图类型" prop="bannerType">
+          <a-select v-model="form.bannerType" placeholder="轮播图类型">
+            <a-select-option
+              v-for="(value, key) in bannerTypeEnum"
+              :key="key"
+              :value="key"
+            >
+              {{ value }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="标题" prop="title">
-          <a-input v-model="form.title" />
+          <a-input v-model="form.title" :maxLength="15" />
         </a-form-model-item>
-        <a-form-model-item label="描述" prop="describe">
+        <a-form-model-item label="描述">
           <a-input v-model="form.describe" />
         </a-form-model-item>
         <a-form-model-item label="PC版标题和描述">
@@ -46,21 +35,21 @@
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="PC版按钮名称">
+        <a-form-model-item label="PC版按钮名称" prop="pcButtonName">
           <a-input v-model="form.pcButtonName" />
         </a-form-model-item>
         <a-form-model-item label="PC版按钮链接">
           <a-input v-model="form.pcButtonLink" />
         </a-form-model-item>
-        <a-form-model-item label="全图链接">
+        <a-form-model-item label="全图链接" prop="pictureLink">
           <a-input v-model="form.pictureLink" />
         </a-form-model-item>
         <a-form-model-item label="链接打开方式">
           <a-radio-group v-model="form.openLinkType">
-            <a-radio :value="0">
+            <a-radio value="0">
               新标签
             </a-radio>
-            <a-radio :value="1">
+            <a-radio value="1">
               当前页面
             </a-radio>
           </a-radio-group>
@@ -105,56 +94,98 @@
 
 <script>
 import Upload from "@/components/Upload/index";
-
+import { bannerTypeEnum } from "@/utils/enum";
 export default {
+  components: {
+    Upload
+  },
+  watch: {
+    $route: {
+      handler(newVal) {
+        if (newVal.path === "/personal/account/update") {
+          this.resetForm();
+          if (newVal.query.id) {
+            this.type = "edit";
+            this.getDetail();
+          } else {
+            this.type = "add";
+          }
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   data() {
     return {
+      bannerTypeEnum,
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
+      type: "add",
       form: {
-        bannerType: 0,
+        bannerType: undefined,
         title: "",
         describe: "",
         display: true,
         pcButtonName: "",
         pcButtonLink: "",
-        openLinkType: "",
+        openLinkType: "0",
         status: 0,
         sort: 0,
         pcPicture: "",
         phonePicture: ""
       },
       rules: {
+        bannerType: [
+          {
+            required: true,
+            message: "请选择轮播图类型",
+            trigger: "change"
+          }
+        ],
         title: [
           {
             required: true,
-            message: "必填，长度为1-15个字符。",
-            trigger: "blur"
+            message: "请输入轮播图标题",
+            trigger: ["blur", "change"]
           }
         ],
-        describe: [
+        pcButtonName: [
           {
             required: true,
-            message: "非必填，可输入0-100个字符。",
-            trigger: "blur"
+            message: "请输入PC版按钮名称",
+            trigger: ["blur", "change"]
+          }
+        ],
+        pictureLink: [
+          {
+            required: true,
+            message: "请输入全图链接",
+            trigger: ["blur", "change"]
           }
         ]
       },
       loading: false
     };
   },
-  components: {
-    Upload
-  },
   methods: {
+    // 获取轮播图详情
+    getDetail() {
+      this.$store
+        .dispatch("banner/getDetail", this.$route.query.id)
+        .then(res => {
+          this.form = {
+            ...res.data,
+            bannerType: res.data.bannerType.toString()
+          };
+        });
+    },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
       this.form.pcPicture = firstImageUrl;
     },
     // 上传手机图片
     mbImgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调asaswasas", urlList, firstImageUrl);
       this.form.phonePicture = firstImageUrl;
     },
     // 提交
@@ -163,10 +194,14 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("banner/add", this.form)
+            .dispatch(
+              this.type === "add" ? "banner/add" : "banner/edit",
+              this.form
+            )
             .then(res => {
-              this.$message.success("新增轮播图成功");
-              this.resetForm();
+              this.$message.success(
+                `${this.type === "add" ? "添加" : "编辑"}轮播图成功`
+              );
               this.$router.back();
             })
             .finally(() => {
@@ -177,8 +212,22 @@ export default {
     },
     // 重置表单数据
     resetForm() {
-      this.$refs.ruleForm.clearValidate();
-      this.form = {};
+      this.form = {
+        bannerType: undefined,
+        title: "",
+        describe: "",
+        display: true,
+        pcButtonName: "",
+        pcButtonLink: "",
+        openLinkType: "0",
+        status: 0,
+        sort: 0,
+        pcPicture: "",
+        phonePicture: ""
+      };
+      this.$nextTick(() => {
+        this.$refs.ruleForm.clearValidate();
+      });
     }
   }
 };
@@ -192,9 +241,6 @@ export default {
   justify-content: center;
   .content {
     width: 600px;
-    // .addimages {
-    //   margin-left: 150px;
-    // }
   }
 }
 </style>

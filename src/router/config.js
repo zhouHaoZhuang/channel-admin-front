@@ -535,27 +535,16 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/personal/banner/banner.vue")
+                  component: () => import("@/pages/personal/banner/index.vue")
                 },
                 {
-                  path: "add-banner",
-                  name: "Banner添加",
+                  path: "update",
+                  name: "Banner",
                   meta: {
                     invisible: true, // 不显示在左侧菜单
                     back: true // 后退
                   },
-                  component: () =>
-                    import("@/pages/personal/banner/addbanner.vue")
-                },
-                {
-                  path: "amend-banner",
-                  name: "Banner修改",
-                  meta: {
-                    invisible: true, // 不显示在左侧菜单
-                    back: true // 后退
-                  },
-                  component: () =>
-                    import("@/pages/personal/banner/amendbanner.vue")
+                  component: () => import("@/pages/personal/banner/update.vue")
                 },
                 {
                   path: "blogroll",

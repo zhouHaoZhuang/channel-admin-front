@@ -103,8 +103,12 @@ export default {
   watch: {
     defaultFile: {
       handler() {
-        console.log("上传组件查看", this.defaultFile);
-        if (!this.defaultFile) return;
+        // console.log("上传组件查看", this.defaultFile);
+        if (!this.defaultFile) {
+          this.imageList = [];
+          this.fileList = [];
+          return;
+        }
         const newDefaultFile = Array.isArray(this.defaultFile)
           ? this.$clonedeep(this.defaultFile)
           : [this.defaultFile];
