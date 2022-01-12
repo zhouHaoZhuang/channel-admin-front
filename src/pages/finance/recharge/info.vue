@@ -16,7 +16,7 @@
         <span class="details-type">充值时间：</span><span class="details-value">{{ data.createTime }}</span>
       </div>
       <div>
-        <span class="details-type">充值状态：</span><span class="details-value">{{ detailsMapData[data.status] }}</span>
+        <span class="details-type">充值状态：</span><span class="details-value">{{ detailTypeMapData[data.status] }}</span>
       </div>
       <div>
         <span class="details-type">充值渠道：</span><span class="details-value">{{
@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import { detailsMapData, rechargeTypeMap } from '@/utils/enum.js';
+import { detailTypeMapData, rechargeTypeMap } from '@/utils/enum.js';
 export default {
   data() {
     return {
       data: null,
-      detailsMapData,
+      detailTypeMapData,
       rechargeTypeMap,
     };
   },

@@ -16,7 +16,7 @@
       </div>
       <div>
         <span class="details-type">处理状态:</span>
-        <span class="details-value">{{ data.status }}</span>
+        <span class="details-value">{{ detailTypeMapData[data.status] }}</span>
       </div>
       <div>
         <span class="details-type">操作金额:</span>
@@ -85,12 +85,13 @@
 </template>
 
 <script>
-import { paymentTypeMapData } from "@/utils/enum";
+import { paymentTypeMapData,detailTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
       data: [],
       paymentTypeMapData,
+      detailTypeMapData,
       columns: [
         {
           title: "步骤",
