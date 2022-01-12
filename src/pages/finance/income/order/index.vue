@@ -191,13 +191,6 @@ export default {
           dataIndex: "corporationCode",
           key: "corporationCode",
           width: 150
-        },
-        {
-          title: "会员手机号",
-          dataIndex: "phoneNumber",
-          key: "phoneNumber",
-          scopedSlots: { customRender: "phoneNumber" },
-          width: 100
         }
       ];
     }
