@@ -13,13 +13,7 @@ export const corporationStatusEnum = {
   0: '正常',
   1: '冻结',
 };
-// 地域map数据
-export const regionMapData = {
-  'cn-hangzhou': '杭州',
-  'cn-dalian': '大连',
-  'cn-beijing': '北京',
-  'cn-shanghai': '上海',
-};
+
 //续费降配列表状态
 export const renewalStatusEnum = {
   1: '待降配',
@@ -38,6 +32,14 @@ export const detailTypeMapData = {
   '1': '待充值',
   '2': '支付失败',
   '9': '支付完成',
+},
+
+// 地域map数据
+export const regionMapData = {
+  "cn-hangzhou": "杭州",
+  "cn-dalian": "大连",
+  "cn-beijing": "北京",
+  "cn-shanghai": "上海"
 };
 
 // 款项类型map数据
@@ -46,15 +48,6 @@ export const paymentTypeMapData = {
   '2': '线下充值',
   '3': '下单',
   '4': '退款',
-};
-// 订单状态
-export const orderStatusEnum = {
-  '-3': '服务器创建异常',
-  '-1': '交易关闭',
-  1: '待支付',
-  3: '支付中',
-  5: '交易完成',
-  9: '支付完成',
 };
 // 会员折扣方式
 export const memberDiscountType = {
@@ -80,4 +73,30 @@ export const systemAdminMapEnum = {
 export const rechargeTypeMap = {
   '1': '余额支付',
   ali: '支付宝',
+};
+// 订单状态
+export const orderStatusEnum = {
+  "-3": "服务器创建异常",
+  "-1": "交易关闭",
+  1: "待支付",
+  3: "支付中",
+  5: "交易完成",
+  9: "支付完成"
+};
+
+// 权限管理-权限单选map
+export const systemAdminMapEnum = {
+  // DATA: "数据",
+  // API: "API",
+  MENU: "菜单"
+  // BUTTON: "按钮"
+};
+// 轮播图类型map
+export const bannerTypeEnum = {
+  "0": "首页banner",
+  "1": "云服务器banner",
+  "2": "帮助中心banner",
+  "3": "新闻公告banner",
+  "4": "关于我们banner",
+  "5": "登录banner"
 };

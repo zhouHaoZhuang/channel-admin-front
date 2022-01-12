@@ -7,7 +7,6 @@ const banner = {
   mutations: {},
 
   actions: {
-    // banner列表---------------------------------------------------------
     // 获取列表
     getList({ commit, state }, params) {
       return request({
@@ -28,7 +27,7 @@ const banner = {
     delPrice({ commit, state }, id) {
       return request({
         url: `/ccBanner/${id}`,
-        method: "delete",
+        method: "delete"
       });
     },
     // 编辑banner
@@ -39,13 +38,29 @@ const banner = {
         data
       });
     },
-    //获取id
-    getId({ commit, state }, id) {
-        return request({
-          url: `/ccBanner/${id}`,
-          method: "get",
-        });
-      },
+    // 批量显示/隐藏
+    changeBannerShow({ commit, state }, data) {
+      return request({
+        url: `/ccBanner/sort`,
+        method: "post",
+        data
+      });
+    },
+    // 排序
+    bannerSort({ commit, state }, data) {
+      return request({
+        url: `/ccBanner/sort`,
+        method: "post",
+        data
+      });
+    },
+    //获取轮播图详情
+    getDetail({ commit, state }, id) {
+      return request({
+        url: `/ccBanner/${id}`,
+        method: "get"
+      });
+    }
   }
 };
 

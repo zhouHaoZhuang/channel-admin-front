@@ -22,16 +22,16 @@
             onChange: onSelectChange
           }"
         >
-          <span slot="createdAt" slot-scope="text">
+          <span slot="lastLogin" slot-scope="text">
             {{ text | formatDate }}
           </span>
           <span slot="action" slot-scope="text, record">
-            <a-button type="link" @click="handleGoDetail(record)">
+            <!-- <a-button type="link" @click="handleGoDetail(record)">
               详情
             </a-button>
-            <a-divider type="vertical" />
+            <a-divider type="vertical" /> -->
             <a-button type="link" @click="handleDel(record)">
-              删除
+              取消授权
             </a-button>
           </span>
         </a-table>
@@ -49,15 +49,20 @@
       @ok="handleOk"
       @cancel="handleCancel"
     >
-      <a-transfer
-        :data-source="userData"
-        show-search
-        :filter-option="filterOption"
-        :target-keys="targetKeys"
-        :render="item => item.title"
-        @change="handleChange"
-        @search="handleSearch"
-      />
+      <a-spin style="width:100%" :spinning="userLoading">
+        <a-transfer
+          :rowKey="record => record.id"
+          :data-source="userData"
+          :list-style="{
+            height: '500px'
+          }"
+          show-search
+          :filter-option="filterOption"
+          :target-keys="targetKeys"
+          :render="item => item.username"
+          @change="handleChange"
+        />
+      </a-spin>
     </a-modal>
   </div>
 </template>
@@ -81,24 +86,24 @@ export default {
       columns: [
         {
           title: "用户信息",
-          dataIndex: "code"
+          dataIndex: "username"
         },
         {
           title: "手机号",
-          dataIndex: "descripation"
+          dataIndex: "phone"
         },
-        {
-          title: "邮箱",
-          dataIndex: "desacription"
-        },
+        // {
+        //   title: "邮箱",
+        //   dataIndex: "desacription"
+        // },
         {
           title: "最后登录时间",
-          dataIndex: "createdAt",
-          scopedSlots: { customRender: "createdAt" }
+          dataIndex: "lastLogin",
+          scopedSlots: { customRender: "lastLogin" }
         },
         {
           title: "登录次数",
-          dataIndex: "description"
+          dataIndex: "loginsCount"
         },
         {
           title: "操作",
@@ -114,6 +119,7 @@ export default {
       loading: false,
       // 穿梭框
       userData: [],
+      userLoading: false,
       targetKeys: []
     };
   },
@@ -153,6 +159,7 @@ export default {
     },
     // 查询所有用户列表
     getAllUserList() {
+      this.userLoading = true;
       this.$store
         .dispatch("system/getModalUserList", {
           currentPage: 1,
@@ -160,6 +167,9 @@ export default {
         })
         .then(res => {
           this.userData = [...res.data.list];
+        })
+        .finally(() => {
+          this.userLoading = false;
         });
     },
     // 添加授权
@@ -169,16 +179,11 @@ export default {
     // 穿梭框
     // 搜索过滤函数
     filterOption(inputValue, option) {
-      return option.description.indexOf(inputValue) > -1;
+      return option.username.indexOf(inputValue) > -1;
     },
     // 穿梭框change事件
     handleChange(targetKeys, direction, moveKeys) {
-      console.log(targetKeys, direction, moveKeys);
-      this.targetKeys = targetKeys;
-    },
-    // 执行搜索
-    handleSearch(dir, value) {
-      console.log("search:", dir, value);
+      this.targetKeys = [...targetKeys];
     },
     // 关闭弹窗
     handleCancel() {
@@ -198,6 +203,7 @@ export default {
         })
         .then(res => {
           this.$message.success("授权成功");
+          this.targetKeys = [];
           this.getAuthUserList();
           this.visible = false;
         })

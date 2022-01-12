@@ -2,98 +2,71 @@
   <div class="orderList">
     <div class="orderTop">
       <a-space>
-        <a-select style="width:150px"
-                  :placeholder="title"
-                  v-model="title"
-                  @change="changeKey">
-          <a-select-option :value="v.key"
-                           v-for="v in useColumns"
-                           :key="v.title">
+        <a-select
+          style="width:150px"
+          placeholder="请选择"
+          v-model="listQuery.key"
+        >
+          <a-select-option
+            :value="v.key"
+            v-for="v in useColumns"
+            :key="v.title"
+          >
             {{ v.title }}
           </a-select-option>
         </a-select>
         <div class="sechkey">
-          <a-input :disabled="!isTime"
-                   placeholder="搜索关键词"
-                   v-model="listQuery.search" />
+          <a-input placeholder="搜索关键词" v-model="listQuery.search" />
         </div>
         <div>
-          <a-date-picker v-model="startValue"
-                         :disabled-date="disabledStartDate"
-                         show-time
-                         format="YYYY-MM-DD HH:mm:ss"
-                         placeholder="开始时间"
-                         :disabled="isTime"
-                         @openChange="handleStartOpenChange" />
-          <span class="zhi">至</span>
-          <a-date-picker v-model="endValue"
-                         :disabled="isTime"
-                         :disabled-date="disabledEndDate"
-                         show-time
-                         format="YYYY-MM-DD HH:mm:ss"
-                         placeholder="结束时间"
-                         @openChange="handleEndOpenChange" />
+          <a-range-picker
+            show-time
+            format="YYYY-MM-DD HH:mm:ss"
+            :placeholder="['开始时间', '结束时间']"
+            @change="datePickerOnOk"
+          />
         </div>
-        <a-button type="primary"
-                  @click="secectClick">
+        <a-button type="primary" @click="handleSearch">
           查询
         </a-button>
       </a-space>
     </div>
     <div class="orderTable">
       <div>
-        <a-table :columns="columns"
-                 :data-source="data"
-                 rowKey="id"
-                 :pagination="paginationProps"
-                 :scroll="{ x: 1400 }"
-                 @change="handleChange">
-          <a slot="name"
-             slot-scope="text">{{ text }}</a>
-          <div v-if="text"
-               slot="originAmount"
-               slot-scope="text">
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          :loading="tableLoading"
+          rowKey="id"
+          :pagination="paginationProps"
+          :scroll="{ x: 1400 }"
+        >
+          <a slot="name" slot-scope="text">{{ text }}</a>
+          <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-          <div v-if="text"
-               slot="actualAmount"
-               slot-scope="text">
+          <div v-if="text" slot="actualAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-          <div slot="tradeType"
-               slot-scope="text">
-            <span >{{OrderTypeMap[text]}}</span>
+          <div slot="tradeType" slot-scope="text">
+            <span>{{ OrderTypeMap[text] }}</span>
           </div>
-          <div slot="action"
-               slot-scope="text">
-            <a-button type="link"
-                      @click="selectPool(text)">
+          <div slot="createTime" slot-scope="text">
+            {{ text | formatDate }}
+          </div>
+          <div slot="payTime" slot-scope="text">
+            {{ text | formatDate }}
+          </div>
+          <div
+            :class="{ green: text === 1, blue: text !== 1 }"
+            slot="tradeStatus"
+            slot-scope="text"
+          >
+            {{ orderStatusEnum[text] }}
+          </div>
+          <div slot="action" slot-scope="text, record">
+            <a-button type="link" @click="handleSelectDetail(record)">
               查看
-            </a-button>
-          </div>
-          <div slot="createTime"
-               slot-scope="text">
-            {{ text | formatDate }}
-          </div>
-          <div slot="payTime"
-               slot-scope="text">
-            {{ text | formatDate }}
-          </div>
-          <div :class="{ green: text === 1, blue: text !== 1 }"
-               slot="tradeStatus"
-               slot-scope="text">
-            {{ orderStatusEnum[text]}}
-          </div>
-          <div slot="select"
-               slot-scope="text">
-            <a-button v-if="text.payStatus === 1"
-                      type="link"
-                      @click="selectPool(text)">
-              查看(1)
-            </a-button>
-            <a-button v-else
-                      type="link">
-              ——————
             </a-button>
           </div>
         </a-table>
@@ -103,81 +76,71 @@
 </template>
 
 <script>
-import { orderStatusEnum,OrderTypeMap } from '@/utils/enum.js'
+import moment from "moment";
+import { orderStatusEnum, OrderTypeMap } from "@/utils/enum.js";
 export default {
-  data () {
+  data() {
     return {
-      title: "orderNo",
       orderStatusEnum,
       OrderTypeMap,
-      // search: "",
       listQuery: {
         key: undefined,
         search: "",
+        startTime: "",
+        endTime: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0,
-        sorter: ""
+        total: 0
       },
+      tableLoading: false,
       columns: [
         {
           title: "订单编号",
           dataIndex: "orderNo",
-          key: "orderNo",
           width: 170
         },
         {
           title: "会员ID",
           dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150,
-          sorter: true,
-          sortDirections: ["ascend", "descend"]
+          width: 150
         },
         {
           title: "订单类型",
           dataIndex: "tradeType",
-          key: "tradeType",
           scopedSlots: { customRender: "tradeType" },
           width: 100
         },
         {
           title: "原价",
           dataIndex: "originAmount",
-          key: "originAmount",
           scopedSlots: { customRender: "originAmount" },
           width: 100
         },
         {
           title: "价格",
           dataIndex: "actualAmount",
-          key: "actualAmount",
           scopedSlots: { customRender: "actualAmount" },
           width: 100
         },
         {
           title: "状态",
           dataIndex: "tradeStatus",
-          key: "tradeStatus",
           width: 100,
           scopedSlots: { customRender: "tradeStatus" }
         },
         {
           title: "现金支付",
           dataIndex: "cashPay",
-          key: "cashPay",
-          width: 120,
+          width: 100
         },
         {
           title: "现金券支付",
           dataIndex: "actualPrice",
-          key: "actualPrice",
-          width: 150
+          width: 120
         },
         {
           title: "创建时间",
           dataIndex: "createTime",
-          key: "createTime",
           width: 190,
           scopedSlots: { customRender: "createTime" },
           sorter: true,
@@ -186,52 +149,36 @@ export default {
         {
           title: "支付时间",
           dataIndex: "payTime",
-          key: "payTime",
           width: 250,
           scopedSlots: { customRender: "payTime" }
         },
         {
-          title: "业务",
-          fixed: "right",
-          key: "selects",
-          scopedSlots: { customRender: "select" }
-        },
-        {
           title: "操作",
-          key: "action",
+          dataIndex: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
         }
       ],
-      dataAll: [],
-      data: null,
+      data: [],
       // 表格分页器配置
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "20", "30"],
-        total: 0,
-        current: 1, //当前页
-        pageSize: 5, //每页显示数量
+        total: 1,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.paginationProps.current} / ${Math.ceil(
-            this.paginationProps.total / this.paginationProps.pageSize
-          )}  页`,
-        onChange: this.changepage,
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )} 页`,
+        onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
-      },
-      num: "",
-      startValue: null,
-      endValue: null,
-      endOpen: false,
-      isTime: true
+      }
     };
   },
-  activated () {
+  activated() {
     this.getList();
   },
   computed: {
-    useColumns () {
+    useColumns() {
       return [
         {
           title: "订单编号",
@@ -244,158 +191,63 @@ export default {
           dataIndex: "corporationCode",
           key: "corporationCode",
           width: 150
-        },
-        {
-          title: "会员手机号",
-          dataIndex: "phoneNumber",
-          key: "phoneNumber",
-          scopedSlots: { customRender: "phoneNumber" },
-          width: 100
-        },
-        {
-          title: "创建时间",
-          dataIndex: "createTime",
-          key: "createTime",
-          width: 190,
-          scopedSlots: { customRender: "createTime" }
         }
       ];
     }
   },
   methods: {
     //查询表格数据
-    getList () {
-      this.listQuery.currentPage = this.paginationProps.current;
-      this.listQuery.pageSize = this.paginationProps.pageSize;
-      this.$getListQp("financialOrder/getList", this.listQuery)
+    getList() {
+      this.tableLoading = true;
+      this.$getList("financialOrder/getList", this.listQuery)
         .then(res => {
-          console.log(res);
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
           this.tableLoading = false;
-          this.listQuery = {
-            key: undefined,
-            search: "",
-            currentPage: 1,
-            pageSize: 10,
-            total: 0,
-            sorter: ""
-          };
         });
     },
-    //排序
-    handleChange (pagination, filters, sorter) {
-      if (sorter && sorter.order) {
-        if (sorter.columnKey === "createTime") {
-          this.listQuery.createTimeSort = sorter.order.replace("end", "");
-        } else if (sorter.columnKey === "corporationCode") {
-          this.listQuery.corporationCodeSort = sorter.order.replace("end", "");
-        }
-        this.getList();
-      }
-    },
-    disabledStartDate (startValue) {
-      const endValue = this.endValue;
-      if (!startValue || !endValue) {
-        return false;
-      }
-      return startValue.valueOf() > endValue.valueOf();
-    },
-    disabledEndDate (endValue) {
-      const startValue = this.startValue;
-      if (!endValue || !startValue) {
-        return false;
-      }
-      return startValue.valueOf() >= endValue.valueOf();
-    },
-    handleStartOpenChange (open) {
-      if (!open) {
-        this.endOpen = true;
-      }
-    },
-    handleEndOpenChange (open) {
-      this.endOpen = open;
-    },
-    changepage (current, pageSize) {
-      this.paginationProps.current = current;
-      this.paginationProps.pageSize = pageSize;
+    // 搜索
+    handleSearch() {
       this.getList();
     },
-    onShowSizeChange (current, pageSize) {
-      // console.log("改变了分页的大小", current, pageSize);
-      this.paginationProps.current = current;
-      this.paginationProps.pageSize = pageSize;
+    // 日期选择
+    datePickerOnOk(value) {
+      console.log(value);
+      if (value.length !== 0) {
+        this.listQuery.startTime = moment(value[0]).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+      } else {
+        this.listQuery.startTime = "";
+        this.listQuery.endTime = "";
+      }
+    },
+    // 禁用日期--禁用当天之后+当天前一个月所有
+    disabledDate(current) {
+      return current > moment() || current < moment().subtract(1, "month");
+    },
+    // 表格分页快速跳转n页
+    quickJump(currentPage) {
+      this.listQuery.currentPage = currentPage;
       this.getList();
     },
-    selectPool (text, i) {
+    // 表格分页切换每页条数
+    onShowSizeChange(current, pageSize) {
+      this.listQuery.currentPage = current;
+      this.listQuery.pageSize = pageSize;
+      this.getList();
+    },
+    // 查看详情
+    handleSelectDetail(record) {
       this.$router.push({
         path: "/finance/index/orderInfo",
         query: {
-          id: text.orderNo
+          id: record.orderNo
         }
       });
-    },
-    secectClick () {
-      this.listQuery.key = this.title;
-      if (this.title == "createTime") {
-        let startTime = this.startValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        let endTime = this.endValue._d
-          .toLocaleString("chinese", { hour12: false })
-          .replaceAll("/", "-");
-        // console.log(this.title, this.search, startTime, endTime);
-        this.$store
-          .dispatch("financialOrder/selectList", {
-            startTime,
-            endTime
-          })
-          .then(val => {
-            // console.log(val, "时间请求结果");
-            this.paginationProps.total = val.data.totalCount * 1;
-            this.paginationProps.current = val.data.currentPage * 1;
-            this.dataAll = val.data.list;
-            this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-          });
-      } else {
-        // this.$getListQp(this.title, this.search, this.startValue, this.endValue);
-        let tempSearch = this.listQuery.search;
-        if (this.title == "tradeType") {
-          if (this.listQuery.search == "销售") {
-            this.listQuery.search = 5;
-          }
-          if (this.listQuery.search == "采购") {
-            this.listQuery.search = 1;
-          }
-        }
-        if (this.title == "payStatus") {
-          if (this.listQuery.search == "支付") {
-            this.listQuery.search = 1;
-          }
-          if (this.listQuery.search == "未支付") {
-            this.listQuery.search = 0;
-          }
-        }
-        this.$getListQp("financialOrder/getList", this.listQuery).then(val => {
-          // console.log(val, "时间请求结果");
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.paginationProps.current = val.data.currentPage * 1;
-          this.dataAll = val.data.list;
-          this.data = this.dataAll.slice(0, this.paginationProps.pageSize);
-          this.listQuery.search = tempSearch;
-        });
-      }
-    },
-    changeKey (val) {
-      // console.log(val);
-      this.title = val;
-      if (this.title !== "createTime") {
-        this.isTime = true;
-      } else {
-        this.isTime = false;
-      }
     }
   }
 };
@@ -413,7 +265,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type='button'] {
+    [type="button"] {
       margin-left: 20px;
     }
     .zhi {

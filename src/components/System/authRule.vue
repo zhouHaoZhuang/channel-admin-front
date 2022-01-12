@@ -12,7 +12,7 @@
           :loading="tableLoading"
           :columns="columns"
           :data-source="data"
-          rowKey="id"
+          rowKey="code"
           :pagination="false"
         >
           <span slot="type">
@@ -21,6 +21,23 @@
           <span slot="code" slot-scope="text">
             {{ text.replace(":*", "") }}
           </span>
+          <div slot="actions" slot-scope="text">
+            <div class="actions-box">
+              <div v-for="ele in text" :key="ele" class="item">
+                <a-tooltip v-if="ele === '*'" placement="top">
+                  <template slot="title">
+                    <span>所有操作</span>
+                  </template>
+                  <span>
+                    {{ ele }}
+                  </span>
+                </a-tooltip>
+                <span v-else>
+                  {{ ele }}
+                </span>
+              </div>
+            </div>
+          </div>
           <span slot="action" slot-scope="text, record">
             <a-button type="link" @click="handleCancelAuth(record)">
               取消授权
@@ -72,38 +89,99 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <!-- <a-form-model-item label="授权作用">
-          <a-radio-group v-model="form.type">
-            <a-radio :value="1">
-              允许
-            </a-radio>
-            <a-radio :value="0">
-              拒绝
-            </a-radio>
-          </a-radio-group>
-        </a-form-model-item> -->
-        <a-form-model-item label="权限" prop="permissionCode">
-          <a-select
-            v-model="form.permissionCode"
-            show-search
-            placeholder="请选择权限"
-            option-filter-prop="children"
-            style="width: 100%"
-            :filter-option="filterOption"
-          >
-            <!-- <a-select-option value='all'>
-              <span>所有资源</span>
-            </a-select-option> -->
-            <a-select-option
-              v-for="item in adminList"
-              :key="item.id"
-              :value="item.code"
-            >
-              <span>{{ item.code }}</span>
-              <span>({{ item.description }})</span>
-            </a-select-option>
-          </a-select>
+        <a-form-model-item style="margin-bottom:0" label="授权规则">
+          <a-button type="link" icon="plus" @click="handleAddRule">
+            添加授权规则
+          </a-button>
         </a-form-model-item>
+        <div
+          v-for="(item, index) in form.permissions"
+          :key="item.id"
+          class="actions-item"
+        >
+          <a-form-model-item
+            label="权限"
+            :prop="'permissions.' + index + '.permissionCode'"
+            :rules="{
+              required: true,
+              message: '请选择权限',
+              trigger: ['blur', 'change']
+            }"
+          >
+            <a-select
+              v-model="item.permissionCode"
+              show-search
+              placeholder="请选择权限"
+              option-filter-prop="children"
+              style="width: 100%"
+              :filter-option="filterOption"
+            >
+              <a-select-option value="all">
+                <span>所有资源</span>
+              </a-select-option>
+              <a-select-option
+                v-for="item in adminList"
+                :key="item.id"
+                :value="item.code"
+              >
+                <span>{{ item.code }}</span>
+                <span>({{ item.description }})</span>
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item
+            label="操作"
+            :prop="'permissions.' + index + '.type'"
+            :rules="{
+              required: true,
+              message: '请选择操作类型',
+              trigger: ['blur', 'change']
+            }"
+          >
+            <a-radio-group v-model="item.type">
+              <a-radio :value="1">
+                所有操作
+              </a-radio>
+              <a-radio :value="0">
+                特定操作
+              </a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+          <a-form-model-item
+            v-if="item.type === 0"
+            :wrapper-col="{ span: 15, offset: 6 }"
+            :prop="'permissions.' + index + '.actions'"
+            :rules="{
+              required: true,
+              message: '请选择操作类型',
+              trigger: ['blur', 'change']
+            }"
+          >
+            <a-select
+              v-model="item.actions"
+              mode="multiple"
+              show-search
+              placeholder="请选择操作"
+              option-filter-prop="children"
+              style="width: 100%"
+              :filter-option="filterOption"
+            >
+              <a-select-option
+                v-for="item in adminList"
+                :key="item.id"
+                :value="item.code"
+              >
+                <span>{{ item.code }}</span>
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-icon
+            v-if="!item.default"
+            class="close"
+            type="close-circle"
+            @click="handleDelRule(index)"
+          />
+        </div>
       </a-form-model>
     </a-modal>
   </div>
@@ -143,6 +221,11 @@ export default {
           dataIndex: "desacription"
         },
         {
+          title: "权限操作",
+          dataIndex: "actions",
+          scopedSlots: { customRender: "actions" }
+        },
+        {
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" }
@@ -160,7 +243,15 @@ export default {
       form: {
         type: "role",
         roleCodes: [],
-        permissionCode: undefined
+        permissions: [
+          {
+            id: -1,
+            permissionCode: undefined,
+            type: 1,
+            actions: [],
+            default: true
+          }
+        ]
       },
       rules: {
         type: [
@@ -173,13 +264,6 @@ export default {
         roleCodes: [
           {
             validator: validateRoleCodes,
-            tigger: ["change"]
-          }
-        ],
-        permissionCode: [
-          {
-            required: true,
-            message: "请选择权限",
             tigger: ["change"]
           }
         ]
@@ -201,6 +285,10 @@ export default {
           this.getRoleList();
           this.getAdminList();
           this.form.roleCodes = [this.code];
+        } else {
+          this.$nextTick(() => {
+            this.resetForm();
+          });
         }
       }
     }
@@ -264,14 +352,38 @@ export default {
       this.form = {
         type: "role",
         roleCodes: [],
-        permissionCode: undefined
+        permissions: [
+          {
+            id: -1,
+            permissionCode: undefined,
+            type: 1,
+            actions: [],
+            default: true
+          }
+        ]
       };
+    },
+    // 添加授权规则
+    handleAddRule() {
+      const id = this.form.permissions[this.form.permissions.length - 1].id - 1;
+      const data = {
+        id,
+        permissionCode: undefined,
+        type: 1,
+        actions: [],
+        default: false
+      };
+      this.form.permissions.push({ ...data });
+    },
+    // 删除授权规则
+    handleDelRule(index) {
+      this.form.permissions.splice(index, 1);
     },
     // 弹窗提交
     handleOk() {
-      this.loading = true;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          this.loading = true;
           this.$store
             .dispatch("system/addRule", this.form)
             .then(res => {
@@ -331,7 +443,35 @@ export default {
     flex-wrap: wrap;
     .table-box {
       width: 100%;
+      .actions-box {
+        display: flex;
+        .item {
+          margin: 0 8px 0 0;
+          padding: 0 7px;
+          font-size: 12px;
+          line-height: 20px;
+          white-space: nowrap;
+          background: #fafafa;
+          border: 1px solid #d9d9d9;
+          border-radius: 2px;
+          cursor: pointer;
+        }
+      }
     }
+  }
+}
+.actions-item {
+  background: #f8f9fb;
+  border-radius: 4px;
+  padding: 26px 0 10px;
+  position: relative;
+  margin-bottom: 10px;
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
   }
 }
 </style>

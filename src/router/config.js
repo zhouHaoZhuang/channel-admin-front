@@ -81,98 +81,6 @@ const options = {
             }
           ]
         },
-        // 服务
-        {
-          path: "/service",
-          name: "服务",
-          component: PageView,
-          children: [
-            {
-              path: "index",
-              name: "渠道管理",
-              meta: {
-                icon: "home"
-              },
-              component: BlankView,
-              children: [
-                {
-                  path: "list",
-                  name: "渠道列表",
-                  meta: {
-                    icon: "home"
-                  },
-                  component: () => import("@/pages/service/channelAdmin/list")
-                },
-                {
-                  path: "add",
-                  name: "新增渠道",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/service/channelAdmin/addChannel")
-                },
-                {
-                  path: "detail",
-                  name: "渠道详情",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () => import("@/pages/service/channelAdmin/detail")
-                },
-                {
-                  path: "price",
-                  name: "渠道价格",
-                  meta: {
-                    icon: "home"
-                  },
-                  component: () => import("@/pages/service/channelAdmin/price")
-                },
-                {
-                  path: "update",
-                  name: "新增产品采购价格",
-                  meta: {
-                    icon: "home",
-                    invisible: true,
-                    back: true
-                  },
-                  component: () => import("@/pages/service/channelAdmin/update")
-                }
-              ]
-            },
-            {
-              path: "enterprise",
-              name: "企业管理",
-              meta: {
-                icon: "home"
-              },
-              component: BlankView,
-              children: [
-                {
-                  path: "list",
-                  name: "企业列表",
-                  meta: {
-                    icon: "home"
-                  },
-                  component: () =>
-                    import("@/pages/service/enterpriseAdmin/list")
-                },
-                {
-                  path: "detail",
-                  name: "企业详情",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/service/enterpriseAdmin/detail")
-                }
-              ]
-            }
-          ]
-        },
         // 会员
         {
           path: "/member",
@@ -324,7 +232,7 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/channel/payment/list")
+                  component: () => import("@/pages/finance/payment/list")
                 },
                 {
                   path: "details",
@@ -333,7 +241,7 @@ const options = {
                     invisible: true,
                     back: true
                   },
-                  component: () => import("@/pages/channel/payment/details")
+                  component: () => import("@/pages/finance/payment/details")
                 },
                 {
                   path: "addpayment",
@@ -342,78 +250,10 @@ const options = {
                     invisible: true,
                     back: true
                   },
-                  component: () => import("@/pages/channel/payment/addbalance")
+                  component: () => import("@/pages/finance/payment/addbalance")
                 }
-                // {
-                //   path: "remittance",
-                //   name: "线下汇款",
-                //   meta: {
-                //     icon: "home",
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/price"),
-                // },
-                // {
-                //   path: "invoice",
-                //   name: "发票管理",
-                //   meta: {
-                //     icon: "home",
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/price"),
-                // },
-                // {
-                //   path: "contract",
-                //   name: "合同管理",
-                //   meta: {
-                //     icon: "home",
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/list"),
-                // },
-                // {
-                //   path: "withdrawal",
-                //   name: "提现管理",
-                //   meta: {
-                //     icon: "home",
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/price"),
-                // },
-                // {
-                //   path: "refund",
-                //   name: "退款管理",
-                //   meta: {
-                //     icon: "home",
-                //   },
-                //   component: () => import("@/pages/channel/channelAdmin/price"),
-                // },
               ]
             }
-            // {
-            //   path: "report",
-            //   name: "财务报表",
-            //   meta: {
-            //     icon: "home",
-            //   },
-            //   component: BlankView,
-            //   children: [
-            //     {
-            //       path: "reconciliation",
-            //       name: "渠道对账表",
-            //       meta: {
-            //         icon: "home",
-            //       },
-            //       component: () =>
-            //         import("@/pages/channel/enterpriseAdmin/list"),
-            //     },
-            //     {
-            //       path: "income",
-            //       name: "收入分摊表",
-            //       meta: {
-            //         icon: "home",
-            //       },
-            //       component: () =>
-            //         import("@/pages/channel/enterpriseAdmin/list"),
-            //     },
-            //   ],
-            // },
           ]
         },
         //业务
@@ -695,85 +535,50 @@ const options = {
                   meta: {
                     icon: "home"
                   },
-                  component: () => import("@/pages/personal/banner/banner.vue")
+                  component: () => import("@/pages/personal/banner/index.vue")
                 },
                 {
-                  path: "add-banner",
-                  name: "Banner添加",
+                  path: "update",
+                  name: "Banner",
                   meta: {
                     invisible: true, // 不显示在左侧菜单
                     back: true // 后退
                   },
-                  component: () =>
-                    import("@/pages/personal/banner/addbanner.vue")
+                  component: () => import("@/pages/personal/banner/update.vue")
                 },
                 {
-                  path: "amend-banner",
-                  name: "Banner修改",
-                  meta: {
-                    invisible: true, // 不显示在左侧菜单
-                    back: true // 后退
-                  },
-                  component: () =>
-                    import("@/pages/personal/banner/amendbanner.vue")
-                },
-                {
-                  path: "blogroll",
+                  path: "links",
                   name: "友情链接",
                   meta: {
-                    // invisible: true,
-                    // back: true
                     icon: "home"
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/blogroll.vue")
+                    import("@/pages/personal/links/links.vue")
                 },
                 {
-                  path: "add-blogroll",
-                  name: "添加友情链接",
+                  path: "updateLink",
+                  name: "更新友情链接",
                   meta: {
                     invisible: true,
                     back: true
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/addblogroll.vue")
+                    import("@/pages/personal/links/updateLink.vue")
                 },
                 {
-                  path: "amend-blogroll",
-                  name: "修改友情链接",
+                  path: "updateCategory",
+                  name: "友情链接分类更新",
                   meta: {
                     invisible: true,
                     back: true
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/amendblogroll.vue")
-                },
-                {
-                  path: "add-classify",
-                  name: "友情链接分类添加",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/personal/blogroll/addclassify.vue")
-                },
-                {
-                  path: "amend-classify",
-                  name: "友情链接分类修改",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/personal/blogroll/amendclassify.vue")
+                    import("@/pages/personal/links/updateCategory.vue")
                 },
                 {
                   path: "single",
                   name: "单页管理",
                   meta: {
-                    // invisible: true,
-                    // back: true
                     icon: "home"
                   },
                   component: () => import("@/pages/personal/single/single.vue")

@@ -1,65 +1,73 @@
 <template>
   <div class="banner-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn" @click="addbanner">
+      <a-button
+        type="primary"
+        icon="plus"
+        class="btn"
+        @click="updateBanner('add')"
+      >
         添加Banner
       </a-button>
-      <a-button icon="delete" class="btn" @click="deleteinbatches">
+      <a-button icon="delete" class="btn" @click="handleBatchDel">
         批量删除
       </a-button>
-      <a-button icon="check" class="btn" @click="show">
+      <a-button icon="check" class="btn" @click="handleChangeShow('show')">
         显示
       </a-button>
-      <a-button icon="stop" class="btn" @click="conceal">
+      <a-button icon="stop" class="btn" @click="handleChangeShow('hide')">
         隐藏
       </a-button>
-      <a-button icon="column-height" class="btn" @click="sort">
+      <a-button icon="column-height" class="btn" @click="handleSort">
         排序
       </a-button>
     </div>
     <div class="table-content">
       <a-table
+        :loading="tableLoading"
         :row-selection="rowSelection"
         :columns="columns"
         :data-source="data"
         rowKey="id"
         :pagination="paginationProps"
-        :scroll="{ x: 1300 }"
       >
         <div slot="bannerType" slot-scope="text">
-          <div v-if="text === 0"></div>
-          <div v-else-if="text === 1"></div>
-          {{ text === 0 ? "首页banner" : "云服务器banner" }}
+          {{ bannerTypeEnum[text] }}
         </div>
         <div class="status" slot="status" slot-scope="text">
           <div v-if="text === 0" class="dot"></div>
           <div v-else class="dot dot-err"></div>
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
-        <span slot="action" slot-scope="text">
-          <a-button type="link" @click="updatePrice(text)">
+        <div slot="action" slot-scope="text, record">
+          <a-button type="link" @click="updateBanner('edit', record)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(text)">
+          <a-button type="link" @click="handleDelBanner(record)">
             删除
           </a-button>
-        </span>
-        <a slot="name" slot-scope="text">{{ text }}</a>
+        </div>
       </a-table>
     </div>
+    <!-- 轮播图排序 -->
+    <SortBanner v-model="sortVisible" @success="getList" />
   </div>
 </template>
 
 <script>
+import { bannerTypeEnum } from "@/utils/enum";
+import SortBanner from "@/components/Banner/sortBanner";
 export default {
+  components: {
+    SortBanner
+  },
   computed: {
     rowSelection() {
       return {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedRowKeys = selectedRowKeys;
-          console.log(this.selectedRowKeys);
         }
       };
     }
@@ -67,44 +75,40 @@ export default {
   created() {},
   data() {
     return {
+      bannerTypeEnum,
       listQuery: {
-        search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        sorter: "asc-sort"
       },
+      tableLoading: false,
       columns: [
         {
           title: "编号",
-          dataIndex: "id",
-          key: ""
+          dataIndex: "id"
         },
         {
           title: "类型",
           dataIndex: "bannerType",
-          key: "bannerType",
           scopedSlots: { customRender: "bannerType" }
         },
         {
           title: "标题",
-          dataIndex: "title",
-          key: "title"
+          dataIndex: "title"
         },
         {
           title: "描述",
-          dataIndex: "describe",
-          key: "describe"
+          dataIndex: "describe"
         },
         {
           title: "状态",
           dataIndex: "status",
-          key: "status",
           scopedSlots: { customRender: "status" }
         },
         {
           title: "操作",
-          key: "action",
-          dataIndex: "id",
+          dataIndex: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
         }
@@ -121,32 +125,25 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
+      sortVisible: false
     };
   },
   activated() {
     this.getList();
   },
   methods: {
-    //查询
-    // search(){
-    //   this.listQuery.currentPage = 1;
-    //   this.getList();
-    // },
-    //查询数据表格
+    //查询轮播图数据
     getList() {
-      this.$store.dispatch("banner/getList").then(res => {
-        console.log(res);
-        this.data = [...res.data.list];
-      });
-      // this.$getListQp("banner/getList",this.listQuery)
-      // .then(res=>{
-      //   this.data = [...res.data.list];
-      //   this.paginationProps.total = res.data.totalCount * 1;
-      // })
-      // .finally(() =>{
-
-      // })
+      this.tableLoading = true;
+      this.$store
+        .dispatch("banner/getList", this.listQuery)
+        .then(res => {
+          this.data = [...res.data.list];
+        })
+        .finally(() => {
+          this.tableLoading = false;
+        });
     },
     //表格分页跳转
     quickJump(currentPage) {
@@ -159,26 +156,21 @@ export default {
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
-    //添加banner
-    addbanner() {
-      this.$router.push("/personal/account/add-banner");
-    },
-    //修改
-    updatePrice(text) {
+    //添加/修改banner
+    updateBanner(type, record) {
       this.$router.push({
-        path: "/personal/account/amend-banner",
+        path: "/personal/account/update",
         query: {
-          id: text
+          id: type === "add" ? undefined : record.id
         }
       });
     },
     //删除
-    handleDel(id) {
-      console.log(id);
+    handleDelBanner(record) {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("banner/delPrice", id).then(val => {
+          this.$store.dispatch("banner/delPrice", record.id).then(res => {
             this.$message.success("操作成功");
             this.getList();
           });
@@ -186,8 +178,7 @@ export default {
       });
     },
     //批量删除
-    deleteinbatches() {
-      // console.log(this.selectedRowKeys.toString());
+    handleBatchDel() {
       if (this.selectedRowKeys.length === 0) {
         this.$message.error("请选择要删除的数据");
         return;
@@ -196,38 +187,36 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
+            .dispatch("banner/delPrice", this.selectedRowKeys)
+            .then(res => {
               this.$message.success("操作成功");
-              // this.$store.dispatch("操作成功").then(val => {
-              //   this.reqAfter(val);
-              // });
               this.getList();
             });
         }
       });
     },
-    //显示
-    show() {
+    // 显示/隐藏
+    handleChangeShow(type) {
       this.$confirm({
-        title: "确定要删除吗?",
+        title: `确定要批量${type === "show" ? "显示" : "隐藏"}吗?`,
         onOk: () => {
-          this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
-              this.$message.success("操作成功");
-              // this.$store.dispatch("操作成功").then(val => {
-              //   this.reqAfter(val);
-              // });
-              this.getList();
-            });
+          const data = this.selectedRowKeys.map(ele => {
+            return {
+              id: ele,
+              status: type === "show" ? 0 : 1
+            };
+          });
+          this.$store.dispatch("banner/changeBannerShow", data).then(res => {
+            this.$message.success("操作成功");
+            this.getList();
+          });
         }
       });
     },
-    //隐藏
-    conceal() {},
-    //排序
-    sort() {}
+    // 排序
+    handleSort() {
+      this.sortVisible = true;
+    }
   }
 };
 </script>
