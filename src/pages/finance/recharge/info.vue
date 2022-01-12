@@ -7,7 +7,7 @@
         <span class="details-type">充值ID：</span><span class="details-value">{{ data.id }}</span>
       </div>
       <div>
-        <span class="details-type">充值方式：</span><span class="details-value">{{ data.memo }}</span>
+        <span class="details-type">充值方式：</span><span class="details-value">{{ rechargeTypeMap[data.channelCode] }}</span>
       </div>
       <div>
         <span class="details-type">充值金额：</span><span class="details-value">{{ data.amount }}</span>
@@ -19,7 +19,9 @@
         <span class="details-type">充值状态：</span><span class="details-value">{{ detailsMapData[data.status] }}</span>
       </div>
       <div>
-        <span class="details-type">充值渠道：</span><span class="details-value">{{ data.channelCode }}</span>
+        <span class="details-type">充值渠道：</span><span class="details-value">{{
+          rechargeTypeMap[data.channelCode]
+        }}</span>
       </div>
       <div>
         <span class="details-type">操作人：</span><span class="details-value">{{ data.createUserName }}</span>
@@ -45,24 +47,25 @@
 </template>
 
 <script>
-import { detailsMapData } from "@/utils/enum.js";
+import { detailsMapData, rechargeTypeMap } from '@/utils/enum.js';
 export default {
-  data () {
+  data() {
     return {
       data: null,
       detailsMapData,
+      rechargeTypeMap,
     };
   },
-  created () {
+  created() {
     this.getList();
   },
-  activated () {
+  activated() {
     this.getList();
   },
   methods: {
-    getList () {
+    getList() {
       this.$store
-        .dispatch("rechargeRecord/getOne", this.$route.query.id)
+        .dispatch('rechargeRecord/getOne', this.$route.query.id)
         .then((res) => {
           console.log(res);
           this.data = res.data.list[0];

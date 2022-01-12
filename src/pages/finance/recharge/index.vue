@@ -137,10 +137,10 @@
               查看
             </a-button>
           </div>
-          <div slot="createTime" slot-scope="text">
+          <div slot="createTime" slot-scope="text" v-if="text">
             {{ text | formatDate }}
           </div>
-          <div slot="modifyTime" slot-scope="text">
+          <div slot="modifyTime" slot-scope="text" v-if="text">
             {{ text | formatDate }}
           </div>
           <div
@@ -150,6 +150,9 @@
           >
             <span>{{ detailTypeMapData[text] }}</span>
           </div>
+          <div slot="channelCode" slot-scope="text">
+            {{rechargeTypeMap[text]}}
+          </div>
         </a-table>
       </div>
     </div>
@@ -157,12 +160,13 @@
 </template>
 
 <script>
-import { detailTypeMapData } from "@/utils/enum.js";
+import { detailTypeMapData,rechargeTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       isfilter: false,
       detailTypeMapData,
+      rechargeTypeMap,
       // search: "",
       listQuery: {
         key: "customerCode",
@@ -181,7 +185,10 @@ export default {
         },
         {
           title: "方式",
-          dataIndex: "memo",
+          dataIndex: "channelCode",
+          scopedSlots:{
+             customRender: "channelCode"
+          }
         },
         {
           title: "会员ID",
