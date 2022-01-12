@@ -609,7 +609,7 @@ export default {
   padding: 20px;
   .member-top {
     display: flex;
-    width: 80%;
+    width: 100%;
     padding: 24px 0;
     justify-content: space-between;
     .search {

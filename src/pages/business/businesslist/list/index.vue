@@ -270,7 +270,7 @@ export default {
       regionMapData,
       isfilter: false,
       listQuery: {
-        key: "outIp",
+        key: "ip",
         search: "",
         pageNo: 1,
         pageSize: 10,
@@ -307,7 +307,7 @@ export default {
       searchColumns: [
         {
           title: "服务器IP",
-          dataIndex: "outIp"
+          dataIndex: "ip"
         },
         {
           title: "会员ID",
