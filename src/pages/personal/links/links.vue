@@ -1,13 +1,19 @@
 <template>
   <div class="friendship-container">
     <div class="head">
-      <a-tabs type="card" @change="callback" style="width:100%">
+      <!-- 友情链接 -->
+      <a-tabs type="card" style="width:100%">
         <a-tab-pane key="1" tab="友情链接管理">
           <div class="btn-head">
-            <a-button type="primary" icon="plus" class="btn" @click="addfriend">
+            <a-button
+              type="primary"
+              icon="plus"
+              class="btn"
+              @click="updateLink('add')"
+            >
               添加友情链接
             </a-button>
-            <a-button icon="delete" class="btn" @click="deleteinbatches">
+            <a-button icon="delete" class="btn" @click="handleBatchDelLink">
               批量删除
             </a-button>
             <a-button icon="check" class="btn">
@@ -23,11 +29,10 @@
           <div class="table-content">
             <a-table
               :row-selection="rowSelection"
-              :columns="columns"
-              :data-source="data"
+              :columns="linksColumns"
+              :data-source="linksData"
+              :pagination="false"
               rowKey="id"
-              :pagination="paginationProps"
-              :scroll="{ x: 1300 }"
             >
               <div slot="tableNumber" slot-scope="text, record, index">
                 {{ index * listQuery.currentPage + 1 }}
@@ -43,24 +48,25 @@
                 {{ text === 0 ? "全站展示" : "只显示首页" }}
               </div>
               <div slot="action" slot-scope="text, record">
-                <a-button type="link" @click="updatePrice(record)">
+                <a-button type="link" @click="updateLink('edit', record)">
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDel(record)">
+                <a-button type="link" @click="handleDelLink(record)">
                   删除
                 </a-button>
               </div>
             </a-table>
           </div>
         </a-tab-pane>
+        <!-- 友情链接分类 -->
         <a-tab-pane key="2" tab="友情链接分类管理">
           <div class="btn-head">
             <a-button
               type="primary"
               icon="plus"
               class="btn"
-              @click="addclassify"
+              @click="updateCategory('add')"
             >
               添加分类
             </a-button>
@@ -70,19 +76,20 @@
           </div>
           <div class="table-content">
             <a-table
-              :columns="columnss"
-              :data-source="friendshipdata"
+              :columns="categoryColumns"
+              :data-source="categoryData"
               rowKey="id"
+              :pagination="false"
             >
               <div slot="tableNumber" slot-scope="text, record, index">
                 {{ index * listQuery.currentPage + 1 }}
               </div>
               <div slot="action" slot-scope="text, record">
-                <a-button type="link" @click="amendclassify(record)">
+                <a-button type="link" @click="updateCategory('edit', record)">
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDels(record)">
+                <a-button type="link" @click="handleDelCategory(record)">
                   删除
                 </a-button>
               </div>
@@ -109,12 +116,10 @@ export default {
   data() {
     return {
       listQuery: {
-        search: "",
         currentPage: 1,
-        pageSize: 10,
-        total: 0
+        pageSize: 999
       },
-      columns: [
+      linksColumns: [
         {
           title: "编号",
           dataIndex: "tableNumber",
@@ -149,7 +154,9 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      columnss: [
+      linksData: [],
+      selectedRowKeys: [],
+      categoryColumns: [
         {
           title: "ID",
           dataIndex: "tableNumber",
@@ -170,90 +177,72 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      data: [],
-      // 友情管理表
-      friendshipdata: [],
-      paginationProps: {
-        showQuickJumper: true,
-        showSizeChanger: true,
-        total: 1,
-        showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
-            total / this.listQuery.pageSize
-          )} 页`,
-        onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
-      },
-      selectedRowKeys: []
+      categoryData: []
     };
   },
   activated() {
-    this.getList();
-    this.getfriendshipList();
+    this.getLinkList();
+    this.getCategoryList();
   },
   methods: {
-    //查询数据表格
-    getList() {
-      this.$store.dispatch("blogroll/getList").then(res => {
-        console.log(res);
-        this.data = [...res.data.list];
+    // 查询友情链接数据
+    getLinkList() {
+      this.$store.dispatch("links/getLinkList", this.listQuery).then(res => {
+        this.linksData = [...res.data.list];
       });
     },
-    //查询友情数据表格
-    getfriendshipList() {
-      this.$store.dispatch("blogroll/getfriendshipList").then(res => {
-        console.log("aa", res);
-        this.friendshipdata = [...res.data.list];
-      });
+    // 查询友情分类数据
+    getCategoryList() {
+      this.$store
+        .dispatch("links/getCategoryList", this.listQuery)
+        .then(res => {
+          this.categoryData = [...res.data.list];
+        });
     },
-    //表格分页跳转
-    quickJump(currentPage) {
-      this.listQuery.currentPage = currentPage;
-      this.getList();
-    },
-    //表格分页切换每页条数
-    onShowSizeChange(current, pageSize) {
-      this.listQuery.currentPage = current;
-      this.listQuery.pageSize = pageSize;
-      this.getList();
-    },
-    //修改
-    updatePrice(record) {
+    //添加/修改友情链接
+    updateLink(type, record) {
       this.$router.push({
-        path: "/personal/account/amend-blogroll",
+        path: "/personal/account/updateLink",
         query: {
-          id: record.id
+          id: type === "add" ? undefined : record.id
         }
       });
     },
-    //删除
-    handleDel(record) {
+    //添加/修改友情分类
+    updateCategory(type, record) {
+      this.$router.push({
+        path: "/personal/account/updateCategory",
+        query: {
+          id: type === "add" ? undefined : record.id
+        }
+      });
+    },
+    //删除友情链接
+    handleDelLink(record) {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("blogroll/delPrice", record.id).then(val => {
-            // this.$message.success("操作成功");
-            console.log(val, 9090);
-            this.getList();
+          this.$store.dispatch("links/delLink", record.id).then(res => {
+            this.$message.success("删除成功");
+            this.getLinkList();
           });
         }
       });
     },
-    handleDels(record) {
+    // 删除友情分类
+    handleDelCategory(record) {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("blogroll/delPrices", record.id).then(val => {
-            // this.$message.success("操作成功");
-            console.log(val, 9090);
-            this.getLists();
+          this.$store.dispatch("links/delCategory", record.id).then(res => {
+            this.$message.success("删除成功");
+            this.getCategoryList();
           });
         }
       });
     },
-    //批量删除
-    deleteinbatches() {
-      // console.log(this.selectedRowKeys.toString());
+    //批量删除友情链接
+    handleBatchDelLink() {
       if (this.selectedRowKeys.length === 0) {
         this.$message.error("请选择要删除的数据");
         return;
@@ -262,28 +251,11 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("blogroll/delPrice", this.selectedRowKeys.toString())
-            .then(val => {
+            .dispatch("links/delLink", this.selectedRowKeys)
+            .then(res => {
               this.$message.success("操作成功");
-              this.getList();
+              this.getLinkList();
             });
-        }
-      });
-    },
-    //添加
-    addfriend() {
-      this.$router.push("/personal/account/add-blogroll");
-    },
-    //添加
-    addclassify() {
-      this.$router.push("/personal/account/add-classify");
-    },
-    //修改
-    amendclassify(record) {
-      this.$router.push({
-        path: "/personal/account/amend-classify",
-        query: {
-          id: record.id
         }
       });
     }

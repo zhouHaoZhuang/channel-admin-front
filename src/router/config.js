@@ -547,62 +547,38 @@ const options = {
                   component: () => import("@/pages/personal/banner/update.vue")
                 },
                 {
-                  path: "blogroll",
+                  path: "links",
                   name: "友情链接",
                   meta: {
-                    // invisible: true,
-                    // back: true
                     icon: "home"
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/blogroll.vue")
+                    import("@/pages/personal/links/links.vue")
                 },
                 {
-                  path: "add-blogroll",
-                  name: "添加友情链接",
+                  path: "updateLink",
+                  name: "更新友情链接",
                   meta: {
                     invisible: true,
                     back: true
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/addblogroll.vue")
+                    import("@/pages/personal/links/updateLink.vue")
                 },
                 {
-                  path: "amend-blogroll",
-                  name: "修改友情链接",
+                  path: "updateCategory",
+                  name: "友情链接分类更新",
                   meta: {
                     invisible: true,
                     back: true
                   },
                   component: () =>
-                    import("@/pages/personal/blogroll/amendblogroll.vue")
-                },
-                {
-                  path: "add-classify",
-                  name: "友情链接分类添加",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/personal/blogroll/addclassify.vue")
-                },
-                {
-                  path: "amend-classify",
-                  name: "友情链接分类修改",
-                  meta: {
-                    invisible: true,
-                    back: true
-                  },
-                  component: () =>
-                    import("@/pages/personal/blogroll/amendclassify.vue")
+                    import("@/pages/personal/links/updateCategory.vue")
                 },
                 {
                   path: "single",
                   name: "单页管理",
                   meta: {
-                    // invisible: true,
-                    // back: true
                     icon: "home"
                   },
                   component: () => import("@/pages/personal/single/single.vue")

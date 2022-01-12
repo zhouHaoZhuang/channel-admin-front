@@ -9,7 +9,7 @@ import instance from "./instance";
 import purchase from "./purchase";
 import member from "./member";
 import banner from "./banner";
-import blogroll from "./blogroll";
+import links from "./links";
 import business from "./business";
 import globalBasic from "./globalBasic";
 import page from "./page";
@@ -36,7 +36,7 @@ export default {
   instance,
   member,
   banner,
-  blogroll,
+  links,
   business,
   globalBasic,
   page,
