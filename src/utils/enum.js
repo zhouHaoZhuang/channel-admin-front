@@ -32,16 +32,14 @@ export const detailTypeMapData = {
   '1': '待充值',
   '2': '支付失败',
   '9': '支付完成',
-},
-
+};
 // 地域map数据
 export const regionMapData = {
-  "cn-hangzhou": "杭州",
-  "cn-dalian": "大连",
-  "cn-beijing": "北京",
-  "cn-shanghai": "上海"
+  'cn-hangzhou': '杭州',
+  'cn-dalian': '大连',
+  'cn-beijing': '北京',
+  'cn-shanghai': '上海',
 };
-
 // 款项类型map数据
 export const paymentTypeMapData = {
   '1': '在线充值',
@@ -62,13 +60,7 @@ export const OrderTypeMap = {
   '25': '资源池升配',
   '26': '阿里云升配',
 };
-// 权限管理-权限单选map
-export const systemAdminMapEnum = {
-  DATA: '数据',
-  // API: "API",
-  MENU: '菜单',
-  BUTTON: '按钮',
-};
+
 // 充值方式map
 export const rechargeTypeMap = {
   '1': '余额支付',
