@@ -95,13 +95,13 @@
           </a-button>
         </a-form-model-item>
         <div
-          v-for="(item, index) in form.permissions"
+          v-for="(item, index) in form.permissionActions"
           :key="item.id"
           class="actions-item"
         >
           <a-form-model-item
             label="权限"
-            :prop="'permissions.' + index + '.permissionCode'"
+            :prop="'permissionActions.' + index + '.permissionCode'"
             :rules="{
               required: true,
               message: '请选择权限',
@@ -115,6 +115,9 @@
               option-filter-prop="children"
               style="width: 100%"
               :filter-option="filterOption"
+              @change="
+                (value, opt) => selectChange(value, opt, item.type, index)
+              "
             >
               <a-select-option value="all">
                 <span>所有资源</span>
@@ -131,14 +134,18 @@
           </a-form-model-item>
           <a-form-model-item
             label="操作"
-            :prop="'permissions.' + index + '.type'"
+            :prop="'permissionActions.' + index + '.type'"
             :rules="{
               required: true,
               message: '请选择操作类型',
               trigger: ['blur', 'change']
             }"
           >
-            <a-radio-group v-model="item.type">
+            <a-radio-group
+              v-model="item.type"
+              :disabled="!item.permissionCode"
+              @change="e => radioChange(e, item.permissionCode, index)"
+            >
               <a-radio :value="1">
                 所有操作
               </a-radio>
@@ -150,12 +157,6 @@
           <a-form-model-item
             v-if="item.type === 0"
             :wrapper-col="{ span: 15, offset: 6 }"
-            :prop="'permissions.' + index + '.actions'"
-            :rules="{
-              required: true,
-              message: '请选择操作类型',
-              trigger: ['blur', 'change']
-            }"
           >
             <a-select
               v-model="item.actions"
@@ -167,11 +168,11 @@
               :filter-option="filterOption"
             >
               <a-select-option
-                v-for="item in adminList"
-                :key="item.id"
-                :value="item.code"
+                v-for="ele in item.actionSelectList"
+                :key="ele.name"
+                :value="ele.name"
               >
-                <span>{{ item.code }}</span>
+                <span>{{ ele.name }}</span>
               </a-select-option>
             </a-select>
           </a-form-model-item>
@@ -243,7 +244,7 @@ export default {
       form: {
         type: "role",
         roleCodes: [],
-        permissions: [
+        permissionActions: [
           {
             id: -1,
             permissionCode: undefined,
@@ -336,6 +337,33 @@ export default {
           this.adminList = [...res.data.list];
         });
     },
+    // 根据权限获取对应权限的所有操作
+    getPremActions(id, index) {
+      this.$store
+        .dispatch("system/getPremActions", {
+          id
+        })
+        .then(res => {
+          this.form.permissionActions.splice(index, 1, {
+            ...this.form.permissionActions[index],
+            actionSelectList: [...res.data.actions]
+          });
+        });
+    },
+    // 权限切换change,需要请求数据
+    selectChange(value, opt, type, index) {
+      this.form.permissionActions[index].actions = [];
+      this.form.permissionActions[index].actionSelectList = [];
+      if (type === 0) {
+        this.getPremActions(value, index);
+      }
+    },
+    // 操作单选change事件，选择特定操作需要请求数据
+    radioChange(e, permissionCode, index) {
+      if (e.target.value === 0) {
+        this.getPremActions(permissionCode, index);
+      }
+    },
     // 权限下拉选择的搜索
     filterOption(input, option) {
       return (
@@ -352,12 +380,13 @@ export default {
       this.form = {
         type: "role",
         roleCodes: [],
-        permissions: [
+        permissionActions: [
           {
             id: -1,
             permissionCode: undefined,
             type: 1,
             actions: [],
+            actionSelectList: [],
             default: true
           }
         ]
@@ -365,19 +394,22 @@ export default {
     },
     // 添加授权规则
     handleAddRule() {
-      const id = this.form.permissions[this.form.permissions.length - 1].id - 1;
+      const id =
+        this.form.permissionActions[this.form.permissionActions.length - 1].id -
+        1;
       const data = {
         id,
         permissionCode: undefined,
         type: 1,
         actions: [],
+        actionSelectList: [],
         default: false
       };
-      this.form.permissions.push({ ...data });
+      this.form.permissionActions.push({ ...data });
     },
     // 删除授权规则
     handleDelRule(index) {
-      this.form.permissions.splice(index, 1);
+      this.form.permissionActions.splice(index, 1);
     },
     // 弹窗提交
     handleOk() {

@@ -37,6 +37,10 @@ request.interceptors.request.use(async config => {
   if (config.pay) {
     config.baseURL = env.PAY_BASE_URL;
   }
+  // 资源池请求地址
+  if (config.jadepool) {
+    config.baseURL = env.JADE_POOL_URL;
+  }
   config.cancelToken = axiosSource.token;
   config.headers.domain = getDomainUrl();
   const token = store.state.user.token;

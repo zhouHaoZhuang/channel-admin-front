@@ -61,7 +61,7 @@
       >
         <a-form-model-item
           label="操作"
-          :prop="'actions.' + index + '.action'"
+          :prop="'actions.' + index + '.name'"
           :rules="{
             required: true,
             message: '请输入操作名称',
@@ -70,7 +70,7 @@
         >
           <a-input
             :addon-before="form.code + '：'"
-            v-model="item.action"
+            v-model="item.name"
             placeholder="动作，例如add"
           />
         </a-form-model-item>
@@ -120,7 +120,13 @@ export default {
       handler(newVal) {
         if (JSON.stringify(newVal) !== "{}") {
           this.type = "edit";
-          this.form = { ...this.detail };
+          const newActions = this.detail.actions.map((ele, index) => {
+            return {
+              id: -1 - index,
+              ...ele
+            };
+          });
+          this.form = { ...this.detail, actions: [...newActions] };
         } else {
           this.type = "add";
         }
@@ -180,7 +186,7 @@ export default {
     handleAddAction() {
       const data = {
         id: -1,
-        action: "",
+        name: "",
         description: ""
       };
       if (this.form.actions.length === 0) {

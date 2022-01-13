@@ -130,6 +130,12 @@ const channel = {
         method: "post",
         data
       });
+    },
+    // 根据权限获取对应权限的所有操作
+    getPremActions({ commit, state }, params) {
+      return request({
+        url: `/permission/${params.id}`
+      });
     }
   }
 };

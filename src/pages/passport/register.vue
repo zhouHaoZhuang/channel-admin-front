@@ -10,18 +10,22 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item prop="channelName">
-          <a-input v-model="form.channelName" placeholder="公司名称" />
+          <a-input
+            v-model="form.channelName"
+            :max-length="32"
+            placeholder="公司名称"
+          />
         </a-form-model-item>
         <a-form-model-item prop="password">
-          <a-input
+          <a-input-password
             v-model="form.password"
             type="password"
-            :max-length="16"
-            placeholder="6 - 16位密码，区分大小写"
+            :max-length="12"
+            placeholder="6 - 12位密码，区分大小写"
           />
         </a-form-model-item>
         <a-form-model-item prop="confirmPassword">
-          <a-input
+          <a-input-password
             v-model="form.confirmPassword"
             type="password"
             :max-length="20"
@@ -97,7 +101,7 @@ export default {
     return {
       labelCol: { span: 0 },
       wrapperCol: { span: 22, offset: 1 },
-      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{8,16}/,
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
       form: {
         channelName: "",
         password: "",
