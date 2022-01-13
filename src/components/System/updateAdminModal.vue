@@ -21,11 +21,11 @@
         <a-input
           v-model="form.code"
           :disabled="type === 'edit'"
-          :maxLength="20"
+          :maxLength="50"
           placeholder="请输入权限名称，填写一个名词，例如：order"
         />
       </a-form-model-item>
-      <a-form-model-item label="权限类型">
+      <a-form-model-item label="菜单级别">
         <a-radio-group v-model="form.type">
           <a-radio
             v-for="(value, key) in systemAdminMapEnum"
