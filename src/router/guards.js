@@ -53,8 +53,8 @@ const permsGuard = async (to, from, next, options) => {
     // 获取权限数据
     await store.dispatch("user/getUserPerms");
     // 设置动态路由
-    const perms = store.state.user.perms;
-    setAsyncRouteMenu(perms, router, store);
+    // const perms = store.state.user.perms;
+    // setAsyncRouteMenu(perms, router, store);
   }
   next();
 };
