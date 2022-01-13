@@ -75,9 +75,9 @@ export const numberEvolution = Vue.directive("number-evolution", {
     var RegStr =
       val === 0 ? `^[\\+\\-]?\\d+\\d{0,0}` : `^[\\+\\-]?\\d+\\.?\\d{0,${val}}`;
     el.addEventListener("keyup", function() {
-      console.log("键盘抬起1", el.value);
+      // console.log("键盘抬起1", el.value);
       const inpValArr = el.value.match(new RegExp(RegStr, "g"));
-      console.log("键盘抬起2", inpValArr);
+      // console.log("键盘抬起2", inpValArr);
       const inpVal =
         inpValArr && Array.isArray(inpValArr)
           ? inpValArr[inpValArr.length - 1]
@@ -96,8 +96,8 @@ export const numberEvolution = Vue.directive("number-evolution", {
           inpVal = Math.abs(inpVal);
           // const max = Object.keys(binding.modifiers)[0]
           // const min = Object.keys(binding.modifiers)[0]
-          console.log("当前的最大值是", value.max);
-          console.log("当前的最小值是", value);
+          // console.log("当前的最大值是", value.max);
+          // console.log("当前的最小值是", value);
           if (hasOwn(value, "max")) {
             const max = value.max;
             inpVal = inpVal > max ? max : inpVal;
