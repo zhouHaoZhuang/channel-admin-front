@@ -301,14 +301,14 @@
                 slot-scope="text">{{ text }}</span>
           <span :class="{ status0: text == 0, status1: text == 1, status: true }"
                 slot="status"
-                slot-scope="text">{{ text == 0 ? "冻结" : "正常" }}</span>
+                slot-scope="text" v-if="text">{{ text == 0 ? "冻结" : "正常" }}</span>
           <span :class="{ status0: text == 1, status1: text == 0, status: true }"
                 slot="loginLock"
-                slot-scope="text">{{ text == 0 ? "正常" : "锁定" }}</span>
+                slot-scope="text" v-if="text">{{ text == 0 ? "正常" : "锁定" }}</span>
           <!-- 认证状态 -->
-          <span :class="{ status0: text == 0, status1: text == 1, status: true }"
+          <span :class="{ status0: text != 1, status1: text == 1, status: true }"
                 slot="certificationStatus"
-                slot-scope="text">{{ text == 0 ? "未认证" : "已认证" }}</span>
+                slot-scope="text" >{{ text == 1 ? "已认证" : "未认证" }}</span>
           <span slot="createTime"
                 slot-scope="text">{{
             text | formatDate
@@ -475,7 +475,7 @@ export default {
         {
           title: "实名认证",
           dataIndex: "certificationStatus",
-          key: "shiming",
+          key: "certificationStatus",
           scopedSlots: { customRender: "certificationStatus" },
           width: 100
         },
