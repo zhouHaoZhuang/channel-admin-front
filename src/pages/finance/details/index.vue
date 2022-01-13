@@ -2,7 +2,11 @@
   <div class="Content">
     <div class="orderTop">
       <a-space>
-        <a-select style="width:150px" v-model="listQuery.key" @change="changeKey">
+        <a-select
+          style="width:150px"
+          v-model="listQuery.key"
+          @change="changeKey"
+        >
           <a-select-option
             :value="v.dataIndex"
             v-for="v in useColumns"
@@ -88,9 +92,9 @@
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div slot="detailType" slot-scope="text">
+          <!-- <div slot="detailType" slot-scope="text">
             <span>{{ detailTypeMapData[text] }}</span>
-          </div>
+          </div> -->
           <div slot="action" slot-scope="text">
             <a-button type="link" @click="selectPool(text)">
               查看
@@ -106,7 +110,7 @@
 </template>
 
 <script>
-import { detailTypeMapData } from "@/utils/enum.js";
+import { detailTypeMapData } from '@/utils/enum.js';
 export default {
   data() {
     return {
@@ -114,40 +118,40 @@ export default {
       detailTypeMapData,
       listQuery: {
         key: 'customerCode',
-        search: "",
+        search: '',
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        detailType: "",
-        startTime: "",
-        endTime: "",
+        detailType: '',
+        startTime: '',
+        endTime: '',
       },
       columns: [
         {
-          title: "编号ID",
-          dataIndex: "paymentLineId",
+          title: '编号ID',
+          dataIndex: 'paymentLineId',
           sorter: true,
-          sortDirections: ["ascend", "descend"],
+          sortDirections: ['ascend', 'descend'],
           width: 180,
         },
         {
-          title: "会员ID",
-          dataIndex: "customerCode",
+          title: '会员ID',
+          dataIndex: 'customerCode',
         },
         {
-          title: "发生金额(元)",
-          dataIndex: "dealAmount",
-          scopedSlots: { customRender: "dealAmount" },
+          title: '发生金额(元)',
+          dataIndex: 'dealAmount',
+          scopedSlots: { customRender: 'dealAmount' },
         },
         {
-          title: "当时余额(元)",
-          dataIndex: "afterAmount",
-          scopedSlots: { customRender: "afterAmount" },
+          title: '当时余额(元)',
+          dataIndex: 'afterAmount',
+          scopedSlots: { customRender: 'afterAmount' },
         },
         {
-          title: "款项类型",
-          dataIndex: "detailType",
-          scopedSlots: { customRender: "detailType" },
+          title: '款项类型',
+          dataIndex: 'memo',
+          // scopedSlots: { customRender: "detailType" },
         },
         // {
         //   title: "交易描述",
@@ -156,9 +160,9 @@ export default {
         //   scopedSlots: { customRender: "actualAmount" },
         // },
         {
-          title: "发生时间",
-          dataIndex: "createTime",
-          scopedSlots: { customRender: "createTime" },
+          title: '发生时间',
+          dataIndex: 'createTime',
+          scopedSlots: { customRender: 'createTime' },
           width: 180,
         },
         // {
@@ -167,15 +171,15 @@ export default {
         //   scopedSlots: { customRender: "select" }
         // },
         {
-          title: "操作管理员",
-          dataIndex: "modifyUserName",
+          title: '操作管理员',
+          dataIndex: 'modifyUserName',
         },
         {
-          title: "操作",
+          title: '操作',
           // dataIndex: "id",
-          key: "action",
-          fixed: "right",
-          scopedSlots: { customRender: "action" },
+          key: 'action',
+          fixed: 'right',
+          scopedSlots: { customRender: 'action' },
         },
       ],
       data: [],
@@ -201,16 +205,16 @@ export default {
     useColumns() {
       return [
         {
-          title: "会员ID",
-          dataIndex: "customerCode",
+          title: '会员ID',
+          dataIndex: 'customerCode',
         },
         {
-          title: "业务ID",
-          dataIndex: "paymentLineId",
+          title: '业务ID',
+          dataIndex: 'paymentLineId',
         },
         {
-          title: "起始日期",
-          dataIndex: "createTime",
+          title: '起始日期',
+          dataIndex: 'createTime',
         },
       ];
     },
@@ -231,9 +235,9 @@ export default {
       if (sorter && sorter.order) {
         this.listQuery.key = sorter.columnKey;
         this.listQuery.sorter =
-          sorter.order.replace("end", "") + `-${sorter.columnKey}`;
+          sorter.order.replace('end', '') + `-${sorter.columnKey}`;
         this.getList();
-        console.log("排序被点击了", sorter.columnKey, sorter.order);
+        console.log('排序被点击了', sorter.columnKey, sorter.order);
       }
     },
     disabledStartDate(startValue) {
@@ -260,13 +264,18 @@ export default {
     },
     // 查询的回调
     secectClick() {
-      console.log('查询的值是:',this.listQuery);
+      if (this.listQuery.key === 'customerCode') {
+        this.listQuery.search = Array.isArray(this.listQuery.search)?this.listQuery.search:[this.listQuery.search];
+      }else{
+        this.listQuery.search = this.listQuery.search.toString();
+      }
+      // console.log('查询的值是:', this.listQuery);
       this.getList();
     },
     changeKey(val) {
       // console.log(val);
       this.title = val;
-      if (this.title !== "createTime") {
+      if (this.title !== 'createTime') {
         this.isTime = true;
       } else {
         this.isTime = false;
@@ -283,14 +292,14 @@ export default {
       this.getList();
     },
     getList() {
-      this.$getList("financialDetails/getList", this.listQuery).then((res) => {
-        console.log(res, "获取列表");
+      this.$getList('financialDetails/getList', this.listQuery).then((res) => {
+        console.log(res, '获取列表');
         this.data = res.data.list;
         this.paginationProps.total = res.data.total * 1;
       });
     },
     selectPool(data) {
-      this.$store.commit("financialDetails/SET_DETAILEDINFO", data);
+      this.$store.commit('financialDetails/SET_DETAILEDINFO', data);
       this.$router.push({
         path: `/finance/index/detailedinfo`,
         query: {
@@ -314,7 +323,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type="button"] {
+    [type='button'] {
       margin-left: 20px;
     }
     .zhi {

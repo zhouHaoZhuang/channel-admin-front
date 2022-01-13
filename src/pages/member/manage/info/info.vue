@@ -63,10 +63,10 @@
           <span class="menber-title">所属会员组：</span><span class="menber-info">---普通会员</span><a class="mouse-enter">[修改会员组]</a>
         </div>
         <div>
-          <span class="menber-title">API状态：</span><span class="menber-info menber-apistate-nonactivated">{{dataBase.apiStatus==0?'未开通':'正常'}}</span>
+          <span class="menber-title">API状态：</span><span class="menber-info menber-apistate-nonactivated" >{{dataBase.apiStatus==0?'未开通':'正常'}}</span>
         </div>
         <div>
-          <span class="menber-title">认证状态：</span><span class="menber-info menber-certstate-uncert">{{dataBase.certificationStatus==0?'未认证':'已认证'}}</span>
+          <span class="menber-title">认证状态：</span><span class="menber-info menber-certstate-uncert" >{{dataBase.certificationStatus==1?'已认证':'未认证'}}</span>
         </div>
         <div>
           <span class="menber-title">备注：</span><span class="menber-info">{{dataBase.remark}}</span><a class="mouse-enter">[修改备注]</a>
