@@ -18,6 +18,7 @@
       <a-table
         :columns="columns"
         :data-source="data"
+        :loading="loading"
         rowKey="id"
         :pagination="paginationProps"
         :row-selection="{
@@ -47,18 +48,20 @@
 export default {
   data() {
     return {
+      loading: false,
       listQuery: {
         id: undefined,
         search: '',
         currentPage: 1,
         pageSize: 10,
         total: 0,
+        'qp-status-eq': '',
       },
       columns: [
         {
           title: '标题',
-          dataIndex: 'name',
-          key: 'name',
+          dataIndex: 'title',
+          key: 'title',
         },
         {
           title: '内容',
@@ -99,14 +102,19 @@ export default {
   methods: {
     // tabs切换回调
     callback(key) {
-      console.log(key);
+      // console.log(key);
+      this.listQuery['qp-status-eq'] = key;
+      this.getList();
     },
     // 获取列表
     getList() {
+      this.loading = true;
       this.$store.dispatch('message/getList', this.listQuery).then((res) => {
         console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount*1;
+      }).finally(() => {
+        this.loading = false;
       });
     },
     // 表格选择
