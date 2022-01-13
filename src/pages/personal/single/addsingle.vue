@@ -100,35 +100,35 @@ export default {
         pageName: [
           {
             required: true,
-            message: "必填，链接名称长度必须在2-50之间。",
+            message: "必填，页面名称长度必须在2-50之间。",
             trigger: "blur"
           }
         ],
         pageTitle: [
           {
             required: true,
-            message: "必填，链接名称长度必须在2-50之间。",
+            message: "必填，页面标题长度必须在2-50之间。",
             trigger: "blur"
           }
         ],
         keyWords: [
           {
             required: true,
-            message: "必填，链接URL长度必须在2-50之间。",
+            message: "必填，关键词长度必须在2-50之间。",
             trigger: "blur"
           }
         ],
         describe: [
           {
             required: true,
-            message: "必填，链接URL长度必须在2-50之间。",
+            message: "必填，描述长度必须在2-50之间。",
             trigger: "blur"
           }
         ],
         status: [
           {
             required: true,
-            message: "必填，链接URL长度必须在2-50之间。",
+            message: "必选",
             trigger: "blur"
           }
         ]
