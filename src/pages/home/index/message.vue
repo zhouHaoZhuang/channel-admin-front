@@ -137,12 +137,12 @@ export default {
           // 事件
           click: (event) => {
             console.log('表格行点击', record);
-            if (record.id !== 1) {
+            // if (record.id !== 1) {
               this.$router.push({
                 path: '/dashboard/index/detail',
                 query: { id: record.id },
               });
-            }
+            // }
           },
         },
       };
