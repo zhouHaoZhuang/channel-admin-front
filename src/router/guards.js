@@ -45,19 +45,22 @@ const loginGuard = (to, from, next, options) => {
  * @param options
  */
 const permsGuard = async (to, from, next, options) => {
-  const { store, message } = options;
+  const { store, message, router } = options;
   const perms = store.state.user.perms;
   if (!loginIgnore.includes(to) && perms.length === 0) {
     // 获取用户信息
     await store.dispatch("user/getUserInfo");
     // 获取权限数据
     await store.dispatch("user/getUserPerms");
+    // 设置动态路由
+    const perms = store.state.user.perms;
+    setAsyncRouteMenu(perms, router, store);
   }
   next();
 };
 
 /**
- * 权限守卫--负责具体的权限菜单控制
+ * 权限守卫--负责具体的权限菜单跳转控制
  * @param to
  * @param form
  * @param next
@@ -66,7 +69,6 @@ const permsGuard = async (to, from, next, options) => {
 const authorityGuard = (to, from, next, options) => {
   const { store, message, router } = options;
   const perms = store.state.user.perms;
-  setAsyncRouteMenu(perms, router);
   // if (!loginIgnore.includes(to) && !hasPermissionMenu(to, perms, router)) {
   //   message.warning(`对不起，您无权访问页面，请联系管理员`);
   //   next({ path: "/login" });

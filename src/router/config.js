@@ -519,12 +519,16 @@ export const asyncRoute = [
         path: "/personal",
         name: "站务",
         component: PageView,
+        meta: {
+          perm: "depot"
+        },
         children: [
           {
             path: "account",
             name: "网站管理",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "depot-webAdmin"
             },
             component: BlankView,
             children: [
@@ -532,7 +536,8 @@ export const asyncRoute = [
                 path: "banner",
                 name: "banner管理",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "depot-webAdmin-banner"
                 },
                 component: () => import("@/pages/personal/banner/index.vue")
               },
@@ -541,7 +546,8 @@ export const asyncRoute = [
                 name: "Banner",
                 meta: {
                   invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  back: true, // 后退
+                  perm: "depot-webAdmin-banner"
                 },
                 component: () => import("@/pages/personal/banner/update.vue")
               },
@@ -707,7 +713,8 @@ export const asyncRoute = [
             path: "news",
             name: "新闻公告",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "depot-news"
             },
             component: BlankView,
             children: [
@@ -743,7 +750,8 @@ export const asyncRoute = [
                 meta: {
                   // invisible: true,
                   // back: true
-                  icon: "home"
+                  icon: "home",
+                  perm: "depot-news-list"
                 },
                 component: () => import("@/pages/news/list/index.vue")
               },
@@ -752,7 +760,8 @@ export const asyncRoute = [
                 name: "添加新闻列表",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "depot-news-list"
                 },
                 component: () => import("@/pages/news/list/addNewsList.vue")
               },
@@ -761,7 +770,8 @@ export const asyncRoute = [
                 name: "修改新闻列表",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "depot-news-list"
                 },
                 component: () => import("@/pages/news/list/upNewsList.vue")
               }
@@ -811,7 +821,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "system-admin-role-detail"
+                  perm: "system-admin-role"
                 },
                 component: () => import("@/pages/system/admin/detail")
               }
