@@ -157,6 +157,12 @@
           <a-form-model-item
             v-if="item.type === 0"
             :wrapper-col="{ span: 15, offset: 6 }"
+            :prop="'permissions.' + index + '.actions'"
+            :rules="{
+              required: true,
+              message: '请选择操作类型',
+              trigger: ['blur', 'change']
+            }"
           >
             <a-select
               v-model="item.actions"
