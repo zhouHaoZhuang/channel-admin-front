@@ -14,10 +14,10 @@
         <a-form-model-item label="页面标题" prop="pageTitle">
           <a-input v-model="form.pageTitle" />
         </a-form-model-item>
-        <a-form-model-item label="关键词" type="keyWords">
+        <a-form-model-item label="关键词" type="keyWords" prop="keyWords">
           <a-input v-model="form.keyWords" />
         </a-form-model-item>
-        <a-form-model-item label="描述" type="describe">
+        <a-form-model-item label="描述" type="describe" prop="describe">
           <a-input v-model="form.describe" />
         </a-form-model-item>
         <a-form-model-item label="访问地址" type="resourceAddress">
@@ -40,7 +40,7 @@
             <span>注：推荐尺寸:1920*660，不超过500kb</span>
           </div>
         </a-form-model-item>
-        <a-form-model-item label="状态">
+        <a-form-model-item label="状态" prop="status">
           <a-radio-group v-model="form.status">
             <a-radio :value="0">
               开启
@@ -97,17 +97,38 @@ export default {
         // linkTypeSort: 0
       },
       rules: {
-        linkName: [
+        pageName: [
           {
             required: true,
-            message: "必填，链接名称长度必须在2-50之间。",
+            message: "必填，页面名称长度必须在2-50之间。",
             trigger: "blur"
           }
         ],
-        linkUrl: [
+        pageTitle: [
           {
             required: true,
-            message: "必填，链接URL长度必须在2-50之间。",
+            message: "必填，页面标题长度必须在2-50之间。",
+            trigger: "blur"
+          }
+        ],
+        keyWords: [
+          {
+            required: true,
+            message: "必填，关键词长度必须在2-50之间。",
+            trigger: "blur"
+          }
+        ],
+        describe: [
+          {
+            required: true,
+            message: "必填，描述长度必须在2-50之间。",
+            trigger: "blur"
+          }
+        ],
+        status: [
+          {
+            required: true,
+            message: "必选",
             trigger: "blur"
           }
         ]
