@@ -112,7 +112,7 @@ export default {
     },
     // 设置表格的每一行样式是否禁用
     tableRowClass(record, index) {
-      if (record.id === 1) {
+      if (record.id === 1) {// 禁用第一行
         return "table-row row-disable";
       }
       return "table-row";

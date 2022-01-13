@@ -14,6 +14,15 @@ const member = {
         params
       });
     },
+    // 获取产品列表
+    getProductList({ commit, state }, params) {
+      return request({
+        url: "/channelPrice",
+        method: "get",
+        params,
+        jadepool: true
+      });
+    },
     delList({ commit, state }, id) {
       return request({
         url: `/ccCorporation/${id}`,

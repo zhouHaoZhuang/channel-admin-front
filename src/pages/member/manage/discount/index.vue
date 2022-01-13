@@ -78,7 +78,7 @@ export default {
       columns: [
         {
           title: "会员ID",
-          dataIndex: "id",
+          dataIndex: "corporationCode",
           width: 260
         },
         {
