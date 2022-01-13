@@ -314,8 +314,8 @@ export default {
           dataIndex: "corporationCode"
         },
         {
-          title: "会员手机",
-          dataIndex: "corporationPhone"
+          title: "会员手机号",
+          dataIndex: "phoneNumber"
         },
         {
           title: "订单ID",
@@ -332,6 +332,16 @@ export default {
           title: "IP",
           width: 130,
           dataIndex: "outIp"
+        },
+        {
+          title: "会员手机号",
+          width: 130,
+          dataIndex: "phoneNumber"
+        },
+        {
+          title: "订单ID",
+          width: 130,
+          dataIndex: "orderNo"
         },
         { title: "弹性IP", dataIndex: "intranetIp", key: "intranetIp" },
         {

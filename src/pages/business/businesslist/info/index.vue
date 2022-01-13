@@ -79,7 +79,7 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">CPU：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].cup }}</span>
+                  {{ dataOrder[0].cpu }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">内存：</span><span class="basicInformation-info">

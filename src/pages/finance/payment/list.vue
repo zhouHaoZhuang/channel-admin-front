@@ -110,6 +110,9 @@
               {{ detailTypeMapData[text] }}
               <!-- runningStatus公共 -->
             </div>
+            <div slot="createTime" slot-scope="text">
+              {{ text | formatDate }}
+            </div>
             <div slot="accountType" slot-scope="text">
               {{ paymentTypeMapData[text] }}
             </div>
@@ -156,7 +159,11 @@ export default {
         },
         {
           key: 9,
-          title: "处理完成",
+          title: "审核成功",
+        },
+        {
+          key: 2,
+          title: "审核失败",
         },
       ],
       columns: [
@@ -188,6 +195,7 @@ export default {
           title: "申请时间",
           dataIndex: "createTime",
           width: 190,
+          scopedSlots: { customRender: "createTime" },
         },
         { title: "备注信息", dataIndex: "memo", key: "" },
         {

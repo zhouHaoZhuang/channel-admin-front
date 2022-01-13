@@ -39,8 +39,8 @@
             v-model="form.productCode"
             placeholder="产品名称"
           >
-            <a-select-option value="P211214000003">
-              云服务器ECS
+            <a-select-option :value="item.productCode" v-for="(item,index) in productList" :key="index">
+              {{item.productName}}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -128,7 +128,8 @@ export default {
         ]
       },
       loading: false,
-      data: []
+      data: [],
+      productList: []
     };
   },
   watch: {
@@ -144,6 +145,7 @@ export default {
           } else {
             this.type = "add";
             this.getMemberList();
+            this.getProductList();
           }
         }
       },
@@ -158,6 +160,14 @@ export default {
         .dispatch("member/getList", { currentPage: 1, pageSize: 999 })
         .then(res => {
           this.data = [...res.data.list];
+        });
+    },
+    getProductList(){
+       this.$store
+        .dispatch("member/getProductList", { currentPage: 1, pageSize: 999 })
+        .then(res => {
+          console.log(res,'res');
+          this.productList = [...res.data.list];
         });
     },
     // 获取详情

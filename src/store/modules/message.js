@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const member = {
+const message = {
   namespaced: true,
   state: {},
 
@@ -9,7 +9,7 @@ const member = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: "/ccCorporation",
+        url: "/messageRecord",
         method: "get",
         params
       });
@@ -17,7 +17,7 @@ const member = {
     // 获取产品列表
     getProductList({ commit, state }, params) {
       return request({
-        url: "/channelPrice",
+        url: "/messageRecord",
         method: "get",
         params,
         jadepool: true
@@ -25,20 +25,20 @@ const member = {
     },
     delList({ commit, state }, id) {
       return request({
-        url: `/ccCorporation/${id}`,
+        url: `/messageRecord/${id}`,
         method: "delete"
       });
     },
     changeList({ commit, state }, data) {
       return request({
-        url: `/ccCorporation/${data.id}`,
+        url: `/messageRecord/${data.id}`,
         method: "put",
         data
       });
     },
     addList({ commit, state }, params) {
       return request({
-        url: "/ccCorporation",
+        url: "/messageRecord",
         method: "post",
         data: {
           ...params
@@ -48,30 +48,21 @@ const member = {
     getOne({ commit, state }, id) {
       console.log(state);
       return request({
-        url: `/ccCorporation/${id}`,
+        url: `/messageRecord/${id}`,
         method: "get"
-      });
-    },
-    // 会员折扣
-    // 获取列表
-    getDisCountList({ commit, state }, params) {
-      return request({
-        url: "/ccCorportionPrice",
-        method: "get",
-        params
       });
     },
     // 获取详情
     getDisCountDetail({ commit, state }, data) {
       return request({
-        url: `/ccCorportionPrice/${data.id}`,
+        url: `/messageRecord/${data.id}`,
         method: "get"
       });
     },
     // 新增
     addDisCount({ commit, state }, data) {
       return request({
-        url: "/ccCorportionPrice",
+        url: "/messageRecord",
         method: "post",
         data
       });
@@ -79,7 +70,7 @@ const member = {
     // 编辑
     editDisCount({ commit, state }, data) {
       return request({
-        url: `/ccCorportionPrice/${data.id}`,
+        url: `/messageRecord/${data.id}`,
         method: "put",
         data
       });
@@ -87,7 +78,7 @@ const member = {
     // 删除
     delDisCount({ commit, state }, data) {
       return request({
-        url: `/ccCorportionPrice/${data.id}`,
+        url: `/messageRecord/${data.id}`,
         method: "delete",
         data
       });
@@ -95,4 +86,4 @@ const member = {
   }
 };
 
-export default member;
+export default message;
