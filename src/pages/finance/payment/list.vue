@@ -159,7 +159,11 @@ export default {
         },
         {
           key: 9,
-          title: "处理完成",
+          title: "审核成功",
+        },
+        {
+          key: 2,
+          title: "审核失败",
         },
       ],
       columns: [

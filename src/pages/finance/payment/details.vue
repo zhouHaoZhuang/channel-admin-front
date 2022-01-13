@@ -51,51 +51,53 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table> -->
     <div class="placeholder"></div>
-    <h1 class="details-title">审核</h1>
-    <a-form-model
-     ref="ruleForm"
-      :model="form"
-      :rules="rules"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
-      <a-form-model-item
-        label="审核结果"
-        :wrapper-col="{ span: 3 }"
-        prop="status"
+    <div v-if="data.status" v-show="data.status==0">
+      <h1 class="details-title">审核</h1>
+      <a-form-model
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
       >
-        <a-select v-model="form.status">
-          <a-select-option value="">
-            请选择
-          </a-select-option>
-          <a-select-option value="9">
-            通过
-          </a-select-option>
-          <a-select-option value="2">
-            拒绝
-          </a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item
-        label="审核意见"
-        :wrapper-col="{ span: 5 }"
-        prop="checkMemo"
-      >
-        <a-textarea
-          v-model="form.checkMemo"
-          :auto-size="{ minRows: 2, maxRows: 4 }"
-        />
-        <div class="annotation">
-          注：仅供内部查看，不面向用户
-        </div>
-      </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 14, offset: 8}">
-        <a-button type="primary" class="btn1" @click="confirmReview">
-          确认审核
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-    <div class="btn"></div>
+        <a-form-model-item
+          label="审核结果"
+          :wrapper-col="{ span: 3 }"
+          prop="status"
+        >
+          <a-select v-model="form.status">
+            <a-select-option value="">
+              请选择
+            </a-select-option>
+            <a-select-option value="9">
+              通过
+            </a-select-option>
+            <a-select-option value="2">
+              拒绝
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item
+          label="审核意见"
+          :wrapper-col="{ span: 5 }"
+          prop="checkMemo"
+        >
+          <a-textarea
+            v-model="form.checkMemo"
+            :auto-size="{ minRows: 2, maxRows: 4 }"
+          />
+          <div class="annotation">
+            注：仅供内部查看，不面向用户
+          </div>
+        </a-form-model-item>
+        <a-form-model-item :wrapper-col="{ span: 14, offset: 8 }">
+          <a-button type="primary" class="btn1" @click="confirmReview">
+            确认审核
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
+      <div class="btn"></div>
+    </div>
   </div>
 </template>
 
