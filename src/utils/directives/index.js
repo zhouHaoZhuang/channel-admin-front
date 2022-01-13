@@ -1,5 +1,5 @@
 import Vue from "vue";
-
+import store from "@/store";
 function findInput(el) {
   if (el.nodeName === "INPUT") {
     return el;
@@ -128,18 +128,21 @@ export const permission = Vue.directive("permission", {
   inserted: function(el, binding) {
     // 得到指令的绑定值，此值为js计算完成后的值,当前为需要的权限
     const { value, modifiers } = binding;
-    console.log(el, value, modifiers);
-    if (value) {
-      //权限判断结果 ， 这里会处理字符串及数组的情况
-      // const hasPermission = checkPermissions(
-      //   value,
-      //   arg === "role" ? PermTypeEnum.ROLE : PermTypeEnum.PERMS,
-      //   modifiers.or ? CheckOperateEnum.OR : CheckOperateEnum.AND
-      // );
-      // if (!hasPermission) {
-      //   //如果没有权限则直接删除此节点
-      //   el.parentNode && el.parentNode.removeChild(el);
-      // }
+    const perms = store.state.user.perms;
+    const routeMetaPrem = store.state.setting.routeMetaPrem;
+    const routePermActions = perms.find(
+      ele => ele.code.replace(":*", "") === routeMetaPrem
+    ).actions;
+    // console.log(el, value, modifiers, perms, routeMetaPrem);
+    console.log(value, routePermActions);
+    // 如果是所有权限的话，直接放行，*代表所有权限
+    // 不是所有权限则继续进行判断
+    if (
+      routePermActions.indexOf("*") === -1 &&
+      routePermActions.indexOf(value) === -1
+    ) {
+      //如果没有权限则直接删除此节点
+      el.parentNode && el.parentNode.removeChild(el);
     }
   }
 });

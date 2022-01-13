@@ -61,6 +61,7 @@ const permsGuard = async (to, from, next, options) => {
 
 /**
  * 权限守卫--负责具体的权限菜单跳转控制
+ * vuex中存储一下当前路由的$route的meta信息
  * @param to
  * @param form
  * @param next
@@ -74,6 +75,8 @@ const authorityGuard = (to, from, next, options) => {
   //   next({ path: "/login" });
   //   NProgress.done();
   // }
+  // 存储一下当前路由的$route的meta信息
+  store.commit("setting/setRouteMeta", to.meta.perm);
   next();
 };
 
