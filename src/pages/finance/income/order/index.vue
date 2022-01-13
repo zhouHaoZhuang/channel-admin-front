@@ -69,6 +69,12 @@
               查看
             </a-button>
           </div>
+          <div slot-scope="text" slot="cashPay" v-if="text != undefined">
+            {{ text.toFixed(2) }}
+          </div>
+          <div slot-scope="text" slot="actualPrice" v-if="text != undefined" >
+            {{ text.toFixed(2) }}
+          </div>
         </a-table>
       </div>
     </div>
@@ -131,12 +137,12 @@ export default {
         {
           title: "现金支付",
           dataIndex: "cashPay",
-          width: 100
+          scopedSlots: { customRender: "cashPay" }
         },
         {
           title: "现金券支付",
           dataIndex: "actualPrice",
-          width: 120
+          scopedSlots: { customRender: "actualPrice" }
         },
         {
           title: "创建时间",
