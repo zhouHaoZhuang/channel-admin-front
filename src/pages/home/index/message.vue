@@ -1,10 +1,10 @@
 <template>
   <div class="message-container">
     <div class="tabs">
-      <a-tabs default-active-key="1" @change="callback">
-        <a-tab-pane key="1" tab="全部消息"> </a-tab-pane>
-        <a-tab-pane key="2" tab="未读消息"> </a-tab-pane>
-        <a-tab-pane key="3" tab="已读消息"> </a-tab-pane>
+      <a-tabs default-active-key="" @change="callback">
+        <a-tab-pane key="" tab="全部消息"> </a-tab-pane>
+        <a-tab-pane key="0" tab="未读消息"> </a-tab-pane>
+        <a-tab-pane key="1" tab="已读消息"> </a-tab-pane>
       </a-tabs>
     </div>
     <div class="btns">
@@ -18,18 +18,22 @@
       <a-table
         :columns="columns"
         :data-source="data"
+        :loading="loading"
         rowKey="id"
         :pagination="paginationProps"
         :row-selection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange,
-          getCheckboxProps: record => ({
-            props: { disabled: record.id === 1 }
-          })
+          getCheckboxProps: (record) => ({
+            props: { disabled: record.id === 1 },
+          }),
         }"
         :customRow="customRowSet"
         :rowClassName="tableRowClass"
       >
+      <div slot-scope="text" slot="sendTime"> 
+        {{ text | formatDate }}
+      </div>
         <span slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleDel(record)">
             删除
@@ -44,106 +48,115 @@
 export default {
   data() {
     return {
+      loading: false,
       listQuery: {
         id: undefined,
-        search: "",
-        pageNo: 1,
+        search: '',
+        currentPage: 1,
         pageSize: 10,
-        total: 500
+        total: 0,
+        'qp-status-eq': '',
       },
       columns: [
         {
-          title: "标题",
-          dataIndex: "name",
-          key: "name"
+          title: '标题',
+          dataIndex: 'title',
+          key: 'title',
         },
         {
-          title: "内容",
-          dataIndex: "name1",
-          key: "name1"
+          title: '内容',
+          dataIndex: 'content',
+          key: 'content',
         },
         {
-          title: "发送时间",
-          dataIndex: "gmtCreate"
+          title: '发送时间',
+          dataIndex: 'sendTime',
+          scopedSlots: {
+            customRender: 'sendTime',
+          },
         },
         {
-          title: "操作",
-          key: "action",
-          scopedSlots: { customRender: "action" }
-        }
+          title: '操作',
+          key: 'action',
+          scopedSlots: { customRender: 'action' },
+        },
       ],
-      data: [
-        {
-          id: 1,
-          name: "全程",
-          name1: "剑圣",
-          gmtCreate: "2021-10-12"
-        },
-        {
-          id: 2,
-          name: "全程",
-          name1: "剑圣",
-          gmtCreate: "2021-10-12"
-        }
-      ],
+      data: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 1,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.listQuery.pageNo} / ${Math.ceil(
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
+        onShowSizeChange: this.onShowSizeChange,
       },
-      selectedRowKeys: []
+      selectedRowKeys: [],
     };
+  },
+  activated() {
+    this.getList();
   },
   methods: {
     // tabs切换回调
     callback(key) {
-      console.log(key);
+      // console.log(key);
+      this.listQuery['qp-status-eq'] = key;
+      this.getList();
+    },
+    // 获取列表
+    getList() {
+      this.loading = true;
+      this.$store.dispatch('message/getList', this.listQuery).then((res) => {
+        console.log(res);
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.totalCount*1;
+      }).finally(() => {
+        this.loading = false;
+      });
     },
     // 表格选择
     onSelectChange(selectedRowKeys) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
     // 设置表格的每一行样式是否禁用
     tableRowClass(record, index) {
-      if (record.id === 1) {// 禁用第一行
-        return "table-row row-disable";
+      if (record.id === 1) {
+        // 禁用第一行
+        return 'table-row row-disable';
       }
-      return "table-row";
+      return 'table-row';
     },
     // 设置表格的每一行点击事件
     customRowSet(record) {
       return {
         on: {
           // 事件
-          click: event => {
-            console.log("表格行点击", record);
+          click: (event) => {
+            console.log('表格行点击', record);
             if (record.id !== 1) {
               this.$router.push({
-                path: "/dashboard/index/detail",
-                query: { id: record.id }
+                path: '/dashboard/index/detail',
+                query: { id: record.id },
               });
             }
-          }
-        }
+          },
+        },
       };
     },
     // 表格行删除单个
     handleDel(record) {
       this.$confirm({
-        title: "确认要删除吗？",
+        title: '确认要删除吗？',
         onOk: () => {
           // this.$store.dispatch("").then(res => {});
-        }
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

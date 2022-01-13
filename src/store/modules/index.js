@@ -24,6 +24,7 @@ import manualDeposit from "./manualDeposit";
 import frontPage from "./frontPage";
 import helpCategory from "./helpCategory";
 import system from "./system";
+import message from "./message";
 export default {
   user,
   account,
@@ -50,6 +51,6 @@ export default {
   manualDeposit,
   frontPage,
   helpCategory,
-  system
-
+  system,
+  message
 };
