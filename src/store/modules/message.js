@@ -45,10 +45,10 @@ const message = {
         }
       });
     },
-    getOne({ commit, state }, id) {
-      console.log(state);
+    getOne({ commit, state }, params) {
+      // console.log(params,'params');
       return request({
-        url: `/messageRecord/${id}`,
+        url: `/messageRecord/${params.id}`,
         method: "get"
       });
     },

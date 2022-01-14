@@ -39,7 +39,7 @@
             v-model="form.productCode"
             placeholder="产品名称"
           >
-            <a-select-option :value="item.productCode" v-for="(item,index) in productList" :key="index">
+            <a-select-option :value="JSON.stringify({productCode:item.productCode,productName:item.productName})" v-for="(item,index) in productList" :key="index">
               {{item.productName}}
             </a-select-option>
           </a-select>
@@ -182,20 +182,23 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.loading = true;
+          // this.loading = true;
           // 查找企业名称的对象
           const corporation = this.data.find(
             ele => ele.corporationCode === this.form.corporationCode
           );
           let newFrom = {};
+          console.log(this.form,'this.form',this.type,this.type === "add");
           if (this.type === "add") {
             newFrom = {
               ...this.form,
               corporationName: corporation.corporationName,
-              productName: "云服务器ECS"
             };
+            newFrom.productName = JSON.parse(newFrom.productCode).productName;
+            newFrom.productCode = JSON.parse(newFrom.productCode).productCode;
           } else {
             newFrom = { ...this.form };
+            // console.log('newFromelse');
           }
           this.$store
             .dispatch(

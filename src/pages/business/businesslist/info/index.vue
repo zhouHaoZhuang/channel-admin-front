@@ -79,22 +79,22 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">CPU：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].cpu }}</span>
+                  {{ dataOrder[0].cpu }}核</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">内存：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].memory }}</span>
+                  {{ dataOrder[0].memory }}G</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">带宽：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].internetMaxBandwidthOut }}</span>
+                  {{ dataOrder[0].internetMaxBandwidthOut }}Mbps</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">防御：</span><span class="basicInformation-info"> 20G</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数据磁盘：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].systemSize }}</span>
+                  {{ dataOrder[0].systemSize }}G</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">下行带宽：</span><span class="basicInformation-info"> 0M----</span>
@@ -184,7 +184,7 @@
                 </span>
                 <span slot="info"
                       slot-scope="text">
-                  {{'cpu:' + text.cup + '核，内存:' + text.memory + 'G，硬盘:' + text.systemSize + 'G，带宽:' + text.internetMaxBandwidthOut + 'M'}}
+                  {{'cpu:' + text.cpu + '核，内存:' + text.memory + 'G，硬盘:' + text.systemSize + 'G，带宽:' + text.internetMaxBandwidthOut + 'M'}}
                 </span>
 
                 <span slot="query"
@@ -259,7 +259,6 @@ export default {
           scopedSlots: {
             customRender: "info",
           },
-
         },
         {
           title: "查看",
@@ -300,14 +299,28 @@ export default {
     };
   },
   methods: {
-    selectInfo (text) {
-      console.log(text);
+    selectInfo (id) {
+      // console.log(id);
+      this.$router.push({
+        path: '/finance/index/order',
+        query: {
+          id,
+        },
+      });
     },
     address (text) {
       return this.regionMapData[text]
     }
   },
   created () {
+    let id = this.$route.query.id;
+    // console.log(id);
+    this.$store.dispatch("business/getOne", id).then((res) => {
+      this.dataOrder = [res.data];
+      console.log(res);
+    });
+  },
+  activated() {
     let id = this.$route.query.id;
     // console.log(id);
     this.$store.dispatch("business/getOne", id).then((res) => {
