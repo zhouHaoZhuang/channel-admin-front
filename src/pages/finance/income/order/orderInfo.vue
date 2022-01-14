@@ -10,7 +10,7 @@
         </li>
         <li>
           <span>订单类型:</span>
-          <span>{{ orderInfo.tradeType === 1 ? "新购" : "销售" }} </span>
+          <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
         </li>
         <li>
           <span>创建时间:</span>
@@ -18,9 +18,7 @@
         </li>
         <li>
           <span>状态:</span>
-          <span
-            >{{ orderStatusEnum[orderInfo.tradeStatus]  }}</span
-          >
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
         </li>
         <li>
           <span>支付时间:</span>
@@ -43,24 +41,19 @@
           :columns="columns"
           :data-source="data"
           rowKey="corporationCode"
-          :scroll="{ x: 1300 }"
+          :scroll="{ x: 1400 }"
         >
-          <a slot="name" slot-scope="text">{{ text }}</a>
           <div slot="tradeType" slot-scope="text">
-            <span v-if="text === 1">新购</span>
-            <span v-if="text === 5">升配</span>
-            <span v-if="text === 10">降配</span>
-            <span v-if="text === 15">续费</span>
-            <span v-if="text === 20">退费</span>
+            {{ orderTypeMap[text] }}
           </div>
-          <div slot="productConfig" slot-scope="text">
-            <div>CPU:{{ text.cpu }}</div>
-            <div>内存:{{ text.memory }}</div>
-            <div>磁盘:{{ text.disk }}</div>
-            <div>带宽:{{ text.internetMaxBandwidthOut }}</div>
-            <div>防御:{{ "20G" }}</div>
-            <div>操作系统:{{ text.osName }}</div>
-            <div>所在区:{{ text.regionId }}</div>
+          <div slot="productConfig" slot-scope="text, record">
+            <div>CPU:{{ record.cpu }}核</div>
+            <div>内存:{{ record.memory }}G</div>
+            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
+            <div>系统盘:{{ record.systemDiskSize }}G</div>
+            <div>数据盘:{{ record.dataDiskSize }}G</div>
+            <div>操作系统:{{ record.osName }}</div>
+            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
           </div>
         </a-table>
       </div>
@@ -105,7 +98,7 @@
         </li>
         <li>
           <span>产品类型:</span>
-          <span>{{ data[0].tradeType }} </span>
+          <span>{{ orderTypeMap[data[0].tradeType] }} </span>
         </li>
         <li>
           <span>IP地址:</span>
@@ -125,13 +118,15 @@
 </template>
 
 <script>
-import { orderStatusEnum, OrderTypeMap } from "@/utils/enum.js";
+import { orderStatusEnum, orderTypeMap, regionDataEnum } from "@/utils/enum.js";
 export default {
   data() {
     return {
       orderInfo: null,
       data: [],
       orderStatusEnum,
+      orderTypeMap,
+      regionDataEnum,
       columns: [
         {
           title: "产品名称",
@@ -148,6 +143,7 @@ export default {
         {
           title: "配置信息",
           key: "productConfig",
+          width: 250,
           scopedSlots: { customRender: "productConfig" }
         },
         {

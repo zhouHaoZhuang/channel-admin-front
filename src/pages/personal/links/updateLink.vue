@@ -8,8 +8,8 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分类">
-          <a-select v-model="form.linkTypeName" placeholder="公有云商">
+        <a-form-model-item label="分类" prop="linkTypeName">
+          <a-select v-model="form.linkTypeName" placeholder="请选择">
             <a-select-option
               v-for="item in data"
               :key="item.linkTypeCode"
@@ -115,6 +115,13 @@ export default {
         linkTypeSort: 0
       },
       rules: {
+        linkTypeName: [
+          {
+            required: true,
+            message: "请选择友情链接类别",
+            trigger: ["blur", "change"]
+          }
+        ],
         linkName: [
           {
             required: true,
