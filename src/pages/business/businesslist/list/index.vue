@@ -355,14 +355,14 @@ export default {
             return this.regionMapData[text] || text
           }, width: 150
         },
-        { title: "CPU", dataIndex: "cpu", key: "cpu" },
-        { title: "内存", dataIndex: "memory", key: "memory" },
+        { title: "CPU(核)", dataIndex: "cpu", key: "cpu" },
+        { title: "内存(G)", dataIndex: "memory", key: "memory" },
         {
-          title: "磁盘",
+          title: "磁盘(G)",
           dataIndex: "systemSize"
         },
         {
-          title: "带宽",
+          title: "带宽(Mbps)",
           dataIndex: "internetMaxBandwidthOut"
         },
         {

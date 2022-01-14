@@ -34,7 +34,7 @@ export default {
       data: null,
     };
   },
-  created () {
+  activated() {
     let id = this.$route.query.id;
     this.getList(id);
   },
