@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { detailTypeMapData, paymentTypeMap} from '@/utils/enum.js';
+import { detailTypeMapData, paymentTypeMap } from '@/utils/enum.js';
 export default {
   data() {
     return {
@@ -155,12 +155,12 @@ export default {
         {
           title: '款项类型',
           dataIndex: 'detailType',
-          scopedSlots: { customRender: "detailType" },
+          scopedSlots: { customRender: 'detailType' },
         },
         {
           title: '订单状态',
           dataIndex: 'status',
-          scopedSlots: { customRender: "status" },
+          scopedSlots: { customRender: 'status' },
         },
         // {
         //   title: "交易描述",
@@ -275,11 +275,12 @@ export default {
     secectClick() {
       this.listQuery.search = this.listQuery.search.trim();
       if (this.listQuery.key === 'customerCode') {
-        if (this.listQuery.search==='') {
-          return;
+        if (this.listQuery.search !== '') {
+          this.listQuery.search = Array.isArray(this.listQuery.search)
+            ? this.listQuery.search
+            : [this.listQuery.search];
         }
-        this.listQuery.search = Array.isArray(this.listQuery.search)?this.listQuery.search:[this.listQuery.search];
-      }else{
+      } else {
         this.listQuery.search = this.listQuery.search.toString();
       }
       // console.log('查询的值是:', this.listQuery);

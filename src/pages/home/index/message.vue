@@ -9,9 +9,13 @@
     </div>
     <div class="btns">
       <a-space>
-        <a-button :disabled="selectedRowKeys.length === 0">标记为已读</a-button>
-        <a-button>全部标记为已读</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0">删除</a-button>
+        <a-button :disabled="selectedRowKeys.length === 0" @click="haveRread"
+          >标记为已读</a-button
+        >
+        <a-button @click="readAll">全部标记为已读</a-button>
+        <a-button :disabled="selectedRowKeys.length === 0" @click="delmessage"
+          >删除</a-button
+        >
       </a-space>
     </div>
     <div class="table-con">
@@ -31,11 +35,11 @@
         :customRow="customRowSet"
         :rowClassName="tableRowClass"
       >
-      <div slot-scope="text" slot="sendTime"> 
-        {{ text | formatDate }}
-      </div>
+        <div slot-scope="text" slot="sendTime">
+          {{ text | formatDate }}
+        </div>
         <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="handleDel(record)">
+          <a-button type="link" @click="handleDel(record.id)">
             删除
           </a-button>
         </span>
@@ -100,22 +104,56 @@ export default {
     this.getList();
   },
   methods: {
+    // 标记已读
+    haveRread() {
+      this.$store
+        .dispatch('message/changeList', { id: this.selectedRowKeys.toString() })
+        .then((val) => {
+          console.log(val);
+          this.getList();
+        });
+    },
+    // 批量删除
+    delmessage() {
+      this.$confirm({
+        title: '确认要删除吗？',
+        onOk: () => {
+          this.$store
+            .dispatch('message/delList', {
+              id: this.selectedRowKeys.toString(),
+            })
+            .then((val) => {
+              console.log(val);
+              this.getList();
+            });
+        },
+      });
+    },
     // tabs切换回调
     callback(key) {
       // console.log(key);
       this.listQuery['qp-status-eq'] = key;
       this.getList();
     },
+    // 全部标记为已读
+    readAll() {
+      this.$store.dispatch('message/readAll').then(() => {
+        this.getList();
+      });
+    },
     // 获取列表
     getList() {
       this.loading = true;
-      this.$store.dispatch('message/getList', this.listQuery).then((res) => {
-        console.log(res);
-        this.data = res.data.list;
-        this.paginationProps.total = res.data.totalCount*1;
-      }).finally(() => {
-        this.loading = false;
-      });
+      this.$store
+        .dispatch('message/getList', this.listQuery)
+        .then((res) => {
+          console.log(res);
+          this.data = res.data.list;
+          this.paginationProps.total = res.data.totalCount * 1;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     // 表格选择
     onSelectChange(selectedRowKeys) {
@@ -138,21 +176,28 @@ export default {
           click: (event) => {
             console.log('表格行点击', record);
             // if (record.id !== 1) {
-              this.$router.push({
-                path: '/dashboard/index/detail',
-                query: { id: record.id },
-              });
+            this.$router.push({
+              path: '/dashboard/index/detail',
+              query: { id: record.id },
+            });
             // }
           },
         },
       };
     },
     // 表格行删除单个
-    handleDel(record) {
+    handleDel(id) {
       this.$confirm({
         title: '确认要删除吗？',
         onOk: () => {
-          // this.$store.dispatch("").then(res => {});
+          this.$store
+            .dispatch('message/delList', {
+              id,
+            })
+            .then((val) => {
+              console.log(val);
+              this.getList();
+            });
         },
       });
     },

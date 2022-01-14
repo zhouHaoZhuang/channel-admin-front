@@ -66,6 +66,7 @@ export default {
   methods: {
     // 提交
     onSubmit () {
+      this.form.id = this.$route.query.id;
       this.$refs.ruleForm.validate(valid => {
         this.$store.dispatch("category/edit", this.form).then(res => {
           this.$message.success("提交成功");
