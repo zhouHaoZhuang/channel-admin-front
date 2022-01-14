@@ -37,7 +37,7 @@ export default {
       userInfo: (state) => state.user.userInfo,
     }),
     nameOrphone() {
-      return this.userInfo.username.slice(0, 11);
+      return this.userInfo.username?this.userInfo.username.slice(0, 11):"";
     },
   },
 };

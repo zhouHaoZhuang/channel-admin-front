@@ -273,7 +273,11 @@ export default {
     },
     // 查询的回调
     secectClick() {
+      this.listQuery.search = this.listQuery.search.trim();
       if (this.listQuery.key === 'customerCode') {
+        if (this.listQuery.search==='') {
+          return;
+        }
         this.listQuery.search = Array.isArray(this.listQuery.search)?this.listQuery.search:[this.listQuery.search];
       }else{
         this.listQuery.search = this.listQuery.search.toString();
@@ -304,7 +308,7 @@ export default {
       this.$getList('financialDetails/getList', this.listQuery).then((res) => {
         console.log(res, '获取列表');
         this.data = res.data.list;
-        this.paginationProps.total = res.data.total * 1;
+        this.paginationProps.total = res.data.totalCount * 1;
       });
     },
     selectPool(data) {

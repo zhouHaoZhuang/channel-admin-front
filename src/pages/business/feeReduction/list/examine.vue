@@ -266,13 +266,13 @@
 </template>
 
 <script>
-import { regionMapData } from "@/utils/enum";
+import { regionDataEnum } from "@/utils/enum";
 export default {
   data() {
     return {
       dataOrder: null,
       detail: {},
-      regionMapData,
+      regionDataEnum,
       columnsOrder: [
         {
           title: "订单编号",
@@ -343,7 +343,7 @@ export default {
       console.log(text);
     },
     address(text) {
-      return this.regionMapData[text];
+      return this.regionDataEnum[text];
     }
   },
   created() {
@@ -354,7 +354,16 @@ export default {
       this.detail = { ...res.data };
       console.log(res);
     });
-  }
+  },
+  activated() {
+    let orderNo = this.$route.query.orderNo;
+    // console.log(id);
+    this.$store.dispatch("renew/inquireList", { orderNo }).then(res => {
+      this.dataOrder = [res.data];
+      this.detail = { ...res.data };
+      console.log(res);
+    });
+  },
 };
 </script>
 

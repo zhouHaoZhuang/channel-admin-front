@@ -100,28 +100,28 @@ export default {
         pageName: [
           {
             required: true,
-            message: "必填，页面名称长度必须在2-50之间。",
+            message: "请填写页面名称",
             trigger: "blur"
           }
         ],
         pageTitle: [
           {
             required: true,
-            message: "必填，页面标题长度必须在2-50之间。",
+            message: "请填写页面标题",
             trigger: "blur"
           }
         ],
         keyWords: [
           {
             required: true,
-            message: "必填，关键词长度必须在2-50之间。",
+            message: "请填写关键词",
             trigger: "blur"
           }
         ],
         describe: [
           {
             required: true,
-            message: "必填，描述长度必须在2-50之间。",
+            message: "请填写描述",
             trigger: "blur"
           }
         ],
