@@ -9,7 +9,7 @@ const product = {
     // 获取产品折扣列表
     getProductDiscountList({ commit, state }, params) {
       return request({
-        url: "/ccCorporation",
+        url: "/ccCorportionPrice/getChannelProductPriceList",
         method: "get",
         params
       });
@@ -17,24 +17,24 @@ const product = {
     // 获取产品折扣详情
     getProductDiscountDetail({ commit, state }, params) {
       return request({
-        url: "/ccCorporation",
-        method: "get",
-        params
+        url: `/ccCorportionPrice/${params.id}`,
+        method: "get"
       });
     },
     // 添加产品折扣
-    addProductDiscount({ commit, state }, params) {
+    addProductDiscount({ commit, state }, data) {
       return request({
-        url: "/icProduct",
-        method: "get",
-        params
+        url: "/ccCorportionPrice",
+        method: "post",
+        data
       });
     },
     // 编辑产品折扣
-    editProductDiscount({ commit, state }, id) {
+    editProductDiscount({ commit, state }, data) {
       return request({
-        url: `/ccCorporation/${id}`,
-        method: "put"
+        url: `/ccCorportionPrice/${data.id}`,
+        method: "put",
+        data
       });
     }
   }

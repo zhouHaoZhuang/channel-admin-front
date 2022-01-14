@@ -20,6 +20,10 @@
         <span slot="discountType" slot-scope="text">
           {{ memberDiscountType[text] }}
         </span>
+        <span slot="discountPrice" slot-scope="text,record">
+          {{ text }}
+          <span v-if="record.discountType === '1'">%</span>
+        </span>
         <span slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleUpdate('edit', record)">
             编辑
@@ -49,16 +53,11 @@ export default {
       },
       columns: [
         {
-          title: "会员ID",
-          dataIndex: "corporationCode",
-          width: 260
+          title: "产品Code",
+          dataIndex: "productCode"
         },
         {
-          title: "企业名称",
-          dataIndex: "corporationName"
-        },
-        {
-          title: "产品",
+          title: "产品名称",
           dataIndex: "productName"
         },
         {
@@ -68,7 +67,8 @@ export default {
         },
         {
           title: "折扣",
-          dataIndex: "discountPrice"
+          dataIndex: "discountPrice",
+          scopedSlots: { customRender: "discountPrice" }
         },
         {
           title: "操作",
@@ -91,9 +91,6 @@ export default {
       },
       tableLoading: false
     };
-  },
-  created() {
-    this.getList();
   },
   activated() {
     this.getList();

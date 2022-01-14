@@ -71,8 +71,6 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        corporationCode: undefined,
-        corporationName: "",
         productCode: undefined,
         productName: "",
         discountType: "1",
@@ -130,7 +128,6 @@ export default {
       this.$store
         .dispatch("member/getProductList", { currentPage: 1, pageSize: 999 })
         .then(res => {
-          console.log(res, "res");
           this.productList = [...res.data.list];
         });
     },
@@ -149,12 +146,20 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          const newFrom = {
+            ...this.form,
+            productName: this.$getArrOnceData(
+              this.form.productCode,
+              this.productList,
+              "productCode"
+            ).productName
+          };
           this.$store
             .dispatch(
               this.type === "add"
                 ? "product/addProductDiscount"
                 : "product/editProductDiscount",
-              this.form
+              newFrom
             )
             .then(res => {
               this.$message.success(
@@ -174,8 +179,6 @@ export default {
         this.$refs.ruleForm.clearValidate();
       });
       this.form = {
-        corporationCode: undefined,
-        corporationName: "",
         productCode: undefined,
         productName: "",
         discountType: "1",
