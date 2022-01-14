@@ -2,7 +2,7 @@ import store from "@/store";
 import env from "@/config/env";
 // 根据id返回数组中对应id的对象---挂载全局 $getArrOnceData
 export const getArrOnceData = (id, arr, key) => {
-  return arr.find(ele => (ele[key ? key : id] === key ? key : id));
+  return arr.find(ele => ele[key ? key : id] === id);
 };
 // 请求列表时前端要替后端做适配，并且有点多，封装请求列表时带有搜索的接口
 // request: 调用vuex的actions名   listQuery: 传递给后端的参数

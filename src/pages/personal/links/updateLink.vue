@@ -8,8 +8,8 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分类" prop="linkTypeName">
-          <a-select v-model="form.linkTypeName" placeholder="请选择">
+        <a-form-model-item label="分类" prop="linkTypeCode">
+          <a-select v-model="form.linkTypeCode" placeholder="请选择">
             <a-select-option
               v-for="item in data"
               :key="item.linkTypeCode"
@@ -103,7 +103,7 @@ export default {
       wrapperCol: { span: 18 },
       form: {
         linkTypeName: "",
-        linkTypeCode: "",
+        linkTypeCode: undefined,
         linkName: "",
         linkUrl: "",
         linkDescribe: "",
@@ -115,7 +115,7 @@ export default {
         linkTypeSort: 0
       },
       rules: {
-        linkTypeName: [
+        linkTypeCode: [
           {
             required: true,
             message: "请选择友情链接类别",
@@ -172,10 +172,18 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          const newFrom = {
+            ...this.form,
+            linkTypeName: this.$getArrOnceData(
+              this.form.linkTypeCode,
+              this.data,
+              "linkTypeCode"
+            ).linkTypeName
+          };
           this.$store
             .dispatch(
               this.type === "add" ? "links/addLink" : "links/editLink",
-              this.form
+              newFrom
             )
             .then(res => {
               this.$message.success(
@@ -196,7 +204,7 @@ export default {
       });
       this.form = {
         linkTypeName: "",
-        linkTypeCode: "",
+        linkTypeCode: undefined,
         linkName: "",
         linkUrl: "",
         linkDescribe: "",
