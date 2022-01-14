@@ -466,6 +466,26 @@ export const asyncRoute = [
                   import(
                     "@/pages/production/product/information/editproduct.vue"
                   )
+              },
+              {
+                path: "discount",
+                name: "产品折扣管理",
+                meta: {
+                  icon: "home"
+                },
+                component: () =>
+                  import("@/pages/production/product/discount/index.vue")
+              },
+              {
+                path: "updateDiscount",
+                name: "产品折扣管理更新",
+                meta: {
+                  icon: "home",
+                  invisible: true, // 不显示在左侧菜单
+                  back: true // 后退
+                },
+                component: () =>
+                  import("@/pages/production/product/discount/update.vue")
               }
             ]
           },
