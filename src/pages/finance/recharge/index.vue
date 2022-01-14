@@ -210,7 +210,7 @@ export default {
         // },
         {
           title: "充值时间",
-          dataIndex: "createTime",
+          dataIndex: "payTime",
           key: "createTime",
           scopedSlots: { customRender: "createTime" },
         },

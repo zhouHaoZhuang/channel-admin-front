@@ -66,14 +66,14 @@ export default {
         typeName: [
           {
             required: true,
-            message: "必填，名称必须是中文或英文组成，且在20个字以内。",
+            message: "请输入名称",
             trigger: "blur",
           },
         ],
         typeNameEn: [
           {
             required: true,
-            message: "必填，名称必须是中文或英文组成，且在20个字以内。",
+            message: "请输入英文名称",
             trigger: "blur",
           },
         ],

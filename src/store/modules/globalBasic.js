@@ -34,7 +34,7 @@ const globalBasic = {
     // 获取网站详情、网站logo信息
     getInfo({ commit, state }, params) {
       return request({
-        url: "/ccWebsiteInfo",
+        url: "/ccWebsiteInfo/getOne",
         method: "get"
       });
     },
@@ -49,7 +49,7 @@ const globalBasic = {
 		// 获取公司基本信息接口
 		getBasicCompanyInfo({ commit, state }, params) {
       return request({
-        url: "/ccCompanyInfo",
+        url: "/ccCompanyInfo/getOne",
         method: "get"
       });
     },

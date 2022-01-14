@@ -1,12 +1,13 @@
 <template>
   <div class="details-container">
     <h1 class="details-title">财务信息</h1>
-    <div class="details-info">
+    <div class="details-info"
+         v-if="data">
       <div>
-        <span class="details-type">发生金额：</span><span class="details-value">{{ data.dealAmount.toFixed(2) }}</span>
+        <span class="details-type">发生金额：</span><span class="details-value">{{ data.dealAmount.toFixed(2) }}元</span>
       </div>
       <div>
-        <span class="details-type">当前金额：</span><span class="details-value">{{ data.afterAmount.toFixed(2) }}</span>
+        <span class="details-type">当前金额：</span><span class="details-value">{{ data.afterAmount.toFixed(2) }}元</span>
       </div>
       <div>
         <span class="details-type">时间：</span><span class="details-value">{{ data.createTime | formatDate }}</span>
@@ -15,7 +16,9 @@
         <span class="details-type">会员ID：</span><span class="details-value">{{ data.customerCode }}</span>
       </div>
       <div>
-        <span class="details-type">类型：</span><span class="details-value">{{ data.memo }}</span>
+        <span class="details-type">类型：</span><span class="details-value">{{
+          paymentTypeMap[data.detailType]
+        }}</span>
       </div>
       <div>
         <span class="details-type">具体详情：</span><span class="details-value">{{ data.actualAmount }}----</span>
@@ -28,23 +31,26 @@
 </template>
 
 <script>
+import { paymentTypeMap } from '@/utils/enum.js';
 export default {
-  data () {
+  data() {
     return {
       data: null,
+      paymentTypeMap,
     };
   },
   activated() {
-    let id = this.$route.query.id;
-    this.getList(id);
+    this.getList();
   },
   methods: {
-    getList (id) {
-      // this.$store.dispatch('financialDetails/getOne', id).then(res => {
-      //   console.log(res);
-      //   this.data = res.data
-      // })
-      this.data = this.$store.state.financialDetails.detailedinfo;
+    getList() {
+      this.$store
+        .dispatch('financialDetails/getOne', this.$route.query.id)
+        .then((res) => {
+          console.log(res);
+          this.data = res.data;
+        });
+      // this.data = this.$store.state.financialDetails.detailedinfo;
       // console.log(this.data, 'this.data');
     },
   },

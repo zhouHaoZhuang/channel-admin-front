@@ -323,9 +323,10 @@ export default {
           {
             required: true,
             message:
-              "必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_），且长度在2-20个字符内。",
+              "必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_）。",
             trigger: "blur",
           },
+          { min: 3, max: 5, message: '长度在2-20个字符内', trigger: 'blur' },
         ],
         title: [
           {
@@ -373,16 +374,16 @@ export default {
     },
     getInfo() {
       this.$store.dispatch("globalBasic/getInfo").then((res) => {
-        this.form = res.data.list[0];
+        this.form = res.data;
         this.form.gid = this.form.id;
-        console.log(res.data.list[0]);
+        console.log(res.data);
       });
       this.$store.dispatch("globalBasic/getBasicCompanyInfo").then((res) => {
         this.form = {
           ...this.form,
-          ...res.data.list[0],
+          ...res.data,
         };
-        console.log(res.data.list[0]);
+        console.log(res.data);
       });
     },
   },

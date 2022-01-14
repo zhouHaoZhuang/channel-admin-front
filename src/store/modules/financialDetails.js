@@ -22,13 +22,13 @@ const financialDetails = {
       });
     },
     //根据id获取详情
-    // getOne ({ commit, state }, id) {
-    //   return request({
-    //     url: `/customerAccountLog/${id}`,
-    //     method: "get",
-    //     // pay: true,
-    //   });
-    // },
+    getOne ({ commit, state }, id) {
+      return request({
+        url: `/customerAccountLog/${id}`,
+        method: "get",
+        // pay: true,
+      });
+    },
     // selectList ({ commit, state }, params) {
     //   return request({
     //     url: `/customerAccountLog`,
