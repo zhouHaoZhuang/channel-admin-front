@@ -25,6 +25,8 @@ import frontPage from "./frontPage";
 import helpCategory from "./helpCategory";
 import system from "./system";
 import message from "./message";
+import product from "./product";
+
 export default {
   user,
   account,
@@ -52,5 +54,6 @@ export default {
   frontPage,
   helpCategory,
   system,
-  message
+  message,
+  product
 };
