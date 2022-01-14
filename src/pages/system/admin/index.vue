@@ -3,7 +3,7 @@
     <div class="btns">
       <a-space>
         <a-button
-          v-permission.or="['add']"
+          v-permission="'add'"
           type="primary"
           icon="plus"
           @click="handleAdd"
@@ -24,11 +24,15 @@
           {{ systemAdminMapEnum[text] }}
         </span>
         <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="handleEdit(record)">
+          <a-button
+            v-permission="'edit'"
+            type="link"
+            @click="handleEdit(record)"
+          >
             编辑
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(record)">
+          <a-button v-permission="'del'" type="link" @click="handleDel(record)">
             删除
           </a-button>
         </span>

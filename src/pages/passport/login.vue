@@ -9,7 +9,7 @@
         :rules="rules"
       >
         <a-form-model-item prop="phone">
-          <a-input v-model="form.phone" placeholder="账户">
+          <a-input v-model="form.phone" v-number-evolution placeholder="账户">
             <a-icon slot="prefix" type="user" />
           </a-input>
         </a-form-model-item>
@@ -18,7 +18,7 @@
             v-model="form.password"
             placeholder="密码"
             type="password"
-            :max-length="16"
+            :max-length="12"
           >
             <a-icon slot="prefix" type="lock" />
           </a-input>

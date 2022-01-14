@@ -85,10 +85,9 @@ export const orderStatusEnum = {
 
 // 权限管理-权限单选map
 export const systemAdminMapEnum = {
-  // DATA: "数据",
-  // API: "API",
-  MENU: "菜单"
-  // BUTTON: "按钮"
+  MENU: "一级菜单",
+  DATA: "二级菜单",
+  BUTTON: "三级菜单"
 };
 // 轮播图类型map
 export const bannerTypeEnum = {
