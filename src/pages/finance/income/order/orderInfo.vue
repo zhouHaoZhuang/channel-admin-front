@@ -55,6 +55,7 @@
             <div>操作系统:{{ record.osName }}</div>
             <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
           </div>
+          <span slot="chargeModel">包年包月</span>
         </a-table>
       </div>
     </div>
@@ -154,7 +155,8 @@ export default {
         {
           title: "付费方式",
           dataIndex: "chargeModel",
-          key: "chargeModel"
+          key: "chargeModel",
+          scopedSlots: { customRender: "chargeModel" }
         },
         {
           title: "原价",
@@ -165,22 +167,22 @@ export default {
           title: "订单金额",
           dataIndex: "actualAmount",
           key: "actualAmount"
-        },
-        {
-          title: "推广优惠",
-          key: "promotionPreference",
-          dataIndex: "promotionPreference"
-        },
-        {
-          title: "代金券抵扣",
-          key: "deduction",
-          dataIndex: "deduction"
-        },
-        {
-          title: "现金实付",
-          key: "cashActualPay",
-          dataIndex: "cashActualPay"
         }
+        // {
+        //   title: "推广优惠",
+        //   key: "promotionPreference",
+        //   dataIndex: "promotionPreference"
+        // },
+        // {
+        //   title: "代金券抵扣",
+        //   key: "deduction",
+        //   dataIndex: "deduction"
+        // },
+        // {
+        //   title: "现金实付",
+        //   key: "cashActualPay",
+        //   dataIndex: "cashActualPay"
+        // }
       ]
     };
   },
