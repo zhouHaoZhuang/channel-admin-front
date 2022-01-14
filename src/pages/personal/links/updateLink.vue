@@ -8,8 +8,8 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分类" prop="linkTypeName">
-          <a-select v-model="form.linkTypeName" placeholder="请选择">
+        <a-form-model-item label="分类" prop="linkTypeCode">
+          <a-select v-model="form.linkTypeCode" placeholder="请选择">
             <a-select-option
               v-for="item in data"
               :key="item.linkTypeCode"
@@ -97,13 +97,20 @@ export default {
     }
   },
   data() {
+    const validateLength = (rule, value, callback) => {
+      if (value.length < 2) {
+        callback(new Error("长度必须在2-50之间。"));
+      } else {
+        callback();
+      }
+    };
     return {
       type: "add",
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
         linkTypeName: "",
-        linkTypeCode: "",
+        linkTypeCode: undefined,
         linkName: "",
         linkUrl: "",
         linkDescribe: "",
@@ -115,7 +122,7 @@ export default {
         linkTypeSort: 0
       },
       rules: {
-        linkTypeName: [
+        linkTypeCode: [
           {
             required: true,
             message: "请选择友情链接类别",
@@ -127,14 +134,16 @@ export default {
             required: true,
             message: "请输入链接名称，链接名称长度必须在2-50之间。",
             trigger: ["blur", "change"]
-          }
+          },
+          { validator: validateLength, trigger: ["blur", "change"] }
         ],
         linkUrl: [
           {
             required: true,
             message: "请输入链接URL，链接URL长度必须在2-50之间。",
             trigger: ["blur", "change"]
-          }
+          },
+          { validator: validateLength, trigger: ["blur", "change"] }
         ]
       },
       loading: false,
@@ -172,10 +181,18 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          const newFrom = {
+            ...this.form,
+            linkTypeName: this.$getArrOnceData(
+              this.form.linkTypeCode,
+              this.data,
+              "linkTypeCode"
+            ).linkTypeName
+          };
           this.$store
             .dispatch(
               this.type === "add" ? "links/addLink" : "links/editLink",
-              this.form
+              newFrom
             )
             .then(res => {
               this.$message.success(
@@ -196,7 +213,7 @@ export default {
       });
       this.form = {
         linkTypeName: "",
-        linkTypeCode: "",
+        linkTypeCode: undefined,
         linkName: "",
         linkUrl: "",
         linkDescribe: "",

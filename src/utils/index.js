@@ -1,8 +1,8 @@
 import store from "@/store";
 import env from "@/config/env";
 // 根据id返回数组中对应id的对象---挂载全局 $getArrOnceData
-export const getArrOnceData = (id, arr) => {
-  return arr.find((ele) => ele.id === id);
+export const getArrOnceData = (id, arr, key) => {
+  return arr.find(ele => ele[key ? key : id] === id);
 };
 // 请求列表时前端要替后端做适配，并且有点多，封装请求列表时带有搜索的接口
 // request: 调用vuex的actions名   listQuery: 传递给后端的参数
@@ -15,7 +15,7 @@ const filterList = [
   "hot",
   "top",
   "recommended",
-  "useful",
+  "useful"
 ];
 export const getListQp = (request, listQuery) => {
   return new Promise((resolve, reject) => {
@@ -27,14 +27,14 @@ export const getListQp = (request, listQuery) => {
               ...listQuery,
               [`qp-${listQuery.key}-${
                 filterList.indexOf(listQuery.key) !== -1 ? "eq" : "like"
-              }`]: listQuery.search,
+              }`]: listQuery.search
             }
           : listQuery
       )
-      .then((res) => {
+      .then(res => {
         resolve(res);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err);
       });
   });
@@ -48,14 +48,14 @@ export const getList = (request, listQuery) => {
         listQuery.key
           ? {
               ...listQuery,
-              [`${listQuery.key}`]: listQuery.search,
+              [`${listQuery.key}`]: listQuery.search
             }
           : listQuery
       )
-      .then((res) => {
+      .then(res => {
         resolve(res);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err);
       });
   });
@@ -77,7 +77,7 @@ export function base64ToFile(base64, filename) {
 }
 
 // 处理浏览器地址栏地址，截取地址中段,不需要http:// or https://和com后地址
-export const getWindowUrl = (url) => {
+export const getWindowUrl = url => {
   const newUrl = url.includes("http://")
     ? url.replace("http://", "")
     : url.replace("https://", "");
