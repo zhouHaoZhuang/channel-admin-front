@@ -97,6 +97,13 @@ export default {
     }
   },
   data() {
+    const validateLength = (rule, value, callback) => {
+      if (value.length < 2) {
+        callback(new Error("长度必须在2-50之间。"));
+      } else {
+        callback();
+      }
+    };
     return {
       type: "add",
       labelCol: { span: 6 },
@@ -127,14 +134,16 @@ export default {
             required: true,
             message: "请输入链接名称，链接名称长度必须在2-50之间。",
             trigger: ["blur", "change"]
-          }
+          },
+          { validator: validateLength, trigger: ["blur", "change"] }
         ],
         linkUrl: [
           {
             required: true,
             message: "请输入链接URL，链接URL长度必须在2-50之间。",
             trigger: ["blur", "change"]
-          }
+          },
+          { validator: validateLength, trigger: ["blur", "change"] }
         ]
       },
       loading: false,
