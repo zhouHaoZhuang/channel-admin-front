@@ -40,13 +40,13 @@ export const paymentTypeMap = {
   3: "下单",
   4: "退款"
 };
-// 地域map数据
-export const regionMapData = {
-  "cn-hangzhou": "杭州",
-  "cn-dalian": "大连",
-  "cn-beijing": "北京",
-  "cn-shanghai": "上海"
-};
+// // 地域map数据
+// export const regionDataEnum = {
+//   "cn-hangzhou": "杭州",
+//   "cn-dalian": "大连",
+//   "cn-beijing": "北京",
+//   "cn-shanghai": "上海"
+// };
 // 地域列表map
 export const regionDataEnum = {
   "cn-qingdao": "华北1（青岛）",
@@ -123,4 +123,13 @@ export const bannerTypeEnum = {
   "3": "新闻公告banner",
   "4": "关于我们banner",
   "5": "登录banner"
+};
+// 云服务器-状态
+export const runningStatusEnum = {
+  0: "创建中",
+  1: "运行中",
+  2: "已停止",
+  3: "已过期",
+  4: "停止中",
+  5: "启动中",
 };

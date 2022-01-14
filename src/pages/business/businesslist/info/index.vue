@@ -227,12 +227,12 @@
 </template>
 
 <script>
-import { regionMapData } from '@/utils/enum'
+import { regionDataEnum } from '@/utils/enum'
 export default {
   data () {
     return {
       dataOrder: null,
-      regionMapData,
+      regionDataEnum,
       columnsOrder: [
         {
           title: "订单编号",
@@ -309,7 +309,7 @@ export default {
       });
     },
     address (text) {
-      return this.regionMapData[text]
+      return this.regionDataEnum[text]
     }
   },
   created () {

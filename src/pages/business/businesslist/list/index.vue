@@ -259,14 +259,15 @@
             :scroll="{ x: 2200 }"
           >
             <div slot="runningStatus" slot-scope="text">
-              <span v-if="text == 0" class="runningStatus blackhole"
+              {{ runningStatusEnum[text] }}
+              <!-- <span v-if="text == 0" class="runningStatus blackhole"
                 >黑洞中</span
               >
               <span v-if="text == 1" class="runningStatus running">运行中</span>
               <span v-if="text == 2" class="runningStatus shutdown"
                 >已关机</span
               >
-              <span v-if="text == 3" class="runningStatus expired">已过期</span>
+              <span v-if="text == 3" class="runningStatus expired">已过期</span> -->
             </div>
             <a slot="action" slot-scope="text" @click="infoChannel(text)"
               >管理</a
@@ -279,11 +280,12 @@
 </template>
 
 <script>
-import { regionMapData } from '@/utils/enum';
+import { regionDataEnum, runningStatusEnum } from '@/utils/enum';
 export default {
   data() {
     return {
-      regionMapData,
+      regionDataEnum,
+      runningStatusEnum,
       isfilter: false,
       listQuery: {
         key: 'ip',
@@ -374,7 +376,7 @@ export default {
           title: '机房',
           dataIndex: 'regionId',
           customRender: (text, record, index) => {
-            return this.regionMapData[text] || text;
+            return this.regionDataEnum[text] || text;
           },
           width: 150,
         },
