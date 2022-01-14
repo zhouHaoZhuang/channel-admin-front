@@ -1,7 +1,7 @@
 <template>
   <div class="message-detail-container" v-if="massageData">
-    <div class="title">关于“2021金秋上云季”活动下线通知</div>
-    <div class="date">{{massageData.sendTime}}</div>
+    <div class="title">{{massageData.title}}</div>
+    <div class="date">{{massageData.sendTime | formatDate}}</div>
     <div class="line"></div>
     <div class="con-box">
       <div class="start-title">尊敬的合作商：</div>

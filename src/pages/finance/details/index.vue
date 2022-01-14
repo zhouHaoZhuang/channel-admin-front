@@ -52,7 +52,7 @@
             款项类型
           </a-select-option>
           <a-select-option
-            v-for="(value, key) in detailTypeMapData"
+            v-for="(value, key) in paymentTypeMap"
             :value="key"
             :key="key"
           >
@@ -92,9 +92,12 @@
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <!-- <div slot="detailType" slot-scope="text">
-            <span>{{ detailTypeMapData[text] }}</span>
-          </div> -->
+          <div slot="detailType" slot-scope="text">
+            <span>{{ paymentTypeMap[text] }}</span>
+          </div>
+          <div slot-scope="text" slot="status">
+            {{ detailTypeMapData[text] }}
+          </div>
           <div slot="action" slot-scope="text">
             <a-button type="link" @click="selectPool(text)">
               查看
@@ -110,12 +113,13 @@
 </template>
 
 <script>
-import { detailTypeMapData } from '@/utils/enum.js';
+import { detailTypeMapData, paymentTypeMap} from '@/utils/enum.js';
 export default {
   data() {
     return {
       isfilter: false,
       detailTypeMapData,
+      paymentTypeMap,
       listQuery: {
         key: 'customerCode',
         search: '',
@@ -150,8 +154,13 @@ export default {
         },
         {
           title: '款项类型',
-          dataIndex: 'memo',
-          // scopedSlots: { customRender: "detailType" },
+          dataIndex: 'detailType',
+          scopedSlots: { customRender: "detailType" },
+        },
+        {
+          title: '订单状态',
+          dataIndex: 'status',
+          scopedSlots: { customRender: "status" },
         },
         // {
         //   title: "交易描述",

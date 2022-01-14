@@ -317,6 +317,12 @@
                 slot-scope="text">{{
             text | formatDate
           }}</span>
+          <div slot-scope="text" slot="ecsCount">
+            {{text}}个
+          </div>
+          <div slot="balance" slot-scope="text">
+            {{text.toFixed(2)}}
+          </div>
           <span slot="action"
                 slot-scope="text"
                 class="action">
@@ -398,10 +404,11 @@ export default {
         },
         {
           title: "服务器",
-          dataIndex: "server",
+          dataIndex: "ecsCount",
           sorter: true,
           sortDirections: ["ascend", "descend"],
-          width: 100
+          width: 100,
+          scopedSlots: { customRender: "ecsCount" }
         },
         {
           title: "托管",
@@ -461,7 +468,8 @@ export default {
             return a.balance - b.balance;
           },
           sortDirections: ["ascend", "descend"],
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: "balance" }
         },
         {
           title: "授信额度",
