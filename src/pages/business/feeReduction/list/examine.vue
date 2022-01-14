@@ -354,7 +354,16 @@ export default {
       this.detail = { ...res.data };
       console.log(res);
     });
-  }
+  },
+  activated() {
+    let orderNo = this.$route.query.orderNo;
+    // console.log(id);
+    this.$store.dispatch("renew/inquireList", { orderNo }).then(res => {
+      this.dataOrder = [res.data];
+      this.detail = { ...res.data };
+      console.log(res);
+    });
+  },
 };
 </script>
 
