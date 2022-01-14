@@ -41,7 +41,9 @@
           :pagination="paginationProps"
           :scroll="{ x: 1400 }"
         >
-          <a slot="name" slot-scope="text">{{ text }}</a>
+          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
+            {{ text }}
+          </span>
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
@@ -49,7 +51,7 @@
             {{ text.toFixed(2) }}
           </div>
           <div slot="tradeType" slot-scope="text">
-            <span>{{ OrderTypeMap[text] }}</span>
+            <span>{{ orderTypeMap[text] }}</span>
           </div>
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
@@ -72,7 +74,7 @@
           <div slot-scope="text" slot="cashPay" v-if="text != undefined">
             {{ text.toFixed(2) }}
           </div>
-          <div slot-scope="text" slot="actualPrice" v-if="text != undefined" >
+          <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
             {{ text.toFixed(2) }}
           </div>
         </a-table>
@@ -83,12 +85,12 @@
 
 <script>
 import moment from "moment";
-import { orderStatusEnum, OrderTypeMap } from "@/utils/enum.js";
+import { orderStatusEnum, orderTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       orderStatusEnum,
-      OrderTypeMap,
+      orderTypeMap,
       listQuery: {
         key: undefined,
         search: "",
@@ -108,13 +110,14 @@ export default {
         {
           title: "会员ID",
           dataIndex: "corporationCode",
-          width: 150
+          width: 170,
+          scopedSlots: { customRender: "corporationCode" }
         },
         {
           title: "订单类型",
           dataIndex: "tradeType",
           scopedSlots: { customRender: "tradeType" },
-          width: 100
+          width: 130
         },
         {
           title: "原价",

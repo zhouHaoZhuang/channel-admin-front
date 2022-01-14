@@ -10,7 +10,7 @@
         </li>
         <li>
           <span>订单类型:</span>
-          <span>{{ orderInfo.tradeType === 1 ? "新购" : "销售" }} </span>
+          <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
         </li>
         <li>
           <span>创建时间:</span>
@@ -18,9 +18,7 @@
         </li>
         <li>
           <span>状态:</span>
-          <span
-            >{{ orderStatusEnum[orderInfo.tradeStatus]  }}</span
-          >
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
         </li>
         <li>
           <span>支付时间:</span>
@@ -45,13 +43,8 @@
           rowKey="corporationCode"
           :scroll="{ x: 1300 }"
         >
-          <a slot="name" slot-scope="text">{{ text }}</a>
           <div slot="tradeType" slot-scope="text">
-            <span v-if="text === 1">新购</span>
-            <span v-if="text === 5">升配</span>
-            <span v-if="text === 10">降配</span>
-            <span v-if="text === 15">续费</span>
-            <span v-if="text === 20">退费</span>
+            {{ orderTypeMap[text] }}
           </div>
           <div slot="productConfig" slot-scope="text">
             <div>CPU:{{ text.cpu }}</div>
@@ -105,7 +98,7 @@
         </li>
         <li>
           <span>产品类型:</span>
-          <span>{{ data[0].tradeType }} </span>
+          <span>{{ orderTypeMap[data[0].tradeType] }} </span>
         </li>
         <li>
           <span>IP地址:</span>
@@ -125,13 +118,14 @@
 </template>
 
 <script>
-import { orderStatusEnum, OrderTypeMap } from "@/utils/enum.js";
+import { orderStatusEnum, orderTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       orderInfo: null,
       data: [],
       orderStatusEnum,
+      orderTypeMap,
       columns: [
         {
           title: "产品名称",
