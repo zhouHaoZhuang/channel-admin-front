@@ -41,19 +41,19 @@
           :columns="columns"
           :data-source="data"
           rowKey="corporationCode"
-          :scroll="{ x: 1300 }"
+          :scroll="{ x: 1400 }"
         >
           <div slot="tradeType" slot-scope="text">
             {{ orderTypeMap[text] }}
           </div>
-          <div slot="productConfig" slot-scope="text">
-            <div>CPU:{{ text.cpu }}</div>
-            <div>内存:{{ text.memory }}</div>
-            <div>磁盘:{{ text.disk }}</div>
-            <div>带宽:{{ text.internetMaxBandwidthOut }}</div>
-            <div>防御:{{ "20G" }}</div>
-            <div>操作系统:{{ text.osName }}</div>
-            <div>所在区:{{ text.regionId }}</div>
+          <div slot="productConfig" slot-scope="text, record">
+            <div>CPU:{{ record.cpu }}核</div>
+            <div>内存:{{ record.memory }}G</div>
+            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
+            <div>系统盘:{{ record.systemDiskSize }}G</div>
+            <div>数据盘:{{ record.dataDiskSize }}G</div>
+            <div>操作系统:{{ record.osName }}</div>
+            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
           </div>
         </a-table>
       </div>
@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { orderStatusEnum, orderTypeMap } from "@/utils/enum.js";
+import { orderStatusEnum, orderTypeMap, regionDataEnum } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -126,6 +126,7 @@ export default {
       data: [],
       orderStatusEnum,
       orderTypeMap,
+      regionDataEnum,
       columns: [
         {
           title: "产品名称",
@@ -142,6 +143,7 @@ export default {
         {
           title: "配置信息",
           key: "productConfig",
+          width: 250,
           scopedSlots: { customRender: "productConfig" }
         },
         {
