@@ -44,14 +44,16 @@
                 <span class="basicInformation-type">业务状态：</span><span class="basicInformation-info">正常----</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">运行状态：</span><span class="basicInformation-info basicInformation-info-ash"
+                <span class="basicInformation-type">运行状态：</span>
+                <!-- <span class="basicInformation-info basicInformation-info-ash"
                       v-if="dataOrder[0].runningStatus == 0">黑洞中</span>
                 <span class="basicInformation-info basicInformation-info-run"
                       v-else-if="dataOrder[0].runningStatus == 1">运行中</span>
                 <span class="basicInformation-info basicInformation-info-ash"
                       v-else-if="dataOrder[0].runningStatus == 2">已关机</span>
                 <span class="basicInformation-info basicInformation-info-ash"
-                      v-else-if="dataOrder[0].runningStatus == 3">已过期</span>
+                      v-else-if="dataOrder[0].runningStatus == 3">已过期</span> -->
+                  {{runningStatusEnum[dataOrder[0].runningStatus]}}
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">操作状态：</span><span class="basicInformation-info">正常----</span>
@@ -227,12 +229,13 @@
 </template>
 
 <script>
-import { regionDataEnum } from '@/utils/enum'
+import { regionDataEnum, runningStatusEnum } from '@/utils/enum';
 export default {
   data () {
     return {
       dataOrder: null,
       regionDataEnum,
+      runningStatusEnum,
       columnsOrder: [
         {
           title: "订单编号",

@@ -261,7 +261,7 @@
             <div slot="runningStatus" slot-scope="text">
               {{ runningStatusEnum[text] }}
               <!-- <span v-if="text == 0" class="runningStatus blackhole"
-                >黑洞中</span
+                >黑洞  中</span
               >
               <span v-if="text == 1" class="runningStatus running">运行中</span>
               <span v-if="text == 2" class="runningStatus shutdown"
