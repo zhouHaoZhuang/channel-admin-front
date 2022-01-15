@@ -61,7 +61,12 @@ export default {
         newTypeEn: [
           {
             required: true,
-            message: "请输入英文名",
+            message: "英文名选项必填",
+            trigger: "blur",
+          },
+          {
+            pattern: /^[a-zA-Z0-9_.]+$/,
+            message: "必须输入英文名",
             trigger: "blur",
           },
         ],

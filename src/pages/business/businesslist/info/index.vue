@@ -215,7 +215,7 @@
                       slot-scope="text">
                   <a-button type="link"
                             class=""
-                            @click="selectInfo(text)">
+                            @click="selectInfoLog(text)">
                     查看
                   </a-button>
                 </span>
@@ -305,7 +305,7 @@ export default {
     selectInfo (id) {
       // console.log(id);
       this.$router.push({
-        path: '/finance/index/order',
+        path: '/finance/index/detailedinfo',
         query: {
           id,
         },
@@ -313,7 +313,10 @@ export default {
     },
     address (text) {
       return this.regionDataEnum[text]
-    }
+    },
+    selectInfoLog (id) {
+      // console.log(id);
+    },
   },
   created () {
     let id = this.$route.query.id;

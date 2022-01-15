@@ -210,13 +210,13 @@ export default {
         // },
         {
           title: "充值时间",
-          dataIndex: "payTime",
+          dataIndex: "createTime",
           key: "createTime",
           scopedSlots: { customRender: "createTime" },
         },
          {
           title: "到账时间",
-          dataIndex: "modifyTime",
+          dataIndex: "payTime",
           key: "modifyTime",
           scopedSlots: { customRender: "modifyTime" },
         },
@@ -356,7 +356,7 @@ export default {
       this.$getList("rechargeRecord/getList", this.listQuery).then((res) => {
         // console.log(res, "请求结果");
         this.data = res.data.list;
-        this.paginationProps.total = res.data.total * 1;
+        this.paginationProps.total = res.data.totalCount * 1;
       });
     },
     // 跳转详情的回调

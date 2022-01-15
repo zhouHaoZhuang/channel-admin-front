@@ -54,6 +54,10 @@
         <a-form-model-item v-if="isWebsiteJump" label="跳转到">
           <a-input v-model="form.WebsiteJumpUrl" />
         </a-form-model-item>
+        <a-form-model-item label="新闻LOGO">
+          <!-- <a-input v-model="form.tittleImage" /> -->
+          <Upload :defaultFile="form.tittleImage" @change="pcImgChange" />
+        </a-form-model-item>
         <a-form-model-item v-if="!isWebsiteJump" label="内容">
           <Tinymce @tinymceinput="tinymceinput" />
         </a-form-model-item>
@@ -68,46 +72,50 @@
 </template>
 
 <script>
-import Tinymce from "@/components/Tinymce/index.vue";
+import Tinymce from '@/components/Tinymce/index.vue';
+import Upload from '@/components/Upload/index';
+
 export default {
   components: {
     Tinymce,
+    Upload,
   },
   data() {
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 19 },
       form: {
-        newTypeCode: "",
-        newTypeEn: "",
-        sort: "",
+        newTypeCode: '',
+        newTypeEn: '',
+        sort: '',
         type: [],
         status: 0,
-        newsTitle: "",
-        context: "",
-        newsPublishTime: "", //发布时间
-        WebsiteJumpUrl: "", //跳转到
+        newsTitle: '',
+        context: '',
+        newsPublishTime: '', //发布时间
+        WebsiteJumpUrl: '', //跳转到
+        tittleImage: '', //新闻LOGO
       },
       rules: {
         newTypeCode: [
           {
             required: true,
-            message: "请输入分类",
-            trigger: "blur",
+            message: '请输入分类',
+            trigger: 'blur',
           },
         ],
         newsTitle: [
           {
             required: true,
-            message: "请输入标题",
-            trigger: "blur",
+            message: '请输入标题',
+            trigger: 'blur',
           },
         ],
         status: [
           {
             required: true,
-            message: "请选择状态",
-            trigger: "blur",
+            message: '请选择状态',
+            trigger: 'blur',
           },
         ],
       },
@@ -117,7 +125,7 @@ export default {
   },
   computed: {
     isWebsiteJump() {
-      return this.form.type.includes("websiteJump");
+      return this.form.type.includes('websiteJump');
     },
   },
   created() {
@@ -137,6 +145,10 @@ export default {
       // console.log("富文本输入", value);
       this.form.context = value;
     },
+    pcImgChange({ urlList, firstImageUrl }) {
+      // console.log("上传图片回调99999", urlList, firstImageUrl);
+      this.form.tittleImage = firstImageUrl;
+    },
     // 获取日期
     onChange(date, dateString) {
       console.log(date, dateString);
@@ -149,20 +161,20 @@ export default {
       }
       if (this.form.WebsiteJump == 1) {
         this.form.WebsiteJump = this.form.WebsiteJumpUrl;
-        this.form.context = "";
+        this.form.context = '';
         return;
       }
       if (this.form.context) {
-        this.form.WebsiteJump = "";
+        this.form.WebsiteJump = '';
       }
-      console.log(this.form, "提交");
+      console.log(this.form, '提交');
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("newsList/addList", this.form)
+            .dispatch('newsList/addList', this.form)
             .then((res) => {
-              this.$message.success("新增新闻列表成功");
+              this.$message.success('新增新闻列表成功');
               this.resetForm();
               this.$router.back();
             })
@@ -173,8 +185,8 @@ export default {
       });
     },
     getAllType() {
-      this.$store.dispatch("newsType/getAllType").then((res) => {
-        console.log(res.data, "获取分类");
+      this.$store.dispatch('newsType/getAllType').then((res) => {
+        console.log(res.data, '获取分类');
         this.typeList = res.data;
       });
     },
@@ -182,14 +194,14 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        newTypeCode: "",
-        newTypeEn: "",
-        sort: "",
+        newTypeCode: '',
+        newTypeEn: '',
+        sort: '',
         type: [],
         status: 0,
-        newsTitle: "",
-        context: "",
-        newsPublishTime: "", //发布时间
+        newsTitle: '',
+        context: '',
+        newsPublishTime: '', //发布时间
       };
     },
   },

@@ -313,7 +313,7 @@ export default {
       });
     },
     selectPool(data) {
-      this.$store.commit('financialDetails/SET_DETAILEDINFO', data);
+      // this.$store.commit('financialDetails/SET_DETAILEDINFO', data);
       this.$router.push({
         path: `/finance/index/detailedinfo`,
         query: {
