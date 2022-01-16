@@ -143,8 +143,8 @@
           >
             <a-radio-group
               v-model="item.type"
-              :disabled="!item.permissionCode"
-              @change="e => radioChange(e, item.permissionCode, index)"
+              :disabled="!item.permissionCode || item.permissionCode === 'all'"
+              @change="e => radioChange(e, item, index)"
             >
               <a-radio :value="1">
                 所有操作
@@ -354,14 +354,24 @@ export default {
     selectChange(value, opt, type, index) {
       this.form.permissionActions[index].actions = [];
       this.form.permissionActions[index].actionSelectList = [];
-      if (type === 0) {
+      if (type === 0 && value !== "all") {
         this.getPremActions(value, index);
+      }
+      if (value === "all") {
+        this.form.permissionActions[index].type = 1;
       }
     },
     // 操作单选change事件，选择特定操作需要请求数据
-    radioChange(e, permissionCode, index) {
+    radioChange(e, item, index) {
       if (e.target.value === 0) {
-        this.getPremActions(permissionCode, index);
+        this.getPremActions(item.permissionCode, index);
+      }
+      // 选择了所有操作，需要清空已选择的actios
+      if (e.target.value === 1 && item.actions.length > 0) {
+        this.form.permissionActions.splice(index, 1, {
+          ...this.form.permissionActions[index],
+          actions: []
+        });
       }
     },
     // 权限下拉选择的搜索
