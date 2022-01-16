@@ -7,9 +7,9 @@
       <a-form-model-item label="姓名">
         <span>{{ nameOrphone }}</span>
       </a-form-model-item>
-      <a-form-model-item label="角色权限">
+      <!-- <a-form-model-item label="角色权限">
         <span>{{ userInfo.name }}</span>
-      </a-form-model-item>
+      </a-form-model-item> -->
       <a-form-model-item label="手机">
         <span>{{ nameOrphone }}</span>
       </a-form-model-item>

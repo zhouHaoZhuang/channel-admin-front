@@ -69,7 +69,6 @@
       </a-modal>
       <a-select
         style="width:120px"
-        allowClear
         v-model="listQuery.key"
         placeholder="请选择"
         class="btn"
@@ -83,7 +82,7 @@
         </a-select-option>
       </a-select>
       <div class="btn">
-        <a-input placeholder="搜索关键词" v-model="listQuery.value" />
+        <a-input placeholder="搜索关键词" v-model="listQuery.value" allowClear />
       </div>
       <a-button type="primary" @click="secectClick" class="btn">
         查询
