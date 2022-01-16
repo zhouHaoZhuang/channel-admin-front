@@ -21,11 +21,16 @@
         <a-input
           v-model="form.code"
           v-role-input
+          :max-length="30"
           placeholder="请输入角色Code，填写一个名词，例如：admin"
         />
       </a-form-model-item>
       <a-form-model-item label="角色描述">
-        <a-input v-model="form.description" placeholder="请输入角色描述" />
+        <a-input
+          v-model="form.description"
+          :max-length="50"
+          placeholder="请输入角色描述"
+        />
       </a-form-model-item>
     </a-form-model>
   </a-modal>
