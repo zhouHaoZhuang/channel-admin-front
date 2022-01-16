@@ -117,6 +117,28 @@ export const numberEvolution = Vue.directive("number-evolution", {
     });
   }
 });
+
+/*
+ * role-input 输入框限制只能输入英文字母、数字、下划线 _、横线 -
+ * 在需要控制输入的输入框上使用 v-role-input
+ */
+export const roleInput = Vue.directive("role-input", {
+  inserted: function(el) {
+    el = findInput(el);
+    if (!el) return;
+    el.addEventListener("keyup", function() {
+      const newVal = el.value.replace(/[^a-zA-Z0-9_-]/g, "");
+      el.value = newVal;
+      el.dispatchEvent(new Event("input"));
+    });
+    el.addEventListener("blur", function() {
+      const newVal = el.value.replace(/[^a-zA-Z0-9_-]/g, "");
+      el.value = newVal;
+      el.dispatchEvent(new Event("input"));
+    });
+  }
+});
+
 /**
  * 按钮权限控制指令
  * 可传递单个权限或对个权限-并且必须拥有所传递的权限，如果传递了多个，有一个没满足，还是没权限（全部匹配）
