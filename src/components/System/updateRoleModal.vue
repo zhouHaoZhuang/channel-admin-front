@@ -20,6 +20,7 @@
       <a-form-model-item label="角色Code" prop="code">
         <a-input
           v-model="form.code"
+          v-role-input
           placeholder="请输入角色Code，填写一个名词，例如：admin"
         />
       </a-form-model-item>
