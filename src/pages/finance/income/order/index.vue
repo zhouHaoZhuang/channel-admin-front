@@ -26,6 +26,32 @@
             @change="datePickerOnOk"
           />
         </div>
+        <a-select
+          style="width:150px"
+          placeholder="订单类型"
+          v-model="listQuery.tradeType"
+        >
+          <a-select-option
+            v-for="(value, key) in orderTypeMap"
+            :key="key"
+            :value="key"
+          >
+            {{ value }}
+          </a-select-option>
+        </a-select>
+        <a-select
+          style="width:150px"
+          placeholder="订单状态"
+          v-model="listQuery.tradeStatus"
+        >
+          <a-select-option
+            v-for="(value, key) in orderStatusEnum"
+            :key="key"
+            :value="key"
+          >
+            {{ value }}
+          </a-select-option>
+        </a-select>
         <a-button type="primary" @click="handleSearch">
           查询
         </a-button>
@@ -96,6 +122,8 @@ export default {
         search: "",
         startTime: "",
         endTime: "",
+        tradeType: undefined,
+        tradeStatus: undefined,
         currentPage: 1,
         pageSize: 10,
         total: 0
