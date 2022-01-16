@@ -66,14 +66,24 @@ export default {
         typeName: [
           {
             required: true,
-            message: "必填，名称必须是中文或英文组成，且在20个字以内。",
+            message: "请输入名称(必填)",
+            trigger: "blur",
+          },
+          {
+            pattern: /^[\u4e00-\u9fa5_0-9]+$/,
+            message: "请输入中文",
             trigger: "blur",
           },
         ],
         typeNameEn: [
           {
             required: true,
-            message: "必填，名称必须是中文或英文组成，且在20个字以内。",
+            message: "必填，英文名称不能为空",
+            trigger: "blur",
+          },
+          {
+            pattern: /^[a-zA-Z0-9_]+$/,
+            message: "请输入英文名称",
             trigger: "blur",
           },
         ],

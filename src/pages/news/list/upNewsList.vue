@@ -52,6 +52,9 @@
         <a-form-model-item label="SEO描述">
           <a-input v-model="form.seoDescribe" type="textarea" />
         </a-form-model-item>
+        <a-form-model-item label="新闻LOGO">
+          <Upload :defaultFile="form.tittleImage" @change="pcImgChange" />
+        </a-form-model-item>
         <a-form-model-item v-if="isWebsiteJump" label="跳转到">
           <a-input v-model="WebsiteJumpUrl" />
         </a-form-model-item>
@@ -69,11 +72,14 @@
 </template>
 
 <script>
-import moment from "moment";
-import Tinymce from "@/components/Tinymce/index.vue";
+import moment from 'moment';
+import Tinymce from '@/components/Tinymce/index.vue';
+import Upload from '@/components/Upload/index';
+
 export default {
   components: {
     Tinymce,
+    Upload,
   },
   data() {
     return {
@@ -81,36 +87,37 @@ export default {
       wrapperCol: { span: 19 },
       type: [],
       form: {
-        newsCode: "",
-        newTypeCode: "",
-        newTypeEn: "",
+        newsCode: '',
+        newTypeCode: '',
+        newTypeEn: '',
         type: [],
-        newsTitle: "",
-        seoKeywords: "",
-        seoDescribe: "",
-        websiteJump: "",
-        context: "",
+        newsTitle: '',
+        seoKeywords: '',
+        seoDescribe: '',
+        websiteJump: '',
+        context: '',
         newsPublishTime: null, //发布时间
+        tittleImage: '', //新闻LOGO
       },
       rules: {
         newTypeCode: [
           {
             required: true,
-            message: "请输入分类",
-            trigger: "blur",
+            message: '请输入分类',
+            trigger: 'blur',
           },
         ],
         newsTitle: [
           {
             required: true,
-            message: "请输入标题",
-            trigger: "blur",
+            message: '请输入标题',
+            trigger: 'blur',
           },
         ],
       },
       loading: false,
       typeList: [],
-      WebsiteJumpUrl: "",
+      WebsiteJumpUrl: '',
     };
   },
   created() {
@@ -132,7 +139,7 @@ export default {
     newsPublishTime: {
       get() {
         if (this.form.newsPublishTime) {
-          return moment(this.form.newsPublishTime, "YYYY-MM-DD HH:mm:ss");
+          return moment(this.form.newsPublishTime, 'YYYY-MM-DD HH:mm:ss');
         } else {
           return null;
         }
@@ -142,7 +149,7 @@ export default {
       },
     },
     isWebsiteJump() {
-      return this.type.includes("websiteJump");
+      return this.type.includes('websiteJump');
     },
   },
   methods: {
@@ -150,9 +157,13 @@ export default {
       // console.log("富文本输入", value);
       this.form.context = value;
     },
+    pcImgChange({ urlList, firstImageUrl }) {
+      // console.log("上传图片回调99999", urlList, firstImageUrl);
+      this.form.tittleImage = firstImageUrl;
+    },
     // 获取日期
     onChange(date, dateString) {
-      console.log("dadsada", dateString);
+      console.log('dadsada', dateString);
       this.form.newsPublishTime = dateString;
     },
     // 提交
@@ -160,24 +171,25 @@ export default {
       for (let index = 0; index < this.type.length; index++) {
         this.form[this.type[index]] = 1;
       }
-      console.log(this.form, "提交");
+      console.log(this.form, '提交');
       if (this.form.websiteJump == 1) {
         this.form.websiteJump = this.WebsiteJumpUrl;
-        this.form.context = "";
-      }if(this.form.context){
+        this.form.context = '';
+      }
+      if (this.form.context) {
         this.form.websiteJump = 0;
       }
-      this.form.newsPublishTime = this.form.newsPublishTime.replace("T", " ");
+      this.form.newsPublishTime = this.form.newsPublishTime.replace('T', ' ');
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("newsList/changeList", {
+            .dispatch('newsList/changeList', {
               ...this.form,
               id: this.$route.query.id,
             })
             .then((res) => {
-              this.$message.success("修改新闻列表成功");
+              this.$message.success('修改新闻列表成功');
               this.resetForm();
               this.$router.back();
             })
@@ -188,13 +200,13 @@ export default {
       });
     },
     getAllType() {
-      this.$store.dispatch("newsType/getAllType").then((res) => {
+      this.$store.dispatch('newsType/getAllType').then((res) => {
         this.typeList = res.data;
       });
     },
     getOne() {
       this.$store
-        .dispatch("newsList/getOne", this.$route.query.id)
+        .dispatch('newsList/getOne', this.$route.query.id)
         .then((res) => {
           this.form = { ...res.data };
           let {
@@ -206,19 +218,21 @@ export default {
             seoDescribe,
             websiteJump,
             context,
+            tittleImage,
           } = res.data;
           this.form = {
             newsCode,
             newTypeCode,
-            newTypeEn: "",
+            newTypeEn: '',
             newsPublishTime,
             newsTitle,
             seoKeywords,
             seoDescribe,
             websiteJump,
             context,
+            tittleImage,
           };
-          let list = ["newsRoll", "firstTop", "userCore", "websiteJump"];
+          let list = ['newsRoll', 'firstTop', 'userCore', 'websiteJump'];
           this.form.type = [];
           for (let index = 0; index < list.length; index++) {
             if (res.data[list[index]] == 1) {
@@ -226,22 +240,22 @@ export default {
             }
           }
           this.type = this.form.type;
-          console.log(this.form, "获取单个");
+          console.log(this.form, '获取单个');
         });
     },
     // 重置表单数据
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        newsCode: "",
-        newTypeCode: "",
-        newTypeEn: "",
+        newsCode: '',
+        newTypeCode: '',
+        newTypeEn: '',
         type: [],
-        newsTitle: "",
-        seoKeywords: "",
-        seoDescribe: "",
-        websiteJump: "",
-        context: "",
+        newsTitle: '',
+        seoKeywords: '',
+        seoDescribe: '',
+        websiteJump: '',
+        context: '',
         newsPublishTime: null, //发布时间
       };
     },

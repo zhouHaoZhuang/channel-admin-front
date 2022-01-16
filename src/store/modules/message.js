@@ -17,7 +17,7 @@ const message = {
     // 全部已读接口
     readAll({ commit, state }, params) {
       return request({
-        url: '/messageRecord/updateAllprops',
+        url: '/messageRecord/updateAll',
         method: 'get',
         params,
       });
@@ -31,9 +31,9 @@ const message = {
       });
     },
   //  删除接口 批量删除
-    delList({ commit, state }, id) {
+    delList({ commit, state }, data) {
       return request({
-        url: `/messageRecord/${id}`,
+        url: `/messageRecord/${data.id}`,
         method: 'delete',
       });
     },
@@ -51,14 +51,6 @@ const message = {
       return request({
         url: `/messageRecord/${data.id}`,
         method: 'get',
-      });
-    },
-    // 删除
-    delDisCount({ commit, state }, data) {
-      return request({
-        url: `/messageRecord/${data.id}`,
-        method: 'delete',
-        data,
       });
     },
   },

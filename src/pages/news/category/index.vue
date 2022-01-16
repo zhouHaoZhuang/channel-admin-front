@@ -70,8 +70,8 @@
             <span v-if="text.newsCount===0">--</span>
             <router-link v-else :to="`/personal/news/newslist?newTypeCode=${text.newTypeCode}&newTypeName=${text.newTypeName}`">{{ text.newsCount }}篇</router-link>
           </div>
-          <div slot="status" slot-scope="text">
-            {{ text === 0 ? "正常" : "不显示" }}
+          <div slot="status" slot-scope="text" v-if="text!=undefined" >
+            {{ text === 0 ? "启用" : "禁用" }}
           </div>
           <div slot="actions" slot-scope="text">
             <a-button type="link" @click="change(text)">

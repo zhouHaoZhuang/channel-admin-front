@@ -39,6 +39,9 @@
           {{ text | formatDate }}
         </div>
         <span slot="action" slot-scope="text, record">
+          <a-button type="link" @click="selectMessage(record.id)">
+            查看
+          </a-button>
           <a-button type="link" @click="handleDel(record.id)">
             删除
           </a-button>
@@ -141,6 +144,12 @@ export default {
         this.getList();
       });
     },
+    selectMessage(id) {
+      this.$router.push({
+        path: '/dashboard/index/detail',
+        query: { id },
+      });
+    },
     // 获取列表
     getList() {
       this.loading = true;
@@ -174,7 +183,10 @@ export default {
         on: {
           // 事件
           click: (event) => {
-            console.log('表格行点击', record);
+            if (event.target.innerText == '删除') {
+              return;
+            }
+            console.log('表格行点击', event);
             // if (record.id !== 1) {
             this.$router.push({
               path: '/dashboard/index/detail',

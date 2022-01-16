@@ -4,11 +4,11 @@
     <div class="date">{{massageData.sendTime | formatDate}}</div>
     <div class="line"></div>
     <div class="con-box">
-      <div class="start-title">尊敬的合作商：</div>
+      <div class="start-title"></div>
       <p class="txt txt-indent">
        {{massageData.content}}
       </p>
-      <p class="txt txt-indent">感谢您对云盾云的支持！</p>
+      <p class="txt txt-indent txt-right">{{massageData.createUserName}}</p>
     </div>
   </div>
 </template>
@@ -66,6 +66,11 @@ export default {
   }
   .txt-indent {
     text-indent: 2em;
+  }
+  .txt-right{
+    margin-top: 30px;
+    width:90%;
+    text-align: right;
   }
 }
 </style>
