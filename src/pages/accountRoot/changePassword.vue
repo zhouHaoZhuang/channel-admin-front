@@ -11,7 +11,7 @@
         <span>{{ form.name }}</span>
       </a-form-model-item>
       <a-form-model-item label="验证手机号">
-        <a-input v-model="phone"></a-input>
+        <a-input v-model="form.phone"></a-input>
       </a-form-model-item>
       <a-form-model-item label="验证码">
         <a-input
