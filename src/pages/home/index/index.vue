@@ -98,7 +98,7 @@
                 早安，云小二 [超级管理员]，祝你开心每一天！
               </div>
               <div class="info">
-                您的上次登录信息: 115.196.230.183 (IP地址) 2021-10-23 18:14:56
+                您的上次登录信息: {{userInfo.lastIP}} (IP地址) {{userInfo.lastLogin | formatDate}}
                 (登录时间)
               </div>
             </div>

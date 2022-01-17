@@ -412,13 +412,13 @@ export default {
           sorter: true,
           sortDirections: ['ascend', 'descend'],
         },
-        { title: '业务状态', dataIndex: '1', key: '' },
+        // { title: '业务状态', dataIndex: '1', key: '' },
         {
           title: '运行状态',
           dataIndex: 'runningStatus',
           scopedSlots: { customRender: 'runningStatus' },
         },
-        { title: '操作状态', dataIndex: '3', key: '' },
+        // { title: '操作状态', dataIndex: '3', key: '' },
         {
           title: '操作',
           dataIndex: 'id',
