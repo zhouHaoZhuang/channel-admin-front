@@ -9,22 +9,23 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">GUID：</span>
-                <span class="basicInformation-info">{{ dataOrder[0].id }}????</span>
+                <span class="basicInformation-info">{{ data.id }}????</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">业务ID：</span>
-                <span class="basicInformation-info">{{ dataOrder[0].id }}</span>
+                <span class="basicInformation-info">{{ data.id }}</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">线路：</span><span class="basicInformation-info">{{address(dataOrder[0].regionId)||dataOrder[0].regionId}}</span>
+                <span class="basicInformation-type">线路：</span>
+                <span class="basicInformation-info">{{regionDataEnum[data.regionId]}}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">服务器IP：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].outIp }}</span>
+                  {{ data.outIp }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">内网IP：</span><span class="basicInformation-info">{{
-                  dataOrder[0].innerIp
+                  data.innerIp
                 }}</span>
               </div>
               <div class="basicInformation-item">
@@ -32,7 +33,7 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">操作系统：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].osName }}</span>
+                  {{ data.osName }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">登录名：</span><span class="basicInformation-info">administrator---</span>
@@ -40,22 +41,14 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">远程端口：</span><span class="basicInformation-info">3389----</span>
               </div>
-              <div class="basicInformation-item">
+              <!-- <div class="basicInformation-item">
                 <span class="basicInformation-type">业务状态：</span><span class="basicInformation-info">正常----</span>
-              </div>
+              </div> -->
               <div class="basicInformation-item">
-                <span class="basicInformation-type">运行状态：</span>
-                <!-- <span class="basicInformation-info basicInformation-info-ash"
-                      v-if="dataOrder[0].runningStatus == 0">黑洞中</span>
-                <span class="basicInformation-info basicInformation-info-run"
-                      v-else-if="dataOrder[0].runningStatus == 1">运行中</span>
-                <span class="basicInformation-info basicInformation-info-ash"
-                      v-else-if="dataOrder[0].runningStatus == 2">已关机</span>
-                <span class="basicInformation-info basicInformation-info-ash"
-                      v-else-if="dataOrder[0].runningStatus == 3">已过期</span> -->
-                  {{runningStatusEnum[dataOrder[0].runningStatus]}}
+                <span class="basicInformation-type" >运行状态：</span>
+                  <span :class="{'basicInformation-info':true,'basicInformation-info-run':data.runningStatus==1,'basicInformation-info-ash':data.runningStatus!=1}"> {{runningStatusEnum[data.runningStatus]}}</span>
               </div>
-              <div class="basicInformation-item">
+              <!-- <div class="basicInformation-item">
                 <span class="basicInformation-type">操作状态：</span><span class="basicInformation-info">正常----</span>
               </div>
               <div class="basicInformation-item">
@@ -69,7 +62,7 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">备注：</span><span class="basicInformation-info">备注----</span><a href="">修改备注</a>
-              </div>
+              </div> -->
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -81,22 +74,22 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">CPU：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].cpu }}核</span>
+                  {{ data.cpu }}核</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">内存：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].memory }}G</span>
+                  {{ data.memory }}G</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">带宽：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].internetMaxBandwidthOut }}Mbps</span>
+                  {{ data.internetMaxBandwidthOut }}Mbps</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">防御：</span><span class="basicInformation-info"> 20G</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数据磁盘：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].systemSize }}G</span>
+                  {{ data.systemSize }}G</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">下行带宽：</span><span class="basicInformation-info"> 0M----</span>
@@ -112,22 +105,22 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">购买时间：</span><span class="basicInformation-info">{{
-                  dataOrder[0].purchaseTimeStr
+                  data.purchaseTimeStr
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">购买时长：</span><span class="basicInformation-info">{{
-                  dataOrder[0].purchaseDuration
+                  data.purchaseDuration
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">到期时间：</span><span class="basicInformation-info">{{
-                  dataOrder[0].endTimeStr
+                  data.endTimeStr
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">续费方式：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].tradeCode }}</span>
+                  {{ data.tradeCode }}</span>
                 <a href="">[设置]</a>
               </div>
               <div class="basicInformation-item">
@@ -150,22 +143,22 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">所属会员ID：</span><span class="basicInformation-info">{{
-                  dataOrder[0].corporationCode
+                  data.corporationCode
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">会员姓名：</span><span class="basicInformation-info">{{
-                  dataOrder[0].corporationName
+                  data.corporationName
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">联系电话：</span><span class="basicInformation-info">{{
-                  dataOrder[0].phoneNumber
+                  data.phoneNumber
                 }}</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">联系QQ：</span><span class="basicInformation-info">
-                  {{ dataOrder[0].qq }}----</span>
+                  {{ data.qq }}----</span>
               </div>
             </div>
           </a-tab-pane>
@@ -299,6 +292,7 @@ export default {
         },
       ],
       dataActive: [],
+      data:[]
     };
   },
   methods: {
@@ -311,9 +305,6 @@ export default {
         },
       });
     },
-    address (text) {
-      return this.regionDataEnum[text]
-    },
     selectInfoLog (id) {
       // console.log(id);
     },
@@ -323,6 +314,7 @@ export default {
     // console.log(id);
     this.$store.dispatch("business/getOne", id).then((res) => {
       this.dataOrder = [res.data];
+      this.data = res.data;
       console.log(res);
     });
   },
