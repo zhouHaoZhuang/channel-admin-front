@@ -98,7 +98,7 @@
                 早安，云小二 [超级管理员]，祝你开心每一天！
               </div>
               <div class="info">
-                您的上次登录信息: 115.196.230.183 (IP地址) 2021-10-23 18:14:56
+                您的上次登录信息: {{userInfo.lastIP}} (IP地址) {{userInfo.lastLogin | formatDate}}
                 (登录时间)
               </div>
             </div>
@@ -191,7 +191,11 @@ export default {
     this.getSuccessCount(this.currentDay());
     this.getMessageList();
   },
+  mounted() {
+    this.userInfo.lastLogin = this.userInfo.lastLogin.slice(0, 19);
+    console.log(this.userInfo.lastLogin, '后');  
 
+  },
   methods: {
     currentMonth() {
       // //获取当前月份
@@ -226,7 +230,7 @@ export default {
           .format('YYYY-MM-DD HH:mm:ss'),
         endTime: this.moment()
           .startOf('day')
-          .format('YYYY-MM-DD HH:mm:ss'),
+          .format('YYYY-MM-DD 23:59:59'),
       };
     },
     // 获取交易订单数

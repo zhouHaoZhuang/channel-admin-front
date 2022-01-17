@@ -202,7 +202,7 @@
           </a-tab-pane>
         </a-tabs>
       </div>
-      <div class="business-basic">
+      <!--操作日志 <div class="business-basic">
         <a-tabs type="card">
           <a-tab-pane key="1"
                       tab="操作日志">
@@ -223,7 +223,7 @@
             </div>
           </a-tab-pane>
         </a-tabs>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
