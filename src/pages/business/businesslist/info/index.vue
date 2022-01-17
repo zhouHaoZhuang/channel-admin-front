@@ -40,22 +40,14 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">远程端口：</span><span class="basicInformation-info">3389----</span>
               </div>
-              <div class="basicInformation-item">
+              <!-- <div class="basicInformation-item">
                 <span class="basicInformation-type">业务状态：</span><span class="basicInformation-info">正常----</span>
-              </div>
+              </div> -->
               <div class="basicInformation-item">
-                <span class="basicInformation-type">运行状态：</span>
-                <!-- <span class="basicInformation-info basicInformation-info-ash"
-                      v-if="dataOrder[0].runningStatus == 0">黑洞中</span>
-                <span class="basicInformation-info basicInformation-info-run"
-                      v-else-if="dataOrder[0].runningStatus == 1">运行中</span>
-                <span class="basicInformation-info basicInformation-info-ash"
-                      v-else-if="dataOrder[0].runningStatus == 2">已关机</span>
-                <span class="basicInformation-info basicInformation-info-ash"
-                      v-else-if="dataOrder[0].runningStatus == 3">已过期</span> -->
-                  {{runningStatusEnum[dataOrder[0].runningStatus]}}
+                <span class="basicInformation-type" >运行状态：</span>
+                  <span :class="{'basicInformation-info':true,'basicInformation-info-run':dataOrder[0].runningStatus==1,'basicInformation-info-ash':dataOrder[0].runningStatus!=1}"> {{runningStatusEnum[dataOrder[0].runningStatus]}}</span>
               </div>
-              <div class="basicInformation-item">
+              <!-- <div class="basicInformation-item">
                 <span class="basicInformation-type">操作状态：</span><span class="basicInformation-info">正常----</span>
               </div>
               <div class="basicInformation-item">
@@ -69,7 +61,7 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">备注：</span><span class="basicInformation-info">备注----</span><a href="">修改备注</a>
-              </div>
+              </div> -->
             </div>
           </a-tab-pane>
         </a-tabs>
