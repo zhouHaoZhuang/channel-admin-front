@@ -127,13 +127,13 @@
             <a-form-model-item label="公司地址" prop="companyAddress">
               <a-input v-model="form.companyAddress" />
             </a-form-model-item>
-            <a-form-model-item label="邮编" prop='postCode'>
+            <a-form-model-item label="邮编" prop="postCode">
               <a-input v-model="form.postCode" />
             </a-form-model-item>
-            <a-form-model-item label="服务热线" prop='serverPhone'>
+            <a-form-model-item label="服务热线" prop="serverPhone">
               <a-input v-model="form.serverPhone" />
             </a-form-model-item>
-            <a-form-model-item label="商务洽谈">
+            <a-form-model-item label="商务洽谈" prop="businessPhone">
               <a-input v-model="form.businessPhone" />
             </a-form-model-item>
             <a-form-model-item label="QQ号码">
@@ -155,7 +155,7 @@
             <a-form-model-item label="微博链接地址">
               <a-input v-model="form.webLink" />
             </a-form-model-item>
-            <a-form-model-item label="邮箱">
+            <a-form-model-item label="邮箱" prop='email'>
               <a-input v-model="form.email" />
             </a-form-model-item>
             <a-form-model-item label="公司账户开户行">
@@ -363,6 +363,16 @@ export default {
         ],
         serverPhone: [
           { min: 5, max: 20, message: '长度在0-20个字符内', trigger: 'blur' },
+        ],
+        businessPhone: [
+          { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
+        ],
+        email: [
+          {
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: 'blur',
+          },
         ],
       },
       loading: false,

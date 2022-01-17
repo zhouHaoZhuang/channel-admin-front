@@ -226,7 +226,7 @@ export default {
           .format('YYYY-MM-DD HH:mm:ss'),
         endTime: this.moment()
           .startOf('day')
-          .format('YYYY-MM-DD HH:mm:ss'),
+          .format('YYYY-MM-DD 23:59:59'),
       };
     },
     // 获取交易订单数
