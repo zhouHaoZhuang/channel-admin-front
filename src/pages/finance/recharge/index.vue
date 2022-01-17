@@ -255,7 +255,7 @@ export default {
           `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
             total / this.listQuery.pageSize
           )}  页`,
-        onChange: this.changepage,
+        onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange,
       },
       num: '',

@@ -11,12 +11,12 @@
         <a-form-model-item label="分类">
           <a-select v-model="form.helpTypeCode">
             <a-select-option
-              value="help_type_01"
+              value='{"typeCode":"help_type_01","typeName":"帮助中心"}'
             >
               <span> |-帮助中心</span>
             </a-select-option>
             <a-select-option
-              :value="item.typeCode"
+              :value="JSON.stringify({typeCode:item.typeCode, typeName:item.typeName})"
               v-for="(item, index) in arr"
               :key="index"
             >
@@ -154,7 +154,10 @@ export default {
           this.form.typeName = item.typeName;
         }
       });
-      console.log("提交", this.form);
+      this.form.helpTypeName = JSON.parse(this.form.helpTypeCode).typeName;
+      this.form.helpTypeCode = JSON.parse(this.form.helpTypeCode).typeCode;
+      // console.log("提交的数据", this.form);
+      
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loading = true;
