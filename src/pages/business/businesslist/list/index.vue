@@ -335,7 +335,7 @@ export default {
         },
         {
           title: '会员手机号',
-          dataIndex: 'phoneNumber',
+          dataIndex: 'corporationPhone',
         },
         {
           title: '订单ID',
@@ -356,7 +356,7 @@ export default {
         {
           title: '会员手机号',
           width: 130,
-          dataIndex: 'phoneNumber',
+          dataIndex: 'corporationPhone',
         },
         {
           title: '订单ID',
@@ -481,6 +481,7 @@ export default {
     // 查询
     search() {
       this.listQuery.search = this.listQuery.search.trim();
+      console.log(this.listQuery);
       this.selectkey[this.listQuery.key] = this.listQuery.search;
       this.getList();
     },

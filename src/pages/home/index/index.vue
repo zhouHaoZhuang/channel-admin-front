@@ -98,8 +98,7 @@
                 早安，云小二 [超级管理员]，祝你开心每一天！
               </div>
               <div class="info">
-                您的上次登录信息: {{userInfo.lastIP}} (IP地址) {{userInfo.lastLogin}}
-                <!-- {{'2022-01-17T07:20:03' | formatDate}} -->
+                您的上次登录信息: {{userInfo.lastIP}} (IP地址) {{userInfo.lastLogin | formatDate}}
                 (登录时间)
               </div>
             </div>
@@ -193,9 +192,9 @@ export default {
     this.getMessageList();
   },
   mounted() {
-    this.userInfo.lastLogin = moment(this.userInfo.lastLogin).format(
-      'YYYY-MM-DD HH:mm:ss'
-    );
+    this.userInfo.lastLogin = this.userInfo.lastLogin.slice(0, 19);
+    console.log(this.userInfo.lastLogin, '后');  
+
   },
   methods: {
     currentMonth() {
