@@ -35,7 +35,7 @@ const category = {
     edit({ commit, state }, data) {
       return request({
         url: `/ccHelpType/${data.id}`,
-        method: "put",
+        method: "patch",
         data
       });
     },

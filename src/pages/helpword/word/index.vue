@@ -162,7 +162,7 @@ export default {
         },
         {
           title: "分类",
-          dataIndex: "helpTypeCode",
+          dataIndex: "helpTypeName",
           key: "",
         },
         {

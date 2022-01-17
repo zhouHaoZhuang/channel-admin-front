@@ -9,10 +9,10 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="名称">
-            <span :v-model="form.typeName">备案指南</span>
+            <span >{{typeName}}</span>
         </a-form-model-item>
-        <a-form-model-item label="热点" prop="typeNameEn">
-          <a-input v-model="form.typeNameEn" />
+        <a-form-model-item label="热点" prop="typeSort">
+          <a-input v-model="form.typeSort" />
           <span>注:数字越大位置越前</span>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
@@ -32,25 +32,11 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 6 },
       form: {
-        bannerType: 0,
-        title: "",
-        describe: "",
-        display: true,
-        pcButtonName: "",
-        pcButtonLink: "",
-        openLinkType: "",
-        status: 0,
-        typeSort: 0,
-        typeIcon: "",
-        typeNameEn: "",
-        typeName: "",
-        typeCode: "",
-        parentCode: "",
-        channelCode: "",
-        phonePicture: ""
+        typeSort: "",
+        
       },
       rules: {
-        typeNameEn: [
+        typeSort: [
           {
             required: true,
             message: "必填，排序范围在0-100之间，数值越大越靠前。",
@@ -58,10 +44,12 @@ export default {
           }
         ]
       },
-      loading: false
+      loading: false,
+      typeName: "",
     };
   },
-  components: {
+  activated() {
+    this.typeName = this.$route.query.typeName;
   },
   methods: {
     // 提交
@@ -78,7 +66,9 @@ export default {
     // 重置表单数据
     resetForm() {
       this.$refs.ruleForm.clearValidate();
-      this.form = {};
+      this.form = {
+         typeSort: "",
+      };
     }
   }
 };

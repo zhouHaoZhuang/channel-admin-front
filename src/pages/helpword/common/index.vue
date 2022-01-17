@@ -29,8 +29,8 @@
           <div v-else class="dot dot-err"></div>
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
-        <span slot="action" slot-scope="text">
-          <a-button type="link" @click="updatePrice(text)">
+        <span slot="action" slot-scope="text,record">
+          <a-button type="link" @click="updatePrice(text,record.typeName)">
             修改
           </a-button>
         </span>
@@ -66,8 +66,8 @@ export default {
         },
         {
           title: "热点",
-          dataIndex: "typeNameEn",
-          key: "typeNameEn"
+          dataIndex: "typeSort",
+          key: "typeSort"
         },
         {
           title: "操作",
@@ -132,11 +132,12 @@ export default {
       this.$router.push("/personal/helpword/add-category");
     },
     //修改
-    updatePrice(text) {
+    updatePrice(id,typeName) {
       this.$router.push({
         path: "/personal/helpword/amend-common",
         query: {
-          id: text
+          id,
+          typeName
         }
       });
     },
