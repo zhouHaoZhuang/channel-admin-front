@@ -82,16 +82,16 @@
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div slot="payTime" slot-scope="text">
+          <div slot="payTime" slot-scope="text,record" v-if="record.tradeStatus == 9">
             {{ text | formatDate }}
           </div>
-          <div
-            :class="{ green: text === 1, blue: text !== 1 }"
+          <span
+            :class="{ green: text === 9, blue: text !== 9 }"
             slot="tradeStatus"
             slot-scope="text"
           >
             {{ orderStatusEnum[text] }}
-          </div>
+          </span>
           <div slot="action" slot-scope="text, record">
             <a-button type="link" @click="handleSelectDetail(record)">
               查看
@@ -162,7 +162,7 @@ export default {
         {
           title: "状态",
           dataIndex: "tradeStatus",
-          width: 100,
+          width: 130,
           scopedSlots: { customRender: "tradeStatus" }
         },
         {
@@ -314,7 +314,7 @@ export default {
       background-color: rgb(115, 209, 61);
       color: rgb(255, 255, 255);
       font-size: 12px;
-      width: 52px;
+      padding: 2px 5px;
       height: 20px;
       text-align: center;
       line-height: 20px;
@@ -324,7 +324,7 @@ export default {
       background-color: rgb(64, 169, 255);
       color: rgb(255, 255, 255);
       font-size: 12px;
-      width: 52px;
+      padding: 2px 5px;
       height: 20px;
       text-align: center;
       line-height: 20px;

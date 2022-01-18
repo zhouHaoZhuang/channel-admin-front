@@ -89,6 +89,9 @@
           <div slot="afterAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
+          <div slot="beforeAmount" slot-scope="text">
+            {{ text.toFixed(2) }}
+          </div>
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
@@ -97,6 +100,9 @@
           </div>
           <div slot-scope="text" slot="status">
             {{ detailTypeMapData[text] }}
+          </div>
+          <div slot-scope="text" slot="type" v-if="text">
+            {{text == 'I'? '收入': '支出'}}
           </div>
           <div slot="action" slot-scope="text">
             <a-button type="link" @click="selectPool(text)">
@@ -147,8 +153,18 @@ export default {
           dataIndex: 'dealAmount',
           scopedSlots: { customRender: 'dealAmount' },
         },
+         {
+          title: '流水类型',
+          dataIndex: 'type',
+          scopedSlots: { customRender: 'type' },
+        },
         {
           title: '当时余额(元)',
+          dataIndex: 'beforeAmount',
+          scopedSlots: { customRender: 'beforeAmount' },
+        },
+        {
+          title: '余额(元)',
           dataIndex: 'afterAmount',
           scopedSlots: { customRender: 'afterAmount' },
         },

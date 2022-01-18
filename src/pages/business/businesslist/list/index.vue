@@ -296,7 +296,7 @@ export default {
       },
       titleList: [
         {
-          key: 1,
+          key: '',
           title: '正常',
         },
         {
@@ -307,10 +307,10 @@ export default {
           key: 3,
           title: '已到期',
         },
-        {
-          key: -1,
-          title: '已删除',
-        },
+        // {
+        //   key: -1,
+        //   title: '已删除',
+        // },
       ],
       selectkey: {
         corporationName: '',
@@ -322,7 +322,7 @@ export default {
         pageSize: '10',
         saleTimeSort: '',
         sort: '',
-        runningStatus: 1,
+        runningStatus: '',
       },
       searchColumns: [
         {

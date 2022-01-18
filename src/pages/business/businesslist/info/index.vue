@@ -179,9 +179,11 @@
                 </span>
                 <span slot="info"
                       slot-scope="text">
-                  {{'cpu:' + text.cpu + '核，内存:' + text.memory + 'G，硬盘:' + text.systemSize + 'G，带宽:' + text.internetMaxBandwidthOut + 'M'}}
+                  {{'cpu:' + text.cpu + '核，内存:' + text.memory + 'G，硬盘:' + text.dataDisk[0].size + 'G，带宽:' + text.internetMaxBandwidthOut + 'M'}}
                 </span>
-
+                <div slot-scope="text" slot="createTime" v-if="text">
+                  {{ text | formatDate }}
+                </div>
                 <span slot="query"
                       slot-scope="text">
                   <a-button type="link"
@@ -236,15 +238,18 @@ export default {
         },
         {
           title: "类型",
-          dataIndex: "tradeCode",
+          dataIndex: "tradeType",
         },
         {
           title: "时间",
-          dataIndex: "purchaseTimeStr",
+          dataIndex: "createTime",
+          scopedSlots: {
+            customRender: "createTime"
+          }
         },
         {
           title: "订单金额",
-          dataIndex: "discountAmount",
+          dataIndex: "actualAmount",
           scopedSlots: {
             customRender: "discountAmount",
           },
@@ -252,6 +257,7 @@ export default {
         {
           title: "配置信息",
           key: "info",
+          dataIndex: "productConfig",
           scopedSlots: {
             customRender: "info",
           },
@@ -313,7 +319,7 @@ export default {
     let id = this.$route.query.id;
     // console.log(id);
     this.$store.dispatch("business/getOne", id).then((res) => {
-      this.dataOrder = [res.data];
+      this.dataOrder = res.data.orderLineLogResDto;
       this.data = res.data;
       console.log(res);
     });
