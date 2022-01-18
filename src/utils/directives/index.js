@@ -152,9 +152,11 @@ export const permission = Vue.directive("permission", {
     const { value, modifiers } = binding;
     const perms = store.state.user.perms;
     const routeMetaPrem = store.state.setting.routeMetaPrem;
-    const routePermActions = perms.find(
+    const routePermObj = perms.find(
       ele => ele.code.replace(":*", "") === routeMetaPrem
-    ).actions;
+    );
+    const routePermActions =
+      routePermObj !== undefined ? routePermObj.actions : "";
     // console.log(el, value, modifiers, perms, routeMetaPrem);
     console.log(value, routePermActions);
     // 如果是所有权限的话，直接放行，*代表所有权限
