@@ -335,7 +335,7 @@ export default {
         },
         {
           title: '会员手机号',
-          dataIndex: 'corporationPhone',
+          dataIndex: 'phoneNumber',
         },
         {
           title: '订单ID',
@@ -356,7 +356,7 @@ export default {
         {
           title: '会员手机号',
           width: 130,
-          dataIndex: 'corporationPhone',
+          dataIndex: 'phoneNumber',
         },
         {
           title: '订单ID',
