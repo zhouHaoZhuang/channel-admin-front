@@ -22,7 +22,7 @@
         </li>
         <li>
           <span>支付时间:</span>
-          <span>{{ orderInfo.payTime | formatDate }}</span>
+          <span v-if="orderInfo.tradeStatus == 9">{{ orderInfo.payTime | formatDate }}</span>
         </li>
       </ul>
       <div class="config">
