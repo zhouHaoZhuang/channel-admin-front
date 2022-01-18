@@ -162,23 +162,31 @@ export default {
     // 上传图片
     handleImgChange(info) {
       const { fileList } = info;
-      this.fileList = fileList;
-      const urlList =
-        fileList
-          .filter(item => item.response || item.url)
-          .map(item => item.response?.data || item.url) || [];
-      const firstImageUrl =
-        urlList.length && urlList.length > 0 ? urlList[0] : "";
-      this.imageList = this.$clonedeep(fileList).map(item => {
-        return {
-          ...item,
-          url: item.url || item.response?.data
-        };
+      this.fileList = this.$clonedeep(fileList);
+      let successCount = 0;
+      fileList.forEach(ele => {
+        if (ele.status === "done") {
+          successCount += 1;
+        }
       });
-      this.$emit("change", {
-        urlList, // 图片列表
-        firstImageUrl // 图片列表第一张图片
-      });
+      if (successCount === fileList.length) {
+        const urlList =
+          fileList
+            .filter(item => item.response || item.url)
+            .map(item => item.response?.data || item.url) || [];
+        const firstImageUrl =
+          urlList.length && urlList.length > 0 ? urlList[0] : "";
+        this.imageList = this.$clonedeep(fileList).map(item => {
+          return {
+            ...item,
+            url: item.url || item.response?.data
+          };
+        });
+        this.$emit("change", {
+          urlList, // 图片列表
+          firstImageUrl // 图片列表第一张图片
+        });
+      }
     },
     // 删除图片
     delImg(data) {
