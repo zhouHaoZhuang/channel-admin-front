@@ -14,8 +14,8 @@
         <a-form-model-item label="英文名" prop="newTypeEn">
           <a-input v-model="form.newTypeEn" />
         </a-form-model-item>
-        <a-form-model-item label="排序">
-          <a-input v-model="form.sort" />
+        <a-form-model-item label="排序" prop="sort">
+          <a-input-number v-model="form.sort" />
           注：数字越小越靠前
         </a-form-model-item>
         <a-form-model-item label="状态" prop="status">
@@ -45,36 +45,43 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 15 },
       form: {
-        newTypeName: "",
-        newTypeEn: "",
-        sort: "",
+        newTypeName: '',
+        newTypeEn: '',
+        sort: '',
         status: 0,
       },
       rules: {
         newTypeName: [
           {
             required: true,
-            message: "请输入名称",
-            trigger: "blur",
+            message: '请输入名称',
+            trigger: 'blur',
           },
         ],
         newTypeEn: [
           {
             required: true,
-            message: "英文名选项必填",
-            trigger: "blur",
+            message: '英文名选项必填',
+            trigger: 'blur',
           },
           {
             pattern: /^[a-zA-Z0-9_.]+$/,
-            message: "必须输入英文名",
-            trigger: "blur",
+            message: '必须输入英文名',
+            trigger: 'blur',
           },
         ],
         status: [
           {
             required: true,
-            message: "请选择状态",
-            trigger: "blur",
+            message: '请选择状态',
+            trigger: 'blur',
+          },
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '请输入数字',
+            trigger: 'blur',
           },
         ],
       },
@@ -91,9 +98,9 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("newsType/addList", this.form)
+            .dispatch('newsType/addList', this.form)
             .then((res) => {
-              this.$message.success("新增渠道成功");
+              this.$message.success('新增渠道成功');
               this.resetForm();
               this.$router.back();
             })
@@ -107,9 +114,9 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        newTypeName: "",
-        newTypeEn: "",
-        sort: "",
+        newTypeName: '',
+        newTypeEn: '',
+        sort: '',
         status: 0,
       };
     },
