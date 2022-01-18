@@ -51,7 +51,7 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table> -->
     <div class="placeholder"></div>
-    <div v-if="data.status" v-show="data.status==0">
+    <div v-if="data.status" v-show="data.status*1==0">
       <h1 class="details-title">审核</h1>
       <a-form-model
         ref="ruleForm"
