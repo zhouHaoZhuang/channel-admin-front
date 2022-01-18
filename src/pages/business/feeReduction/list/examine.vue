@@ -14,51 +14,33 @@
                 <span class="basicInformation-info">{{ detail.innerIp }}</span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">订单类型:</span
-                ><span class="basicInformation-info">{{
-                  address(detail.regionId) || detail.regionId
-                }}</span>
+                <span class="basicInformation-type">订单类型:</span>
+                <span class="basicInformation-info">
+                  {{ regionDataEnum[detail.regionId] }}
+                </span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">创建时间:</span
-                ><span class="basicInformation-info"> {{ detail.createTimeStr }}</span>
+                <span class="basicInformation-type">创建时间:</span>
+                <span class="basicInformation-info">
+                  {{ detail.createTimeStr }}
+                </span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">状态:</span
-                ><span class="basicInformation-info">{{ detail.runningStatus }}</span>
+                <span class="basicInformation-type">状态:</span>
+                <span class="basicInformation-info">
+                  {{ runningStatusEnum[detail.runningStatus] }}
+                </span>
               </div>
               <div class="basicInformation-item">
-                <span class="basicInformation-type">执行时间:</span
-                ><span class="basicInformation-info">{{ detail.createTimeStr }} </span>
+                <span class="basicInformation-type">执行时间:</span>
+                <span class="basicInformation-info">
+                  {{ detail.createTimeStr }}
+                </span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">回退金额:</span
                 ><span class="basicInformation-info"> {{ detail.osName }}</span>
               </div>
-              <!-- 运行状态 -->
-              <!-- <div class="basicInformation-item">
-                <span class="basicInformation-type">运行状态：</span
-                ><span
-                  class="basicInformation-info basicInformation-info-ash"
-                  v-if="detail.runningStatus == 0"
-                  >黑洞中</span
-                >
-                <span
-                  class="basicInformation-info basicInformation-info-run"
-                  v-else-if="detail.runningStatus == 1"
-                  >运行中</span
-                >
-                <span
-                  class="basicInformation-info basicInformation-info-ash"
-                  v-else-if="detail.runningStatus == 2"
-                  >已关机</span
-                >
-                <span
-                  class="basicInformation-info basicInformation-info-ash"
-                  v-else-if="detail.runningStatus == 3"
-                  >已过期</span
-                >
-              </div> -->
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -69,7 +51,9 @@
             <div class="basicInformation">
               <div class="basicInformation-item">
                 <span class="basicInformation-type">产品名称:</span
-                ><span class="basicInformation-info"> {{ detail.instanceName }}</span>
+                ><span class="basicInformation-info">
+                  {{ detail.instanceName }}</span
+                >
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">类型:</span
@@ -82,15 +66,21 @@
                 <span class="basicInformation-type">内存:</span>
                 <span class="basicInformation-info"> {{ detail.memory }}</span>
                 <span class="basicInformation-type">磁盘:</span>
-                <span class="basicInformation-info"> {{ detail.dataDisk.size }}</span>
+                <span class="basicInformation-info">
+                  {{ detail.dataDisk.size }}</span
+                >
                 <span class="basicInformation-type">带宽:</span>
-                <span class="basicInformation-info"> {{ detail.internetMaxBandwidthOut }}</span>
+                <span class="basicInformation-info">
+                  {{ detail.internetMaxBandwidthOut }}</span
+                >
                 <span class="basicInformation-type">防御:</span>
                 <span class="basicInformation-info"> {{ detail.memory }}</span>
                 <span class="basicInformation-type">操作系统:</span>
                 <span class="basicInformation-info"> {{ detail.memory }}</span>
                 <span class="basicInformation-type">所在区:</span>
-                <span class="basicInformation-info"> {{ detail.regionId }}</span>
+                <span class="basicInformation-info">
+                  {{ regionDataEnum[detail.regionId] }}</span
+                >
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数量:</span
@@ -266,13 +256,14 @@
 </template>
 
 <script>
-import { regionDataEnum } from "@/utils/enum";
+import { regionDataEnum, runningStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
+      regionDataEnum,
+      runningStatusEnum,
       dataOrder: null,
       detail: {},
-      regionDataEnum,
       columnsOrder: [
         {
           title: "订单编号",
@@ -341,9 +332,6 @@ export default {
   methods: {
     selectInfo(text) {
       console.log(text);
-    },
-    address(text) {
-      return this.regionDataEnum[text];
     }
   },
   created() {
@@ -363,7 +351,7 @@ export default {
       this.detail = { ...res.data };
       console.log(res);
     });
-  },
+  }
 };
 </script>
 
