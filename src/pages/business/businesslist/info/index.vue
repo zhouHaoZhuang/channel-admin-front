@@ -294,7 +294,7 @@ export default {
         },
         {
           title: '查看',
-          dataIndex: 'id',
+          dataIndex: 'orderNo',
           key: 'query',
           scopedSlots: {
             customRender: 'query',
