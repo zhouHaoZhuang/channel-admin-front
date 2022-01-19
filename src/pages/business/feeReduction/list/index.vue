@@ -54,8 +54,18 @@
         :pagination="paginationProps"
         :scroll="{ x: 1200 }"
       >
-        <!-- <div slot="runningStatus" slot-scope="text">
-          {{ runningStatusEnum[text] }}
+        <!-- 类型/到期时间 -->
+        <div slot="endTimeStr" slot-scope="text">
+          <div>包年包月</div>
+          <div>{{ text }}</div>
+        </div>
+        <!-- 自动续费/周期 -->
+        <!-- <div slot="autoRenew" slot-scope="text, record">
+          <span v-if="text === 0" style="color: red">未开通</span>
+          <span v-if="text === 1" style="color: #2bbe22">已开通</span>
+          <span v-if="text === 1">
+            /{{ record.renewPeriod }}{{ getAutoRenewUnit(record.renewUnit) }}
+          </span>
         </div> -->
         <div slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleSelectDetail(record)">
@@ -102,16 +112,21 @@ export default {
           title: "创建时间",
           dataIndex: "createTimeStr"
         },
+        {
+          title: "类型/到期日期",
+          dataIndex: "endTimeStr",
+          width: 190,
+          sorter: (a, b) => moment(a.endTimeStr) - moment(b.endTimeStr),
+          scopedSlots: { customRender: "endTimeStr" },
+          select: true
+        },
         // {
-        //   title: "执行时间",
-        //   dataIndex: "endTimeStr",
-        //   sorter: true,
-        //   sortOrder: true
-        // },
-        // {
-        //   title: "状态",
-        //   dataIndex: "runningStatus",
-        //   scopedSlots: { customRender: "runningStatus" }
+        //   title: "自动续费/周期",
+        //   dataIndex: "autoRenew",
+        //   width: 150,
+        //   sorter: (a, b) => a.renewPeriod - b.renewPeriod,
+        //   scopedSlots: { customRender: "autoRenew" },
+        //   select: true
         // },
         {
           title: "操作",
