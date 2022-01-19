@@ -60,13 +60,13 @@
           <div>{{ text }}</div>
         </div>
         <!-- 自动续费/周期 -->
-        <!-- <div slot="autoRenew" slot-scope="text, record">
+        <div slot="autoRenew" slot-scope="text, record">
           <span v-if="text === 0" style="color: red">未开通</span>
           <span v-if="text === 1" style="color: #2bbe22">已开通</span>
           <span v-if="text === 1">
             /{{ record.renewPeriod }}{{ getAutoRenewUnit(record.renewUnit) }}
           </span>
-        </div> -->
+        </div>
         <div slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleSelectDetail(record)">
             查看
@@ -120,14 +120,14 @@ export default {
           scopedSlots: { customRender: "endTimeStr" },
           select: true
         },
-        // {
-        //   title: "自动续费/周期",
-        //   dataIndex: "autoRenew",
-        //   width: 150,
-        //   sorter: (a, b) => a.renewPeriod - b.renewPeriod,
-        //   scopedSlots: { customRender: "autoRenew" },
-        //   select: true
-        // },
+        {
+          title: "自动续费/周期",
+          dataIndex: "autoRenew",
+          width: 150,
+          sorter: (a, b) => a.renewPeriod - b.renewPeriod,
+          scopedSlots: { customRender: "autoRenew" },
+          select: true
+        },
         {
           title: "操作",
           dataIndex: "action",
