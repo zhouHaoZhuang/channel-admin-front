@@ -1,7 +1,7 @@
 <template>
   <div class="feeRed-container">
     <div class="feeRed-title">
-      <a-space>
+        <a-space>
         <a-select
           v-model="listQuery.key"
           style="width:120px"
@@ -18,7 +18,7 @@
         <span>
           <a-input v-model="listQuery.search" placeholder="搜索关键词" />
         </span>
-        <!-- <a-select
+       <a-select
         v-model="listQuery.runningStatus"
         style="width:120px"
         allowClear
@@ -31,19 +31,18 @@
         >
           {{ value }}
         </a-select-option>
-      </a-select> -->
-        <div>
-          <a-range-picker
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            :placeholder="['开始时间', '结束时间']"
-            @change="datePickerOnOk"
-          />
-        </div>
-        <a-button type="primary" @click="handleSearch">
-          查询
-        </a-button>
-      </a-space>
+      </a-select>
+      <div>
+        <a-range-picker
+          show-time
+          format="YYYY-MM-DD HH:mm:ss"
+          :placeholder="['开始时间', '结束时间']"
+          @change="datePickerOnOk"
+        />
+      </div>
+      <a-button type="primary" @click="handleSearch">
+        查询
+      </a-button>
     </div>
     <div class="feeRed-table">
       <a-table
@@ -55,7 +54,7 @@
         :scroll="{ x: 1200 }"
       >
         <!-- <div slot="runningStatus" slot-scope="text">
-          {{ runningStatusEnum[text] }}
+          {{ renewalStatusEnum[text] }}
         </div> -->
         <div slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleSelectDetail(record)">
@@ -73,7 +72,7 @@ import { runningStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
-      runningStatusEnum,
+      runningStatusEnum ,
       listQuery: {
         key: undefined,
         search: "",
@@ -144,6 +143,7 @@ export default {
       this.tableLoading = true;
       this.$getList("renew/getList", this.listQuery)
         .then(res => {
+          console.log(res);
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -157,6 +157,7 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
+      console.log(value);
       if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
