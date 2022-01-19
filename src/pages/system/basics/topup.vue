@@ -224,7 +224,7 @@ export default {
       this.form.accountType = "ali";
       this.form.accountConfig = {
         aliAppId: this.form.aliAppId,
-        merchantPprivateKey: this.form.merchantPrivateKey,
+        merchantPrivateKey: this.form.merchantPrivateKey,
         alipayPublicKey: this.form.alipayPublicKey,
       };
       // console.log(this.form);

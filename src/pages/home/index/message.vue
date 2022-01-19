@@ -9,13 +9,16 @@
     </div>
     <div class="btns">
       <a-space>
-        <a-button :disabled="selectedRowKeys.length === 0" @click="haveRread"
-          >标记为已读</a-button
-        >
+        <a-button type="primary" @click="addMessage">
+          发送消息
+        </a-button>
+        <a-button :disabled="selectedRowKeys.length === 0" @click="haveRread">
+          标记为已读
+        </a-button>
         <a-button @click="readAll">全部标记为已读</a-button>
-        <a-button :disabled="selectedRowKeys.length === 0" @click="delmessage"
-          >删除</a-button
-        >
+        <a-button :disabled="selectedRowKeys.length === 0" @click="delmessage">
+          删除
+        </a-button>
       </a-space>
     </div>
     <div class="table-con">
@@ -115,6 +118,9 @@ export default {
           console.log(val);
           this.getList();
         });
+    },
+    addMessage() {
+      this.$router.push('/dashboard/index/addDetail');
     },
     // 批量删除
     delmessage() {

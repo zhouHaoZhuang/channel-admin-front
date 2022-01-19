@@ -144,20 +144,20 @@ export default {
     Tinymce,
   },
   created() {
-    this.getList();
     this.form.id = this.$route.query.id;
+    this.getList();
   },
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch('page/getList').then((res) => {
-        console.log(res);
-        this.data = res.data.list;
+      this.$store.dispatch('page/getId',this.form.id).then((res) => {
+        // console.log(res);
+        this.form = res.data;
       });
     },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
-      console.log('上传图片回调', urlList, firstImageUrl);
+      // console.log('上传图片回调', urlList, firstImageUrl);
       this.form.bannerPicture = firstImageUrl;
     },
     //上传富文本

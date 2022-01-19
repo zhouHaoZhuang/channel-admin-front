@@ -1,15 +1,15 @@
 <template>
   <div class="basic-container">
     <div class="content">
-      <a-collapse default-active-key="1" :bordered="false" class="aa">
-        <a-collapse-panel key="1" header="网站基本信息">
-          <a-form-model
-            ref="ruleForm"
-            :model="form"
-            :rules="rules"
-            :label-col="labelCol"
-            :wrapper-col="wrapperCol"
-          >
+      <a-form-model
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+      >
+        <a-collapse default-active-key="1" :bordered="false" class="aa">
+          <a-collapse-panel key="1" header="网站基本信息">
             <a-form-model-item
               ref="websiteName"
               label="网站名称"
@@ -41,16 +41,8 @@
             <a-form-model-item label="统计代码">
               <a-input v-model="form.statisticalCode" type="textarea" />
             </a-form-model-item>
-          </a-form-model>
-        </a-collapse-panel>
-        <a-collapse-panel key="2" header="网站模板">
-          <a-form-model
-            ref="ruleForm"
-            :model="form"
-            :rules="rules"
-            :label-col="labelCol"
-            :wrapper-col="wrapperCol"
-          >
+          </a-collapse-panel>
+          <a-collapse-panel key="2" header="网站模板">
             <a-form-model-item label="主题风格">
               <a-row :gutter="2">
                 <a-col :span="7">
@@ -111,16 +103,8 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-          </a-form-model>
-        </a-collapse-panel>
-        <a-collapse-panel key="3" header="公司基本信息">
-          <a-form-model
-            ref="ruleForm"
-            :model="form"
-            :rules="rules"
-            :label-col="labelCol"
-            :wrapper-col="wrapperCol"
-          >
+          </a-collapse-panel>
+          <a-collapse-panel key="3" header="公司基本信息">
             <a-form-model-item label="公司名称" prop="companyName">
               <a-input v-model="form.companyName" />
             </a-form-model-item>
@@ -155,7 +139,7 @@
             <a-form-model-item label="微博链接地址">
               <a-input v-model="form.webLink" />
             </a-form-model-item>
-            <a-form-model-item label="邮箱" prop='email'>
+            <a-form-model-item label="邮箱" prop="email">
               <a-input v-model="form.email" />
             </a-form-model-item>
             <a-form-model-item label="公司账户开户行">
@@ -164,16 +148,8 @@
             <a-form-model-item label="公司银行账号">
               <a-input v-model="form.bankAccount" />
             </a-form-model-item>
-          </a-form-model>
-        </a-collapse-panel>
-        <a-collapse-panel key="4" header="网站logo信息">
-          <a-form-model
-            ref="ruleForm"
-            :model="form"
-            :rules="rules"
-            :label-col="labelCol"
-            :wrapper-col="wrapperCol"
-          >
+          </a-collapse-panel>
+          <a-collapse-panel key="4" header="网站logo信息">
             <div class="addimages">
               <a-form-model-item label="上传用户中心小LOGO">
                 <Upload
@@ -245,18 +221,10 @@
                 />
               </a-form-model-item>
             </div>
-          </a-form-model>
-        </a-collapse-panel>
-      </a-collapse>
-      <div class="backstage">
-        <!-- 后台操作保护 -->
-        <a-form-model
-          ref="ruleForm"
-          :model="form"
-          :rules="rules"
-          :label-col="labelCol"
-          :wrapper-col="wrapperCol"
-        >
+          </a-collapse-panel>
+        </a-collapse>
+        <div class="backstage">
+          <!-- 后台操作保护 -->
           <!-- <a-form-model-item label="管理员密码" prop="linkName">
             <a-input v-model="form.linkName" />
           </a-form-model-item> -->
@@ -265,8 +233,8 @@
               保存设置
             </a-button>
           </a-form-model-item>
-        </a-form-model>
-      </div>
+        </div>
+      </a-form-model>
     </div>
   </div>
 </template>
@@ -362,7 +330,12 @@ export default {
           { min: 0, max: 6, message: '长度在0-6个字符内', trigger: 'blur' },
         ],
         serverPhone: [
-          { min: 5, max: 20, message: '长度在0-20个字符内', trigger: 'blur' },
+          {
+            required: true,
+            message: '必填，服务热线格式可由短横杆（-）、半角括号()、数字、英文字母组成，多个服务热线请使用 / 分隔，且长度在5-30个字符内',
+            trigger: 'blur',
+          },
+          { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
         ],
         businessPhone: [
           { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
@@ -397,6 +370,7 @@ export default {
     onSubmit() {
       console.log(this.form);
       this.$refs.ruleForm.validate((valid) => {
+        console.log(valid);
         if (valid) {
           this.$store
             .dispatch('globalBasic/amendInfo', this.form)

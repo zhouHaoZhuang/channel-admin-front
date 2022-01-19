@@ -40,13 +40,6 @@ export const paymentTypeMap = {
   3: "下单",
   4: "退款"
 };
-// // 地域map数据
-// export const regionDataEnum = {
-//   "cn-hangzhou": "杭州",
-//   "cn-dalian": "大连",
-//   "cn-beijing": "北京",
-//   "cn-shanghai": "上海"
-// };
 // 地域列表map
 export const regionDataEnum = {
   "cn-qingdao": "华北1（青岛）",

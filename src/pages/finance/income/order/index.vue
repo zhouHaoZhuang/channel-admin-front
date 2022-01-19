@@ -79,19 +79,19 @@
           <div slot="tradeType" slot-scope="text">
             <span>{{ orderTypeMap[text] }}</span>
           </div>
-          <div slot="createTime" slot-scope="text">
+          <div slot="createTime" slot-scope="text" v-if="text">
             {{ text | formatDate }}
           </div>
-          <div slot="payTime" slot-scope="text">
+          <div slot="payTime" slot-scope="text" v-if="text">
             {{ text | formatDate }}
           </div>
-          <div
-            :class="{ green: text === 1, blue: text !== 1 }"
+          <span
+            :class="{ green: text === 9, blue: text !== 9 }"
             slot="tradeStatus"
             slot-scope="text"
           >
             {{ orderStatusEnum[text] }}
-          </div>
+          </span>
           <div slot="action" slot-scope="text, record">
             <a-button type="link" @click="handleSelectDetail(record)">
               查看
@@ -110,8 +110,8 @@
 </template>
 
 <script>
-import moment from "moment";
-import { orderStatusEnum, orderTypeMap } from "@/utils/enum.js";
+import moment from 'moment';
+import { orderStatusEnum, orderTypeMap } from '@/utils/enum.js';
 export default {
   data() {
     return {
@@ -119,82 +119,82 @@ export default {
       orderTypeMap,
       listQuery: {
         key: undefined,
-        search: "",
-        startTime: "",
-        endTime: "",
+        search: '',
+        startTime: '',
+        endTime: '',
         tradeType: undefined,
         tradeStatus: undefined,
         currentPage: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
       },
       tableLoading: false,
       columns: [
         {
-          title: "订单编号",
-          dataIndex: "orderNo",
-          width: 170
-        },
-        {
-          title: "会员ID",
-          dataIndex: "corporationCode",
+          title: '订单编号',
+          dataIndex: 'orderNo',
           width: 170,
-          scopedSlots: { customRender: "corporationCode" }
         },
         {
-          title: "订单类型",
-          dataIndex: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
-          width: 130
+          title: '会员ID',
+          dataIndex: 'corporationCode',
+          width: 170,
+          scopedSlots: { customRender: 'corporationCode' },
         },
         {
-          title: "原价",
-          dataIndex: "originAmount",
-          scopedSlots: { customRender: "originAmount" },
-          width: 100
+          title: '订单类型',
+          dataIndex: 'tradeType',
+          scopedSlots: { customRender: 'tradeType' },
+          width: 130,
         },
         {
-          title: "价格",
-          dataIndex: "actualAmount",
-          scopedSlots: { customRender: "actualAmount" },
-          width: 100
-        },
-        {
-          title: "状态",
-          dataIndex: "tradeStatus",
+          title: '原价',
+          dataIndex: 'originAmount',
+          scopedSlots: { customRender: 'originAmount' },
           width: 100,
-          scopedSlots: { customRender: "tradeStatus" }
         },
         {
-          title: "现金支付",
-          dataIndex: "cashPay",
-          scopedSlots: { customRender: "cashPay" }
+          title: '价格',
+          dataIndex: 'actualAmount',
+          scopedSlots: { customRender: 'actualAmount' },
+          width: 100,
         },
         {
-          title: "现金券支付",
-          dataIndex: "actualPrice",
-          scopedSlots: { customRender: "actualPrice" }
+          title: '状态',
+          dataIndex: 'tradeStatus',
+          width: 130,
+          scopedSlots: { customRender: 'tradeStatus' },
         },
         {
-          title: "创建时间",
-          dataIndex: "createTime",
+          title: '现金支付',
+          dataIndex: 'cashPay',
+          scopedSlots: { customRender: 'cashPay' },
+        },
+        {
+          title: '现金券支付',
+          dataIndex: 'actualPrice',
+          scopedSlots: { customRender: 'actualPrice' },
+        },
+        {
+          title: '创建时间',
+          dataIndex: 'createTime',
           width: 190,
-          scopedSlots: { customRender: "createTime" },
+          scopedSlots: { customRender: 'createTime' },
           sorter: true,
-          sortDirections: ["ascend", "descend"]
+          sortDirections: ['ascend', 'descend'],
         },
         {
-          title: "支付时间",
-          dataIndex: "payTime",
+          title: '支付时间',
+          dataIndex: 'payTime',
           width: 250,
-          scopedSlots: { customRender: "payTime" }
+          scopedSlots: { customRender: 'payTime' },
         },
         {
-          title: "操作",
-          dataIndex: "action",
-          fixed: "right",
-          scopedSlots: { customRender: "action" }
-        }
+          title: '操作',
+          dataIndex: 'action',
+          fixed: 'right',
+          scopedSlots: { customRender: 'action' },
+        },
       ],
       data: [],
       // 表格分页器配置
@@ -207,8 +207,8 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
-      }
+        onShowSizeChange: this.onShowSizeChange,
+      },
     };
   },
   activated() {
@@ -218,26 +218,26 @@ export default {
     useColumns() {
       return [
         {
-          title: "订单编号",
-          dataIndex: "orderNo",
-          key: "orderNo",
-          width: 170
+          title: '订单编号',
+          dataIndex: 'orderNo',
+          key: 'orderNo',
+          width: 170,
         },
         {
-          title: "会员ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150
-        }
+          title: '会员ID',
+          dataIndex: 'corporationCode',
+          key: 'corporationCode',
+          width: 150,
+        },
       ];
-    }
+    },
   },
   methods: {
     //查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$getList("financialOrder/getList", this.listQuery)
-        .then(res => {
+      this.$getList('financialOrder/getList', this.listQuery)
+        .then((res) => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -254,17 +254,17 @@ export default {
       console.log(value);
       if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
-          "YYYY-MM-DD HH:mm:ss"
+          'YYYY-MM-DD HH:mm:ss'
         );
-        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery.endTime = moment(value[1]).format('YYYY-MM-DD HH:mm:ss');
       } else {
-        this.listQuery.startTime = "";
-        this.listQuery.endTime = "";
+        this.listQuery.startTime = '';
+        this.listQuery.endTime = '';
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有
     disabledDate(current) {
-      return current > moment() || current < moment().subtract(1, "month");
+      return current > moment() || current < moment().subtract(1, 'month');
     },
     // 表格分页快速跳转n页
     quickJump(currentPage) {
@@ -280,13 +280,13 @@ export default {
     // 查看详情
     handleSelectDetail(record) {
       this.$router.push({
-        path: "/finance/index/orderInfo",
+        path: '/finance/index/orderInfo',
         query: {
-          id: record.orderNo
-        }
+          id: record.orderNo,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -302,7 +302,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type="button"] {
+    [type='button'] {
       margin-left: 20px;
     }
     .zhi {
@@ -314,7 +314,7 @@ export default {
       background-color: rgb(115, 209, 61);
       color: rgb(255, 255, 255);
       font-size: 12px;
-      width: 52px;
+      padding: 2px 5px;
       height: 20px;
       text-align: center;
       line-height: 20px;
@@ -324,7 +324,7 @@ export default {
       background-color: rgb(64, 169, 255);
       color: rgb(255, 255, 255);
       font-size: 12px;
-      width: 52px;
+      padding: 2px 5px;
       height: 20px;
       text-align: center;
       line-height: 20px;
