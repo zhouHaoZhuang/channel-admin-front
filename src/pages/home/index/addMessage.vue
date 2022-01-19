@@ -134,17 +134,19 @@ export default {
       this.form.receiverAccount = value.toString();
     },
     onSubmit() {
-			if (this.form.sendObject == 'all') {
-				this.form.receiverAccount = '';
-				this.data.forEach(element => {
-					this.form.receiverAccount += element.corporationCode + ',';
-				});
-			}
+      if (this.form.sendObject == 'all') {
+        this.form.receiverAccount = '';
+        this.data.forEach((element) => {
+          this.form.receiverAccount += element.corporationCode + ',';
+        });
+      }
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-					console.log(this.form);
+          console.log(this.form);
           this.$store.dispatch('message/addMessage', this.form).then((res) => {
             console.log(res);
+            // this.$message.success("新增消息成功");
+            this.$router.back();
           });
         } else {
           console.log('error submit!!');

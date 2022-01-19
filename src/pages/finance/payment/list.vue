@@ -262,7 +262,7 @@ export default {
       this.$getList("manualDeposit/getList", this.listQuery).then((res) => {
         console.log(res, "获取列表");
         this.data = res.data.list;
-        this.paginationProps.total = res.data.total * 1;
+        this.paginationProps.total = res.data.totalCount * 1;
       });
     },
     // 表格分页快速跳转n页
