@@ -313,7 +313,7 @@ export const asyncRoute = [
               },
               {
                 path: "feeReduction",
-                name: "续费列表",
+                name: "续费降配列表",
                 meta: {
                   icon: "home"
                 },
@@ -322,7 +322,7 @@ export const asyncRoute = [
               },
               {
                 path: "feeReduction-examine",
-                name: "续费列表详情",
+                name: "续费降配列表详情",
                 meta: {
                   invisible: true,
                   back: true
