@@ -1,7 +1,6 @@
 <template>
   <div class="feeRed-container">
     <div class="feeRed-title">
-        <a-space>
         <a-select
           v-model="listQuery.key"
           style="width:120px"
