@@ -79,6 +79,15 @@ export const asyncRoute = [
                   back: true
                 },
                 component: () => import("@/pages/home/index/detail")
+              },
+              {
+                path: "addMessage",
+                name: "添加消息",
+                meta: {
+                  invisible: true, // 不显示在左侧菜单
+                  back: true
+                },
+                component: () => import("@/pages/home/index/addMessage")
               }
             ]
           }

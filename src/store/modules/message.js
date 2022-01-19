@@ -53,6 +53,13 @@ const message = {
         method: 'get',
       });
     },
+    // 添加消息接口
+    addMessage({ commit, state }, data) {
+      return request({
+        url: `/messageRecord/onSite`,
+        method: 'post',
+      });
+    },
   },
 };
 
