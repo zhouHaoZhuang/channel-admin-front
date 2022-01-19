@@ -19,19 +19,19 @@
           <a-input v-model="listQuery.search" placeholder="搜索关键词" />
         </span>
         <!-- <a-select
-        v-model="listQuery.runningStatus"
-        style="width:120px"
-        allowClear
-        placeholder="状态"
-      >
-        <a-select-option
-          v-for="(value, key) in runningStatusEnum"
-          :key="key"
-          :value="key"
+          v-model="listQuery.runningStatus"
+          style="width:120px"
+          allowClear
+          placeholder="状态"
         >
-          {{ value }}
-        </a-select-option>
-      </a-select> -->
+          <a-select-option
+            v-for="(value, key) in runningStatusEnum"
+            :key="key"
+            :value="key"
+          >
+            {{ value }}
+          </a-select-option>
+        </a-select> -->
         <div>
           <a-range-picker
             show-time
@@ -159,6 +159,7 @@ export default {
       this.tableLoading = true;
       this.$getList("renew/getList", this.listQuery)
         .then(res => {
+          console.log(res);
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -172,6 +173,7 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
+      console.log(value);
       if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"

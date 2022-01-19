@@ -120,7 +120,7 @@ export default {
         });
     },
     addMessage() {
-      this.$router.push('/dashboard/index/addDetail');
+      this.$router.push('/dashboard/index/addMessage');
     },
     // 批量删除
     delmessage() {
