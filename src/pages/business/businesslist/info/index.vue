@@ -215,7 +215,7 @@
                   }}
                 </span>
                 <div slot-scope="text" slot="createTime" v-if="text">
-                  {{ text.slice(0, 19) | formatDate }}
+                  {{ text | formatDate }}
                 </div>
                 <div slot="tradeType" slot-scope="text">
                   {{orderTypeMap[text]}}

@@ -81,19 +81,6 @@ export default {
         receiverAccount: [],
       },
       rules: {
-        name: [
-          {
-            required: true,
-            message: 'Please input Activity name',
-            trigger: 'blur',
-          },
-          {
-            min: 3,
-            max: 5,
-            message: 'Length should be 3 to 5',
-            trigger: 'blur',
-          },
-        ],
         receiverAccount: [
           {
             required: true,
@@ -123,9 +110,7 @@ export default {
   components: {
     Tinymce,
   },
-  created() {
-    this.getVipList();
-  },
+
   activated() {
     this.getVipList();
   },
