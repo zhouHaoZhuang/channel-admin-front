@@ -5,7 +5,7 @@
         <p class="purchase-list-title">
           <span
             :class="{
-              'purchase-title-active': listQuery.status === text.key,
+              'purchase-title-active': listQuery.status === text.key
             }"
             v-for="(text, index) in titleList"
             :key="index"
@@ -104,7 +104,7 @@
                 blackhole: text == 9,
                 gray: text == 2,
                 lightGreen: text == 0,
-                yellow: text == 1,
+                yellow: text == 1
               }"
             >
               {{ detailTypeMapData[text] }}
@@ -146,63 +146,63 @@ export default {
         status: "",
         startTime: "",
         endTime: "",
-        accountType: "",
+        accountType: ""
       },
       titleList: [
         {
           key: "",
-          title: "全部",
+          title: "全部"
         },
         {
           key: 0,
-          title: "处理中",
+          title: "处理中"
         },
         {
           key: 9,
-          title: "审核成功",
+          title: "审核成功"
         },
         {
           key: 2,
-          title: "审核失败",
-        },
+          title: "审核失败"
+        }
       ],
       columns: [
         {
           title: "ID",
-          dataIndex: "id",
+          dataIndex: "id"
         },
         {
           title: "会员ID",
-          dataIndex: "applyUserCode",
+          dataIndex: "applyUserCode"
         },
         {
           title: "会员名称",
           dataIndex: "accountName",
-          key: "accountName",
+          key: "accountName"
         },
         {
           title: "款项类型",
           dataIndex: "accountType",
-          scopedSlots: { customRender: "accountType" },
+          scopedSlots: { customRender: "accountType" }
           // 2 线下充值 4 退款 1 在线充值 3 下单
         },
         {
           title: "申请金额",
           dataIndex: "amount",
-          key: "amount",
+          key: "amount"
         },
         {
           title: "申请时间",
           dataIndex: "createTime",
           width: 190,
-          scopedSlots: { customRender: "createTime" },
+          scopedSlots: { customRender: "createTime" }
         },
         { title: "备注信息", dataIndex: "memo", key: "" },
         {
           title: "处理状态",
           dataIndex: "status",
           key: "",
-          scopedSlots: { customRender: "status" },
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "操作",
@@ -210,8 +210,8 @@ export default {
           key: "action",
           fixed: "right",
           width: 100,
-          scopedSlots: { customRender: "action" },
-        },
+          scopedSlots: { customRender: "action" }
+        }
       ],
       data: [],
       paginationProps: {
@@ -223,9 +223,9 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
-      tableLoading: false,
+      tableLoading: false
     };
   },
   activated() {
@@ -246,7 +246,7 @@ export default {
     },
     businessOpening() {
       this.$router.push({
-        path: "/finance/examine/addpayment",
+        path: "/finance/examine/addpayment"
       });
     },
     changeRunningstatus(text) {
@@ -259,10 +259,10 @@ export default {
     },
     // 查询表格数据
     getList() {
-      this.$getList("manualDeposit/getList", this.listQuery).then((res) => {
+      this.$getList("manualDeposit/getList", this.listQuery).then(res => {
         console.log(res, "获取列表");
         this.data = res.data.list;
-        this.paginationProps.total = res.data.total * 1;
+        this.paginationProps.total = res.data.totalCount * 1;
       });
     },
     // 表格分页快速跳转n页
@@ -282,14 +282,14 @@ export default {
         path: "/finance/examine/details",
         query: {
           id,
-          applyUserCode,
-        },
+          applyUserCode
+        }
       });
     },
     handleChange(value) {
       console.log(value);
-    },
-  },
+    }
+  }
 };
 </script>
 
