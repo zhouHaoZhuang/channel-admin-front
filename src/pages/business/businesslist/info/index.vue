@@ -215,7 +215,10 @@
                   }}
                 </span>
                 <div slot-scope="text" slot="createTime" v-if="text">
-                  {{ text | formatDate }}
+                  {{ text.slice(0, 19) | formatDate }}
+                </div>
+                <div slot="tradeType" slot-scope="text">
+                  {{orderTypeMap[text]}}
                 </div>
                 <span slot="query" slot-scope="text">
                   <a-button type="link" class="" @click="selectInfo(text)">
@@ -254,10 +257,11 @@
 </template>
 
 <script>
-import { regionDataEnum, runningStatusEnum } from '@/utils/enum';
+import { regionDataEnum, runningStatusEnum,orderTypeMap } from '@/utils/enum';
 export default {
   data() {
     return {
+      orderTypeMap,
       dataOrder: null,
       regionDataEnum,
       runningStatusEnum,

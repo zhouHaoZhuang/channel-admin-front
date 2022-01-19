@@ -51,7 +51,7 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table> -->
     <div class="placeholder"></div>
-    <div v-if="data.status" v-show="data.status*1==0">
+    <div >
       <h1 class="details-title">审核</h1>
       <a-form-model
         ref="ruleForm"
@@ -204,6 +204,8 @@ export default {
             })
             .catch((val) => {
               this.$message.error('操作失败');
+            }).finally(() => {
+              this.$router.back()
             });
         }
       });

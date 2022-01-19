@@ -7,7 +7,7 @@
         <span class="details-type">发生金额：</span><span class="details-value">{{ data.dealAmount.toFixed(2) }}元</span>
       </div>
       <div>
-        <span class="details-type">当前金额：</span><span class="details-value">{{ data.afterAmount.toFixed(2) }}元</span>
+        <span class="details-type">金额：</span><span class="details-value">{{ data.afterAmount.toFixed(2) }}元</span>
       </div>
       <div>
         <span class="details-type">时间：</span><span class="details-value">{{ data.createTime | formatDate }}</span>

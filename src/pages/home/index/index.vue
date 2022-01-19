@@ -188,7 +188,7 @@ export default {
     this.coountInfo(this.currentMonth(), 'month');
     this.orderSumInfo(this.currentDay(), 'day');
     this.orderSumInfo(this.currentMonth(), 'month');
-    this.getSuccessCount(this.currentDay());
+    this.getSuccessCount(this.currentMonth());
     this.getMessageList();
   },
   mounted() {
