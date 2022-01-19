@@ -1,46 +1,49 @@
 <template>
   <div class="feeRed-container">
     <div class="feeRed-title">
-      <a-select
-        v-model="listQuery.key"
-        style="width:120px"
-        allowClear
-        placeholder="请选择"
-      >
-        <a-select-option value="corporationCode">
-          用户ID
-        </a-select-option>
-        <a-select-option value="instanceName">
-          云服务器
-        </a-select-option>
-      </a-select>
-      <span>
-        <a-input v-model="listQuery.search" placeholder="搜索关键词" />
-      </span>
-      <a-select
+      <a-space>
+        <a-select
+          v-model="listQuery.key"
+          style="width:120px"
+          allowClear
+          placeholder="请选择"
+        >
+          <a-select-option value="corporationCode">
+            用户ID
+          </a-select-option>
+          <a-select-option value="instanceName">
+            云服务器
+          </a-select-option>
+        </a-select>
+        <span>
+          <a-input v-model="listQuery.search" placeholder="搜索关键词" />
+        </span>
+        <!-- <a-select
         v-model="listQuery.runningStatus"
         style="width:120px"
         allowClear
         placeholder="状态"
       >
-        <a-select-option value="待降配">
-          待降配
+        <a-select-option
+          v-for="(value, key) in runningStatusEnum"
+          :key="key"
+          :value="key"
+        >
+          {{ value }}
         </a-select-option>
-        <a-select-option value="已完成">
-          已完成
-        </a-select-option>
-      </a-select>
-      <div>
-        <a-range-picker
-          show-time
-          format="YYYY-MM-DD HH:mm:ss"
-          :placeholder="['开始时间', '结束时间']"
-          @change="datePickerOnOk"
-        />
-      </div>
-      <a-button type="primary" @click="handleSearch">
-        查询
-      </a-button>
+      </a-select> -->
+        <div>
+          <a-range-picker
+            show-time
+            format="YYYY-MM-DD HH:mm:ss"
+            :placeholder="['开始时间', '结束时间']"
+            @change="datePickerOnOk"
+          />
+        </div>
+        <a-button type="primary" @click="handleSearch">
+          查询
+        </a-button>
+      </a-space>
     </div>
     <div class="feeRed-table">
       <a-table
@@ -51,9 +54,9 @@
         :pagination="paginationProps"
         :scroll="{ x: 1200 }"
       >
-        <div slot="runningStatus" slot-scope="text">
-          {{ renewalStatusEnum[text] }}
-        </div>
+        <!-- <div slot="runningStatus" slot-scope="text">
+          {{ runningStatusEnum[text] }}
+        </div> -->
         <div slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleSelectDetail(record)">
             查看
@@ -66,11 +69,11 @@
 
 <script>
 import moment from "moment";
-import { renewalStatusEnum } from "@/utils/enum";
+import { runningStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
-      renewalStatusEnum,
+      runningStatusEnum,
       listQuery: {
         key: undefined,
         search: "",
@@ -99,17 +102,17 @@ export default {
           title: "创建时间",
           dataIndex: "createTimeStr"
         },
-        {
-          title: "执行时间",
-          dataIndex: "endTimeStr",
-          sorter: true,
-          sortOrder: true
-        },
-        {
-          title: "状态",
-          dataIndex: "runningStatus",
-          scopedSlots: { customRender: "runningStatus" }
-        },
+        // {
+        //   title: "执行时间",
+        //   dataIndex: "endTimeStr",
+        //   sorter: true,
+        //   sortOrder: true
+        // },
+        // {
+        //   title: "状态",
+        //   dataIndex: "runningStatus",
+        //   scopedSlots: { customRender: "runningStatus" }
+        // },
         {
           title: "操作",
           dataIndex: "action",
@@ -141,7 +144,6 @@ export default {
       this.tableLoading = true;
       this.$getList("renew/getList", this.listQuery)
         .then(res => {
-          console.log(res);
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -155,7 +157,6 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
-      console.log(value);
       if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
@@ -199,10 +200,8 @@ export default {
   padding: 20px;
   .feeRed-title {
     display: flex;
-    width: 890px;
-    justify-content: space-between;
     align-items: center;
-    height: 50px;
+    margin-bottom: 20px;
     .left5 {
       margin-left: 5px;
     }
