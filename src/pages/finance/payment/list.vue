@@ -267,12 +267,12 @@ export default {
     },
     // 表格分页快速跳转n页
     quickJump(current) {
-      this.listQuery.current = current;
+      this.listQuery.currentPage = current;
       this.getList();
     },
     // 表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
-      this.listQuery.current = current;
+      this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
