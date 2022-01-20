@@ -57,12 +57,12 @@
                   {{ detail.instanceName }}
                 </span>
               </div>
-              <div class="basicInformation-item">
+              <!-- <div class="basicInformation-item">
                 <span class="basicInformation-type">付费方式:</span>
                 <span class="basicInformation-info">
                   {{ detail.chargeModel }}
                 </span>
-              </div>
+              </div> -->
               <div class="basicInformation-item">
                 <span class="basicInformation-type">原价:</span>
                 <span class="basicInformation-info price">

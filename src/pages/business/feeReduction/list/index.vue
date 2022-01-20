@@ -59,12 +59,10 @@
           <div>包年包月</div>
           <div>{{ text }}</div>
         </div>
-        <!-- 自动续费/周期 -->
-        <div slot="autoRenew" slot-scope="text, record">
-          <span v-if="text === 0" style="color: red">未开通</span>
-          <span v-if="text === 1" style="color: #2bbe22">已开通</span>
-          <span v-if="text === 1">
-            /{{ record.renewPeriod }}{{ getAutoRenewUnit(record.renewUnit) }}
+        <!-- 续费周期 -->
+        <div slot="renewPeriod" slot-scope="text, record">
+          <span>
+            {{ record.renewPeriod }}{{ getAutoRenewUnit(record.renewUnit) }}
           </span>
         </div>
         <div slot="action" slot-scope="text, record">
@@ -97,8 +95,8 @@ export default {
       tableLoading: false,
       columns: [
         {
-          title: "ID",
-          dataIndex: "id"
+          title: "订单编号",
+          dataIndex: "orderNo"
         },
         {
           title: "用户ID",
@@ -117,16 +115,13 @@ export default {
           dataIndex: "endTimeStr",
           width: 190,
           sorter: (a, b) => moment(a.endTimeStr) - moment(b.endTimeStr),
-          scopedSlots: { customRender: "endTimeStr" },
-          select: true
+          scopedSlots: { customRender: "endTimeStr" }
         },
         {
-          title: "自动续费/周期",
-          dataIndex: "autoRenew",
+          title: "续费周期",
+          dataIndex: "renewPeriod",
           width: 150,
-          sorter: (a, b) => a.renewPeriod - b.renewPeriod,
-          scopedSlots: { customRender: "autoRenew" },
-          select: true
+          scopedSlots: { customRender: "renewPeriod" }
         },
         {
           title: "操作",
