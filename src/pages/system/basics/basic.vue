@@ -145,13 +145,13 @@
             <a-form-model-item label="公司账户开户行">
               <a-input v-model="form.openBank" />
             </a-form-model-item>
-            <a-form-model-item label="公司银行账号" prop = 'bankAccount'>
+            <a-form-model-item label="公司银行账号" prop="bankAccount">
               <a-input v-model="form.bankAccount" />
             </a-form-model-item>
           </a-collapse-panel>
           <a-collapse-panel key="4" header="网站logo信息">
             <div class="addimages">
-              <a-form-model-item label="上传用户中心小LOGO">
+              <a-form-model-item label="上传用户中心小LOGO" >
                 <Upload
                   :defaultFile="form.userCenterMiniLogo"
                   @change="
@@ -321,26 +321,52 @@ export default {
           { min: 2, max: 100, message: '长度在2-100个字符内', trigger: 'blur' },
         ],
         companyName: [
+          {
+            required: true,
+            message: '公司名称为必填',
+            trigger: 'blur',
+          },
           { min: 2, max: 30, message: '长度在2-30个字符内', trigger: 'blur' },
         ],
         companyAddress: [
+          {
+            required: true,
+            message: '公司地址为必填',
+            trigger: 'blur',
+          },
           { min: 2, max: 100, message: '长度在2-100个字符内', trigger: 'blur' },
         ],
         postCode: [
+          {
+            required: true,
+            message: '邮编为必填',
+            trigger: 'blur',
+          },
           { min: 0, max: 6, message: '长度在0-6个字符内', trigger: 'blur' },
         ],
         serverPhone: [
           {
             required: true,
-            message: '必填，服务热线格式可由短横杆（-）、半角括号()、数字、英文字母组成，多个服务热线请使用 / 分隔，且长度在5-30个字符内',
+            message:
+              '必填，服务热线格式可由短横杆（-）、半角括号()、数字、英文字母组成，多个服务热线请使用 / 分隔，且长度在5-30个字符内',
             trigger: 'blur',
           },
           { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
         ],
         businessPhone: [
+          {
+            required: true,
+            message: '商务洽谈为必填',
+            trigger: 'blur',
+          },
           { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
         ],
         email: [
+          {
+            required: true,
+            message: '邮箱为必填',
+            trigger: 'blur',
+          },
           {
             type: 'email',
             message: '请输入正确的邮箱地址',
@@ -348,7 +374,7 @@ export default {
           },
         ],
         bankAccount: [
-           {
+          {
             pattern: /^\d{16,19}$/,
             message: '银行账号为数字,长度为16-19位',
             trigger: 'blur',
