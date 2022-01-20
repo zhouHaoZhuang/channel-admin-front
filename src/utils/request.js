@@ -43,6 +43,8 @@ request.interceptors.request.use(async config => {
   }
   config.cancelToken = axiosSource.token;
   config.headers.domain = getDomainUrl();
+  // 携带system区分不同项目
+  config.headers.system = "channel";
   // config.headers.domain = 'ydidc.com'
   const token = store.state.user.token;
   // 每次请求时需要判断登录状态，未登录直接跳转登录页，并且取消本次请求
