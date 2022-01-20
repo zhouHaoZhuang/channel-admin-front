@@ -1,6 +1,12 @@
 <template>
   <div class="user-info-container">
-    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
+    <a-form-model
+      ref="ruleForm"
+      :model="form"
+      :rules="rules"
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+    >
       <a-form-model-item label="姓名">
         <span>{{ nameOrphone }}</span>
       </a-form-model-item>
@@ -10,10 +16,10 @@
       <!-- <a-form-model-item label="角色">
         <span>{{ form.name }}</span>
       </a-form-model-item> -->
-      <a-form-model-item label="验证手机号">
+      <a-form-model-item label="验证手机号" prop="phone">
         <a-input v-model="form.phone"></a-input>
       </a-form-model-item>
-      <a-form-model-item label="验证码">
+      <a-form-model-item label="验证码" prop="code">
         <a-input
           v-model="form.code"
           style="width:250px"
@@ -25,10 +31,10 @@
         </a-input>
         <CodeBtn :phone="form.phone" />
       </a-form-model-item>
-      <a-form-model-item label="新密码">
+      <a-form-model-item label="新密码" prop = 'newPassword'>
         <a-input-password v-model="form.newPassword" />
       </a-form-model-item>
-      <a-form-model-item label="确认密码">
+      <a-form-model-item label="确认密码" prop = 'newTwoPassword'>
         <a-input-password v-model="form.newTwoPassword" />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 8, offset: 6 }">
@@ -57,6 +63,20 @@ export default {
         newTwoPassword: '',
         code: '',
       },
+      rules: {
+        phone: [
+          { required: true, message: '验证手机号为必填', trigger: 'blur' },
+        ],
+        code: [
+          { required: true, message: '验证码为必填', trigger: 'blur' },
+        ],
+        newPassword: [
+          { required: true, message: '新密码为必填', trigger: 'blur' },
+        ],
+        newTwoPassword: [
+          { required: true, message: '确认密码为必填', trigger: 'blur' },
+        ],
+      },
     };
   },
   created() {
@@ -70,14 +90,18 @@ export default {
     },
     onSubmit() {
       console.log('submit!', this.form);
-      if (this.form.newTwoPassword === this.form.newPassword) {
-        this.$store.dispatch('user/changePassword', this.form).then(() => {
-          this.$message.success('修改成功');
-          this.logout();
-        });
-      } else {
-        this.$message.error('两次密码不一致');
-      }
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          if (this.form.newTwoPassword === this.form.newPassword) {
+            this.$store.dispatch('user/changePassword', this.form).then(() => {
+              this.$message.success('修改成功');
+              this.logout();
+            });
+          } else {
+            this.$message.error('两次密码不一致');
+          }
+        }
+      });
     },
     getRoles() {
       this.$store
