@@ -1,6 +1,6 @@
 <template>
   <div class="tinymce-container">
-    <editor v-model="tinymceHtml" :init="init" />
+    <editor v-model="tinymceHtml" :key="tinymceFlag" :init="init" />
   </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
   watch: {
     // 监听内容变化，用于辅助父子组件之间的通讯
     tinyvalue(newValue) {
+      // console.log("监听数据", newValue);
       // tinyvalue是父组件代理人，父组件值一旦变化，推送给子组件
       this.tinymceHtml = newValue;
     },
@@ -51,8 +52,7 @@ export default {
         language: "zh_CN", //中文
         skin_url: "/tinymce/skins/ui/oxide", //编辑器皮肤，
         height: 400, //高度
-        plugins:
-          "lists image code table colorpicker textcolor wordcount contextmenu", // 插件
+        plugins: "lists image code table wordcount", // 插件
         toolbar:
           "undo redo | bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | image code | removeformat",
         branding: false, // 去水印
@@ -74,8 +74,12 @@ export default {
               });
           }
         }
-      }
+      },
+      tinymceFlag: 1
     };
+  },
+  activated() {
+    this.tinymceFlag++;
   },
   mounted() {
     tinymce.init({});
