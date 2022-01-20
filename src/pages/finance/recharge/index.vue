@@ -7,7 +7,7 @@
         </a-button> -->
         <a-select
           style="width:150px"
-          v-model="this.listQuery.key"
+          v-model="listQuery.key"
           @change="changeKey"
         >
           <a-select-option
@@ -20,6 +20,7 @@
         </a-select>
         <div class="sechkey">
           <a-input
+            allow-clear
             :disabled="!isTime"
             placeholder="搜索关键词"
             v-model="listQuery.search"
@@ -188,6 +189,11 @@ export default {
           key: 'id',
         },
         {
+          title: '支付ID',
+          dataIndex: 'payNo',
+          width: 220,
+        },
+        {
           title: '方式',
           dataIndex: 'channelCode',
           scopedSlots: {
@@ -281,8 +287,8 @@ export default {
         //   dataIndex: "tradeType",
         // },
         {
-          title: '充值ID',
-          dataIndex: 'id',
+          title: '支付ID',
+          dataIndex: 'payNo',
         },
         {
           title: '起始时间',
