@@ -165,16 +165,16 @@ export default {
           width: 130,
           scopedSlots: { customRender: 'tradeStatus' },
         },
-        {
-          title: '现金支付',
-          dataIndex: 'cashPay',
-          scopedSlots: { customRender: 'cashPay' },
-        },
-        {
-          title: '现金券支付',
-          dataIndex: 'actualPrice',
-          scopedSlots: { customRender: 'actualPrice' },
-        },
+        // {
+        //   title: '现金支付',
+        //   dataIndex: 'cashPay',
+        //   scopedSlots: { customRender: 'cashPay' },
+        // },
+        // {
+        //   title: '现金券支付',
+        //   dataIndex: 'actualPrice',
+        //   scopedSlots: { customRender: 'actualPrice' },
+        // },
         {
           title: '创建时间',
           dataIndex: 'createTime',
