@@ -1,6 +1,12 @@
 <template>
   <div class="user-info-container">
-    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
+    <a-form-model
+      ref="ruleForm"
+      :model="form"
+      :rules="rules"
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+    >
       <a-form-model-item label="姓名">
         <span>{{ nameOrphone }}</span>
       </a-form-model-item>
@@ -10,10 +16,16 @@
       <!-- <a-form-model-item label="角色">
         <span>{{ form.name }}</span>
       </a-form-model-item> -->
-      <a-form-model-item label="验证手机号">
-        <a-input v-model="form.phone"></a-input>
+      <a-form-model-item label="验证手机号" prop="phone">
+        <a-input
+          addon-before="+86"
+          placeholder="11位手机号"
+          v-number-evolution
+          :max-length="11"
+          v-model="form.phone"
+        />
       </a-form-model-item>
-      <a-form-model-item label="验证码">
+      <a-form-model-item label="验证码" prop="code">
         <a-input
           v-model="form.code"
           style="width:250px"
@@ -25,10 +37,10 @@
         </a-input>
         <CodeBtn :phone="form.phone" />
       </a-form-model-item>
-      <a-form-model-item label="新密码">
+      <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password v-model="form.newPassword" />
       </a-form-model-item>
-      <a-form-model-item label="确认密码">
+      <a-form-model-item label="确认密码" prop="newTwoPassword">
         <a-input-password v-model="form.newTwoPassword" />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 8, offset: 6 }">
@@ -47,6 +59,25 @@ import CodeBtn from '@/components/CodeBtn/index';
 export default {
   components: { CodeBtn },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (!this.pwdReg.test(value)) {
+          callback(new Error('密码格式不正确'));
+        }
+        callback();
+      }
+    };
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入确认密码'));
+      } else if (value !== this.form.newPassword) {
+        callback(new Error('两次密码不一致'));
+      } else {
+        callback();
+      }
+    };
     return {
       labelCol: { span: 6 },
       phone: '',
@@ -56,6 +87,18 @@ export default {
         newPassword: '',
         newTwoPassword: '',
         code: '',
+      },
+      rules: {
+        pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
+
+        phone: [
+          { required: true, message: '验证手机号为必填', trigger: 'blur' },
+        ],
+        code: [{ required: true, message: '验证码为必填', trigger: 'blur' }],
+        newPassword: [{ validator: validatePass, trigger: ['blur', 'change'] }],
+        newTwoPassword: [
+          { validator: validatePass2, trigger: ['blur', 'change'] },
+        ],
       },
     };
   },
@@ -70,14 +113,14 @@ export default {
     },
     onSubmit() {
       console.log('submit!', this.form);
-      if (this.form.newTwoPassword === this.form.newPassword) {
-        this.$store.dispatch('user/changePassword', this.form).then(() => {
-          this.$message.success('修改成功');
-          this.logout();
-        });
-      } else {
-        this.$message.error('两次密码不一致');
-      }
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.$store.dispatch('user/changePassword', this.form).then(() => {
+            this.$message.success('修改成功');
+            this.logout();
+          });
+        }
+      });
     },
     getRoles() {
       this.$store
