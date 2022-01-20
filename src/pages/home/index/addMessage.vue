@@ -66,10 +66,12 @@
 
 <script>
 import Tinymce from '@/components/Tinymce/index.vue';
+import moment from 'moment';
 
 export default {
   data() {
     return {
+      moment,
       labelCol: { span: 8 },
       wrapperCol: { span: 8 },
       other: '',
@@ -78,7 +80,7 @@ export default {
         title: '',
         content: '',
         sendObject: 'all',
-        receiverAccount: [],
+        receiverCode: [],
       },
       rules: {
         receiverAccount: [
@@ -131,20 +133,23 @@ export default {
     // 多选会员
     handleChange(value) {
       console.log(`Selected: ${value}`);
-      this.form.receiverAccount = value.toString();
+      this.form.receiverCode = value.toString();
     },
     onSubmit() {
-			if (this.form.sendObject == 'all') {
-				this.form.receiverAccount = '';
-				this.data.forEach(element => {
-					this.form.receiverAccount += element.corporationCode + ',';
-				});
-			}
+      if (this.form.sendObject == 'all') {
+        this.form.receiverCode = '';
+        this.data.forEach((element) => {
+          this.form.receiverCode += element.corporationCode + ',';
+        });
+      }
+      console.log(this.form);
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-					console.log(this.form);
+          console.log(this.form);
           this.$store.dispatch('message/addMessage', this.form).then((res) => {
             console.log(res);
+            this.$message.success("新增消息成功");
+            this.$router.back();
           });
         } else {
           console.log('error submit!!');

@@ -214,7 +214,7 @@
                       'M'
                   }}
                 </span>
-                <div slot-scope="text" slot="createTime" v-if="text">
+                <div slot-scope="text" slot="createTimeStr" v-if="text">
                   {{ text | formatDate }}
                 </div>
                 <div slot="tradeType" slot-scope="text">
@@ -276,9 +276,9 @@ export default {
         },
         {
           title: '时间',
-          dataIndex: 'createTime',
+          dataIndex: 'createTimeStr',
           scopedSlots: {
-            customRender: 'createTime',
+            customRender: 'createTimeStr',
           },
         },
         {

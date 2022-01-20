@@ -126,3 +126,11 @@ export const runningStatusEnum = {
   4: "停止中",
   5: "启动中",
 };
+// 订单来源/用途
+export const tradeTypeEnum = {
+  1: "云服务新购",
+  15: "云服务续费",
+  25: "云服务升配",
+  35: "云服务降配",
+  45: "交易关闭"
+};

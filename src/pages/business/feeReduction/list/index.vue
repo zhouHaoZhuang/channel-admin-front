@@ -19,19 +19,19 @@
           <a-input v-model="listQuery.search" placeholder="搜索关键词" />
         </span>
         <!-- <a-select
-        v-model="listQuery.runningStatus"
-        style="width:120px"
-        allowClear
-        placeholder="状态"
-      >
-        <a-select-option
-          v-for="(value, key) in runningStatusEnum"
-          :key="key"
-          :value="key"
+          v-model="listQuery.runningStatus"
+          style="width:120px"
+          allowClear
+          placeholder="状态"
         >
-          {{ value }}
-        </a-select-option>
-      </a-select> -->
+          <a-select-option
+            v-for="(value, key) in runningStatusEnum"
+            :key="key"
+            :value="key"
+          >
+            {{ value }}
+          </a-select-option>
+        </a-select> -->
         <div>
           <a-range-picker
             show-time
@@ -54,9 +54,17 @@
         :pagination="paginationProps"
         :scroll="{ x: 1200 }"
       >
-        <!-- <div slot="runningStatus" slot-scope="text">
-          {{ runningStatusEnum[text] }}
-        </div> -->
+        <!-- 类型/到期时间 -->
+        <div slot="endTimeStr" slot-scope="text">
+          <div>包年包月</div>
+          <div>{{ text }}</div>
+        </div>
+        <!-- 续费周期 -->
+        <div slot="renewPeriod" slot-scope="text, record">
+          <span>
+            {{ record.renewPeriod }}{{ getAutoRenewUnit(record.renewUnit) }}
+          </span>
+        </div>
         <div slot="action" slot-scope="text, record">
           <a-button type="link" @click="handleSelectDetail(record)">
             查看
@@ -87,8 +95,8 @@ export default {
       tableLoading: false,
       columns: [
         {
-          title: "ID",
-          dataIndex: "id"
+          title: "订单编号",
+          dataIndex: "orderNo"
         },
         {
           title: "用户ID",
@@ -102,17 +110,19 @@ export default {
           title: "创建时间",
           dataIndex: "createTimeStr"
         },
-        // {
-        //   title: "执行时间",
-        //   dataIndex: "endTimeStr",
-        //   sorter: true,
-        //   sortOrder: true
-        // },
-        // {
-        //   title: "状态",
-        //   dataIndex: "runningStatus",
-        //   scopedSlots: { customRender: "runningStatus" }
-        // },
+        {
+          title: "类型/到期日期",
+          dataIndex: "endTimeStr",
+          width: 190,
+          sorter: (a, b) => moment(a.endTimeStr) - moment(b.endTimeStr),
+          scopedSlots: { customRender: "endTimeStr" }
+        },
+        {
+          title: "续费周期",
+          dataIndex: "renewPeriod",
+          width: 150,
+          scopedSlots: { customRender: "renewPeriod" }
+        },
         {
           title: "操作",
           dataIndex: "action",
@@ -144,6 +154,7 @@ export default {
       this.tableLoading = true;
       this.$getList("renew/getList", this.listQuery)
         .then(res => {
+          console.log(res);
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -157,6 +168,7 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
+      console.log(value);
       if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"

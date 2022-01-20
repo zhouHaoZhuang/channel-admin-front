@@ -58,6 +58,7 @@ const message = {
       return request({
         url: `/messageRecord/onSite`,
         method: 'post',
+        data,
       });
     },
   },

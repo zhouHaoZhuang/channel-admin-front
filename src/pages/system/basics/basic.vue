@@ -145,7 +145,7 @@
             <a-form-model-item label="公司账户开户行">
               <a-input v-model="form.openBank" />
             </a-form-model-item>
-            <a-form-model-item label="公司银行账号">
+            <a-form-model-item label="公司银行账号" prop = 'bankAccount'>
               <a-input v-model="form.bankAccount" />
             </a-form-model-item>
           </a-collapse-panel>
@@ -344,6 +344,13 @@ export default {
           {
             type: 'email',
             message: '请输入正确的邮箱地址',
+            trigger: 'blur',
+          },
+        ],
+        bankAccount: [
+           {
+            pattern: /^\d{16,19}$/,
+            message: '银行账号为数字,长度为16-19位',
             trigger: 'blur',
           },
         ],
