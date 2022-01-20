@@ -88,9 +88,8 @@ export default {
         newTwoPassword: '',
         code: '',
       },
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
       rules: {
-        pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
-
         phone: [
           { required: true, message: '验证手机号为必填', trigger: 'blur' },
         ],
