@@ -26,10 +26,10 @@
         <CodeBtn :phone="form.phone" />
       </a-form-model-item>
       <a-form-model-item label="新密码">
-        <a-input v-model="form.newPassword" type="password" />
+        <a-input-password v-model="form.newPassword" />
       </a-form-model-item>
       <a-form-model-item label="确认密码">
-        <a-input v-model="form.newTwoPassword" type="password" />
+        <a-input-password v-model="form.newTwoPassword" />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 8, offset: 6 }">
         <a-button type="primary" @click="onSubmit">
@@ -41,52 +41,59 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import CodeBtn from "@/components/CodeBtn/index";
+import { mapState } from 'vuex';
+import CodeBtn from '@/components/CodeBtn/index';
 
 export default {
   components: { CodeBtn },
   data() {
     return {
       labelCol: { span: 6 },
-			phone: "",
+      phone: '',
       wrapperCol: { span: 8 },
       form: {
-        phone: "",
-        newPassword: "",
-        newTwoPassword: "",
-        code: "",
+        phone: '',
+        newPassword: '',
+        newTwoPassword: '',
+        code: '',
       },
     };
   },
-	created() {
-		// this.getRoles()
-	},
+  created() {
+    // this.getRoles()
+  },
   methods: {
+    logout() {
+      this.$store.dispatch('user/logout').then((res) => {
+        this.$router.push('/login');
+      });
+    },
     onSubmit() {
-      console.log("submit!", this.form);
+      console.log('submit!', this.form);
       if (this.form.newTwoPassword === this.form.newPassword) {
-        this.$store.dispatch("user/changePassword", this.form).then(() => {
-          this.$message.success("修改成功");
+        this.$store.dispatch('user/changePassword', this.form).then(() => {
+          this.$message.success('修改成功');
+          this.logout();
         });
       } else {
-        this.$message.error("两次密码不一致");
+        this.$message.error('两次密码不一致');
       }
     },
-		getRoles() {
-			this.$store.dispatch("user/getRoleList",{id:this.userInfo.id}).then((val) => {
-				console.log("获取角色", val);
-			});
-		},
-    
+    getRoles() {
+      this.$store
+        .dispatch('user/getRoleList', { id: this.userInfo.id })
+        .then((val) => {
+          console.log('获取角色', val);
+        });
+    },
   },
 
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
     }),
-		nameOrphone() {
-      return this.userInfo.username?this.userInfo.username.slice(0, 11):"";
+    nameOrphone() {
+      return this.userInfo.username ? this.userInfo.username.slice(0, 11) : '';
     },
   },
 };
