@@ -101,7 +101,6 @@ export default {
     return {
       labelCol: { span: 0 },
       wrapperCol: { span: 22, offset: 1 },
-      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
       form: {
         channelName: "",
         password: "",
@@ -109,6 +108,7 @@ export default {
         phone: "",
         code: ""
       },
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
       rules: {
         channelName: [
           {
