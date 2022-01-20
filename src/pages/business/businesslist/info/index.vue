@@ -87,7 +87,7 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">内存：</span>
-                <span class="basicInformation-info"> {{ data.memory }}G</span>
+                <span class="basicInformation-info"> {{ data.memory }}M</span>
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">带宽：</span>
@@ -273,6 +273,9 @@ export default {
         {
           title: '类型',
           dataIndex: 'tradeType',
+          scopedSlots: {
+            customRender: 'tradeType',
+          },
         },
         {
           title: '时间',
@@ -349,20 +352,12 @@ export default {
       // console.log(id);
     },
   },
-  created() {
+  activated() {
     let id = this.$route.query.id;
     // console.log(id);
     this.$store.dispatch('business/getOne', id).then((res) => {
       this.dataOrder = res.data.orderLineLogResDto;
       this.data = res.data;
-      console.log(res);
-    });
-  },
-  activated() {
-    let id = this.$route.query.id;
-    // console.log(id);
-    this.$store.dispatch('business/getOne', id).then((res) => {
-      this.dataOrder = [res.data];
       console.log(res);
     });
   },

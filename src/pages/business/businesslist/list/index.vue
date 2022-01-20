@@ -363,7 +363,7 @@ export default {
           width: 130,
           dataIndex: 'orderNo',
         },
-        { title: '弹性IP', dataIndex: 'intranetIp', key: 'intranetIp' },
+        // { title: '弹性IP', dataIndex: 'intranetIp', key: 'intranetIp' },
         {
           title: '共享类型',
           dataIndex: 'shareType',
