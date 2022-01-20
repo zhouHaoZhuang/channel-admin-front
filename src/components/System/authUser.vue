@@ -176,6 +176,23 @@ export default {
     handleAdd() {
       this.visible = true;
     },
+    // 取消授权
+    handleDel(record) {
+      this.$confirm({
+        title: "确认要取消该用户授权吗？",
+        onOk: () => {
+          this.$store
+            .dispatch("system/cancelAuthUser", {
+              code: this.code,
+              userIds: [record.id]
+            })
+            .then(res => {
+              this.$message.success("取消授权成功");
+              this.getAuthUserList();
+            });
+        }
+      });
+    },
     // 穿梭框
     // 搜索过滤函数
     filterOption(inputValue, option) {
