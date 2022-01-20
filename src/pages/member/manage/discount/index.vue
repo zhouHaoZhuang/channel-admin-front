@@ -135,7 +135,7 @@ export default {
     // 查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$getListQp("member/getDisCountList", this.listQuery)
+      this.$getList("member/getDisCountList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
