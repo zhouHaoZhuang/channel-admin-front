@@ -79,6 +79,19 @@
 import moment from "moment";
 import { runningStatusEnum } from "@/utils/enum";
 export default {
+  computed: {
+    // 根据自动续费周期的单位返回文字
+    getAutoRenewUnit() {
+      return function(unit) {
+        if (unit === "Month") {
+          return "个月";
+        }
+        if (unit === "Year") {
+          return "年";
+        }
+      };
+    }
+  },
   data() {
     return {
       runningStatusEnum,
