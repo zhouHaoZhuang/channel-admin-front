@@ -13,8 +13,6 @@
           :bordered="false"
           class="aa"
           :forceRender="true"
-          @change="changeActivekey"
-          accordion
         >
           <a-collapse-panel key="1" header="网站基本信息">
             <a-form-model-item
@@ -399,17 +397,7 @@ export default {
     this.getInfo();
     this.getBasicCompanyInfo();
   },
-  activated() {
-    this.getInfo();
-    this.getBasicCompanyInfo();
-  },
   methods: {
-    changeActivekey(key) {
-      if (key == '3') {
-        // console.log('公司基本信息');
-        this.getBasicCompanyInfo();
-      }
-    },
     imgChange(urlList, firstImageUrl, type) {
       console.log('上传图片回调', urlList, firstImageUrl, type);
       // this.imgList = urlList;
@@ -437,7 +425,7 @@ export default {
     getInfo() {
       this.$store.dispatch('globalBasic/getInfo').then((res) => {
         // 获取网站详情、网站logo信息
-        this.form = res.data;
+        this.form = { ...this.form,...res.data };
         this.form.gid = this.form.id;
         console.log(res.data);
       });
