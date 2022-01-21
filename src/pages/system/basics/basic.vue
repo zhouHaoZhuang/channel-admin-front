@@ -8,7 +8,12 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-collapse default-active-key="1" :bordered="false" class="aa">
+        <a-collapse
+          default-active-key="1"
+          :bordered="false"
+          class="aa"
+          :forceRender="true"
+        >
           <a-collapse-panel key="1" header="网站基本信息">
             <a-form-model-item
               ref="websiteName"
@@ -151,7 +156,7 @@
           </a-collapse-panel>
           <a-collapse-panel key="4" header="网站logo信息">
             <div class="addimages">
-              <a-form-model-item label="上传用户中心小LOGO" >
+              <a-form-model-item label="上传用户中心小LOGO">
                 <Upload
                   :defaultFile="form.userCenterMiniLogo"
                   @change="
@@ -390,9 +395,7 @@ export default {
   },
   created() {
     this.getInfo();
-  },
-  activated() {
-    this.getInfo();
+    this.getBasicCompanyInfo();
   },
   methods: {
     imgChange(urlList, firstImageUrl, type) {
@@ -421,11 +424,15 @@ export default {
     },
     getInfo() {
       this.$store.dispatch('globalBasic/getInfo').then((res) => {
-        this.form = res.data;
+        // 获取网站详情、网站logo信息
+        this.form = { ...this.form,...res.data };
         this.form.gid = this.form.id;
         console.log(res.data);
       });
+    },
+    getBasicCompanyInfo() {
       this.$store.dispatch('globalBasic/getBasicCompanyInfo').then((res) => {
+        // 获取公司基本信息接口
         this.form = {
           ...this.form,
           ...res.data,
