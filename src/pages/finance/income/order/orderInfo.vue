@@ -22,7 +22,7 @@
         </li>
         <li>
           <span>支付时间:</span>
-          <span v-if="orderInfo.tradeStatus == 9">{{ orderInfo.payTime | formatDate }}</span>
+          <span v-if="orderInfo.payTime">{{ orderInfo.payTime | formatDate }}</span>
         </li>
       </ul>
       <div class="config">
@@ -73,7 +73,7 @@
         </li>
         <li>
           <span>实名认证:</span>
-          <span>{{ data[0].remark }}</span>
+          <span>{{ data[0].remark==1?'已认证':'未认证' }}</span>
         </li>
         <li>
           <span>联系电话:</span>
