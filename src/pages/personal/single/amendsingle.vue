@@ -52,7 +52,7 @@
         </a-form-model-item>
         <a-form-model-item label="内容">
           <div class="Deputy">
-            <Tinymce @tinymceinput="tinymceinput" />
+            <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context" />
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
@@ -150,7 +150,7 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch('page/getId',this.form.id).then((res) => {
+      this.$store.dispatch('page/getId', this.form.id).then((res) => {
         // console.log(res);
         this.form = res.data;
       });
