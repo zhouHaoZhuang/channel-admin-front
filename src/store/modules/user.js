@@ -36,7 +36,6 @@ const user = {
       return request({
         url: `/manageUser/queryUserRoles/${params.id}`,
         method: "get"
-        // params
       });
     },
     // 发送验证码

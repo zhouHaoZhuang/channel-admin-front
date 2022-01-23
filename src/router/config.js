@@ -43,7 +43,6 @@ export const asyncRoute = [
     path: "/",
     name: "默认",
     component: TabsView,
-    redirect: "/dashboard",
     children: [
       // 首页 一级菜单
       {
