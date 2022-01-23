@@ -8,15 +8,26 @@ function getNewRoute(route, perms) {
   );
   return newData;
 }
+// 判断用户是否拥有所有菜单的权限
+function getUserHaveAllPerm(perms) {
+  const index = perms.findIndex(ele => ele.code === "*");
+  return index;
+}
 // 处理动态路由菜单
 export const setAsyncRouteMenu = (perms, router, store) => {
   // 根据权限生成新的菜单
   const newData = clonedeep(asyncRoute);
-  const newRoute = getNewRoute(newData[0].children, perms);
+  let newRoute = [];
+  // 先判断用户的是否拥有所有权限
+  if (getUserHaveAllPerm(perms) !== -1) {
+    newRoute = [...newData[0].children];
+  } else {
+    newRoute = getNewRoute(newData[0].children, perms);
+  }
   // 保存默认跳转地址，path是 / 的话，需要重定向到第一个路由
   const firstPath = newRoute.length > 0 ? newRoute[0].path : "/404";
   store.commit("setting/setFirstPath", firstPath);
-  console.log("生成的新的权限动态菜单", newRoute, firstPath, newData);
+  // console.log("生成的新的权限动态菜单", newRoute, firstPath, perms, newData);
   // 重置本地存储中菜单数据
   store.commit("setting/setMenuData", newRoute);
   const result = [{ ...newData[0], children: [...newRoute] }];
@@ -26,8 +37,13 @@ export const setAsyncRouteMenu = (perms, router, store) => {
 };
 // 判断处理路由是否可以成功跳转--也可得出是否有这个路由菜单
 export const hasPermissionMenu = (to, perms) => {
+  // 判断本地路由的文件是否没有添加权限信息
   if (!to.meta.perm) {
     return false;
+  }
+  // 判断是否是所有菜单权限
+  if (getUserHaveAllPerm(perms) !== -1) {
+    return true;
   }
   const index = perms.findIndex(
     ele => ele.code.replace(":*", "") === to.meta.perm

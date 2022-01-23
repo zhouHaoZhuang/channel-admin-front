@@ -166,7 +166,7 @@ export const permission = Vue.directive("permission", {
       routePermActions.indexOf(value) === -1
     ) {
       //如果没有权限则直接删除此节点
-      // el.parentNode && el.parentNode.removeChild(el);
+      el.parentNode && el.parentNode.removeChild(el);
     }
   }
 });
