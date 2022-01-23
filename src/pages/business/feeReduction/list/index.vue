@@ -117,7 +117,8 @@ export default {
         },
         {
           title: "服务器",
-          dataIndex: "instanceName"
+          dataIndex: "instanceName",
+          width: 230
         },
         {
           title: "创建时间",
