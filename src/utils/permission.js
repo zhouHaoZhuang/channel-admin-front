@@ -25,7 +25,7 @@ export const setAsyncRouteMenu = (perms, router, store) => {
     newRoute = getNewRoute(newData[0].children, perms);
   }
   // 保存默认跳转地址，path是 / 的话，需要重定向到第一个路由
-  const firstPath = newRoute.length > 0 ? newRoute[0].path : "/404";
+  const firstPath = newRoute && newRoute.length > 0 ? newRoute[0].path : "/404";
   store.commit("setting/setFirstPath", firstPath);
   // console.log("生成的新的权限动态菜单", newRoute, firstPath, perms, newData);
   // 重置本地存储中菜单数据

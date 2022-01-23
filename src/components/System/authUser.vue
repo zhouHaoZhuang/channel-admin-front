@@ -65,7 +65,7 @@
     >
       <a-spin style="width:100%" :spinning="userLoading">
         <a-transfer
-          :rowKey="record => record.id"
+          :rowKey="record => record.authingId"
           :data-source="userData"
           :list-style="{
             height: '500px'
@@ -175,12 +175,9 @@ export default {
     getAllUserList() {
       this.userLoading = true;
       this.$store
-        .dispatch("system/getModalUserList", {
-          currentPage: 1,
-          pageSize: 100
-        })
+        .dispatch("system/getModalUserList")
         .then(res => {
-          this.userData = [...res.data.list];
+          this.userData = [...res.data];
         })
         .finally(() => {
           this.userLoading = false;
