@@ -2,7 +2,13 @@ import Router from "vue-router";
 import TabsView from "@/layouts/tabs/TabsView";
 import BlankView from "@/layouts/BlankView";
 import PageView from "@/layouts/PageView";
-
+/**
+ * meta属性说明
+ * icon:图标
+ * invisible:是否需要隐藏不显示在三级菜单，不显示在左侧菜单
+ * back:三级菜单头部是否需要返回按钮
+ * perm:权限字段
+ */
 // 基础路由
 export const basicRoute = [
   {
@@ -43,6 +49,9 @@ export const asyncRoute = [
       {
         path: "/dashboard",
         name: "首页",
+        meta: {
+          perm: "home"
+        },
         component: PageView,
         children: [
           // 二级菜单
@@ -50,7 +59,8 @@ export const asyncRoute = [
             path: "index",
             name: "后台首页",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "home-index"
             },
             component: BlankView,
             children: [
@@ -59,7 +69,8 @@ export const asyncRoute = [
                 path: "home",
                 name: "后台首页",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "home-index-index"
                 },
                 component: () => import("@/pages/home/index/index")
               },
@@ -67,7 +78,8 @@ export const asyncRoute = [
                 path: "message",
                 name: "消息提醒",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "home-index-message"
                 },
                 component: () => import("@/pages/home/index/message")
               },
@@ -75,8 +87,9 @@ export const asyncRoute = [
                 path: "detail",
                 name: "查看消息详情",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true
+                  invisible: true,
+                  back: true,
+                  perm: "home-index-message"
                 },
                 component: () => import("@/pages/home/index/detail")
               },
@@ -84,8 +97,9 @@ export const asyncRoute = [
                 path: "addMessage",
                 name: "添加消息",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true
+                  invisible: true,
+                  back: true,
+                  perm: "home-index-message"
                 },
                 component: () => import("@/pages/home/index/addMessage")
               }
@@ -97,13 +111,17 @@ export const asyncRoute = [
       {
         path: "/member",
         name: "会员",
+        meta: {
+          perm: "member"
+        },
         component: PageView,
         children: [
           {
             path: "manage",
             name: "会员管理",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "member-admin"
             },
             component: BlankView,
             children: [
@@ -111,7 +129,8 @@ export const asyncRoute = [
                 path: "list",
                 name: "会员列表",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "member-admin-user"
                 },
                 component: () => import("@/pages/member/manage/list/index.vue")
               },
@@ -121,7 +140,8 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "member-admin-user"
                 },
                 component: () => import("@/pages/member/manage/info/index.vue")
               },
@@ -131,7 +151,8 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "member-admin-user"
                 },
                 component: () =>
                   import("@/pages/member/manage/addManage/index.vue")
@@ -140,7 +161,8 @@ export const asyncRoute = [
                 path: "discount",
                 name: "会员折扣",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "member-admin-discount"
                 },
                 component: () =>
                   import("@/pages/member/manage/discount/index.vue")
@@ -151,7 +173,8 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "member-admin-discount"
                 },
                 component: () =>
                   import("@/pages/member/manage/discount/update.vue")
@@ -164,13 +187,17 @@ export const asyncRoute = [
       {
         path: "/finance",
         name: "财务",
+        meta: {
+          perm: "finance"
+        },
         component: PageView,
         children: [
           {
             path: "index",
             name: "收支账簿",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "finance-book"
             },
             component: BlankView,
             children: [
@@ -178,7 +205,8 @@ export const asyncRoute = [
                 path: "order",
                 name: "订单管理",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "finance-book-order"
                 },
                 component: () => import("@/pages/finance/income/order/index")
               },
@@ -187,7 +215,8 @@ export const asyncRoute = [
                 name: "订单详情",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "finance-book-order"
                 },
                 component: () =>
                   import("@/pages/finance/income/order/orderInfo")
@@ -196,7 +225,8 @@ export const asyncRoute = [
                 path: "detailed",
                 name: "财务明细",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "finance-book-detail"
                 },
                 component: () => import("@/pages/finance/details/index.vue")
               },
@@ -205,7 +235,8 @@ export const asyncRoute = [
                 name: "财务明细详情",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "finance-book-detail"
                 },
                 component: () => import("@/pages/finance/details/info.vue")
               },
@@ -213,7 +244,8 @@ export const asyncRoute = [
                 path: "recharge",
                 name: "充值记录",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "finance-book-recharge"
                 },
                 component: () => import("@/pages/finance/recharge/index.vue")
               },
@@ -222,7 +254,8 @@ export const asyncRoute = [
                 name: "充值记录详情",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "finance-book-recharge"
                 },
                 component: () => import("@/pages/finance/recharge/info.vue")
               }
@@ -232,7 +265,8 @@ export const asyncRoute = [
             path: "examine",
             name: "财务审核",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "finance-examine"
             },
             component: BlankView,
             children: [
@@ -240,7 +274,8 @@ export const asyncRoute = [
                 path: "payment",
                 name: "人工入款",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "finance-examine-offline"
                 },
                 component: () => import("@/pages/finance/payment/list")
               },
@@ -249,7 +284,8 @@ export const asyncRoute = [
                 name: "入款管理详情",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "finance-examine-offline"
                 },
                 component: () => import("@/pages/finance/payment/details")
               },
@@ -258,7 +294,8 @@ export const asyncRoute = [
                 name: "增减会员余额",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "finance-examine-offline"
                 },
                 component: () => import("@/pages/finance/payment/addbalance")
               }
@@ -270,13 +307,17 @@ export const asyncRoute = [
       {
         path: "/business",
         name: "业务",
+        meta: {
+          perm: "business"
+        },
         component: PageView,
         children: [
           {
             path: "cloudservers",
             name: "云服务器",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "business-cloud"
             },
             component: BlankView,
             children: [
@@ -284,7 +325,8 @@ export const asyncRoute = [
                 path: "businesslist",
                 name: "业务列表",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "business-cloud-biz"
                 },
                 component: () =>
                   import("@/pages/business/businesslist/list/index.vue")
@@ -294,7 +336,8 @@ export const asyncRoute = [
                 name: "业务开通",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "business-cloud-biz"
                 },
                 component: () =>
                   import(
@@ -306,7 +349,8 @@ export const asyncRoute = [
                 name: "业务详情",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "business-cloud-biz"
                 },
                 component: () =>
                   import("@/pages/business/businesslist/info/index.vue")
@@ -315,7 +359,8 @@ export const asyncRoute = [
                 path: "feeReduction",
                 name: "续费列表",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "business-cloud-renew"
                 },
                 component: () =>
                   import("@/pages/business/feeReduction/list/index.vue")
@@ -325,7 +370,8 @@ export const asyncRoute = [
                 name: "续费列表详情",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "business-cloud-renew"
                 },
                 component: () =>
                   import("@/pages/business/feeReduction/list/examine.vue")
@@ -334,7 +380,8 @@ export const asyncRoute = [
                 path: "snapshot",
                 name: "快照列表",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "business-cloud-snapshot"
                 },
                 component: () =>
                   import("@/pages/business/snapshot/list/index.vue")
@@ -343,7 +390,8 @@ export const asyncRoute = [
                 path: "automation",
                 name: "自动化列表",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "business-cloud-auto"
                 },
                 component: () =>
                   import("@/pages/business/automation/list/index.vue")
@@ -352,7 +400,8 @@ export const asyncRoute = [
                 path: "hostRecord",
                 name: "宿主机异常记录",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "business-cloud-logs"
                 },
                 component: () =>
                   import("@/pages/business/hostRecord/list/index.vue")
@@ -365,6 +414,9 @@ export const asyncRoute = [
       {
         path: "/production",
         name: "生产",
+        meta: {
+          perm: "production"
+        },
         component: PageView,
         children: [
           // {
@@ -439,7 +491,8 @@ export const asyncRoute = [
             path: "product",
             name: "产品管理",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "production-admin"
             },
             component: BlankView,
             children: [
@@ -456,8 +509,8 @@ export const asyncRoute = [
               //   path: "addproduct",
               //   name: "新建产品线",
               //   meta: {
-              //     invisible: true, // 不显示在左侧菜单
-              //     back: true // 后退
+              //     invisible: true,
+              //     back: true
               //   },
               //   component: () =>
               //     import(
@@ -468,8 +521,8 @@ export const asyncRoute = [
               //   path: "editproduct",
               //   name: "编辑产品线",
               //   meta: {
-              //     invisible: true, // 不显示在左侧菜单
-              //     back: true // 后退
+              //     invisible: true,
+              //     back: true
               //   },
               //   component: () =>
               //     import(
@@ -480,7 +533,8 @@ export const asyncRoute = [
                 path: "discount",
                 name: "产品折扣管理",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "production-admin-discount"
                 },
                 component: () =>
                   import("@/pages/production/product/discount/index.vue")
@@ -490,14 +544,15 @@ export const asyncRoute = [
                 name: "产品折扣管理更新",
                 meta: {
                   icon: "home",
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "production-admin-discount"
                 },
                 component: () =>
                   import("@/pages/production/product/discount/update.vue")
               }
             ]
-          },
+          }
           // {
           //   path: "cloudServer",
           //   name: "云服务器",
@@ -519,8 +574,8 @@ export const asyncRoute = [
           //       path: "newOrder",
           //       name: "新建订单路由规则",
           //       meta: {
-          //         invisible: true, // 不显示在左侧菜单
-          //         back: true // 后退
+          //         invisible: true,
+          //         back: true
           //       },
           //       component: () =>
           //         import(
@@ -531,8 +586,8 @@ export const asyncRoute = [
           //       path: "changeOrder",
           //       name: "编辑订单路由规则",
           //       meta: {
-          //         invisible: true, // 不显示在左侧菜单
-          //         back: true // 后退
+          //         invisible: true,
+          //         back: true
           //       },
           //       component: () =>
           //         import(
@@ -549,7 +604,7 @@ export const asyncRoute = [
         name: "站务",
         component: PageView,
         meta: {
-          perm: "depot"
+          perm: "personal"
         },
         children: [
           {
@@ -557,7 +612,7 @@ export const asyncRoute = [
             name: "网站管理",
             meta: {
               icon: "home",
-              perm: "depot-webAdmin"
+              perm: "personal-web"
             },
             component: BlankView,
             children: [
@@ -566,7 +621,7 @@ export const asyncRoute = [
                 name: "banner管理",
                 meta: {
                   icon: "home",
-                  perm: "depot-webAdmin-banner"
+                  perm: "personal-web-banner"
                 },
                 component: () => import("@/pages/personal/banner/index.vue")
               },
@@ -574,9 +629,9 @@ export const asyncRoute = [
                 path: "update",
                 name: "Banner",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true, // 后退
-                  perm: "depot-webAdmin-banner"
+                  invisible: true,
+                  back: true,
+                  perm: "personal-web-banner"
                 },
                 component: () => import("@/pages/personal/banner/update.vue")
               },
@@ -584,7 +639,8 @@ export const asyncRoute = [
                 path: "links",
                 name: "友情链接",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-web-link"
                 },
                 component: () => import("@/pages/personal/links/links.vue")
               },
@@ -593,7 +649,8 @@ export const asyncRoute = [
                 name: "更新友情链接",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "personal-web-link"
                 },
                 component: () => import("@/pages/personal/links/updateLink.vue")
               },
@@ -602,7 +659,8 @@ export const asyncRoute = [
                 name: "友情链接分类更新",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "personal-web-link"
                 },
                 component: () =>
                   import("@/pages/personal/links/updateCategory.vue")
@@ -611,7 +669,8 @@ export const asyncRoute = [
                 path: "single",
                 name: "单页管理",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-web-page"
                 },
                 component: () => import("@/pages/personal/single/single.vue")
               },
@@ -619,8 +678,9 @@ export const asyncRoute = [
                 path: "add-single",
                 name: "单页添加",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-web-page"
                 },
                 component: () => import("@/pages/personal/single/addsingle.vue")
               },
@@ -628,8 +688,9 @@ export const asyncRoute = [
                 path: "amend-single",
                 name: "单页修改",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-web-page"
                 },
                 component: () =>
                   import("@/pages/personal/single/amendsingle.vue")
@@ -638,9 +699,8 @@ export const asyncRoute = [
                 path: "seo",
                 name: "SEO优化",
                 meta: {
-                  // invisible: true,
-                  // back: true
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-web-seo"
                 },
                 component: () => import("@/pages/personal/seo/seo.vue")
               },
@@ -649,7 +709,8 @@ export const asyncRoute = [
                 name: "seo修改",
                 meta: {
                   invisible: true,
-                  back: true
+                  back: true,
+                  perm: "personal-web-seo"
                 },
                 component: () => import("@/pages/personal/seo/amendseo")
               }
@@ -659,7 +720,8 @@ export const asyncRoute = [
             path: "helpword",
             name: "帮助文档",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "personal-help"
             },
             component: BlankView,
             children: [
@@ -667,7 +729,8 @@ export const asyncRoute = [
                 path: "typemanage",
                 name: "类别管理",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-help-type"
                 },
                 component: () => import("@/pages/helpword/category/index.vue")
               },
@@ -675,8 +738,9 @@ export const asyncRoute = [
                 path: "add-category",
                 name: "帮助中心类别添加",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-help-type"
                 },
                 component: () => import("@/pages/helpword/category/addcategory")
               },
@@ -684,8 +748,9 @@ export const asyncRoute = [
                 path: "edithelp",
                 name: "帮助类别修改",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-help-type"
                 },
                 component: () => import("@/pages/helpword/category/edithelp")
               },
@@ -693,9 +758,8 @@ export const asyncRoute = [
                 path: "wordmanage",
                 name: "文档管理",
                 meta: {
-                  // invisible: true,
-                  // back: true
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-help-doc"
                 },
                 component: () => import("@/pages/helpword/word/index.vue")
               },
@@ -703,8 +767,9 @@ export const asyncRoute = [
                 path: "add-word",
                 name: "帮助文档添加",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-help-doc"
                 },
                 component: () => import("@/pages/helpword/word/addword")
               },
@@ -712,8 +777,9 @@ export const asyncRoute = [
                 path: "amend-word",
                 name: "帮助文档修改",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-help-doc"
                 },
                 component: () => import("@/pages/helpword/word/amendword")
               },
@@ -721,9 +787,8 @@ export const asyncRoute = [
                 path: "hotproblem",
                 name: "常见热点问题",
                 meta: {
-                  // invisible: true,
-                  // back: true
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-help-hot"
                 },
                 component: () => import("@/pages/helpword/common/index.vue")
               },
@@ -731,8 +796,9 @@ export const asyncRoute = [
                 path: "amend-common",
                 name: "常见热点问题修改",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-help-hot"
                 },
                 component: () => import("@/pages/helpword/common/amendcommon")
               }
@@ -743,7 +809,7 @@ export const asyncRoute = [
             name: "新闻公告",
             meta: {
               icon: "home",
-              perm: "depot-news"
+              perm: "personal-news"
             },
             component: BlankView,
             children: [
@@ -751,7 +817,8 @@ export const asyncRoute = [
                 path: "category",
                 name: "类别管理",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "personal-news-type"
                 },
                 component: () => import("@/pages/news/category/index.vue")
               },
@@ -759,8 +826,9 @@ export const asyncRoute = [
                 path: "addcategory",
                 name: "新闻类型添加",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-news-type"
                 },
                 component: () => import("@/pages/news/category/addNewsType.vue")
               },
@@ -768,8 +836,9 @@ export const asyncRoute = [
                 path: "upcategory",
                 name: "修改新闻类型",
                 meta: {
-                  invisible: true, // 不显示在左侧菜单
-                  back: true // 后退
+                  invisible: true,
+                  back: true,
+                  perm: "personal-news-type"
                 },
                 component: () => import("@/pages/news/category/upNewsType")
               },
@@ -777,10 +846,8 @@ export const asyncRoute = [
                 path: "newslist",
                 name: "新闻列表",
                 meta: {
-                  // invisible: true,
-                  // back: true
                   icon: "home",
-                  perm: "depot-news-list"
+                  perm: "personal-news-news"
                 },
                 component: () => import("@/pages/news/list/index.vue")
               },
@@ -790,7 +857,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "depot-news-list"
+                  perm: "personal-news-news"
                 },
                 component: () => import("@/pages/news/list/addNewsList.vue")
               },
@@ -800,7 +867,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "depot-news-list"
+                  perm: "personal-news-news"
                 },
                 component: () => import("@/pages/news/list/upNewsList.vue")
               }
@@ -860,7 +927,8 @@ export const asyncRoute = [
             path: "basics",
             name: "基础设置",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "system-setting"
             },
             component: BlankView,
             children: [
@@ -868,7 +936,8 @@ export const asyncRoute = [
                 path: "whole",
                 name: "全局设置",
                 meta: {
-                  icon: "home"
+                  icon: "home",
+                  perm: "system-setting-global"
                 },
                 component: () => import("@/pages/system/basics/whole")
               }
@@ -882,36 +951,32 @@ export const asyncRoute = [
         name: "个人",
         component: PageView,
         mata: {
-          invisible: true
+          perm: "user"
         },
         children: [
           {
             path: "account",
             name: "账号管理",
             meta: {
-              icon: "home"
+              icon: "home",
+              perm: "user-admin"
             },
             component: BlankView,
             children: [
               {
                 path: "userInfo",
                 name: "个人信息",
-                meta: {},
+                meta: {
+                  perm: "user-admin-info"
+                },
                 component: () => import("@/pages/accountRoot/userInfo")
               },
-              // {
-              //   path: "updateAdmin",
-              //   name: "管理员添加",
-              //   meta: {
-              //     invisible: true,
-              //     back: true
-              //   },
-              //   component: () => import("@/pages/system/admin/role")
-              // },
               {
                 path: "changePassword",
                 name: "修改密码",
-                meta: {},
+                meta: {
+                  perm: "user-admin-password"
+                },
                 component: () => import("@/pages/accountRoot/changePassword")
               }
             ]
