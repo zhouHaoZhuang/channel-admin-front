@@ -10,7 +10,7 @@ const channel = {
     // 获取权限列表
     getAdminList({ commit, state }, data) {
       return request({
-        url: "/permission/queryPage",
+        url: "/resource/queryPage",
         method: "post",
         data
       });
@@ -18,7 +18,7 @@ const channel = {
     // 新增权限
     addAdmin({ commit, state }, data) {
       return request({
-        url: "/permission/addPermission",
+        url: "/resource/addPermission",
         method: "post",
         data
       });
@@ -26,7 +26,7 @@ const channel = {
     // 编辑权限
     editAdmin({ commit, state }, data) {
       return request({
-        url: `/permission/modifyPermission`,
+        url: `/resource/modifyPermission`,
         method: "put",
         data
       });
@@ -34,7 +34,7 @@ const channel = {
     // 删除权限
     delAdmin({ commit, state }, data) {
       return request({
-        url: `/permission/${data.code}`,
+        url: `/resource/${data.code}`,
         method: "delete"
       });
     },
@@ -85,11 +85,10 @@ const channel = {
       });
     },
     // 弹窗中用户列表
-    getModalUserList({ commit, state }, data) {
+    getModalUserList({ commit, state }) {
       return request({
-        url: "/manageUser/searchUsers",
-        method: "post",
-        data
+        url: "/manageUser/getChannelUsers",
+        method: "get"
       });
     },
     // 添加授权用户
@@ -134,7 +133,7 @@ const channel = {
     // 根据权限获取对应权限的所有操作
     getPremActions({ commit, state }, params) {
       return request({
-        url: `/permission/${params.id}`
+        url: `/resource/${params.id}`
       });
     }
   }

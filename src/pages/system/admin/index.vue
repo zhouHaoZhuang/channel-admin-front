@@ -25,7 +25,7 @@
         </span>
         <span slot="action" slot-scope="text, record">
           <a-button
-            v-permission="'edit'"
+            v-permission="'modify'"
             type="link"
             @click="handleEdit(record)"
           >
