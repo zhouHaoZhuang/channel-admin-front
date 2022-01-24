@@ -123,29 +123,6 @@
               trigger: ['blur', 'change']
             }"
           >
-            <!-- <a-select
-              v-model="item.permissionCode"
-              show-search
-              placeholder="请选择权限"
-              option-filter-prop="children"
-              style="width: 100%"
-              :filter-option="filterOption"
-              @change="
-                (value, opt) => selectChange(value, opt, item.type, index)
-              "
-            >
-              <a-select-option value="all">
-                <span>所有资源</span>
-              </a-select-option>
-              <a-select-option
-                v-for="item in adminList"
-                :key="item.id"
-                :value="item.code"
-              >
-                <span>{{ item.code }}</span>
-                <span>({{ item.description }})</span>
-              </a-select-option>
-            </a-select> -->
             <a-tree-select
               v-model="item.permissionCode"
               style="width: 100%"
