@@ -18,7 +18,7 @@
             v-model="form.password"
             placeholder="密码"
             type="password"
-            :max-length="12"
+            :max-length="120"
           >
             <a-icon slot="prefix" type="lock" />
           </a-input>
