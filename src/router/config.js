@@ -925,7 +925,7 @@ export const asyncRoute = [
                 name: "子账号管理",
                 meta: {
                   icon: "home",
-                  perm: "system-admin-perm"
+                  perm: "system-admin-user"
                 },
                 component: () => import("@/pages/system/admin/account")
               }
