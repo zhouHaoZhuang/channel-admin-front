@@ -958,7 +958,7 @@ export const asyncRoute = [
         path: "/userinformation",
         name: "个人",
         component: PageView,
-        mata: {
+        meta: {
           perm: "user"
         },
         children: [

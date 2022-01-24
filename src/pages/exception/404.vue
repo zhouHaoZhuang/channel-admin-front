@@ -1,6 +1,6 @@
 <template>
   <exception-page
-    home-route="/dashboard"
+    :home-route="firstPath"
     :style="`min-height: ${minHeight}`"
     type="404"
   />
@@ -13,7 +13,7 @@ export default {
   name: "Exp404",
   components: { ExceptionPage },
   computed: {
-    ...mapState("setting", ["pageMinHeight"]),
+    ...mapState("setting", ["pageMinHeight", "firstPath"]),
     minHeight() {
       return this.pageMinHeight ? this.pageMinHeight + "px" : "100vh";
     }
