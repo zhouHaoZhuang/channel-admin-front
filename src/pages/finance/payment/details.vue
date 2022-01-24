@@ -201,9 +201,6 @@ export default {
             .then((res) => {
               console.log(res);
               this.$message.success('审核成功');
-            })
-            .catch((val) => {
-              this.$message.error('操作失败');
             }).finally(() => {
               this.$router.back()
             });

@@ -143,7 +143,11 @@ export default {
     Upload,
     Tinymce,
   },
-  created() {
+  // created() {
+  //   this.form.id = this.$route.query.id;
+  //   this.getList();
+  // },
+  activated() {
     this.form.id = this.$route.query.id;
     this.getList();
   },

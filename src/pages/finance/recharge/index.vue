@@ -187,6 +187,7 @@ export default {
           title: '充值ID',
           dataIndex: 'id',
           key: 'id',
+          width: 220,
         },
         {
           title: '支付ID',
@@ -205,6 +206,7 @@ export default {
           dataIndex: 'customerCode',
           key: 'customerCode',
           scopedSlots: { customRender: 'customerCode' },
+          width: 220,
         },
         {
           title: '充值金额',
@@ -223,6 +225,7 @@ export default {
           dataIndex: 'createTime',
           key: 'createTime',
           scopedSlots: { customRender: 'createTime' },
+          width: 220,
         },
         {
           title: '到账时间',

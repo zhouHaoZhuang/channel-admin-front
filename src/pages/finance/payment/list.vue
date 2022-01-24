@@ -170,10 +170,12 @@ export default {
         {
           title: "ID",
           dataIndex: "id",
+          width: 220,
         },
         {
           title: "会员ID",
           dataIndex: "applyUserCode",
+          width: 220,
         },
         {
           title: "会员名称",
