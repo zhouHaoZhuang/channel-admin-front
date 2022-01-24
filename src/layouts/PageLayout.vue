@@ -86,7 +86,8 @@ export default {
       );
     },
     routeName() {
-      return this.$route.name
+      const route = this.$route;
+      return this.$t(getI18nKey(route.matched[route.matched.length - 1].path));
     },
     breadcrumb() {
       let page = this.page;
