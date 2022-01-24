@@ -2,7 +2,6 @@ import { asyncRoute, resetRouter } from "@/router/config";
 import clonedeep from "lodash.clonedeep";
 // 循环处理路由菜单
 function getNewRoute(route, perms) {
-  console.log(route);
   let newData = route.filter(ele => hasPermissionMenu(ele, perms));
   newData.forEach(
     item => item.children && (item.children = getNewRoute(item.children, perms))
