@@ -16,7 +16,12 @@
               <span> |-帮助中心</span>
             </a-select-option>
             <a-select-option
-              :value="JSON.stringify({typeCode:item.typeCode, typeName:item.typeName})"
+              :value="
+                JSON.stringify({
+                  typeCode: item.typeCode,
+                  typeName: item.typeName
+                })
+              "
               v-for="(item, index) in arr"
               :key="index"
             >
@@ -81,49 +86,49 @@
 </template>
 
 <script>
-import Tinymce from '@/components/Tinymce/index.vue';
+import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   data() {
     return {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        title: '',
-        keyWords: '',
-        describe: '',
+        title: "",
+        keyWords: "",
+        describe: "",
         recommended: true,
         top: true,
         hot: true,
-        context: '',
-        helpTypeCode: '',
-        channelCode: '',
+        context: "",
+        helpTypeCode: "",
+        channelCode: "",
         feedback: 0,
         useful: 0,
-        useless: 0,
+        useless: 0
       },
       rules: {
         title: [
           {
             required: true,
-            message: '必填，链接名称长度必须在2-50之间。',
-            trigger: 'blur',
-          },
+            message: "必填，链接名称长度必须在2-50之间。",
+            trigger: "blur"
+          }
         ],
         linkUrl: [
           {
             required: true,
-            message: '必填，链接URL长度必须在2-50之间。',
-            trigger: 'blur',
-          },
-        ],
+            message: "必填，链接URL长度必须在2-50之间。",
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
       data: [],
-      arr: [],
+      arr: []
     };
   },
   components: {
-    Tinymce,
+    Tinymce
   },
   created() {
     this.getList();
@@ -135,16 +140,19 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch('word/getId', this.$route.query.id).then((res) => {
+      this.$store.dispatch("word/getId", this.$route.query.id).then(res => {
         console.log(res);
         this.form = res.data;
-        this.form.helpTypeCode = JSON.stringify({typeCode:this.form.helpTypeCode,typeName:this.form.helpTypeName});
+        this.form.helpTypeCode = JSON.stringify({
+          typeCode: this.form.helpTypeCode,
+          typeName: this.form.helpTypeName
+        });
         console.log(this.form);
       });
     },
     getAllType() {
-      this.$store.dispatch('helpCategory/getAllLevel').then((val) => {
-        console.log('获取所有分类------------', val.data);
+      this.$store.dispatch("helpCategory/getAllLevel").then(val => {
+        console.log("获取所有分类------------", val.data);
         this.arr = val.data;
       });
     },
@@ -164,13 +172,13 @@ export default {
       this.form.id = this.$route.query.id;
       this.form.helpTypeName = JSON.parse(this.form.helpTypeCode).typeName;
       this.form.helpTypeCode = JSON.parse(this.form.helpTypeCode).typeCode;
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch('word/edit', this.form)
-            .then((res) => {
-              this.$message.success('修改列表成功');
+            .dispatch("word/edit", this.form)
+            .then(res => {
+              this.$message.success("修改列表成功");
               this.resetForm();
               this.$router.back();
             })
@@ -184,16 +192,16 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        cutomerName: '',
-        shortName: '',
-        addressProject: '',
-        contract: '',
-        number: '',
-        context: '',
-        description: '',
+        cutomerName: "",
+        shortName: "",
+        addressProject: "",
+        contract: "",
+        number: "",
+        context: "",
+        description: ""
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

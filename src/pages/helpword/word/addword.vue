@@ -16,7 +16,12 @@
               <span> |-帮助中心</span>
             </a-select-option>
             <a-select-option
-              :value="JSON.stringify({typeCode:item.typeCode, typeName:item.typeName})"
+              :value="
+                JSON.stringify({
+                  typeCode: item.typeCode,
+                  typeName: item.typeName
+                })
+              "
               v-for="(item, index) in arr"
               :key="index"
             >
@@ -67,7 +72,7 @@
         </a-form-model-item>
         <a-form-model-item label="内容">
           <div class="Deputy">
-            <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context"/>
+            <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context" />
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
@@ -99,39 +104,39 @@ export default {
         channelCode: "",
         feedback: 0,
         useful: 0,
-        useless: 0,
+        useless: 0
       },
       rules: {
         title: [
           {
             required: true,
             message: "必填，标题名称长度必须在2-50之间。",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         keyWords: [
           {
             required: true,
             message: "必填，链接URL长度必须在2-50之间。",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
       data: [],
-      arr: [],
+      arr: []
     };
   },
   components: {
-    Tinymce,
+    Tinymce
   },
   activated() {
-     this.getAllType();
-     this.resetForm()
+    this.getAllType();
+    this.resetForm();
   },
   methods: {
     getAllType() {
-      this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+      this.$store.dispatch("helpCategory/getAllLevel").then(val => {
         console.log("获取所有分类------------", val.data);
         this.arr = val.data;
       });
@@ -149,7 +154,7 @@ export default {
     // 提交
     onSubmit() {
       // this.form.typeName = this.imgList.toString();
-      this.arr.findIndex((item) => {
+      this.arr.findIndex(item => {
         if (item.typeCode == this.form.helpTypeCode) {
           this.form.typeName = item.typeName;
         }
@@ -157,13 +162,13 @@ export default {
       this.form.helpTypeName = JSON.parse(this.form.helpTypeCode).typeName;
       this.form.helpTypeCode = JSON.parse(this.form.helpTypeCode).typeCode;
       // console.log("提交的数据", this.form);
-      
-      this.$refs.ruleForm.validate((valid) => {
+
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("word/add", this.form)
-            .then((res) => {
+            .then(res => {
               this.$message.success("新增列表成功");
               this.resetForm();
               this.$router.back();
@@ -184,10 +189,10 @@ export default {
         contract: "",
         number: "",
         description: "",
-        context: "",
+        context: ""
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -28,7 +28,7 @@
       <a-table :columns="columns" :data-source="data">
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="action" slot-scope="">
-          <a-button type="link" @click="updatePrice()">
+          <a-button v-permission="'modify'" type="link" @click="updatePrice()">
             编辑
           </a-button>
         </span>
@@ -82,7 +82,7 @@ export default {
           key: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" }
-        },
+        }
       ],
       data: [
         {
@@ -178,8 +178,8 @@ export default {
       }
     },
     //编辑
-    updatePrice(){
-      this.$router.push("/personal/account/amend-seo")
+    updatePrice() {
+      this.$router.push("/personal/account/amend-seo");
     }
   }
 };

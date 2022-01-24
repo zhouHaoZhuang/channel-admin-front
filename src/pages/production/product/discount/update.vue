@@ -54,7 +54,12 @@
           />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             提交
           </a-button>
         </a-form-model-item>
