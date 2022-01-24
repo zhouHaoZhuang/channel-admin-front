@@ -18,6 +18,12 @@ export default {
     };
   },
   created() {
+    document.addEventListener("visibilitychange", () => {
+      const newToken = JSON.parse(localStorage.getItem("vuex")).user.token;
+      if (this.token !== newToken) {
+        window.location.reload();
+      }
+    });
     this.setHtmlTitle();
     this.setLanguage(this.lang);
     enquireScreen(isMobile => this.setDevice(isMobile));
@@ -53,7 +59,10 @@ export default {
     }
   },
   computed: {
-    ...mapState("setting", ["layout", "theme", "weekMode", "lang"])
+    ...mapState("setting", ["layout", "theme", "weekMode", "lang"]),
+    ...mapState({
+      token: state => state.user.token
+    })
   },
   methods: {
     ...mapMutations("setting", ["setDevice"]),
@@ -95,6 +104,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#id {
-}
+// #id {
+// }
 </style>
