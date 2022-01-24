@@ -74,9 +74,18 @@ const permsGuard = async (to, from, next, options) => {
 const authorityGuard = (to, from, next, options) => {
   const { store, message, router } = options;
   const perms = store.state.user.perms;
+  // console.log(
+  //   "查看权限",
+  //   to,
+  //   from,
+  //   !loginIgnore.includes(to),
+  //   !hasPermissionMenu(to, perms, router),
+  //   !loginIgnore.includes(to) && !hasPermissionMenu(to, perms, router)
+  // );
   if (!loginIgnore.includes(to) && !hasPermissionMenu(to, perms, router)) {
     message.warning(`对不起，您无权访问页面，请联系管理员`);
-    next({ path: "/login" });
+    const firstPath = store.state.setting.firstPath;
+    next({ path: firstPath });
     NProgress.done();
   }
   // 存储一下当前路由的$route的meta信息
