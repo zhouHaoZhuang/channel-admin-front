@@ -1,14 +1,18 @@
 <template>
   <div class="channel-list-container">
     <div class="container">
-      <a-form-model ref="ruleForm"
-                    :model="form"
-                    :rules="rules"
-                    :label-col="labelCol"
-                    :wrapper-col="wrapperCol">
+      <a-form-model
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+      >
         <a-form-model-item label="线路">
-          <a-select v-model="form.cutomerName"
-                    placeholder="please select your zone">
+          <a-select
+            v-model="form.cutomerName"
+            placeholder="please select your zone"
+          >
             <a-select-option value="shanghai">
               中国大连
             </a-select-option>
@@ -21,8 +25,10 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="CPU">
-          <a-select v-model="form.cutomerName"
-                    placeholder="please select your zone">
+          <a-select
+            v-model="form.cutomerName"
+            placeholder="please select your zone"
+          >
             <a-select-option value="shanghai">
               1
             </a-select-option>
@@ -41,8 +47,10 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="内存">
-          <a-select v-model="form.cutomerName"
-                    placeholder="please select your zone">
+          <a-select
+            v-model="form.cutomerName"
+            placeholder="please select your zone"
+          >
             <a-select-option value="shanghai">
               1
             </a-select-option>
@@ -72,10 +80,12 @@
             </div>
           </div>
         </a-form-model-item>
-        <a-form-model-item v-for="(index) in diskNumber"
-                           :key="index"
-                           label=""
-                           :wrapper-col="{ span: 18, offset: 8 }">
+        <a-form-model-item
+          v-for="index in diskNumber"
+          :key="index"
+          label=""
+          :wrapper-col="{ span: 18, offset: 8 }"
+        >
           <div class="disk-size">
             <span>
               <a-input v-model="form.shortName" />
@@ -94,12 +104,13 @@
             </div>
           </div>
         </a-form-model-item>
-        <a-form-model-item label=""
-                           :wrapper-col="{ span: 18, offset: 8 }">
-          <a @click="adddisk">添加一块硬盘 还可以添加{{4-diskNumber}}块</a>
+        <a-form-model-item label="" :wrapper-col="{ span: 18, offset: 8 }">
+          <a @click="adddisk">添加一块硬盘 还可以添加{{ 4 - diskNumber }}块</a>
         </a-form-model-item>
-        <a-form-model-item label="
-             公网带宽">
+        <a-form-model-item
+          label="
+             公网带宽"
+        >
           <div class="disk-size">
             <span>
               <a-input v-model="form.shortName" />
@@ -115,8 +126,10 @@
           </div>
         </a-form-model-item>
         <a-form-model-item label="防御峰值">
-          <a-select v-model="form.cutomerName"
-                    placeholder="please select your zone">
+          <a-select
+            v-model="form.cutomerName"
+            placeholder="please select your zone"
+          >
             <a-select-option value="shanghai">
               20G
             </a-select-option>
@@ -137,8 +150,7 @@
         <a-form-model-item label="公共镜像">
           <div class="disk-size">
             <span class="system-type">
-              <a-select v-model="form.cutomerName"
-                        placeholder="请选择系统类别">
+              <a-select v-model="form.cutomerName" placeholder="请选择系统类别">
                 <a-select-option value="shanghai">
                   Windows Server
                 </a-select-option>
@@ -157,8 +169,7 @@
               </a-select>
             </span>
             <div class="add-reduce system-type">
-              <a-select v-model="form.cutomerName"
-                        placeholder="请选择系统版本">
+              <a-select v-model="form.cutomerName" placeholder="请选择系统版本">
                 <a-select-option value="shanghai">
                   Windows Server
                 </a-select-option>
@@ -189,8 +200,10 @@
           <a-input v-model="form.contract" />
         </a-form-model-item>
         <a-form-model-item label="购买时长">
-          <a-select v-model="form.addressProject"
-                    placeholder="please select your zone">
+          <a-select
+            v-model="form.addressProject"
+            placeholder="please select your zone"
+          >
             <a-select-option value="shanghai">
               1个月
             </a-select-option>
@@ -237,9 +250,12 @@
           <a-input-password v-model="form.description" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 8 }">
-          <a-button type="primary"
-                    @click="onSubmit"
-                    :loading="loading">
+          <a-button
+            v-permission="'biz-open'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确定
           </a-button>
         </a-form-model-item>
@@ -250,7 +266,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 },
@@ -282,12 +298,12 @@ export default {
       loading: false
     };
   },
-  activated () {
+  activated() {
     this.resetForm();
   },
   methods: {
     // 提交
-    onSubmit () {
+    onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
@@ -305,20 +321,20 @@ export default {
       });
     },
     // adddisk添加磁盘
-    adddisk () {
+    adddisk() {
       if (this.diskNumber === 4) {
-        return
+        return;
       }
       this.diskNumber++;
     },
-    deldisk () {
+    deldisk() {
       if (this.diskNumber === 0) {
-        return
+        return;
       }
       this.diskNumber--;
     },
     // 重置表单数据
-    resetForm () {
+    resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
         cutomerName: "",

@@ -66,7 +66,7 @@
           </span>
         </div>
         <div slot="action" slot-scope="text, record">
-          <a-button type="link" @click="handleSelectDetail(record)">
+          <a-button v-permission="'view'" type="link" @click="handleSelectDetail(record)">
             查看
           </a-button>
         </div>

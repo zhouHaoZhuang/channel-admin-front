@@ -10,9 +10,7 @@
       >
         <a-form-model-item label="所属分类">
           <a-select v-model="form.typeCode">
-            <a-select-option
-              value="help_type_01"
-            >
+            <a-select-option value="help_type_01">
               <span> |-帮助中心</span>
             </a-select-option>
             <a-select-option
@@ -40,7 +38,12 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确定添加
           </a-button>
         </a-form-model-item>
@@ -60,40 +63,40 @@ export default {
         typeCode: "",
         typeName: "",
         typeNameEn: "",
-        typeIcon: "",
+        typeIcon: ""
       },
       rules: {
         typeName: [
           {
             required: true,
             message: "请输入名称(必填)",
-            trigger: "blur",
+            trigger: "blur"
           },
           {
             pattern: /^[\u4e00-\u9fa5_0-9]+$/,
             message: "请输入中文",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         typeNameEn: [
           {
             required: true,
             message: "必填，英文名称不能为空",
-            trigger: "blur",
+            trigger: "blur"
           },
           {
             pattern: /^[a-zA-Z0-9_]+$/,
             message: "请输入英文名称",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
-      arr: [],
+      arr: []
     };
   },
   components: {
-    Upload,
+    Upload
   },
   activated() {
     this.getAllType();
@@ -106,10 +109,12 @@ export default {
       console.log(`selected ${value}`);
     },
     getInfo() {
-      this.$store.dispatch("helpCategory/getOne",{id:this.$route.query.id}).then((val) => {
-        console.log("获取详情", val);
-        this.form = val.data;
-      });
+      this.$store
+        .dispatch("helpCategory/getOne", { id: this.$route.query.id })
+        .then(val => {
+          console.log("获取详情", val);
+          this.form = val.data;
+        });
     },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
@@ -118,7 +123,7 @@ export default {
     },
     // 请求到所有分类
     getAllType() {
-     this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+      this.$store.dispatch("helpCategory/getAllLevel").then(val => {
         console.log("获取所有分类------------", val.data);
         this.arr = val.data;
       });
@@ -126,12 +131,12 @@ export default {
     // 提交
     onSubmit() {
       this.form.id = this.$route.query.id;
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("helpCategory/changeList", this.form)
-            .then((res) => {
+            .then(res => {
               this.$message.success("修改帮助类别成功");
               this.resetForm();
               this.$router.back();
@@ -149,10 +154,10 @@ export default {
         typeCode: "",
         typeName: "",
         typeNameEn: "",
-        typeIcon: "",
+        typeIcon: ""
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

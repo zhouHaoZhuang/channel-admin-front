@@ -10,7 +10,7 @@
     >
       <slot name="action" slot="action"></slot>
       <slot slot="content" name="headerContent"></slot>
-      <div slot="content" v-if="!this.$slots.headerContent && desc">
+      <!-- <div slot="content" v-if="!this.$slots.headerContent && desc">
         <p>{{ desc }}</p>
         <div v-if="this.linkList" class="link">
           <template v-for="(link, index) in linkList">
@@ -20,7 +20,7 @@
           </template>
         </div>
       </div>
-      <slot v-if="this.$slots.extra" slot="extra" name="extra"></slot>
+      <slot v-if="this.$slots.extra" slot="extra" name="extra"></slot> -->
     </page-header>
     <div ref="page" :class="['page-content', layout, pageWidth]">
       <slot></slot>

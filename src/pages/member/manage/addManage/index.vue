@@ -110,7 +110,12 @@
           <a-input-password v-model="form.description" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 8 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确认添加
           </a-button>
         </a-form-model-item>

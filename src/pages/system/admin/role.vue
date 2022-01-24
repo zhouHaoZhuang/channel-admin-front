@@ -21,7 +21,7 @@
           :columns="columns"
           :data-source="data"
           rowKey="id"
-          :pagination="paginationProps"
+          :pagination="false"
         >
           <span slot="createdAt" slot-scope="text">
             {{ text | formatDate }}

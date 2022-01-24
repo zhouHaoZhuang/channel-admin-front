@@ -100,7 +100,12 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item style="margin-bottom:0" label="授权规则">
-          <a-button type="link" icon="plus" @click="handleAddRule">
+          <a-button
+            :disabled="isSelectAll"
+            type="link"
+            icon="plus"
+            @click="handleAddRule"
+          >
             添加授权规则
           </a-button>
         </a-form-model-item>
@@ -118,29 +123,6 @@
               trigger: ['blur', 'change']
             }"
           >
-            <!-- <a-select
-              v-model="item.permissionCode"
-              show-search
-              placeholder="请选择权限"
-              option-filter-prop="children"
-              style="width: 100%"
-              :filter-option="filterOption"
-              @change="
-                (value, opt) => selectChange(value, opt, item.type, index)
-              "
-            >
-              <a-select-option value="all">
-                <span>所有资源</span>
-              </a-select-option>
-              <a-select-option
-                v-for="item in adminList"
-                :key="item.id"
-                :value="item.code"
-              >
-                <span>{{ item.code }}</span>
-                <span>({{ item.description }})</span>
-              </a-select-option>
-            </a-select> -->
             <a-tree-select
               v-model="item.permissionCode"
               style="width: 100%"
@@ -166,7 +148,7 @@
           >
             <a-radio-group
               v-model="item.type"
-              :disabled="!item.permissionCode || item.permissionCode === 'all'"
+              :disabled="!item.permissionCode || item.permissionCode === '*'"
               @change="e => radioChange(e, item, index)"
             >
               <a-radio :value="1">
@@ -240,10 +222,10 @@ export default {
           dataIndex: "code",
           scopedSlots: { customRender: "code" }
         },
-        {
-          title: "权限描述",
-          dataIndex: "desacription"
-        },
+        // {
+        //   title: "权限描述",
+        //   dataIndex: "desacription"
+        // },
         {
           title: "权限操作",
           dataIndex: "actions",
@@ -294,6 +276,14 @@ export default {
       },
       treeData: []
     };
+  },
+  computed: {
+    isSelectAll() {
+      let index = this.form.permissionActions.findIndex(
+        ele => ele.permissionCode === "*"
+      );
+      return index !== -1 ? true : false;
+    }
   },
   watch: {
     code: {
@@ -399,9 +389,9 @@ export default {
       this.getNewData(twoData, threeData);
       this.getNewData(oneData, twoData);
       oneData.unshift({
-        title: "所有资源",
-        key: "all",
-        value: "all"
+        title: "所有权限",
+        key: "*",
+        value: "*"
       });
       return oneData;
     },
@@ -434,10 +424,10 @@ export default {
     selectChange(value, label, extra, type, index) {
       this.form.permissionActions[index].actions = [];
       this.form.permissionActions[index].actionSelectList = [];
-      if (type === 0 && value !== "all") {
+      if (type === 0 && value !== "*") {
         this.getPremActions(value, index);
       }
-      if (value === "all") {
+      if (value === "*") {
         this.form.permissionActions[index].type = 1;
       }
     },

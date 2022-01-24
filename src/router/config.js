@@ -22,7 +22,7 @@ export const basicRoute = [
     component: () => import("@/pages/passport/register")
   },
   {
-    path: "*",
+    path: "/404",
     name: "404",
     component: () => import("@/pages/exception/404")
   },

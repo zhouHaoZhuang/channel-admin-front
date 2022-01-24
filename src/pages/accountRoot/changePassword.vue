@@ -44,7 +44,7 @@
         <a-input-password v-model="form.newTwoPassword" v-password-input />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 8, offset: 6 }">
-        <a-button type="primary" @click="onSubmit">
+        <a-button v-permission="'commit'" type="primary" @click="onSubmit">
           确定
         </a-button>
       </a-form-model-item>
@@ -53,56 +53,56 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import CodeBtn from '@/components/CodeBtn/index';
+import { mapState } from "vuex";
+import CodeBtn from "@/components/CodeBtn/index";
 
 export default {
   components: { CodeBtn },
   data() {
     const validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
+      if (value === "") {
+        callback(new Error("请输入密码"));
       } else {
         if (!this.pwdReg.test(value)) {
-          callback(new Error('密码格式不正确'));
+          callback(new Error("密码格式不正确"));
         }
         callback();
       }
     };
     const validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入确认密码'));
+      if (value === "") {
+        callback(new Error("请输入确认密码"));
       } else if (value !== this.form.newPassword) {
-        callback(new Error('两次密码不一致'));
+        callback(new Error("两次密码不一致"));
       } else {
         callback();
       }
     };
     return {
       labelCol: { span: 6 },
-      phone: '',
+      phone: "",
       wrapperCol: { span: 8 },
       form: {
-        phone: '',
-        newPassword: '',
-        newTwoPassword: '',
-        code: '',
+        phone: "",
+        newPassword: "",
+        newTwoPassword: "",
+        code: ""
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
         phone: [
-          { required: true, message: '验证手机号为必填', trigger: 'blur' },
+          { required: true, message: "验证手机号为必填", trigger: "blur" }
         ],
-        code: [{ required: true, message: '验证码为必填', trigger: 'blur' }],
+        code: [{ required: true, message: "验证码为必填", trigger: "blur" }],
         newPassword: [
-          { validator: validatePass, trigger: ['blur', 'change'] },
-          { min: 6, max: 20, message: '密码位数在6~20位', trigger: 'blur' },
+          { validator: validatePass, trigger: ["blur", "change"] },
+          { min: 6, max: 20, message: "密码位数在6~20位", trigger: "blur" }
         ],
         newTwoPassword: [
-          { validator: validatePass2, trigger: ['blur', 'change'] },
-          { min: 6, max: 20, message: '密码位数在6~20位', trigger: 'blur' },
-        ],
-      },
+          { validator: validatePass2, trigger: ["blur", "change"] },
+          { min: 6, max: 20, message: "密码位数在6~20位", trigger: "blur" }
+        ]
+      }
     };
   },
   created() {
@@ -110,16 +110,16 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('user/logout').then((res) => {
-        this.$router.push('/login');
+      this.$store.dispatch("user/logout").then(res => {
+        this.$router.push("/login");
       });
     },
     onSubmit() {
-      console.log('submit!', this.form);
-      this.$refs.ruleForm.validate((valid) => {
+      console.log("submit!", this.form);
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch('user/changePassword', this.form).then(() => {
-            this.$message.success('修改成功');
+          this.$store.dispatch("user/changePassword", this.form).then(() => {
+            this.$message.success("修改成功");
             this.logout();
           });
         }
@@ -127,21 +127,21 @@ export default {
     },
     getRoles() {
       this.$store
-        .dispatch('user/getRoleList', { id: this.userInfo.id })
-        .then((val) => {
-          console.log('获取角色', val);
+        .dispatch("user/getRoleList", { id: this.userInfo.id })
+        .then(val => {
+          console.log("获取角色", val);
         });
-    },
+    }
   },
 
   computed: {
     ...mapState({
-      userInfo: (state) => state.user.userInfo,
+      userInfo: state => state.user.userInfo
     }),
     nameOrphone() {
-      return this.userInfo.username ? this.userInfo.username.slice(0, 11) : '';
-    },
-  },
+      return this.userInfo.username ? this.userInfo.username.slice(0, 11) : "";
+    }
+  }
 };
 </script>
 
