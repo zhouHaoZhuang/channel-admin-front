@@ -222,10 +222,10 @@ export default {
           dataIndex: "code",
           scopedSlots: { customRender: "code" }
         },
-        {
-          title: "权限描述",
-          dataIndex: "desacription"
-        },
+        // {
+        //   title: "权限描述",
+        //   dataIndex: "desacription"
+        // },
         {
           title: "权限操作",
           dataIndex: "actions",
