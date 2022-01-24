@@ -360,7 +360,7 @@ export default {
         },
         {
           title: '订单ID',
-          width: 130,
+          width: 160,
           dataIndex: 'orderNo',
         },
         // { title: '弹性IP', dataIndex: 'intranetIp', key: 'intranetIp' },
