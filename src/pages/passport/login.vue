@@ -16,6 +16,7 @@
         <a-form-model-item prop="password">
           <a-input
             v-model="form.password"
+            v-password-input
             placeholder="密码"
             type="password"
             :max-length="20"

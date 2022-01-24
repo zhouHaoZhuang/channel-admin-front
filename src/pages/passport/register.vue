@@ -29,6 +29,7 @@
         <a-form-model-item prop="confirmPassword">
           <a-input-password
             v-model="form.confirmPassword"
+            v-password-input
             type="password"
             :max-length="20"
             placeholder="确认密码"
