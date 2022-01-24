@@ -232,6 +232,7 @@ export default {
           dataIndex: 'payTime',
           key: 'modifyTime',
           scopedSlots: { customRender: 'modifyTime' },
+           width: 220,
         },
         {
           title: '充值状态',
