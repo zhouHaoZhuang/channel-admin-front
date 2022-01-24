@@ -67,7 +67,7 @@
           <a-icon type="setting" />
           自定义列表
         </a-button>
-        <a-button>
+        <a-button v-permission="'export'">
           <a-icon type="export" />
           导出
         </a-button>
@@ -103,10 +103,14 @@
             {{ detailTypeMapData[text] }}
           </div>
           <div slot-scope="text" slot="type" v-if="text">
-            {{ text == 'I' ? '收入' : '支出' }}
+            {{ text == "I" ? "收入" : "支出" }}
           </div>
           <div slot="action" slot-scope="text">
-            <a-button type="link" @click="selectPool(text)">
+            <a-button
+              v-permission="'view'"
+              type="link"
+              @click="selectPool(text)"
+            >
               查看
             </a-button>
           </div>
@@ -120,7 +124,7 @@
 </template>
 
 <script>
-import { detailTypeMapData, paymentTypeMap } from '@/utils/enum.js';
+import { detailTypeMapData, paymentTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -128,56 +132,56 @@ export default {
       detailTypeMapData,
       paymentTypeMap,
       listQuery: {
-        key: 'customerCode',
-        search: '',
+        key: "customerCode",
+        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        detailType: '',
-        startTime: '',
-        endTime: '',
+        detailType: "",
+        startTime: "",
+        endTime: ""
       },
       columns: [
         {
-          title: '编号ID',
-          dataIndex: 'paymentLineId',
+          title: "编号ID",
+          dataIndex: "paymentLineId",
           sorter: true,
-          sortDirections: ['ascend', 'descend'],
-          width: 180,
+          sortDirections: ["ascend", "descend"],
+          width: 180
         },
         {
-          title: '会员ID',
-          dataIndex: 'customerCode',
+          title: "会员ID",
+          dataIndex: "customerCode"
         },
         {
-          title: '发生金额(元)',
-          dataIndex: 'dealAmount',
-          scopedSlots: { customRender: 'dealAmount' },
+          title: "发生金额(元)",
+          dataIndex: "dealAmount",
+          scopedSlots: { customRender: "dealAmount" }
         },
         {
-          title: '流水类型',
-          dataIndex: 'type',
-          scopedSlots: { customRender: 'type' },
+          title: "流水类型",
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
         },
         {
-          title: '当时余额(元)',
-          dataIndex: 'beforeAmount',
-          scopedSlots: { customRender: 'beforeAmount' },
+          title: "当时余额(元)",
+          dataIndex: "beforeAmount",
+          scopedSlots: { customRender: "beforeAmount" }
         },
         {
-          title: '余额(元)',
-          dataIndex: 'afterAmount',
-          scopedSlots: { customRender: 'afterAmount' },
+          title: "余额(元)",
+          dataIndex: "afterAmount",
+          scopedSlots: { customRender: "afterAmount" }
         },
         {
-          title: '款项类型',
-          dataIndex: 'detailType',
-          scopedSlots: { customRender: 'detailType' },
+          title: "款项类型",
+          dataIndex: "detailType",
+          scopedSlots: { customRender: "detailType" }
         },
         {
-          title: '订单状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
+          title: "订单状态",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         // {
         //   title: "交易描述",
@@ -186,10 +190,10 @@ export default {
         //   scopedSlots: { customRender: "actualAmount" },
         // },
         {
-          title: '发生时间',
-          dataIndex: 'createTime',
-          scopedSlots: { customRender: 'createTime' },
-          width: 180,
+          title: "发生时间",
+          dataIndex: "createTime",
+          scopedSlots: { customRender: "createTime" },
+          width: 180
         },
         // {
         //   title: "订单ID",
@@ -197,16 +201,16 @@ export default {
         //   scopedSlots: { customRender: "select" }
         // },
         {
-          title: '操作管理员',
-          dataIndex: 'modifyUserName',
+          title: "操作管理员",
+          dataIndex: "modifyUserName"
         },
         {
-          title: '操作',
+          title: "操作",
           // dataIndex: "id",
-          key: 'action',
-          fixed: 'right',
-          scopedSlots: { customRender: 'action' },
-        },
+          key: "action",
+          fixed: "right",
+          scopedSlots: { customRender: "action" }
+        }
       ],
       data: [],
       // 表格分页器配置
@@ -219,31 +223,31 @@ export default {
             total / this.listQuery.pageSize
           )}  页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
       startValue: null,
       endValue: null,
       endOpen: false,
-      isTime: true,
+      isTime: true
     };
   },
   computed: {
     useColumns() {
       return [
         {
-          title: '会员ID',
-          dataIndex: 'customerCode',
+          title: "会员ID",
+          dataIndex: "customerCode"
         },
         {
-          title: '业务ID',
-          dataIndex: 'paymentLineId',
+          title: "业务ID",
+          dataIndex: "paymentLineId"
         },
         {
-          title: '起始日期',
-          dataIndex: 'createTime',
-        },
+          title: "起始日期",
+          dataIndex: "createTime"
+        }
       ];
-    },
+    }
   },
   created() {
     this.getList();
@@ -261,9 +265,9 @@ export default {
       if (sorter && sorter.order) {
         this.listQuery.key = sorter.columnKey;
         this.listQuery.sorter =
-          sorter.order.replace('end', '') + `-${sorter.columnKey}`;
+          sorter.order.replace("end", "") + `-${sorter.columnKey}`;
         this.getList();
-        console.log('排序被点击了', sorter.columnKey, sorter.order);
+        console.log("排序被点击了", sorter.columnKey, sorter.order);
       }
     },
     disabledStartDate(startValue) {
@@ -291,8 +295,8 @@ export default {
     // 查询的回调
     secectClick() {
       this.listQuery.search = this.listQuery.search.trim();
-      if (this.listQuery.key === 'customerCode') {
-        if (this.listQuery.search !== '') {
+      if (this.listQuery.key === "customerCode") {
+        if (this.listQuery.search !== "") {
           this.listQuery.search = Array.isArray(this.listQuery.search)
             ? this.listQuery.search
             : [this.listQuery.search];
@@ -306,7 +310,7 @@ export default {
     changeKey(val) {
       // console.log(val);
       this.title = val;
-      if (this.title !== 'createTime') {
+      if (this.title !== "createTime") {
         this.isTime = true;
       } else {
         this.isTime = false;
@@ -323,8 +327,8 @@ export default {
       this.getList();
     },
     getList() {
-      this.$getList('financialDetails/getList', this.listQuery).then((res) => {
-        console.log(res, '获取列表');
+      this.$getList("financialDetails/getList", this.listQuery).then(res => {
+        console.log(res, "获取列表");
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });
@@ -334,11 +338,11 @@ export default {
       this.$router.push({
         path: `/finance/index/detailedinfo`,
         query: {
-          id: data.id,
-        },
+          id: data.id
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -354,10 +358,10 @@ export default {
       width: 200px;
       // margin-right: 20px;
     }
-    .disabled-date{
+    .disabled-date {
       display: flex;
     }
-    [type='button'] {
+    [type="button"] {
       margin-left: 10px;
     }
     .zhi {

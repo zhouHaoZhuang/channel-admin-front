@@ -56,7 +56,11 @@
         <a-input-number v-model="form.name" />条
       </a-form-model-item> -->
       <a-form-model-item :wrapper-col="{ span: 8, offset: 8 }">
-        <a-button type="primary" @click="onSubmit">
+        <a-button
+          v-permission="'send-message'"
+          type="primary"
+          @click="onSubmit"
+        >
           确认发送
         </a-button>
       </a-form-model-item>
@@ -65,8 +69,8 @@
 </template>
 
 <script>
-import Tinymce from '@/components/Tinymce/index.vue';
-import moment from 'moment';
+import Tinymce from "@/components/Tinymce/index.vue";
+import moment from "moment";
 
 export default {
   data() {
@@ -74,43 +78,43 @@ export default {
       moment,
       labelCol: { span: 8 },
       wrapperCol: { span: 8 },
-      other: '',
+      other: "",
       form: {
-        messageType: '1',
-        title: '',
-        content: '',
-        sendObject: 'all',
-        receiverCode: [],
+        messageType: "1",
+        title: "",
+        content: "",
+        sendObject: "all",
+        receiverCode: []
       },
       rules: {
         receiverAccount: [
           {
             required: true,
-            message: '会员ID不能为空',
-            trigger: 'blur',
-          },
+            message: "会员ID不能为空",
+            trigger: "blur"
+          }
         ],
         title: [
           {
             required: true,
-            message: '标题为必填项',
-            trigger: 'blur',
-          },
-        ],
+            message: "标题为必填项",
+            trigger: "blur"
+          }
+        ]
       },
       data: null,
       listQuery: {
-        key: '',
-        search: '',
+        key: "",
+        search: "",
         currentPage: 1,
         pageSize: 999,
         total: 0,
-        sorter: '',
-      },
+        sorter: ""
+      }
     };
   },
   components: {
-    Tinymce,
+    Tinymce
   },
 
   activated() {
@@ -123,8 +127,8 @@ export default {
     },
     getVipList() {
       this.$store
-        .dispatch('member/getList', this.listQuery)
-        .then((res) => {
+        .dispatch("member/getList", this.listQuery)
+        .then(res => {
           console.log(res);
           this.data = res.data.list;
         })
@@ -136,31 +140,38 @@ export default {
       this.form.receiverCode = value.toString();
     },
     onSubmit() {
-      if (this.form.sendObject == 'all') {
-        this.form.receiverCode = '';
-        this.data.forEach((element) => {
-          this.form.receiverCode += element.corporationCode + ',';
+      if (this.form.sendObject == "all") {
+        this.form.receiverCode = "";
+        this.data.forEach(element => {
+          this.form.receiverCode += element.corporationCode + ",";
         });
       }
       console.log(this.form);
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          console.log(this.form);
-          this.$store.dispatch('message/addMessage', this.form).then((res) => {
-            console.log(res);
-            this.$message.success("新增消息成功");
-            this.$router.back();
+      this.$confirm({
+        title: '确定要发送吗?',
+        onOk: () => {
+          this.$refs.ruleForm.validate((valid) => {
+            if (valid) {
+              console.log(this.form);
+              this.$store
+                .dispatch('message/addMessage', this.form)
+                .then((res) => {
+                  console.log(res);
+                  this.$message.success('新增消息成功');
+                  this.$router.back();
+                });
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
           });
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
+        },
       });
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
-    },
-  },
+    }
+  }
 };
 </script>
 

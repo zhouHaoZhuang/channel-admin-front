@@ -13,8 +13,12 @@
           :filter-option="filterOption"
           @change="handleChange"
         >
-          <a-select-option v-for="(item,index) in vipList" :value="item" :key='index'>
-            {{item}}
+          <a-select-option
+            v-for="(item, index) in vipList"
+            :value="item"
+            :key="index"
+          >
+            {{ item }}
           </a-select-option>
         </a-select>
         <div class="annotation">
@@ -56,7 +60,11 @@
         <a-input v-model="password" type="password" />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 18, offset: 8 }">
-        <a-button type="primary" @click="onSubmit">
+        <a-button
+          v-permission="'modify-balance'"
+          type="primary"
+          @click="onSubmit"
+        >
           提交
         </a-button>
       </a-form-model-item>
@@ -69,7 +77,7 @@ import Upload from "@/components/Upload/index.vue";
 import { paymentTypeMapData } from "@/utils/enum";
 export default {
   components: {
-    Upload,
+    Upload
   },
   data() {
     return {
@@ -79,17 +87,17 @@ export default {
         amount: "",
         memo: "",
         voucher: "",
-        status: 0,
+        status: 0
       },
       password: "",
       paymentTypeMapData,
       labelCol: {
-        span: 8,
+        span: 8
       },
       wrapperCol: {
-        span: 10,
+        span: 10
       },
-      vipList: [],
+      vipList: []
     };
   },
   activated() {
@@ -97,7 +105,7 @@ export default {
   },
   methods: {
     getVipList() {
-      this.$store.dispatch("manualDeposit/getVipList").then((res) => {
+      this.$store.dispatch("manualDeposit/getVipList").then(res => {
         console.log(res);
         this.vipList = res.data;
       });
@@ -109,7 +117,7 @@ export default {
     onSubmit() {
       this.$store
         .dispatch("manualDeposit/addList", this.form)
-        .then((res) => {
+        .then(res => {
           this.$message.success("操作成功");
         })
         .catch(() => {
@@ -125,8 +133,8 @@ export default {
           .toLowerCase()
           .indexOf(input.toLowerCase()) >= 0
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

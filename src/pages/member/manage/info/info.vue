@@ -4,115 +4,123 @@
       <p>基础资料</p>
       <div class="base-info">
         <div>
-          <span class="menber-title">ID：</span
-          ><span class="menber-info">{{ dataBase.id }}</span>
+          <span class="menber-title">ID：</span>
+          <span class="menber-info">{{ dataBase.id }}</span>
         </div>
         <div>
-          <span class="menber-title">姓名：</span
-          ><span class="menber-info">{{ dataBase.corporationName }}</span>
+          <span class="menber-title">姓名：</span>
+          <span class="menber-info">{{ dataBase.corporationName }}</span>
         </div>
         <div>
-          <span class="menber-title">注册时间：</span
-          ><span class="menber-info">{{
-            dataBase.createTime | formatDate
-          }}</span>
+          <span class="menber-title">注册时间：</span>
+          <span class="menber-info" v-if="dataBase.createTime">
+            {{ dataBase.createTime | formatDate }}
+          </span>
         </div>
         <div>
-          <span class="menber-title">手机号码：</span
-          ><span class="menber-info">{{ dataBase.phoneNumber }}</span
-          ><span class="verified">【已认证】</span>
+          <span class="menber-title">手机号码：</span>
+          <span class="menber-info">{{ dataBase.phoneNumber }}</span>
+          <span class="verified">【已认证】</span>
         </div>
         <div>
-          <span class="menber-title">邮箱：</span
-          ><span class="menber-info">{{ dataBase.email }}</span>
+          <span class="menber-title">邮箱：</span>
+          <span class="menber-info">{{ dataBase.email }}</span>
         </div>
         <div>
-          <span class="menber-title">QQ：</span
-          ><span class="menber-info">{{ dataBase.qq }}</span>
+          <span class="menber-title">QQ：</span>
+          <span class="menber-info">{{ dataBase.qq }}</span>
         </div>
         <div>
-          <span class="menber-title">密码保护：</span
-          ><span class="menber-info">-----未设置</span>
+          <span class="menber-title">密码保护：</span>
+          <span class="menber-info">-----未设置</span>
         </div>
         <div>
-          <span class="menber-title">密码找回锁定：</span
-          ><span class="menber-info">----未锁定</span>
+          <span class="menber-title">密码找回锁定：</span>
+          <span class="menber-info">----未锁定</span>
         </div>
         <div>
-          <span class="menber-title">管理员锁定：</span
-          ><span class="menber-info">{{
-            dataBase.adminLock == 0 ? '正常' : '锁定'
-          }}</span>
+          <span class="menber-title">管理员锁定：</span>
+          <span class="menber-info" v-if="dataBase.adminLock">
+            {{ dataBase.adminLock == 0 ? '正常' : '锁定' }}
+          </span>
         </div>
         <div>
-          <span class="menber-title">登录锁定：</span
-          ><span class="menber-info">{{
-            dataBase.loginLock == 0 ? '正常' : '锁定'
-          }}</span>
+          <span class="menber-title">登录锁定：</span>
+          <span class="menber-info" v-if="dataBase.loginLock">
+            {{ dataBase.loginLock == 0 ? '正常' : '锁定' }}
+          </span>
         </div>
         <div>
-          <span class="menber-title">状态：</span
-          ><span
+          <span class="menber-title">状态：</span>
+          <span
+            v-if="dataBase.status"
             :class="{
               'menber-state-normal': dataBase.status == 0,
               'menber-state-freeze': dataBase.status == 1,
             }"
-            >{{ dataBase.status == 0 ? '冻结' : '正常' }}</span
           >
+            {{ dataBase.status == 0 ? '冻结' : '正常' }}
+          </span>
         </div>
         <div>
-          <span class="menber-title">密保锁定：</span
-          ><span class="menber-info">---未锁定</span>
+          <span class="menber-title">密保锁定：</span>
+          <span class="menber-info">---未锁定</span>
         </div>
         <div>
-          <span class="menber-title">账户余额：</span
-          ><span class="menber-info">{{ dataBase.balance }}元</span
-          ><a class="mouse-enter" href="">[增减余额]</a>
+          <span class="menber-title">账户余额：</span>
+          <span class="menber-info">{{ dataBase.balance }}元</span>
+          <a class="mouse-enter" href="">[增减余额]</a>
         </div>
         <div>
-          <span class="menber-title">现金券：</span
-          ><span class="menber-info">{{ dataBase.cash }}元</span
-          ><a class="mouse-enter">(共0张)</a
-          ><a class="mouse-enter">(0条使用记录)</a>
+          <span class="menber-title">现金券：</span>
+          <span class="menber-info">{{ dataBase.cash }}元</span>
+          <a class="mouse-enter">(共0张)</a>
+          <a class="mouse-enter">(0条使用记录)</a>
         </div>
         <div>
-          <span class="menber-title">积分：</span
-          ><span class="menber-info">{{ dataBase.integral }}分</span>
+          <span class="menber-title">积分：</span>
+          <span class="menber-info">{{ dataBase.integral }}分</span>
         </div>
         <div>
-          <span class="menber-title">授信额度：</span
-          ><span class="menber-info">{{ dataBase.creditNumber }}</span
-          ><a class="mouse-enter">[修改授信额度]</a>
+          <span class="menber-title">授信额度：</span>
+          <span class="menber-info">{{ dataBase.creditNumber }}</span>
+          <a class="mouse-enter">[修改授信额度]</a>
         </div>
         <div>
-          <span class="menber-title">专席销售：</span
-          ><span class="menber-info">{{ dataBase.salesStaff }}</span>
+          <span class="menber-title">专席销售：</span>
+          <span class="menber-info">{{ dataBase.salesStaff }}</span>
         </div>
         <div>
-          <span class="menber-title">登录次数：</span
-          ><span class="menber-info">{{ dataBase.loginFaileNumber }}次</span>
+          <span class="menber-title">登录次数：</span>
+          <span class="menber-info">{{ dataBase.loginFaileNumber }}次</span>
         </div>
         <div>
-          <span class="menber-title">所属会员组：</span
-          ><span class="menber-info">---普通会员</span
-          ><a class="mouse-enter">[修改会员组]</a>
+          <span class="menber-title">所属会员组：</span>
+          <span class="menber-info">---普通会员</span>
+          <a class="mouse-enter">[修改会员组]</a>
         </div>
         <div>
-          <span class="menber-title">API状态：</span
-          ><span class="menber-info menber-apistate-nonactivated">{{
-            dataBase.apiStatus == 0 ? '未开通' : '正常'
-          }}</span>
+          <span class="menber-title">API状态：</span>
+          <span
+            class="menber-info menber-apistate-nonactivated"
+            v-if="dataBase.apiStatus"
+          >
+            {{ dataBase.apiStatus == 1 ? '正常' : '未开通' }}
+          </span>
         </div>
         <div>
-          <span class="menber-title">认证状态：</span
-          ><span class="menber-info menber-certstate-uncert">{{
-            dataBase.certificationStatus == 1 ? '已认证' : '未认证'
-          }}</span>
+          <span class="menber-title">认证状态：</span>
+          <span
+            class="menber-info menber-certstate-uncert"
+            v-if="dataBase.certificationStatus"
+          >
+            {{ dataBase.certificationStatus == 1 ? '已认证' : '未认证' }}
+          </span>
         </div>
         <div>
-          <span class="menber-title">备注：</span
-          ><span class="menber-info">{{ dataBase.remark }}</span
-          ><a class="mouse-enter">[修改备注]</a>
+          <span class="menber-title">备注：</span>
+          <span class="menber-info">{{ dataBase.remark }}</span>
+          <a class="mouse-enter">[修改备注]</a>
         </div>
       </div>
     </div>
@@ -121,71 +129,77 @@
       <p>会员各项统计</p>
       <div>
         <div>
-          <span class="menber-title">充值金额：</span
-          ><span class="menber-info">0元</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">充值金额：</span>
+          <span class="menber-info">{{ dataBase.onlineBalance }}元</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">消费：</span
-          ><span class="menber-info">0元</span><span>0条记录</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">消费：</span>
+          <span class="menber-info">{{ dataBase.payMoney }}元</span
+          ><span>0条记录</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">提现：</span
-          ><span class="menber-info">0元</span><span>0条记录</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">提现：</span>
+          <span class="menber-info">0元</span><span>0条记录</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">已支付订单：</span
-          ><span class="menber-info">0单</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">已支付订单：</span>
+          <span class="menber-info">{{ dataBase.payOrder }}单</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">退款记录：</span
-          ><span class="menber-info">0元</span><span>(0条记录)</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">退款记录：</span>
+          <span class="menber-info">0元</span><span>(0条记录)</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">申请发票：</span
-          ><span class="menber-info">0元</span><span>(0条记录)</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">申请发票：</span>
+          <span class="menber-info">0元</span><span>(0条记录)</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">工单：</span
-          ><span class="menber-info">0条</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">工单：</span>
+          <span class="menber-info">0条</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">投诉：</span
-          ><span class="menber-info">0条</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">投诉：</span>
+          <span class="menber-info">0条</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">站内消息：</span
-          ><span class="menber-info">1条</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">站内消息：</span>
+          <span class="menber-info">{{ dataBase.messageCount }}条</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">官方留言：</span
-          ><span class="menber-info">0条</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">官方留言：</span>
+          <span class="menber-info">0条</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <span class="menber-title">帮助中心留言：</span
-          ><span class="menber-info">0条</span
-          ><a href="" class="mouse-enter">[查看详情]</a>
+          <span class="menber-title">帮助中心留言：</span>
+          <span class="menber-info">0条</span>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
       </div>
     </div>
     <div class="greyblock"></div>
     <div class="card-container">
       <a-tabs type="card">
-        <a-tab-pane key="1" tab="云服务器(0台)">
-          <a-table :columns="columnsCloudService" :data-source="data">
-            <a slot="name" slot-scope="text">{{ text }}</a>
+        <a-tab-pane key="1" tab="云服务器">
+          <a-table :columns="columnsCloudService" :data-source="MemberServer">
+            <!-- <a slot="name" slot-scope="text">{{ text }}</a> -->
+            <div slot="id" slot-scope="text">
+              <a-button type="primary" size="small">
+                <a :href="`#/business/cloudservers/info?id=${text}`">查看</a>
+              </a-button>
+            </div>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="托管(0台)">
+        <!-- <a-tab-pane key="2" tab="托管(0台)">
           <a-table :columns="columnsHosting" :data-source="data">
             <a slot="name" slot-scope="text">{{ text }}</a>
           </a-table>
@@ -224,7 +238,7 @@
           <a-table :columns="columnsStorage" :data-source="data">
             <a slot="name" slot-scope="text">{{ text }}</a>
           </a-table>
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
@@ -276,20 +290,21 @@ export default {
     return {
       columnsCloudService: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
+          title: '实例ID',
+          dataIndex: 'instanceId',
           scopedSlots: { customRender: 'name' },
         },
         {
-          title: '业务IP',
-          dataIndex: 'age',
+          title: '外网IP',
+          dataIndex: 'outIp',
         },
         {
           title: '详情',
-          dataIndex: 'address',
-          key: 'address 1',
+          dataIndex: 'id',
+          scopedSlots: { customRender: 'id' },
         },
       ],
+      MemberServer: null,
       columnsHosting: [
         {
           title: '业务ID',
@@ -494,8 +509,21 @@ export default {
   methods: {
     getData(id) {
       this.$store.dispatch('member/getOne', id).then((res) => {
-        this.dataBase = res.data;
-        console.log(res.data, '子组件的data');
+        this.dataBase = { ...this.dataBase, ...res.data };
+        // console.log(res.data, '子组件的data');
+        this.$store
+          .dispatch('member/getMemberServer', {
+            corporationCode: res.data.corporationCode,
+          })
+          .then((data) => {
+            // this.data = res.data;
+            this.MemberServer = data.data.list;
+            console.log(data, '子组件的data');
+          });
+      });
+      this.$store.dispatch('member/getMembership', id).then((res) => {
+        this.dataBase = { ...this.dataBase, ...res.data };
+        // console.log(res.data, '子组件的data');
       });
     },
   },

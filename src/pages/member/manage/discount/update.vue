@@ -39,8 +39,17 @@
             v-model="form.productCode"
             placeholder="产品名称"
           >
-            <a-select-option :value="JSON.stringify({productCode:item.productCode,productName:item.productName})" v-for="(item,index) in productList" :key="index">
-              {{item.productName}}
+            <a-select-option
+              :value="
+                JSON.stringify({
+                  productCode: item.productCode,
+                  productName: item.productName
+                })
+              "
+              v-for="(item, index) in productList"
+              :key="index"
+            >
+              {{ item.productName }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -66,14 +75,19 @@
           prop="discountPrice"
         >
           <a-input
-            style='width:150px'
+            style="width:150px"
             v-model="form.discountPrice"
             v-number-evolution="{ value: 2, min: 0, max: 100 }"
             addon-after="%"
           />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             提交
           </a-button>
         </a-form-model-item>
@@ -162,11 +176,11 @@ export default {
           this.data = [...res.data.list];
         });
     },
-    getProductList(){
-       this.$store
+    getProductList() {
+      this.$store
         .dispatch("member/getProductList", { currentPage: 1, pageSize: 999 })
         .then(res => {
-          console.log(res,'res');
+          console.log(res, "res");
           this.productList = [...res.data.list];
         });
     },
@@ -188,11 +202,11 @@ export default {
             ele => ele.corporationCode === this.form.corporationCode
           );
           let newFrom = {};
-          console.log(this.form,'this.form',this.type,this.type === "add");
+          console.log(this.form, "this.form", this.type, this.type === "add");
           if (this.type === "add") {
             newFrom = {
               ...this.form,
-              corporationName: corporation.corporationName,
+              corporationName: corporation.corporationName
             };
             newFrom.productName = JSON.parse(newFrom.productCode).productName;
             newFrom.productCode = JSON.parse(newFrom.productCode).productCode;

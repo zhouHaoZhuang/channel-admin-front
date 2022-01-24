@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="business-container" v-if="dataOrder">
+    <div class="business-container" v-if="data">
       <div class="business-basic">
         <a-tabs type="card">
           <a-tab-pane key="1" tab="基础信息">
@@ -52,7 +52,7 @@
                   :class="{
                     'basicInformation-info': true,
                     'basicInformation-info-run': data.runningStatus == 1,
-                    'basicInformation-info-ash': data.runningStatus != 1,
+                    'basicInformation-info-ash': data.runningStatus != 1
                   }"
                 >
                   {{ runningStatusEnum[data.runningStatus] }}
@@ -101,8 +101,8 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数据磁盘：</span>
-                <span class="basicInformation-info">
-                  {{ data.systemSize }}G
+                <span class="basicInformation-info" v-if="data.dataDiskSize">
+                  {{ data.dataDiskSize == 0 ? '----':data.dataDiskSize }}G
                 </span>
               </div>
               <!-- <div class="basicInformation-item">
@@ -203,15 +203,15 @@
                 </span>
                 <span slot="info" slot-scope="text">
                   {{
-                    'cpu:' +
+                    "cpu:" +
                       text.cpu +
-                      '核，内存:' +
+                      "核，内存:" +
                       text.memory +
-                      'G，硬盘:' +
+                      "G，硬盘:" +
                       text.dataDisk[0].size +
-                      'G，带宽:' +
+                      "G，带宽:" +
                       text.internetMaxBandwidthOut +
-                      'M'
+                      "M"
                   }}
                 </span>
                 <div slot-scope="text" slot="createTimeStr" v-if="text">
@@ -221,7 +221,12 @@
                   {{ orderTypeMap[text] }}
                 </div>
                 <span slot="query" slot-scope="text">
-                  <a-button type="link" class="" @click="selectInfo(text)">
+                  <a-button
+                    v-permission="'manager'"
+                    type="link"
+                    class=""
+                    @click="selectInfo(text)"
+                  >
                     查看
                   </a-button>
                 </span>
@@ -257,7 +262,7 @@
 </template>
 
 <script>
-import { regionDataEnum, runningStatusEnum, orderTypeMap } from '@/utils/enum';
+import { regionDataEnum, runningStatusEnum, orderTypeMap } from "@/utils/enum";
 export default {
   data() {
     return {
@@ -267,107 +272,108 @@ export default {
       runningStatusEnum,
       columnsOrder: [
         {
-          title: '订单编号',
-          dataIndex: 'orderNo',
+          title: "订单编号",
+          dataIndex: "orderNo"
         },
         {
-          title: '类型',
-          dataIndex: 'tradeType',
+          title: "类型",
+          dataIndex: "tradeType",
           scopedSlots: {
-            customRender: 'tradeType',
-          },
+            customRender: "tradeType"
+          }
         },
         {
-          title: '时间',
-          dataIndex: 'createTimeStr',
+          title: "时间",
+          dataIndex: "createTimeStr",
           scopedSlots: {
-            customRender: 'createTimeStr',
-          },
+            customRender: "createTimeStr"
+          }
         },
         {
-          title: '订单金额',
-          dataIndex: 'actualAmount',
+          title: "订单金额",
+          dataIndex: "actualAmount",
           scopedSlots: {
-            customRender: 'discountAmount',
-          },
+            customRender: "discountAmount"
+          }
         },
         {
-          title: '配置信息',
-          key: 'info',
-          dataIndex: 'productConfig',
+          title: "配置信息",
+          key: "info",
+          dataIndex: "productConfig",
           scopedSlots: {
-            customRender: 'info',
-          },
+            customRender: "info"
+          }
         },
         {
-          title: '查看',
-          dataIndex: 'orderNo',
-          key: 'query',
+          title: "查看",
+          dataIndex: "orderNo",
+          key: "query",
           scopedSlots: {
-            customRender: 'query',
-          },
-        },
+            customRender: "query"
+          }
+        }
       ],
       columnsActive: [
         {
-          title: '编号',
-          dataIndex: 'orderId',
+          title: "编号",
+          dataIndex: "orderId"
         },
         {
-          title: '操作',
-          dataIndex: 'type',
+          title: "操作",
+          dataIndex: "type"
         },
         {
-          title: '操作人',
-          dataIndex: 'time',
+          title: "操作人",
+          dataIndex: "time"
         },
         {
-          title: '时间',
-          dataIndex: 'amount',
+          title: "时间",
+          dataIndex: "amount"
         },
         {
-          title: '查看',
-          dataIndex: 'id',
-          key: 'query',
+          title: "查看",
+          dataIndex: "id",
+          key: "query",
           scopedSlots: {
-            customRender: 'query',
-          },
-        },
+            customRender: "query"
+          }
+        }
       ],
       dataActive: [],
-      data: [],
+      data: []
     };
   },
   methods: {
     selectInfo(id) {
       // console.log(id);
       this.$router.push({
-        path: '/finance/index/orderInfo',
+        path: "/finance/index/orderInfo",
         query: {
-          id,
-        },
+          id
+        }
       });
     },
     selectInfoLog(id) {
       // console.log(id);
-    },
+    }
   },
   activated() {
     let id = this.$route.query.id;
     // console.log(id);
-    this.$store.dispatch('business/getOne', id).then((res) => {
+    this.$store.dispatch("business/getOne", id).then(res => {
       this.dataOrder = res.data.orderLineLogResDto;
       this.data = res.data;
-      let systemSize = 0;
+      let dataDiskSize = 0;
+      console.log(res.data);
       if (res.data.dataDisk) {
         res.data.dataDisk.forEach((item) => {
-          systemSize += item.size;
+          dataDiskSize += item.size;
         });
-        this.data.systemSize = systemSize;
+        this.data.dataDiskSize = dataDiskSize;
       }
-      console.log(res);
+      console.log(this.data);
     });
-  },
+  }
 };
 </script>
 
