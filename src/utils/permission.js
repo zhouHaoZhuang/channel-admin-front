@@ -2,6 +2,7 @@ import { asyncRoute, resetRouter } from "@/router/config";
 import clonedeep from "lodash.clonedeep";
 // 循环处理路由菜单
 function getNewRoute(route, perms) {
+  console.log(route);
   let newData = route.filter(ele => hasPermissionMenu(ele, perms));
   newData.forEach(
     item => item.children && (item.children = getNewRoute(item.children, perms))
@@ -22,6 +23,11 @@ export const setAsyncRouteMenu = (perms, router, store) => {
   if (getUserHaveAllPerm(perms) !== -1) {
     newRoute = [...newData[0].children];
   } else {
+    // console.log(
+    //   "查看生成的路由",
+    //   perms,
+    //   getNewRoute(newData[0].children, perms)
+    // );
     newRoute = getNewRoute(newData[0].children, perms);
   }
   // 保存默认跳转地址，path是 / 的话，需要重定向到第一个路由
