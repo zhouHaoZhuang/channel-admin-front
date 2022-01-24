@@ -90,8 +90,10 @@ export default {
     },
     setHtmlTitle() {
       const route = this.$route;
-      // console.log("设置页面标题", route);
-      const key = route.path === "/" ? "home.name" : route.name;
+      const key =
+        route.path === "/"
+          ? "home.name"
+          : getI18nKey(route.matched[route.matched.length - 1].path);
       document.title = process.env.VUE_APP_NAME + " | " + this.$t(key);
     },
     popContainer() {
