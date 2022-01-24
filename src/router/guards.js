@@ -35,9 +35,9 @@ const loginGuard = (to, from, next, options) => {
   //   store.state.user.token
   // );
   // 每次进入登录页面清除缓存
-  // if (to.path === "/login") {
-  //   localStorage.clear();
-  // }
+  if (to.path === "/login") {
+    localStorage.clear();
+  }
   if (!loginIgnore.includes(to) && !store.state.user.token) {
     message.warning("登录已失效，请重新登录");
     next({ path: "/login" });
