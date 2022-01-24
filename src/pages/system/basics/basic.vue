@@ -423,11 +423,13 @@ export default {
             .then((res) => {
               // console.log(res, "--------");
               this.$message.success('网站信息保存成功');
+              this.getInfo();
             });
           this.$store
             .dispatch('globalBasic/amendBasicCompanyInfo', this.form)
             .then((res) => {
               this.$message.success('公司信息保存成功');
+              this.getBasicCompanyInfo();
             });
         }
       });
@@ -447,6 +449,7 @@ export default {
           ...this.form,
           ...res.data,
         };
+        this.form.cid = res.data.id;
         console.log(res.data);
       });
     },
