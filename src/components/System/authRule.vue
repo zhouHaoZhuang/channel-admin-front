@@ -3,7 +3,11 @@
     <div class="public-title">
       <div class="left-tit">已授权规则</div>
       <a-space>
-        <a-button v-permission="'add-rule-auth'" type="primary" @click="handleAdd">
+        <a-button
+          v-permission="'add-rule-auth'"
+          type="primary"
+          @click="handleAdd"
+        >
           添加授权
         </a-button>
       </a-space>
@@ -114,7 +118,7 @@
               trigger: ['blur', 'change']
             }"
           >
-            <a-select
+            <!-- <a-select
               v-model="item.permissionCode"
               show-search
               placeholder="请选择权限"
@@ -136,7 +140,20 @@
                 <span>{{ item.code }}</span>
                 <span>({{ item.description }})</span>
               </a-select-option>
-            </a-select>
+            </a-select> -->
+            <a-tree-select
+              v-model="item.permissionCode"
+              style="width: 100%"
+              :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+              :tree-data="treeData"
+              placeholder="请选择权限"
+              tree-default-expand-all
+              @change="
+                (value, label, extra) =>
+                  selectChange(value, label, extra, item.type, index)
+              "
+            >
+            </a-tree-select>
           </a-form-model-item>
           <a-form-model-item
             label="操作"
@@ -178,7 +195,7 @@
                 :key="ele.name"
                 :value="ele.name"
               >
-                <span>{{ ele.name }}</span>
+                <span>{{ ele.name }} ({{ ele.description }})</span>
               </a-select-option>
             </a-select>
           </a-form-model-item>
@@ -274,7 +291,8 @@ export default {
             tigger: ["change"]
           }
         ]
-      }
+      },
+      treeData: []
     };
   },
   watch: {
@@ -331,6 +349,62 @@ export default {
           this.roleList = [...res.data.list];
         });
     },
+    // 循环处理数据
+    getNewData(list1, list2) {
+      list1.forEach(item => {
+        item.children = [];
+        list2.forEach(ele => {
+          if (ele.code.indexOf(item.code) !== -1) {
+            item.children.push(ele);
+          }
+        });
+      });
+    },
+    // 将平铺的权限列表处理为树结构数据
+    setTreeData(list) {
+      const newList = this.$clonedeep(list);
+      // 获取一级菜单
+      const oneData = newList
+        .filter(ele => ele.type === "MENU")
+        .map(ele => {
+          return {
+            ...ele,
+            title: `${ele.code} (${ele.description})`,
+            key: ele.id,
+            value: ele.code
+          };
+        });
+      // 获取二级菜单
+      const twoData = newList
+        .filter(ele => ele.type === "DATA")
+        .map(ele => {
+          return {
+            ...ele,
+            title: `${ele.code} (${ele.description})`,
+            key: ele.id,
+            value: ele.code
+          };
+        });
+      // 获取三级菜单
+      const threeData = newList
+        .filter(ele => ele.type === "BUTTON")
+        .map(ele => {
+          return {
+            ...ele,
+            title: `${ele.code} (${ele.description})`,
+            key: ele.id,
+            value: ele.code
+          };
+        });
+      this.getNewData(twoData, threeData);
+      this.getNewData(oneData, twoData);
+      oneData.unshift({
+        title: "所有资源",
+        key: "all",
+        value: "all"
+      });
+      return oneData;
+    },
     // 获取权限列表
     getAdminList() {
       this.$store
@@ -340,7 +414,7 @@ export default {
           isAll: false
         })
         .then(res => {
-          this.adminList = [...res.data.list];
+          this.treeData = this.$clonedeep(this.setTreeData(res.data.list));
         });
     },
     // 根据权限获取对应权限的所有操作
@@ -357,7 +431,7 @@ export default {
         });
     },
     // 权限切换change,需要请求数据
-    selectChange(value, opt, type, index) {
+    selectChange(value, label, extra, type, index) {
       this.form.permissionActions[index].actions = [];
       this.form.permissionActions[index].actionSelectList = [];
       if (type === 0 && value !== "all") {
