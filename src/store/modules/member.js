@@ -14,6 +14,21 @@ const member = {
         params
       });
     },
+    // 会员各项统计
+    getMembership({ commit, state }, id) {
+      return request({
+        url: `/ccCorporation/getCorporationStatics/${id}`,
+        method: "get",
+      });
+    },
+    // 会员- 云服务器 表格
+    getMemberServer({ commit, state }, params) {
+      return request({
+        url: "/scEcsStock/queryEcsPage",
+        method: "get",
+        params
+      });
+    },
     // 获取产品列表
     getProductList({ commit, state }, params) {
       return request({

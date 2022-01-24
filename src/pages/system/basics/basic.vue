@@ -49,7 +49,7 @@
           </a-collapse-panel>
           <a-collapse-panel key="2" header="网站模板">
             <a-form-model-item label="主题风格">
-              <a-row :gutter="2">
+              <a-row >
                 <a-col :span="7">
                   <a-form-model-item label="官网">
                     <a-select default-value="lucy" style="width: 120px">
@@ -258,7 +258,7 @@ export default {
         // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
       ],
       labelCol: { span: 6 },
-      wrapperCol: { span: 10 },
+      wrapperCol: { span: 13 },
       form: {
         websiteName: '',
         title: '',
@@ -359,7 +359,7 @@ export default {
           {
             required: true,
             message:
-              '必填，服务热线格式可由短横杆（-）、半角括号()、数字、英文字母组成，多个服务热线请使用 / 分隔，且长度在5-30个字符内',
+              '服务热线不能为空',
             trigger: 'blur',
           },
           { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
@@ -436,7 +436,7 @@ export default {
       this.$store.dispatch('globalBasic/getInfo').then((res) => {
         // 获取网站详情、网站logo信息
         this.form = { ...this.form, ...res.data };
-        this.form.gid = this.form.id;
+        this.form.gid = res.data.id;
         console.log(res.data);
       });
     },

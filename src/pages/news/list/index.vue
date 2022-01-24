@@ -2,7 +2,7 @@
   <div class="news-list-container">
     <div>
       <div class="news-list-top">
-        <a-button type="primary" @click="addNewsList">
+        <a-button type="primary" @click="addNewsList" v-permission="'add'">
           <a-icon type="plus" />添加新闻
         </a-button>
         <a-select v-model="listQuery.key" style="width: 120px">
@@ -87,11 +87,11 @@
           </div>
           <a slot="websiteJump" slot-scope="text" :href="text">{{ text }}</a>
           <div slot="actions" slot-scope="text">
-            <a-button type="link" @click="change(text)">
+            <a-button type="link" @click="change(text)" v-permission="'modify'">
               修改
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="delNewsList(text)">
+            <a-button type="link" @click="delNewsList(text)" v-permission="'del'">
               删除
             </a-button>
           </div>
