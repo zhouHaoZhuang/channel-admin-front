@@ -54,7 +54,7 @@
           <a-icon :type="isfilter ? 'up' : 'down'" />
           高级筛选
         </a-button>
-        <a-button>
+        <a-button v-permission="'export'">
           <a-icon type="export" />
           导出
         </a-button>
@@ -134,7 +134,11 @@
             {{ text.toFixed(2) }}
           </div>
           <div slot="action" slot-scope="text">
-            <a-button type="link" @click="selectPool(text)">
+            <a-button
+              v-permission="'view'"
+              type="link"
+              @click="selectPool(text)"
+            >
               查看
             </a-button>
           </div>
@@ -165,7 +169,7 @@
 </template>
 
 <script>
-import { detailTypeMapData, rechargeTypeMap } from '@/utils/enum.js';
+import { detailTypeMapData, rechargeTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -174,45 +178,45 @@ export default {
       rechargeTypeMap,
       // search: "",
       listQuery: {
-        key: 'customerCode',
-        search: '',
+        key: "customerCode",
+        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        startTime: '',
-        endTime: '',
+        startTime: "",
+        endTime: ""
       },
       columns: [
         {
-          title: '充值ID',
-          dataIndex: 'id',
-          key: 'id',
-          width: 220,
+          title: "充值ID",
+          dataIndex: "id",
+          key: "id",
+          width: 220
         },
         {
-          title: '支付ID',
-          dataIndex: 'payNo',
-          width: 220,
+          title: "支付ID",
+          dataIndex: "payNo",
+          width: 220
         },
         {
-          title: '方式',
-          dataIndex: 'channelCode',
+          title: "方式",
+          dataIndex: "channelCode",
           scopedSlots: {
-            customRender: 'channelCode',
-          },
+            customRender: "channelCode"
+          }
         },
         {
-          title: '会员ID',
-          dataIndex: 'customerCode',
-          key: 'customerCode',
-          scopedSlots: { customRender: 'customerCode' },
-          width: 220,
+          title: "会员ID",
+          dataIndex: "customerCode",
+          key: "customerCode",
+          scopedSlots: { customRender: "customerCode" },
+          width: 220
         },
         {
-          title: '充值金额',
-          dataIndex: 'amount',
-          key: 'amount',
-          scopedSlots: { customRender: 'amount' },
+          title: "充值金额",
+          dataIndex: "amount",
+          key: "amount",
+          scopedSlots: { customRender: "amount" }
         },
         // {
         //   title: "交易号",
@@ -221,23 +225,23 @@ export default {
         //   scopedSlots: { customRender: "actualAmount" }
         // },
         {
-          title: '充值时间',
-          dataIndex: 'createTime',
-          key: 'createTime',
-          scopedSlots: { customRender: 'createTime' },
-          width: 220,
+          title: "充值时间",
+          dataIndex: "createTime",
+          key: "createTime",
+          scopedSlots: { customRender: "createTime" },
+          width: 220
         },
         {
-          title: '到账时间',
-          dataIndex: 'payTime',
-          key: 'modifyTime',
-          scopedSlots: { customRender: 'modifyTime' },
+          title: "到账时间",
+          dataIndex: "payTime",
+          key: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" }
         },
         {
-          title: '充值状态',
-          dataIndex: 'status',
-          key: 'status',
-          scopedSlots: { customRender: 'status' },
+          title: "充值状态",
+          dataIndex: "status",
+          key: "status",
+          scopedSlots: { customRender: "status" }
         },
         // {
         //   title: '操作人',
@@ -246,12 +250,12 @@ export default {
         //   scopedSlots: { customRender: 'createUserName' },
         // },
         {
-          title: '操作',
-          dataIndex: 'payNo',
-          key: 'action',
+          title: "操作",
+          dataIndex: "payNo",
+          key: "action",
           // fixed: 'right',
-          scopedSlots: { customRender: 'action' },
-        },
+          scopedSlots: { customRender: "action" }
+        }
       ],
       // selectedRowKeys: [],// 已选中的行
       data: [],
@@ -265,21 +269,21 @@ export default {
             total / this.listQuery.pageSize
           )}  页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
-      num: '',
+      num: "",
       startValue: null,
       endValue: null,
       endOpen: false,
-      isTime: true,
+      isTime: true
     };
   },
   computed: {
     useColumns() {
       return [
         {
-          title: '会员ID',
-          dataIndex: 'customerCode',
+          title: "会员ID",
+          dataIndex: "customerCode"
         },
         // {
         //   title: "充值订单号",
@@ -290,15 +294,15 @@ export default {
         //   dataIndex: "tradeType",
         // },
         {
-          title: '支付ID',
-          dataIndex: 'payNo',
+          title: "支付ID",
+          dataIndex: "payNo"
         },
         {
-          title: '起始时间',
-          dataIndex: 'createTime',
-        },
+          title: "起始时间",
+          dataIndex: "createTime"
+        }
       ];
-    },
+    }
   },
   created() {
     this.getList();
@@ -332,7 +336,7 @@ export default {
     changeKey(val) {
       // console.log(val);
       this.listQuery.key = val;
-      if (this.listQuery.key !== 'createTime') {
+      if (this.listQuery.key !== "createTime") {
         this.isTime = true;
       } else {
         this.isTime = false;
@@ -349,7 +353,7 @@ export default {
     },
     // 多选框改变之后的回调
     onSelectChange(selectedRowKeys) {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
     // 通用写法
@@ -366,7 +370,7 @@ export default {
     },
     // 发送请求回调
     getList() {
-      this.$getList('rechargeRecord/getList', this.listQuery).then((res) => {
+      this.$getList("rechargeRecord/getList", this.listQuery).then(res => {
         // console.log(res, "请求结果");
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
@@ -375,13 +379,13 @@ export default {
     // 跳转详情的回调
     selectPool(id) {
       this.$router.push({
-        path: '/finance/index/rechargeinfo',
+        path: "/finance/index/rechargeinfo",
         query: {
-          id,
-        },
+          id
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -397,7 +401,7 @@ export default {
       width: 200px;
       margin-right: 20px;
     }
-    [type='button'] {
+    [type="button"] {
       margin-left: 20px;
     }
     .zhi {

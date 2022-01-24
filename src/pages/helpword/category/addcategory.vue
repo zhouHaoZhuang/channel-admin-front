@@ -10,9 +10,7 @@
       >
         <a-form-model-item label="所属分类">
           <a-select v-model="form.parentCode">
-            <a-select-option
-              value="help_type_01"
-            >
+            <a-select-option value="help_type_01">
               <span> |-帮助中心</span>
             </a-select-option>
             <a-select-option
@@ -40,7 +38,12 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确定添加
           </a-button>
         </a-form-model-item>
@@ -60,42 +63,42 @@ export default {
         parentCode: "help_type_01",
         typeName: "",
         typeNameEn: "",
-        typeIcon: "",
+        typeIcon: ""
       },
       rules: {
         typeName: [
           {
             required: true,
             message: "请输入名称",
-            trigger: "blur",
+            trigger: "blur"
           },
           {
             pattern: /^[\u4e00-\u9fa5_0-9]+$/,
             message: "请输入中文名称",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         typeNameEn: [
           {
             required: true,
             message: "请输入英文名称不能为空",
-            trigger: "blur",
+            trigger: "blur"
           },
           {
             pattern: /^[a-zA-Z0-9_]+$/,
             message: "请输入英文名称",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
       arr: [],
       objarr: [],
-      jibie: 0,
+      jibie: 0
     };
   },
   components: {
-    Upload,
+    Upload
   },
   activated() {
     this.resetForm();
@@ -113,19 +116,19 @@ export default {
       this.form.typeIcon = firstImageUrl;
     },
     getAllType() {
-      this.$store.dispatch("helpCategory/getAllLevel").then((val) => {
+      this.$store.dispatch("helpCategory/getAllLevel").then(val => {
         console.log("获取所有分类------------", val.data);
         this.arr = val.data;
       });
     },
     // 提交
     onSubmit() {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("helpCategory/addList", this.form)
-            .then((res) => {
+            .then(res => {
               this.$message.success("新增帮助类别成功");
               this.resetForm();
               this.$router.back();
@@ -143,10 +146,10 @@ export default {
         parentCode: "",
         typeName: "",
         typeNameEn: "",
-        typeIcon: "",
+        typeIcon: ""
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

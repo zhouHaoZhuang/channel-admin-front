@@ -56,7 +56,12 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'modify'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确定修改
           </a-button>
         </a-form-model-item>
@@ -66,8 +71,8 @@
 </template>
 
 <script>
-import Upload from '@/components/Upload/index';
-import Tinymce from '@/components/Tinymce/index.vue';
+import Upload from "@/components/Upload/index";
+import Tinymce from "@/components/Tinymce/index.vue";
 
 export default {
   data() {
@@ -75,17 +80,17 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        bannerPicture: '',
+        bannerPicture: "",
         // channelCode:"",
-        context: '',
-        describe: '',
-        keyWords: '',
-        modeFileName: '',
-        pageName: '',
-        pageTitle: '',
-        resourceAddress: '',
-        status: '',
-        id: '',
+        context: "",
+        describe: "",
+        keyWords: "",
+        modeFileName: "",
+        pageName: "",
+        pageTitle: "",
+        resourceAddress: "",
+        status: "",
+        id: ""
         // linkTypeName: "",
         // linkTypeCode: "",
         // linkName: "",
@@ -102,46 +107,46 @@ export default {
         pageName: [
           {
             required: true,
-            message: '请填写页面名称',
-            trigger: 'blur',
-          },
+            message: "请填写页面名称",
+            trigger: "blur"
+          }
         ],
         pageTitle: [
           {
             required: true,
-            message: '请填写页面标题',
-            trigger: 'blur',
-          },
+            message: "请填写页面标题",
+            trigger: "blur"
+          }
         ],
         keyWords: [
           {
             required: true,
-            message: '请填写关键词',
-            trigger: 'blur',
-          },
+            message: "请填写关键词",
+            trigger: "blur"
+          }
         ],
         describe: [
           {
             required: true,
-            message: '请填写描述',
-            trigger: 'blur',
-          },
+            message: "请填写描述",
+            trigger: "blur"
+          }
         ],
         status: [
           {
             required: true,
-            message: '必选',
-            trigger: 'blur',
-          },
-        ],
+            message: "必选",
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
-      data: [],
+      data: []
     };
   },
   components: {
     Upload,
-    Tinymce,
+    Tinymce
   },
   // created() {
   //   this.form.id = this.$route.query.id;
@@ -154,7 +159,7 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch('page/getId', this.form.id).then((res) => {
+      this.$store.dispatch("page/getId", this.form.id).then(res => {
         // console.log(res);
         this.form = res.data;
       });
@@ -166,22 +171,22 @@ export default {
     },
     //上传富文本
     tinymceinput(value) {
-      console.log('富文本输入', value);
+      console.log("富文本输入", value);
       this.form.context = value;
     },
     // 提交
     onSubmit() {
       // this.form.linkLogo = this.imgList.toString();
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch('page/edit', this.form).then((res) => {
-            this.$message.success('提交成功');
+          this.$store.dispatch("page/edit", this.form).then(res => {
+            this.$message.success("提交成功");
             // this.resetForm();
             this.$router.back();
           });
         }
       });
-    },
+    }
     // 重置表单数据
     // resetForm() {
     //   this.$refs.ruleForm.clearValidate();
@@ -194,7 +199,7 @@ export default {
     //     description: ""
     //   };
     // }
-  },
+  }
 };
 </script>
 

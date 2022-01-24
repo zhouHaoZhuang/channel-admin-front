@@ -1,16 +1,32 @@
 <template>
   <div class="category-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn" @click="addbanner">
+      <a-button
+        v-permission="'add'"
+        type="primary"
+        icon="plus"
+        class="btn"
+        @click="addbanner"
+      >
         添加类别
       </a-button>
-      <a-button icon="delete" class="btn" @click="deleteinbatches">
+      <a-button
+        v-permission="'batch-del'"
+        icon="delete"
+        class="btn"
+        @click="deleteinbatches"
+      >
         批量删除
       </a-button>
-      <a-button icon="delete" class="btn" @click="forceDelete">
+      <a-button
+        v-permission="'del'"
+        icon="delete"
+        class="btn"
+        @click="forceDelete"
+      >
         强制删除
       </a-button>
-      <a-button @click="showModal">
+      <a-button v-permission="'sort'" @click="showModal">
         <span class="sort-icon">
           <a-icon type="swap" />
         </span>
@@ -33,7 +49,7 @@
               :key="index"
               :class="{
                 'sort-list-item': true,
-                'sort-ash': index === sortSwitch * 1,
+                'sort-ash': index === sortSwitch * 1
               }"
             >
               {{ index + 1 }}、{{ item.typeName }}
@@ -75,7 +91,7 @@
       <a-table
         :row-selection="{
           selectedRowKeys: selectedRowKeys,
-          onChange: onSelectChange,
+          onChange: onSelectChange
         }"
         :columns="columns"
         :data-source="dataList"
@@ -93,13 +109,13 @@
           <div v-else class="dot dot-err"></div>
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
-        <span slot="action" slot-scope="text,record">
+        <span slot="action" slot-scope="text, record">
           <a-button type="link" @click="addaFence(record.typeCode)">
             添加子栏
           </a-button>
           <a-divider type="vertical" />
           <a-dropdown>
-            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
               更多 <a-icon type="down" />
             </a>
             <a-menu slot="overlay">
@@ -109,7 +125,7 @@
               <a-menu-item>
                 <a href="javascript:;" @click="handleDel(text)">删除</a>
               </a-menu-item>
-              <a-menu-item>
+              <a-menu-item v-permission="'del'">
                 <a href="javascript:;" @click="forceDeleteOne(record.typeCode)"
                   >强制删除</a
                 >
@@ -118,7 +134,11 @@
           </a-dropdown>
         </span>
         <div slot="ccHelpTypeList" slot-scope="text, record">
-          <a-button type="link" @click="lookOver(record.typeCode)">
+          <a-button
+            v-permission="'view'"
+            type="link"
+            @click="lookOver(record.typeCode)"
+          >
             查看({{ text.length }})
           </a-button>
         </div>
@@ -139,36 +159,36 @@ export default {
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0,
+        total: 0
       },
       columns: [
         {
           title: "编号",
           dataIndex: "typeCode",
-          key: "typeCode",
+          key: "typeCode"
         },
         {
           title: "名称",
           dataIndex: "typeName",
-          scopedSlots: { customRender: "typeName" },
+          scopedSlots: { customRender: "typeName" }
         },
         {
           title: "英文",
           dataIndex: "typeNameEn",
-          key: "typeNameEn",
+          key: "typeNameEn"
         },
         {
           title: "子类别",
           dataIndex: "ccHelpTypeList",
-          scopedSlots: { customRender: "ccHelpTypeList" },
+          scopedSlots: { customRender: "ccHelpTypeList" }
         },
         {
           title: "操作",
           key: "action",
           dataIndex: "id",
           // fixed: "right",
-          scopedSlots: { customRender: "action" },
-        },
+          scopedSlots: { customRender: "action" }
+        }
       ],
       data: [],
       dataList: [],
@@ -181,12 +201,12 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
       selectedRowKeys: [],
       forceDeletes: [],
       sortSwitch: 0,
-      codeList: ["help_type_01"],
+      codeList: ["help_type_01"]
     };
   },
   activated() {
@@ -200,8 +220,8 @@ export default {
       handler() {
         this.getList();
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     onChange(e) {
@@ -218,7 +238,7 @@ export default {
     },
     onSelectChange(selectedRowKeys, selectedRows) {
       //选中行的回调
-      console.log("selectedRowKeys", selectedRowKeys,selectedRows);
+      console.log("selectedRowKeys", selectedRowKeys, selectedRows);
       for (let index = 0; index < selectedRows.length; index++) {
         this.forceDeletes.push(selectedRows[index].typeCode);
       }
@@ -233,15 +253,13 @@ export default {
         this.data[index].sort = index + 1;
       }
       console.log(this.data);
-      this.$store
-        .dispatch("helpCategory/sortList", this.data)
-        .then((res) => {
-          console.log(res);
-          this.getList();
-          this.$message.success("修改顺序成功");
-          this.visible = false;
-          this.confirmLoading = false;
-        })
+      this.$store.dispatch("helpCategory/sortList", this.data).then(res => {
+        console.log(res);
+        this.getList();
+        this.$message.success("修改顺序成功");
+        this.visible = false;
+        this.confirmLoading = false;
+      });
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
@@ -279,16 +297,16 @@ export default {
     getList() {
       this.$store
         .dispatch("helpCategory/getAll", {
-          code: this.codeList[this.codeList.length - 1],
+          code: this.codeList[this.codeList.length - 1]
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.data.ccHelpTypeList) {
             let data = JSON.parse(JSON.stringify(res.data.ccHelpTypeList));
             this.data = data;
             this.dataList = res.data.ccHelpTypeList;
             this.listQuery.total = res.data.total * 1;
-          }else{
+          } else {
             this.data = [];
             this.dataList = [];
             this.listQuery.total = 0;
@@ -315,8 +333,8 @@ export default {
       this.$router.push({
         path: "/personal/helpword/edithelp",
         query: {
-          id,
-        },
+          id
+        }
       });
     },
     //删除
@@ -325,11 +343,11 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("helpCategory/delList", id).then((val) => {
+          this.$store.dispatch("helpCategory/delList", id).then(val => {
             this.$message.success("操作成功");
             this.getList();
           });
-        },
+        }
       });
     },
     //批量删除
@@ -345,16 +363,16 @@ export default {
         onOk: () => {
           this.$store
             .dispatch("helpCategory/delList", this.selectedRowKeys.toString())
-            .then((val) => {
+            .then(val => {
               this.$message.success("操作成功");
               this.getList();
             });
-        },
+        }
       });
     },
     // 强制删除-----批量
     forceDelete(id) {
-        // console.log(this.selectedRowKeys.toString());
+      // console.log(this.selectedRowKeys.toString());
       if (this.forceDeletes.length === 0) {
         this.$message.error("请选择要删除的数据");
         return;
@@ -363,11 +381,13 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("helpCategory/forceDelete", this.forceDeletes.toString()).then((val) => {
-            this.$message.success("操作成功");
-            this.getList();
-          });
-        },
+          this.$store
+            .dispatch("helpCategory/forceDelete", this.forceDeletes.toString())
+            .then(val => {
+              this.$message.success("操作成功");
+              this.getList();
+            });
+        }
       });
     },
     // 强制删除-----单个
@@ -375,11 +395,11 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("helpCategory/forceDelete", id).then((val) => {
+          this.$store.dispatch("helpCategory/forceDelete", id).then(val => {
             this.$message.success("操作成功");
             this.getList();
           });
-        },
+        }
       });
     },
     //添加子栏
@@ -387,11 +407,11 @@ export default {
       this.$router.push({
         path: "/personal/helpword/add-category",
         query: {
-          typeCode,
-        },
+          typeCode
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

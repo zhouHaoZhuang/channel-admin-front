@@ -56,7 +56,12 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确定添加
           </a-button>
         </a-form-model-item>
@@ -66,24 +71,24 @@
 </template>
 
 <script>
-import Upload from '@/components/Upload/index';
-import Tinymce from '@/components/Tinymce/index.vue';
+import Upload from "@/components/Upload/index";
+import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   data() {
     return {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
-        bannerPicture: '',
-        channelCode: '',
-        context: '',
-        describe: '',
-        keyWords: '',
-        modeFileName: '',
-        pageName: '',
-        pageTitle: '',
-        resourceAddress: '',
-        status: '',
+        bannerPicture: "",
+        channelCode: "",
+        context: "",
+        describe: "",
+        keyWords: "",
+        modeFileName: "",
+        pageName: "",
+        pageTitle: "",
+        resourceAddress: "",
+        status: ""
         // linkTypeName: "",
         // linkTypeCode: "",
         // linkName: "",
@@ -100,46 +105,46 @@ export default {
         pageName: [
           {
             required: true,
-            message: '请填写页面名称',
-            trigger: 'blur',
-          },
+            message: "请填写页面名称",
+            trigger: "blur"
+          }
         ],
         pageTitle: [
           {
             required: true,
-            message: '请填写页面标题',
-            trigger: 'blur',
-          },
+            message: "请填写页面标题",
+            trigger: "blur"
+          }
         ],
         keyWords: [
           {
             required: true,
-            message: '请填写关键词',
-            trigger: 'blur',
-          },
+            message: "请填写关键词",
+            trigger: "blur"
+          }
         ],
         describe: [
           {
             required: true,
-            message: '请填写描述',
-            trigger: 'blur',
-          },
+            message: "请填写描述",
+            trigger: "blur"
+          }
         ],
         status: [
           {
             required: true,
-            message: '必选',
-            trigger: 'blur',
-          },
-        ],
+            message: "必选",
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
-      data: [],
+      data: []
     };
   },
   components: {
     Upload,
-    Tinymce,
+    Tinymce
   },
   created() {
     this.getList();
@@ -147,31 +152,31 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$store.dispatch('page/getList').then((res) => {
+      this.$store.dispatch("page/getList").then(res => {
         console.log(res);
         this.data = res.data.list;
       });
     },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
-      console.log('上传图片回调', urlList, firstImageUrl);
+      console.log("上传图片回调", urlList, firstImageUrl);
       this.form.bannerPicture = firstImageUrl;
     },
     //上传富文本
     tinymceinput(value) {
-      console.log('富文本输入', value);
+      console.log("富文本输入", value);
       this.form.context = value;
     },
     // 提交
     onSubmit() {
       // this.form.linkLogo = this.imgList.toString();
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch('page/add', this.form)
-            .then((res) => {
-              this.$message.success('新增列表成功');
+            .dispatch("page/add", this.form)
+            .then(res => {
+              this.$message.success("新增列表成功");
               this.resetForm();
               this.$router.back();
             })
@@ -185,16 +190,16 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        cutomerName: '',
-        shortName: '',
-        addressProject: '',
-        contract: '',
-        number: '',
-        description: '',
-        context: '',
+        cutomerName: "",
+        shortName: "",
+        addressProject: "",
+        contract: "",
+        number: "",
+        description: "",
+        context: ""
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

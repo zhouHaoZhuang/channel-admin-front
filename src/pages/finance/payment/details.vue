@@ -91,7 +91,12 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 14, offset: 8 }">
-          <a-button type="primary" class="btn1" @click="confirmReview">
+          <a-button
+            v-permission="'view'"
+            type="primary"
+            class="btn1"
+            @click="confirmReview"
+          >
             确认审核
           </a-button>
         </a-form-model-item>
@@ -102,7 +107,7 @@
 </template>
 
 <script>
-import { paymentTypeMapData, detailTypeMapData } from '@/utils/enum';
+import { paymentTypeMapData, detailTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
@@ -111,60 +116,60 @@ export default {
       detailTypeMapData,
       columns: [
         {
-          title: '步骤',
-          dataIndex: 'productName',
-          key: 'productName',
+          title: "步骤",
+          dataIndex: "productName",
+          key: "productName"
         },
         {
-          title: '审核节点',
-          dataIndex: 'tradeType',
-          key: 'tradeType',
-          scopedSlots: { customRender: 'tradeType' },
+          title: "审核节点",
+          dataIndex: "tradeType",
+          key: "tradeType",
+          scopedSlots: { customRender: "tradeType" }
         },
         {
-          title: '审核状态',
-          key: 'productConfig',
-          scopedSlots: { customRender: 'productConfig' },
+          title: "审核状态",
+          key: "productConfig",
+          scopedSlots: { customRender: "productConfig" }
         },
         {
-          title: '审核人',
-          dataIndex: 'quantity',
-          key: 'quantity',
+          title: "审核人",
+          dataIndex: "quantity",
+          key: "quantity"
         },
         {
-          title: '审核意见',
-          dataIndex: 'chargeModel',
-          key: 'chargeModel',
-        },
+          title: "审核意见",
+          dataIndex: "chargeModel",
+          key: "chargeModel"
+        }
       ],
       form: {
-        applyUserCode: '',
-        checkMemo: '',
-        status: '',
-        id: '',
+        applyUserCode: "",
+        checkMemo: "",
+        status: "",
+        id: ""
       },
       rules: {
         status: [
           {
             required: true,
-            message: '请选择审核结果',
-            trigger: 'change',
-          },
+            message: "请选择审核结果",
+            trigger: "change"
+          }
         ],
         checkMemo: [
           {
             required: true,
-            message: '请填写审核意见',
-            trigger: 'blur',
-          },
-        ],
+            message: "请填写审核意见",
+            trigger: "blur"
+          }
+        ]
       },
       labelCol: {
-        span: 8,
+        span: 8
       },
       wrapperCol: {
-        span: 10,
-      },
+        span: 10
+      }
     };
   },
   created() {
@@ -176,17 +181,17 @@ export default {
   computed: {
     imgList() {
       if (this.data.voucher) {
-        return this.data.voucher.split(',');
+        return this.data.voucher.split(",");
       } else {
         return [];
       }
-    },
+    }
   },
   methods: {
     getList() {
       this.$store
-        .dispatch('manualDeposit/getOne', this.$route.query.id)
-        .then((res) => {
+        .dispatch("manualDeposit/getOne", this.$route.query.id)
+        .then(res => {
           console.log(res);
           this.data = res.data;
         });
@@ -195,32 +200,32 @@ export default {
       this.form.applyUserCode = this.$route.query.applyUserCode;
       this.form.id = this.$route.query.id;
       this.$confirm({
-        title: '确定要提交吗?',
+        title: "确定要提交吗?",
         onOk: () => {
-          this.$refs.ruleForm.validate((valid) => {
+          this.$refs.ruleForm.validate(valid => {
             if (valid) {
               this.$store
-                .dispatch('manualDeposit/changeReview', this.form)
-                .then((res) => {
+                .dispatch("manualDeposit/changeReview", this.form)
+                .then(res => {
                   console.log(res);
-                  this.$message.success('审核成功');
+                  this.$message.success("审核成功");
                   this.$router.back();
                 });
             }
           });
-        },
+        }
       });
     },
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        applyUserCode: '',
-        checkMemo: '',
-        status: '',
-        id: '',
+        applyUserCode: "",
+        checkMemo: "",
+        status: "",
+        id: ""
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

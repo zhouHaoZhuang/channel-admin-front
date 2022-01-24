@@ -3,7 +3,12 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline" :model="listQuery">
         <a-form-model-item>
-          <a-button type="primary" icon="plus" @click="handleUpdate('add')">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            icon="plus"
+            @click="handleUpdate('add')"
+          >
             新增产品折扣
           </a-button>
         </a-form-model-item>
@@ -20,12 +25,16 @@
         <span slot="discountType" slot-scope="text">
           {{ memberDiscountType[text] }}
         </span>
-        <span slot="discountPrice" slot-scope="text,record">
+        <span slot="discountPrice" slot-scope="text, record">
           {{ text }}
           <span v-if="record.discountType === '1'">%</span>
         </span>
         <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="handleUpdate('edit', record)">
+          <a-button
+            v-permission="'modify'"
+            type="link"
+            @click="handleUpdate('edit', record)"
+          >
             编辑
           </a-button>
           <!-- <a-divider type="vertical" />

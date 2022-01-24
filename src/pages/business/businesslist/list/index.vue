@@ -5,7 +5,7 @@
         <p class="purchase-list-title">
           <span
             :class="{
-              'purchase-title-active': selectkey.runningStatus === text.key,
+              'purchase-title-active': selectkey.runningStatus === text.key
             }"
             v-for="(text, index) in titleList"
             :key="index"
@@ -18,7 +18,11 @@
           <div class="public-header-wrap">
             <a-form-model layout="inline" :model="listQuery">
               <a-form-model-item>
-                <a-button type="primary" @click="businessOpening">
+                <a-button
+                  v-permission="'biz-open'"
+                  type="primary"
+                  @click="businessOpening"
+                >
                   +业务开通
                 </a-button>
               </a-form-model-item>
@@ -60,7 +64,7 @@
                     <!-- <a-icon type="up" /> -->
                     高级筛选
                   </a-button>
-                  <a-button>
+                  <a-button v-permission="'export'">
                     <a-icon type="export" />
                     导出
                   </a-button>
@@ -269,7 +273,11 @@
               >
               <span v-if="text == 3" class="runningStatus expired">已过期</span> -->
             </div>
-            <a slot="action" slot-scope="text" @click="infoChannel(text)"
+            <a
+              v-permission="'manager'"
+              slot="action"
+              slot-scope="text"
+              @click="infoChannel(text)"
               >管理</a
             >
           </a-table>
@@ -280,7 +288,7 @@
 </template>
 
 <script>
-import { regionDataEnum, runningStatusEnum } from '@/utils/enum';
+import { regionDataEnum, runningStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
@@ -288,151 +296,151 @@ export default {
       runningStatusEnum,
       isfilter: false,
       listQuery: {
-        key: 'ip',
-        search: '',
+        key: "ip",
+        search: "",
         pageNo: 1,
         pageSize: 10,
-        total: 0,
+        total: 0
       },
       titleList: [
         {
-          key: '',
-          title: '正常',
+          key: "",
+          title: "正常"
         },
         {
           key: 6,
-          title: '即将到期',
+          title: "即将到期"
         },
         {
           key: 3,
-          title: '已到期',
-        },
+          title: "已到期"
+        }
         // {
         //   key: -1,
         //   title: '已删除',
         // },
       ],
       selectkey: {
-        corporationName: '',
-        corporationPhone: '',
-        currentPage: '1',
-        endTimeSort: '',
-        orderNo: '',
-        outIp: '',
-        pageSize: '10',
-        saleTimeSort: '',
-        sort: '',
-        runningStatus: '',
+        corporationName: "",
+        corporationPhone: "",
+        currentPage: "1",
+        endTimeSort: "",
+        orderNo: "",
+        outIp: "",
+        pageSize: "10",
+        saleTimeSort: "",
+        sort: "",
+        runningStatus: ""
       },
       searchColumns: [
         {
-          title: '服务器IP',
-          dataIndex: 'ip',
+          title: "服务器IP",
+          dataIndex: "ip"
         },
         {
-          title: '会员ID',
-          dataIndex: 'corporationCode',
+          title: "会员ID",
+          dataIndex: "corporationCode"
         },
         {
-          title: '会员手机号',
-          dataIndex: 'phoneNumber',
+          title: "会员手机号",
+          dataIndex: "phoneNumber"
         },
         {
-          title: '订单ID',
-          dataIndex: 'orderNo',
-        },
+          title: "订单ID",
+          dataIndex: "orderNo"
+        }
       ],
       columns: [
         {
-          title: '业务ID',
+          title: "业务ID",
           width: 180,
-          dataIndex: 'id',
+          dataIndex: "id"
         },
         {
-          title: 'IP',
+          title: "IP",
           width: 130,
-          dataIndex: 'outIp',
+          dataIndex: "outIp"
         },
         {
-          title: '会员手机号',
+          title: "会员手机号",
           width: 130,
-          dataIndex: 'phoneNumber',
+          dataIndex: "phoneNumber"
         },
         {
-          title: '订单ID',
+          title: "订单ID",
           width: 160,
-          dataIndex: 'orderNo',
+          dataIndex: "orderNo"
         },
         // { title: '弹性IP', dataIndex: 'intranetIp', key: 'intranetIp' },
         {
-          title: '共享类型',
-          dataIndex: 'shareType',
-          key: 'shareType',
+          title: "共享类型",
+          dataIndex: "shareType",
+          key: "shareType",
           customRender: (text, record, index) => {
-            return '通用';
-          },
+            return "通用";
+          }
         },
         {
-          title: '机房',
-          dataIndex: 'regionId',
+          title: "机房",
+          dataIndex: "regionId",
           customRender: (text, record, index) => {
             return this.regionDataEnum[text] || text;
           },
-          width: 150,
+          width: 150
         },
-        { title: 'CPU(核)', dataIndex: 'cpu', key: 'cpu' },
-        { title: '内存(G)', dataIndex: 'memory', key: 'memory' },
+        { title: "CPU(核)", dataIndex: "cpu", key: "cpu" },
+        { title: "内存(G)", dataIndex: "memory", key: "memory" },
         {
-          title: '磁盘(G)',
-          dataIndex: 'systemSize',
-        },
-        {
-          title: '带宽(Mbps)',
-          dataIndex: 'internetMaxBandwidthOut',
-          width: 150,
+          title: "磁盘(G)",
+          dataIndex: "systemSize"
         },
         {
-          title: '会员ID',
-          dataIndex: 'corporationCode',
-          key: 'corporationCode',
-          width: 190,
+          title: "带宽(Mbps)",
+          dataIndex: "internetMaxBandwidthOut",
+          width: 150
         },
         {
-          title: '购买时间',
-          dataIndex: 'createTimeStr',
+          title: "会员ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
+          width: 190
+        },
+        {
+          title: "购买时间",
+          dataIndex: "createTimeStr",
           sorter: true,
           width: 190,
-          sortDirections: ['ascend', 'descend'],
+          sortDirections: ["ascend", "descend"]
         },
         {
-          title: '到期时间',
-          dataIndex: 'endTimeStr',
-          key: 'endTimeStr',
+          title: "到期时间",
+          dataIndex: "endTimeStr",
+          key: "endTimeStr",
           width: 180,
           sorter: true,
-          sortDirections: ['ascend', 'descend'],
+          sortDirections: ["ascend", "descend"]
         },
         // { title: '业务状态', dataIndex: '1', key: '' },
         {
-          title: '运行状态',
-          dataIndex: 'runningStatus',
-          scopedSlots: { customRender: 'runningStatus' },
+          title: "运行状态",
+          dataIndex: "runningStatus",
+          scopedSlots: { customRender: "runningStatus" }
         },
         // { title: '操作状态', dataIndex: '3', key: '' },
         {
-          title: '操作',
-          dataIndex: 'id',
-          key: 'action',
-          fixed: 'right',
+          title: "操作",
+          dataIndex: "id",
+          key: "action",
+          fixed: "right",
           width: 100,
-          scopedSlots: { customRender: 'action' },
-        },
+          scopedSlots: { customRender: "action" }
+        }
       ],
       data: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ['5', '10', '20', '30'],
+        pageSizeOptions: ["5", "10", "20", "30"],
         pageSize: 5,
         current: 1, //当前页
         total: 1,
@@ -441,9 +449,9 @@ export default {
             total / this.paginationProps.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
-      tableLoading: false,
+      tableLoading: false
     };
   },
   activated() {
@@ -456,22 +464,22 @@ export default {
     handleChangeSort(pagination, filters, sorter) {
       console.log(sorter);
       if (sorter && sorter.order) {
-        if (sorter.columnKey === 'purchaseTimeStr') {
-          this.selectkey.saleTimeSort = sorter.order.replace('end', '');
+        if (sorter.columnKey === "purchaseTimeStr") {
+          this.selectkey.saleTimeSort = sorter.order.replace("end", "");
           this.getList(() => {
-            this.selectkey.saleTimeSort = '';
+            this.selectkey.saleTimeSort = "";
           });
-        } else if (sorter.columnKey === 'endTimeStr') {
-          this.selectkey.endTimeSort = sorter.order.replace('end', '');
+        } else if (sorter.columnKey === "endTimeStr") {
+          this.selectkey.endTimeSort = sorter.order.replace("end", "");
           this.getList(() => {
-            this.selectkey.endTimeSort = '';
+            this.selectkey.endTimeSort = "";
           });
         }
       }
     },
     businessOpening() {
       this.$router.push({
-        path: '/business/cloudservers/businessOpening',
+        path: "/business/cloudservers/businessOpening"
       });
     },
     changeRunningstatus(text) {
@@ -491,8 +499,8 @@ export default {
       this.selectkey.currentPage = this.paginationProps.current;
       this.selectkey.pageSize = this.paginationProps.pageSize;
       this.$store
-        .dispatch('business/getList', this.selectkey)
-        .then((res) => {
+        .dispatch("business/getList", this.selectkey)
+        .then(res => {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -517,14 +525,14 @@ export default {
     //
     infoChannel(id) {
       this.$router.push({
-        path: '/business/cloudservers/info',
-        query: { id },
+        path: "/business/cloudservers/info",
+        query: { id }
       });
     },
     handleChange(value) {
       console.log(value);
-    },
-  },
+    }
+  }
 };
 </script>
 

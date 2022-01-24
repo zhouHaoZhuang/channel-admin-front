@@ -1,16 +1,27 @@
 <template>
   <div class="single-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn" @click="addsingle">
+      <a-button
+        v-permission="'add'"
+        type="primary"
+        icon="plus"
+        class="btn"
+        @click="addsingle"
+      >
         添加单页
       </a-button>
-      <a-button icon="delete" class="btn" @click="deleteinbatches">
+      <a-button
+        v-permission="'batch-del'"
+        icon="delete"
+        class="btn"
+        @click="deleteinbatches"
+      >
         批量删除
       </a-button>
-      <a-button icon="check" class="btn">
+      <a-button v-permission="'view'" icon="check" class="btn">
         显示
       </a-button>
-      <a-button icon="stop" class="btn">
+      <a-button v-permission="'disable'" icon="stop" class="btn">
         隐藏
       </a-button>
     </div>
@@ -24,15 +35,19 @@
         :scroll="{ x: 1300 }"
       >
         <span slot="status" slot-scope="text">
-          {{ text.status == 1 ? '关闭' : '开启' }}
+          {{ text.status == 1 ? "关闭" : "开启" }}
         </span>
 
         <span slot="action" slot-scope="text">
-          <a-button type="link" @click="updatePrice(text)">
+          <a-button
+            v-permission="'modify'"
+            type="link"
+            @click="updatePrice(text)"
+          >
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(text)">
+          <a-button v-permission="'del'" type="link" @click="handleDel(text)">
             删除
           </a-button>
         </span>
@@ -56,63 +71,63 @@ export default {
         onChange: (selectedRowKeys, selectedRows) => {
           console.log(
             `selectedRowKeys: ${selectedRowKeys}`,
-            'selectedRows: ',
+            "selectedRows: ",
             selectedRows
           );
           this.selectedRowKeys = selectedRowKeys;
-        },
+        }
       };
-    },
+    }
   },
   created() {},
   data() {
     return {
       listQuery: {
-        search: '',
+        search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0,
+        total: 0
       },
       columns: [
         {
-          title: '编号',
-          dataIndex: 'id',
-          scopedSlots: { customRender: 'name' },
+          title: "编号",
+          dataIndex: "id",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '页面名称',
-          dataIndex: 'pageName',
+          title: "页面名称",
+          dataIndex: "pageName"
         },
         {
-          title: '访问路径',
-          dataIndex: 'resourceAddress',
+          title: "访问路径",
+          dataIndex: "resourceAddress"
         },
         // {
         //   title: "模板",
         //   dataIndex: "modeFileName"
         // },
         {
-          title: '创建时间',
-          dataIndex: 'createTime',
-          scopedSlots: { customRender: 'createTime' },
+          title: "创建时间",
+          dataIndex: "createTime",
+          scopedSlots: { customRender: "createTime" }
         },
         {
-          title: '修改时间',
-          dataIndex: 'modifyTime',
-          scopedSlots: { customRender: 'modifyTime' },
+          title: "修改时间",
+          dataIndex: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" }
         },
         {
-          title: '开启状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
+          title: "开启状态",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
-          title: '操作',
-          key: 'action',
-          dataIndex: 'id',
-          fixed: 'right',
-          scopedSlots: { customRender: 'action' },
-        },
+          title: "操作",
+          key: "action",
+          dataIndex: "id",
+          fixed: "right",
+          scopedSlots: { customRender: "action" }
+        }
       ],
       data: [],
       friendshipdata: [],
@@ -125,9 +140,9 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: [],
+      selectedRowKeys: []
     };
   },
   activated() {
@@ -136,10 +151,10 @@ export default {
   methods: {
     //添加单页
     addsingle() {
-      this.$router.push('/personal/account/add-single');
+      this.$router.push("/personal/account/add-single");
     },
     getList() {
-      this.$store.dispatch('page/getList', this.listQuery).then((res) => {
+      this.$store.dispatch("page/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
@@ -157,41 +172,41 @@ export default {
     //修改单页
     updatePrice(id) {
       this.$router.push({
-        path: '/personal/account/amend-single',
+        path: "/personal/account/amend-single",
         query: {
-          id: id,
-        },
+          id: id
+        }
       });
     },
     // 删除单页
     handleDel(id) {
       console.log(id);
       this.$confirm({
-        title: '确定要删除吗?',
+        title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch('page/delPrice', id).then((val) => {
-            this.$message.success('操作成功');
+          this.$store.dispatch("page/delPrice", id).then(val => {
+            this.$message.success("操作成功");
             this.getList();
           });
-        },
+        }
       });
     },
     //批量删除
     deleteinbatches() {
       console.log(this.selectedRowKeys.toString());
       this.$confirm({
-        title: '确定要删除吗?',
+        title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch('page/delPrice', this.selectedRowKeys.toString())
-            .then((val) => {
-              this.$message.success('操作成功');
+            .dispatch("page/delPrice", this.selectedRowKeys.toString())
+            .then(val => {
+              this.$message.success("操作成功");
               this.getList();
             });
-        },
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -10,11 +10,13 @@
         </a-button>
         <a-dropdown>
           <a-menu slot="overlay" @click="handleMenuClick">
-            <a-menu-item key="1"> <a-icon type="mail" />发送邮件 </a-menu-item>
-            <a-menu-item key="2">
+            <a-menu-item key="1" v-permission="'send-email'">
+              <a-icon type="mail" />发送邮件
+            </a-menu-item>
+            <a-menu-item key="2" v-permission="'send-inner-message'">
               <a-icon type="sound" />发送站内消息
             </a-menu-item>
-            <a-menu-item key="3">
+            <a-menu-item key="3" v-permission="'batch-modify'">
               <a-icon type="form" />批量修改会员组
             </a-menu-item>
           </a-menu>
@@ -340,7 +342,12 @@
             {{ text.toFixed(2) }}
           </div>
           <span slot="action" slot-scope="text" class="action">
-            <a-button type="link" class="" @click="selectInfo(text.id)">
+            <a-button
+              v-permission="'view'"
+              type="link"
+              class=""
+              @click="selectInfo(text.id)"
+            >
               查看
             </a-button>
             <a-divider type="vertical" />
@@ -350,22 +357,22 @@
                 <a-icon type="down" />
               </a>
               <a-menu slot="overlay">
-                <a-menu-item>
+                <a-menu-item v-permission="'into-info'">
                   <a href="javascript:;">进入会员中心</a>
                 </a-menu-item>
-                <a-menu-item>
+                <a-menu-item v-permission="'web-log-export'">
                   <a href="javascript:;">网监查案导出</a>
                 </a-menu-item>
-                <a-menu-item>
+                <a-menu-item v-permission="'modify-balance'">
                   <a href="javascript:;">增减余额</a>
                 </a-menu-item>
-                <a-menu-item>
+                <a-menu-item v-permission="'api-setting'">
                   <a href="javascript:;">API设置</a>
                 </a-menu-item>
-                <a-menu-item>
+                <a-menu-item v-permission="'modify'">
                   <a href="javascript:;">修改</a>
                 </a-menu-item>
-                <a-menu-item>
+                <a-menu-item v-permission="'del'">
                   <a href="javascript:;">删除</a>
                 </a-menu-item>
               </a-menu>
