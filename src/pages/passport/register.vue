@@ -20,8 +20,8 @@
           <a-input-password
             v-model="form.password"
             type="password"
-            :max-length="12"
-            placeholder="6 - 12位密码，区分大小写"
+            :max-length="20"
+            placeholder="6 - 20位密码，区分大小写"
             @keydown.native="keydown($event)"
           />
         </a-form-model-item>
@@ -29,7 +29,7 @@
           <a-input-password
             v-model="form.confirmPassword"
             type="password"
-            :max-length="12"
+            :max-length="20"
             placeholder="确认密码"
             @keydown.native="keydown($event)"
           />
@@ -110,7 +110,7 @@ export default {
         phone: "",
         code: ""
       },
-      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
         channelName: [
           {
