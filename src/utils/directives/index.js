@@ -181,7 +181,7 @@ export const permission = Vue.directive("permission", {
     // console.log(el, value, modifiers, perms, routeMetaPrem);
     // console.log(value, routePermActions);
     // 先判断是否是所有权限(所有菜单权限，这样的话默认按钮权限都有)
-    const index = perms.findIndex(ele => ele.code === "*");
+    const index = perms.findIndex(ele => ele.code.replace(":*", "") === "*");
     // 如果是所有权限的话，直接放行，*代表所有权限
     // 不是所有权限则继续进行判断
     if (

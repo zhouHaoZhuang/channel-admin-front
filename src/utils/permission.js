@@ -10,7 +10,7 @@ function getNewRoute(route, perms) {
 }
 // 判断用户是否拥有所有菜单的权限
 function getUserHaveAllPerm(perms) {
-  const index = perms.findIndex(ele => ele.code === "*");
+  const index = perms.findIndex(ele => ele.code.replace(":*", "") === "*");
   return index;
 }
 // 处理动态路由菜单
@@ -37,6 +37,7 @@ export const setAsyncRouteMenu = (perms, router, store) => {
 };
 // 判断处理路由是否可以成功跳转--也可得出是否有这个路由菜单
 export const hasPermissionMenu = (to, perms) => {
+  // return true
   // 判断本地路由的文件是否没有添加权限信息
   if (!to.meta.perm) {
     return false;

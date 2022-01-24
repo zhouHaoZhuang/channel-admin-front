@@ -57,6 +57,12 @@ const permsGuard = async (to, from, next, options) => {
     setAsyncRouteMenu(perms, router, store);
   }
   if (to.path === "/") {
+    const perms = store.state.user.perms;
+    if (perms.length === 0) {
+      message.warning("当前登录用户没有任何权限，将退出登录");
+      store.dispatch("user/logout");
+      next({ path: "/login" });
+    }
     const firstPath = store.state.setting.firstPath;
     next({ path: firstPath });
   }

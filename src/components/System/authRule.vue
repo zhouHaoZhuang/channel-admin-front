@@ -100,7 +100,12 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item style="margin-bottom:0" label="授权规则">
-          <a-button type="link" icon="plus" @click="handleAddRule">
+          <a-button
+            :disabled="isSelectAll"
+            type="link"
+            icon="plus"
+            @click="handleAddRule"
+          >
             添加授权规则
           </a-button>
         </a-form-model-item>
@@ -166,7 +171,7 @@
           >
             <a-radio-group
               v-model="item.type"
-              :disabled="!item.permissionCode || item.permissionCode === 'all'"
+              :disabled="!item.permissionCode || item.permissionCode === '*'"
               @change="e => radioChange(e, item, index)"
             >
               <a-radio :value="1">
@@ -295,6 +300,14 @@ export default {
       treeData: []
     };
   },
+  computed: {
+    isSelectAll() {
+      let index = this.form.permissionActions.findIndex(
+        ele => ele.permissionCode === "*"
+      );
+      return index !== -1 ? true : false;
+    }
+  },
   watch: {
     code: {
       handler(newVal) {
@@ -399,9 +412,9 @@ export default {
       this.getNewData(twoData, threeData);
       this.getNewData(oneData, twoData);
       oneData.unshift({
-        title: "所有资源",
-        key: "all",
-        value: "all"
+        title: "所有权限",
+        key: "*",
+        value: "*"
       });
       return oneData;
     },
@@ -434,10 +447,10 @@ export default {
     selectChange(value, label, extra, type, index) {
       this.form.permissionActions[index].actions = [];
       this.form.permissionActions[index].actionSelectList = [];
-      if (type === 0 && value !== "all") {
+      if (type === 0 && value !== "*") {
         this.getPremActions(value, index);
       }
-      if (value === "all") {
+      if (value === "*") {
         this.form.permissionActions[index].type = 1;
       }
     },

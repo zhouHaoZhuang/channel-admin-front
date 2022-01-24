@@ -1,8 +1,8 @@
 <template>
-  <page-layout :desc="desc" :linkList="linkList">
-    <div v-if="this.extraImage && !isMobile" slot="extra" class="extraImg">
+  <page-layout>
+    <!-- <div v-if="this.extraImage && !isMobile" slot="extra" class="extraImg">
       <img :src="extraImage" />
-    </div>
+    </div> -->
     <page-toggle-transition
       :disabled="animate.disabled"
       :animate="animate.name"
