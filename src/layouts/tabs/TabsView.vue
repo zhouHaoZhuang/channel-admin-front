@@ -26,7 +26,7 @@ import AdminLayout from '@/layouts/AdminLayout'
 import Contextmenu from '@/components/menu/Contextmenu'
 import PageToggleTransition from '@/components/transition/PageToggleTransition'
 import {mapState, mapMutations} from 'vuex'
-import {getI18nKey} from '@/utils/routerUtil'
+// import {getI18nKey} from '@/utils/routerUtil'
 import AKeepAlive from '@/components/cache/AKeepAlive'
 import TabsHead from '@/layouts/tabs/TabsHead'
 
@@ -212,9 +212,9 @@ export default {
         })
       }, 200)
     },
-    pageName(page) {
-      return this.$t(getI18nKey(page.keyPath))
-    },
+    // pageName(page) {
+    //   return this.$t(getI18nKey(page.keyPath))
+    // },
     /**
      * 添加监听器
      */
