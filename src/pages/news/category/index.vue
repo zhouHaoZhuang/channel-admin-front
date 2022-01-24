@@ -3,10 +3,10 @@
     <div>
       <div>
         <a-space>
-          <a-button type="primary" @click="addNewsType">
+          <a-button type="primary" @click="addNewsType" v-permission="'add'">
             <a-icon type="plus" />添加类别
           </a-button>
-          <a-button @click="showModal">
+          <a-button @click="showModal" v-permission="'sort'">
             <span class="sort-icon">
               <a-icon type="swap" />
             </span>
@@ -74,11 +74,11 @@
             {{ text === 0 ? "启用" : "禁用" }}
           </div>
           <div slot="actions" slot-scope="text">
-            <a-button type="link" @click="change(text)">
+            <a-button type="link" @click="change(text)" v-permission="'modify'">
               修改
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="deleteNews(text)">
+            <a-button type="link" @click="deleteNews(text)" v-permission="'del'">
               删除
             </a-button>
           </div>

@@ -230,7 +230,7 @@ export default {
     handleOk(e) {
       this.confirmLoading = true;
       for (let index = 0; index < this.data.length; index++) {
-        this.data[index].sort = index + 1;
+        this.data[index].typeSort = index + 1;
       }
       console.log(this.data);
       this.$store

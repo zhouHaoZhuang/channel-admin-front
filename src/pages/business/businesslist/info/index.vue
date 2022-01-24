@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="business-container" v-if="dataOrder">
+    <div class="business-container" v-if="data">
       <div class="business-basic">
         <a-tabs type="card">
           <a-tab-pane key="1" tab="基础信息">
@@ -101,8 +101,8 @@
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数据磁盘：</span>
-                <span class="basicInformation-info">
-                  {{ data.systemSize }}G
+                <span class="basicInformation-info" v-if="data.dataDiskSize">
+                  {{ data.dataDiskSize == 0 ? '----':data.dataDiskSize }}G
                 </span>
               </div>
               <!-- <div class="basicInformation-item">
@@ -358,14 +358,15 @@ export default {
     this.$store.dispatch('business/getOne', id).then((res) => {
       this.dataOrder = res.data.orderLineLogResDto;
       this.data = res.data;
-      let systemSize = 0;
+      let dataDiskSize = 0;
+      console.log(res.data);
       if (res.data.dataDisk) {
         res.data.dataDisk.forEach((item) => {
-          systemSize += item.size;
+          dataDiskSize += item.size;
         });
-        this.data.systemSize = systemSize;
+        this.data.dataDiskSize = dataDiskSize;
       }
-      console.log(res);
+      console.log(this.data);
     });
   },
 };
