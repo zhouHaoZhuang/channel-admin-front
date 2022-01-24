@@ -3,7 +3,9 @@
     <div class="public-title">
       <div class="left-tit">已授权规则</div>
       <a-space>
-        <a-button type="primary" @click="handleAdd">添加授权</a-button>
+        <a-button v-permission="'add-rule-auth'" type="primary" @click="handleAdd">
+          添加授权
+        </a-button>
       </a-space>
     </div>
     <div class="public-con">
@@ -39,7 +41,11 @@
             </div>
           </div>
           <span slot="action" slot-scope="text, record">
-            <a-button type="link" @click="handleCancelAuth(record)">
+            <a-button
+              v-permission="'cancel-rule-auth'"
+              type="link"
+              @click="handleCancelAuth(record)"
+            >
               取消授权
             </a-button>
           </span>

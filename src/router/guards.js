@@ -53,8 +53,12 @@ const permsGuard = async (to, from, next, options) => {
     // 获取权限数据
     await store.dispatch("user/getUserPerms");
     // 设置动态路由
-    // const perms = store.state.user.perms;
-    // setAsyncRouteMenu(perms, router, store);
+    const perms = store.state.user.perms;
+    setAsyncRouteMenu(perms, router, store);
+  }
+  if (to.path === "/") {
+    const firstPath = store.state.setting.firstPath;
+    next({ path: firstPath });
   }
   next();
 };
@@ -70,11 +74,11 @@ const permsGuard = async (to, from, next, options) => {
 const authorityGuard = (to, from, next, options) => {
   const { store, message, router } = options;
   const perms = store.state.user.perms;
-  // if (!loginIgnore.includes(to) && !hasPermissionMenu(to, perms, router)) {
-  //   message.warning(`对不起，您无权访问页面，请联系管理员`);
-  //   next({ path: "/login" });
-  //   NProgress.done();
-  // }
+  if (!loginIgnore.includes(to) && !hasPermissionMenu(to, perms, router)) {
+    message.warning(`对不起，您无权访问页面，请联系管理员`);
+    next({ path: "/login" });
+    NProgress.done();
+  }
   // 存储一下当前路由的$route的meta信息
   store.commit("setting/setRouteMeta", to.meta.perm);
   next();

@@ -4,7 +4,12 @@
       <div class="public-header-wrap">
         <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
-            <a-button type="primary" icon="plus" @click="handleAddRole">
+            <a-button
+              v-permission="'add-role'"
+              type="primary"
+              icon="plus"
+              @click="handleAddRole"
+            >
               添加角色
             </a-button>
           </a-form-model-item>
@@ -22,15 +27,27 @@
             {{ text | formatDate }}
           </span>
           <span slot="action" slot-scope="text, record">
-            <a-button type="link" @click="handleEditRole(record)">
+            <a-button
+              v-permission="'modify'"
+              type="link"
+              @click="handleEditRole(record)"
+            >
               编辑
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="handleGoDetail(record)">
+            <a-button
+              v-permission="'detail'"
+              type="link"
+              @click="handleGoDetail(record)"
+            >
               详情
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="handleDel(record)">
+            <a-button
+              v-permission="'del'"
+              type="link"
+              @click="handleDel(record)"
+            >
               删除
             </a-button>
           </span>

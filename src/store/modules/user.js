@@ -36,7 +36,6 @@ const user = {
       return request({
         url: `/manageUser/queryUserRoles/${params.id}`,
         method: "get"
-        // params
       });
     },
     // 发送验证码
@@ -56,7 +55,6 @@ const user = {
           data
         })
           .then(res => {
-            dispatch("getUserPerms");
             const token = res.data.token;
             commit("SET_TOKEN", token);
             commit("SET_USERINFO", res.data);
@@ -88,6 +86,7 @@ const user = {
       return new Promise(resolve => {
         commit("SET_TOKEN", "");
         commit("SET_USERINFO", {});
+        commit("SET_PERMS", []);
         const authenticationClient = new AuthenticationClient({
           appId: env.appId,
           appHost: env.appHost,

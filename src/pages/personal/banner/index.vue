@@ -2,6 +2,7 @@
   <div class="banner-container">
     <div class="btn-head">
       <a-button
+        v-permission="'add'"
         type="primary"
         icon="plus"
         class="btn"
@@ -9,16 +10,36 @@
       >
         添加Banner
       </a-button>
-      <a-button icon="delete" class="btn" @click="handleBatchDel">
+      <a-button
+        v-permission="'batch-del'"
+        icon="delete"
+        class="btn"
+        @click="handleBatchDel"
+      >
         批量删除
       </a-button>
-      <a-button icon="check" class="btn" @click="handleChangeShow('show')">
+      <a-button
+        v-permission="'view'"
+        icon="check"
+        class="btn"
+        @click="handleChangeShow('show')"
+      >
         显示
       </a-button>
-      <a-button icon="stop" class="btn" @click="handleChangeShow('hide')">
+      <a-button
+        v-permission="'disable'"
+        icon="stop"
+        class="btn"
+        @click="handleChangeShow('hide')"
+      >
         隐藏
       </a-button>
-      <a-button icon="column-height" class="btn" @click="handleSort">
+      <a-button
+        v-permission="'sort'"
+        icon="column-height"
+        class="btn"
+        @click="handleSort"
+      >
         排序
       </a-button>
     </div>
@@ -40,11 +61,19 @@
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
         <div slot="action" slot-scope="text, record">
-          <a-button type="link" @click="updateBanner('edit', record)">
+          <a-button
+            v-permission="'modify'"
+            type="link"
+            @click="updateBanner('edit', record)"
+          >
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDelBanner(record)">
+          <a-button
+            v-permission="'del'"
+            type="link"
+            @click="handleDelBanner(record)"
+          >
             删除
           </a-button>
         </div>
