@@ -919,6 +919,15 @@ export const asyncRoute = [
                   perm: "system-admin-role"
                 },
                 component: () => import("@/pages/system/admin/detail")
+              },
+              {
+                path: "account",
+                name: "子账号管理",
+                meta: {
+                  icon: "home",
+                  perm: "system-admin-perm"
+                },
+                component: () => import("@/pages/system/admin/account")
               }
             ]
           },
