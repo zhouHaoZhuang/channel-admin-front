@@ -204,8 +204,6 @@ export default {
                 .then((res) => {
                   console.log(res);
                   this.$message.success('审核成功');
-                })
-                .finally(() => {
                   this.$router.back();
                 });
             }
