@@ -19,6 +19,7 @@
         <a-form-model-item prop="password">
           <a-input-password
             v-model="form.password"
+            v-password-input
             type="password"
             :max-length="20"
             placeholder="6 - 20位密码，区分大小写"
