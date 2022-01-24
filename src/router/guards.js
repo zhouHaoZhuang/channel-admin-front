@@ -27,7 +27,13 @@ const progressStart = (to, from, next) => {
  */
 const loginGuard = (to, from, next, options) => {
   const { store, message } = options;
-  // console.log("登录守卫", to, loginIgnore.includes(to), store.state.user.token);
+  console.log(
+    "登录守卫",
+    to,
+    from,
+    loginIgnore.includes(to),
+    store.state.user.token
+  );
   if (!loginIgnore.includes(to) && !store.state.user.token) {
     message.warning("登录已失效，请重新登录");
     next({ path: "/login" });
@@ -47,7 +53,7 @@ const loginGuard = (to, from, next, options) => {
 const permsGuard = async (to, from, next, options) => {
   const { store, message, router } = options;
   const perms = store.state.user.perms;
-  if (!loginIgnore.includes(to) && perms.length === 0) {
+  if (!loginIgnore.includes(to) && perms && perms.length === 0) {
     // 获取用户信息
     await store.dispatch("user/getUserInfo");
     // 获取权限数据
@@ -58,7 +64,7 @@ const permsGuard = async (to, from, next, options) => {
   }
   if (to.path === "/") {
     const perms = store.state.user.perms;
-    if (perms.length === 0) {
+    if (!perms || (perms && perms.length === 0)) {
       message.warning("当前登录用户没有任何权限，将退出登录");
       store.dispatch("user/logout");
       next({ path: "/login" });
@@ -121,6 +127,7 @@ const redirectGuard = (to, from, next, options) => {
     if (firstMenu.find(item => item.fullPath === to.fullPath)) {
       store.commit("setting/setActivatedFirst", to.fullPath);
       const subMenu = store.getters["setting/subMenu"];
+      console.log("subMenu", subMenu, subMenu.length);
       if (subMenu.length > 0) {
         const redirect = getFirstChild(subMenu);
         return next({ path: redirect.fullPath });
