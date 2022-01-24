@@ -244,7 +244,7 @@ export default {
         // },
         {
           title: '操作',
-          dataIndex: 'id',
+          dataIndex: 'payNo',
           key: 'action',
           // fixed: 'right',
           scopedSlots: { customRender: 'action' },

@@ -94,7 +94,8 @@ export default {
           { required: true, message: '验证手机号为必填', trigger: 'blur' },
         ],
         code: [{ required: true, message: '验证码为必填', trigger: 'blur' }],
-        newPassword: [{ validator: validatePass, trigger: ['blur', 'change'] }],
+        newPassword: [{ validator: validatePass, trigger: ['blur', 'change'] },
+        { min: 8, max: 13, message: '密码位数在8~13位', trigger: 'blur' },],
         newTwoPassword: [
           { validator: validatePass2, trigger: ['blur', 'change'] },
         ],
