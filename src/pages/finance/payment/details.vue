@@ -51,7 +51,7 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table> -->
     <div class="placeholder"></div>
-    <div >
+    <div>
       <h1 class="details-title">审核</h1>
       <a-form-model
         ref="ruleForm"
@@ -194,17 +194,23 @@ export default {
     confirmReview() {
       this.form.applyUserCode = this.$route.query.applyUserCode;
       this.form.id = this.$route.query.id;
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          this.$store
-            .dispatch('manualDeposit/changeReview', this.form)
-            .then((res) => {
-              console.log(res);
-              this.$message.success('审核成功');
-            }).finally(() => {
-              this.$router.back()
-            });
-        }
+      this.$confirm({
+        title: '确定要提交吗?',
+        onOk: () => {
+          this.$refs.ruleForm.validate((valid) => {
+            if (valid) {
+              this.$store
+                .dispatch('manualDeposit/changeReview', this.form)
+                .then((res) => {
+                  console.log(res);
+                  this.$message.success('审核成功');
+                })
+                .finally(() => {
+                  this.$router.back();
+                });
+            }
+          });
+        },
       });
     },
     resetForm() {

@@ -22,8 +22,9 @@
             v-model="listQuery.search"
           />
         </div>
-        <div>
+        <div class="disabled-date">
           <a-date-picker
+            style="width:140px"
             :disabled-date="disabledStartDate"
             show-time
             format="YYYY-MM-DD HH:mm:ss"
@@ -102,7 +103,7 @@
             {{ detailTypeMapData[text] }}
           </div>
           <div slot-scope="text" slot="type" v-if="text">
-            {{text == 'I'? '收入': '支出'}}
+            {{ text == 'I' ? '收入' : '支出' }}
           </div>
           <div slot="action" slot-scope="text">
             <a-button type="link" @click="selectPool(text)">
@@ -153,7 +154,7 @@ export default {
           dataIndex: 'dealAmount',
           scopedSlots: { customRender: 'dealAmount' },
         },
-         {
+        {
           title: '流水类型',
           dataIndex: 'type',
           scopedSlots: { customRender: 'type' },
@@ -351,13 +352,16 @@ export default {
     margin-bottom: 25px;
     .sechkey {
       width: 200px;
-      margin-right: 20px;
+      // margin-right: 20px;
+    }
+    .disabled-date{
+      display: flex;
     }
     [type='button'] {
-      margin-left: 20px;
+      margin-left: 10px;
     }
     .zhi {
-      margin: 10px;
+      margin: 5px;
     }
   }
 }
