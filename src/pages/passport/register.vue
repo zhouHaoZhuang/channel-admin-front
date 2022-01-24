@@ -22,6 +22,7 @@
             type="password"
             :max-length="12"
             placeholder="6 - 12位密码，区分大小写"
+            @keydown.native="keydown($event)"
           />
         </a-form-model-item>
         <a-form-model-item prop="confirmPassword">
@@ -30,6 +31,7 @@
             type="password"
             :max-length="12"
             placeholder="确认密码"
+            @keydown.native="keydown($event)"
           />
         </a-form-model-item>
         <a-form-model-item prop="phone">
@@ -143,6 +145,12 @@ export default {
     // 跳转登录
     handleJumpLogin() {
       this.$router.push("/login");
+    },
+    // 禁止输入空格
+    keydown(event) {
+      if (event.keyCode == 32) {
+        event.returnValue = false;
+      }
     },
     handleRegister() {
       console.log("点击", this.form);

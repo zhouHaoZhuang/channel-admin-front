@@ -84,13 +84,6 @@ const channel = {
         method: "get"
       });
     },
-    // 弹窗中用户列表
-    getModalUserList({ commit, state }) {
-      return request({
-        url: "/manageUser/getChannelUsers",
-        method: "get"
-      });
-    },
     // 添加授权用户
     addAuthUser({ commit, state }, data) {
       return request({
@@ -134,6 +127,36 @@ const channel = {
     getPremActions({ commit, state }, params) {
       return request({
         url: `/resource/${params.id}`
+      });
+    },
+    // 弹窗中用户列表/子账号列表
+    getModalUserList({ commit, state }) {
+      return request({
+        url: "/manageUser/getChannelUsers",
+        method: "get"
+      });
+    },
+    // 新增子账号
+    addAccount({ commit, state }, data) {
+      return request({
+        url: "/user/createUser",
+        method: "post",
+        data
+      });
+    },
+    // 编辑子账号
+    editAccount({ commit, state }, data) {
+      return request({
+        url: `/resource/modifyPermission`,
+        method: "put",
+        data
+      });
+    },
+    // 删除子账号
+    delAccount({ commit, state }, data) {
+      return request({
+        url: `/resource/${data.code}`,
+        method: "delete"
       });
     }
   }
