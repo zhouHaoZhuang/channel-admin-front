@@ -56,7 +56,7 @@ const globalBasic = {
 		// 修改公司基本信息接口
 		amendBasicCompanyInfo({ commit, state }, data) {
       return request({
-        url: `/ccCompanyInfo/${data.id}`,
+        url: `/ccCompanyInfo/${data.cid}`,
         method: "put",
 				data
       });
