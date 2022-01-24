@@ -8,7 +8,7 @@
           icon="plus"
           @click="handleAdd"
         >
-          添加权限
+          添加子账号
         </a-button>
       </a-space>
     </div>
@@ -17,14 +17,15 @@
         :loading="tableLoading"
         :columns="columns"
         :data-source="data"
-        rowKey="code"
-        :pagination="paginationProps"
+        rowKey="authingId"
+        :pagination="false"
       >
-        <span slot="type" slot-scope="text">
-          {{ systemAdminMapEnum[text] }}
+        <span slot="createTime" slot-scope="text">
+          {{ text | formatDate }}
         </span>
-        <span slot="action" slot-scope="text, record">
-          <a-button
+        <span slot="action">
+          <a-button type="link" disabled>暂无操作</a-button>
+          <!-- <a-button
             v-permission="'modify'"
             type="link"
             @click="handleEdit(record)"
@@ -34,33 +35,12 @@
           <a-divider type="vertical" />
           <a-button v-permission="'del'" type="link" @click="handleDel(record)">
             删除
-          </a-button>
+          </a-button> -->
         </span>
-        <!-- 展开的行 -->
-        <div v-if="record" slot="expandedRowRender" slot-scope="record" class="actions-wrap">
-          <div class="title">权限操作：</div>
-          <div v-if="record.actions&&record.actions.length === 0" class="none">暂无操作</div>
-          <div v-if="record.actions&&record.actions.length > 0" class="list">
-            <div
-              v-for="(ele, index) in record.actions"
-              :key="index"
-              class="item"
-            >
-              <a-tooltip placement="top">
-                <template slot="title">
-                  <span>{{ ele.description }}</span>
-                </template>
-                <span>
-                  {{ ele.name }}
-                </span>
-              </a-tooltip>
-            </div>
-          </div>
-        </div>
       </a-table>
     </div>
-    <!-- 添加/编辑权限弹窗 -->
-    <UpdateAdminModal
+    <!-- 添加/编辑子账号弹窗 -->
+    <UpdateAccountModal
       v-model="visible"
       :detail="modalDetail"
       @success="modalSuccess"
@@ -69,15 +49,13 @@
 </template>
 
 <script>
-import UpdateAdminModal from "@/components/System/updateAdminModal";
-import { systemAdminMapEnum } from "@/utils/enum";
+import UpdateAccountModal from "@/components/System/updateAccountModal";
 export default {
   components: {
-    UpdateAdminModal
+    UpdateAccountModal
   },
   data() {
     return {
-      systemAdminMapEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -85,18 +63,18 @@ export default {
         isAll: false
       },
       columns: [
+        // {
+        //   title: "子账号名称",
+        //   dataIndex: "username"
+        // },
         {
-          title: "权限名称",
-          dataIndex: "code"
+          title: "手机号",
+          dataIndex: "phone"
         },
         {
-          title: "权限",
-          dataIndex: "type",
-          scopedSlots: { customRender: "type" }
-        },
-        {
-          title: "描述",
-          dataIndex: "description"
+          title: "创建时间",
+          dataIndex: "createTime",
+          scopedSlots: { customRender: "createTime" }
         },
         {
           title: "操作",
@@ -135,10 +113,11 @@ export default {
     getList() {
       this.tableLoading = true;
       this.$store
-        .dispatch("system/getAdminList", this.listQuery)
+        // .dispatch("system/getModalUserList", this.listQuery)
+        .dispatch("system/getModalUserList")
         .then(res => {
-          this.data = [...res.data.list];
-          this.paginationProps.total = res.data.totalCount * 1;
+          this.data = [...res.data];
+          // this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
           this.tableLoading = false;
@@ -175,7 +154,7 @@ export default {
         title: "确认要删除吗？",
         onOk: () => {
           this.$store
-            .dispatch("system/delAdmin", { code: record.code })
+            .dispatch("system/delAccount", { code: record.code })
             .then(res => {
               this.$message.success("删除成功");
               this.getList();

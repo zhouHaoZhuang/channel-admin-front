@@ -35,7 +35,7 @@
             </a-checkbox>
           </a-checkbox-group>
         </a-form-model-item>
-        <a-form-model-item label="发布时间">
+        <a-form-model-item label="发布时间" prop="newsPublishTime">
           <a-date-picker
             show-time
             format="YYYY-MM-DD HH:mm:ss"
@@ -113,6 +113,9 @@ export default {
             message: '请输入标题',
             trigger: 'blur',
           },
+        ],
+        newsPublishTime: [
+          { required: true, message: '发布时间不能为空', trigger: 'change' },
         ],
       },
       loading: false,

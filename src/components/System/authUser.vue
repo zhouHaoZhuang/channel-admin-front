@@ -3,10 +3,20 @@
     <div class="public-title">
       <div class="left-tit">已授权用户</div>
       <a-space>
-        <a-button v-if="selectedRowKeys.length > 0" @click="cancelAuthUser"
-          >取消授权</a-button
+        <a-button
+          v-permission="'batch-cancel-user-auth'"
+          v-if="selectedRowKeys.length > 0"
+          @click="cancelAuthUser"
         >
-        <a-button type="primary" @click="handleAdd">添加授权</a-button>
+          取消授权
+        </a-button>
+        <a-button
+          v-permission="'add-user-auth'"
+          type="primary"
+          @click="handleAdd"
+        >
+          添加授权
+        </a-button>
       </a-space>
     </div>
     <div class="public-con">
@@ -30,7 +40,11 @@
               详情
             </a-button>
             <a-divider type="vertical" /> -->
-            <a-button type="link" @click="handleDel(record)">
+            <a-button
+              v-permission="'cancel-user-auth'"
+              type="link"
+              @click="handleDel(record)"
+            >
               取消授权
             </a-button>
           </span>
@@ -51,7 +65,7 @@
     >
       <a-spin style="width:100%" :spinning="userLoading">
         <a-transfer
-          :rowKey="record => record.id"
+          :rowKey="record => record.authingId"
           :data-source="userData"
           :list-style="{
             height: '500px'
@@ -161,12 +175,9 @@ export default {
     getAllUserList() {
       this.userLoading = true;
       this.$store
-        .dispatch("system/getModalUserList", {
-          currentPage: 1,
-          pageSize: 100
-        })
+        .dispatch("system/getModalUserList")
         .then(res => {
-          this.userData = [...res.data.list];
+          this.userData = [...res.data];
         })
         .finally(() => {
           this.userLoading = false;

@@ -22,6 +22,7 @@ export default {
     activatedFirst: undefined,
     customTitles,
     routeMetaPrem: "",
+    firstPath: "",
     ...config,
     ...localSetting
   },
@@ -119,6 +120,10 @@ export default {
     // 存储$route meta的perm权限信息
     setRouteMeta(state, perm) {
       state.routeMetaPrem = perm;
+    },
+    // 存储默认跳转的地址
+    setFirstPath(state, firstPath) {
+      state.firstPath = firstPath;
     }
   }
 };

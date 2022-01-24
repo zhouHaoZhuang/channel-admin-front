@@ -8,7 +8,12 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-collapse default-active-key="1" :bordered="false" class="aa">
+        <a-collapse
+          default-active-key="1"
+          :bordered="false"
+          class="aa"
+          :forceRender="true"
+        >
           <a-collapse-panel key="1" header="网站基本信息">
             <a-form-model-item
               ref="websiteName"
@@ -120,7 +125,7 @@
             <a-form-model-item label="商务洽谈" prop="businessPhone">
               <a-input v-model="form.businessPhone" />
             </a-form-model-item>
-            <a-form-model-item label="QQ号码">
+            <a-form-model-item label="QQ号码" prop="qqNumber">
               <a-input v-model="form.qqNumber" />
             </a-form-model-item>
             <a-form-model-item label="QQ类型">
@@ -151,7 +156,7 @@
           </a-collapse-panel>
           <a-collapse-panel key="4" header="网站logo信息">
             <div class="addimages">
-              <a-form-model-item label="上传用户中心小LOGO" >
+              <a-form-model-item label="上传用户中心小LOGO">
                 <Upload
                   :defaultFile="form.userCenterMiniLogo"
                   @change="
@@ -229,7 +234,12 @@
             <a-input v-model="form.linkName" />
           </a-form-model-item> -->
           <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-            <a-button type="primary" @click="onSubmit" :loading="loading">
+            <a-button
+              v-permission="'save'"
+              type="primary"
+              @click="onSubmit"
+              :loading="loading"
+            >
               保存设置
             </a-button>
           </a-form-model-item>
@@ -343,6 +353,7 @@ export default {
             trigger: 'blur',
           },
           { min: 0, max: 6, message: '长度在0-6个字符内', trigger: 'blur' },
+          { pattern: /^[0-9]*$/, message: '请输入数字', trigger: 'blur' },
         ],
         serverPhone: [
           {
@@ -352,6 +363,10 @@ export default {
             trigger: 'blur',
           },
           { min: 5, max: 30, message: '长度在5-30个字符内', trigger: 'blur' },
+          { pattern: /^[0-9]*$/, message: '请输入数字', trigger: 'blur' },
+        ],
+        qqNumber: [
+          { pattern: /^[0-9]*$/, message: '请输入数字', trigger: 'blur' },
         ],
         businessPhone: [
           {
@@ -390,9 +405,7 @@ export default {
   },
   created() {
     this.getInfo();
-  },
-  activated() {
-    this.getInfo();
+    this.getBasicCompanyInfo();
   },
   methods: {
     imgChange(urlList, firstImageUrl, type) {
@@ -421,11 +434,15 @@ export default {
     },
     getInfo() {
       this.$store.dispatch('globalBasic/getInfo').then((res) => {
-        this.form = res.data;
+        // 获取网站详情、网站logo信息
+        this.form = { ...this.form, ...res.data };
         this.form.gid = this.form.id;
         console.log(res.data);
       });
+    },
+    getBasicCompanyInfo() {
       this.$store.dispatch('globalBasic/getBasicCompanyInfo').then((res) => {
+        // 获取公司基本信息接口
         this.form = {
           ...this.form,
           ...res.data,

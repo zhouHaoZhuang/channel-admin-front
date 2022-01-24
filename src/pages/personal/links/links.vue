@@ -6,6 +6,7 @@
         <a-tab-pane key="1" tab="友情链接管理">
           <div class="btn-head">
             <a-button
+              v-permission="'add'"
               type="primary"
               icon="plus"
               class="btn"
@@ -13,16 +14,21 @@
             >
               添加友情链接
             </a-button>
-            <a-button icon="delete" class="btn" @click="handleBatchDelLink">
+            <a-button
+              v-permission="'batch-del'"
+              icon="delete"
+              class="btn"
+              @click="handleBatchDelLink"
+            >
               批量删除
             </a-button>
-            <a-button icon="check" class="btn">
+            <a-button v-permission="'view'" icon="check" class="btn">
               显示
             </a-button>
-            <a-button icon="stop" class="btn">
+            <a-button v-permission="'disable'" icon="stop" class="btn">
               隐藏
             </a-button>
-            <a-button icon="column-height" class="btn">
+            <a-button v-permission="'sort'" icon="column-height" class="btn">
               排序
             </a-button>
           </div>
@@ -48,11 +54,19 @@
                 {{ text === 0 ? "全站展示" : "只显示首页" }}
               </div>
               <div slot="action" slot-scope="text, record">
-                <a-button type="link" @click="updateLink('edit', record)">
+                <a-button
+                  v-permission="'modify'"
+                  type="link"
+                  @click="updateLink('edit', record)"
+                >
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDelLink(record)">
+                <a-button
+                  v-permission="'del'"
+                  type="link"
+                  @click="handleDelLink(record)"
+                >
                   删除
                 </a-button>
               </div>
@@ -63,6 +77,7 @@
         <a-tab-pane key="2" tab="友情链接分类管理">
           <div class="btn-head">
             <a-button
+              v-permission="'add-type'"
               type="primary"
               icon="plus"
               class="btn"
@@ -70,7 +85,7 @@
             >
               添加分类
             </a-button>
-            <a-button icon="column-height" class="btn">
+            <a-button v-permission="'type-sort'" icon="column-height" class="btn">
               排序
             </a-button>
           </div>
@@ -85,11 +100,19 @@
                 {{ index * listQuery.currentPage + 1 }}
               </div>
               <div slot="action" slot-scope="text, record">
-                <a-button type="link" @click="updateCategory('edit', record)">
+                <a-button
+                  v-permission="'type-modify'"
+                  type="link"
+                  @click="updateCategory('edit', record)"
+                >
                   修改
                 </a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" @click="handleDelCategory(record)">
+                <a-button
+                  v-permission="'type-del'"
+                  type="link"
+                  @click="handleDelCategory(record)"
+                >
                   删除
                 </a-button>
               </div>

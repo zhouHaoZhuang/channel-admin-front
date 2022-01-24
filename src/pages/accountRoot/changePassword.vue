@@ -38,10 +38,10 @@
         <CodeBtn :phone="form.phone" />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
-        <a-input-password v-model="form.newPassword" />
+        <a-input-password v-password-input v-model="form.newPassword" />
       </a-form-model-item>
       <a-form-model-item label="确认密码" prop="newTwoPassword">
-        <a-input-password v-model="form.newTwoPassword" />
+        <a-input-password v-model="form.newTwoPassword" v-password-input />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 8, offset: 6 }">
         <a-button type="primary" @click="onSubmit">
@@ -88,15 +88,19 @@ export default {
         newTwoPassword: '',
         code: '',
       },
-      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,12}/,
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
         phone: [
           { required: true, message: '验证手机号为必填', trigger: 'blur' },
         ],
         code: [{ required: true, message: '验证码为必填', trigger: 'blur' }],
-        newPassword: [{ validator: validatePass, trigger: ['blur', 'change'] }],
+        newPassword: [
+          { validator: validatePass, trigger: ['blur', 'change'] },
+          { min: 6, max: 20, message: '密码位数在6~20位', trigger: 'blur' },
+        ],
         newTwoPassword: [
           { validator: validatePass2, trigger: ['blur', 'change'] },
+          { min: 6, max: 20, message: '密码位数在6~20位', trigger: 'blur' },
         ],
       },
     };

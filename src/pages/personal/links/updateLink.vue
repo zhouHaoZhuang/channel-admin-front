@@ -23,7 +23,11 @@
           <a-input v-model="form.linkName" :maxLength="50" />
         </a-form-model-item>
         <a-form-model-item label="链接URL" prop="linkUrl">
-          <a-input v-model="form.linkUrl" :maxLength="50" />
+          <a-input
+            v-model="form.linkUrl"
+            :maxLength="50"
+            placeholder="http://或https://开头"
+          />
         </a-form-model-item>
         <a-form-model-item label="介绍" type="linkDescribe">
           <a-input v-model="form.linkDescribe" />
@@ -63,7 +67,12 @@
           </a-form-model-item>
         </div>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-          <a-button type="primary" @click="onSubmit" :loading="loading">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
             确定
           </a-button>
         </a-form-model-item>
@@ -100,6 +109,13 @@ export default {
     const validateLength = (rule, value, callback) => {
       if (value.length < 2) {
         callback(new Error("长度必须在2-50之间。"));
+      } else {
+        callback();
+      }
+    };
+    const validateUrl = (rule, value, callback) => {
+      if (!this.urlReg.test(value)) {
+        callback(new Error("URL格式不正确"));
       } else {
         callback();
       }
@@ -143,11 +159,13 @@ export default {
             message: "请输入链接URL，链接URL长度必须在2-50之间。",
             trigger: ["blur", "change"]
           },
-          { validator: validateLength, trigger: ["blur", "change"] }
+          { validator: validateLength, trigger: ["blur", "change"] },
+          { validator: validateUrl, trigger: ["blur", "change"] }
         ]
       },
       loading: false,
-      data: []
+      data: [],
+      urlReg: /(http|https):\/\//
     };
   },
   methods: {

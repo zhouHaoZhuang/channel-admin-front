@@ -139,6 +139,27 @@ export const roleInput = Vue.directive("role-input", {
   }
 });
 
+/*
+ * password-input 输入框限制只能输入英文字母、数字、还有指定特殊字符
+ * 在需要控制输入的输入框上使用 v-password-input
+ */
+export const passwordInput = Vue.directive("password-input", {
+  inserted: function(el) {
+    el = findInput(el);
+    if (!el) return;
+    el.addEventListener("keyup", function() {
+      const newVal = el.value.replace(/[^a-zA-Z0-9,-._=+!#$%*()<>?:""''@]/g, "");
+      el.value = newVal;
+      el.dispatchEvent(new Event("input"));
+    });
+    el.addEventListener("blur", function() {
+      const newVal = el.value.replace(/[^a-zA-Z0-9,.-_=+!#$%*()<>?:""''@]/g, "");
+      el.value = newVal;
+      el.dispatchEvent(new Event("input"));
+    });
+  }
+});
+
 /**
  * 按钮权限控制指令
  * 可传递单个权限或对个权限-并且必须拥有所传递的权限，如果传递了多个，有一个没满足，还是没权限（全部匹配）
@@ -156,17 +177,20 @@ export const permission = Vue.directive("permission", {
       ele => ele.code.replace(":*", "") === routeMetaPrem
     );
     const routePermActions =
-      routePermObj !== undefined ? routePermObj.actions : "";
+      routePermObj !== undefined ? routePermObj.actions : [];
     // console.log(el, value, modifiers, perms, routeMetaPrem);
     console.log(value, routePermActions);
+    // 先判断是否是所有权限(所有菜单权限，这样的话默认按钮权限都有)
+    const index = perms.findIndex(ele => ele.code === "*");
     // 如果是所有权限的话，直接放行，*代表所有权限
     // 不是所有权限则继续进行判断
     if (
       routePermActions.indexOf("*") === -1 &&
-      routePermActions.indexOf(value) === -1
+      routePermActions.indexOf(value) === -1 &&
+      index === -1
     ) {
       //如果没有权限则直接删除此节点
-      // el.parentNode && el.parentNode.removeChild(el);
+      el.parentNode && el.parentNode.removeChild(el);
     }
   }
 });
