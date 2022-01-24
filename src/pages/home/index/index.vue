@@ -192,9 +192,8 @@ export default {
     this.getMessageList();
   },
   mounted() {
-    this.userInfo.lastLogin = this.userInfo.lastLogin.slice(0, 19);
+    this.userInfo.lastLogin = this.userInfo.lastLogin?.slice(0, 19);
     console.log(this.userInfo.lastLogin, '后');  
-
   },
   methods: {
     currentMonth() {
