@@ -3,7 +3,11 @@
     <div class="public-title">
       <div class="left-tit">已授权规则</div>
       <a-space>
-        <a-button v-permission="'add-rule-auth'" type="primary" @click="handleAdd">
+        <a-button
+          v-permission="'add-rule-auth'"
+          type="primary"
+          @click="handleAdd"
+        >
           添加授权
         </a-button>
       </a-space>
@@ -178,7 +182,7 @@
                 :key="ele.name"
                 :value="ele.name"
               >
-                <span>{{ ele.name }}</span>
+                <span>{{ ele.name }} ({{ ele.description }})</span>
               </a-select-option>
             </a-select>
           </a-form-model-item>
