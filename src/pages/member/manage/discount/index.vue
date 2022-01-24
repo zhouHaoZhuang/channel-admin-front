@@ -3,7 +3,12 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline" :model="listQuery">
         <a-form-model-item>
-          <a-button type="primary" icon="plus" @click="jumpUpdate('add')">
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            icon="plus"
+            @click="jumpUpdate('add')"
+          >
             新增会员折扣
           </a-button>
         </a-form-model-item>
@@ -49,11 +54,15 @@
           {{ memberDiscountType[text] }}
         </span>
         <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="jumpUpdate('edit', record)">
+          <a-button
+            v-permission="'modify'"
+            type="link"
+            @click="jumpUpdate('edit', record)"
+          >
             编辑
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(record)">
+          <a-button v-permission="'del'" type="link" @click="handleDel(record)">
             删除
           </a-button>
         </span>

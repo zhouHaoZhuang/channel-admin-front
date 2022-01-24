@@ -2,10 +2,12 @@
   <div>
     <div class="member-container">
       <div class="member-top">
-        <a-button type="primary" @click="addMember">
+        <a-button v-permission="'add'" type="primary" @click="addMember">
           +添加会员
         </a-button>
-        <a-button> <a-icon type="mobile" />发送短信 </a-button>
+        <a-button v-permission="'send-message'">
+          <a-icon type="mobile" />发送短信
+        </a-button>
         <a-dropdown>
           <a-menu slot="overlay" @click="handleMenuClick">
             <a-menu-item key="1"> <a-icon type="mail" />发送邮件 </a-menu-item>
@@ -47,11 +49,11 @@
           高级筛选
         </a-button>
         <a-button> <a-icon type="setting" /> 自定义列表 </a-button>
-        <a-button>
+        <a-button v-permission="'import'">
           <a-icon type="import" />
           导入
         </a-button>
-        <a-button>
+        <a-button v-permission="'export'">
           <a-icon type="export" />
           导出
         </a-button>
@@ -296,7 +298,7 @@
         <a-table
           :row-selection="{
             selectedRowKeys: selectedRowKeys,
-            onChange: onSelectChange,
+            onChange: onSelectChange
           }"
           :columns="columns"
           :data-source="data"
@@ -311,21 +313,21 @@
             slot="status"
             slot-scope="text"
             v-if="text"
-            >{{ text == 0 ? '冻结' : '正常' }}</span
+            >{{ text == 0 ? "冻结" : "正常" }}</span
           >
           <span
             :class="{ status0: text == 1, status1: text == 0, status: true }"
             slot="loginLock"
             slot-scope="text"
             v-if="text"
-            >{{ text == 0 ? '正常' : '锁定' }}</span
+            >{{ text == 0 ? "正常" : "锁定" }}</span
           >
           <!-- 认证状态 -->
           <span
             :class="{ status0: text != 1, status1: text == 1, status: true }"
             slot="certificationStatus"
             slot-scope="text"
-            >{{ text == 1 ? '已认证' : '未认证' }}</span
+            >{{ text == 1 ? "已认证" : "未认证" }}</span
           >
           <span slot="createTime" slot-scope="text">{{
             text | formatDate
@@ -343,7 +345,7 @@
             </a-button>
             <a-divider type="vertical" />
             <a-dropdown>
-              <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+              <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                 更多
                 <a-icon type="down" />
               </a>
@@ -379,46 +381,46 @@
 export default {
   data() {
     return {
-      lucy: 'lucy',
+      lucy: "lucy",
       isfilter: false,
-      title: 'corporationName',
+      title: "corporationName",
       data: [],
       selectedRowKeys: [],
       columns: [
         {
-          title: '会员ID',
-          dataIndex: 'corporationCode',
-          scopedSlots: { customRender: 'corporationCode' },
-          width: 190,
+          title: "会员ID",
+          dataIndex: "corporationCode",
+          scopedSlots: { customRender: "corporationCode" },
+          width: 190
         },
         {
-          title: '姓名',
-          dataIndex: 'corporationName',
-          width: 120,
+          title: "姓名",
+          dataIndex: "corporationName",
+          width: 120
         },
         {
-          title: '手机',
-          dataIndex: 'phoneNumber',
-          width: 120,
+          title: "手机",
+          dataIndex: "phoneNumber",
+          width: 120
         },
         {
-          title: 'QQ',
-          dataIndex: 'qq',
-          width: 120,
+          title: "QQ",
+          dataIndex: "qq",
+          width: 120
         },
         {
-          title: '邮箱',
-          dataIndex: 'email',
-          width: 180,
+          title: "邮箱",
+          dataIndex: "email",
+          width: 180
         },
         {
-          title: '服务器',
-          dataIndex: 'ecsCount',
+          title: "服务器",
+          dataIndex: "ecsCount",
           sorter: (a, b) => {
             return a.ecsCount - b.ecsCount;
           },
           width: 100,
-          scopedSlots: { customRender: 'ecsCount' },
+          scopedSlots: { customRender: "ecsCount" }
         },
         // {
         //   title: "托管",
@@ -456,14 +458,14 @@ export default {
         //   width: 100
         // },
         {
-          title: '帐号状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
+          title: "帐号状态",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" },
           sorter: (a, b) => {
             return a.status - b.status;
           },
-          sortDirections: ['ascend', 'descend'],
-          width: 110,
+          sortDirections: ["ascend", "descend"],
+          width: 110
         },
         // {
         //   title: "锁定状态",
@@ -472,14 +474,14 @@ export default {
         //   width: 100
         // },
         {
-          title: '余额',
-          dataIndex: 'balance',
+          title: "余额",
+          dataIndex: "balance",
           sorter: (a, b) => {
             return a.balance - b.balance;
           },
-          sortDirections: ['ascend', 'descend'],
+          sortDirections: ["ascend", "descend"],
           width: 80,
-          scopedSlots: { customRender: 'balance' },
+          scopedSlots: { customRender: "balance" }
         },
         // {
         //   title: "授信额度",
@@ -491,52 +493,52 @@ export default {
         //   width: 110
         // },
         {
-          title: '实名认证',
-          dataIndex: 'certificationStatus',
-          key: 'certificationStatus',
-          scopedSlots: { customRender: 'certificationStatus' },
-          width: 100,
+          title: "实名认证",
+          dataIndex: "certificationStatus",
+          key: "certificationStatus",
+          scopedSlots: { customRender: "certificationStatus" },
+          width: 100
         },
         {
-          title: '注册时间',
-          dataIndex: 'createTime',
-          scopedSlots: { customRender: 'createTime' },
+          title: "注册时间",
+          dataIndex: "createTime",
+          scopedSlots: { customRender: "createTime" },
           sorter: true,
-          width: 200,
+          width: 200
         },
         {
-          title: '最后登录时间',
-          dataIndex: 'modifyTime',
-          scopedSlots: { customRender: 'modifyTime' },
+          title: "最后登录时间",
+          dataIndex: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" },
           sorter: true,
-          width: 200,
+          width: 200
         },
         {
-          title: '备注',
-          dataIndex: 'remark',
+          title: "备注",
+          dataIndex: "remark",
           sorter: true,
-          width: 140,
+          width: 140
         },
         {
-          title: '操作',
-          Index: 'action',
-          fixed: 'right',
-          scopedSlots: { customRender: 'action' },
-          width: 200,
-        },
+          title: "操作",
+          Index: "action",
+          fixed: "right",
+          scopedSlots: { customRender: "action" },
+          width: 200
+        }
       ],
       listQuery: {
-        key: '',
-        search: '',
+        key: "",
+        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        sorter: '',
+        sorter: ""
       },
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ['5', '10', '20', '30'],
+        pageSizeOptions: ["5", "10", "20", "30"],
         total: 0,
         current: 1, //当前页
         pageSize: 5, //每页显示数量
@@ -545,8 +547,8 @@ export default {
             total / this.paginationProps.pageSize
           )} 页`,
         onChange: this.changepage,
-        onShowSizeChange: this.onShowSizeChange,
-      },
+        onShowSizeChange: this.onShowSizeChange
+      }
     };
   },
   created() {
@@ -558,7 +560,7 @@ export default {
       if (sorter && sorter.order) {
         this.listQuery.key = sorter.columnKey;
         this.listQuery.sorter =
-          sorter.order.replace('end', '') + `-${sorter.columnKey}`;
+          sorter.order.replace("end", "") + `-${sorter.columnKey}`;
         this.getList();
         // console.log("排序被点击了", sorter.columnKey);
       }
@@ -574,14 +576,14 @@ export default {
       this.getList();
     },
     onSelectChange(selectedRowKeys) {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
     handleMenuClick(e) {
       console.log(e);
     },
     addMember() {
-      this.$router.push({ path: '/member/manage/add' });
+      this.$router.push({ path: "/member/manage/add" });
     },
     handleChange(value) {
       console.log(`selected ${value}`);
@@ -590,8 +592,8 @@ export default {
       this.listQuery.currentPage = this.paginationProps.current;
       this.listQuery.pageSize = this.paginationProps.pageSize;
       this.$store
-        .dispatch('member/getList', this.listQuery)
-        .then((res) => {
+        .dispatch("member/getList", this.listQuery)
+        .then(res => {
           this.data = res.data.list;
           // console.log("3333333");
           this.paginationProps.total = res.data.totalCount * 1;
@@ -601,10 +603,10 @@ export default {
     selectInfo(key) {
       // console.log(key);
       this.$router.push({
-        path: '/member/manage/Info',
+        path: "/member/manage/Info",
         query: {
-          id: key,
-        },
+          id: key
+        }
       });
     },
     clickMore(key) {
@@ -613,13 +615,13 @@ export default {
     },
     searchClick() {
       this.listQuery.key = this.title;
-      this.$getListQp('member/getList', this.listQuery).then((res) => {
+      this.$getListQp("member/getList", this.listQuery).then(res => {
         // console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
