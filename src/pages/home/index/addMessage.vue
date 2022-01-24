@@ -147,18 +147,25 @@ export default {
         });
       }
       console.log(this.form);
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          console.log(this.form);
-          this.$store.dispatch("message/addMessage", this.form).then(res => {
-            console.log(res);
-            this.$message.success("新增消息成功");
-            this.$router.back();
+      this.$confirm({
+        title: '确定要发送吗?',
+        onOk: () => {
+          this.$refs.ruleForm.validate((valid) => {
+            if (valid) {
+              console.log(this.form);
+              this.$store
+                .dispatch('message/addMessage', this.form)
+                .then((res) => {
+                  console.log(res);
+                  this.$message.success('新增消息成功');
+                  this.$router.back();
+                });
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
           });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
+        },
       });
     },
     resetForm() {

@@ -30,7 +30,7 @@
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
         <span slot="action" slot-scope="text,record">
-          <a-button type="link" @click="updatePrice(text,record.typeName)">
+          <a-button v-permission="'modify'" type="link" @click="updatePrice(text,record.typeName)">
             修改
           </a-button>
         </span>

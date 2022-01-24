@@ -232,10 +232,11 @@ export default {
           width: 220
         },
         {
-          title: "到账时间",
-          dataIndex: "payTime",
-          key: "modifyTime",
-          scopedSlots: { customRender: "modifyTime" }
+          title: '到账时间',
+          dataIndex: 'payTime',
+          key: 'modifyTime',
+          scopedSlots: { customRender: 'modifyTime' },
+           width: 220,
         },
         {
           title: "充值状态",

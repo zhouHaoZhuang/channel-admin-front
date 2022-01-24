@@ -1,13 +1,13 @@
 <template>
   <div class="word-container">
     <div class="btn-head">
-      <a-button type="primary" icon="plus" class="btn" @click="addbanner">
+      <a-button type="primary" v-permission="'add'" icon="plus" class="btn" @click="addbanner">
         添加文档
       </a-button>
-      <a-button icon="delete" class="btn" @click="deleteinbatches">
+      <a-button icon="delete" v-permission="'batch-del'" class="btn" @click="deleteinbatches">
         批量删除
       </a-button>
-      <a-button icon="check" class="btn" @click="hotset">
+      <a-button icon="check" v-permission="'hot-setting'" class="btn" @click="hotset">
         热门设置
       </a-button>
       <a-modal
@@ -27,7 +27,7 @@
           </a-radio>
         </a-radio-group>
       </a-modal>
-      <a-button icon="check" class="btn" @click="topset">
+      <a-button icon="check" class="btn" v-permission="'top-setting'" @click="topset">
         置顶设置
       </a-button>
       <a-modal
@@ -47,7 +47,7 @@
           </a-radio>
         </a-radio-group>
       </a-modal>
-      <a-button icon="check" class="btn" @click="recommendedset">
+      <a-button icon="check" class="btn" @click="recommendedset" v-permission="'recommend-setting'">
         推荐设置
       </a-button>
       <a-modal
@@ -113,11 +113,11 @@
           {{ text ? "开启" : "禁止" }}
         </div>
         <span slot="action" slot-scope="text">
-          <a-button type="link" @click="updatePrice(text)">
+          <a-button v-permission="'modify'" type="link" @click="updatePrice(text)">
             修改
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="link" @click="handleDel(text)">
+          <a-button v-permission="'del'" type="link" @click="handleDel(text)">
             删除
           </a-button>
         </span>

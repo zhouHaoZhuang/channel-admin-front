@@ -9,11 +9,7 @@
     </div>
     <div class="btns">
       <a-space>
-        <a-button
-          v-permission="'send-message'"
-          type="primary"
-          @click="addMessage"
-        >
+        <a-button v-permission="'send-message'" type="primary" @click="addMessage">
           发送消息
         </a-button>
         <a-button
