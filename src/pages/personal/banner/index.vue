@@ -12,6 +12,7 @@
       </a-button>
       <a-button
         v-permission="'batch-del'"
+        :disabled="selectedRowKeys.length === 0"
         icon="delete"
         class="btn"
         @click="handleBatchDel"
@@ -20,6 +21,7 @@
       </a-button>
       <a-button
         v-permission="'view'"
+        :disabled="selectedRowKeys.length === 0"
         icon="check"
         class="btn"
         @click="handleChangeShow('show')"
@@ -28,6 +30,7 @@
       </a-button>
       <a-button
         v-permission="'disable'"
+        :disabled="selectedRowKeys.length === 0"
         icon="stop"
         class="btn"
         @click="handleChangeShow('hide')"
