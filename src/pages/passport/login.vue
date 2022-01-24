@@ -16,9 +16,10 @@
         <a-form-model-item prop="password">
           <a-input
             v-model="form.password"
+            v-password-input
             placeholder="密码"
             type="password"
-            :max-length="12"
+            :max-length="20"
           >
             <a-icon slot="prefix" type="lock" />
           </a-input>
