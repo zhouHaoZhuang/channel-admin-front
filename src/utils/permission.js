@@ -1,5 +1,4 @@
 import { asyncRoute, resetRouter } from "@/router/config";
-import clonedeep from "lodash.clonedeep";
 // 循环处理路由菜单
 function getNewRoute(route, perms) {
   let newData = route.filter(ele => hasPermissionMenu(ele, perms));
@@ -16,7 +15,7 @@ function getUserHaveAllPerm(perms) {
 // 处理动态路由菜单
 export const setAsyncRouteMenu = (perms, router, store) => {
   // 根据权限生成新的菜单
-  const newData = clonedeep(asyncRoute);
+  const newData = [...asyncRoute];
   let newRoute = [];
   // 先判断用户的是否拥有所有权限
   if (getUserHaveAllPerm(perms) !== -1) {

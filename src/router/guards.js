@@ -147,7 +147,6 @@ const redirectGuard = (to, from, next, options) => {
       }
     }
   }
-  console.log("前置路由守卫结束");
   next();
 };
 
