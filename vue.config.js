@@ -53,6 +53,7 @@ module.exports = {
   },
   configureWebpack: config => {
     config.entry.app = ["babel-polyfill", "whatwg-fetch", "./src/main.js"];
+    config.devtool = "inline-source-map";
     config.performance = {
       hints: false
     };
@@ -112,6 +113,5 @@ module.exports = {
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
   outputDir: "dist",
   assetsDir: "static",
-  productionSourceMap: false,
-  devtool: "inline-source-map"
+  productionSourceMap: false
 };
