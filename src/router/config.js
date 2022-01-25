@@ -56,7 +56,7 @@ export const asyncRoute = [
           // 二级菜单
           {
             path: "index",
-            name: "后台首页",
+            name: "总览管理",
             meta: {
               icon: "home",
               perm: "home-index"
@@ -814,7 +814,7 @@ export const asyncRoute = [
             children: [
               {
                 path: "category",
-                name: "类别管理",
+                name: "新闻类别管理",
                 meta: {
                   icon: "home",
                   perm: "personal-news-type"
