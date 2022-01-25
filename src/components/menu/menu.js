@@ -50,7 +50,7 @@ const toRoutesMap = routes => {
   const map = {};
   routes.forEach(route => {
     map[route.fullPath] = route;
-    if (route.children && route.children.length > 0) {
+    if (Array.isArray(route.children) && route.children.length > 0) {
       const childrenMap = toRoutesMap(route.children);
       Object.assign(map, childrenMap);
     }
@@ -100,7 +100,11 @@ export default {
   },
   created() {
     this.updateMenu();
-    if (this.options.length > 0 && !this.options[0].fullPath) {
+    if (
+      Array.isArray(this.options) &&
+      this.options.length > 0 &&
+      !this.options[0].fullPath
+    ) {
       this.formatOptions(this.options, "");
     }
     // 自定义国际化配置
@@ -113,7 +117,7 @@ export default {
   },
   watch: {
     options(val) {
-      if (val.length > 0 && !val[0].fullPath) {
+      if (Array.isArray(val) && val.length > 0 && !val[0].fullPath) {
         this.formatOptions(this.options, "");
       }
     },
@@ -253,7 +257,10 @@ export default {
     updateMenu() {
       this.selectedKeys = this.getSelectedKeys();
       let openKeys = this.selectedKeys.filter(item => item !== "");
-      openKeys = openKeys.slice(0, openKeys.length - 1);
+      openKeys =
+        Array.isArray(openKeys) &&
+        openKeys.length > 0 &&
+        openKeys.slice(0, openKeys.length - 1);
       if (!fastEqual(openKeys, this.sOpenKeys)) {
         this.collapsed || this.mode === "horizontal"
           ? (this.cachedOpenKeys = openKeys)
