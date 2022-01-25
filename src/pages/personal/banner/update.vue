@@ -38,11 +38,29 @@
         <a-form-model-item label="PC版按钮名称" prop="pcButtonName">
           <a-input v-model="form.pcButtonName" />
         </a-form-model-item>
-        <a-form-model-item label="PC版按钮链接">
-          <a-input v-model="form.pcButtonLink" />
+        <a-form-model-item label="PC版按钮链接" prop="pcButtonLink">
+          <!-- <a-input v-model="form.pcButtonLink" /> -->
+          <a-select v-model="form.pcButtonLink" placeholder="PC版按钮链接">
+            <a-select-option
+              v-for="(value, key) in bannerLinkEnum"
+              :key="key"
+              :value="key"
+            >
+              {{ value }}
+            </a-select-option>
+          </a-select>
         </a-form-model-item>
         <a-form-model-item label="全图链接" prop="pictureLink">
-          <a-input v-model="form.pictureLink" />
+          <!-- <a-input v-model="form.pictureLink" /> -->
+          <a-select v-model="form.pictureLink" placeholder="全图链接">
+            <a-select-option
+              v-for="(value, key) in bannerLinkEnum"
+              :key="key"
+              :value="key"
+            >
+              {{ value }}
+            </a-select-option>
+          </a-select>
         </a-form-model-item>
         <a-form-model-item label="链接打开方式">
           <a-radio-group v-model="form.openLinkType">
@@ -99,7 +117,7 @@
 
 <script>
 import Upload from "@/components/Upload/index";
-import { bannerTypeEnum } from "@/utils/enum";
+import { bannerTypeEnum, bannerLinkEnum } from "@/utils/enum";
 export default {
   components: {
     Upload
@@ -124,6 +142,7 @@ export default {
   data() {
     return {
       bannerTypeEnum,
+      bannerLinkEnum,
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       type: "add",
