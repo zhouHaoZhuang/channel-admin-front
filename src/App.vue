@@ -19,7 +19,7 @@ export default {
   },
   created() {
     document.addEventListener("visibilitychange", () => {
-      const newToken = JSON.parse(localStorage.getItem("vuex")).user.token;
+      const newToken = JSON.parse(localStorage.getItem("channelVuex")).user.token;
       if (this.token !== newToken) {
         window.location.reload();
       }

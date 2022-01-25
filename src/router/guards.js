@@ -103,10 +103,11 @@ const authorityGuard = (to, from, next, options) => {
     const firstPath = store.state.setting.firstPath;
     next({ path: firstPath });
     NProgress.done();
+  } else {
+    next();
   }
   // 存储一下当前路由的$route的meta信息
   store.commit("setting/setRouteMeta", to.meta.perm);
-  next();
 };
 
 /**
@@ -118,26 +119,35 @@ const authorityGuard = (to, from, next, options) => {
  * @returns {*}
  */
 const redirectGuard = (to, from, next, options) => {
-  const { store } = options;
-  const getFirstChild = routes => {
-    const route = routes[0];
-    if (!route.children || route.children.length === 0) {
-      return route;
-    }
-    return getFirstChild(route.children);
-  };
-  if (store.state.setting.layout === "mix") {
-    const firstMenu = store.getters["setting/firstMenu"];
-    if (firstMenu.find(item => item.fullPath === to.fullPath)) {
-      store.commit("setting/setActivatedFirst", to.fullPath);
-      const subMenu = store.getters["setting/subMenu"];
-      console.log("subMenu", subMenu, subMenu.length);
-      if (subMenu.length > 0) {
-        const redirect = getFirstChild(subMenu);
-        return next({ path: redirect.fullPath });
+  if (!loginIgnore.includes(to)) {
+    const { store } = options;
+    const getFirstChild = routes => {
+      const route = routes[0];
+      if (!route.children || route.children.length === 0) {
+        return route;
+      }
+      return getFirstChild(route.children);
+    };
+    if (store.state.setting.layout === "mix") {
+      const firstMenu = store.getters["setting/firstMenu"];
+      // console.log(
+      //   "查看信息",
+      //   firstMenu,
+      //   to.fullPath,
+      //   firstMenu.find(item => item.fullPath === to.fullPath)
+      // );
+      if (firstMenu.find(item => item.fullPath === to.fullPath) !== undefined) {
+        store.commit("setting/setActivatedFirst", to.fullPath);
+        const subMenu = store.getters["setting/subMenu"];
+        // console.log("subMenu", subMenu, subMenu.length);
+        if (Array.isArray(subMenu) && subMenu.length > 0) {
+          const redirect = getFirstChild(subMenu);
+          return next({ path: redirect.fullPath });
+        }
       }
     }
   }
+  console.log("前置路由守卫结束");
   next();
 };
 

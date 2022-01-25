@@ -53,6 +53,7 @@ module.exports = {
   },
   configureWebpack: config => {
     config.entry.app = ["babel-polyfill", "whatwg-fetch", "./src/main.js"];
+    config.devtool = "inline-source-map";
     config.performance = {
       hints: false
     };
