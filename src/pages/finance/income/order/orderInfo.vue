@@ -77,7 +77,7 @@
         </li>
         <li>
           <span>实名认证:</span>
-          <span>{{ data[0].remark == 1 ? '已认证' : '未认证' }}</span>
+          <span>{{ data[0].remark == 1 ? "已认证" : "未认证" }}</span>
         </li>
         <li>
           <span>联系电话:</span>
@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import { orderStatusEnum, orderTypeMap, regionDataEnum } from '@/utils/enum.js';
+import { orderStatusEnum, orderTypeMap, regionDataEnum } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -133,43 +133,43 @@ export default {
       regionDataEnum,
       columns: [
         {
-          title: '产品名称',
-          dataIndex: 'productName',
-          key: 'productName',
+          title: "产品名称",
+          dataIndex: "productName",
+          key: "productName",
           width: 100,
         },
         {
-          title: '类型',
-          dataIndex: 'tradeType',
-          key: 'tradeType',
-          scopedSlots: { customRender: 'tradeType' },
+          title: "类型",
+          dataIndex: "tradeType",
+          key: "tradeType",
+          scopedSlots: { customRender: "tradeType" },
         },
         {
-          title: '配置信息',
-          key: 'productConfig',
+          title: "配置信息",
+          key: "productConfig",
           width: 250,
-          scopedSlots: { customRender: 'productConfig' },
+          scopedSlots: { customRender: "productConfig" },
         },
         {
-          title: '数量',
-          dataIndex: 'quantity',
-          key: 'quantity',
+          title: "数量",
+          dataIndex: "quantity",
+          key: "quantity",
         },
         {
-          title: '付费方式',
-          dataIndex: 'chargeModel',
-          key: 'chargeModel',
-          scopedSlots: { customRender: 'chargeModel' },
+          title: "付费方式",
+          dataIndex: "chargeModel",
+          key: "chargeModel",
+          scopedSlots: { customRender: "chargeModel" },
         },
         {
-          title: '原价',
-          dataIndex: 'originAmount',
-          key: 'originAmount',
+          title: "原价",
+          dataIndex: "originAmount",
+          key: "originAmount",
         },
         {
-          title: '订单金额',
-          dataIndex: 'actualAmount',
-          key: 'actualAmount',
+          title: "订单金额",
+          dataIndex: "actualAmount",
+          key: "actualAmount",
         },
         // {
         //   title: "推广优惠",
@@ -192,7 +192,7 @@ export default {
   activated() {
     let id = this.$route.query.id;
     // console.log(id);
-    this.$store.dispatch('financialOrder/getOne', id).then((res) => {
+    this.$store.dispatch("financialOrder/getOne", id).then((res) => {
       console.log(res);
       // let dataDisk = res.data.ecsPrice.dataDisk;
       // let dataDiskSize = 0;
