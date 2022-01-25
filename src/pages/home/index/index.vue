@@ -314,6 +314,13 @@ export default {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    span {
+      display: block;
+      height: 32px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
   .home-info-left {
     width: 61%;
