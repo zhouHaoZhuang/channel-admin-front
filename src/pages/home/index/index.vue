@@ -98,7 +98,8 @@
                 早安，云小二 [超级管理员]，祝你开心每一天！
               </div>
               <div class="info">
-                您的上次登录信息: {{userInfo.lastIP}} (IP地址) {{userInfo.lastLogin | formatDate}}
+                您的上次登录信息: {{ userInfo.lastIP }} (IP地址)
+                {{ userInfo.lastLogin | formatDate }}
                 (登录时间)
               </div>
             </div>
@@ -193,7 +194,7 @@ export default {
   },
   mounted() {
     this.userInfo.lastLogin = this.userInfo.lastLogin?.slice(0, 19);
-    console.log(this.userInfo.lastLogin, '后');  
+    console.log(this.userInfo.lastLogin, '后');
   },
   methods: {
     currentMonth() {
@@ -313,6 +314,13 @@ export default {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    span {
+      display: block;
+      height: 32px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
   .home-info-left {
     width: 61%;

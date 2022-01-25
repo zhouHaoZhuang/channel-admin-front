@@ -84,7 +84,6 @@ const user = {
     // 登出
     logout({ commit, state }) {
       return new Promise(resolve => {
-        commit("SET_TOKEN", "");
         commit("SET_USERINFO", {});
         commit("SET_PERMS", []);
         const authenticationClient = new AuthenticationClient({
@@ -93,6 +92,7 @@ const user = {
           token: state.token
         });
         authenticationClient.logout();
+        commit("SET_TOKEN", "");
         resolve();
       });
     },

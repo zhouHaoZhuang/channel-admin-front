@@ -35,7 +35,7 @@
         :scroll="{ x: 1300 }"
       >
         <span slot="status" slot-scope="text">
-          {{ text.status == 1 ? "关闭" : "开启" }}
+          {{ text == 1 ? "关闭" : "开启" }}
         </span>
 
         <span slot="action" slot-scope="text">
