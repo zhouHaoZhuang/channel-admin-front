@@ -959,7 +959,7 @@ export const asyncRoute = [
         name: "个人",
         component: PageView,
         meta: {
-          perm: "user"
+          perm: "userinfo"
         },
         children: [
           {
@@ -967,7 +967,7 @@ export const asyncRoute = [
             name: "账号管理",
             meta: {
               icon: "home",
-              perm: "user-admin"
+              perm: "userinfo-admin"
             },
             component: BlankView,
             children: [
@@ -975,7 +975,7 @@ export const asyncRoute = [
                 path: "userInfo",
                 name: "个人信息",
                 meta: {
-                  perm: "user-admin-info"
+                  perm: "userinfo-admin-info"
                 },
                 component: () => import("@/pages/accountRoot/userInfo")
               },
@@ -983,7 +983,7 @@ export const asyncRoute = [
                 path: "changePassword",
                 name: "修改密码",
                 meta: {
-                  perm: "user-admin-password"
+                  perm: "userinfo-admin-password"
                 },
                 component: () => import("@/pages/accountRoot/changePassword")
               }
