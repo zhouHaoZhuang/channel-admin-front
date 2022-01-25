@@ -1,7 +1,9 @@
 <template>
-  <div class="orderInfo" v-if="data[0]">
+  <div class="orderInfo"
+       v-if="data[0]">
     <!-- 订单信息 -->
-    <div v-if="orderInfo" class="channel">
+    <div v-if="orderInfo"
+         class="channel">
       <p>订单信息</p>
       <ul>
         <li>
@@ -22,7 +24,9 @@
         </li>
         <li>
           <span>支付时间:</span>
-          <span v-if="orderInfo.payTime">{{ orderInfo.payTime | formatDate }}</span>
+          <span v-if="orderInfo.payTime">{{
+            orderInfo.payTime | formatDate
+          }}</span>
         </li>
       </ul>
       <div class="config">
@@ -37,16 +41,16 @@
         <div>
           <span>配置信息</span>
         </div>
-        <a-table
-          :columns="columns"
-          :data-source="data"
-          rowKey="corporationCode"
-          :scroll="{ x: 1400 }"
-        >
-          <div slot="tradeType" slot-scope="text">
+        <a-table :columns="columns"
+                 :data-source="data"
+                 rowKey="corporationCode"
+                 :scroll="{ x: 1400 }">
+          <div slot="tradeType"
+               slot-scope="text">
             {{ orderTypeMap[text] }}
           </div>
-          <div slot="productConfig" slot-scope="text, record">
+          <div slot="productConfig"
+               slot-scope="text, record">
             <div>CPU:{{ record.cpu }}核</div>
             <div>内存:{{ record.memory }}G</div>
             <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
@@ -73,7 +77,7 @@
         </li>
         <li>
           <span>实名认证:</span>
-          <span>{{ data[0].remark==1?'已认证':'未认证' }}</span>
+          <span>{{ data[0].remark == 1 ? "已认证" : "未认证" }}</span>
         </li>
         <li>
           <span>联系电话:</span>
@@ -94,8 +98,7 @@
       <p>业务信息</p>
       <ul>
         <li>
-          <span>业务ID:</span>
-          <span>{{ data[0].id }}</span>
+          <span>业务ID:</span><span>{{ data[0].id }}</span>
         </li>
         <li>
           <span>产品类型:</span>
@@ -133,41 +136,41 @@ export default {
           title: "产品名称",
           dataIndex: "productName",
           key: "productName",
-          width: 100
+          width: 100,
         },
         {
           title: "类型",
           dataIndex: "tradeType",
           key: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
+          scopedSlots: { customRender: "tradeType" },
         },
         {
           title: "配置信息",
           key: "productConfig",
           width: 250,
-          scopedSlots: { customRender: "productConfig" }
+          scopedSlots: { customRender: "productConfig" },
         },
         {
           title: "数量",
           dataIndex: "quantity",
-          key: "quantity"
+          key: "quantity",
         },
         {
           title: "付费方式",
           dataIndex: "chargeModel",
           key: "chargeModel",
-          scopedSlots: { customRender: "chargeModel" }
+          scopedSlots: { customRender: "chargeModel" },
         },
         {
           title: "原价",
           dataIndex: "originAmount",
-          key: "originAmount"
+          key: "originAmount",
         },
         {
           title: "订单金额",
           dataIndex: "actualAmount",
-          key: "actualAmount"
-        }
+          key: "actualAmount",
+        },
         // {
         //   title: "推广优惠",
         //   key: "promotionPreference",
@@ -183,13 +186,13 @@ export default {
         //   key: "cashActualPay",
         //   dataIndex: "cashActualPay"
         // }
-      ]
+      ],
     };
   },
   activated() {
     let id = this.$route.query.id;
     // console.log(id);
-    this.$store.dispatch("financialOrder/getOne", id).then(res => {
+    this.$store.dispatch("financialOrder/getOne", id).then((res) => {
       console.log(res);
       // let dataDisk = res.data.ecsPrice.dataDisk;
       // let dataDiskSize = 0;
@@ -203,7 +206,7 @@ export default {
       this.orderInfo = res.data;
       this.data = [res.data];
     });
-  }
+  },
 };
 </script>
 

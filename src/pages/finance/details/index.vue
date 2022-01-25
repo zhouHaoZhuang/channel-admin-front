@@ -151,7 +151,8 @@ export default {
         },
         {
           title: "会员ID",
-          dataIndex: "customerCode"
+          dataIndex: "customerCode",
+          width: 170,
         },
         {
           title: "发生金额(元)",
