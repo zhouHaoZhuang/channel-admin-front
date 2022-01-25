@@ -1,58 +1,63 @@
 <template>
   <div class="basic-container">
     <div class="content">
-      <a-form-model
-        ref="ruleForm"
-        :model="form"
-        :rules="rules"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-      >
-        <a-collapse
-          default-active-key="1"
-          :bordered="false"
-          class="aa"
-          :forceRender="true"
-        >
-          <a-collapse-panel key="1" header="网站基本信息">
-            <a-form-model-item
-              ref="websiteName"
-              label="网站名称"
-              prop="websiteName"
-            >
+      <a-form-model ref="ruleForm"
+                    :model="form"
+                    :rules="rules"
+                    :label-col="labelCol"
+                    :wrapper-col="wrapperCol">
+        <a-collapse default-active-key="1"
+                    :bordered="false"
+                    class="aa"
+                    :forceRender="true">
+          <a-collapse-panel key="1"
+                            header="网站基本信息">
+            <a-form-model-item ref="websiteName"
+                               label="网站名称"
+                               prop="websiteName">
               <a-input v-model="form.websiteName" />
             </a-form-model-item>
-            <a-form-model-item label="首页标题" prop="title" ref="title">
+            <a-form-model-item label="首页标题"
+                               prop="title"
+                               ref="title">
               <a-input v-model="form.title" />
             </a-form-model-item>
-            <a-form-model-item label="网站关键字" prop="keyWords">
+            <a-form-model-item label="网站关键字"
+                               prop="keyWords">
               <a-input v-model="form.keyWords" />
             </a-form-model-item>
             <a-form-model-item label="网站描述">
-              <a-input v-model="form.describe" type="textarea" />
+              <a-input v-model="form.describe"
+                       type="textarea" />
             </a-form-model-item>
-            <a-form-model-item label="备案编号" prop="recordNo">
+            <a-form-model-item label="备案编号"
+                               prop="recordNo">
               <a-input v-model="form.recordNo" />
             </a-form-model-item>
-            <a-form-model-item label="国际站点地址">
+            <a-form-model-item label="国际站点地址"
+                               prop='internationalSiteAddress'>
               <a-input v-model="form.internationalSiteAddress" />
             </a-form-model-item>
             <a-form-model-item label="版权信息">
               <a-input v-model="form.copyRightInfo" />
             </a-form-model-item>
             <a-form-model-item label="底部信息">
-              <a-input v-model="form.bottomInfo" type="textarea" />
+              <a-input v-model="form.bottomInfo"
+                       type="textarea" />
             </a-form-model-item>
             <a-form-model-item label="统计代码">
-              <a-input v-model="form.statisticalCode" type="textarea" />
+              <a-input v-model="form.statisticalCode"
+                       type="textarea" />
             </a-form-model-item>
           </a-collapse-panel>
-          <a-collapse-panel key="2" header="网站模板">
+          <a-collapse-panel key="2"
+                            header="网站模板">
             <a-form-model-item label="主题风格">
-              <a-row >
+              <a-row>
                 <a-col :span="7">
                   <a-form-model-item label="官网">
-                    <a-select default-value="lucy" style="width: 120px">
+                    <a-select default-value="lucy"
+                              style="width: 120px">
                       <a-select-option value="jack">
                         Jack
                       </a-select-option>
@@ -64,7 +69,8 @@
                 </a-col>
                 <a-col :span="7">
                   <a-form-model-item label="后台">
-                    <a-select default-value="lucy" style="width: 120px">
+                    <a-select default-value="lucy"
+                              style="width: 120px">
                       <a-select-option value="jack">
                         Jack
                       </a-select-option>
@@ -76,7 +82,8 @@
                 </a-col>
                 <a-col :span="10">
                   <a-form-model-item label="用户中心">
-                    <a-select default-value="lucy" style="width: 120px">
+                    <a-select default-value="lucy"
+                              style="width: 120px">
                       <a-select-option value="jack">
                         Jack
                       </a-select-option>
@@ -109,23 +116,30 @@
               </a-radio-group>
             </a-form-model-item>
           </a-collapse-panel>
-          <a-collapse-panel key="3" header="公司基本信息">
-            <a-form-model-item label="公司名称" prop="companyName">
+          <a-collapse-panel key="3"
+                            header="公司基本信息">
+            <a-form-model-item label="公司名称"
+                               prop="companyName">
               <a-input v-model="form.companyName" />
             </a-form-model-item>
-            <a-form-model-item label="公司地址" prop="companyAddress">
+            <a-form-model-item label="公司地址"
+                               prop="companyAddress">
               <a-input v-model="form.companyAddress" />
             </a-form-model-item>
-            <a-form-model-item label="邮编" prop="postCode">
+            <a-form-model-item label="邮编"
+                               prop="postCode">
               <a-input v-model="form.postCode" />
             </a-form-model-item>
-            <a-form-model-item label="服务热线" prop="serverPhone">
+            <a-form-model-item label="服务热线"
+                               prop="serverPhone">
               <a-input v-model="form.serverPhone" />
             </a-form-model-item>
-            <a-form-model-item label="商务洽谈" prop="businessPhone">
+            <a-form-model-item label="商务洽谈"
+                               prop="businessPhone">
               <a-input v-model="form.businessPhone" />
             </a-form-model-item>
-            <a-form-model-item label="QQ号码" prop="qqNumber">
+            <a-form-model-item label="QQ号码"
+                               prop="qqNumber">
               <a-input v-model="form.qqNumber" />
             </a-form-model-item>
             <a-form-model-item label="QQ类型">
@@ -144,86 +158,77 @@
             <a-form-model-item label="微博链接地址">
               <a-input v-model="form.webLink" />
             </a-form-model-item>
-            <a-form-model-item label="邮箱" prop="email">
+            <a-form-model-item label="邮箱"
+                               prop="email">
               <a-input v-model="form.email" />
             </a-form-model-item>
             <a-form-model-item label="公司账户开户行">
               <a-input v-model="form.openBank" />
             </a-form-model-item>
-            <a-form-model-item label="公司银行账号" prop="bankAccount">
+            <a-form-model-item label="公司银行账号"
+                               prop="bankAccount">
               <a-input v-model="form.bankAccount" />
             </a-form-model-item>
           </a-collapse-panel>
-          <a-collapse-panel key="4" header="网站logo信息">
+          <a-collapse-panel key="4"
+                            header="网站logo信息">
             <div class="addimages">
               <a-form-model-item label="上传用户中心小LOGO">
-                <Upload
-                  :defaultFile="form.userCenterMiniLogo"
-                  @change="
+                <Upload :defaultFile="form.userCenterMiniLogo"
+                        @change="
                     ({ urlList, firstImageUrl }) =>
                       imgChange(urlList, firstImageUrl, 'userCenterMiniLogo')
-                  "
-                />
+                  " />
                 <span>注：推荐尺寸:37*36</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="上传用户中心大LOGO">
-                <Upload
-                  :defaultFile="form.userCenterLogo"
-                  @change="
+                <Upload :defaultFile="form.userCenterLogo"
+                        @change="
                     ({ urlList, firstImageUrl }) =>
                       imgChange(urlList, firstImageUrl, 'userCenterLogo')
-                  "
-                />
+                  " />
                 <span>注：推荐尺寸:107*38</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="官网LOGO">
-                <Upload
-                  :defaultFile="form.websiteLogo"
-                  @change="
+                <Upload :defaultFile="form.websiteLogo"
+                        @change="
                     ({ urlList, firstImageUrl }) =>
                       imgChange(urlList, firstImageUrl, 'websiteLogo')
-                  "
-                />
+                  " />
                 <span>注：推荐尺寸:122*44</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="手机网站logo">
-                <Upload
-                  :defaultFile="form.phoneLogo"
-                  @change="
+                <Upload :defaultFile="form.phoneLogo"
+                        @change="
                     ({ urlList, firstImageUrl }) =>
                       imgChange(urlList, firstImageUrl, 'phoneLogo')
-                  "
-                />
+                  " />
                 <span>注：推荐尺寸:130*40</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="关注微信二维码">
-                <Upload
-                  :defaultFile="form.wechatQrCode"
-                  @change="
+                <Upload :defaultFile="form.wechatQrCode"
+                        @change="
                     ({ urlList, firstImageUrl }) =>
                       imgChange(urlList, firstImageUrl, 'wechatQrCode')
-                  "
-                />
+                  " />
                 <span>注：推荐尺寸:120*120</span>
               </a-form-model-item>
             </div>
             <div class="addimages">
               <a-form-model-item label="网站ICO图标">
-                <Upload
-                  :defaultFile="form.websitieIcon"
-                  @change="
+                <Upload :defaultFile="form.websitieIcon"
+                        @change="
                     ({ urlList, firstImageUrl }) =>
                       imgChange(urlList, firstImageUrl, 'websitieIcon')
-                  "
-                />
+                  " />
               </a-form-model-item>
             </div>
           </a-collapse-panel>
@@ -234,12 +239,10 @@
             <a-input v-model="form.linkName" />
           </a-form-model-item> -->
           <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
-            <a-button
-              v-permission="'save'"
-              type="primary"
-              @click="onSubmit"
-              :loading="loading"
-            >
+            <a-button v-permission="'save'"
+                      type="primary"
+                      @click="onSubmit"
+                      :loading="loading">
               保存设置
             </a-button>
           </a-form-model-item>
@@ -392,6 +395,13 @@ export default {
           {
             pattern: /^\d{16,19}$/,
             message: '银行账号为数字,长度为16-19位',
+            trigger: 'blur',
+          },
+        ],
+        internationalSiteAddress: [
+          {
+            pattern: /(http|https):\/\/([\w.]+\/?)\S*/,
+            message: '网址格式不正确,应该以http或https开头',
             trigger: 'blur',
           },
         ],
