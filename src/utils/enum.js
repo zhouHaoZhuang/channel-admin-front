@@ -110,11 +110,27 @@ export const systemAdminMapEnum = {
 // 轮播图类型map
 export const bannerTypeEnum = {
   "0": "首页banner",
-  "1": "云服务器banner",
-  "2": "帮助中心banner",
-  "3": "新闻公告banner",
-  "4": "关于我们banner",
-  "5": "登录banner"
+  // "1": "云服务器banner",
+  // "2": "帮助中心banner",
+  // "3": "新闻公告banner",
+  "4": "关于我们banner"
+  // "5": "登录banner"
+};
+// PC链接
+export const bannerLinkEnum = {
+  "/pc": "首页",
+  "/pc/cloud-choose": "产品",
+  "/pc/assurance": "服务保障",
+  "/pc/help/helpInfo": "帮助中心",
+  "/pc/programme/finance": "金融解决方案",
+  "/pc/programme/online": "电商解决方案",
+  "/pc/programme/move": "游戏解决方案",
+  "/pc/programme/game": "移动解决方案",
+  "/pc/programme/website": "网站解决方案",
+  "/pc/about/index?tab=0": "关于我们/公司简介",
+  "/pc/about/index?tab=1": "关于我们/新闻公告",
+  "/pc/about/index?tab=2": "关于我们/法律声明",
+  "/pc/about/index?tab=3": "关于我们/友情链接"
 };
 // 云服务器-状态
 export const runningStatusEnum = {
@@ -123,7 +139,7 @@ export const runningStatusEnum = {
   2: "已停止",
   3: "已过期",
   4: "停止中",
-  5: "启动中",
+  5: "启动中"
 };
 // 订单来源/用途
 export const tradeTypeEnum = {
