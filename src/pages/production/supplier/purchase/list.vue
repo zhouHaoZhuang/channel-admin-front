@@ -138,7 +138,7 @@ export default {
     getList() {
       this.tableLoading = true;
       this.$getListQp("purchase/getList", this.listQuery)
-      .then(res => {
+        .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })

@@ -205,68 +205,68 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 6 },
       form: {
-        linkTypeName: '',
-        linkTypeCode: '',
-        linkName: '',
-        linkUrl: '',
-        linkDescribe: '',
+        linkTypeName: "",
+        linkTypeCode: "",
+        linkName: "",
+        linkUrl: "",
+        linkDescribe: "",
         bottomShow: 0,
         status: 0,
-        linkSort: '',
-        channelCode: '',
-        linkLogo: '',
-        linkTypeSort: 0,
+        linkSort: "",
+        channelCode: "",
+        linkLogo: "",
+        linkTypeSort: 0
       },
       rules: {
         linkName: [
           {
             required: true,
             message:
-              '必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_），且长度在2-20个字符内。',
-            trigger: 'blur',
-          },
+              "必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_），且长度在2-20个字符内。",
+            trigger: "blur"
+          }
         ],
         linkUrl: [
           {
             required: true,
-            message: '必填，用于网站首页的标题展示，且长度在2-100字以内。',
-            trigger: 'blur',
-          },
+            message: "必填，用于网站首页的标题展示，且长度在2-100字以内。",
+            trigger: "blur"
+          }
         ],
         linkDescribe: [
           {
             required: true,
             message:
-              '必填，代表了网站的市场定位，可用于搜索引擎的条件，如填写XX云，百度搜索XX云，将出现本站点首页，关键词限制中英文数字以及短横线（-）、下划线（_）、半角逗号（,）,且长度在2-300个字符内。',
-            trigger: 'blur',
-          },
+              "必填，代表了网站的市场定位，可用于搜索引擎的条件，如填写XX云，百度搜索XX云，将出现本站点首页，关键词限制中英文数字以及短横线（-）、下划线（_）、半角逗号（,）,且长度在2-300个字符内。",
+            trigger: "blur"
+          }
         ],
         aliAppId: [
           {
             required: true,
-            message: '支付宝合作ID为必填，用于支付宝APP支付。',
-            trigger: 'blur',
-          },
+            message: "支付宝合作ID为必填，用于支付宝APP支付。",
+            trigger: "blur"
+          }
         ],
         alipayPublicKey: [
           {
             required: true,
-            message: '支付宝公钥为必填，用于支付宝APP支付。',
-            trigger: 'blur',
-          },
+            message: "支付宝公钥为必填，用于支付宝APP支付。",
+            trigger: "blur"
+          }
         ],
         merchantPrivateKey: [
           {
             required: true,
-            message: '支付宝商户私钥为必填，用于支付宝APP支付。',
-            trigger: 'blur',
-          },
-        ],
+            message: "支付宝商户私钥为必填，用于支付宝APP支付。",
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
       data: null,
       visible: false,
-      confirmLoading: false,
+      confirmLoading: false
     };
   },
   components: {
@@ -277,26 +277,26 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.confirmLoading = true;
-          this.form.accountType = 'ali';
+          this.form.accountType = "ali";
           this.form.accountConfig = {
             aliAppId: this.form.aliAppId,
             merchantPrivateKey: this.form.merchantPrivateKey,
-            alipayPublicKey: this.form.alipayPublicKey,
+            alipayPublicKey: this.form.alipayPublicKey
           };
           // console.log(this.form);
           this.$store
-            .dispatch('globalBasic/updateAlipayConfig', this.form)
+            .dispatch("globalBasic/updateAlipayConfig", this.form)
             .then(() => {
-              this.$message.success('保存成功');
+              this.$message.success("保存成功");
               this.visible = false;
               this.confirmLoading = false;
               this.form = {
-                aliAppId: '',
-                alipayPublicKey: '',
-                merchantPrivateKey: '',
+                aliAppId: "",
+                alipayPublicKey: "",
+                merchantPrivateKey: ""
               };
               this.getAlipay();
             });
@@ -305,15 +305,15 @@ export default {
     },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
-      console.log('上传图片回调', urlList, firstImageUrl);
+      console.log("上传图片回调", urlList, firstImageUrl);
       this.form.pcPicture = firstImageUrl;
     },
     // 获取支付宝设置
     getAlipay() {
       this.loading = true;
       this.$store
-        .dispatch('globalBasic/getAlipayConfig', { accountType: 'ali' })
-        .then((res) => {
+        .dispatch("globalBasic/getAlipayConfig", { accountType: "ali" })
+        .then(res => {
           console.log(res);
           this.loading = false;
           this.data = { ...res.data.accountConfig };
@@ -326,10 +326,10 @@ export default {
       this.onSubmit();
     },
     handleCancel(e) {
-      console.log('Clicked cancel button');
+      console.log("Clicked cancel button");
       this.visible = false;
-    },
-  },
+    }
+  }
 };
 </script>
 

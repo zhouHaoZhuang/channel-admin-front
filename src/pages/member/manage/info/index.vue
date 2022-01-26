@@ -21,7 +21,7 @@
       <a-tabs type="card">
         <a-tab-pane key="1" tab="会员详情">
           <div>
-         <Info></Info>
+            <Info></Info>
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="实名认证">
@@ -43,7 +43,7 @@ export default {
     };
   },
   components: {
-    Info:()=>import('./info.vue'),
+    Info: () => import("./info.vue")
   },
   methods: {
     switchTo(url, atv) {

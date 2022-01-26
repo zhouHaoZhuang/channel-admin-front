@@ -148,8 +148,8 @@ export default {
     // 查询表格数据
     getList() {
       this.tableLoading = true;
-       this.$getListQp("provider/getList", this.listQuery)
-      .then(res => {
+      this.$getListQp("provider/getList", this.listQuery)
+        .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })

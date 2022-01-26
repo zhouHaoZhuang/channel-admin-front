@@ -1,14 +1,14 @@
 <template>
   <div class="message-detail-container" v-if="massageData">
-    <div class="title">{{massageData.title}}</div>
-    <div class="date">{{massageData.sendTime | formatDate}}</div>
+    <div class="title">{{ massageData.title }}</div>
+    <div class="date">{{ massageData.sendTime | formatDate }}</div>
     <div class="line"></div>
     <div class="con-box">
       <div class="start-title"></div>
       <p class="txt txt-indent">
-       {{massageData.content}}
+        {{ massageData.content }}
       </p>
-      <p class="txt txt-indent txt-right">{{massageData.createUserName}}</p>
+      <p class="txt txt-indent txt-right">{{ massageData.createUserName }}</p>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
 export default {
   data() {
     return {
-      massageData:null
+      massageData: null
     };
   },
   activated() {
@@ -26,12 +26,14 @@ export default {
   },
   methods: {
     getInfo() {
-      this.$store.dispatch('message/getOne', {id:this.$route.query.id}).then((res) => {
-        console.log(res);
-        this.massageData = res.data;
-      });
-    },
-  },
+      this.$store
+        .dispatch("message/getOne", { id: this.$route.query.id })
+        .then(res => {
+          console.log(res);
+          this.massageData = res.data;
+        });
+    }
+  }
 };
 </script>
 
@@ -67,9 +69,9 @@ export default {
   .txt-indent {
     text-indent: 2em;
   }
-  .txt-right{
+  .txt-right {
     margin-top: 30px;
-    width:90%;
+    width: 90%;
     text-align: right;
   }
 }

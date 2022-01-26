@@ -58,13 +58,13 @@ export default {
       wrapperCol: { span: 18 },
       other: "",
       form: {
-        productName: "",    //产品名称
-        productCode: "",    //产品CODE
-        supplierName: "",   //供应商
-        supplierProductCode: "",      //供应商产品CODE
-        supplierProductType: "",    //供应商产品Type
-        pm: "",               //产品经理
-        remark: ""            //备注
+        productName: "", //产品名称
+        productCode: "", //产品CODE
+        supplierName: "", //供应商
+        supplierProductCode: "", //供应商产品CODE
+        supplierProductType: "", //供应商产品Type
+        pm: "", //产品经理
+        remark: "" //备注
       },
       rules: {
         productName: [
@@ -110,8 +110,7 @@ export default {
               this.$message.success("提交成功");
               this.$router.back();
             })
-            .catch(err => {
-            })
+            .catch(err => {})
             .finally(() => {
               this.resetForm();
             });

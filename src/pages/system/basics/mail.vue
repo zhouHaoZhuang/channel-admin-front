@@ -39,7 +39,7 @@
               </a-row>
             </a-form-model-item>
             <a-form-model-item label="发件人显示名称" prop="linkDescribe">
-               <a-row :gutter="5">
+              <a-row :gutter="5">
                 <a-col :span="22">
                   <a-input v-model="form.linkName" />
                 </a-col>
@@ -197,7 +197,7 @@ export default {
     background: #fff;
     padding-top: 15px;
   }
-  .ant-collapse{
+  .ant-collapse {
     background-color: white;
   }
 }

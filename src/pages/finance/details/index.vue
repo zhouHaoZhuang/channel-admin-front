@@ -152,7 +152,7 @@ export default {
         {
           title: "会员ID",
           dataIndex: "customerCode",
-          width: 170,
+          width: 170
         },
         {
           title: "发生金额(元)",

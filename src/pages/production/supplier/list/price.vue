@@ -70,7 +70,7 @@ export default {
       loading: false
     };
   },
-  activated(){
+  activated() {
     this.resetForm();
   },
   methods: {
@@ -94,7 +94,7 @@ export default {
         contract: "",
         number: "",
         description: ""
-      }
+      };
     }
   }
 };

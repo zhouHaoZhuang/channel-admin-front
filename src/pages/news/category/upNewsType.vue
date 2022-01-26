@@ -47,57 +47,59 @@ export default {
         newTypeName: "",
         newTypeEn: "",
         sort: "",
-        status: 0,
+        status: 0
       },
       rules: {
         newTypeName: [
           {
             required: true,
             message: "请输入名称",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         newTypeEn: [
           {
             required: true,
             message: "英文名必填",
-            trigger: "blur",
+            trigger: "blur"
           },
           {
             pattern: /^[a-zA-Z0-9_.]+$/,
             message: "必须输入英文名",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         status: [
           {
             required: true,
             message: "请选择状态",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
-      loading: false,
+      loading: false
     };
   },
   activated() {
     this.getData();
   },
   methods: {
-    getData(){
-      this.$store.dispatch("newsType/getOne",{id:this.$route.query.id}).then((res) => {
-        console.log(res);
-        this.form = {...res.data};
-      });
+    getData() {
+      this.$store
+        .dispatch("newsType/getOne", { id: this.$route.query.id })
+        .then(res => {
+          console.log(res);
+          this.form = { ...res.data };
+        });
     },
     // 提交
     onSubmit() {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("newsType/changeList", this.form)
-            .then((res) => {
+            .then(res => {
               this.$message.success("修改类型成功");
               this.resetForm();
               this.$router.back();
@@ -115,10 +117,10 @@ export default {
         newTypeName: "",
         newTypeEn: "",
         sort: "",
-        status: 0,
+        status: 0
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

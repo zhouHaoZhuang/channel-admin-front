@@ -9,10 +9,10 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="采购账号ID" prop="accountCode">
-          {{form.accountCode}}
+          {{ form.accountCode }}
         </a-form-model-item>
         <a-form-model-item label="所属供应商" prop="supplierCode">
-          {{form.supplierCode}}
+          {{ form.supplierCode }}
         </a-form-model-item>
         <a-form-model-item label="供应商标识" prop="accountTag">
           <a-input v-model="form.accountTag" />
@@ -84,11 +84,11 @@ export default {
       loading: false
     };
   },
-   activated() {
+  activated() {
     let id = this.$route.query.id;
     // console.log(id);
     this.$store.dispatch("purchase/getId", id).then(res => {
-      this.form = res.data
+      this.form = res.data;
       // console.log(res.data);
     });
     // console.log(form, "********");
@@ -114,7 +114,7 @@ export default {
         supplierAccountCode: "",
         remark: "",
         keyConfig: ""
-      }
+      };
     }
   }
 };

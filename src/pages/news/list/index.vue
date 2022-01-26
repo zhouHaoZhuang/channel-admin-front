@@ -83,7 +83,7 @@
             {{ text | formatDate }}
           </div>
           <div v-if="text" slot-scope="text" slot="firstTop">
-            {{ text * 1 === 0 ? '不置顶' : '置顶' }}
+            {{ text * 1 === 0 ? "不置顶" : "置顶" }}
           </div>
           <a slot="websiteJump" slot-scope="text" :href="text">{{ text }}</a>
           <div slot="actions" slot-scope="text">
@@ -91,7 +91,11 @@
               修改
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="delNewsList(text)" v-permission="'del'">
+            <a-button
+              type="link"
+              @click="delNewsList(text)"
+              v-permission="'del'"
+            >
               删除
             </a-button>
           </div>
@@ -111,51 +115,51 @@ export default {
       selectList: [],
       isCondition: false,
       listQuery: {
-        key: 'newsTitle',
-        search: '',
+        key: "newsTitle",
+        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        startTime: '',
-        endTime: '',
-        newTypeCode: '',
+        startTime: "",
+        endTime: "",
+        newTypeCode: ""
       },
       data: [],
       columns: [
         {
-          title: 'ID',
-          dataIndex: 'newsCode',
-          scopedSlots: { customRender: 'id' },
+          title: "ID",
+          dataIndex: "newsCode",
+          scopedSlots: { customRender: "id" }
         },
         {
-          title: '标题',
-          dataIndex: 'newsTitle',
+          title: "标题",
+          dataIndex: "newsTitle"
         },
         {
-          title: '分类',
-          dataIndex: 'newTypeName',
+          title: "分类",
+          dataIndex: "newTypeName"
         },
         {
-          title: '添加时间',
-          dataIndex: 'createTime',
-          scopedSlots: { customRender: 'createTime' },
+          title: "添加时间",
+          dataIndex: "createTime",
+          scopedSlots: { customRender: "createTime" }
         },
         {
-          title: '置顶状态',
-          dataIndex: 'firstTop',
-          scopedSlots: { customRender: 'firstTop' },
+          title: "置顶状态",
+          dataIndex: "firstTop",
+          scopedSlots: { customRender: "firstTop" }
         },
         {
-          title: '跳转状态',
-          dataIndex: 'websiteJump', //有就跳转  数据为地址
-          scopedSlots: { customRender: 'websiteJump' },
+          title: "跳转状态",
+          dataIndex: "websiteJump", //有就跳转  数据为地址
+          scopedSlots: { customRender: "websiteJump" }
         },
         {
-          title: '操作',
-          dataIndex: 'id',
-          key: 'actions',
-          scopedSlots: { customRender: 'actions' },
-        },
+          title: "操作",
+          dataIndex: "id",
+          key: "actions",
+          scopedSlots: { customRender: "actions" }
+        }
       ],
       typeList: [],
       paginationProps: {
@@ -167,9 +171,9 @@ export default {
             total / this.listQuery.pageSize
           )}  页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
-      typeName: '',
+      typeName: ""
     };
   },
   activated() {
@@ -185,22 +189,22 @@ export default {
   },
   methods: {
     handleChange(value, a) {
-      console.log(value, '前');
+      console.log(value, "前");
       this.selectList = value;
-      console.log(value, '后');
+      console.log(value, "后");
       let selectString = value.toString();
-      if (!selectString.includes('分类')) {
-        this.listQuery.newTypeCode = '';
+      if (!selectString.includes("分类")) {
+        this.listQuery.newTypeCode = "";
       }
-      if (!selectString.includes('标题')) {
-        this.listQuery.search = '';
+      if (!selectString.includes("标题")) {
+        this.listQuery.search = "";
       }
-      if (!selectString.includes('开始时间')) {
-        this.listQuery.startTime = '';
+      if (!selectString.includes("开始时间")) {
+        this.listQuery.startTime = "";
         this.startValue = null;
       }
-      if (!selectString.includes('结束时间')) {
-        this.listQuery.endTime = '';
+      if (!selectString.includes("结束时间")) {
+        this.listQuery.endTime = "";
         this.endValue = null;
       }
       if (this.selectList.length === 0) {
@@ -226,13 +230,13 @@ export default {
       if (this.typeName) {
         this.selectList.push(`分类：${this.typeName}`);
       }
-      if (this.listQuery.key == 'newsTitle' && this.listQuery.search) {
+      if (this.listQuery.key == "newsTitle" && this.listQuery.search) {
         this.selectList.push(`标题：${this.listQuery.search}`);
       }
       this.getList();
     },
     addNewsList() {
-      this.$router.push('/personal/news/addnewslist');
+      this.$router.push("/personal/news/addnewslist");
     },
     changeStart(date, dateString) {
       this.listQuery.startTime = dateString;
@@ -243,10 +247,10 @@ export default {
     change(id) {
       console.log(id);
       this.$router.push({
-        path: '/personal/news/upnewslist',
+        path: "/personal/news/upnewslist",
         query: {
-          id,
-        },
+          id
+        }
       });
     },
 
@@ -282,42 +286,42 @@ export default {
       this.getList();
     },
     getList() {
-      this.$getList('newsList/getList', this.listQuery).then((res) => {
-        console.log(res, '获取列表');
+      this.$getList("newsList/getList", this.listQuery).then(res => {
+        console.log(res, "获取列表");
         this.data = res.data.list;
         this.paginationProps.total = res.data.total * 1;
       });
     },
     getAllType() {
-      this.$store.dispatch('newsType/getAllType').then((res) => {
+      this.$store.dispatch("newsType/getAllType").then(res => {
         // console.log(res.data, "获取分类");
         this.typeList = res.data;
       });
     },
     delNewsList(id) {
       this.$confirm({
-        title: '确认要删除吗？',
+        title: "确认要删除吗？",
         onOk: () => {
           this.$store
-            .dispatch('newsList/delList', {
-              id,
+            .dispatch("newsList/delList", {
+              id
             })
-            .then((res) => {
-              this.$message.success('删除成功');
+            .then(res => {
+              this.$message.success("删除成功");
               this.getList();
             });
-        },
+        }
       });
     },
     selectPool(data) {
       this.$router.push({
         path: `/personal/news/bannerinfo`,
         query: {
-          id: data.id,
-        },
+          id: data.id
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -328,7 +332,7 @@ export default {
   padding: 10px;
   margin-left: 20px;
 }
-.news-list-top{
+.news-list-top {
   display: flex;
   width: 1018px;
   justify-content: space-between;
