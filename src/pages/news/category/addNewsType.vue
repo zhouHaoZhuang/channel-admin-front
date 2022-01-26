@@ -45,47 +45,47 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 15 },
       form: {
-        newTypeName: '',
-        newTypeEn: '',
-        sort: '',
-        status: 0,
+        newTypeName: "",
+        newTypeEn: "",
+        sort: "",
+        status: 0
       },
       rules: {
         newTypeName: [
           {
             required: true,
-            message: '请输入名称',
-            trigger: 'blur',
-          },
+            message: "请输入名称",
+            trigger: "blur"
+          }
         ],
         newTypeEn: [
           {
             required: true,
-            message: '英文名选项必填',
-            trigger: 'blur',
+            message: "英文名选项必填",
+            trigger: "blur"
           },
           {
             pattern: /^[a-zA-Z0-9_.]+$/,
-            message: '必须输入英文名',
-            trigger: 'blur',
-          },
+            message: "必须输入英文名",
+            trigger: "blur"
+          }
         ],
         status: [
           {
             required: true,
-            message: '请选择状态',
-            trigger: 'blur',
-          },
+            message: "请选择状态",
+            trigger: "blur"
+          }
         ],
         sort: [
           {
-            type: 'number',
-            message: '请输入数字',
-            trigger: 'blur',
-          },
-        ],
+            type: "number",
+            message: "请输入数字",
+            trigger: "blur"
+          }
+        ]
       },
-      loading: false,
+      loading: false
     };
   },
   activated() {
@@ -94,13 +94,13 @@ export default {
   methods: {
     // 提交
     onSubmit() {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch('newsType/addList', this.form)
-            .then((res) => {
-              this.$message.success('新增渠道成功');
+            .dispatch("newsType/addList", this.form)
+            .then(res => {
+              this.$message.success("新增渠道成功");
               this.resetForm();
               this.$router.back();
             })
@@ -114,13 +114,13 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        newTypeName: '',
-        newTypeEn: '',
-        sort: '',
-        status: 0,
+        newTypeName: "",
+        newTypeEn: "",
+        sort: "",
+        status: 0
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

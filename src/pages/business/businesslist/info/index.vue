@@ -102,7 +102,7 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">数据磁盘：</span>
                 <span class="basicInformation-info" v-if="data.dataDiskSize">
-                  {{ data.dataDiskSize == 0 ? '----':data.dataDiskSize }}G
+                  {{ data.dataDiskSize == 0 ? "----" : data.dataDiskSize }}G
                 </span>
               </div>
               <!-- <div class="basicInformation-item">
@@ -366,7 +366,7 @@ export default {
       let dataDiskSize = 0;
       console.log(res.data);
       if (res.data.dataDisk) {
-        res.data.dataDisk.forEach((item) => {
+        res.data.dataDisk.forEach(item => {
           dataDiskSize += item.size;
         });
         this.data.dataDiskSize = dataDiskSize;

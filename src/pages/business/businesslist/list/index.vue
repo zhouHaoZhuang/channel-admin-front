@@ -274,7 +274,7 @@
               <span v-if="text == 3" class="runningStatus expired">已过期</span> -->
             </div>
             <span slot="dataDiskSize" slot-scope="text">
-              {{text != 0 ? text : '---'}}
+              {{ text != 0 ? text : "---" }}
             </span>
             <a slot="action" slot-scope="text" @click="infoChannel(text)"
               >管理</a
@@ -390,9 +390,9 @@ export default {
         { title: "CPU(核)", dataIndex: "cpu", key: "cpu" },
         { title: "内存(G)", dataIndex: "memory", key: "memory" },
         {
-          title: '磁盘(G)',
-          dataIndex: 'dataDiskSize',
-          scopedSlots: { customRender: 'dataDiskSize' },
+          title: "磁盘(G)",
+          dataIndex: "dataDiskSize",
+          scopedSlots: { customRender: "dataDiskSize" }
         },
         {
           title: "带宽(Mbps)",
@@ -504,10 +504,10 @@ export default {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
 
-          res.data.list.forEach((item) => {
+          res.data.list.forEach(item => {
             let dataDiskSize = 0;
             // dataDiskSize += item.dataDisk.size * 1;
-            item.dataDisk?.forEach((item1) => {
+            item.dataDisk?.forEach(item1 => {
               dataDiskSize += item1.size * 1;
             });
             item.dataDiskSize = dataDiskSize;

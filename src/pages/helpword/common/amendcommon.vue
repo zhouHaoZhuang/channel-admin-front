@@ -9,7 +9,7 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="名称">
-            <span >{{typeName}}</span>
+          <span>{{ typeName }}</span>
         </a-form-model-item>
         <a-form-model-item label="热点" prop="typeSort">
           <a-input v-model="form.typeSort" />
@@ -32,8 +32,7 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 6 },
       form: {
-        typeSort: "",
-        
+        typeSort: ""
       },
       rules: {
         typeSort: [
@@ -45,7 +44,7 @@ export default {
         ]
       },
       loading: false,
-      typeName: "",
+      typeName: ""
     };
   },
   activated() {
@@ -53,7 +52,7 @@ export default {
   },
   methods: {
     // 提交
-    onSubmit () {
+    onSubmit() {
       this.form.id = this.$route.query.id;
       this.$refs.ruleForm.validate(valid => {
         this.$store.dispatch("category/edit", this.form).then(res => {
@@ -67,7 +66,7 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-         typeSort: "",
+        typeSort: ""
       };
     }
   }

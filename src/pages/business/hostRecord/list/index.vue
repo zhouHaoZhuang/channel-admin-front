@@ -54,59 +54,59 @@ export default {
     return {
       tableLoading: false,
       data: [],
-      columns:[
+      columns: [
         {
-          title: '宿主机ID',
-          dataIndex: 'snapshotid',
+          title: "宿主机ID",
+          dataIndex: "snapshotid"
         },
         {
-          title: '宿主机IP',
-          dataIndex: 'snapshotip',
+          title: "宿主机IP",
+          dataIndex: "snapshotip"
         },
         {
-          title: '物理位置',
-          dataIndex: 'snapshotlocation',
+          title: "物理位置",
+          dataIndex: "snapshotlocation"
         },
         {
-          title: '异常持续次数',
-          dataIndex: 'snapshotabnormal',
+          title: "异常持续次数",
+          dataIndex: "snapshotabnormal"
         },
         {
-          title: '异常记录时间',
-          dataIndex: 'snapshotabnormaltime',
+          title: "异常记录时间",
+          dataIndex: "snapshotabnormaltime"
         },
         {
-          title: '异常恢复时间',
-          dataIndex: 'snapshotabnormalrecoverytime',
+          title: "异常恢复时间",
+          dataIndex: "snapshotabnormalrecoverytime"
         },
         {
-          title: '备注',
-          dataIndex: 'snapshotremark',
+          title: "备注",
+          dataIndex: "snapshotremark"
         },
         {
-          title: '操作',
-          dataIndex: 'action',
+          title: "操作",
+          dataIndex: "action"
         }
       ]
-    }
-  },
+    };
+  }
 };
 </script>
 
-<style lang='less' scoped>
- .feeRed-title {
-    display: flex;
-    width: 775px;
-    justify-content: space-between;
-    align-items: center;
-    height: 50px;
-    .left5 {
-      margin-left: 5px;
-    }
+<style lang="less" scoped>
+.feeRed-title {
+  display: flex;
+  width: 775px;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  .left5 {
+    margin-left: 5px;
   }
-  .hostrecord-container{
-    margin-left: 20px;
-    padding: 20px;
-    background-color: #fff;
-  }
-  </style>
+}
+.hostrecord-container {
+  margin-left: 20px;
+  padding: 20px;
+  background-color: #fff;
+}
+</style>

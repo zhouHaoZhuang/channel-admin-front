@@ -4,23 +4,23 @@
       <a-tabs default-active-key="1" :tab-position="tabPosition">
         <a-tab-pane key="1" tab="基本">
           <div class="big-block-title">基本</div>
-          <Basic/>
+          <Basic />
         </a-tab-pane>
         <a-tab-pane key="2" tab="会员">
           <div class="big-block-title">会员</div>
-          <Member/>
+          <Member />
         </a-tab-pane>
         <a-tab-pane key="3" tab="充值">
           <div class="big-block-title">充值</div>
-          <Topup/>
+          <Topup />
         </a-tab-pane>
         <a-tab-pane key="4" tab="邮件">
           <div class="big-block-title">邮件</div>
-          <Mail/>
+          <Mail />
         </a-tab-pane>
         <a-tab-pane key="5" tab="短信">
           <div class="big-block-title">短信</div>
-          <Note/>
+          <Note />
         </a-tab-pane>
       </a-tabs>
     </div>
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import Basic from './basic.vue'
-import Member from './member.vue'
-import Topup from './topup.vue'
-import Mail from './mail.vue'
-import Note from './note.vue'
+import Basic from "./basic.vue";
+import Member from "./member.vue";
+import Topup from "./topup.vue";
+import Mail from "./mail.vue";
+import Note from "./note.vue";
 
 export default {
   data() {
@@ -40,8 +40,12 @@ export default {
       tabPosition: "left"
     };
   },
-  components:{
-      Basic,Member,Topup,Mail,Note
+  components: {
+    Basic,
+    Member,
+    Topup,
+    Mail,
+    Note
   },
   methods: {
     callback(val) {

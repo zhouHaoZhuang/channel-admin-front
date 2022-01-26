@@ -105,13 +105,13 @@
             <a-form-model-item label="授权码(AuthCode)">
               <a-input v-model="form.linkSort" />
             </a-form-model-item>
-             <a-form-model-item label="接口白名单IP">
+            <a-form-model-item label="接口白名单IP">
               <a-input v-model="form.linkSort" />
             </a-form-model-item>
-             <a-form-model-item label="通道编码(Channel)">
+            <a-form-model-item label="通道编码(Channel)">
               <a-input v-model="form.linkSort" />
             </a-form-model-item>
-             <a-form-model-item label="签名(Signature)">
+            <a-form-model-item label="签名(Signature)">
               <a-input v-model="form.linkSort" />
             </a-form-model-item>
             <a-form-model-item label="测试通道">

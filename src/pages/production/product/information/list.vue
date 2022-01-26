@@ -5,7 +5,11 @@
         <a-button type="primary" @click="addinform">
           + 新建产品
         </a-button>
-        <a-select style="width:150px" v-model="listQuery.key" :placeholder="title">
+        <a-select
+          style="width:150px"
+          v-model="listQuery.key"
+          :placeholder="title"
+        >
           <a-select-option :key="i" v-for="(v, i) in columns2" :value="v.key">
             {{ v.title }}
           </a-select-option>
@@ -65,7 +69,7 @@ export default {
           title: "资源池产品ID",
           dataIndex: "id",
           key: "id",
-          width: 250,
+          width: 250
         },
         {
           title: "资源池产品名称",
@@ -155,7 +159,7 @@ export default {
     reqList(res) {
       this.PoolList = res.data.list;
       this.data = this.PoolList;
-      this.paginationProps.total = res.data.totalCount*1;
+      this.paginationProps.total = res.data.totalCount * 1;
       this.paginationProps.current = this.current;
       if (this.current == 1) {
         this.exhibitList = this.PoolList.slice(0, this.pageSize);
@@ -195,7 +199,7 @@ export default {
     },
     handleMenuClick() {
       this.$getListQp("pool/selectList", this.listQuery).then(val => {
-        this.reqList(val);     //获取列表数据并初始化数据
+        this.reqList(val); //获取列表数据并初始化数据
       });
     },
     // 切换页码之后被调用

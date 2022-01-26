@@ -150,61 +150,61 @@ export default {
     return {
       isfilter: false,
       listQuery: {},
-      tableLoading:false,
-      data:[],
-      columns:[
+      tableLoading: false,
+      data: [],
+      columns: [
         {
-          title:'任务ID',
-          dataIndex:'taskId',
+          title: "任务ID",
+          dataIndex: "taskId"
         },
         {
-          title:'操作员',
-          dataIndex:'taskUser',
+          title: "操作员",
+          dataIndex: "taskUser"
         },
         {
-          title:'服务器ID',
-          dataIndex:'serverId',
+          title: "服务器ID",
+          dataIndex: "serverId"
         },
         {
-          title:'服务器IP',
-          dataIndex:'serverIP',
+          title: "服务器IP",
+          dataIndex: "serverIP"
         },
         {
-          title:'宿主机IP',
-          dataIndex:'hostIP',
+          title: "宿主机IP",
+          dataIndex: "hostIP"
         },
         {
-          title:'操作类型',
-          dataIndex:'actionType',
+          title: "操作类型",
+          dataIndex: "actionType"
         },
         {
-          title:'创建时间',
-          dataIndex:'createTime',
+          title: "创建时间",
+          dataIndex: "createTime"
         },
         {
-          title:'发送时间',
-          dataIndex:'sendTime',
+          title: "发送时间",
+          dataIndex: "sendTime"
         },
         {
-          title:'执行状态',
-          dataIndex:'actionStatus',
+          title: "执行状态",
+          dataIndex: "actionStatus"
         },
         {
-          title:'返回时间',
-          dataIndex:'backTime',
+          title: "返回时间",
+          dataIndex: "backTime"
         },
         {
-          title:'执行耗时',
-          dataIndex:'runTime',
+          title: "执行耗时",
+          dataIndex: "runTime"
         },
         {
-          title:'任务状态',
-          dataIndex:'taskStatus',
+          title: "任务状态",
+          dataIndex: "taskStatus"
         },
         {
-          title:'操作',
-          dataIndex:'action',
-          fixed:'right',
+          title: "操作",
+          dataIndex: "action",
+          fixed: "right"
         }
       ]
     };

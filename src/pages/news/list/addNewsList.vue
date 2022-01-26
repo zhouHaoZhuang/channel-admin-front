@@ -72,64 +72,64 @@
 </template>
 
 <script>
-import Tinymce from '@/components/Tinymce/index.vue';
-import Upload from '@/components/Upload/index';
+import Tinymce from "@/components/Tinymce/index.vue";
+import Upload from "@/components/Upload/index";
 
 export default {
   components: {
     Tinymce,
-    Upload,
+    Upload
   },
   data() {
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 19 },
       form: {
-        newTypeCode: '',
-        newTypeEn: '',
-        sort: '',
+        newTypeCode: "",
+        newTypeEn: "",
+        sort: "",
         type: [],
         status: 0,
-        newsTitle: '',
-        context: '',
-        newsPublishTime: '', //发布时间
-        WebsiteJumpUrl: '', //跳转到
-        tittleImage: '', //新闻LOGO
+        newsTitle: "",
+        context: "",
+        newsPublishTime: "", //发布时间
+        WebsiteJumpUrl: "", //跳转到
+        tittleImage: "" //新闻LOGO
       },
       rules: {
         newTypeCode: [
           {
             required: true,
-            message: '请输入分类',
-            trigger: 'blur',
-          },
+            message: "请输入分类",
+            trigger: "blur"
+          }
         ],
         newsTitle: [
           {
             required: true,
-            message: '请输入标题',
-            trigger: 'blur',
-          },
+            message: "请输入标题",
+            trigger: "blur"
+          }
         ],
         status: [
           {
             required: true,
-            message: '请选择状态',
-            trigger: 'blur',
-          },
+            message: "请选择状态",
+            trigger: "blur"
+          }
         ],
-         newsPublishTime: [
-          { required: true, message: '发布时间不能为空', trigger: 'change' },
-        ],
+        newsPublishTime: [
+          { required: true, message: "发布时间不能为空", trigger: "change" }
+        ]
       },
       loading: false,
-      typeList: [],
+      typeList: []
     };
   },
   computed: {
     isWebsiteJump() {
-      return this.form.type.includes('websiteJump');
-    },
+      return this.form.type.includes("websiteJump");
+    }
   },
   created() {
     this.$nextTick(() => {
@@ -164,20 +164,20 @@ export default {
       }
       if (this.form.WebsiteJump == 1) {
         this.form.WebsiteJump = this.form.WebsiteJumpUrl;
-        this.form.context = '';
+        this.form.context = "";
         return;
       }
       if (this.form.context) {
-        this.form.WebsiteJump = '';
+        this.form.WebsiteJump = "";
       }
-      console.log(this.form, '提交');
-      this.$refs.ruleForm.validate((valid) => {
+      console.log(this.form, "提交");
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch('newsList/addList', this.form)
-            .then((res) => {
-              this.$message.success('新增新闻列表成功');
+            .dispatch("newsList/addList", this.form)
+            .then(res => {
+              this.$message.success("新增新闻列表成功");
               this.resetForm();
               this.$router.back();
             })
@@ -188,8 +188,8 @@ export default {
       });
     },
     getAllType() {
-      this.$store.dispatch('newsType/getAllType').then((res) => {
-        console.log(res.data, '获取分类');
+      this.$store.dispatch("newsType/getAllType").then(res => {
+        console.log(res.data, "获取分类");
         this.typeList = res.data;
       });
     },
@@ -197,17 +197,17 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        newTypeCode: '',
-        newTypeEn: '',
-        sort: '',
+        newTypeCode: "",
+        newTypeEn: "",
+        sort: "",
         type: [],
         status: 0,
-        newsTitle: '',
-        context: '',
-        newsPublishTime: '', //发布时间
+        newsTitle: "",
+        context: "",
+        newsPublishTime: "" //发布时间
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

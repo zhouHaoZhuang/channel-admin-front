@@ -146,78 +146,78 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import moment from 'moment';
+import { mapState, mapGetters } from "vuex";
+import moment from "moment";
 // import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   // components: { Tinymce },
   data() {
     return {
       moment,
-      registerDay: '',
-      registerMonth: '',
-      clinchDay: '',
-      clinchMonth: '',
-      loginDay: '',
-      loginMonth: '',
-      orderSumDay: '',
-      orderSumMonth: '',
-      SuccessCountNum: '',
+      registerDay: "",
+      registerMonth: "",
+      clinchDay: "",
+      clinchMonth: "",
+      loginDay: "",
+      loginMonth: "",
+      orderSumDay: "",
+      orderSumMonth: "",
+      SuccessCountNum: "",
       listQuery: {
         id: undefined,
-        search: '',
+        search: "",
         currentPage: 1,
         pageSize: 5,
         total: 0,
-        'qp-status-eq': '0',
+        "qp-status-eq": "0"
       },
-      messageList: null,
+      messageList: null
     };
   },
   computed: {
     ...mapState({
-      userInfo: (state) => state.user.userInfo,
+      userInfo: state => state.user.userInfo
     }),
-    ...mapGetters(['token']),
+    ...mapGetters(["token"])
   },
   created() {
-    this.getRegister(this.currentDay(), 'day');
-    this.getRegister(this.currentMonth(), 'month');
-    this.getBasicCompanyInfo(this.currentDay(), 'day');
-    this.getBasicCompanyInfo(this.currentMonth(), 'month');
-    this.coountInfo(this.currentDay(), 'day');
-    this.coountInfo(this.currentMonth(), 'month');
-    this.orderSumInfo(this.currentDay(), 'day');
-    this.orderSumInfo(this.currentMonth(), 'month');
+    this.getRegister(this.currentDay(), "day");
+    this.getRegister(this.currentMonth(), "month");
+    this.getBasicCompanyInfo(this.currentDay(), "day");
+    this.getBasicCompanyInfo(this.currentMonth(), "month");
+    this.coountInfo(this.currentDay(), "day");
+    this.coountInfo(this.currentMonth(), "month");
+    this.orderSumInfo(this.currentDay(), "day");
+    this.orderSumInfo(this.currentMonth(), "month");
     this.getSuccessCount(this.currentMonth());
     this.getMessageList();
   },
   mounted() {
     this.userInfo.lastLogin = this.userInfo.lastLogin?.slice(0, 19);
-    console.log(this.userInfo.lastLogin, '后');
+    console.log(this.userInfo.lastLogin, "后");
   },
   methods: {
     currentMonth() {
       // //获取当前月份
       return {
         startTime: this.moment()
-          .startOf('month')
-          .format('YYYY-MM-DD HH:mm:ss'),
+          .startOf("month")
+          .format("YYYY-MM-DD HH:mm:ss"),
         endTime: this.moment()
-          .endOf('month')
-          .format('YYYY-MM-DD HH:mm:ss'),
+          .endOf("month")
+          .format("YYYY-MM-DD HH:mm:ss")
       };
     },
     // 跳转消息详情
     massageInfo(id) {
       this.$router.push({
-        path: '/dashboard/index/detail',
-        query: { id },
+        path: "/dashboard/index/detail",
+        query: { id }
       });
     },
     // 获取消息列表
     getMessageList() {
-      this.$store.dispatch('message/getList', this.listQuery).then((res) => {
+      this.$store.dispatch("message/getList", this.listQuery).then(res => {
         // console.log(res);
         this.messageList = res.data.list;
       });
@@ -226,20 +226,20 @@ export default {
       // //获取当前日
       return {
         startTime: this.moment()
-          .startOf('day')
-          .format('YYYY-MM-DD HH:mm:ss'),
+          .startOf("day")
+          .format("YYYY-MM-DD HH:mm:ss"),
         endTime: this.moment()
-          .startOf('day')
-          .format('YYYY-MM-DD 23:59:59'),
+          .startOf("day")
+          .format("YYYY-MM-DD 23:59:59")
       };
     },
     // 获取交易订单数
     getRegister(date, type) {
-      this.$store.dispatch('frontPage/orderCountNum', date).then((val) => {
-        if (type == 'day') {
+      this.$store.dispatch("frontPage/orderCountNum", date).then(val => {
+        if (type == "day") {
           this.registerDay = val.data;
         }
-        if (type == 'month') {
+        if (type == "month") {
           this.registerMonth = val.data;
         }
         // console.log(val);
@@ -247,35 +247,33 @@ export default {
     },
     // 注册客户
     getBasicCompanyInfo(date, type) {
-      this.$store
-        .dispatch('frontPage/getBasicCompanyInfo', date)
-        .then((val) => {
-          if (type == 'day') {
-            this.loginDay = val.data;
-          }
-          if (type == 'month') {
-            this.loginMonth = val.data;
-          }
-        });
+      this.$store.dispatch("frontPage/getBasicCompanyInfo", date).then(val => {
+        if (type == "day") {
+          this.loginDay = val.data;
+        }
+        if (type == "month") {
+          this.loginMonth = val.data;
+        }
+      });
     },
     // 成交客户
     coountInfo(date, type) {
-      this.$store.dispatch('frontPage/coountInfo', date).then((val) => {
-        if (type == 'day') {
+      this.$store.dispatch("frontPage/coountInfo", date).then(val => {
+        if (type == "day") {
           this.clinchDay = val.data;
         }
-        if (type == 'month') {
+        if (type == "month") {
           this.clinchMonth = val.data;
         }
       });
     },
     // 消费金额
     orderSumInfo(date, type) {
-      this.$store.dispatch('frontPage/orderSumInfo', date).then((val) => {
-        if (type == 'day') {
+      this.$store.dispatch("frontPage/orderSumInfo", date).then(val => {
+        if (type == "day") {
           this.orderSumDay = val.data;
         }
-        if (type == 'month') {
+        if (type == "month") {
           this.orderSumMonth = val.data;
         }
       });
@@ -283,12 +281,12 @@ export default {
 
     // getSuccessCount获取当日云服务器台数
     getSuccessCount(date) {
-      this.$store.dispatch('frontPage/getSuccessCount', date).then((val) => {
+      this.$store.dispatch("frontPage/getSuccessCount", date).then(val => {
         this.SuccessCountNum = val.data;
         // console.log(val);
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

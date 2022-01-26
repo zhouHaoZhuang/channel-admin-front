@@ -427,7 +427,7 @@ export default {
     background: #fff;
     padding-top: 15px;
   }
-  .ant-collapse{
+  .ant-collapse {
     background-color: white;
   }
 }
