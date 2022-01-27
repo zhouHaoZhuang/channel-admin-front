@@ -8,7 +8,7 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分类">
+        <a-form-model-item label="分类" prop="helpTypeCode">
           <a-select v-model="form.helpTypeCode">
             <a-select-option
               value='{"typeCode":"help_type_01","typeName":"帮助中心"}'
@@ -102,9 +102,6 @@ export default {
         context: "",
         helpTypeCode: "",
         channelCode: "",
-        feedback: 0,
-        useful: 0,
-        useless: 0
       },
       rules: {
         title: [
@@ -118,6 +115,13 @@ export default {
           {
             required: true,
             message: "必填，链接URL长度必须在2-50之间。",
+            trigger: "blur"
+          }
+        ],
+        helpTypeCode: [
+          {
+            required: true,
+            message: "分类不能为空。",
             trigger: "blur"
           }
         ]
@@ -153,18 +157,17 @@ export default {
     },
     // 提交
     onSubmit() {
-      // this.form.typeName = this.imgList.toString();
-      this.arr.findIndex(item => {
-        if (item.typeCode == this.form.helpTypeCode) {
-          this.form.typeName = item.typeName;
-        }
-      });
-      this.form.helpTypeName = JSON.parse(this.form.helpTypeCode).typeName;
-      this.form.helpTypeCode = JSON.parse(this.form.helpTypeCode).typeCode;
-      // console.log("提交的数据", this.form);
-
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          // this.form.typeName = this.imgList.toString();
+          this.arr.findIndex(item => {
+            if (item.typeCode == this.form.helpTypeCode) {
+              this.form.typeName = item.typeName;
+            }
+          });
+          this.form.helpTypeName = JSON.parse(this.form.helpTypeCode).typeName;
+          this.form.helpTypeCode = JSON.parse(this.form.helpTypeCode).typeCode;
+          // console.log("提交的数据", this.form);
           this.loading = true;
           this.$store
             .dispatch("word/add", this.form)
@@ -188,6 +191,9 @@ export default {
         addressProject: "",
         contract: "",
         number: "",
+        recommended: true,
+        top: true,
+        hot: true,
         description: "",
         context: ""
       };

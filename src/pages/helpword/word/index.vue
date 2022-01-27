@@ -187,7 +187,8 @@ export default {
       columns: [
         {
           title: "ID",
-          dataIndex: "id"
+          dataIndex: "id",
+          width: 180
         },
         {
           title: "标题",
