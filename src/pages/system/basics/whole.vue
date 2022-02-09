@@ -22,6 +22,18 @@
           <div class="big-block-title">短信</div>
           <Note />
         </a-tab-pane>
+        <a-tab-pane key="6" tab="财务">
+          <div class="big-block-title">财务</div>
+          <Finance />
+        </a-tab-pane>
+        <a-tab-pane key="7" tab="服务">
+          <div class="big-block-title">服务</div>
+          <Serve />
+        </a-tab-pane>
+        <a-tab-pane key="8" tab="安全">
+          <div class="big-block-title">安全</div>
+          <Safety />
+        </a-tab-pane>
       </a-tabs>
     </div>
   </div>
@@ -33,6 +45,9 @@ import Member from "./member.vue";
 import Topup from "./topup.vue";
 import Mail from "./mail.vue";
 import Note from "./note.vue";
+import Serve from "./serve.vue";
+import Finance from "./finance.vue";
+import Safety from "./safety.vue";
 
 export default {
   data() {
@@ -45,7 +60,10 @@ export default {
     Member,
     Topup,
     Mail,
-    Note
+    Note,
+    Finance,
+    Serve,
+    Safety
   },
   methods: {
     callback(val) {
