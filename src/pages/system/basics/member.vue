@@ -49,10 +49,10 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
-            <a-form-model-item label="注册成功送现金" prop="linkDescribe">
+            <!-- <a-form-model-item label="注册成功送现金" prop="linkDescribe">
               <a-input v-model="form.linkName" />
-            </a-form-model-item>
-            <a-form-model-item label="开启注册推荐码">
+            </a-form-model-item> -->
+            <!-- <a-form-model-item label="开启注册推荐码">
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   开启
@@ -61,7 +61,7 @@
                   关闭
                 </a-radio>
               </a-radio-group>
-            </a-form-model-item>
+            </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
         <a-collapse-panel key="2" header="登录">
@@ -139,7 +139,7 @@
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="3" header="实名认证">
+        <!-- <a-collapse-panel key="3" header="实名认证">
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -228,8 +228,8 @@
               <a-input v-model="form.linkSort" />
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel>
-        <a-collapse-panel key="4" header="会员组">
+        </a-collapse-panel> -->
+        <!-- <a-collapse-panel key="4" header="会员组">
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -258,7 +258,7 @@
               </a-radio-group>
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel>
+        </a-collapse-panel> -->
         <a-collapse-panel key="5" header="短信/邮件">
           <a-form-model
             ref="ruleForm"

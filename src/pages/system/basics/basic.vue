@@ -34,12 +34,12 @@
             <a-form-model-item label="备案编号" prop="recordNo">
               <a-input v-model="form.recordNo" />
             </a-form-model-item>
-            <a-form-model-item
+            <!-- <a-form-model-item
               label="国际站点地址"
               prop="internationalSiteAddress"
             >
               <a-input v-model="form.internationalSiteAddress" />
-            </a-form-model-item>
+            </a-form-model-item> -->
             <a-form-model-item label="版权信息">
               <a-input v-model="form.copyRightInfo" />
             </a-form-model-item>
@@ -50,7 +50,7 @@
               <a-input v-model="form.statisticalCode" type="textarea" />
             </a-form-model-item>
           </a-collapse-panel>
-          <a-collapse-panel key="2" header="网站模板">
+          <!-- <a-collapse-panel key="2" header="网站模板">
             <a-form-model-item label="主题风格">
               <a-row>
                 <a-col :span="7">
@@ -111,7 +111,7 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-          </a-collapse-panel>
+          </a-collapse-panel> -->
           <a-collapse-panel key="3" header="公司基本信息">
             <a-form-model-item label="公司名称" prop="companyName">
               <a-input v-model="form.companyName" />
@@ -144,9 +144,9 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="微博链接地址">
+            <!-- <a-form-model-item label="微博链接地址">
               <a-input v-model="form.webLink" />
-            </a-form-model-item>
+            </a-form-model-item> -->
             <a-form-model-item label="邮箱" prop="email">
               <a-input v-model="form.email" />
             </a-form-model-item>
@@ -194,7 +194,7 @@
                 <span>注：推荐尺寸:122*44</span>
               </a-form-model-item>
             </div>
-            <div class="addimages">
+            <!-- <div class="addimages">
               <a-form-model-item label="手机网站logo">
                 <Upload
                   :defaultFile="form.phoneLogo"
@@ -205,8 +205,8 @@
                 />
                 <span>注：推荐尺寸:130*40</span>
               </a-form-model-item>
-            </div>
-            <div class="addimages">
+            </div> -->
+            <!-- <div class="addimages">
               <a-form-model-item label="关注微信二维码">
                 <Upload
                   :defaultFile="form.wechatQrCode"
@@ -217,7 +217,7 @@
                 />
                 <span>注：推荐尺寸:120*120</span>
               </a-form-model-item>
-            </div>
+            </div> -->
             <div class="addimages">
               <a-form-model-item label="网站ICO图标">
                 <Upload

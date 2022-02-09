@@ -40,6 +40,17 @@
           </a-form-model-item>
         </a-form-model>
       </a-modal>
+      
+          <!-- <a-form-model-item label="支付宝PC充值开关">
+            <a-radio-group v-model="form.status">
+              <a-radio :value="0">
+                开启
+              </a-radio>
+              <a-radio :value="1">
+                关闭
+              </a-radio>
+            </a-radio-group>
+          </a-form-model-item> -->
       <!-- <div>
         <a-form-model
           ref="ruleForm"
@@ -104,18 +115,7 @@
               </a-button>
             </a-form-model-item>
           </a-form-model>
-
-          <!-- <a-form-model-item label="支付宝PC充值开关">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
-                  开启
-                </a-radio>
-                <a-radio :value="1">
-                  关闭
-                </a-radio>
-              </a-radio-group>
-            </a-form-model-item>
-            <a-form-model-item label="支付宝银行支付开关">
+          <!-- <a-form-model-item label="支付宝银行支付开关">
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   开启
