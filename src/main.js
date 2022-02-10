@@ -16,6 +16,7 @@ import "./global.less"; // global style
 import * as Directives from "@/utils/directives/index";
 import * as Filters from "@/utils/filters/index";
 import * as utilsFun from "@/utils/index";
+import VueClipboard from "vue-clipboard2";
 
 const router = initRouter(store.state.setting.asyncRoutes);
 const i18n = initI18n("CN", "US");
@@ -32,6 +33,8 @@ Vue.prototype.$getList = utilsFun.getList;
 Vue.prototype.$getListQp = utilsFun.getListQp;
 // 深拷贝插件
 Vue.prototype.$clonedeep = clonedeep
+// 复制文本插件
+Vue.use(VueClipboard);
 
 bootstrap({ router, store, i18n, message: Vue.prototype.$message });
 
