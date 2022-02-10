@@ -607,7 +607,7 @@ export const asyncRoute = [
         },
         children: [
           {
-            path: "workorManage",
+            path: "workorderManage",
             name: "工单管理",
             meta: {
               icon: "home",
@@ -622,7 +622,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/workorManage/list")
+                component: () => import("@/pages/service/workorderManage/list")
               },
               {
                 path: "myWorkor",
@@ -631,7 +631,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/workorManage/myWorkor")
+                component: () => import("@/pages/service/workorderManage/my")
               },
               {
                 path: "appraise",
@@ -640,7 +640,8 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/workorManage/appraise")
+                component: () =>
+                  import("@/pages/service/workorderManage/appraise")
               }
             ]
           },
