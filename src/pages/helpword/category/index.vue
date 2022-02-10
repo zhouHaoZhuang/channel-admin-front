@@ -110,10 +110,10 @@
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
         <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="addaFence(record.typeCode)">
+          <a-button type="link" @click="addaFence(record.typeCode)" v-show="codeList.length <= 1">
             添加子栏
           </a-button>
-          <a-divider type="vertical" />
+          <a-divider type="vertical" v-show="codeList.length <= 1"/>
           <a-dropdown>
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
               更多 <a-icon type="down" />

@@ -31,7 +31,7 @@
               :key="index"
               :class="{
                 'sort-list-item': true,
-                'sort-ash': index === sortSwitch * 1,
+                'sort-ash': index === sortSwitch * 1
               }"
             >
               {{ index + 1 }}、{{ item.newTypeName }}
@@ -67,10 +67,16 @@
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
           <div slot="newsCount" slot-scope="text">
-            <span v-if="text.newsCount===0">--</span>
-            <router-link v-else :to="`/personal/news/newslist?newTypeCode=${text.newTypeCode}&newTypeName=${text.newTypeName}`">{{ text.newsCount }}篇</router-link>
+            <span v-if="text.newsCount === 0">--</span>
+            <router-link
+              v-else
+              :to="
+                `/personal/news/newslist?newTypeCode=${text.newTypeCode}&newTypeName=${text.newTypeName}`
+              "
+              >{{ text.newsCount }}篇</router-link
+            >
           </div>
-          <div slot="status" slot-scope="text" v-if="text!=undefined" >
+          <div slot="status" slot-scope="text" v-if="text != undefined">
             {{ text === 0 ? "启用" : "禁用" }}
           </div>
           <div slot="actions" slot-scope="text">
@@ -78,7 +84,11 @@
               修改
             </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="deleteNews(text)" v-permission="'del'">
+            <a-button
+              type="link"
+              @click="deleteNews(text)"
+              v-permission="'del'"
+            >
               删除
             </a-button>
           </div>
@@ -100,7 +110,7 @@ export default {
         search: "",
         currentPage: 1,
         pageSize: 10,
-        total: 0,
+        total: 0
       },
       isSortView: true,
       columns: [
@@ -108,34 +118,34 @@ export default {
           title: "ID",
           dataIndex: "id",
           scopedSlots: { customRender: "id" },
-          width: 230,
+          width: 230
         },
         {
           title: "名称",
-          dataIndex: "newTypeName",
+          dataIndex: "newTypeName"
         },
         {
           title: "英文",
-          dataIndex: "newTypeEn",
+          dataIndex: "newTypeEn"
         },
         {
           title: "新闻数量",
           // dataIndex: "newsCount",
           key: "newsCount",
-          scopedSlots: { customRender: "newsCount" },
+          scopedSlots: { customRender: "newsCount" }
         },
         {
           title: "状态",
           dataIndex: "status",
-          scopedSlots: { customRender: "status" },
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "操作",
           dataIndex: "id",
           key: "actions",
           fixed: "right",
-          scopedSlots: { customRender: "actions" },
-        },
+          scopedSlots: { customRender: "actions" }
+        }
       ],
       data: [],
       dataList: [],
@@ -149,9 +159,9 @@ export default {
             total / this.listQuery.pageSize
           )}  页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
-      sortSwitch: "",
+      sortSwitch: ""
     };
   },
   activated() {
@@ -198,7 +208,7 @@ export default {
       for (let index = 0; index < this.data.length; index++) {
         this.data[index].sort = index + 1;
       }
-      this.$store.dispatch("newsType/sortList", this.data).then((res) => {
+      this.$store.dispatch("newsType/sortList", this.data).then(res => {
         console.log(res);
         this.getList();
         this.visible = false;
@@ -215,8 +225,8 @@ export default {
       this.$router.push({
         path: "/personal/news/upcategory",
         query: {
-          id,
-        },
+          id
+        }
       });
     },
     deleteNews(id) {
@@ -224,16 +234,16 @@ export default {
       this.$confirm({
         title: `确认删除吗？`,
         onOk: () => {
-          this.$store.dispatch("newsType/delList", { id }).then((res) => {
+          this.$store.dispatch("newsType/delList", { id }).then(res => {
             this.$message.success("删除成功");
             this.getList();
           });
-        },
+        }
       });
     },
     addNewsType() {
       this.$router.push({
-        path: "/personal/news/addcategory",
+        path: "/personal/news/addcategory"
       });
     },
     quickJump(current) {
@@ -246,7 +256,7 @@ export default {
       this.getList();
     },
     getList() {
-      this.$getList("newsType/getList", this.listQuery).then((res) => {
+      this.$getList("newsType/getList", this.listQuery).then(res => {
         console.log(res, "获取列表");
         this.data = res.data.list;
         let dataList = JSON.stringify(res.data.list);
@@ -258,11 +268,11 @@ export default {
       this.$router.push({
         path: `/personal/news/bannerinfo`,
         query: {
-          id: data.id,
-        },
+          id: data.id
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

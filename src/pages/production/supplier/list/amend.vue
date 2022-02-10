@@ -1,8 +1,14 @@
 <template>
   <div class="supplier-add">
     <div class="content">
-      <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
-         <a-form-model-item label="供应商ID">
+      <a-form-model
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+      >
+        <a-form-model-item label="供应商ID">
           {{ form.id }}
         </a-form-model-item>
         <a-form-model-item label="供应商全名称" prop="supplierName">
@@ -23,7 +29,7 @@
         <a-form-model-item label="描述">
           <a-input v-model="form.description" type="textarea" />
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{span:18,offset:6}">
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
             提交
           </a-button>
@@ -37,46 +43,46 @@
 export default {
   data() {
     return {
-      detail:{},
-      labelCol:{span:6},
-      wrapperCol:{span:18},
-      other:"",
-      form:{
-        id:"",
-        supplierName:"",
-        shortName:"",
-        url:"",
-        contacts:"",
-        number:"",
-        description:""
+      detail: {},
+      labelCol: { span: 6 },
+      wrapperCol: { span: 18 },
+      other: "",
+      form: {
+        id: "",
+        supplierName: "",
+        shortName: "",
+        url: "",
+        contacts: "",
+        number: "",
+        description: ""
       },
-      rules:{
-        name:[
+      rules: {
+        name: [
           {
-            required:true,
-            message:"请输入供应商全称",
-            trigger:"blur"
+            required: true,
+            message: "请输入供应商全称",
+            trigger: "blur"
           }
         ],
-        name1:[
+        name1: [
           {
-            required:true,
-            message:"请输入简称",
-            trigger:"blur"
+            required: true,
+            message: "请输入简称",
+            trigger: "blur"
           }
         ]
       },
-      loading:false
+      loading: false
     };
   },
-  activated(){
+  activated() {
     let id = this.$route.query.id;
     this.$store.dispatch("provider/getId", id).then(res => {
-    this.form = res.data
+      this.form = res.data;
     });
   },
   methods: {
-    onSubmit(){
+    onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         this.$store.dispatch("provider/edit", this.form).then(val => {
           console.log(val);
@@ -86,17 +92,17 @@ export default {
         });
       });
     },
-    resetForm(){
+    resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        id:"",
-        supplierName:"",
-        shortName:"",
-        url:"",
-        contacts:"",
-        number:"",
-        description:""
-      }
+        id: "",
+        supplierName: "",
+        shortName: "",
+        url: "",
+        contacts: "",
+        number: "",
+        description: ""
+      };
     }
   }
 };

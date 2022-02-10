@@ -124,17 +124,17 @@ function loadRoutes(routesConfig) {
     routesConfig = store.getters["account/routesConfig"];
   }
   // 如果开启了异步路由，则加载异步路由配置
-  const asyncRoutes = store.state.setting.asyncRoutes;
-  if (asyncRoutes) {
-    if (routesConfig && routesConfig.length > 0) {
-      const routes = parseRoutes(routesConfig, routerMap);
-      const finalRoutes = mergeRoutes(basicOptions.routes, routes);
-      formatRoutes(finalRoutes);
-      router.options = { ...router.options, routes: finalRoutes };
-      router.matcher = new Router({ ...router.options, routes: [] }).matcher;
-      router.addRoutes(finalRoutes);
-    }
-  }
+  // const asyncRoutes = store.state.setting.asyncRoutes;
+  // if (asyncRoutes) {
+  //   if (routesConfig && routesConfig.length > 0) {
+  //     const routes = parseRoutes(routesConfig, routerMap);
+  //     const finalRoutes = mergeRoutes(basicOptions.routes, routes);
+  //     formatRoutes(finalRoutes);
+  //     router.options = { ...router.options, routes: finalRoutes };
+  //     router.matcher = new Router({ ...router.options, routes: [] }).matcher;
+  //     router.addRoutes(finalRoutes);
+  //   }
+  // }
   // 提取路由国际化数据
   mergeI18nFromRoutes(i18n, router.options.routes);
   // 初始化Admin后台菜单数据

@@ -1,13 +1,29 @@
 <template>
   <div class="word-container">
     <div class="btn-head">
-      <a-button type="primary" v-permission="'add'" icon="plus" class="btn" @click="addbanner">
+      <a-button
+        type="primary"
+        v-permission="'add'"
+        icon="plus"
+        class="btn"
+        @click="addbanner"
+      >
         添加文档
       </a-button>
-      <a-button icon="delete" v-permission="'batch-del'" class="btn" @click="deleteinbatches">
+      <a-button
+        icon="delete"
+        v-permission="'batch-del'"
+        class="btn"
+        @click="deleteinbatches"
+      >
         批量删除
       </a-button>
-      <a-button icon="check" v-permission="'hot-setting'" class="btn" @click="hotset">
+      <a-button
+        icon="check"
+        v-permission="'hot-setting'"
+        class="btn"
+        @click="hotset"
+      >
         热门设置
       </a-button>
       <a-modal
@@ -27,7 +43,12 @@
           </a-radio>
         </a-radio-group>
       </a-modal>
-      <a-button icon="check" class="btn" v-permission="'top-setting'" @click="topset">
+      <a-button
+        icon="check"
+        class="btn"
+        v-permission="'top-setting'"
+        @click="topset"
+      >
         置顶设置
       </a-button>
       <a-modal
@@ -47,7 +68,12 @@
           </a-radio>
         </a-radio-group>
       </a-modal>
-      <a-button icon="check" class="btn" @click="recommendedset" v-permission="'recommend-setting'">
+      <a-button
+        icon="check"
+        class="btn"
+        @click="recommendedset"
+        v-permission="'recommend-setting'"
+      >
         推荐设置
       </a-button>
       <a-modal
@@ -82,7 +108,11 @@
         </a-select-option>
       </a-select>
       <div class="btn">
-        <a-input placeholder="搜索关键词" v-model="listQuery.value" allowClear />
+        <a-input
+          placeholder="搜索关键词"
+          v-model="listQuery.value"
+          allowClear
+        />
       </div>
       <a-button type="primary" @click="secectClick" class="btn">
         查询
@@ -113,7 +143,11 @@
           {{ text ? "开启" : "禁止" }}
         </div>
         <span slot="action" slot-scope="text">
-          <a-button v-permission="'modify'" type="link" @click="updatePrice(text)">
+          <a-button
+            v-permission="'modify'"
+            type="link"
+            @click="updatePrice(text)"
+          >
             修改
           </a-button>
           <a-divider type="vertical" />
@@ -135,9 +169,9 @@ export default {
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedRowKeys = selectedRowKeys;
           this.selectHelpObj = selectedRows;
-        },
+        }
       };
-    },
+    }
   },
   created() {},
   data() {
@@ -148,69 +182,70 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        value: "",
+        value: ""
       },
       columns: [
         {
           title: "ID",
           dataIndex: "id",
+          width: 180
         },
         {
           title: "标题",
           dataIndex: "title",
-          key: "title",
+          key: "title"
         },
         {
           title: "分类",
           dataIndex: "helpTypeName",
-          key: "",
+          key: ""
         },
         {
           title: "热门",
           dataIndex: "hot",
           key: "hot",
-          scopedSlots: { customRender: "hot" },
+          scopedSlots: { customRender: "hot" }
         },
         {
           title: "置顶",
           dataIndex: "top",
           key: "top",
-          scopedSlots: { customRender: "top" },
+          scopedSlots: { customRender: "top" }
         },
         {
           title: "推荐",
           dataIndex: "recommended",
           key: "recommended",
-          scopedSlots: { customRender: "recommended" },
+          scopedSlots: { customRender: "recommended" }
         },
         {
           title: "有用",
           dataIndex: "useful",
           key: "useful",
           sorter: (a, b) => a.useful - b.useful,
-          scopedSlots: {},
+          scopedSlots: {}
         },
         {
           title: "没用",
           dataIndex: "useless",
           key: "useless",
           sorter: (a, b) => a.useless - b.useless,
-          scopedSlots: {},
+          scopedSlots: {}
         },
         {
           title: "反馈",
           dataIndex: "feedback",
           key: "feedback",
           sorter: (a, b) => a.feedback - b.feedback,
-          scopedSlots: { customRender: "feedback" },
+          scopedSlots: { customRender: "feedback" }
         },
         {
           title: "操作",
           key: "action",
           dataIndex: "id",
           fixed: "right",
-          scopedSlots: { customRender: "action" },
-        },
+          scopedSlots: { customRender: "action" }
+        }
       ],
       data: [],
       paginationProps: {
@@ -222,7 +257,7 @@ export default {
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange,
+        onShowSizeChange: this.onShowSizeChange
       },
       selectedRowKeys: [],
       arr: [],
@@ -235,7 +270,7 @@ export default {
       topconfirmLoading: false,
       isrec: "false",
       recvisible: false,
-      recconfirmLoading: false,
+      recconfirmLoading: false
     };
   },
 
@@ -250,7 +285,7 @@ export default {
         element.hot = this.ishot;
         this.$store
           .dispatch("word/edit", element)
-          .then((res) => {})
+          .then(res => {})
           .finally(() => {
             if (index == this.selectHelpObj.length - 1) {
               this.hotvisible = false;
@@ -271,7 +306,7 @@ export default {
         element.top = this.istop;
         this.$store
           .dispatch("word/edit", element)
-          .then((res) => {})
+          .then(res => {})
           .finally(() => {
             if (index == this.selectHelpObj.length - 1) {
               this.topvisible = false;
@@ -292,7 +327,7 @@ export default {
         element.recommended = this.isrec;
         this.$store
           .dispatch("word/edit", element)
-          .then((res) => {})
+          .then(res => {})
           .finally(() => {
             if (index == this.selectHelpObj.length - 1) {
               this.recvisible = false;
@@ -308,7 +343,7 @@ export default {
     },
     //查询数据表格
     getList() {
-      this.$getListQp("word/getList", this.listQuery).then((res) => {
+      this.$getListQp("word/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
@@ -334,8 +369,8 @@ export default {
       this.$router.push({
         path: "/personal/helpword/amend-word",
         query: {
-          id: text,
-        },
+          id: text
+        }
       });
     },
     //删除
@@ -344,11 +379,11 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("word/delPrice", id).then((val) => {
+          this.$store.dispatch("word/delPrice", id).then(val => {
             this.$message.success("操作成功");
             this.getList();
           });
-        },
+        }
       });
     },
     //批量删除
@@ -363,11 +398,11 @@ export default {
         onOk: () => {
           this.$store
             .dispatch("word/delPrice", this.selectedRowKeys.toString())
-            .then((val) => {
+            .then(val => {
               this.$message.success("操作成功");
               this.getList();
             });
-        },
+        }
       });
     },
     // 查询
@@ -410,8 +445,8 @@ export default {
         return;
       }
       this.recvisible = true;
-    },
-  },
+    }
+  }
 };
 </script>
 

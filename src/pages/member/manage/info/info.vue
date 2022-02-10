@@ -41,13 +41,13 @@
         <div>
           <span class="menber-title">管理员锁定：</span>
           <span class="menber-info" v-if="dataBase.adminLock">
-            {{ dataBase.adminLock == 0 ? '正常' : '锁定' }}
+            {{ dataBase.adminLock == 0 ? "正常" : "锁定" }}
           </span>
         </div>
         <div>
           <span class="menber-title">登录锁定：</span>
           <span class="menber-info" v-if="dataBase.loginLock">
-            {{ dataBase.loginLock == 0 ? '正常' : '锁定' }}
+            {{ dataBase.loginLock == 0 ? "正常" : "锁定" }}
           </span>
         </div>
         <div>
@@ -56,10 +56,10 @@
             v-if="dataBase.status"
             :class="{
               'menber-state-normal': dataBase.status == 0,
-              'menber-state-freeze': dataBase.status == 1,
+              'menber-state-freeze': dataBase.status == 1
             }"
           >
-            {{ dataBase.status == 0 ? '冻结' : '正常' }}
+            {{ dataBase.status == 0 ? "冻结" : "正常" }}
           </span>
         </div>
         <div>
@@ -105,7 +105,7 @@
             class="menber-info menber-apistate-nonactivated"
             v-if="dataBase.apiStatus"
           >
-            {{ dataBase.apiStatus == 1 ? '正常' : '未开通' }}
+            {{ dataBase.apiStatus == 1 ? "正常" : "未开通" }}
           </span>
         </div>
         <div>
@@ -114,7 +114,7 @@
             class="menber-info menber-certstate-uncert"
             v-if="dataBase.certificationStatus"
           >
-            {{ dataBase.certificationStatus == 1 ? '已认证' : '未认证' }}
+            {{ dataBase.certificationStatus == 1 ? "已认证" : "未认证" }}
           </span>
         </div>
         <div>
@@ -290,210 +290,210 @@ export default {
     return {
       columnsCloudService: [
         {
-          title: '实例ID',
-          dataIndex: 'instanceId',
-          scopedSlots: { customRender: 'name' },
+          title: "实例ID",
+          dataIndex: "instanceId",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '外网IP',
-          dataIndex: 'outIp',
+          title: "外网IP",
+          dataIndex: "outIp"
         },
         {
-          title: '详情',
-          dataIndex: 'id',
-          scopedSlots: { customRender: 'id' },
-        },
+          title: "详情",
+          dataIndex: "id",
+          scopedSlots: { customRender: "id" }
+        }
       ],
       MemberServer: null,
       columnsHosting: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '业务IP',
-          dataIndex: 'age',
+          title: "业务IP",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-          key: 'address 1',
-        },
+          title: "详情",
+          dataIndex: "address",
+          key: "address 1"
+        }
       ],
       columnsVirtual: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '业务IP',
-          dataIndex: 'age',
+          title: "业务IP",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-          key: 'address 1',
-        },
+          title: "详情",
+          dataIndex: "address",
+          key: "address 1"
+        }
       ],
       columnsSSL: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '证书名称',
-          dataIndex: 'age',
+          title: "证书名称",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsDomainName: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '域名',
-          dataIndex: 'age',
+          title: "域名",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsBareMetal: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '机型',
-          dataIndex: 'age',
+          title: "机型",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsCDN: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '域名',
-          dataIndex: 'age',
+          title: "域名",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsCloudDatabase: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '实例名称',
-          dataIndex: 'age',
+          title: "实例名称",
+          dataIndex: "age"
         },
         {
-          title: 'GUID',
-          dataIndex: 'GUID',
+          title: "GUID",
+          dataIndex: "GUID"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsStorage: [
         {
-          title: '业务ID',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "业务ID",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '空间名称',
-          dataIndex: 'age',
+          title: "空间名称",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsMemberLog: [
         {
-          title: '时间',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "时间",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '操作',
-          dataIndex: 'age',
+          title: "操作",
+          dataIndex: "age"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       columnsLoginLog: [
         {
-          title: '时间',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "时间",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '类型',
-          dataIndex: 'type',
+          title: "类型",
+          dataIndex: "type"
         },
         {
-          title: '登录ip',
-          dataIndex: 'ip',
+          title: "登录ip",
+          dataIndex: "ip"
         },
         {
-          title: '登录地',
-          dataIndex: 'address',
-        },
+          title: "登录地",
+          dataIndex: "address"
+        }
       ],
       columnsChangeLog: [
         {
-          title: '操作人信息',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          title: "操作人信息",
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" }
         },
         {
-          title: '对应的操作日志ID',
-          dataIndex: 'age',
+          title: "对应的操作日志ID",
+          dataIndex: "age"
         },
         {
-          title: '简要描述',
-          dataIndex: 'info',
+          title: "简要描述",
+          dataIndex: "info"
         },
         {
-          title: '创建时间',
-          dataIndex: 'createTime',
+          title: "创建时间",
+          dataIndex: "createTime"
         },
         {
-          title: '创建IP',
-          dataIndex: 'ip',
+          title: "创建IP",
+          dataIndex: "ip"
         },
         {
-          title: '详情',
-          dataIndex: 'address',
-        },
+          title: "详情",
+          dataIndex: "address"
+        }
       ],
       dataBase: null,
-      data: [],
+      data: []
     };
   },
   created() {
@@ -508,25 +508,25 @@ export default {
   },
   methods: {
     getData(id) {
-      this.$store.dispatch('member/getOne', id).then((res) => {
+      this.$store.dispatch("member/getOne", id).then(res => {
         this.dataBase = { ...this.dataBase, ...res.data };
         // console.log(res.data, '子组件的data');
         this.$store
-          .dispatch('member/getMemberServer', {
-            corporationCode: res.data.corporationCode,
+          .dispatch("member/getMemberServer", {
+            corporationCode: res.data.corporationCode
           })
-          .then((data) => {
+          .then(data => {
             // this.data = res.data;
             this.MemberServer = data.data.list;
-            console.log(data, '子组件的data');
+            console.log(data, "子组件的data");
           });
       });
-      this.$store.dispatch('member/getMembership', id).then((res) => {
+      this.$store.dispatch("member/getMembership", id).then(res => {
         this.dataBase = { ...this.dataBase, ...res.data };
         // console.log(res.data, '子组件的data');
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

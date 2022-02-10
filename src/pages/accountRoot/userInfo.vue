@@ -25,8 +25,8 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       form: {
-        name: "",
-      },
+        name: ""
+      }
     };
   },
   created() {
@@ -34,12 +34,12 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: (state) => state.user.userInfo,
+      userInfo: state => state.user.userInfo
     }),
     nameOrphone() {
-      return this.userInfo.username?this.userInfo.username.slice(0, 11):"";
-    },
-  },
+      return this.userInfo.username ? this.userInfo.username.slice(0, 11) : "";
+    }
+  }
 };
 </script>
 

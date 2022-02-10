@@ -6,12 +6,13 @@ import getters from "./getters";
 
 Vue.use(Vuex);
 // 配置需要持久化的模块
-const PERSIST_PATHS = ["account", "setting",'user.token','user.userInfo'];
+const PERSIST_PATHS = ["account", "setting", "user.token", "user.userInfo"];
 const store = new Vuex.Store({
   modules,
   getters,
   plugins: [
     createPersistedState({
+      key: "channelVuex",
       paths: PERSIST_PATHS
     })
   ] // 数据持久化
