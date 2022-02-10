@@ -23,6 +23,22 @@
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
+      <div class="backstage">
+        <!-- 后台操作保护 -->
+        <!-- <a-form-model-item label="管理员密码" prop="linkName">
+            <a-input v-model="form.linkName" />
+          </a-form-model-item> -->
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button
+            v-permission="'save'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
+            保存设置
+          </a-button>
+        </a-form-model-item>
+      </div>
     </div>
   </div>
 </template>
@@ -31,9 +47,6 @@
 export default {
   data() {
     return {
-      imgList: [
-        // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
-      ],
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
@@ -78,12 +91,33 @@ export default {
       data: []
     };
   },
-  components: {},
+  created() {
+    // this.getSafetyConfig();
+  },
   methods: {
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
-    }
+    onSubmit() {//保存设置
+      console.log(this.form);
+      this.$refs.ruleForm.validate(valid => {
+        // console.log(valid);
+        if (valid) {
+          this.$store
+            .dispatch("invoiceRefund/modifySafetyConfig", this.form)
+            .then(res => {
+              // console.log(res, "--------");
+              this.$message.success("安全信息修改成功");
+              this.getSafetyConfig();
+            });
+        }
+      });
+    },
+     // 获取安全信息
+    getSafetyConfig() {
+      this.$store.dispatch("safety/getSafetyConfig").then(res => {
+        // console.log(res, "--------");
+        this.form = res.data;
+      });
+    },
+
   }
 };
 </script>

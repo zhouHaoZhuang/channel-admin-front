@@ -124,9 +124,19 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
+            <!-- <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+              <a-button type="primary" @click="onSubmit">
+                修改设置
+              </a-button>
+            </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
+      <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+        <a-button type="primary" @click="onSubmit">
+          修改设置
+        </a-button>
+      </a-form-model-item>
       <!-- <div class="backstage">
         后台操作保护
         <a-form-model
@@ -193,12 +203,27 @@ export default {
       data: []
     };
   },
-  components: {},
+  created() {
+    // this.getEmailConfig();
+  },
   methods: {
-    // imgChange({ urlList, firstImageUrl }) {
-    //   console.log("上传图片回调", urlList, firstImageUrl);
-    //   this.imgList = urlList;
-    // }
+    getEmailConfig() {
+      this.$store.dispatch("emailSms/getEmailConfig").then(res => {
+        this.form = res.data;
+      });
+    },
+    onSubmit() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("emailSms/modifyEmailConfig", this.form)
+            .then(() => {
+              this.$message.success("保存成功");
+              this.getEmailConfig();
+            });
+        }
+      });
+    }
   }
 };
 </script>

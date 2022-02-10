@@ -1094,6 +1094,15 @@ export const asyncRoute = [
                   perm: "system-setting-global"
                 },
                 component: () => import("@/pages/system/basics/whole")
+              },
+              {
+                path: "notice",
+                name: "通知模板",
+                meta: {
+                  icon: "home",
+                  perm: "system-setting-global"
+                },
+                component: () => import("@/pages/system/notice/notice")
               }
             ]
           }

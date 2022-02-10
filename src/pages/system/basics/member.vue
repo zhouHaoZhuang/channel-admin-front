@@ -355,6 +355,22 @@
           </a-form-model-item>
         </a-form-model>
       </div> -->
+      <div class="backstage">
+        <!-- 后台操作保护 -->
+        <!-- <a-form-model-item label="管理员密码" prop="linkName">
+            <a-input v-model="form.linkName" />
+          </a-form-model-item> -->
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button
+            v-permission="'save'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
+            保存设置
+          </a-button>
+        </a-form-model-item>
+      </div>
     </div>
   </div>
 </template>
@@ -412,9 +428,17 @@ export default {
   },
   components: {},
   methods: {
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+    onSubmit() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("emailSms/modifyEmailConfig", this.form)
+            .then(() => {
+              this.$message.success("保存成功");
+              // this.getEmailConfig();
+            });
+        }
+      });
     }
   }
 };
