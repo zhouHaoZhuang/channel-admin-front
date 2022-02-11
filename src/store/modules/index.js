@@ -26,6 +26,7 @@ import helpCategory from "./helpCategory";
 import system from "./system";
 import message from "./message";
 import product from "./product";
+import domain from "./domain";
 
 export default {
   user,
@@ -55,5 +56,6 @@ export default {
   helpCategory,
   system,
   message,
-  product
+  product,
+  domain
 };

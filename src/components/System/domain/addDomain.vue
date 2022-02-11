@@ -101,7 +101,7 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("system/addAdmin", this.form)
+            .dispatch("domain/add", this.form)
             .then(res => {
               this.$message.success("新增域名成功");
               this.$emit("success");

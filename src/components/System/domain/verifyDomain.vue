@@ -11,7 +11,7 @@
     @cancel="handleCancel"
   >
     <div class="top-domain">
-      www.test.ydidc.com
+      {{ detail.domain }}
     </div>
     <div class="content-box">
       <div class="info mb15">
@@ -25,13 +25,17 @@
       <div class="info">记录类型：TXT</div>
       <div class="info">
         主机记录：verification
-        <a-button class="copy-btn" type="link" @click="handleCopy('abc123')">
+        <a-button
+          class="copy-btn"
+          type="link"
+          @click="handleCopy('verification')"
+        >
           复制
         </a-button>
       </div>
       <div class="info">
-        记录值：verify-8ba832443e4ec84b80480e49fbf8133b
-        <a-button class="copy-btn" type="link" @click="handleCopy('abc1sss23')">
+        记录值：{{ recordValue }}
+        <a-button class="copy-btn" type="link" @click="handleCopy(recordValue)">
           复制
         </a-button>
       </div>
@@ -60,10 +64,29 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      recordValue: ""
     };
   },
+  watch: {
+    value: {
+      handler(newVal) {
+        if (newVal) {
+          this.getRecord();
+        }
+      },
+      immediate: true
+    }
+  },
   methods: {
+    // 获取记录值
+    getRecord() {
+      this.$store
+        .dispatch("domain/getRecord", { domainName: this.detail.domain })
+        .then(res => {
+          this.recordValue = res.data;
+        });
+    },
     // 关闭弹窗
     handleCancel() {
       this.$emit("changeVisible", false);
@@ -82,7 +105,7 @@ export default {
     handleOk() {
       this.loading = true;
       this.$store
-        .dispatch("system/addAdmin", this.detail)
+        .dispatch("domain/verify", { domain: this.detail.domain })
         .then(res => {
           this.$emit("success", "success");
           this.$emit("changeVisible", false);

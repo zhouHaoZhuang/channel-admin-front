@@ -11,7 +11,7 @@
       <a-button type="primary" @click="handleCancel">知道了</a-button>
     </div>
     <div class="top-domain">
-      www.test.ydidc.com
+      {{ detail.domain }}
     </div>
     <div class="content-box">
       <div class="title">域名验证{{ typeTitle }}</div>

@@ -19,12 +19,33 @@
         rowKey="id"
         :pagination="paginationProps"
       >
-        <div class="status" slot="status">
-          正常
-          <a-button class="txt-btn" type="link" @click="handleCourse">
+        <div slot="cnameStatus" slot-scope="text">
+          <span v-if="text !== -1 && text === 0">已配置</span>
+          <span v-if="text !== -1 && text !== 0">未配置</span>
+        </div>
+        <div slot="type">CNAME</div>
+        <div slot="cnameValue" slot-scope="text, record">
+          {{ text }}
+          <span v-if="record.cnameStatus !== -1 && record.cnameStatus !== 0">
+            暂未设置，
+          </span>
+          <a-button
+            v-if="record.cnameStatus !== -1 && record.cnameStatus !== 0"
+            class="txt-btn"
+            type="link"
+            @click="handleCourse"
+          >
             如何设置解析
           </a-button>
-          <a-button class="txt-btn" type="link" @click="handleVerifyDomain">
+        </div>
+        <div class="status" slot="cdnStatus" slot-scope="text, record">
+          {{ cdnStatusEnum[text] }}
+          <a-button
+            v-if="text === 0"
+            class="txt-btn"
+            type="link"
+            @click="handleVerifyDomain(record)"
+          >
             请验证域名
           </a-button>
         </div>
@@ -63,6 +84,7 @@ import AddDomain from "@/components/System/domain/addDomain.vue";
 import VerifyDomain from "@/components/System/domain/verifyDomain.vue";
 import VerifyResult from "@/components/System/domain/verifyResult.vue";
 import CourseModal from "@/components/System/domain/courseModal.vue";
+import { cdnStatusEnum } from "@/utils/enum";
 export default {
   components: {
     AddDomain,
@@ -72,6 +94,7 @@ export default {
   },
   data() {
     return {
+      cdnStatusEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -81,25 +104,27 @@ export default {
       columns: [
         {
           title: "域名",
-          dataIndex: "id"
+          dataIndex: "domain"
         },
         {
           title: "CNAME状态",
-          dataIndex: "bannerType",
-          scopedSlots: { customRender: "bannerType" }
+          dataIndex: "cnameStatus",
+          scopedSlots: { customRender: "cnameStatus" }
         },
         {
           title: "解析类型",
-          dataIndex: "title"
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
         },
         {
           title: "解析记录值",
-          dataIndex: "describe"
+          dataIndex: "cnameValue",
+          scopedSlots: { customRender: "cnameValue" }
         },
         {
           title: "CDN状态",
-          dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          dataIndex: "cdnStatus",
+          scopedSlots: { customRender: "cdnStatus" }
         },
         {
           title: "操作",
@@ -132,6 +157,9 @@ export default {
       courseVisible: false
     };
   },
+  created() {
+    this.getList();
+  },
   activated() {
     this.getList();
   },
@@ -140,7 +168,7 @@ export default {
     getList() {
       this.tableLoading = true;
       this.$store
-        .dispatch("banner/getList", this.listQuery)
+        .dispatch("domain/getList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
         })
@@ -171,6 +199,7 @@ export default {
     // 验证域名回调
     verifyCallBack(type) {
       this.verifyResultType = type;
+      this.getList()
       this.verifyDomainResultVisible = true;
     },
     // 如何设置域名
@@ -182,7 +211,7 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("banner/delPrice", record.id).then(res => {
+          this.$store.dispatch("domain/del", record.id).then(res => {
             this.$message.success("操作成功");
             this.getList();
           });
@@ -209,8 +238,8 @@ export default {
   }
   .table-content {
     .txt-btn {
-      padding-top: 0;
-      padding-bottom: 0;
+      padding: 0;
+      display: inline-block;
     }
   }
 }
