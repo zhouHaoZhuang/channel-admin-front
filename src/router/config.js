@@ -1103,7 +1103,17 @@ export const asyncRoute = [
                   perm: "system-setting-global"
                 },
                 component: () => import("@/pages/system/notice/notice")
-              }
+              },
+              {
+                path: "mouldboard",
+                name: "通知模板",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "system-admin-role"
+                },
+                component: () => import("@/pages/system/notice/mouldboard")
+              },
             ]
           }
         ]

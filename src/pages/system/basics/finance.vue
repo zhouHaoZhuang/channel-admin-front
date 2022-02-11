@@ -10,7 +10,7 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="开启申请">
+            <a-form-model-item label="开启申请" prop = 'linkName'>
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   开启
@@ -40,19 +40,19 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="发票申请时间限制">
+            <a-form-model-item label="发票申请时间限制" prop = 'linkName'>
               <a-input suffix="月" />
             </a-form-model-item>
-            <a-form-model-item label="发票手续费">
+            <a-form-model-item label="发票手续费" prop = 'linkName'>
               <a-input suffix="%" />
             </a-form-model-item>
-            <a-form-model-item label="发票邮费">
+            <a-form-model-item label="发票邮费" prop = 'linkName'>
               <a-input suffix="元" />
             </a-form-model-item>
-            <a-form-model-item label="发票满指定金额免邮费">
+            <a-form-model-item label="发票满指定金额免邮费" prop = 'linkName'>
               <a-input suffix="元" />
             </a-form-model-item>
-            <a-form-model-item label="开票需实名">
+            <a-form-model-item label="开票需实名" prop = 'linkName'>
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   是
@@ -72,7 +72,7 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="开启退款">
+            <a-form-model-item label="开启退款" prop = 'linkName'>
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   开启
@@ -82,7 +82,7 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="云服务器退款限制">
+            <a-form-model-item label="云服务器退款限制" prop = 'linkName'>
               <a-input suffix="天内的服务器" />
             </a-form-model-item>
             <a-form-model-item label="退款次数限制" prop="linkName">

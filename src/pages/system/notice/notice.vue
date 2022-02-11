@@ -39,27 +39,44 @@
         </a-button>
       </div>
       <div>
-        <a-table :columns="columns" :data-source="data" bordered>
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          bordered
+          :pagination="false"
+        >
           <template slot="name" slot-scope="text">
             <a>{{ text }}</a>
           </template>
-          <template slot="age" slot-scope="text,record">
-            <a-checkbox v-model="data[record.key].agech">
+          <template slot="age" slot-scope="text, record">
+            <a-checkbox
+              v-model="data[record.key].agech"
+              @change="itemAll(record.key, $event)"
+            >
               {{ text }}
             </a-checkbox>
           </template>
-          <template slot="tel" slot-scope="text,record">
-            <a-checkbox v-model="data[record.key].tel">
+          <template slot="tel" slot-scope="text, record">
+            <a-checkbox
+              v-model="data[record.key].tel"
+              @change="itemCheckbox(record.key)"
+            >
               短信通知
             </a-checkbox>
           </template>
-          <template slot="phone">
-            <a-checkbox @change="onChange">
+          <template slot="phone" slot-scope="text, record">
+            <a-checkbox
+              v-model="data[record.key].phone"
+              @change="itemCheckbox(record.key)"
+            >
               邮件通知
             </a-checkbox>
           </template>
-          <template slot="address">
-            <a-checkbox @change="onChange">
+          <template slot="address" slot-scope="text, record">
+            <a-checkbox
+              v-model="data[record.key].address"
+              @change="itemCheckbox(record.key)"
+            >
               站内信通知
             </a-checkbox>
           </template>
@@ -69,112 +86,173 @@
             </a-checkbox>
           </template> -->
           <template slot="manage">
-            <a-button v-permission="'view'" type="link" class="">
+            <a-button v-permission="'view'" type="link" @click="templateJump">
               短信模板
             </a-button>
             <a-divider type="vertical" />
-            <a-button v-permission="'view'" type="link" class="">
+            <a-button v-permission="'view'" type="link" @click="templateJump">
               邮件模板
             </a-button>
             <a-divider type="vertical" />
-            <a-button v-permission="'view'" type="link" class="">
+            <a-button v-permission="'view'" type="link" @click="templateJump">
               站内信模板
             </a-button>
           </template>
         </a-table>
       </div>
+      <a-button type="primary" style="margin-top:20px">
+        确认修改
+      </a-button>
     </div>
   </div>
 </template>
 
 <script>
-// const renderContent = (value, row, index) => {
-//   const obj = {
-//     children: value,
-//     attrs: {}
-//   };
-//   if (index === 4) {
-//     // obj.attrs.colSpan = 0;
-//   }
-//   return obj;
-// };
-
-const data = [
+// 数据结构
+let data = [
   {
     key: "0",
     name: "会员",
     tel: true,
-    phone: 18889898888,
+    phone: false,
     age: "后台登陆验证码",
-    agech: false,
-    address: "London No. 1 Lake Park",
+    // agech: false, //当前选项的全选
+    address: false
   },
   {
     key: "1",
-    name: "Joe Black",
-    age: "修改邮箱验证码",
-    agech: false,
+    name: "会员",
+    age: "会员验证码",
+    // agech: false,    //当前选项的全选
     tel: false,
-    phone: 18900010002,
-    address: "Sidney No. 1 Lake Park"
+    phone: true,
+    address: false
   },
   {
     key: "2",
-    name: "Jim Red",
-    age: '找回密码验证码',
-    agech: false,
+    name: "你好",
+    age: "找回密码验证码",
     tel: true,
-    phone: 18900010002,
-    address: "London No. 2 Lake Park"
+    phone: false,
+    address: false
   },
   {
     key: "3",
-    name: "Jake White",
-    age: '修改邮箱验证码',
-    agech: true,
+    name: "你好",
+    age: "修改邮箱验证码",
+    tel: true,
+    phone: true,
+    address: true
+  },
+  {
+    key: "4",
+    name: "你好",
+    age: "修改邮箱验证码",
+    tel: true,
+    phone: true,
+    address: true
+  },
+  {
+    key: "5",
+    name: "你好",
+    age: "修改邮箱验证码",
+    tel: true,
+    phone: false,
+    address: true
+  },
+  {
+    key: "6",
+    name: "客服",
+    age: "客服验证码",
+    tel: true,
+    phone: true,
+    address: true
+  },
+  {
+    key: "7",
+    name: "客服",
+    age: "修改客服验证码",
     tel: false,
-    phone: 18900010002,
-    address: "Dublin No. 2 Lake Park"
+    phone: false,
+    address: true
   }
 ];
-const plainOptions = ["Apple", "Pear", "Orange"];
-const defaultCheckedList = ["Apple", "Orange"];
+// 对于二级选框的处理
+data.forEach(item => {
+  if (
+    (item.tel != undefined ? item.tel : true) &&
+    (item.phone != undefined ? item.phone : true) &&
+    (item.address != undefined ? item.address : true)
+  ) {
+    item.agech = true;
+    return;
+  }
+  item.agech = false;
+});
+console.log(data);
+// 给一级选框添加nameLength，（表示当前一级目录下的二级目录个数）
+var name = data[data.length - 1].name; //初始值需等于数组中的最后一个值的name
+data.reduceRight((acc, currentValue, currentIndex) => {
+  // console.log(acc, currentValue, currentIndex);
+  if (currentIndex == 0) {
+    data[0].nameLength = acc + 1;
+  }
+  if (currentValue.name !== name) {
+    name = currentValue.name;
+    if (currentIndex + 1 == data.length) {
+      currentIndex = currentIndex - 1;
+    }
+    data[currentIndex + 1].nameLength = acc;
+    acc = 0;
+  }
+  return acc + 1;
+}, 0);
 export default {
   data() {
+    // let a = "";
+    // let num = 0;
     const columns = [
       {
         title: "场景",
         dataIndex: "name",
         colSpan: 2,
         customRender: (text, record, index) => {
-          if (index == 0) {
+          if (!record.nameLength) {
             return {
-              children: (
-                <div>
-                  <a-checkbox
-                    indeterminate={this.indeterminate}
-                    checked={this.checkAll}
-                    onchange={this.onCheckAllChange}
-                  >
-                    <a href="javascript:;">{text}{record.age}</a>
-                  </a-checkbox>
-                </div>
-              ),
+              children: <span>{text}</span>,
               attrs: {
-                rowSpan: 4
+                rowSpan: 0
               }
             };
           }
+          // a = record.name;
+          let checkAll = this.data
+            .slice(index, record.nameLength + index)
+            .every(item => {
+              return item.agech;
+            });
+          // if (index == 0) {
           return {
-            children: <a href="javascript:;">{text}</a>,
+            children: (
+              <div>
+                <a-checkbox
+                  checked={checkAll}
+                  onchange={$event => {
+                    this.onCheckAllChange(index, record.nameLength, $event);
+                  }}
+                >
+                  <span>{text}</span>
+                </a-checkbox>
+              </div>
+            ),
             attrs: {
-              rowSpan: 0
+              rowSpan: record.nameLength
             }
           };
         }
       },
       {
-        // title: "Age",
+        title: "Age",
         dataIndex: "age",
         colSpan: 0,
         // customRender: renderContent,
@@ -188,7 +266,6 @@ export default {
       },
       {
         title: "邮件开关",
-        // colSpan: 1,
         dataIndex: "phone",
         scopedSlots: { customRender: "phone" }
       },
@@ -212,10 +289,6 @@ export default {
       data,
       columns,
       cutover: "1",
-      checkedList: defaultCheckedList,
-      indeterminate: true,
-      checkAll: false,
-      plainOptions,
       topList: [
         {
           title: "短信、邮件、站内信、微信",
@@ -229,16 +302,55 @@ export default {
     };
   },
   methods: {
-    onChange(checkedList) {
-      this.indeterminate =
-        !!checkedList.length && checkedList.length < plainOptions.length;
-      this.checkAll = checkedList.length === plainOptions.length;
+    // 场景二级分类的事件
+    itemAll(index, e) {
+      console.log(index, e.target.checked);
+      if (this.data[index].tel != undefined) {
+        this.data[index].tel = e.target.checked;
+      }
+      if (this.data[index].phone != undefined) {
+        this.data[index].phone = e.target.checked;
+      }
+      if (this.data[index].address != undefined) {
+        this.data[index].address = e.target.checked;
+      }
     },
-    onCheckAllChange(e) {
-      Object.assign(this, {
-        checkedList: e.target.checked ? plainOptions : [],
-        indeterminate: false,
-        checkAll: e.target.checked
+    // 三级选框的事件
+    itemCheckbox(index) {
+      if (
+        (this.data[index].tel != undefined ? this.data[index].tel : true) &&
+        (this.data[index].phone != undefined ? this.data[index].phone : true) &&
+        (this.data[index].address != undefined
+          ? this.data[index].address
+          : true)
+      ) {
+        this.data[index].agech = true;
+      } else {
+        this.data[index].agech = false;
+      }
+    },
+    // 一级选框的事件
+    onCheckAllChange(index, nameLength, e) {
+      this.data.slice(index, nameLength + index).forEach(element => {
+        if (element.tel != undefined) {
+          element.tel = e.target.checked;
+        }
+        if (element.phone != undefined) {
+          element.phone = e.target.checked;
+        }
+        if (element.address != undefined) {
+          element.address = e.target.checked;
+        }
+        element.agech = e.target.checked;
+      });
+    },
+    // 模板跳转回调函数
+    templateJump(index) {
+      this.$router.push({
+        path: "/system/basics/mouldboard"
+        // query: {
+        //   index
+        // }
       });
     }
   }
@@ -261,7 +373,7 @@ export default {
   color: #333;
   padding: 10px 20px;
 }
-.search{
+.search {
   margin-bottom: 20px;
 }
 .cutover {
