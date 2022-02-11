@@ -70,7 +70,7 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
-            <a-form-model-item label="加密方式">
+            <a-form-model-item label="加密方式" prop="linkDescribe">
               <a-radio-group v-model="form.status">
                 <a-radio :value="0">
                   开启
@@ -103,7 +103,7 @@
                 <a-icon type="question-circle" />
               </a-tooltip>
             </a-form-model-item>
-            <a-form-model-item label="测试收件箱" prop="linkDescribe">
+            <a-form-model-item label="测试收件箱">
               <a-row :gutter="1">
                 <a-col :span="19">
                   <a-input v-model="form.linkName" />

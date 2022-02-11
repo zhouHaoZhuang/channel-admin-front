@@ -10,13 +10,13 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="自动锁定超过">
+            <a-form-model-item label="自动锁定超过" prop = 'linkName'>
               <a-input suffix="天的工单" />
             </a-form-model-item>
-            <a-form-model-item label="允许撤回">
+            <a-form-model-item label="允许撤回" prop = 'linkName'>
               <a-input suffix="分钟内自己的回复" />
             </a-form-model-item>
-            <a-form-model-item label="远程客服工号范围">
+            <a-form-model-item label="远程客服工号范围" prop = 'linkName'>
               <a-row type="flex" justify="start">
                 <a-col>
                   <a-input
@@ -47,7 +47,7 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="提醒时间设定">
+            <a-form-model-item label="提醒时间设定" prop = 'linkName'>
               <a-input suffix="分钟后未处理则提醒" />
             </a-form-model-item>
           </a-form-model>
@@ -80,7 +80,7 @@
                 </a-checkbox>
               </a-checkbox-group>
             </a-form-model-item>
-            <a-form-model-item label="是否赠送免费次数">
+            <a-form-model-item label="是否赠送免费次数" prop = 'linkName'>
               <a-row type="flex" justify="start">
                 <a-col>
                   <a-input
