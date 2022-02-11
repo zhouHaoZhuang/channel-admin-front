@@ -154,14 +154,19 @@ export default {
       verifyResultType: "success",
       modalDetail: {},
       // 如何设置解析弹窗
-      courseVisible: false
+      courseVisible: false,
+      time: null
     };
   },
   created() {
     this.getList();
+    // this.startTime();
   },
   activated() {
     this.getList();
+  },
+  beforeDestroy() {
+    this.time && clearInterval(this.time);
   },
   methods: {
     //查询列表
@@ -199,7 +204,7 @@ export default {
     // 验证域名回调
     verifyCallBack(type) {
       this.verifyResultType = type;
-      this.getList()
+      this.getList();
       this.verifyDomainResultVisible = true;
     },
     // 如何设置域名
@@ -217,6 +222,13 @@ export default {
           });
         }
       });
+    },
+    // 定时轮询
+    startTime() {
+      this.time && clearInterval(this.time);
+      this.time = setInterval(() => {
+        this.getList();
+      }, 180000);
     }
   }
 };
