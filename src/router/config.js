@@ -1115,6 +1115,26 @@ export const asyncRoute = [
                 component: () => import("@/pages/system/notice/mouldboard")
               },
             ]
+          },
+          {
+            path: "domain",
+            name: "域名管理",
+            meta: {
+              icon: "home",
+              perm: "system-setting"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "list",
+                name: "域名列表",
+                meta: {
+                  icon: "home",
+                  perm: "system-setting-global"
+                },
+                component: () => import("@/pages/system/domain/list")
+              }
+            ]
           }
         ]
       },

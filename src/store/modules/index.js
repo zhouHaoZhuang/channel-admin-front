@@ -27,6 +27,7 @@ import system from "./system";
 import message from "./message";
 import product from "./product";
 import emailSms from "./emailSms";
+import domain from "./domain";
 export default {
   user,
   account,
@@ -57,4 +58,5 @@ export default {
   message,
   product,
   emailSms,
+  domain
 };
