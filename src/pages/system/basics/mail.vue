@@ -10,10 +10,12 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="SMTP服务器" prop="linkDescribe">
+            <a-form-model-item label="SMTP服务器" required>
               <a-row :gutter="5">
                 <a-col :span="22">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="smtp">
+                  <a-input v-model="form.smtp" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <a-tooltip
@@ -24,10 +26,12 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
-            <a-form-model-item label="发送邮箱地址" prop="linkDescribe">
+            <a-form-model-item label="发送邮箱地址" required>
               <a-row :gutter="5">
                 <a-col :span="22">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="email_address">
+                  <a-input v-model="form.email_address" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <a-tooltip
@@ -38,10 +42,12 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
-            <a-form-model-item label="发件人显示名称" prop="linkDescribe">
+            <a-form-model-item label="发件人显示名称" required>
               <a-row :gutter="5">
                 <a-col :span="22">
-                  <a-input v-model="form.linkName" />
+                   <a-form-model-item prop="email_username">
+                  <a-input v-model="form.email_username" />
+                     </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <a-tooltip
@@ -54,12 +60,14 @@
             </a-form-model-item>
             <a-form-model-item
               label="发件邮箱密码"
-              prop="linkDescribe"
               help="注:留空则不修改"
+              required
             >
               <a-row :gutter="5">
                 <a-col :span="22">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop = 'email_password'>
+                  <a-input v-model="form.email_password" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <a-tooltip
@@ -70,13 +78,13 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
-            <a-form-model-item label="加密方式" prop="linkDescribe">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
-                  开启
+            <a-form-model-item label="加密方式" prop = 'smtp_secure'>
+              <a-radio-group v-model="form.smtp_secure">
+                <a-radio value="TLS">
+                  TLS
                 </a-radio>
-                <a-radio :value="1">
-                  关闭
+                <a-radio value="SSL">
+                  SSL
                 </a-radio>
               </a-radio-group>
               <a-tooltip
@@ -86,14 +94,14 @@
               </a-tooltip>
             </a-form-model-item>
             <a-form-model-item label="邮箱SSL端口">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.email_port">
+                <a-radio value="25">
                   25
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="465">
                   465
                 </a-radio>
-                <a-radio :value="2">
+                <a-radio value="其他">
                   其他
                 </a-radio>
               </a-radio-group>
@@ -103,7 +111,7 @@
                 <a-icon type="question-circle" />
               </a-tooltip>
             </a-form-model-item>
-            <a-form-model-item label="测试收件箱">
+            <!-- <a-form-model-item label="测试收件箱">
               <a-row :gutter="1">
                 <a-col :span="19">
                   <a-input v-model="form.linkName" />
@@ -123,7 +131,7 @@
                   </div>
                 </a-col>
               </a-row>
-            </a-form-model-item>
+            </a-form-model-item> -->
             <!-- <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
               <a-button type="primary" @click="onSubmit">
                 修改设置
@@ -137,20 +145,6 @@
           修改设置
         </a-button>
       </a-form-model-item>
-      <!-- <div class="backstage">
-        后台操作保护
-        <a-form-model
-          ref="ruleForm"
-          :model="form"
-          :rules="rules"
-          :label-col="labelCol"
-          :wrapper-col="wrapperCol"
-        >
-          <a-form-model-item label="管理员密码" prop="linkName">
-            <a-input v-model="form.linkName" />
-          </a-form-model-item>
-        </a-form-model>
-      </div> -->
     </div>
   </div>
 </template>
@@ -162,34 +156,14 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
-        linkTypeName: "",
-        linkTypeCode: "",
-        linkName: "",
-        linkUrl: "",
-        linkDescribe: "",
-        bottomShow: 0,
-        status: 0,
-        linkSort: "",
-        channelCode: "",
-        linkLogo: "",
-        linkTypeSort: 0
+        smtp: "",
+        email_address: "",
+        email_username: "",
+        email_password: "",
+        smtp_secure: "",
+        email_port: "",
       },
       rules: {
-        linkName: [
-          {
-            required: true,
-            message: "必填，限制用户注册时的密码长度。",
-            trigger: "blur"
-          }
-        ],
-        linkUrl: [
-          {
-            required: true,
-            message:
-              "必填，限制同一IP在规定时间内的注册次数，防止恶意注册，注册次数为0时代表不做限制，可输入1-13位的数字。",
-            trigger: "blur"
-          }
-        ],
         linkDescribe: [
           {
             required: true,
@@ -197,31 +171,80 @@ export default {
               "必填，新用户注册成功时，该项的值将会直接增加到用户的余额内，为0时代表不赠送金额，注册成功送现金金额为0~1000000。",
             trigger: "blur"
           }
-        ]
+        ],
+        smtp: [
+          {
+            required: true,
+            message: "必填，请填写SMTP服务器地址",
+            trigger: "blur"
+          }
+        ],
+        email_address: [
+          {
+            required: true,
+            message: "必填，请填写发件邮箱地址",
+            trigger: "blur"
+          }
+        ],
+        email_username: [
+          {
+            required: true,
+            message: "必填，请填写发件邮箱发件人名称",
+            trigger: "blur"
+          }
+        ],
+        email_password: [
+          {
+            required: true,
+            message: "必填，请填写发件邮箱发件人密码",
+            trigger: "blur"
+          }
+        ],
+        smtp_secure: [
+          {
+            required: true,
+            message: "必填，请选择发件邮箱加密方式",
+            trigger: "blur"
+          }
+        ],
       },
       loading: false,
       data: []
     };
   },
   created() {
-    // this.getEmailConfig();
+    console.log(this.formData, "this.formData");
+    this.form = this.formData;
+  },
+  props: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   methods: {
-    getEmailConfig() {
-      this.$store.dispatch("emailSms/getEmailConfig").then(res => {
-        this.form = res.data;
-      });
-    },
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.$store
-            .dispatch("emailSms/modifyEmailConfig", this.form)
+            .dispatch("emailSms/modifyAllConfig", this.form)
             .then(() => {
               this.$message.success("保存成功");
-              this.getEmailConfig();
+              // this.getEmailConfig();
+            })
+            .finally(() => {
+              this.getData();
             });
         }
+      });
+    },
+    // 修改成功之后获取最新的数据
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then(res => {
+        console.log(res);
+        this.form = res.data;
       });
     }
   }
