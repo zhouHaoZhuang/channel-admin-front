@@ -10,13 +10,13 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="自动锁定超过" prop = 'linkName'>
-              <a-input suffix="天的工单" />
+            <a-form-model-item label="自动锁定超过" prop="auto_lock">
+              <a-input v-model="form.auto_lock" suffix="天的工单" />
             </a-form-model-item>
-            <a-form-model-item label="允许撤回" prop = 'linkName'>
-              <a-input suffix="分钟内自己的回复" />
+            <a-form-model-item label="允许撤回" prop="rev_reply">
+              <a-input v-model="form.rev_reply" suffix="分钟内自己的回复" />
             </a-form-model-item>
-            <a-form-model-item label="远程客服工号范围" prop = 'linkName'>
+            <!-- <a-form-model-item label="远程客服工号范围" prop = 'linkName'>
               <a-row type="flex" justify="start">
                 <a-col>
                   <a-input
@@ -36,7 +36,7 @@
                   />
                 </a-col>
               </a-row>
-            </a-form-model-item>
+            </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
         <a-collapse-panel key="2" header="工单提醒设置">
@@ -47,12 +47,12 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="提醒时间设定" prop = 'linkName'>
-              <a-input suffix="分钟后未处理则提醒" />
+            <a-form-model-item label="提醒时间设定" prop="notice_time">
+              <a-input v-model="form.notice_time" suffix="分钟后未处理则提醒" />
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="3" header="增值服务">
+        <!-- <a-collapse-panel key="3" header="增值服务">
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -104,7 +104,7 @@
               </a-row>
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel>
+        </a-collapse-panel> -->
       </a-collapse>
       <div class="backstage">
         <!-- 后台操作保护 -->
@@ -130,9 +130,6 @@
 export default {
   data() {
     return {
-      imgList: [
-        // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
-      ],
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
@@ -156,19 +153,24 @@ export default {
             trigger: "blur"
           }
         ],
-        linkUrl: [
+        auto_lock: [
           {
             required: true,
-            message:
-              "必填，限制同一IP在规定时间内的注册次数，防止恶意注册，注册次数为0时代表不做限制，可输入1-13位的数字。",
+            message: "必填，用于设置自动锁定超出时间。",
             trigger: "blur"
           }
         ],
-        linkDescribe: [
+        rev_reply: [
           {
             required: true,
-            message:
-              "必填，新用户注册成功时，该项的值将会直接增加到用户的余额内，为0时代表不赠送金额，注册成功送现金金额为0~1000000。",
+            message: "必填，用于设置允许撤回时间。",
+            trigger: "blur"
+          }
+        ],
+        notice_time: [
+          {
+            required: true,
+            message: "必填，用于设置工单提醒时间。",
             trigger: "blur"
           }
         ]
@@ -177,41 +179,39 @@ export default {
       data: []
     };
   },
+  props: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  created() {
+    console.log(this.formData, "this.formData");
+    this.form = this.formData;
+  },
   methods: {
     onSubmit() {
-      console.log(this.form);
       this.$refs.ruleForm.validate(valid => {
-        console.log(valid);
         if (valid) {
           this.$store
-            .dispatch("invoiceRefund/modifyWorkOrdeConfig", this.form)
-            .then(res => {
-              // console.log(res, "--------");
-              this.$message.success("发票退款信息保存成功");
-              this.getWorkOrderConfig();
-            });
-          this.$store
-            .dispatch("invoiceRefund/modifyServiceConfig", this.form)
-            .then(res => {
-              // console.log(res, "--------");
-              this.$message.success("发票退款信息保存成功");
-              this.getServiceConfig();
+            .dispatch("emailSms/modifyAllConfig", this.form)
+            .then(() => {
+              this.$message.success("保存成功");
+              // this.getEmailConfig();
+            })
+            .finally(() => {
+              this.getData();
             });
         }
       });
     },
-    // 获取工单信息
-    getWorkOrderConfig() {
-      this.$store.dispatch("service/getWorkOrderConfig").then(res => {
-        // console.log(res, "--------");
-        this.form = { ...this.form, ...res.data };
-      });
-    },
-    // 获取增值服务信息
-    getServiceConfig() {
-      this.$store.dispatch("service/getServiceConfig").then(res => {
-        // console.log(res, "--------");
-        this.form = { ...this.form, ...res.data };
+    // 修改成功之后获取最新的数据
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then(res => {
+        console.log(res);
+        this.form = res.data;
       });
     }
   }
