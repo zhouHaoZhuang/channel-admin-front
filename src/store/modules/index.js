@@ -27,10 +27,6 @@ import system from "./system";
 import message from "./message";
 import product from "./product";
 import emailSms from "./emailSms";
-import invoiceRefund from "./invoiceRefund";
-import service from "./service";
-import safety from "./safety";
-
 export default {
   user,
   account,
@@ -61,7 +57,4 @@ export default {
   message,
   product,
   emailSms,
-  invoiceRefund,
-  service,
-  safety,
 };

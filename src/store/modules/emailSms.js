@@ -7,35 +7,19 @@ const emailSms = {
   mutations: {},
 
   actions: {
-    // 获取邮件配置
-    getEmailConfig({ commit, state }, params) {
+    // 获取配置
+    getAllConfig({ commit, state }, params) {
       return request({
-        url: "/ccHelpType",
+        url: "/ccConfig/allConfig",
         method: "get",
         params,
       });
     },
-    // 修改邮件配置
-    modifyEmailConfig({ commit, state }, data) {
+    // 批量修改配置
+    modifyAllConfig({ commit, state }, data) {
       return request({
-        url: "/ccHelpType",
-        method: "put",
-        data,
-      });
-    },
-    // 获取短信配置
-    getSmsConfig({ commit, state }, params) {
-      return request({
-        url: "/ccHelpType",
-        method: "get",
-        params,
-      });
-    },
-    // 修改短信配置
-    modifySmsConfig({ commit, state }, data) {
-      return request({
-        url: "/ccHelpType",
-        method: "put",
+        url: "/ccConfig/batchUpdateProperty",
+        method: "post",
         data,
       });
     },

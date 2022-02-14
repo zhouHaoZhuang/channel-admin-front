@@ -8,7 +8,7 @@
         </a-tab-pane>
         <a-tab-pane key="2" tab="会员">
           <div class="big-block-title">会员</div>
-          <Member />
+          <Member :formData = 'formData'></Member>
         </a-tab-pane>
         <a-tab-pane key="3" tab="充值">
           <div class="big-block-title">充值</div>
@@ -16,23 +16,23 @@
         </a-tab-pane>
         <a-tab-pane key="4" tab="邮件">
           <div class="big-block-title">邮件</div>
-          <Mail />
+          <Mail :formData = 'formData'></Mail>
         </a-tab-pane>
         <a-tab-pane key="5" tab="短信">
           <div class="big-block-title">短信</div>
-          <Note />
+          <Note :formData = 'formData'></Note>
         </a-tab-pane>
         <a-tab-pane key="6" tab="财务">
           <div class="big-block-title">财务</div>
-          <Finance />
+          <Finance :formData = 'formData'></Finance>
         </a-tab-pane>
         <a-tab-pane key="7" tab="服务">
           <div class="big-block-title">服务</div>
-          <Serve />
+          <Serve :formData = 'formData'></Serve>
         </a-tab-pane>
         <a-tab-pane key="8" tab="安全">
           <div class="big-block-title">安全</div>
-          <Safety />
+          <Safety :formData = 'formData'></Safety>
         </a-tab-pane>
       </a-tabs>
     </div>
@@ -52,7 +52,8 @@ import Safety from "./safety.vue";
 export default {
   data() {
     return {
-      tabPosition: "left"
+      tabPosition: "left",
+      formData:null
     };
   },
   components: {
@@ -65,9 +66,18 @@ export default {
     Serve,
     Safety
   },
+  created() {
+    this.getData()
+  },
   methods: {
     callback(val) {
       console.log(val);
+    },
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then((res)=>{  
+        console.log(res);
+        this.formData = res.data;
+      });
     }
   }
 };
