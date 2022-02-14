@@ -10,54 +10,54 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="开启申请">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+            <a-form-model-item label="开启申请" prop="linkName">
+              <a-radio-group v-model="form.integral_name">
+                <a-radio value="1">
                   开启
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   关闭
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
             <a-form-model-item label="是否支持电子发票">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.electronic_invoice">
+                <a-radio value="1">
                   是
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   否
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
             <a-form-model-item label="是否支持纸质发票">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.paper_invoice">
+                <a-radio value="1">
                   是
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   否
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="发票申请时间限制">
-              <a-input suffix="月" />
+            <a-form-model-item label="发票申请时间限制" prop="linkName">
+              <a-input v-model="form.invoice_pay_time_limit" suffix="月" />
             </a-form-model-item>
-            <a-form-model-item label="发票手续费">
-              <a-input suffix="%" />
+            <a-form-model-item label="发票手续费" prop="linkName">
+              <a-input v-model="form.proportion_invoice" suffix="%" />
             </a-form-model-item>
-            <a-form-model-item label="发票邮费">
-              <a-input suffix="元" />
+            <a-form-model-item label="发票邮费" prop="linkName">
+              <a-input v-model="form.invoice_postage" suffix="元" />
             </a-form-model-item>
-            <a-form-model-item label="发票满指定金额免邮费">
-              <a-input suffix="元" />
+            <a-form-model-item label="发票满指定金额免邮费" prop="linkName">
+              <a-input v-model="form.to_money" suffix="元" />
             </a-form-model-item>
-            <a-form-model-item label="开票需实名">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+            <a-form-model-item label="开票需实名" prop="linkName">
+              <a-radio-group v-model="form.invoice_real_name">
+                <a-radio value="1">
                   是
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   否
                 </a-radio>
               </a-radio-group>
@@ -72,70 +72,121 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="开启退款">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+            <a-form-model-item label="开启退款" prop="linkName">
+              <a-radio-group v-model="form.refund_switch">
+                <a-radio value="1">
                   开启
-                </a-radio>
-                <a-radio :value="1">
+                </a-radio> 0
+                <a-radio value="0">
                   关闭
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="云服务器退款限制">
-              <a-input suffix="天内的服务器" />
+            <a-form-model-item label="云服务器退款限制" prop="linkName">
+              <a-input v-model="form.refund_days_server" suffix="天内的服务器" />
             </a-form-model-item>
             <a-form-model-item label="退款次数限制" prop="linkName">
               <a-row type="flex" justify="start">
-                <a-col >
+                <a-col>
                   <div class="gutter-box">云服务器:</div>
                 </a-col>
-                <a-col >
-                  <a-input style="width: 100px" class="gutter-box"  v-model="form.linkName" />
+                <a-col>
+                  <a-input
+                    style="width: 100px"
+                    class="gutter-box"
+                    v-model="form.refund_times_server"
+                  />
                 </a-col>
-                <a-col >
-                  <div class="gutter-box">次，虚拟主机:</div>
+                <a-col>
+                  <div class="gutter-box">次</div>
+                  <!-- <div class="gutter-box">次，虚拟主机:</div> -->
                 </a-col>
-                <a-col >
-                  <a-input style="width: 100px"  class="gutter-box" v-model="form.linkName" />
+                <!-- <a-col>
+                  <a-input
+                    style="width: 100px"
+                    class="gutter-box"
+                    v-model="form.linkName"
+                  />
                 </a-col>
-                <a-col >
+                <a-col>
                   <div class="gutter-box">次,托管:</div>
                 </a-col>
-                <a-col >
-                  <a-input style="width: 100px"  class="gutter-box" v-model="form.linkName" />
+                <a-col>
+                  <a-input
+                    style="width: 100px"
+                    class="gutter-box"
+                    v-model="form.linkName"
+                  />
                 </a-col>
-                <a-col >
+                <a-col>
                   <div class="gutter-box">次</div>
-                </a-col>
+                </a-col> -->
               </a-row>
-              <a-row type="flex" justify="start">
-                <a-col >
+              <!-- <a-row type="flex" justify="start">
+                <a-col>
                   <div class="gutter-box">负载均衡:</div>
                 </a-col>
-                <a-col >
-                  <a-input style="width: 100px"  class="gutter-box" v-model="form.linkName" />
+                <a-col>
+                  <a-input
+                    style="width: 100px"
+                    class="gutter-box"
+                    v-model="form.linkName"
+                  />
                 </a-col>
-                <a-col >
+                <a-col>
                   <div class="gutter-box">次，裸金属:</div>
                 </a-col>
-                <a-col >
-                  <a-input style="width: 100px"  class="gutter-box" v-model="form.linkName" />
+                <a-col>
+                  <a-input
+                    style="width: 100px"
+                    class="gutter-box"
+                    v-model="form.linkName"
+                  />
                 </a-col>
-                <a-col >
+                <a-col>
                   <div class="gutter-box">次,云数据库:</div>
                 </a-col>
-                <a-col >
-                  <a-input style="width: 100px"  class="gutter-box" v-model="form.linkName" />
+                <a-col>
+                  <a-input
+                    style="width: 100px"
+                    class="gutter-box"
+                    v-model="form.linkName"
+                  />
                 </a-col>
-                <a-col >
+                <a-col>
                   <div>次</div>
                 </a-col>
-              </a-row>
+              </a-row> -->
+            </a-form-model-item>
+             <a-form-model-item label="退款需实名认证" prop="linkName">
+              <a-radio-group v-model="form.refund_real_name">
+                <a-radio value="1">
+                  开启
+                </a-radio>
+                <a-radio value="0">
+                  关闭
+                </a-radio>
+              </a-radio-group>
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
+      <div class="backstage">
+        <!-- 后台操作保护 -->
+        <!-- <a-form-model-item label="管理员密码" prop="linkName">
+            <a-input v-model="form.linkName" />
+          </a-form-model-item> -->
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button
+            v-permission="'save'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
+            保存设置
+          </a-button>
+        </a-form-model-item>
+      </div>
     </div>
   </div>
 </template>
@@ -191,11 +242,40 @@ export default {
       data: []
     };
   },
-  components: {},
+  props: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  created() {
+    console.log(this.formData, "this.formData");
+    this.form = this.formData;
+  },
   methods: {
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+    onSubmit() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("emailSms/modifyAllConfig", this.form)
+            .then(() => {
+              this.$message.success("保存成功");
+              // this.getEmailConfig();
+            })
+            .finally(() => {
+              this.getData();
+            });
+        }
+      });
+    },
+    // 修改成功之后获取最新的数据
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then(res => {
+        console.log(res);
+        this.form = res.data;
+      });
     }
   }
 };
@@ -212,7 +292,7 @@ export default {
     background-color: white;
   }
   .gutter-box {
-   margin-right: 10px;
+    margin-right: 10px;
   }
 }
 </style>

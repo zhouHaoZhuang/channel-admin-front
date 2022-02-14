@@ -11,38 +11,42 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="开启注册">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.enable_register">
+                <a-radio value="1">
                   开启
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   关闭
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="密码长度" prop="linkName">
+            <a-form-model-item required label="密码长度">
               <a-row :gutter="1">
                 <a-col :span="6">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="pwd_min_length">
+                    <a-input v-model="form.pwd_min_length" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="1">
                   -
                 </a-col>
                 <a-col :span="6">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="pwd_max_length">
+                    <a-input v-model="form.pwd_max_length" />
+                  </a-form-model-item>
                 </a-col>
               </a-row>
             </a-form-model-item>
             <a-form-model-item label="每个IP限制注册" prop="linkUrl">
               <a-row :gutter="2">
                 <a-col :span="6">
-                  <a-input v-model="form.linkName" />
+                  <a-input v-model="form.register_num" />
                 </a-col>
                 <a-col :span="3">
                   <div>个账号，在</div>
                 </a-col>
                 <a-col :span="6">
-                  <a-input v-model="form.linkName" />
+                  <a-input v-model="form.register_hour" />
                 </a-col>
                 <a-col :span="4">
                   <div>小时内</div>
@@ -73,26 +77,26 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="开启登录">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.enable_login">
+                <a-radio value="1">
                   开启
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   关闭
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
             <a-form-model-item label="开启异地登录验证">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.enable_elsewhere_login">
+                <a-radio value="1">
                   开启
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   关闭
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="会员登录">
+            <!-- <a-form-model-item label="会员登录">
               <a-radio-group v-model="form.status">
                 <a-checkbox>
                   ID
@@ -104,17 +108,25 @@
                   已认证手机
                 </a-checkbox>
               </a-radio-group>
-            </a-form-model-item>
-            <a-form-model-item label="密码错误次数达到" prop="linkName">
+            </a-form-model-item> -->
+            <a-form-model-item
+              label="密码错误次数达到"
+              required
+              prop="linkName"
+            >
               <a-row :gutter="1">
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="pwd_fail_times">
+                    <a-input v-model="form.pwd_fail_times" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="5">
                   <div>次，锁定账号，锁定</div>
                 </a-col>
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="pwd_fail_minutes">
+                    <a-input v-model="form.pwd_fail_minutes" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="5">
                   <div>分钟</div>
@@ -124,13 +136,13 @@
             <a-form-model-item label="登录失败次数达到" prop="linkUrl">
               <a-row :gutter="1">
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-input v-model="form.login_fail_times" />
                 </a-col>
                 <a-col :span="5">
                   <div>次，锁定IP，锁定</div>
                 </a-col>
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-input v-model="form.login_fail_minutes" />
                 </a-col>
                 <a-col :span="5">
                   <div>分钟</div>
@@ -267,19 +279,20 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item
-              label="每个IP/会员限发送短信验证码"
-              prop="linkName"
-            >
+            <a-form-model-item label="每个IP/会员限发送短信验证码" required>
               <a-row :gutter="1">
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="send_msm_times">
+                    <a-input v-model="form.send_msm_times" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <div>次，在</div>
                 </a-col>
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="send_msm_hour">
+                    <a-input v-model="form.send_msm_hour" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="5">
                   <div>小时内</div>
@@ -288,17 +301,21 @@
             </a-form-model-item>
             <a-form-model-item
               label="每个IP/会员限发送邮件验证码"
-              prop="linkName"
+              required
             >
               <a-row :gutter="1">
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="send_email_times">
+                    <a-input v-model="form.send_email_times" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <div>次，在</div>
                 </a-col>
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                  <a-form-model-item prop="send_email_hour">
+                    <a-input v-model="form.send_email_hour" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="5">
                   <div>小时内</div>
@@ -307,11 +324,14 @@
             </a-form-model-item>
             <a-form-model-item
               label="每小时全站限制验证码发送条数"
-              prop="linkName"
+              required
             >
               <a-row :gutter="1">
                 <a-col :span="5">
-                  <a-input v-model="form.linkName" />
+                    <a-form-model-item prop="hour_limit">
+                  <a-input v-model="form.hour_limit" />
+                  </a-form-model-item>
+
                 </a-col>
                 <a-col :span="5">
                   <div>条</div>
@@ -329,11 +349,11 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="开启专属客服专员">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
+              <a-radio-group v-model="form.enable_commissioner">
+                <a-radio value="1">
                   开启
                 </a-radio>
-                <a-radio :value="1">
+                <a-radio value="0">
                   关闭
                 </a-radio>
               </a-radio-group>
@@ -341,20 +361,22 @@
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
-      <!-- <div class="backstage">
-        后台操作保护
-        <a-form-model
-          ref="ruleForm"
-          :model="form"
-          :rules="rules"
-          :label-col="labelCol"
-          :wrapper-col="wrapperCol"
-        >
-          <a-form-model-item label="管理员密码" prop="linkName">
+      <div class="backstage">
+        <!-- 后台操作保护 -->
+        <!-- <a-form-model-item label="管理员密码" prop="linkName">
             <a-input v-model="form.linkName" />
-          </a-form-model-item>
-        </a-form-model>
-      </div> -->
+          </a-form-model-item> -->
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button
+            v-permission="'save'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
+            保存设置
+          </a-button>
+        </a-form-model-item>
+      </div>
     </div>
   </div>
 </template>
@@ -363,23 +385,30 @@
 export default {
   data() {
     return {
-      imgList: [
-        // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
-      ],
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
-        linkTypeName: "",
-        linkTypeCode: "",
-        linkName: "",
-        linkUrl: "",
-        linkDescribe: "",
-        bottomShow: 0,
-        status: 0,
-        linkSort: "",
-        channelCode: "",
-        linkLogo: "",
-        linkTypeSort: 0
+        // 注册
+        enable_register: "",
+        pwd_min_length: "",
+        pwd_max_length: "",
+        register_num: "",
+        register_hour: "",
+        // 登录
+        enable_login: "",
+        enable_elsewhere_login: "",
+        pwd_fail_times: "",
+        pwd_fail_minutes: "",
+        login_fail_times: "",
+        login_fail_minutes: "",
+        // 短信邮件
+        send_msm_times: "",
+        send_msm_hour: "",
+        send_email_times: "",
+        send_email_hour: "",
+        hour_limit: "",
+        // 客服
+        enable_commissioner: ""
       },
       rules: {
         linkName: [
@@ -389,19 +418,66 @@ export default {
             trigger: "blur"
           }
         ],
-        linkUrl: [
+        pwd_min_length: [
           {
             required: true,
-            message:
-              "必填，限制同一IP在规定时间内的注册次数，防止恶意注册，注册次数为0时代表不做限制，可输入1-13位的数字。",
+            message: "必填，限制用户注册时的密码最小长度。",
             trigger: "blur"
           }
         ],
-        linkDescribe: [
+        pwd_max_length: [
           {
             required: true,
-            message:
-              "必填，新用户注册成功时，该项的值将会直接增加到用户的余额内，为0时代表不赠送金额，注册成功送现金金额为0~1000000。",
+            message: "必填，限制用户注册时的密码最大长度。",
+            trigger: "blur"
+          }
+        ],
+        pwd_fail_times: [
+          {
+            required: true,
+            message: "必填，限制用户登录失败次数。",
+            trigger: "blur"
+          }
+        ],
+        pwd_fail_minutes: [
+          {
+            required: true,
+            message: "必填，限制用户登录失败时间。",
+            trigger: "blur"
+          }
+        ],
+        send_msm_times: [
+          {
+            required: true,
+            message: "必填，限制会员发送短信验证码次数。",
+            trigger: "blur"
+          }
+        ],
+        send_msm_hour: [
+          {
+            required: true,
+            message: "必填，限制会员发送短信验证码的时间。",
+            trigger: "blur"
+          }
+        ],
+        send_email_times: [
+          {
+            required: true,
+            message: "必填，限制会员发送邮件验证码次数。",
+            trigger: "blur"
+          }
+        ],
+        send_email_hour: [
+          {
+            required: true,
+            message: "必填，限制会员发送邮件验证码的时间。",
+            trigger: "blur"
+          }
+        ],
+        hour_limit: [
+          {
+            required: true,
+            message: "必填，限制验证码发送次数。",
             trigger: "blur"
           }
         ]
@@ -410,11 +486,40 @@ export default {
       data: []
     };
   },
-  components: {},
+  props: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  created() {
+    console.log(this.formData, "this.formData");
+    this.form = this.formData;
+  },
   methods: {
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+    onSubmit() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("emailSms/modifyAllConfig", this.form)
+            .then(() => {
+              this.$message.success("保存成功");
+              // this.getEmailConfig();
+            })
+            .finally(() => {
+              this.getData();
+            });
+        }
+      });
+    },
+    // 修改成功之后获取最新的数据
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then(res => {
+        console.log(res);
+        this.form = res.data;
+      });
     }
   }
 };

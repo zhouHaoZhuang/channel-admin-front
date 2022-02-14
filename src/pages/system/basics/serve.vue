@@ -10,13 +10,13 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="自动锁定超过">
+            <a-form-model-item label="自动锁定超过" prop = 'linkName'>
               <a-input suffix="天的工单" />
             </a-form-model-item>
-            <a-form-model-item label="允许撤回">
+            <a-form-model-item label="允许撤回" prop = 'linkName'>
               <a-input suffix="分钟内自己的回复" />
             </a-form-model-item>
-            <a-form-model-item label="远程客服工号范围">
+            <a-form-model-item label="远程客服工号范围" prop = 'linkName'>
               <a-row type="flex" justify="start">
                 <a-col>
                   <a-input
@@ -47,7 +47,7 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="提醒时间设定">
+            <a-form-model-item label="提醒时间设定" prop = 'linkName'>
               <a-input suffix="分钟后未处理则提醒" />
             </a-form-model-item>
           </a-form-model>
@@ -80,7 +80,7 @@
                 </a-checkbox>
               </a-checkbox-group>
             </a-form-model-item>
-            <a-form-model-item label="是否赠送免费次数">
+            <a-form-model-item label="是否赠送免费次数" prop = 'linkName'>
               <a-row type="flex" justify="start">
                 <a-col>
                   <a-input
@@ -106,6 +106,22 @@
           </a-form-model>
         </a-collapse-panel>
       </a-collapse>
+      <div class="backstage">
+        <!-- 后台操作保护 -->
+        <!-- <a-form-model-item label="管理员密码" prop="linkName">
+            <a-input v-model="form.linkName" />
+          </a-form-model-item> -->
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+          <a-button
+            v-permission="'save'"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+          >
+            保存设置
+          </a-button>
+        </a-form-model-item>
+      </div>
     </div>
   </div>
 </template>
@@ -161,11 +177,42 @@ export default {
       data: []
     };
   },
-  components: {},
   methods: {
-    imgChange({ urlList, firstImageUrl }) {
-      console.log("上传图片回调", urlList, firstImageUrl);
-      this.imgList = urlList;
+    onSubmit() {
+      console.log(this.form);
+      this.$refs.ruleForm.validate(valid => {
+        console.log(valid);
+        if (valid) {
+          this.$store
+            .dispatch("invoiceRefund/modifyWorkOrdeConfig", this.form)
+            .then(res => {
+              // console.log(res, "--------");
+              this.$message.success("发票退款信息保存成功");
+              this.getWorkOrderConfig();
+            });
+          this.$store
+            .dispatch("invoiceRefund/modifyServiceConfig", this.form)
+            .then(res => {
+              // console.log(res, "--------");
+              this.$message.success("发票退款信息保存成功");
+              this.getServiceConfig();
+            });
+        }
+      });
+    },
+    // 获取工单信息
+    getWorkOrderConfig() {
+      this.$store.dispatch("service/getWorkOrderConfig").then(res => {
+        // console.log(res, "--------");
+        this.form = { ...this.form, ...res.data };
+      });
+    },
+    // 获取增值服务信息
+    getServiceConfig() {
+      this.$store.dispatch("service/getServiceConfig").then(res => {
+        // console.log(res, "--------");
+        this.form = { ...this.form, ...res.data };
+      });
     }
   }
 };

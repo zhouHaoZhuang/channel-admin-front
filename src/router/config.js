@@ -597,6 +597,152 @@ export const asyncRoute = [
           // }
         ]
       },
+      // 服务
+      {
+        path: "/service",
+        name: "服务",
+        component: PageView,
+        meta: {
+          perm: "userinfo"
+        },
+        children: [
+          {
+            path: "workorderManage",
+            name: "工单管理",
+            meta: {
+              icon: "home",
+              perm: "userinfo"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "list",
+                name: "工单列表",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/workorderManage/list")
+              },
+              {
+                path: "myWorkor",
+                name: "我的工单",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/workorderManage/my")
+              },
+              {
+                path: "appraise",
+                name: "工单评价",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () =>
+                  import("@/pages/service/workorderManage/appraise")
+              }
+            ]
+          },
+          {
+            path: "setting",
+            name: "工单设置",
+            meta: {
+              icon: "home",
+              perm: "userinfo"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "classify",
+                name: "工单分类",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/setting/classify")
+              },
+              {
+                path: "permission",
+                name: "工单权限设置",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/setting/permission")
+              },
+              {
+                path: "reply",
+                name: "快捷回复模板",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/setting/reply")
+              }
+            ]
+          },
+          {
+            path: "increment",
+            name: "增值服务",
+            meta: {
+              icon: "home",
+              perm: "userinfo"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "list",
+                name: "业务列表",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/increment/list")
+              },
+              {
+                path: "item",
+                name: "服务项目",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/increment/item")
+              },
+              {
+                path: "grade",
+                name: "服务等级",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/increment/grade")
+              }
+            ]
+          },
+          {
+            path: "serviceManage",
+            name: "服务管理",
+            meta: {
+              icon: "home",
+              perm: "userinfo"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "push",
+                name: "PUSH过户",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/serviceManage/push")
+              }
+            ]
+          }
+        ]
+      },
       // 站务
       {
         path: "/personal",
@@ -948,7 +1094,26 @@ export const asyncRoute = [
                   perm: "system-setting-global"
                 },
                 component: () => import("@/pages/system/basics/whole")
-              }
+              },
+              {
+                path: "notice",
+                name: "通知模板",
+                meta: {
+                  icon: "home",
+                  perm: "system-setting-global"
+                },
+                component: () => import("@/pages/system/notice/notice")
+              },
+              {
+                path: "mouldboard",
+                name: "通知模板",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "system-admin-role"
+                },
+                component: () => import("@/pages/system/notice/mouldboard")
+              },
             ]
           },
           {

@@ -40,8 +40,8 @@
           </a-form-model-item>
         </a-form-model>
       </a-modal>
-      
-          <!-- <a-form-model-item label="支付宝PC充值开关">
+
+      <!-- <a-form-model-item label="支付宝PC充值开关">
             <a-radio-group v-model="form.status">
               <a-radio :value="0">
                 开启
@@ -85,7 +85,7 @@
         </a-form-model>
       </div> -->
       <a-collapse default-active-key="1" :bordered="false" class="aa">
-        <a-collapse-panel key="1" header="支付宝设置">
+        <a-collapse-panel key="1" header="支付宝设置" v-if="data">
           <a-form-model
             ref="ruleForm"
             :model="data"
@@ -197,8 +197,6 @@
 </template>
 
 <script>
-// import Upload from "@/components/Upload/index";
-
 export default {
   data() {
     return {

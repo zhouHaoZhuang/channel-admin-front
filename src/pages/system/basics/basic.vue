@@ -418,12 +418,12 @@ export default {
   },
   methods: {
     imgChange(urlList, firstImageUrl, type) {
-      console.log("上传图片回调", urlList, firstImageUrl, type);
+      // console.log("上传图片回调", urlList, firstImageUrl, type);
       // this.imgList = urlList;
       this.form[type] = firstImageUrl;
     },
     onSubmit() {
-      console.log(this.form);
+      // console.log(this.form);
       this.$refs.ruleForm.validate(valid => {
         console.log(valid);
         if (valid) {
@@ -446,7 +446,6 @@ export default {
         // 获取网站详情、网站logo信息
         this.form = { ...this.form, ...res.data };
         this.form.gid = res.data.id;
-        console.log(res.data);
       });
     },
     getBasicCompanyInfo() {
@@ -457,7 +456,6 @@ export default {
           ...res.data
         };
         this.form.cid = res.data.id;
-        console.log(res.data);
       });
     }
   }
