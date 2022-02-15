@@ -126,7 +126,7 @@ const workorder = {
     // 删除工单分类
     delWorkOrderType({ commit, state }, data) {
       return request({
-        url: `/questionCategory/${data.ids}`,
+        url: `/questionCategory/${data}`,
         method: "delete",
         formService: true
       });
@@ -169,7 +169,7 @@ const workorder = {
     // 批量删除快捷回复模板
     batchDel({ commit, state }, data) {
       return request({
-        url: `/fastReply/${data.ids}`,
+        url: `/fastReply/${data}`,
         method: "delete",
         formService: true
       });
@@ -177,7 +177,7 @@ const workorder = {
     // 批量显示快捷回复模板
     batchShow({ commit, state }, data) {
       return request({
-        url: `/fastReply/enable/${data.ids}`,
+        url: `/fastReply/enable/${data}`,
         method: "put",
         formService: true
       });
@@ -185,7 +185,7 @@ const workorder = {
     // 批量隐藏快捷回复模板
     batchHide({ commit, state }, data) {
       return request({
-        url: `/fastReply/disable/${data.ids}`,
+        url: `/fastReply/disable/${data}`,
         method: "put",
         formService: true
       });

@@ -37,14 +37,6 @@
       >
         隐藏
       </a-button>
-      <a-button
-        v-permission="'sort'"
-        icon="column-height"
-        class="btn"
-        @click="handleSort"
-      >
-        排序
-      </a-button>
     </div>
     <div class="table-content">
       <a-table
@@ -55,13 +47,13 @@
         rowKey="id"
         :pagination="paginationProps"
       >
-        <div slot="bannerType" slot-scope="text">
-          {{ bannerTypeEnum[text] }}
-        </div>
         <div class="status" slot="status" slot-scope="text">
-          <div v-if="text === 0" class="dot"></div>
-          <div v-else class="dot dot-err"></div>
-          {{ text === 0 ? "正常" : "冻结" }}
+          <a-tag v-if="text === 1" color="green">
+            启用
+          </a-tag>
+          <a-tag v-else color="red">
+            禁用
+          </a-tag>
         </div>
         <div slot="action" slot-scope="text, record">
           <a-button
@@ -75,62 +67,50 @@
           <a-button
             v-permission="'del'"
             type="link"
-            @click="handleDelBanner(record)"
+            @click="handleDelReply(record)"
           >
             删除
           </a-button>
         </div>
       </a-table>
     </div>
-    <!-- 轮播图排序 -->
-    <SortBanner v-model="sortVisible" @success="getList" />
+    <!-- 添加/修改快捷回复模板 -->
+    <UpdateReply v-model="visible" :id="modalId" @success="getList" />
   </div>
 </template>
 
 <script>
-import { bannerTypeEnum } from "@/utils/enum";
-import SortBanner from "@/components/Banner/sortBanner";
+import UpdateReply from "@/components/WorkOrder/Reply/updateReply";
 export default {
   components: {
-    SortBanner
+    UpdateReply
   },
   computed: {
     rowSelection() {
       return {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
-          this.selectedRowKeys = selectedRowKeys;
+          this.selectedRowKeys = [...selectedRowKeys];
         }
       };
     }
   },
-  created() {},
   data() {
     return {
-      bannerTypeEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
-        total: 0,
+        total: 0
       },
       tableLoading: false,
       columns: [
         {
-          title: "编号",
+          title: "ID",
           dataIndex: "id"
         },
         {
-          title: "类型",
-          dataIndex: "bannerType",
-          scopedSlots: { customRender: "bannerType" }
-        },
-        {
-          title: "标题",
-          dataIndex: "title"
-        },
-        {
-          title: "描述",
-          dataIndex: "describe"
+          title: "内容",
+          dataIndex: "context"
         },
         {
           title: "状态",
@@ -157,7 +137,8 @@ export default {
         onShowSizeChange: this.onShowSizeChange
       },
       selectedRowKeys: [],
-      sortVisible: false
+      visible: false,
+      modalId: undefined
     };
   },
   activated() {
@@ -189,19 +170,15 @@ export default {
     },
     //添加/修改banner
     updateReply(type, record) {
-      this.$router.push({
-        path: "/personal/account/update",
-        query: {
-          id: type === "add" ? undefined : record.id
-        }
-      });
+      this.modalId = type === "add" ? undefined : record.id;
+      this.visible = true;
     },
     //删除
-    handleDelBanner(record) {
+    handleDelReply(record) {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("banner/delPrice", record.id).then(res => {
+          this.$store.dispatch("workorder/batchDel", record.id).then(res => {
             this.$message.success("操作成功");
             this.getList();
           });
@@ -218,7 +195,7 @@ export default {
         title: "确定要删除吗?",
         onOk: () => {
           this.$store
-            .dispatch("banner/delPrice", this.selectedRowKeys)
+            .dispatch("workorder/batchDel", this.selectedRowKeys)
             .then(res => {
               this.$message.success("操作成功");
               this.getList();
@@ -231,22 +208,14 @@ export default {
       this.$confirm({
         title: `确定要批量${type === "show" ? "显示" : "隐藏"}吗?`,
         onOk: () => {
-          const data = this.selectedRowKeys.map(ele => {
-            return {
-              id: ele,
-              status: type === "show" ? 0 : 1
-            };
-          });
-          this.$store.dispatch("banner/changeBannerShow", data).then(res => {
+          const req =
+            type === "show" ? "workorder/batchShow" : "workorder/batchHide";
+          this.$store.dispatch(req, this.selectedRowKeys).then(res => {
             this.$message.success("操作成功");
             this.getList();
           });
         }
       });
-    },
-    // 排序
-    handleSort() {
-      this.sortVisible = true;
     }
   }
 };
