@@ -9,12 +9,11 @@
             v-model="listQuery.key"
             placeholder="请选择"
           >
-            <a-select-option
-              v-for="item in columns.slice(0, columns.length - 3)"
-              :key="item.dataIndex"
-              :value="item.dataIndex"
-            >
-              {{ item.title }}
+            <a-select-option value="title">
+              标题
+            </a-select-option>
+            <a-select-option value="workOrderNo">
+              工单编号
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -29,15 +28,15 @@
           <a-select
             style="width:170px"
             allowClear
-            v-model="listQuery.key"
+            v-model="listQuery.questionCategoryCode"
             placeholder="请选择问题分类"
           >
             <a-select-option
-              v-for="item in columns.slice(0, columns.length - 3)"
-              :key="item.dataIndex"
-              :value="item.dataIndex"
+              v-for="item in typeList"
+              :key="item.code"
+              :value="item.code"
             >
-              {{ item.title }}
+              {{ item.name }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -51,7 +50,7 @@
             <a-select
               style="width:150px"
               allowClear
-              v-model="listQuery.key"
+              v-model="listQuery.timeType"
               placeholder="请选择时间类型"
             >
               <a-select-option :value="1">创建时间 </a-select-option>
@@ -144,6 +143,8 @@ export default {
       listQuery: {
         key: undefined,
         search: "",
+        questionCategoryCode: undefined,
+        timeType: undefined,
         startTime: "",
         endTime: "",
         currentPage: 1,
@@ -200,7 +201,7 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      data: [{}],
+      data: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -211,27 +212,66 @@ export default {
           )} 页`,
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
-      }
+      },
+      typeList: []
     };
   },
   activated() {
     this.getList();
+    this.getTypeList();
   },
   methods: {
     // 搜索
     search() {
       this.getList();
     },
+    // 根据时间类型返回不同参数
+    getReq(type, listQuery) {
+      if (!type) return {};
+      if (type === 1) {
+        return {
+          createTimeGe: listQuery.startTime,
+          createTimeLe: listQuery.endTime
+        };
+      }
+      if (type === 2) {
+        return {
+          acceptTimeGe: listQuery.startTime,
+          acceptTimeLe: listQuery.endTime
+        };
+      }
+      if (type === 3) {
+        return {
+          endTimeGe: listQuery.startTime,
+          endTimeLe: listQuery.endTime
+        };
+      }
+    },
     // 查询工单列表
     getList() {
       this.tableLoading = true;
-      this.$store
-        .dispatch("workorder/workOrderTypeList", this.listQuery)
+      const timeObj = this.getReq(this.listQuery.timeType, this.listQuery);
+      const newListQuery = {
+        ...this.listQuery,
+        ...timeObj
+      };
+      this.$getList("workorder/workOrderList", newListQuery)
         .then(res => {
           this.data = [...res.data.list];
         })
         .finally(() => {
           this.tableLoading = false;
+        });
+    },
+    // 查询工单分类列表
+    getTypeList() {
+      this.$store
+        .dispatch("workorder/workOrderTypeList", {
+          currentPage: 1,
+          pageSize: 999
+        })
+        .then(res => {
+          this.typeList = [...res.data.list];
         });
     },
     // 日期选择
