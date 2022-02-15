@@ -25,7 +25,7 @@
       :accept="accept"
       :limit="limit"
       :multiple="multiple"
-      :headers="headers"
+      :headers="{ ...headers, system: headerSystem }"
       :action="uploadUrl"
       list-type="picture-card"
       :file-list="fileList"
@@ -76,6 +76,11 @@ export default {
     accept: {
       type: String,
       default: "image/jpeg,image/png"
+    },
+    // 兼容多个图片上传地址
+    replaceUrl: {
+      type: String,
+      default: "default"
     }
   },
   data() {
@@ -83,7 +88,7 @@ export default {
       // 请求头
       headers: {
         domain: getDomainUrl(),
-        system: "channel"
+        system: ""
       },
       previewVisible: false,
       previewImage: "",
@@ -94,7 +99,23 @@ export default {
   computed: {
     // 图片上传地址
     uploadUrl() {
-      return env.BASE_URL + "/ccOss/uploadFile";
+      if (this.replaceUrl === "default") {
+        return env.BASE_URL + "/ccOss/uploadFile";
+      }
+      if (this.replaceUrl === "formService") {
+        return env.FORM_BASE_URL + "/oss/uploadFile";
+      }
+      return env.BASE_URL + "/uploadFile";
+    },
+    // 返回请求头system的值
+    headerSystem() {
+      if (this.replaceUrl === "default") {
+        return "channel";
+      }
+      if (this.replaceUrl === "formService") {
+        return "fs";
+      }
+      return "";
     },
     // 是否可多选文件上传
     multiple() {

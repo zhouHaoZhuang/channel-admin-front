@@ -19,7 +19,15 @@
         rowKey="id"
         :pagination="paginationProps"
       >
-        <div class="status" slot="status" slot-scope="text">
+        <div slot="type" slot-scope="text">
+          {{ workOrderTypeEnum[text] }}
+        </div>
+        <div slot="count" slot-scope="text">
+          <a-button type="link" @click="handleSelect">
+            查看({{ text }})
+          </a-button>
+        </div>
+        <div slot="status" slot-scope="text">
           <a-tag v-if="text === 1" color="green">
             启用
           </a-tag>
@@ -53,12 +61,14 @@
 
 <script>
 import UpdateType from "@/components/WorkOrder/Type/updateType";
+import { workOrderTypeEnum } from "@/utils/enum";
 export default {
   components: {
     UpdateType
   },
   data() {
     return {
+      workOrderTypeEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -76,12 +86,13 @@ export default {
         },
         {
           title: "工单类型",
-          dataIndex: "type"
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
         },
         {
           title: "工单",
-          dataIndex: "context",
-          scopedSlots: { customRender: "context" }
+          dataIndex: "count",
+          scopedSlots: { customRender: "count" }
         },
         {
           title: "状态",
@@ -143,15 +154,21 @@ export default {
       this.modalId = type === "add" ? undefined : record.id;
       this.visible = true;
     },
+    // 跳转工单列表
+    handleSelect() {
+      this.$router.push("/service/workorderManage/list");
+    },
     //删除
-    handleDelReply(record) {
+    handleDelType(record) {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("workorder/delWorkOrderType", record.id).then(res => {
-            this.$message.success("操作成功");
-            this.getList();
-          });
+          this.$store
+            .dispatch("workorder/delWorkOrderType", record.id)
+            .then(res => {
+              this.$message.success("操作成功");
+              this.getList();
+            });
         }
       });
     }

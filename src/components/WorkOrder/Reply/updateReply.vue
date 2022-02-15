@@ -77,16 +77,12 @@ export default {
           this.$nextTick(() => {
             this.resetForm();
           });
+        } else {
+          if (this.id) {
+            this.getDetail();
+          }
         }
       }
-    },
-    id: {
-      handler(newVal) {
-        if (newVal) {
-          this.getDetail();
-        }
-      },
-      immediate: true
     }
   },
   data() {

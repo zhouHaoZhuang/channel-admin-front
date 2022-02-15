@@ -89,11 +89,11 @@ const workorder = {
     // 工单管理-----end
     // 工单设置-----start
     // 工单分类列表
-    workOrderTypeList({ commit, state }, params) {
+    workOrderTypeList({ commit, state }, data) {
       return request({
-        url: "/questionCategory",
-        method: "get",
-        params,
+        url: "/questionCategory/getList",
+        method: "post",
+        data,
         formService: true
       });
     },
@@ -108,7 +108,7 @@ const workorder = {
     // 添加工单分类
     addWorkOrderType({ commit, state }, data) {
       return request({
-        url: `/questionCategory`,
+        url: `/questionCategory/add`,
         method: "post",
         data,
         formService: true
@@ -126,7 +126,7 @@ const workorder = {
     // 删除工单分类
     delWorkOrderType({ commit, state }, data) {
       return request({
-        url: `/questionCategory/${data}`,
+        url: `/questionCategory/delete/${data}`,
         method: "delete",
         formService: true
       });

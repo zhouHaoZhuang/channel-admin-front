@@ -24,33 +24,39 @@
           :max-length="100"
         />
       </a-form-model-item>
-      <a-form-model-item label="分类介绍" prop="context">
+      <a-form-model-item label="分类介绍" prop="description">
         <a-input
-          v-model="form.context"
-          placeholder="请输入内容"
-          :max-length="100"
+          v-model="form.description"
+          type="textarea"
+          allowClear
+          placeholder="请输入分类介绍"
         />
       </a-form-model-item>
-      <a-form-model-item label="所属分组" prop="context">
-        <a-input
-          v-model="form.context"
-          placeholder="请输入内容"
-          :max-length="100"
-        />
+      <a-form-model-item label="所属分组" prop="classification">
+        <a-select
+          v-model="form.classification"
+          allowClear
+          placeholder="请选择所属分组"
+        >
+          <a-select-option
+            v-for="(value, key) in workOrderGroupEnum"
+            :key="key"
+            :value="key"
+          >
+            {{ value }}
+          </a-select-option>
+        </a-select>
       </a-form-model-item>
-      <a-form-model-item label="工单类型" prop="context">
-        <a-input
-          v-model="form.context"
-          placeholder="请输入内容"
-          :max-length="100"
-        />
-      </a-form-model-item>
-      <a-form-model-item label="ICON图标" prop="context">
-        <a-input
-          v-model="form.context"
-          placeholder="请输入内容"
-          :max-length="100"
-        />
+      <a-form-model-item label="工单类型" prop="type">
+        <a-select v-model="form.type" allowClear placeholder="请选择工单类型">
+          <a-select-option
+            v-for="(value, key) in workOrderTypeEnum"
+            :key="key"
+            :value="key"
+          >
+            {{ value }}
+          </a-select-option>
+        </a-select>
       </a-form-model-item>
       <a-form-model-item label="排序" prop="sort">
         <a-input
@@ -70,12 +76,24 @@
           </a-radio>
         </a-radio-group>
       </a-form-model-item>
+      <a-form-model-item label="ICON图标">
+        <Upload
+          :defaultFile="form.icon"
+          replaceUrl="formService"
+          @change="imgChange"
+        />
+      </a-form-model-item>
     </a-form-model>
   </a-modal>
 </template>
 
 <script>
+import { workOrderGroupEnum, workOrderTypeEnum } from "@/utils/enum";
+import Upload from "@/components/Upload/index";
 export default {
+  components: {
+    Upload
+  },
   // 双向绑定
   model: {
     event: "changeVisible",
@@ -105,33 +123,56 @@ export default {
           this.$nextTick(() => {
             this.resetForm();
           });
+        } else {
+          if (this.id) {
+            this.getDetail();
+          }
         }
       }
-    },
-    id: {
-      handler(newVal) {
-        if (newVal) {
-          this.getDetail();
-        }
-      },
-      immediate: true
     }
   },
   data() {
     return {
+      workOrderGroupEnum,
+      workOrderTypeEnum,
       labelCol: { span: 6 },
       wrapperCol: { span: 15 },
       form: {
-        context: "",
+        name: "",
+        description: "",
+        classification: undefined,
+        type: undefined,
         sort: 0,
-        status: 0
+        status: 0,
+        icon: ""
       },
       rules: {
-        context: [
+        name: [
           {
             required: true,
-            message: "请输入内容",
+            message: "请输入名称",
             trigger: ["blur", "change"]
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: "请输入分类介绍",
+            trigger: ["blur", "change"]
+          }
+        ],
+        classification: [
+          {
+            required: true,
+            message: "请选择所属分组",
+            trigger: "change"
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: "请选择工单类型",
+            trigger: "change"
           }
         ],
         sort: [
@@ -161,17 +202,25 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        context: "",
+        name: "",
+        description: "",
+        classification: undefined,
+        type: undefined,
         sort: 0,
-        status: 0
+        status: 0,
+        icon: ""
       };
+    },
+    // 图片上传
+    imgChange({ urlList, firstImageUrl }) {
+      this.form.icon = firstImageUrl;
     },
     // 获取单个模板详情
     getDetail() {
       this.$store
         .dispatch("workorder/workOrderTypeDetail", { id: this.id })
         .then(res => {
-          this.form = { ...res.data };
+          this.form = { ...res.data, type: res.data.type.toString() };
         });
     },
     // 弹窗提交
@@ -203,4 +252,3 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>

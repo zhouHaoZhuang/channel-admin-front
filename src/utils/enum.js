@@ -159,3 +159,20 @@ export const cdnStatusEnum = {
   5: "正在审核",
   6: "审核失败"
 };
+// 工单状态
+export const workOrderStatusEnum = {
+  1: "待接单",
+  2: "接单处理中",
+  3: "处理完成"
+};
+// 工单类别-所属分组map
+export const workOrderGroupEnum = {
+  1: "技术类问题",
+  2: "账户和财务类",
+  3: "其他咨询类"
+};
+// 工单类别-问题类型map
+export const workOrderTypeEnum = {
+  1: "普通类型工单",
+  2: "可转接资源池类型工单"
+};
