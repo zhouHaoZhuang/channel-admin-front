@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     modalTitle() {
-      return this.id === "add" ? "添加快捷回复模板" : "修改快捷回复模板";
+      return !this.id ? "添加快捷回复模板" : "修改快捷回复模板";
     }
   },
   watch: {

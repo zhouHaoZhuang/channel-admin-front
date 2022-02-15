@@ -73,11 +73,11 @@ export default {
         },
         {
           title: "名称",
-          dataIndex: "context"
+          dataIndex: "name"
         },
         {
           title: "工单类型",
-          dataIndex: "context"
+          dataIndex: "type"
         },
         {
           title: "工单",
@@ -149,7 +149,7 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("workorder/batchDel", record.id).then(res => {
+          this.$store.dispatch("workorder/delWorkOrderType", record.id).then(res => {
             this.$message.success("操作成功");
             this.getList();
           });

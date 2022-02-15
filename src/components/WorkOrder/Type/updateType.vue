@@ -4,7 +4,7 @@
     width="680px"
     centered
     :title="modalTitle"
-    wrapClassName="reply-update-container"
+    wrapClassName="type-update-container"
     okText="确定"
     :confirmLoading="loading"
     @ok="handleOk"
@@ -17,7 +17,35 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="内容" prop="context">
+      <a-form-model-item label="名称" prop="name">
+        <a-input
+          v-model="form.name"
+          placeholder="请输入名称"
+          :max-length="100"
+        />
+      </a-form-model-item>
+      <a-form-model-item label="分类介绍" prop="context">
+        <a-input
+          v-model="form.context"
+          placeholder="请输入内容"
+          :max-length="100"
+        />
+      </a-form-model-item>
+      <a-form-model-item label="所属分组" prop="context">
+        <a-input
+          v-model="form.context"
+          placeholder="请输入内容"
+          :max-length="100"
+        />
+      </a-form-model-item>
+      <a-form-model-item label="工单类型" prop="context">
+        <a-input
+          v-model="form.context"
+          placeholder="请输入内容"
+          :max-length="100"
+        />
+      </a-form-model-item>
+      <a-form-model-item label="ICON图标" prop="context">
         <a-input
           v-model="form.context"
           placeholder="请输入内容"
@@ -67,7 +95,7 @@ export default {
   },
   computed: {
     modalTitle() {
-      return this.id === "add" ? "添加快捷回复模板" : "修改快捷回复模板";
+      return !this.id ? "添加工单分类" : "修改工单分类";
     }
   },
   watch: {
@@ -141,7 +169,7 @@ export default {
     // 获取单个模板详情
     getDetail() {
       this.$store
-        .dispatch("workorder/quickReplyDetail", { id: this.id })
+        .dispatch("workorder/workOrderTypeDetail", { id: this.id })
         .then(res => {
           this.form = { ...res.data };
         });
@@ -153,8 +181,8 @@ export default {
           this.loading = true;
           const req =
             this.id === undefined
-              ? "workorder/addQuickReply"
-              : "workorder/editQuickReply";
+              ? "workorder/addWorkOrderType"
+              : "workorder/editWorkOrderType";
           const data = {
             ...this.form,
             id: this.id
