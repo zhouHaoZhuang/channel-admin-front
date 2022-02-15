@@ -14,7 +14,6 @@
     <div class="table-content">
       <a-table
         :loading="tableLoading"
-        :row-selection="rowSelection"
         :columns="columns"
         :data-source="data"
         rowKey="id"

@@ -1,79 +1,55 @@
 <template>
-  <div>
-    <div class="purchase-list-container">
-      <div>
-        <p class="purchase-list-title">
-          <span
-            :class="{
-              'purchase-title-active': selectkey === text.key
-            }"
-            v-for="(text, index) in titleList"
-            :key="index"
-            @click="changeRunningstatus(text)"
-          >
-            {{ text.title }}
-          </span>
-        </p>
-      </div>
-    </div>
+  <div class="work-list-container">
+    <a-tabs @change="handleChangeStatus">
+      <a-tab-pane v-for="item in tabsList" :key="item.key" :tab="item.title" />
+    </a-tabs>
+    <!-- 表格 -->
+    <PublicTable :tabsKey="tabsKey" />
   </div>
 </template>
 
 <script>
+import PublicTable from "@/components/WorkOrder/PublicTable/index.vue";
 export default {
+  components: {
+    PublicTable
+  },
   data() {
     return {
-      selectkey: "",
-      titleList: [
+      tabsKey: -1,
+      tabsList: [
         {
-          key: "",
+          key: -1,
           title: "全部"
         },
         {
-          key: 6,
+          key: 1,
           title: "处理中"
         },
         {
-          key: 3,
+          key: 2,
           title: "未处理"
         },
         {
-          key: -1,
+          key: 3,
           title: "已解决"
         }
       ]
     };
   },
   methods: {
-    changeRunningstatus(text) {
-      this.selectkey = text.key;
-      // this.getList();
+    // 修改状态
+    handleChangeStatus(key) {
+      this.tabsKey = key;
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.purchase-list-container {
-  background: #fff;
-  padding: 20px;
-  margin: 0 24px;
-  .purchase-list-title {
-    height: 40px;
-    // margin: 0;
-    border-bottom: 1px solid #e8e8e8;
-    span {
-      display: inline-block;
-      padding: 0 20px;
-      line-height: 38px;
-      text-align: center;
-      border: 1px solid transparent;
-    }
-    .purchase-title-active {
-      border-color: #1890ff;
-      color: #1890ff;
-      border-bottom: 1px solid #fff;
-    }
-  }
+.work-list-container {
+  margin: 0 20px;
+  padding: 10px;
+  background-color: #fff;
 }
 </style>
