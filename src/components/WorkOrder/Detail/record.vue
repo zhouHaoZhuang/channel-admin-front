@@ -13,7 +13,9 @@
             <img v-else src="@/assets/img/workOrder/customer.png" alt="" />
           </div>
           <div class="info-box">
-            <div :class="`top-title ${getClassName(item.identityType)}`">问题描述</div>
+            <div :class="`top-title ${getClassName(item.identityType)}`">
+              问题描述
+            </div>
             <div class="info-txt">
               {{ item.replyDetail }}
             </div>
@@ -42,7 +44,7 @@ export default {
   computed: {
     // 根据用户类型返回不同类名
     getClassName() {
-      return function (val) {
+      return function(val) {
         if (val === 1) {
           return "";
         }
@@ -65,27 +67,33 @@ export default {
 
 <style lang="less" scoped>
 .work-record-container {
+  padding-bottom: 24px;
+  margin-bottom: 18px;
+  background: #fff;
   font-size: 12px;
   .title {
-    height: 36px;
-    border-bottom: 1px solid #eee;
-    background-color: #f5f9fa;
-    padding-left: 20px;
-    line-height: 36px;
+    border-bottom: 1px solid #ebebeb;
+    padding-left: 32px;
+    height: 48px;
+    line-height: 48px;
+    margin-bottom: 10px;
+    text-indent: 0;
     font-size: 14px;
+    background-color: #fff;
+    color: #292929;
   }
   .record-list {
-    margin-top: 10px;
-    padding: 20px 30px;
     .item {
-      padding: 30px 25px;
+      margin: 0 25px;
+      padding: 20px 0;
       display: flex;
       justify-content: space-between;
+      border-bottom: 1px solid #ebebeb;
       .left {
         display: flex;
         .ava {
-          width: 50px;
-          height: 50px;
+          width: 64px;
+          height: 64px;
           margin-right: 25px;
           img {
             width: 100%;
@@ -120,6 +128,9 @@ export default {
       }
       .right {
         color: #999;
+      }
+      &:last-child {
+        border-bottom: none;
       }
     }
   }

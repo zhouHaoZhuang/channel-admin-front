@@ -145,7 +145,7 @@ export default {
     this.getList();
   },
   methods: {
-    //查询轮播图数据
+    // 查询快捷回复列表
     getList() {
       this.tableLoading = true;
       this.$store

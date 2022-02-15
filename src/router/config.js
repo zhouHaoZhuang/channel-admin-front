@@ -633,6 +633,17 @@ export const asyncRoute = [
                 },
                 component: () => import("@/pages/service/workorderManage/my")
               },
+              {
+                path: "detail",
+                name: "工单信息",
+                meta: {
+                  perm: "userinfo",
+                  invisible: true,
+                  back: true
+                },
+                component: () =>
+                  import("@/pages/service/workorderManage/detail")
+              }
               // {
               //   path: "appraise",
               //   name: "工单评价",
@@ -682,7 +693,7 @@ export const asyncRoute = [
                 component: () => import("@/pages/service/setting/reply")
               }
             ]
-          },
+          }
           // {
           //   path: "increment",
           //   name: "增值服务",
@@ -1113,7 +1124,7 @@ export const asyncRoute = [
                   perm: "system-admin-role"
                 },
                 component: () => import("@/pages/system/notice/mouldboard")
-              },
+              }
             ]
           },
           {
