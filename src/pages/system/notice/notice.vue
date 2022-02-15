@@ -11,7 +11,7 @@
     </div>
     <div>
       <div class="search">
-        <a-input style="width: 120px" placeholder="搜索关键词" />
+        <a-input style="width: 150px" placeholder="搜索关键词" allow-clear/>
         <a-select default-value="jack" style="width: 150px;margin-left: 10px;">
           <a-select-option value="jack">
             模板模块
@@ -189,7 +189,7 @@ data.forEach(item => {
   }
   item.agech = false;
 });
-console.log(data);
+// console.log(data);
 // 给一级选框添加nameLength，（表示当前一级目录下的二级目录个数）
 var name = data[data.length - 1].name; //初始值需等于数组中的最后一个值的name
 data.reduceRight((acc, currentValue, currentIndex) => {
@@ -209,8 +209,6 @@ data.reduceRight((acc, currentValue, currentIndex) => {
 }, 0);
 export default {
   data() {
-    // let a = "";
-    // let num = 0;
     const columns = [
       {
         title: "场景",
@@ -301,6 +299,9 @@ export default {
       ]
     };
   },
+  created(){
+    // this.getList()
+  },
   methods: {
     // 场景二级分类的事件
     itemAll(index, e) {
@@ -343,6 +344,13 @@ export default {
         }
         element.agech = e.target.checked;
       });
+    },
+    // 获取列表数据
+    getList(){
+      this.$store.dispatch('notice/getList').then((res)=>{
+        console.log(res);
+        this.data = res.data
+      })
     },
     // 模板跳转回调函数
     templateJump(index) {
