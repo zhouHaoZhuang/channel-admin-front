@@ -78,8 +78,7 @@ export function base64ToFile(base64, filename) {
 
 // 获取并返回图片base64字符串对象
 export function getBase64Str(base64, type) {
-  console.log(base64);
-  const fileContents = base64.split(",")[1];
+  const fileContents = base64;
   const index = type.indexOf("/");
   const fileSuffix = type.substring(index + 1);
   return {
