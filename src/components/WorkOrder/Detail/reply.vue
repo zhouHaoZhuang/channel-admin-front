@@ -9,11 +9,16 @@
       :wrapper-col="wrapperCol"
     >
       <a-form-model-item label="快捷回复">
-        <a-select allowClear placeholder="请选择快捷回复">
+        <a-select
+          v-model="replyValue"
+          allowClear
+          placeholder="请选择快捷回复"
+          @change="handleChange"
+        >
           <a-select-option
             v-for="item in replyList"
             :key="item.id"
-            :value="item.id"
+            :value="item.context"
           >
             {{ item.context }}
           </a-select-option>
@@ -65,7 +70,7 @@ export default {
       default: () => {}
     }
   },
-  created() {
+  activated() {
     this.getList();
   },
   data() {
@@ -77,7 +82,7 @@ export default {
       labelCol: { span: 3 },
       wrapperCol: { span: 14 },
       form: {
-        secret: 0,
+        secret: [],
         replyDetail: "",
         replyUrl: []
       },
@@ -91,7 +96,8 @@ export default {
         ]
       },
       loading: false,
-      replyList: []
+      replyList: [],
+      replyValue: undefined
     };
   },
   methods: {
@@ -104,16 +110,22 @@ export default {
         });
     },
     // 图片上传
-    imgChange({ urlList, firstImageUrl }) {
+    imgChange({ urlList, firstImageUrl, base64StrObj }) {
+      console.log(base64StrObj);
       this.form.replyUrl = [...urlList];
+    },
+    // 快捷回复change
+    handleChange(value) {
+      this.form.replyDetail = value;
     },
     // 重置表单
     resetForm() {
       this.form = {
-        secret: 0,
+        secret: [],
         replyDetail: "",
         replyUrl: []
       };
+      this.replyValue = undefined;
     },
     // 提交
     onSubmit() {
@@ -124,7 +136,8 @@ export default {
             ...this.form,
             identityType: 2,
             workOrderNo: this.detail.workOrderNo,
-            replyUrl: this.form.replyUrl.toString()
+            replyUrl: this.form.replyUrl.toString(),
+            secret: this.form.secret.toString() * 1
           };
           this.$store
             .dispatch("workorder/sendMessage", data)

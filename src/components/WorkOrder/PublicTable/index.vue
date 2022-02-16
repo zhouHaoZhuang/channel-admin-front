@@ -150,6 +150,11 @@ export default {
     tabsKey: {
       type: Number,
       default: -1
+    },
+    // 区分是工单列表(list)还是我的工单列表(my)
+    type: {
+      type: String,
+      default: "list"
     }
   },
   data() {
@@ -228,7 +233,14 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      typeList: []
+      typeList: [],
+      reqObj: {
+        0: "workorder/myWorkOrderList",
+        1: "workorder/myWorkOrderList1",
+        2: "workorder/myWorkOrderList2",
+        3: "workorder/myWorkOrderList",
+        4: "workorder/myWorkOrderList4"
+      }
     };
   },
   activated() {
@@ -265,12 +277,26 @@ export default {
     // 查询工单列表
     getList() {
       this.tableLoading = true;
+      // 根据不同type处理不同的请求地址
+      // 默认请求
+      let req = "workorder/workOrderList";
+      if (this.type === "my") {
+        req = this.reqObj[this.tabsKey];
+      }
+      // 根据不同type处理不同的请求参数-status
+      const status =
+        this.type === "list"
+          ? this.tabsKey === 0
+            ? undefined
+            : this.tabsKey
+          : undefined;
       const timeObj = this.getReq(this.listQuery.timeType, this.listQuery);
       const newListQuery = {
         ...this.listQuery,
-        ...timeObj
+        ...timeObj,
+        status
       };
-      this.$getList("workorder/workOrderList", newListQuery)
+      this.$getList(req, newListQuery)
         .then(res => {
           this.data = [...res.data.list];
         })
@@ -328,7 +354,7 @@ export default {
   .table-content {
     margin-top: 16px;
   }
-  .btn-link{
+  .btn-link {
     padding: 0;
   }
 }

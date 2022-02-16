@@ -17,10 +17,37 @@ const workorder = {
         formService: true
       });
     },
-    // 我的工单列表
+    // 我的工单列表-全部+已解决
     myWorkOrderList({ commit, state }, data) {
       return request({
         url: `/workOrder/queryChannelPersonOrder`,
+        method: "post",
+        data,
+        formService: true
+      });
+    },
+    // 我的工单列表-处理中
+    myWorkOrderList2({ commit, state }, data) {
+      return request({
+        url: `/workOrder/queryChannelPersonOrder/handler`,
+        method: "post",
+        data,
+        formService: true
+      });
+    },
+    // 我的工单列表-未处理
+    myWorkOrderList1({ commit, state }, data) {
+      return request({
+        url: `/workOrder/queryChannelPersonOrder/untreated`,
+        method: "post",
+        data,
+        formService: true
+      });
+    },
+    // 我的工单列表-移交的工单
+    myWorkOrderList4({ commit, state }, data) {
+      return request({
+        url: `/workOrder/queryChannelPersonOrder/trans`,
         method: "post",
         data,
         formService: true
@@ -44,24 +71,25 @@ const workorder = {
         formService: true
       });
     },
-    // 移动工单
-    moveWorkOrder({ commit, state }, params) {
+    // 获取指定工作人员列表
+    workOrderUserList({ commit, state }) {
       return request({
-        url: `/workOrder/close/${params.workOrderNo}`,
+        url: `/user/queryChannelUsers`,
         method: "get",
+        formService: true
+      });
+    },
+    // 移动工单+转移到云技术客服
+    moveWorkOrder({ commit, state }, data) {
+      return request({
+        url: `/orderTransferLog`,
+        method: "post",
+        data,
         formService: true
       });
     },
     // 关闭工单
     closeWorkOrder({ commit, state }, params) {
-      return request({
-        url: `/workOrder/close/${params.workOrderNo}`,
-        method: "get",
-        formService: true
-      });
-    },
-    // 转移到云技术客服
-    transferWorkOrder({ commit, state }, params) {
       return request({
         url: `/workOrder/close/${params.workOrderNo}`,
         method: "get",
@@ -74,6 +102,14 @@ const workorder = {
         url: `/workOrderReply`,
         method: "get",
         params,
+        formService: true
+      });
+    },
+    // 撤回回复
+    messageDel({ commit, state }, data) {
+      return request({
+        url: `/workOrderReply/${data}`,
+        method: "delete",
         formService: true
       });
     },

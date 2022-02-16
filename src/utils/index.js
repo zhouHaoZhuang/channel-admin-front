@@ -76,6 +76,18 @@ export function base64ToFile(base64, filename) {
   return file;
 }
 
+// 获取并返回图片base64字符串对象
+export function getBase64Str(base64, type) {
+  console.log(base64);
+  const fileContents = base64.split(",")[1];
+  const index = type.indexOf("/");
+  const fileSuffix = type.substring(index + 1);
+  return {
+    fileContents,
+    fileSuffix
+  };
+}
+
 // 处理浏览器地址栏地址，截取地址中段,不需要http:// or https://和com后地址
 export const getWindowUrl = url => {
   const newUrl = url.includes("http://")

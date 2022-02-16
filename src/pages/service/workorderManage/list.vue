@@ -16,18 +16,18 @@ export default {
   },
   data() {
     return {
-      tabsKey: -1,
+      tabsKey: 0,
       tabsList: [
         {
-          key: -1,
+          key: 0,
           title: "全部"
         },
         {
-          key: 1,
+          key: 2,
           title: "处理中"
         },
         {
-          key: 2,
+          key: 1,
           title: "未处理"
         },
         {

@@ -3,7 +3,7 @@
     <!-- 头部信息 -->
     <Detail :detail="detail" @success="detailSuccess" />
     <!-- 沟通记录 -->
-    <Record :recordList="recordList" />
+    <Record :recordList="recordList" @success="getRecord" />
     <!-- 发表回复 -->
     <Reply :detail="detail" @success="getRecord" />
   </div>
@@ -27,7 +27,7 @@ export default {
       recordList: []
     };
   },
-  created() {
+  activated() {
     this.getDetail();
     this.getRecord();
     // this.startTime();

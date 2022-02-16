@@ -17,90 +17,74 @@
       <div class="item">
         <div class="label">工单分类：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.questionCategoryName }}
         </div>
       </div>
       <div class="item">
         <div class="label">会员ID：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.submitCode }}
         </div>
       </div>
       <div class="item">
         <div class="label">联系电话：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.phoneNumber }}
         </div>
       </div>
       <div class="item">
         <div class="label">联系QQ：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.qqNumber }}
         </div>
       </div>
       <div class="item">
         <div class="label">创建时间：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.createTime | formatDate }}
         </div>
       </div>
       <div class="item">
         <div class="label">响应时间：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.acceptTime | formatDate }}
         </div>
       </div>
       <div class="item">
         <div class="label">接单客服：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.acceptName }}
         </div>
       </div>
       <div class="item">
         <div class="label">工单状态：</div>
         <div class="value">
-          <!-- 待接单 -->
-          <div v-if="detail.status === 1" class="wait status">
-            {{ workOrderStatusEnum[detail.status] }}
-          </div>
-          <!-- 处理中 -->
-          <div v-if="detail.status === 2" class="center status">
-            {{ workOrderStatusEnum[detail.status] }}
-          </div>
-          <!-- 处理完成 -->
-          <div v-if="detail.status === 3" class="ok status">
-            {{ workOrderStatusEnum[detail.status] }}
-          </div>
+          <a-tag v-if="detail.status === 1">
+            待接单
+          </a-tag>
+          <a-tag v-if="detail.status === 2" color="blue">
+            接单处理中
+          </a-tag>
+          <a-tag v-if="detail.status === 3" color="green">
+            处理完成
+          </a-tag>
         </div>
       </div>
       <div class="item">
         <div class="label">结束时间：</div>
         <div class="value">
-          {{ detail.title }}
+          {{ detail.endTime | formatDate }}
         </div>
       </div>
       <div class="item">
-        <div class="label">工单评论:</div>
+        <div class="label">工单评论：</div>
         <div class="value">
-          {{ detail.title }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="label">业务ID:</div>
-        <div class="value">
-          {{ detail.title }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="label">业务IP:</div>
-        <div class="value">
-          {{ detail.title }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="label">业务类型：</div>
-        <div class="value">
-          {{ detail.title }}
+          <a-tag v-if="detail.evaluateStatus === 0">
+            未评价
+          </a-tag>
+          <a-tag v-if="detail.evaluateStatus === 1" color="green">
+            已评价
+          </a-tag>
         </div>
       </div>
       <div class="item actions">
@@ -109,23 +93,35 @@
           <a-space>
             <a-button
               type="primary"
-              v-if="detail.status !== 3"
-              :loading="loading"
-              @click="handleCloseWorkOrder"
+              v-if="detail.status === 2"
+              :disabled="true"
+            >
+              已接单
+            </a-button>
+            <a-button
+              type="primary"
+              v-if="detail.status === 1"
+              :loading="orderReceivingLoading"
+              @click="handleOrderReceiving"
             >
               接单
             </a-button>
             <a-button
               type="primary"
               v-if="detail.status !== 3"
-              :loading="loading"
-              @click="handleCloseWorkOrder"
+              @click="handleMoveWorkOrder"
             >
               移动工单
             </a-button>
             <a-button
               type="primary"
-              v-if="detail.status !== 3"
+              v-if="detail.status === 2"
+              @click="handleMoveCloudCustomer"
+            >
+              转移到云技术客服
+            </a-button>
+            <a-button
+              type="primary"
               :loading="loading"
               @click="handleCloseWorkOrder"
             >
@@ -134,19 +130,31 @@
           </a-space>
         </div>
       </div>
-      <div class="item">
-        <div class="label">客户是否已读：</div>
-        <div class="value">
-          {{ detail.title }}
-        </div>
-      </div>
     </div>
+    <!-- 移动工单 -->
+    <MoveWorkOrderModal
+      v-model="moveWorkOrderVisible"
+      :detail="detail"
+      @success="successCallBack"
+    />
+    <!-- 转移到云技术客服 -->
+    <MoveCloudCustomerModal
+      v-model="moveCloudCustomerVisible"
+      :detail="detail"
+      @success="successCallBack"
+    />
   </div>
 </template>
 
 <script>
 import { workOrderStatusEnum } from "@/utils/enum";
+import MoveWorkOrderModal from "@/components/WorkOrder/Detail/moveWorkOrderModal.vue";
+import MoveCloudCustomerModal from "@/components/WorkOrder/Detail/moveCloudCustomerModal.vue";
 export default {
+  components: {
+    MoveWorkOrderModal,
+    MoveCloudCustomerModal
+  },
   props: {
     // 工单详情
     detail: {
@@ -157,10 +165,46 @@ export default {
   data() {
     return {
       workOrderStatusEnum,
-      loading: false
+      loading: false,
+      orderReceivingLoading: false,
+      moveWorkOrderVisible: false,
+      moveCloudCustomerVisible: false
     };
   },
   methods: {
+    // 成功回调
+    successCallBack() {
+      this.$emit("success");
+    },
+    // 接单
+    handleOrderReceiving() {
+      this.$confirm({
+        title: "确认要接单吗？",
+        onOk: () => {
+          this.orderReceivingLoading = true;
+          this.$store
+            .dispatch("workorder/orderReceiving", {
+              workOrderNo: this.detail.workOrderNo,
+              receiverType: 1
+            })
+            .then(res => {
+              this.$message.success("接单成功");
+              this.$emit("success");
+            })
+            .finally(() => {
+              this.orderReceivingLoading = false;
+            });
+        }
+      });
+    },
+    // 移动工单
+    handleMoveWorkOrder() {
+      this.moveWorkOrderVisible = true;
+    },
+    // 转移到云技术客服
+    handleMoveCloudCustomer() {
+      this.moveCloudCustomerVisible = true;
+    },
     // 关闭工单
     handleCloseWorkOrder() {
       this.$confirm({
@@ -219,6 +263,7 @@ export default {
     }
   }
   .actions {
+    width: 66.66%;
     align-items: center;
   }
   .wait {

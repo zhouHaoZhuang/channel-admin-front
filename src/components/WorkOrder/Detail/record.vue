@@ -14,13 +14,26 @@
           </div>
           <div class="info-box">
             <div :class="`top-title ${getClassName(item.identityType)}`">
-              问题描述
+              <span v-if="item.identityType === 1">企业客户</span>
+              <span v-if="item.identityType === 2">管理员</span>
+              <span v-if="item.identityType === 3">云盾客服</span>
+              <span v-if="item.secret === 1" class="ml10">
+                [私密回复](仅平台客服和云技术客服可见)
+              </span>
             </div>
             <div class="info-txt">
               {{ item.replyDetail }}
+              <a-button
+                v-if="item.identityType === 2"
+                class="btn-link ml10"
+                type="link"
+                @click="handleDelRecord(item)"
+              >
+                撤回回复
+              </a-button>
             </div>
             <div class="info-img">
-              <img src="" alt="" />
+              <img v-for="ele in item.replyUrl" :key="ele" :src="ele" alt="" />
             </div>
           </div>
         </div>
@@ -61,7 +74,20 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    // 撤回回复
+    handleDelRecord(record) {
+      this.$confirm({
+        title: "确定要撤回回复吗?",
+        onOk: () => {
+          this.$store.dispatch("workorder/messageDel", record.id).then(res => {
+            this.$message.success("撤回回复成功");
+            this.$emit("success");
+          });
+        }
+      });
+    }
+  }
 };
 </script>
 
@@ -71,6 +97,13 @@ export default {
   margin-bottom: 18px;
   background: #fff;
   font-size: 12px;
+  .ml10 {
+    margin-left: 10px;
+    color: red;
+  }
+  .btn-link {
+    padding: 0;
+  }
   .title {
     border-bottom: 1px solid #ebebeb;
     padding-left: 32px;
