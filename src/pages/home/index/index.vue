@@ -1,8 +1,8 @@
 <template>
   <div class="home-container">
     <div style="background-color: #F0F2F5; padding: 20px; padding-left: 0;">
-      <a-row :gutter="24">
-        <a-col :span="6">
+      <a-row type="flex" :gutter="16">
+        <a-col :flex="1">
           <a-card title="注册客户" :bordered="false">
             <a slot="extra" href="#">今日</a>
             <div>
@@ -22,7 +22,7 @@
             </div>
           </a-card>
         </a-col>
-        <a-col :span="6">
+        <a-col :flex="1">
           <a-card title="成交客户" :bordered="false">
             <a slot="extra" href="#">今日</a>
             <div>
@@ -42,7 +42,7 @@
             </div>
           </a-card>
         </a-col>
-        <a-col :span="6">
+        <a-col :flex="1">
           <a-card title="订单数" :bordered="false">
             <a slot="extra" href="#">今日</a>
             <div>
@@ -62,7 +62,7 @@
             </div>
           </a-card>
         </a-col>
-        <a-col :span="6">
+        <a-col :flex="1">
           <a-card title="消费金额" :bordered="false">
             <a slot="extra" href="#">今日</a>
             <div>
@@ -78,6 +78,26 @@
               </div>
               <p class="moon-num">
                 <span>本月用户消费金额</span><span>{{ orderSumMonth }}元</span>
+              </p>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col :flex="1">
+          <a-card title="工单" :bordered="false">
+            <a slot="extra" href="#">今日</a>
+            <div>
+              <div class="day-num">
+                <img
+                  width="70px"
+                  src="@/assets/img/passport/Order.png"
+                  alt=""
+                />
+                <span>
+                  <a>{{ orderSumDay }}</a> 单
+                </span>
+              </div>
+              <p class="moon-num">
+                <span>本月待解决工单</span><span>{{ orderSumMonth }}单</span>
               </p>
             </div>
           </a-card>

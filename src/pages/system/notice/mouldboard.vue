@@ -83,13 +83,7 @@ export default {
           {
             required: true,
             trigger: ["change", "blur"],
-            validator: (rule, value, callback) => {
-              if (value === "") {
-                callback(new Error("请输入模板内容"));
-              } else {
-                callback();
-              }
-            }
+            message: "必填，请输入模板内容"
           }
         ]
       }

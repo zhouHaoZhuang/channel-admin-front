@@ -210,49 +210,49 @@ data.reduceRight((acc, currentValue, currentIndex) => {
 export default {
   data() {
     const columns = [
+      // {
+      //   // title: "场景",
+      //   // dataIndex: "name",
+      //   // colSpan: 0,
+      //   // customRender: (text, record, index) => {
+      //   //   if (!record.nameLength) {
+      //   //     return {
+      //   //       children: <span>{text}</span>,
+      //   //       attrs: {
+      //   //         rowSpan: 0
+      //   //       }
+      //   //     };
+      //   //   }
+      //   //   // a = record.name;
+      //   //   let checkAll = this.data
+      //   //     .slice(index, record.nameLength + index)
+      //   //     .every(item => {
+      //   //       return item.agech;
+      //   //     });
+      //   //   // if (index == 0) {
+      //   //   return {
+      //   //     children: (
+      //   //       <div>
+      //   //         <a-checkbox
+      //   //           checked={checkAll}
+      //   //           onchange={$event => {
+      //   //             this.onCheckAllChange(index, record.nameLength, $event);
+      //   //           }}
+      //   //         >
+      //   //           <span>{text}</span>
+      //   //         </a-checkbox>
+      //   //       </div>
+      //   //     ),
+      //   //     attrs: {
+      //   //       rowSpan: record.nameLength
+      //   //     }
+      //   //   };
+      //   // }
+      // },
       {
         title: "场景",
-        dataIndex: "name",
-        colSpan: 2,
-        customRender: (text, record, index) => {
-          if (!record.nameLength) {
-            return {
-              children: <span>{text}</span>,
-              attrs: {
-                rowSpan: 0
-              }
-            };
-          }
-          // a = record.name;
-          let checkAll = this.data
-            .slice(index, record.nameLength + index)
-            .every(item => {
-              return item.agech;
-            });
-          // if (index == 0) {
-          return {
-            children: (
-              <div>
-                <a-checkbox
-                  checked={checkAll}
-                  onchange={$event => {
-                    this.onCheckAllChange(index, record.nameLength, $event);
-                  }}
-                >
-                  <span>{text}</span>
-                </a-checkbox>
-              </div>
-            ),
-            attrs: {
-              rowSpan: record.nameLength
-            }
-          };
-        }
-      },
-      {
-        title: "Age",
         dataIndex: "age",
-        colSpan: 0,
+        colSpan: 1,
         // customRender: renderContent,
         scopedSlots: { customRender: "age" }
       },
@@ -331,20 +331,20 @@ export default {
       }
     },
     // 一级选框的事件
-    onCheckAllChange(index, nameLength, e) {
-      this.data.slice(index, nameLength + index).forEach(element => {
-        if (element.tel != undefined) {
-          element.tel = e.target.checked;
-        }
-        if (element.phone != undefined) {
-          element.phone = e.target.checked;
-        }
-        if (element.address != undefined) {
-          element.address = e.target.checked;
-        }
-        element.agech = e.target.checked;
-      });
-    },
+    // onCheckAllChange(index, nameLength, e) {
+    //   this.data.slice(index, nameLength + index).forEach(element => {
+    //     if (element.tel != undefined) {
+    //       element.tel = e.target.checked;
+    //     }
+    //     if (element.phone != undefined) {
+    //       element.phone = e.target.checked;
+    //     }
+    //     if (element.address != undefined) {
+    //       element.address = e.target.checked;
+    //     }
+    //     element.agech = e.target.checked;
+    //   });
+    // },
     // 获取列表数据
     getList(){
       this.$store.dispatch('notice/getList').then((res)=>{

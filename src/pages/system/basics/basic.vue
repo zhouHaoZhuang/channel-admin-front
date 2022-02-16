@@ -31,8 +31,11 @@
             <a-form-model-item label="网站描述">
               <a-input v-model="form.describe" type="textarea" />
             </a-form-model-item>
-            <a-form-model-item label="备案编号" prop="recordNo">
+            <a-form-model-item label="ICP备案" prop="recordNo">
               <a-input v-model="form.recordNo" />
+            </a-form-model-item>
+             <a-form-model-item label="公安备案" prop="publicSecurityRecord">
+              <a-input v-model="form.publicSecurityRecord" />
             </a-form-model-item>
             <!-- <a-form-model-item
               label="国际站点地址"
@@ -46,7 +49,7 @@
             <a-form-model-item label="底部信息">
               <a-input v-model="form.bottomInfo" type="textarea" />
             </a-form-model-item>
-            <a-form-model-item label="统计代码">
+            <a-form-model-item label="百度统计">
               <a-input v-model="form.statisticalCode" type="textarea" />
             </a-form-model-item>
           </a-collapse-panel>
@@ -257,9 +260,6 @@ import Upload from "@/components/Upload/index";
 export default {
   data() {
     return {
-      imgList: [
-        // "http://yd-idc.oss-cn-beijing.aliyuncs.com/266a3b29-36c1-42ea-acaf-0d8ba0482ac2.jpg"
-      ],
       labelCol: { span: 6 },
       wrapperCol: { span: 13 },
       form: {
@@ -290,6 +290,7 @@ export default {
         bankAccount: "",
         id: "",
         phoneLogo: "",
+        publicSecurityRecord:'',
 
         linkTypeName: "",
         linkTypeCode: "",
@@ -419,7 +420,6 @@ export default {
   methods: {
     imgChange(urlList, firstImageUrl, type) {
       // console.log("上传图片回调", urlList, firstImageUrl, type);
-      // this.imgList = urlList;
       this.form[type] = firstImageUrl;
     },
     onSubmit() {
