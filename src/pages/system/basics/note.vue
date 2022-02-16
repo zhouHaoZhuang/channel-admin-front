@@ -108,9 +108,10 @@
               </div>
               <Upload
                 :defaultFile="form.threeCert"
+                :size='2'
                 @change="
-                  ({ urlList, firstImageUrl }) =>
-                    pcImgChange(urlList, firstImageUrl, 'threeCert')
+                  ({ urlList, firstImageUrl,base64List }) =>
+                    pcImgChange(urlList, firstImageUrl, base64List,'threeCert')
                 "
               />
             </a-form-model-item>
@@ -417,8 +418,8 @@ export default {
     };
   },
   methods: {
-    pcImgChange(urlList, firstImageUrl, type) {
-      // console.log("上传图片回调99999", urlList, firstImageUrl);
+    pcImgChange(urlList, firstImageUrl,base64List, type) {
+      console.log("上传图片回调99999", urlList, base64List,firstImageUrl);
       this.form[type] = firstImageUrl;
     },
     tzminwin() {
