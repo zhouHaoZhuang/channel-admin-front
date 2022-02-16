@@ -28,6 +28,8 @@ import message from "./message";
 import product from "./product";
 import emailSms from "./emailSms";
 import domain from "./domain";
+import notice from './notice';
+
 export default {
   user,
   account,
@@ -58,5 +60,6 @@ export default {
   message,
   product,
   emailSms,
-  domain
+  domain,
+  notice
 };
