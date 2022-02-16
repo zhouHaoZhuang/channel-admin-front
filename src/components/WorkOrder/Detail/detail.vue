@@ -93,7 +93,7 @@
           <a-space>
             <a-button
               type="primary"
-              v-if="detail.status === 2"
+              v-if="detail.status === 2 || detail.status === 3"
               :disabled="true"
             >
               已接单
@@ -122,6 +122,7 @@
             </a-button>
             <a-button
               type="primary"
+              v-if="detail.status !== 3"
               :loading="loading"
               @click="handleCloseWorkOrder"
             >
