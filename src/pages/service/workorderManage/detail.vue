@@ -40,7 +40,7 @@ export default {
     getDetail() {
       this.$store
         .dispatch("workorder/workOrderDetail", {
-          queryType: 1,
+          queryType: 2,
           workOrderNo: this.$route.query.workOrderNo
         })
         .then(res => {
@@ -56,7 +56,6 @@ export default {
           workOrderNo: this.$route.query.workOrderNo
         })
         .then(res => {
-          // this.recordList = [...res.data.list];
           this.recordList = res.data.list.map(ele => {
             return {
               ...ele,

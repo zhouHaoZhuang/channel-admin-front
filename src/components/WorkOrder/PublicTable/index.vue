@@ -84,24 +84,31 @@
         :pagination="paginationProps"
       >
         <!-- 进度 -->
-        <div class="status" slot="status" slot-scope="text">
+        <div slot="schedule" slot-scope="text">
           <a-tag v-if="text === 1">
-            待分配
+            等待回复
           </a-tag>
-          <a-tag v-else color="blue">
-            在解决
+          <a-tag v-if="text === 2" color="blue">
+            第三方已回复
           </a-tag>
-          <a-tag color="green">
-            已完成
+          <a-tag v-if="text === 3" color="green">
+            已回复
           </a-tag>
         </div>
         <!-- 问题内容 -->
-        <div slot="title1" slot-scope="text">
-          {{ text }}
+        <div slot="title1" slot-scope="text, record">
+          <a-button
+            class="btn-link"
+            v-permission="'modify'"
+            type="link"
+            @click="handleJumpDetail(record)"
+          >
+            {{ text }}
+          </a-button>
         </div>
         <!-- 提交人 -->
         <div slot="submitName" slot-scope="text">
-          <a-button type="link">
+          <a-button class="btn-link" type="link">
             {{ text }}
           </a-button>
         </div>
@@ -110,8 +117,16 @@
           {{ text | formatDate }}
         </div>
         <!-- 关闭状态 -->
-        <div slot="status1" slot-scope="text">
-          {{ text }}
+        <div slot="status" slot-scope="text">
+          <a-tag v-if="text === 1">
+            待接单
+          </a-tag>
+          <a-tag v-if="text === 2" color="blue">
+            接单处理中
+          </a-tag>
+          <a-tag v-if="text === 3" color="green">
+            处理完成
+          </a-tag>
         </div>
         <div slot="action" slot-scope="text, record">
           <a-button
@@ -159,8 +174,8 @@ export default {
         },
         {
           title: "进度",
-          dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          dataIndex: "schedule",
+          scopedSlots: { customRender: "schedule" }
         },
         {
           title: "问题内容",
@@ -183,8 +198,8 @@ export default {
         },
         {
           title: "关闭状态",
-          dataIndex: "status1",
-          scopedSlots: { customRender: "status1" }
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "接单人",
@@ -301,7 +316,7 @@ export default {
     handleJumpDetail(record) {
       this.$router.push({
         path: "/service/workorderManage/detail",
-        query: { id: record.id }
+        query: { workOrderNo: record.workOrderNo }
       });
     }
   }
@@ -312,6 +327,9 @@ export default {
 .public-table-container {
   .table-content {
     margin-top: 16px;
+  }
+  .btn-link{
+    padding: 0;
   }
 }
 </style>
