@@ -26,7 +26,7 @@
         >
         </a-table>
       </a-form-model-item>
-      <a-form-model-item label="内容" prop="name">
+      <a-form-model-item label="内容" prop="context">
         <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context" />
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 9, offset: 5 }">
@@ -47,7 +47,7 @@ export default {
       labelCol: { span: 5 },
       wrapperCol: { span: 9 },
       form: {
-        name: ""
+        context: ""
       },
       data: [
         {
@@ -79,13 +79,12 @@ export default {
         }
       ],
       rules: {
-        name: [
+        context: [
           {
             required: true,
-            trigger: "blur",
+            trigger: ["change", "blur"],
             validator: (rule, value, callback) => {
-              // console.log(rule, value, callback);
-              if (this.form.context === "") {
+              if (value === "") {
                 callback(new Error("请输入模板内容"));
               } else {
                 callback();
@@ -99,6 +98,9 @@ export default {
   components: {
     Tinymce
   },
+  activated() {
+    this.resetForm();
+  },
   methods: {
     //上传富文本
     tinymceinput(value) {
@@ -107,9 +109,10 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          console.log(this.form);
+          console.log(this.form.context);
           this.$message.success("提交成功");
-          this.resetForm()
+          this.resetForm();
+          this.$router.back();
         }
       });
     },
