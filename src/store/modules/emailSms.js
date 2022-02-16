@@ -10,7 +10,7 @@ const emailSms = {
     // 获取配置
     getAllConfig({ commit, state }, params) {
       return request({
-        url: "/ccConfig/allConfig",
+        url: "/ccConfigRelation/selectCcConfigConfigRelation",
         method: "get",
         params,
       });
@@ -18,7 +18,7 @@ const emailSms = {
     // 批量修改配置
     modifyAllConfig({ commit, state }, data) {
       return request({
-        url: "/ccConfig/batchUpdateProperty",
+        url: "/ccConfigRelation/batchUpdateConfigRelation",
         method: "post",
         data,
       });
