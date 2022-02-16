@@ -32,6 +32,8 @@ const errorHandler = error => {
 
 // request interceptor 请求拦截
 request.interceptors.request.use(async config => {
+  // 携带system区分不同项目
+  config.headers.system = "channel";
   // 多个请求地址兼容
   // 支付请求地址
   if (config.pay) {
@@ -41,10 +43,14 @@ request.interceptors.request.use(async config => {
   if (config.jadepool) {
     config.baseURL = env.JADE_POOL_URL;
   }
+  // form，新的服务接口请求地址
+  if (config.formService) {
+    config.baseURL = env.FORM_BASE_URL;
+    config.headers.system = "fs";
+    config.headers["authing-id"] = store.state.user.userInfo.id;
+  }
   config.cancelToken = axiosSource.token;
   config.headers.domain = getDomainUrl();
-  // 携带system区分不同项目
-  config.headers.system = "channel";
   // config.headers.domain = 'ydidc.com'
   const token = store.state.user.token;
   // 每次请求时需要判断登录状态，未登录直接跳转登录页，并且取消本次请求

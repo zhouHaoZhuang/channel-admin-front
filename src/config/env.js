@@ -18,6 +18,12 @@ const jadepoolUrl = {
   test: "http://rps.test.ydidc.com",
   prod: "http://rps.prod.ydidc.com"
 };
+// form服务接口请求地址
+const formBaseUrl = {
+  dev: "http://form.dev.ydidc.com",
+  test: "http://form.test.ydidc.com",
+  prod: "http://form.prod.ydidc.com"
+};
 const domains = {
   dev: "localhost"
 };
@@ -41,6 +47,7 @@ export default {
   BASE_URL: baseUrl[process.env.VUE_APP_ENV],
   PAY_BASE_URL: payBaseUrl[process.env.VUE_APP_ENV],
   JADE_POOL_URL: jadepoolUrl[process.env.VUE_APP_ENV],
+  FORM_BASE_URL: formBaseUrl[process.env.VUE_APP_ENV],
   DOMAIN_URL: domains[process.env.VUE_APP_ENV],
   ...authingReq[process.env.VUE_APP_ENV]
 };

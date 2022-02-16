@@ -30,6 +30,8 @@ import emailSms from "./emailSms";
 import domain from "./domain";
 import notice from "./notice";
 import note from "./note";
+import workorder from "./workorder";
+
 
 export default {
   user,
@@ -63,5 +65,6 @@ export default {
   emailSms,
   domain,
   notice,
-  note
+  note,
+  workorder
 };

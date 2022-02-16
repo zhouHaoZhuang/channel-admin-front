@@ -25,7 +25,7 @@
       :accept="accept"
       :limit="limit"
       :multiple="multiple"
-      :headers="headers"
+      :headers="{ ...headers, system: headerSystem }"
       :action="uploadUrl"
       list-type="picture-card"
       :file-list="fileList"
@@ -50,7 +50,7 @@
 <script>
 import lrz from "lrz";
 import env from "@/config/env";
-import { base64ToFile, getDomainUrl } from "@/utils/index";
+import { base64ToFile, getBase64Str, getDomainUrl } from "@/utils/index";
 export default {
   props: {
     // 发送到后台的文件名
@@ -76,6 +76,16 @@ export default {
     accept: {
       type: String,
       default: "image/jpeg,image/png"
+    },
+    // 兼容多个图片上传地址
+    replaceUrl: {
+      type: String,
+      default: "default"
+    },
+    // 图片大小限制
+    size: {
+      type: Number,
+      default: 100
     }
   },
   data() {
@@ -83,18 +93,36 @@ export default {
       // 请求头
       headers: {
         domain: getDomainUrl(),
-        system: "channel"
+        system: ""
       },
       previewVisible: false,
       previewImage: "",
       imageList: [],
-      fileList: []
+      fileList: [],
+      // base64字符串对象数组
+      base64List: []
     };
   },
   computed: {
     // 图片上传地址
     uploadUrl() {
-      return env.BASE_URL + "/ccOss/uploadFile";
+      if (this.replaceUrl === "default") {
+        return env.BASE_URL + "/ccOss/uploadFile";
+      }
+      if (this.replaceUrl === "formService") {
+        return env.FORM_BASE_URL + "/oss/uploadFile";
+      }
+      return env.BASE_URL + "/uploadFile";
+    },
+    // 返回请求头system的值
+    headerSystem() {
+      if (this.replaceUrl === "default") {
+        return "channel";
+      }
+      if (this.replaceUrl === "formService") {
+        return "fs";
+      }
+      return "";
     },
     // 是否可多选文件上传
     multiple() {
@@ -108,6 +136,7 @@ export default {
         if (!this.defaultFile) {
           this.imageList = [];
           this.fileList = [];
+          this.base64List = [];
           return;
         }
         const newDefaultFile = Array.isArray(this.defaultFile)
@@ -119,11 +148,12 @@ export default {
             uid: -index - 1,
             name: `image${index}.png`,
             status: "done",
-            url: item
+            url: typeof item === "string" ? item : item.fileContents
           };
         });
         this.imageList = this.$clonedeep(newImgList);
         this.fileList = this.$clonedeep(newImgList);
+        this.base64List = this.$clonedeep(newDefaultFile);
       },
       deep: true,
       immediate: true
@@ -143,10 +173,22 @@ export default {
           });
           return false;
         }
+        const sizeFlag = file.size / 1024 / 1024 < this.size;
+        if (!sizeFlag) {
+          this.$notification.error({
+            message: "提示",
+            description: `图片大小不能超过${this.size}M`,
+            duration: 2
+          });
+          return false;
+        }
         lrz(file, {
           width: 1920
         }).then(res => {
           const file = base64ToFile(res.base64, res.origin.name);
+          this.base64List.push({
+            ...getBase64Str(res.base64, res.file.type)
+          });
           resolve(file);
         });
       });
@@ -185,7 +227,8 @@ export default {
         });
         this.$emit("change", {
           urlList, // 图片列表
-          firstImageUrl // 图片列表第一张图片
+          firstImageUrl, // 图片列表第一张图片
+          base64List: this.base64List // base64字符串对象数组
         });
       }
     },
@@ -194,13 +237,15 @@ export default {
       const index = this.imageList.findIndex(item => item.uid === data.uid);
       this.imageList.splice(index, 1);
       this.fileList.splice(index, 1);
+      this.base64List.splice(index, 1);
       const urlList =
         this.fileList.map(item => item.response?.data || item.url) || [];
       const firstImageUrl =
         urlList.length && urlList.length > 0 ? urlList[0] : "";
       this.$emit("change", {
         urlList, // 图片列表
-        firstImageUrl // 图片列表第一张图片
+        firstImageUrl, // 图片列表第一张图片
+        base64List: this.base64List // base64字符串对象数组
       });
     }
   }
