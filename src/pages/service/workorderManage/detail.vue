@@ -58,7 +58,7 @@ export default {
           this.recordList = res.data.map(ele => {
             return {
               ...ele,
-              replyUrl: ele.replyUrl.split(",")
+              replyUrl: ele.replyUrl ? ele.replyUrl.split(",") : []
             };
           });
         });

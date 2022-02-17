@@ -17,6 +17,10 @@ import * as Directives from "@/utils/directives/index";
 import * as Filters from "@/utils/filters/index";
 import * as utilsFun from "@/utils/index";
 import VueClipboard from "vue-clipboard2";
+// 图片预览组件
+import preview from "vue-photo-preview";
+import "vue-photo-preview/dist/skin.css";
+
 
 const router = initRouter(store.state.setting.asyncRoutes);
 const i18n = initI18n("CN", "US");
@@ -35,6 +39,8 @@ Vue.prototype.$getListQp = utilsFun.getListQp;
 Vue.prototype.$clonedeep = clonedeep
 // 复制文本插件
 Vue.use(VueClipboard);
+// 图片预览组件
+Vue.use(preview)
 
 bootstrap({ router, store, i18n, message: Vue.prototype.$message });
 

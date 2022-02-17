@@ -39,6 +39,7 @@
                   v-for="ele in item.replyUrl"
                   :key="ele"
                   :src="ele"
+                  preview='1'
                   alt=""
                 />
               </div>
