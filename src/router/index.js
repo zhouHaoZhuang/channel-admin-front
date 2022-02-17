@@ -29,8 +29,8 @@ function initRouter(isAsync) {
     : require("./config").default;
   formatRoutes(options.routes);
   return new Router({
-    mode: "history",
-    base: "shop",
+    // mode: "history",
+    // base: "shop",
     ...options
   });
 }
