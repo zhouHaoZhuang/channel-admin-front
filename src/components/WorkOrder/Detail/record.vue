@@ -52,14 +52,14 @@
         <div v-else class="move-item">
           <div class="box">
             <div class="txt">
-              备注消息: 2022-02-14 11:01:31
+              备注消息: {{ item.createTime | formatDate }}
               <span class="red">仅平台客服可见</span>
             </div>
             <div class="txt">
-              工单由[]移交, 备注:
+              工单由[{{ item.transferUser }}]移交, 备注:{{ item.replyDetail }}
             </div>
             <div class="txt">
-              移交方式: 指定人员, [] => [无]
+              移交方式: 指定人员, [{{ item.receiverUser }}]
             </div>
           </div>
         </div>
