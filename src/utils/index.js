@@ -78,9 +78,9 @@ export function base64ToFile(base64, filename) {
 
 // 获取并返回图片base64字符串对象
 export function getBase64Str(base64, type) {
-  const fileContents = base64;
-  const index = type.indexOf("/");
-  const fileSuffix = type.substring(index + 1);
+  const arr = base64.split(",");
+  const fileContents = arr[1];
+  const fileSuffix = arr[0];
   return {
     fileContents,
     fileSuffix
@@ -90,7 +90,7 @@ export function getBase64Str(base64, type) {
 // 将网络地址图片转换为base64
 export const imgUrlToBase64 = imgUrl => {
   let image = new Image();
-  image.setAttribute("crossOrigin", "anonymous"); //解决跨域问题
+  image.crossOrigin = "anonymous"; //解决跨域问题
   image.src = imgUrl;
   return new Promise(resolve => {
     image.onload = function() {
