@@ -34,7 +34,7 @@
             <a-form-model-item label="ICP备案" prop="recordNo">
               <a-input v-model="form.recordNo" />
             </a-form-model-item>
-             <a-form-model-item label="公安备案" prop="publicSecurityRecord">
+            <a-form-model-item label="公安备案" prop="publicSecurityRecord">
               <a-input v-model="form.publicSecurityRecord" />
             </a-form-model-item>
             <!-- <a-form-model-item
@@ -290,19 +290,10 @@ export default {
         bankAccount: "",
         id: "",
         phoneLogo: "",
-        publicSecurityRecord:'',
+        publicSecurityRecord: "",
 
-        linkTypeName: "",
-        linkTypeCode: "",
         linkName: "",
-        linkUrl: "",
-        linkDescribe: "",
-        bottomShow: 0,
-        status: 0,
-        linkSort: "",
-        channelCode: "",
-        linkLogo: "",
-        linkTypeSort: 0
+        status: 0
       },
       rules: {
         websiteName: [
@@ -457,7 +448,7 @@ export default {
         };
         this.form.cid = res.data.id;
       });
-    }
+    },
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div class="note-container">
     <div class="content">
       <a-collapse default-active-key="1" :bordered="false" class="aa">
-        <a-collapse-panel key="1" header="通道设置">
+        <a-collapse-panel key="1" header="通道设置" forceRender>
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -11,7 +11,11 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="首选通道" prop="zkeys">
-              <a-select default-value="ZKEYS短信" v-model="form.zkeys" style="width: 120px">
+              <a-select
+                default-value="ZKEYS短信"
+                v-model="form.zkeys"
+                style="width: 120px"
+              >
                 <a-select-option value="ZKEYS短信">
                   ZKEYS短信
                 </a-select-option>
@@ -29,7 +33,7 @@
             </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="2" header="模板信息设置">
+        <a-collapse-panel key="2" header="模板信息设置" forceRender>
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -57,7 +61,7 @@
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="3" header="短信签名配置">
+        <a-collapse-panel key="3" header="短信签名配置" forceRender>
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -108,10 +112,11 @@
               </div>
               <Upload
                 :defaultFile="form.threeCert"
-                :size='2'
+                :size="2"
+                :limit="3"
                 @change="
-                  ({ urlList, firstImageUrl,base64List }) =>
-                    pcImgChange(urlList, firstImageUrl, base64List,'threeCert')
+                  ({ urlList, firstImageUrl, base64List }) =>
+                    pcImgChange(urlList, firstImageUrl, base64List, 'threeCert')
                 "
               />
             </a-form-model-item>
@@ -131,9 +136,10 @@
               </div>
               <Upload
                 :defaultFile="form.entrust"
+                :size="2"
                 @change="
-                  ({ urlList, firstImageUrl }) =>
-                    pcImgChange(urlList, firstImageUrl, 'entrust')
+                  ({ urlList, firstImageUrl, base64List }) =>
+                    pcImgChange(urlList, firstImageUrl, base64List, 'entrust')
                 "
               />
             </a-form-model-item>
@@ -418,15 +424,15 @@ export default {
     };
   },
   methods: {
-    pcImgChange(urlList, firstImageUrl,base64List, type) {
-      console.log("上传图片回调99999", urlList, base64List,firstImageUrl);
+    pcImgChange(urlList, firstImageUrl, base64List, type) {
+      console.log("上传图片回调99999", urlList, base64List, firstImageUrl);
       this.form[type] = firstImageUrl;
     },
     tzminwin() {
       window.open(
         "//help.aliyun.com/document_detail/56741.htm",
         "newwindow",
-        "height=700, width=600, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=0,location=no, status=no"
+        "height=700, width=600, top=100, left=10000, toolbar=no, menubar=no, scrollbars=no, resizable=0,location=no, status=no"
       );
     },
     // 获取短信签名配置
@@ -436,15 +442,6 @@ export default {
       });
     },
     onSubmit() {
-      // this.$confirm({
-      //   title: "确定要删除吗?",
-      //   onOk: () => {
-      //     this.$store.dispatch("helpCategory/delList", id).then(val => {
-      //       this.$message.success("操作成功");
-      //       this.getList();
-      //     });
-      //   }
-      // });
       this.$refs.ruleForm.validate(valid => {
         // console.log(valid);
         console.log(this.form);
@@ -462,27 +459,10 @@ export default {
                 });
             }
           });
+        } else {
+          this.$message.warning("请打开折叠面板，检查所有必填选项！");
         }
       });
-      // this.$confirm({
-      //   title: "确定要保存设置吗？",
-      //   onOk: () => {
-      //     this.$refs.ruleForm.validate(valid => {
-      //       // console.log(valid);
-      //       console.log(this.form);
-      //       if (valid) {
-      //         // this.$store
-      //         //   .dispatch("note/modifyNoteConfig", this.form)
-      //         //   .then(() => {
-      //         //     this.$message.success("保存成功");
-      //         //   })
-      //         //   .finally(() => {
-      //         //     this.getNoteConfig();
-      //         //   });
-      //       }
-      //     });
-      //   }
-      // });
     }
   }
 };
