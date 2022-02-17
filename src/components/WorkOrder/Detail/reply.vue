@@ -72,6 +72,7 @@ export default {
   },
   activated() {
     this.getList();
+    this.resetForm();
   },
   data() {
     return {
@@ -120,6 +121,9 @@ export default {
     },
     // 重置表单
     resetForm() {
+      this.$nextTick(() => {
+        this.$refs.ruleForm.clearValidate();
+      });
       this.form = {
         secret: [],
         replyDetail: "",

@@ -51,17 +51,17 @@ export default {
     getRecord() {
       this.$store
         .dispatch("workorder/messageList", {
-          currentPage: 1,
-          pageSize: 999,
+          queryType: 2,
           workOrderNo: this.$route.query.workOrderNo
         })
         .then(res => {
-          this.recordList = res.data.list.map(ele => {
+          this.recordList = res.data.map(ele => {
             return {
               ...ele,
-              replyUrl: ele.replyUrl.split(",")
+              replyUrl: ele.replyUrl ? ele.replyUrl.split(",") : []
             };
           });
+          this.$previewRefresh();
         });
     },
     // 头部操作后的回调

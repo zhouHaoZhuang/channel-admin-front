@@ -28,7 +28,11 @@ function initRouter(isAsync) {
     ? require("./async/config.async").default
     : require("./config").default;
   formatRoutes(options.routes);
-  return new Router(options);
+  return new Router({
+    // mode: "history",
+    // base: "shop",
+    ...options
+  });
 }
 export { loginIgnore, initRouter };
 

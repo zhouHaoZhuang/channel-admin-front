@@ -243,6 +243,13 @@ export default {
       }
     };
   },
+  watch: {
+    tabsKey: {
+      handler() {
+        this.getList();
+      }
+    }
+  },
   activated() {
     this.getList();
     this.getTypeList();
