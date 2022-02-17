@@ -2,43 +2,66 @@
   <div class="work-record-container">
     <div class="title">沟通记录</div>
     <div class="record-list">
-      <div v-for="item in recordList" :key="item.id" class="item">
-        <div class="left">
-          <div class="ava">
-            <img
-              v-if="item.identityType === 1"
-              src="@/assets/img/workOrder/user.png"
-              alt=""
-            />
-            <img v-else src="@/assets/img/workOrder/customer.png" alt="" />
+      <div class="item-wrap" v-for="item in recordList" :key="item.id">
+        <!-- 正常沟通记录 -->
+        <div v-if="item.replyType === 1" class="item">
+          <div class="left">
+            <div class="ava">
+              <img
+                v-if="item.identityType === 1"
+                src="@/assets/img/workOrder/user.png"
+                alt=""
+              />
+              <img v-else src="@/assets/img/workOrder/customer.png" alt="" />
+            </div>
+            <div class="info-box">
+              <div :class="`top-title ${getClassName(item.identityType)}`">
+                <span v-if="item.identityType === 1">企业客户</span>
+                <span v-if="item.identityType === 2">管理员</span>
+                <span v-if="item.identityType === 3">云盾客服</span>
+                <span v-if="item.secret === 1" class="ml10">
+                  [私密回复](仅平台客服和云技术客服可见)
+                </span>
+              </div>
+              <div class="info-txt">
+                {{ item.replyDetail }}
+                <a-button
+                  v-if="item.identityType === 2"
+                  class="btn-link ml10"
+                  type="link"
+                  @click="handleDelRecord(item)"
+                >
+                  撤回回复
+                </a-button>
+              </div>
+              <div class="info-img">
+                <img
+                  v-for="ele in item.replyUrl"
+                  :key="ele"
+                  :src="ele"
+                  alt=""
+                />
+              </div>
+            </div>
           </div>
-          <div class="info-box">
-            <div :class="`top-title ${getClassName(item.identityType)}`">
-              <span v-if="item.identityType === 1">企业客户</span>
-              <span v-if="item.identityType === 2">管理员</span>
-              <span v-if="item.identityType === 3">云盾客服</span>
-              <span v-if="item.secret === 1" class="ml10">
-                [私密回复](仅平台客服和云技术客服可见)
-              </span>
-            </div>
-            <div class="info-txt">
-              {{ item.replyDetail }}
-              <a-button
-                v-if="item.identityType === 2"
-                class="btn-link ml10"
-                type="link"
-                @click="handleDelRecord(item)"
-              >
-                撤回回复
-              </a-button>
-            </div>
-            <div class="info-img">
-              <img v-for="ele in item.replyUrl" :key="ele" :src="ele" alt="" />
-            </div>
+          <div class="right">
+            {{ item.createTime | formatDate }}
           </div>
         </div>
-        <div class="right">
-          {{ item.createTime | formatDate }}
+        <!-- 移交工单记录 -->
+        <div v-else class="move-item">
+          <div class="box">
+            <div class="txt">
+              备注消息: 2022-02-14 11:01:31
+              <span class="red">仅平台客服可见</span>
+            </div>
+            <div class="txt">
+              工单由[]移交, 备注:
+            </div>
+            <div class="txt">
+              移交方式: 指定人员, [] => [无]
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -116,12 +139,18 @@ export default {
     color: #292929;
   }
   .record-list {
-    .item {
+    .item-wrap {
       margin: 0 25px;
       padding: 20px 0;
+      border-bottom: 1px solid #ebebeb;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    .item {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid #ebebeb;
+
       .left {
         display: flex;
         .ava {
@@ -162,8 +191,22 @@ export default {
       .right {
         color: #999;
       }
-      &:last-child {
-        border-bottom: none;
+    }
+    .move-item {
+      // display: flex;
+      // justify-content: space-between;
+      .box {
+        border: 1px solid #ff8800;
+        border-left-width: 4px;
+        padding: 5px 15px;
+        font-size: 12px;
+        background-color: #fff1e1;
+        color: #ff8800;
+        .txt {
+          .red {
+            color: red;
+          }
+        }
       }
     }
   }

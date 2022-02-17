@@ -1197,6 +1197,8 @@ const options = {
 // 重置之前的路由
 export function resetRouter(router) {
   const newRouter = new Router({
+    mode: "history",
+    base: "shop",
     routes: basicRoute
   });
   router.matcher = newRouter.matcher;
