@@ -89,22 +89,22 @@ export function getBase64Str(base64, type) {
 
 // 将网络地址图片转换为base64
 export const imgUrlToBase64 = imgUrl => {
-  let base64Url = "";
   let image = new Image();
   image.setAttribute("crossOrigin", "anonymous"); //解决跨域问题
   image.src = imgUrl;
-  image.onload = function() {
-    //image.onload为异步加载
-    let canvas = document.createElement("canvas");
-    canvas.width = image.width;
-    canvas.height = image.height;
-    let context = canvas.getContext("2d");
-    context.drawImage(image, 0, 0, image.width, image.height);
-    //这里的base64Url就是base64类型
-    //使用toDataUrl将图片转换成jpeg的格式,不要把图片压缩成png，因为压缩成png后base64的字符串可能比不转换前的长！
-    base64Url = canvas.toDataURL("image/jpeg", 1);
-  };
-  return base64Url;
+  return new Promise(resolve => {
+    image.onload = function() {
+      //image.onload为异步加载
+      let canvas = document.createElement("canvas");
+      canvas.width = image.width;
+      canvas.height = image.height;
+      let context = canvas.getContext("2d");
+      context.drawImage(image, 0, 0, image.width, image.height);
+      //这里的base64Url就是base64类型
+      //使用toDataUrl将图片转换成jpeg的格式,不要把图片压缩成png，因为压缩成png后base64的字符串可能比不转换前的长！
+      resolve(canvas.toDataURL("image/jpeg", 1));
+    };
+  });
 };
 
 // 处理浏览器地址栏地址，截取地址中段,不需要http:// or https://和com后地址

@@ -71,10 +71,10 @@
             {{ text }}
           </span>
           <div v-if="text" slot="originAmount" slot-scope="text">
-            {{ text.toFixed(2) }}
+            {{ text }}
           </div>
           <div v-if="text" slot="actualAmount" slot-scope="text">
-            {{ text.toFixed(2) }}
+            {{ text }}
           </div>
           <div slot="tradeType" slot-scope="text">
             <span>{{ orderTypeMap[text] }}</span>
