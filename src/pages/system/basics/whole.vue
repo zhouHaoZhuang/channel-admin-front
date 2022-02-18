@@ -1,7 +1,7 @@
 <template>
   <div class="whole-container">
     <div style="width: 1100" class="paging">
-      <a-tabs default-active-key="1" :tab-position="tabPosition">
+      <a-tabs default-active-key="5" :tab-position="tabPosition">
         <a-tab-pane key="1" tab="基本">
           <div class="big-block-title">基本</div>
           <Basic />

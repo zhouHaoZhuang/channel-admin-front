@@ -12,11 +12,11 @@
           >
             <a-form-model-item label="首选通道" prop="zkeys">
               <a-select
-                default-value="ZKEYS短信"
+                default-value="赛拉云短信"
                 v-model="form.zkeys"
                 style="width: 120px"
               >
-                <a-select-option value="ZKEYS短信">
+                <a-select-option value="赛拉云短信">
                   ZKEYS短信
                 </a-select-option>
               </a-select>
@@ -69,22 +69,22 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="签名" prop="sign_name">
+            <a-form-model-item label="签名" prop="signName">
               <div slot="help">
                 签名发送自带【】符号，无需添加【】，(),[]符号，避免重复<br />
                 请勿填写如“客户服务”，“友情提醒”等过于宽泛内容、以及“测试”字样的签名。签名/模板申请规范
               </div>
               <a-input
-                v-model="form.sign_name"
+                v-model="form.signName"
                 placeholder="长度限2-12个字符，建议为用户真实应用名/网站名/功能名"
               />
             </a-form-model-item>
             <a-form-model-item
               label="签名来源"
               help="未上线应用测试阶段可先申请企事业单位名，待应用上线后再申请应用签名"
-              prop="sign_source"
+              prop="signSource"
             >
-              <a-select v-model="form.sign_source" placeholder="请选择签名来源">
+              <a-select v-model="form.signSource" placeholder="请选择签名来源">
                 <a-select-option
                   :value="item.key"
                   v-for="item in signSourceList"
@@ -101,7 +101,7 @@
                 type="textarea"
               />
             </a-form-model-item>
-            <a-form-model-item label="三证合一" prop="threeCert">
+            <a-form-model-item label="三证合一" prop="certificates">
               <div slot="help">
                 请上传签名归属方的企业营业执照、组织机构代码证、税务登记证
                 <a
@@ -111,16 +111,16 @@
                 >的证明支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
               </div>
               <Upload
-                :defaultFile="form.threeCert"
+                :defaultFile="form.certificates"
                 :size="2"
                 :limit="3"
                 @change="
                   ({ urlList, firstImageUrl, base64List }) =>
-                    pcImgChange(urlList, firstImageUrl, base64List, 'threeCert')
+                    pcImgChange(urlList, firstImageUrl, base64List, 'certificates')
                 "
               />
             </a-form-model-item>
-            <a-form-model-item label="委托授权书" prop="entrust">
+            <a-form-model-item label="委托授权书" prop="authorization">
               <div slot="help">
                 下载
                 <a
@@ -135,11 +135,11 @@
                 支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
               </div>
               <Upload
-                :defaultFile="form.entrust"
+                :defaultFile="form.authorization"
                 :size="2"
                 @change="
                   ({ urlList, firstImageUrl, base64List }) =>
-                    pcImgChange(urlList, firstImageUrl, base64List, 'entrust')
+                    pcImgChange(urlList, firstImageUrl, base64List, 'authorization')
                 "
               />
             </a-form-model-item>
@@ -322,14 +322,14 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
-        sign_name: "",
-        sign_source: "",
+        signName: "",
+        signSource: "",
         remark: "",
         aisle: "",
-
-        threeCert: "",
-        entrust: "",
-        zkeys: "ZKEYS短信",
+        signFileList:[],
+        certificates: "",
+        authorization: "",
+        zkeys: "赛拉云短信",
         linkSort: ""
       },
       rules: {
@@ -340,7 +340,7 @@ export default {
             trigger: "change"
           }
         ],
-        sign_name: [
+        signName: [
           {
             required: true,
             message: "必填，用于设置短信签名",
@@ -353,7 +353,7 @@ export default {
             trigger: ["change", "blur"]
           }
         ],
-        sign_source: [
+        signSource: [
           {
             required: true,
             message: "必选，用于设置短信签名来源",
@@ -367,14 +367,14 @@ export default {
             trigger: ["change", "blur"]
           }
         ],
-        threeCert: [
+        certificates: [
           {
             required: true,
             trigger: ["change", "blur"],
             message: "必传，请选择证书"
           }
         ],
-        entrust: [
+        authorization: [
           {
             required: true,
             trigger: ["change", "blur"],
@@ -423,9 +423,13 @@ export default {
       ]
     };
   },
+  created(){
+    this.getNoteConfig()
+  },
   methods: {
     pcImgChange(urlList, firstImageUrl, base64List, type) {
       console.log("上传图片回调99999", urlList, base64List, firstImageUrl);
+      this.form.signFileList = [...this.form.signFileList,...base64List]
       this.form[type] = firstImageUrl;
     },
     tzminwin() {
@@ -438,14 +442,14 @@ export default {
     // 获取短信签名配置
     getNoteConfig() {
       this.$store.dispatch("note/getNoteConfig").then(res => {
-        this.form = res.data;
+        this.form = {...this.form,...res.data};
       });
     },
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
-        // console.log(valid);
-        console.log(this.form);
+        
         if (valid) {
+            console.log(this.form);
           this.$confirm({
             title: "确定要保存设置吗？",
             onOk: () => {

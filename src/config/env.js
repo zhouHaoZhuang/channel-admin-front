@@ -1,8 +1,8 @@
 // 默认请求地址
 const baseUrl = {
   // dev: "http://216d7872i4.qicp.vip",
-  // dev: "http://192.168.0.10:8082",
   dev: "http://ims.dev.ydidc.com",
+  // dev: "http://192.168.12.56:8082",
   test: "http://ims.test.ydidc.com",
   prod: "http://ims.prod.ydidc.com"
 };
