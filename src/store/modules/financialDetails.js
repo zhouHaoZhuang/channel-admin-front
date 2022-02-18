@@ -25,16 +25,14 @@ const financialDetails = {
     getOne ({ commit, state }, id) {
       return request({
         url: `/customerAccountLog/${id}`,
-        method: "get",
-        // pay: true,
+        method: "get"
       });
     },
     // selectList ({ commit, state }, params) {
     //   return request({
     //     url: `/customerAccountLog`,
     //     method: "get",
-    //     params,
-    //     // pay:true
+    //     params
     //   });
     // },
   },

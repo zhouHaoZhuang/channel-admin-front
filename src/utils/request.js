@@ -35,10 +35,6 @@ request.interceptors.request.use(async config => {
   // 携带system区分不同项目
   config.headers.system = "channel";
   // 多个请求地址兼容
-  // 支付请求地址
-  if (config.pay) {
-    config.baseURL = env.PAY_BASE_URL;
-  }
   // 资源池请求地址
   if (config.jadepool) {
     config.baseURL = env.JADE_POOL_URL;
