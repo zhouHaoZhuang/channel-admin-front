@@ -9,7 +9,7 @@ const notice = {
     // 获取通知模板列表
     getList({ commit, state }, params) {
       return request({
-        url: "/ccCorporation",
+        url: "/mcChannelTemplate",
         method: "get",
         params
       });

@@ -176,6 +176,7 @@ export default {
     this.getList();
   },
   activated() {
+    this.resetForm();
     this.getList();
   },
   computed: {

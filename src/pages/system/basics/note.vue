@@ -17,7 +17,7 @@
                 style="width: 120px"
               >
                 <a-select-option value="赛拉云短信">
-                  ZKEYS短信
+                  赛拉云短信
                 </a-select-option>
               </a-select>
             </a-form-model-item>
@@ -116,7 +116,12 @@
                 :limit="3"
                 @change="
                   ({ urlList, firstImageUrl, base64List }) =>
-                    pcImgChange(urlList, firstImageUrl, base64List, 'certificates')
+                    pcImgChange(
+                      urlList,
+                      firstImageUrl,
+                      base64List,
+                      'certificates'
+                    )
                 "
               />
             </a-form-model-item>
@@ -139,7 +144,12 @@
                 :size="2"
                 @change="
                   ({ urlList, firstImageUrl, base64List }) =>
-                    pcImgChange(urlList, firstImageUrl, base64List, 'authorization')
+                    pcImgChange(
+                      urlList,
+                      firstImageUrl,
+                      base64List,
+                      'authorization'
+                    )
                 "
               />
             </a-form-model-item>
@@ -326,9 +336,11 @@ export default {
         signSource: "",
         remark: "",
         aisle: "",
-        signFileList:[],
+        signFileList: [],
         certificates: "",
+        certificatesBase64List: [],
         authorization: "",
+        authorizationBase64List: [],
         zkeys: "赛拉云短信",
         linkSort: ""
       },
@@ -423,14 +435,14 @@ export default {
       ]
     };
   },
-  created(){
-    this.getNoteConfig()
+  created() {
+    this.getNoteConfig();
   },
   methods: {
     pcImgChange(urlList, firstImageUrl, base64List, type) {
       console.log("上传图片回调99999", urlList, base64List, firstImageUrl);
-      this.form.signFileList = [...this.form.signFileList,...base64List]
-      this.form[type] = firstImageUrl;
+      this.form[type + "Base64List"] = base64List;
+      this.form[type] = urlList.toString();
     },
     tzminwin() {
       window.open(
@@ -442,14 +454,22 @@ export default {
     // 获取短信签名配置
     getNoteConfig() {
       this.$store.dispatch("note/getNoteConfig").then(res => {
-        this.form = {...this.form,...res.data};
+        this.form = { ...this.form, ...res.data };
+        if (this.form.certificates.length > 0) {
+          this.form.certificates = this.form.certificates.split(",");
+        } else {
+          this.form.certificates = [];
+        }
       });
     },
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
-        
         if (valid) {
-            console.log(this.form);
+          this.form.signFileList = [
+            ...this.form.certificatesBase64List,
+            ...this.form.authorizationBase64List
+          ];
+          console.log(this.form);
           this.$confirm({
             title: "确定要保存设置吗？",
             onOk: () => {

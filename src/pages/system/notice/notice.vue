@@ -11,8 +11,8 @@
     </div>
     <div>
       <div class="search">
-        <a-input style="width: 150px" placeholder="搜索关键词" allow-clear/>
-        <a-select default-value="jack" style="width: 150px;margin-left: 10px;">
+        <a-input style="width: 150px" placeholder="搜索关键词" allow-clear />
+        <!-- <a-select default-value="jack" style="width: 150px;margin-left: 10px;">
           <a-select-option value="jack">
             模板模块
           </a-select-option>
@@ -22,7 +22,7 @@
           <a-select-option value="disabled">
             云虚拟主机
           </a-select-option>
-        </a-select>
+        </a-select> -->
         <a-select default-value="jack" style="width: 120px; margin: 0 10px;">
           <a-select-option value="jack">
             模板类型
@@ -48,37 +48,49 @@
           <template slot="name" slot-scope="text">
             <a>{{ text }}</a>
           </template>
-          <template slot="age" slot-scope="text, record">
+          <template slot="templateName" slot-scope="text, record">
             <a-checkbox
-              v-model="data[record.key].agech"
+              v-model="data[record.key].templateNameBool"
               @change="itemAll(record.key, $event)"
             >
               {{ text }}
             </a-checkbox>
           </template>
-          <template slot="tel" slot-scope="text, record">
+          <template slot="smsStatusBool" slot-scope="text, record">
             <a-checkbox
-              v-model="data[record.key].tel"
+              v-if="data[record.key].smsStatusBool != 2"
+              v-model="data[record.key].smsStatusBool"
               @change="itemCheckbox(record.key)"
             >
               短信通知
             </a-checkbox>
+            <div v-else>
+              -----
+            </div>
           </template>
-          <template slot="phone" slot-scope="text, record">
+          <template slot="emailStatusBool" slot-scope="text, record">
             <a-checkbox
-              v-model="data[record.key].phone"
+              v-if="data[record.key].emailStatusBool != 2"
+              v-model="data[record.key].emailStatusBool"
               @change="itemCheckbox(record.key)"
             >
               邮件通知
             </a-checkbox>
+            <div v-else>
+              -----
+            </div>
           </template>
-          <template slot="address" slot-scope="text, record">
+          <template slot="onsiteStatusBool" slot-scope="text, record">
             <a-checkbox
-              v-model="data[record.key].address"
+              v-if="data[record.key].onsiteStatusBool != 2"
+              v-model="data[record.key].onsiteStatusBool"
               @change="itemCheckbox(record.key)"
             >
               站内信通知
             </a-checkbox>
+            <div v-else>
+              -----
+            </div>
           </template>
           <!-- <template slot="wx">
             <a-checkbox @change="onChange">
@@ -178,35 +190,35 @@ let data = [
   }
 ];
 // 对于二级选框的处理
-data.forEach(item => {
-  if (
-    (item.tel != undefined ? item.tel : true) &&
-    (item.phone != undefined ? item.phone : true) &&
-    (item.address != undefined ? item.address : true)
-  ) {
-    item.agech = true;
-    return;
-  }
-  item.agech = false;
-});
+// data.forEach(item => {
+//   if (
+//     (item.tel != undefined ? item.tel : true) &&
+//     (item.phone != undefined ? item.phone : true) &&
+//     (item.address != undefined ? item.address : true)
+//   ) {
+//     item.agech = true;
+//     return;
+//   }
+//   item.agech = false;
+// });
 // console.log(data);
 // 给一级选框添加nameLength，（表示当前一级目录下的二级目录个数）
-var name = data[data.length - 1].name; //初始值需等于数组中的最后一个值的name
-data.reduceRight((acc, currentValue, currentIndex) => {
-  // console.log(acc, currentValue, currentIndex);
-  if (currentIndex == 0) {
-    data[0].nameLength = acc + 1;
-  }
-  if (currentValue.name !== name) {
-    name = currentValue.name;
-    if (currentIndex + 1 == data.length) {
-      currentIndex = currentIndex - 1;
-    }
-    data[currentIndex + 1].nameLength = acc;
-    acc = 0;
-  }
-  return acc + 1;
-}, 0);
+// var name = data[data.length - 1].name; //初始值需等于数组中的最后一个值的name
+// data.reduceRight((acc, currentValue, currentIndex) => {
+//   // console.log(acc, currentValue, currentIndex);
+//   if (currentIndex == 0) {
+//     data[0].nameLength = acc + 1;
+//   }
+//   if (currentValue.name !== name) {
+//     name = currentValue.name;
+//     if (currentIndex + 1 == data.length) {
+//       currentIndex = currentIndex - 1;
+//     }
+//     data[currentIndex + 1].nameLength = acc;
+//     acc = 0;
+//   }
+//   return acc + 1;
+// }, 0);
 export default {
   data() {
     const columns = [
@@ -251,26 +263,26 @@ export default {
       // },
       {
         title: "场景",
-        dataIndex: "age",
+        dataIndex: "templateName",
         colSpan: 1,
         // customRender: renderContent,
-        scopedSlots: { customRender: "age" }
+        scopedSlots: { customRender: "templateName" }
       },
       {
         title: "短信开关",
-        dataIndex: "tel",
+        dataIndex: "smsStatusBool",
         // customRender: renderContent,
-        scopedSlots: { customRender: "tel" }
+        scopedSlots: { customRender: "smsStatusBool" }
       },
       {
         title: "邮件开关",
-        dataIndex: "phone",
-        scopedSlots: { customRender: "phone" }
+        dataIndex: "emailStatusBool",
+        scopedSlots: { customRender: "emailStatusBool" }
       },
       {
         title: "站内信开关",
-        dataIndex: "address",
-        scopedSlots: { customRender: "address" }
+        dataIndex: "onsiteStatusBool",
+        scopedSlots: { customRender: "onsiteStatusBool" }
       },
       // {
       //   title: "微信通知开关",
@@ -284,7 +296,7 @@ export default {
       }
     ];
     return {
-      data,
+      data:[],
       columns,
       cutover: "1",
       topList: [
@@ -296,38 +308,40 @@ export default {
         //   title:'短信、邮件、站内信、微信',
         //   key:'1',
         // }
-      ]
+      ],
+      listQuery: {
+        key: "",
+        search: "",
+        currentPage: 1,
+        pageSize: 999,
+        total: 0,
+        startTime: "",
+        endTime: "",
+        newTypeCode: ""
+      }
     };
   },
-  created(){
-    // this.getList()
+  created() {
+    this.getList();
   },
   methods: {
     // 场景二级分类的事件
     itemAll(index, e) {
       console.log(index, e.target.checked);
-      if (this.data[index].tel != undefined) {
-        this.data[index].tel = e.target.checked;
-      }
-      if (this.data[index].phone != undefined) {
-        this.data[index].phone = e.target.checked;
-      }
-      if (this.data[index].address != undefined) {
-        this.data[index].address = e.target.checked;
-      }
+      this.data[index].emailStatusBool = e.target.checked;
+      this.data[index].onsiteStatusBool = e.target.checked;
+      this.data[index].smsStatusBool = e.target.checked;
     },
     // 三级选框的事件
     itemCheckbox(index) {
       if (
-        (this.data[index].tel != undefined ? this.data[index].tel : true) &&
-        (this.data[index].phone != undefined ? this.data[index].phone : true) &&
-        (this.data[index].address != undefined
-          ? this.data[index].address
-          : true)
+        this.data[index].emailStatusBool &&
+        this.data[index].onsiteStatusBool &&
+        this.data[index].smsStatusBool
       ) {
-        this.data[index].agech = true;
+        this.data[index].templateNameBool = true;
       } else {
-        this.data[index].agech = false;
+        this.data[index].templateNameBool = false;
       }
     },
     // 一级选框的事件
@@ -345,12 +359,45 @@ export default {
     //     element.agech = e.target.checked;
     //   });
     // },
+
     // 获取列表数据
-    getList(){
-      this.$store.dispatch('notice/getList').then((res)=>{
+    getList() {
+      this.$store.dispatch("notice/getList", this.listQuery).then(res => {
         console.log(res);
-        this.data = res.data
-      })
+        if (res.data && res.data.list) {
+          res.data.list.forEach((item, index) => {
+            item.key = index;
+            item.emailStatusBool =
+              item.emailStatus == 0
+                ? false
+                : item.emailStatus == 1
+                ? true
+                : item.emailStatus;
+            item.onsiteStatusBool =
+              item.onsiteStatus == 0
+                ? false
+                : item.onsiteStatus == 1
+                ? true
+                : item.onsiteStatus;
+            item.smsStatusBool =
+              item.smsStatus == 0
+                ? false
+                : item.smsStatus == 1
+                ? true
+                : item.smsStatus;
+            if (
+              item.emailStatusBool &&
+              item.onsiteStatusBool &&
+              item.smsStatusBool
+            ) {
+              item.templateNameBool = true;
+              return;
+            }
+            item.templateNameBool = false;
+          });
+          this.data = res.data.list;
+        }
+      });
     },
     // 模板跳转回调函数
     templateJump(index) {
