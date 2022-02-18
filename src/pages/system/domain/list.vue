@@ -158,12 +158,9 @@ export default {
       time: null
     };
   },
-  created() {
-    this.getList();
-    // this.startTime();
-  },
   activated() {
     this.getList();
+    this.startTime();
   },
   beforeDestroy() {
     this.time && clearInterval(this.time);
@@ -176,6 +173,7 @@ export default {
         .dispatch("domain/getList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
           this.tableLoading = false;

@@ -5,12 +5,6 @@ const baseUrl = {
   test: "http://i.zjyundun.com/server",
   prod: "http://i.zjyundun.com/server"
 };
-// 支付相关请求地址
-const payBaseUrl = {
-  dev: "http://www.ydidc.com/server/pay",
-  test: "http://www.zjyundun.com/server/pay",
-  prod: "http://www.zjyundun.com/server/pay"
-};
 // 资源池请求地址
 const jadepoolUrl = {
   dev: "http://ntm.ydidc.com/server",
@@ -44,7 +38,6 @@ const authingReq = {
 
 export default {
   BASE_URL: baseUrl[process.env.VUE_APP_ENV],
-  PAY_BASE_URL: payBaseUrl[process.env.VUE_APP_ENV],
   JADE_POOL_URL: jadepoolUrl[process.env.VUE_APP_ENV],
   FORM_BASE_URL: formBaseUrl[process.env.VUE_APP_ENV],
   DOMAIN_URL: domains[process.env.VUE_APP_ENV],
