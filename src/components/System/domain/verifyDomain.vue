@@ -20,7 +20,7 @@
       <div class="info">您可以通过DNS解析验证域名，DNS验证操作步骤如下：</div>
       <div class="info">1：登录域名解析控制台</div>
       <div class="info mb15">
-        2：进入ydidc.com解析页面，点击解析设置，将以下记录值添加到解析记录值
+        2：进入解析页面，点击解析设置，将以下记录值添加到解析记录值
       </div>
       <div class="info">记录类型：TXT</div>
       <div class="info">

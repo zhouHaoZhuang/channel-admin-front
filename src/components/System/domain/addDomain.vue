@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { IsURL } from "@/utils/index";
 export default {
   // 双向绑定
   model: {
@@ -55,7 +54,7 @@ export default {
   },
   data() {
     const validateDomain = (rule, value, callback) => {
-      if (!IsURL(value)) {
+      if (!this.urlReg.test(value)) {
         callback(new Error("请输入正确格式的域名"));
       }
       callback();
@@ -80,7 +79,8 @@ export default {
             tigger: ["blur", "change"]
           }
         ]
-      }
+      },
+      urlReg: /^(http|https):\/\/[\w\-_\u4E00-\u9FA5:/]+(\.[\w\-_\u4E00-\u9FA5]+)+([\u4E00-\u9FA5\w\-.,@?^=%&:/~+#]*[\u4E00-\u9FA5\w\-@?^=%&/~+#])?$/
     };
   },
   methods: {
