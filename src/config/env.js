@@ -1,28 +1,26 @@
 // 默认请求地址
 const baseUrl = {
-  // dev: "http://216d7872i4.qicp.vip",
-  dev: "http://ims.dev.ydidc.com",
-  // dev: "http://192.168.12.56:8082",
-  test: "http://ims.test.ydidc.com",
-  prod: "http://ims.prod.ydidc.com"
+  dev: "http://i.ydidc.com/server",
+  test: "http://i.zjyundun.com/server",
+  prod: "http://i.zjyundun.com/server"
 };
 // 支付相关请求地址
 const payBaseUrl = {
-  dev: "http://pay.dev.ydidc.com",
-  test: "http://pay.test.ydidc.com",
-  prod: "http://pay.prod.ydidc.com"
+  dev: "http://www.ydidc.com/server/pay",
+  test: "http://www.zjyundun.com/server/pay",
+  prod: "http://www.zjyundun.com/server/pay"
 };
 // 资源池请求地址
 const jadepoolUrl = {
-  dev: "http://rps.dev.ydidc.com",
-  test: "http://rps.test.ydidc.com",
-  prod: "http://rps.prod.ydidc.com"
+  dev: "http://ntm.ydidc.com/server",
+  test: "http://ntm.zjyundun.com/server",
+  prod: "http://ntm.zjyundun.com/server"
 };
 // form服务接口请求地址
 const formBaseUrl = {
-  dev: "http://form.dev.ydidc.com",
-  test: "http://form.test.ydidc.com",
-  prod: "http://form.prod.ydidc.com"
+  dev: "http://www.ydidc.com/server/form",
+  test: "http://www.zjyundun.com/server/form",
+  prod: "http://www.zjyundun.com/server/form"
 };
 const domains = {
   dev: "localhost"
