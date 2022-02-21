@@ -1,7 +1,7 @@
 <template>
-  <div class="details-container">
+  <div class="details-container" v-if="data">
     <h1 class="details-title">财务信息</h1>
-    <div class="details-info" v-if="data">
+    <div class="details-info">
       <div>
         <span class="details-type">入款会员:</span>
         <span class="details-value">{{ data.accountName }}</span>
@@ -50,8 +50,7 @@
     <a-table :columns="columns" rowKey="ID" :scroll="{ x: 1000 }">
       <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table> -->
-    <div class="placeholder"></div>
-    <div>
+    <div v-show="data.status == 0">
       <h1 class="details-title">审核</h1>
       <a-form-model
         ref="ruleForm"
@@ -111,7 +110,7 @@ import { paymentTypeMapData, detailTypeMapData } from "@/utils/enum";
 export default {
   data() {
     return {
-      data: [],
+      data: null,
       paymentTypeMapData,
       detailTypeMapData,
       columns: [
@@ -173,7 +172,9 @@ export default {
     };
   },
   activated() {
-    this.resetForm();
+    if (this.data && this.data.status == 0) {
+      this.resetForm();
+    }
     this.getList();
   },
   computed: {

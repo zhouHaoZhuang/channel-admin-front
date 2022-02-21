@@ -345,7 +345,7 @@ export const asyncRoute = [
               },
               {
                 path: "unsubscribe",
-                name: "业务详情",
+                name: "业务退订",
                 meta: {
                   invisible: true,
                   back: true,
@@ -356,7 +356,7 @@ export const asyncRoute = [
               },
               {
                 path: "info",
-                name: "业务退订",
+                name: "业务详情",
                 meta: {
                   invisible: true,
                   back: true,

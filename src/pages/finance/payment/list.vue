@@ -206,7 +206,7 @@ export default {
         },
         { title: "备注信息", dataIndex: "memo", key: "" },
         {
-          title: "处理状态",
+          title: "审核状态",
           dataIndex: "status",
           key: "",
           scopedSlots: { customRender: "status" }

@@ -8,7 +8,7 @@
       :wrapper-col="wrapperCol"
     >
       <a-form-model-item label="可退款金额">
-        <span>{{}}</span>
+        <span>{{ form.tradePrice }}元</span>
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" @click="onSubmit">
@@ -50,18 +50,24 @@ export default {
   },
   methods: {
     getData() {
-      this.$store.dispatch("business/getUnsubscribeInfo",this.$route.query.id).then(res => {
-        console.log(res, "000000000");
-      });
+      this.$store
+        .dispatch("business/getUnsubscribeInfo", this.$route.query.id)
+        .then(res => {
+          // console.log(res, "000000000");
+          this.form = res.data;
+        });
     },
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-        //   alert("submit!");
-        } else {
-        //   console.log("error submit!!");
-          return false;
-        }
+          this.$store
+            .dispatch("business/unsubscribeServe", this.$route.query.id)
+            .then(res => {
+              console.log(res);
+              this.$message.success('退订成功')
+              this.$router.back()
+            });
+        } 
       });
     },
     resetForm() {
@@ -71,10 +77,10 @@ export default {
 };
 </script>
 
-<style lang='less' scoped>
-.unsubscribe-container{
-    background-color: #fff;
-    margin: 0 10px;
-    padding: 10px;
+<style lang="less" scoped>
+.unsubscribe-container {
+  background-color: #fff;
+  margin: 0 10px;
+  padding: 10px;
 }
 </style>

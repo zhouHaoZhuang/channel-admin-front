@@ -9,16 +9,18 @@ const notice = {
     // 获取通知模板列表
     getList({ commit, state }, params) {
       return request({
-        url: "/mcChannelTemplate",
+        url: "/mcChannelTemplate/getConfiguration",
         method: "get",
         params
       });
     },
     // 获取详情
     getDisCountDetail({ commit, state }, data) {
+      // console.log(data,'-------');
       return request({
-        url: `/ccCorportionPrice/${data.id}`,
-        method: "get"
+        url: `/messageTemplate/one`,
+        method: "get",
+        data
       });
     },
     
