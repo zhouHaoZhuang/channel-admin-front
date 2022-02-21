@@ -1,5 +1,6 @@
 // 默认请求地址
 const baseUrl = {
+  // dev: "http://192.168.12.56:8082",
   dev: "http://i.ydidc.com/server",
   test: "http://i.zjyundun.com/server",
   prod: "http://i.zjyundun.com/server"
