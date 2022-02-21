@@ -9,12 +9,24 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item prop="channelName">
+        <a-form-model-item prop="phone">
           <a-input
-            v-model="form.channelName"
-            :max-length="32"
-            placeholder="公司名称"
+            v-model="form.phone"
+            addon-before="+86"
+            placeholder="11位手机号"
+            v-number-evolution
+            :max-length="11"
           />
+        </a-form-model-item>
+        <a-form-model-item class="code-wrap" prop="code">
+          <a-input
+            v-model="form.code"
+            style="width:250px"
+            placeholder="输入验证码"
+            v-number-evolution
+            :max-length="6"
+          />
+          <CodeBtn :phone="form.phone" />
         </a-form-model-item>
         <a-form-model-item prop="password">
           <a-input-password
@@ -35,25 +47,6 @@
             placeholder="确认密码"
             @keydown.native="keydown($event)"
           />
-        </a-form-model-item>
-        <a-form-model-item prop="phone">
-          <a-input
-            v-model="form.phone"
-            addon-before="+86"
-            placeholder="11位手机号"
-            v-number-evolution
-            :max-length="11"
-          />
-        </a-form-model-item>
-        <a-form-model-item class="code-wrap" prop="code">
-          <a-input
-            v-model="form.code"
-            style="width:250px"
-            placeholder="输入验证码"
-            v-number-evolution
-            :max-length="6"
-          />
-          <CodeBtn :phone="form.phone" />
         </a-form-model-item>
         <a-form-model-item class="btn-box">
           <a-button
@@ -106,25 +99,13 @@ export default {
       labelCol: { span: 0 },
       wrapperCol: { span: 22, offset: 1 },
       form: {
-        channelName: "",
-        password: "",
-        confirmPassword: "",
         phone: "",
-        code: ""
+        code: "",
+        password: "",
+        confirmPassword: ""
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
-        channelName: [
-          {
-            required: true,
-            message: "请输入公司名称",
-            trigger: ["blur", "change"]
-          }
-        ],
-        password: [{ validator: validatePass, trigger: ["blur", "change"] }],
-        confirmPassword: [
-          { validator: validatePass2, trigger: ["blur", "change"] }
-        ],
         phone: [
           {
             required: true,
@@ -138,6 +119,10 @@ export default {
             message: "请输入验证码",
             trigger: ["blur", "change"]
           }
+        ],
+        password: [{ validator: validatePass, trigger: ["blur", "change"] }],
+        confirmPassword: [
+          { validator: validatePass2, trigger: ["blur", "change"] }
         ]
       },
       loading: false
@@ -179,11 +164,10 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        channelName: "",
-        password: "",
-        confirmPassword: "",
         phone: "",
-        code: ""
+        code: "",
+        password: "",
+        confirmPassword: ""
       };
     }
   }
