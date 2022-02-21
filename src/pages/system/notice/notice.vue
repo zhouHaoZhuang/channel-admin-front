@@ -11,8 +11,17 @@
     </div>
     <div>
       <div class="search">
-        <a-input style="width: 150px" placeholder="搜索关键词" v-model="listQuery.search" allow-clear />
-        <a-select default-value="" style="width: 120px; margin: 0 10px;" v-model="listQuery['qp-templateStatus-eq']">
+        <a-input
+          style="width: 150px"
+          placeholder="搜索关键词"
+          v-model="listQuery.search"
+          allow-clear
+        />
+        <a-select
+          default-value=""
+          style="width: 120px; margin: 0 10px;"
+          v-model="listQuery['qp-templateStatus-eq']"
+        >
           <a-select-option value="">
             模板类型
           </a-select-option>
@@ -86,16 +95,28 @@
               微信通知
             </a-checkbox>
           </template> -->
-          <template slot="manage">
-            <a-button v-permission="'view'" type="link" @click="templateJump">
+          <template slot="manage" slot-scope="text, record">
+            <a-button
+              v-permission="'view'"
+              type="link"
+              @click="templateJump(record.templateCode, record.type)"
+            >
               短信模板
             </a-button>
             <a-divider type="vertical" />
-            <a-button v-permission="'view'" type="link" @click="templateJump">
+            <a-button
+              v-permission="'view'"
+              type="link"
+              @click="templateJump(record.templateCode, record.type)"
+            >
               邮件模板
             </a-button>
             <a-divider type="vertical" />
-            <a-button v-permission="'view'" type="link" @click="templateJump">
+            <a-button
+              v-permission="'view'"
+              type="link"
+              @click="templateJump(record.templateCode, record.type)"
+            >
               站内信模板
             </a-button>
           </template>
@@ -307,7 +328,7 @@ export default {
         startTime: "",
         endTime: "",
         newTypeCode: "",
-        'qp-templateStatus-eq':''
+        "qp-templateStatus-eq": ""
       }
     };
   },
@@ -354,6 +375,10 @@ export default {
     getList() {
       this.$getList("notice/getList", this.listQuery).then(res => {
         console.log(res);
+        res.data.list = [
+          ...res.data.channelConfiguration,
+          ...res.data.systemConfiguration
+        ];
         if (res.data && res.data.list) {
           res.data.list.forEach((item, index) => {
             item.key = index;
@@ -396,12 +421,14 @@ export default {
       });
     },
     // 模板跳转回调函数
-    templateJump(index) {
+    templateJump(templateCode, type) {
+      console.log(templateCode, type);
       this.$router.push({
-        path: "/system/basics/mouldboard"
-        // query: {
-        //   index
-        // }
+        path: "/system/basics/mouldboard",
+        query: {
+          templateCode,
+          type
+        }
       });
     }
   }

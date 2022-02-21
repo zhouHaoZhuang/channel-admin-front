@@ -7,14 +7,14 @@
       :rules="rules"
       ref="ruleForm"
     >
-      <a-form-model-item label="模板">
-        <span>会员</span>
-      </a-form-model-item>
+      <!-- <a-form-model-item label="模板">
+        <span>{{form.templateName}}</span>
+      </a-form-model-item> -->
       <a-form-model-item label="场景">
-        <span>找回密码成功提醒</span>
+        <span>{{ form.templateName }}</span>
       </a-form-model-item>
       <a-form-model-item label="模板标识码">
-        <span>getPasswordSuccess</span>
+        <span>{{ form.code }}</span>
       </a-form-model-item>
       <a-form-model-item label="可用标签">
         <a-table
@@ -26,55 +26,34 @@
         >
         </a-table>
       </a-form-model-item>
-      <a-form-model-item label="内容" prop="context">
-        <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context" />
-      </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 9, offset: 5 }">
-        <a-button type="primary" @click="onSubmit">
-          确定
-        </a-button>
+      <a-form-model-item label="内容">
+        <span>{{ form.content }}</span>
       </a-form-model-item>
     </a-form-model>
   </div>
 </template>
 
 <script>
-import Tinymce from "@/components/Tinymce/index.vue";
-
 export default {
   data() {
     return {
       labelCol: { span: 5 },
       wrapperCol: { span: 9 },
       form: {
-        context: ""
+        context: "",
+        templateName: "",
+        code: ""
       },
-      data: [
-        {
-          id: 1,
-          label: "网站名称",
-          type: "{firmName}"
-        },
-        {
-          id: 2,
-          label: "网站地址",
-          type: "{firmUrl}"
-        },
-        {
-          id: 3,
-          label: "服务热线",
-          type: "{firmPhone}"
-        }
-      ],
+      data: [],
       columns: [
         {
           title: "标签",
-          dataIndex: "label",
+          dataIndex: "paramDesc",
           key: "label"
         },
         {
           title: "说明",
-          dataIndex: "type",
+          dataIndex: "paramCode",
           key: "type"
         }
       ],
@@ -89,17 +68,24 @@ export default {
       }
     };
   },
-  components: {
-    Tinymce
-  },
+
   activated() {
     this.resetForm();
+    this.getData();
   },
   methods: {
-    //上传富文本
-    tinymceinput(value) {
-      this.form.context = value;
+    getData() {
+      let data = {
+        templateCode: this.$route.query.templateCode,
+        type: this.$route.query.type
+      };
+      this.$store.dispatch("notice/getDisCountDetail", data).then(res => {
+        console.log(res, "------------");
+        this.form = res.data;
+        this.data = res.data.messageParamResDtoList;
+      });
     },
+
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
