@@ -17,12 +17,12 @@
           <a-collapse-panel key="1" header="网站基本信息">
             <a-form-model-item
               ref="websiteName"
-              label="网站名称"
+              label="网站标题"
               prop="websiteName"
             >
               <a-input v-model="form.websiteName" />
             </a-form-model-item>
-            <a-form-model-item label="首页标题" prop="title" ref="title">
+            <a-form-model-item label="网站名称" prop="title" ref="title">
               <a-input v-model="form.title" />
             </a-form-model-item>
             <a-form-model-item label="网站关键字" prop="keyWords">

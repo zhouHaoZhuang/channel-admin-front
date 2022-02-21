@@ -125,7 +125,7 @@
                 "
               />
             </a-form-model-item>
-            <a-form-model-item label="委托授权书" prop="authorization">
+            <a-form-model-item label="委托授权书" prop="authorizations">
               <div slot="help">
                 下载
                 <a
@@ -140,7 +140,7 @@
                 支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
               </div>
               <Upload
-                :defaultFile="form.authorization"
+                :defaultFile="form.authorizations"
                 :size="2"
                 @change="
                   ({ urlList, firstImageUrl, base64List }) =>
@@ -148,10 +148,23 @@
                       urlList,
                       firstImageUrl,
                       base64List,
-                      'authorization'
+                      'authorizations'
                     )
                 "
               />
+            </a-form-model-item>
+            <a-form-model-item label="审核结果" prop="status">
+              <a-radio-group v-model="form.status">
+                <a-radio :value="0" :disabled="form.status !== 0">
+                  审核中
+                </a-radio>
+                <a-radio :value="1" :disabled="form.status !== 1">
+                  审核成功
+                </a-radio>
+                <a-radio :value="2" :disabled="form.status !== 2">
+                  审核未通过
+                </a-radio>
+              </a-radio-group>
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
@@ -339,8 +352,8 @@ export default {
         signFileList: [],
         certificates: "",
         certificatesBase64List: [],
-        authorization: "",
-        authorizationBase64List: [],
+        authorizations: "",
+        authorizationsBase64List: [],
         zkeys: "赛拉云短信",
         linkSort: ""
       },
@@ -386,7 +399,7 @@ export default {
             message: "必传，请选择证书"
           }
         ],
-        authorization: [
+        authorizations: [
           {
             required: true,
             trigger: ["change", "blur"],
@@ -465,9 +478,10 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          this.form.certificates = this.form.certificates.toString();
           this.form.signFileList = [
             ...this.form.certificatesBase64List,
-            ...this.form.authorizationBase64List
+            ...this.form.authorizationsBase64List
           ];
           console.log(this.form);
           this.$confirm({

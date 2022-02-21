@@ -11,30 +11,19 @@
     </div>
     <div>
       <div class="search">
-        <a-input style="width: 150px" placeholder="搜索关键词" allow-clear />
-        <!-- <a-select default-value="jack" style="width: 150px;margin-left: 10px;">
-          <a-select-option value="jack">
-            模板模块
-          </a-select-option>
-          <a-select-option value="lucy">
-            证书
-          </a-select-option>
-          <a-select-option value="disabled">
-            云虚拟主机
-          </a-select-option>
-        </a-select> -->
-        <a-select default-value="jack" style="width: 120px; margin: 0 10px;">
-          <a-select-option value="jack">
+        <a-input style="width: 150px" placeholder="搜索关键词" v-model="listQuery.search" allow-clear />
+        <a-select default-value="" style="width: 120px; margin: 0 10px;" v-model="listQuery['qp-templateStatus-eq']">
+          <a-select-option value="">
             模板类型
           </a-select-option>
-          <a-select-option value="lucy">
-            短信验证码
+          <a-select-option :value="0">
+            验证码
           </a-select-option>
-          <a-select-option value="disabled">
-            短信通知
+          <a-select-option :value="1">
+            通知
           </a-select-option>
         </a-select>
-        <a-button type="primary">
+        <a-button type="primary" @click="getList()">
           查询
         </a-button>
       </div>
@@ -112,7 +101,7 @@
           </template>
         </a-table>
       </div>
-      <a-button type="primary" style="margin-top:20px">
+      <a-button type="primary" style="margin-top:20px" @click="enterChanges">
         确认修改
       </a-button>
     </div>
@@ -296,12 +285,12 @@ export default {
       }
     ];
     return {
-      data:[],
+      data: [],
       columns,
       cutover: "1",
       topList: [
         {
-          title: "短信、邮件、站内信、微信",
+          title: "短信、邮件、站内信",
           key: "1"
         }
         // {
@@ -310,14 +299,15 @@ export default {
         // }
       ],
       listQuery: {
-        key: "",
+        key: "qp-templateName-like",
         search: "",
         currentPage: 1,
         pageSize: 999,
         total: 0,
         startTime: "",
         endTime: "",
-        newTypeCode: ""
+        newTypeCode: "",
+        'qp-templateStatus-eq':''
       }
     };
   },
@@ -362,29 +352,23 @@ export default {
 
     // 获取列表数据
     getList() {
-      this.$store.dispatch("notice/getList", this.listQuery).then(res => {
+      this.$getList("notice/getList", this.listQuery).then(res => {
         console.log(res);
         if (res.data && res.data.list) {
           res.data.list.forEach((item, index) => {
             item.key = index;
             item.emailStatusBool =
-              item.emailStatus == 0
-                ? false
-                : item.emailStatus == 1
-                ? true
-                : item.emailStatus;
+              item.emailStatus == 2
+                ? item.emailStatus
+                : Boolean(item.emailStatus * 1);
             item.onsiteStatusBool =
-              item.onsiteStatus == 0
-                ? false
-                : item.onsiteStatus == 1
-                ? true
-                : item.onsiteStatus;
+              item.onsiteStatus == 2
+                ? item.onsiteStatus
+                : Boolean(item.onsiteStatus * 1);
             item.smsStatusBool =
-              item.smsStatus == 0
-                ? false
-                : item.smsStatus == 1
-                ? true
-                : item.smsStatus;
+              item.smsStatus == 2
+                ? item.smsStatus
+                : Boolean(item.smsStatus * 1);
             if (
               item.emailStatusBool &&
               item.onsiteStatusBool &&
@@ -397,6 +381,18 @@ export default {
           });
           this.data = res.data.list;
         }
+      });
+    },
+    // 确认修改
+    enterChanges() {
+      this.data.forEach(item => {
+        item.emailStatus = Number(item.emailStatusBool);
+        item.onsiteStatus = Number(item.onsiteStatusBool);
+        item.smsStatus = Number(item.smsStatusBool);
+      });
+      // console.log(this.data, "处理后");
+      this.$store.dispatch("notice/editDisCount", this.data).then(res => {
+        this.$message.success("修改成功");
       });
     },
     // 模板跳转回调函数
