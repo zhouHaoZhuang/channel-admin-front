@@ -30,7 +30,7 @@ export default {
   activated() {
     this.getDetail();
     this.getRecord();
-    // this.startTime();
+    this.startTime();
   },
   beforeDestroy() {
     this.time && clearInterval(this.time);

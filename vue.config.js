@@ -35,15 +35,15 @@ const assetsCDN = {
 
 module.exports = {
   devServer: {
-    // proxy: {
-    //   "/api": {
-    //     target: 'http://i.ydidc.com/server',
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       "^/api": ""
-    //     }
-    //   }
-    // }
+    proxy: {
+      "/api": {
+        target: 'http://i.ydidc.com/server',
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": ""
+        }
+      }
+    }
   },
   pluginOptions: {
     "style-resources-loader": {
