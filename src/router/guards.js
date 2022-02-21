@@ -55,6 +55,7 @@ const loginGuard = (to, from, next, options) => {
  * @param options
  */
 const permsGuard = async (to, from, next, options) => {
+  console.log("查看路由信息", to, from);
   const { store, message, router } = options;
   const perms = store.state.user.perms;
   if (!loginIgnore.includes(to) && perms && perms.length === 0) {
