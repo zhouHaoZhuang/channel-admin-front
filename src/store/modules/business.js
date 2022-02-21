@@ -16,6 +16,20 @@ const business = {
         params
       });
     },
+    // 获取退订详情(退订金额)
+    getUnsubscribeInfo({ commit, state }, id){
+      return request({
+        url: `/scEcsStock/unsubscribeEcsPrice/${id}`,
+        method: "post",
+      });
+    },
+    // 服务器退订
+    unsubscribeServe({ commit, state }, id){
+      return request({
+        url: `/scEcsStock/unsubscribeEcs/${id}`,
+        method: "post",
+      });
+    },
     delList({ commit, state }, id) {
       return request({
         url: `/scEcsStock/${id}`,
