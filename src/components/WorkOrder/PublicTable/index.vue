@@ -320,6 +320,7 @@ export default {
         })
         .then(res => {
           this.typeList = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
         });
     },
     // 日期选择
