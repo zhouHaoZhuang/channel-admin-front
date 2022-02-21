@@ -55,6 +55,7 @@ const loginGuard = (to, from, next, options) => {
  * @param options
  */
 const permsGuard = async (to, from, next, options) => {
+  console.log("查看路由信息", to, from);
   const { store, message, router } = options;
   const perms = store.state.user.perms;
   if (!loginIgnore.includes(to) && perms && perms.length === 0) {
@@ -65,6 +66,11 @@ const permsGuard = async (to, from, next, options) => {
     // 设置动态路由
     const perms = store.state.user.perms;
     setAsyncRouteMenu(perms, router, store);
+    const redirectPath = store.state.setting.redirectPath;
+    if (redirectPath) {
+      next({ path: redirectPath });
+    }
+    console.log("本地保存的重定向地址", redirectPath);
   }
   if (to.path === "/") {
     const perms = store.state.user.perms;
@@ -119,6 +125,10 @@ const authorityGuard = (to, from, next, options) => {
  * @returns {*}
  */
 const redirectGuard = (to, from, next, options) => {
+  const { store } = options;
+  // 存储路由跳转记录，方便重定向
+  console.log("存储重定向地址", to, to.fullPath);
+  store.commit("setting/saveRedirect", to.fullPath);
   if (!loginIgnore.includes(to)) {
     const { store } = options;
     const getFirstChild = routes => {
@@ -156,7 +166,7 @@ const redirectGuard = (to, from, next, options) => {
  * @param form
  * @param options
  */
-const progressDone = () => {
+const progressDone = (to, from, next, options) => {
   // finish progress bar
   NProgress.done();
   // document.body.scrollTop = 0
