@@ -2,7 +2,7 @@
   <div class="note-container">
     <div class="content">
       <a-collapse default-active-key="1" :bordered="false" class="aa">
-        <a-collapse-panel key="1" header="通道设置">
+        <a-collapse-panel key="1" header="通道设置" forceRender>
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -11,9 +11,13 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="首选通道" prop="zkeys">
-              <a-select default-value="ZKEYS短信" v-model="form.zkeys" style="width: 120px">
-                <a-select-option value="ZKEYS短信">
-                  ZKEYS短信
+              <a-select
+                default-value="赛拉云短信"
+                v-model="form.zkeys"
+                style="width: 120px"
+              >
+                <a-select-option value="赛拉云短信">
+                  赛拉云短信
                 </a-select-option>
               </a-select>
             </a-form-model-item>
@@ -29,7 +33,7 @@
             </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="2" header="模板信息设置">
+        <a-collapse-panel key="2" header="模板信息设置" forceRender>
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -57,7 +61,7 @@
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="3" header="短信签名配置">
+        <a-collapse-panel key="3" header="短信签名配置" forceRender>
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -65,22 +69,22 @@
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="签名" prop="sign_name">
+            <a-form-model-item label="签名" prop="signName">
               <div slot="help">
                 签名发送自带【】符号，无需添加【】，(),[]符号，避免重复<br />
                 请勿填写如“客户服务”，“友情提醒”等过于宽泛内容、以及“测试”字样的签名。签名/模板申请规范
               </div>
               <a-input
-                v-model="form.sign_name"
+                v-model="form.signName"
                 placeholder="长度限2-12个字符，建议为用户真实应用名/网站名/功能名"
               />
             </a-form-model-item>
             <a-form-model-item
               label="签名来源"
               help="未上线应用测试阶段可先申请企事业单位名，待应用上线后再申请应用签名"
-              prop="sign_source"
+              prop="signSource"
             >
-              <a-select v-model="form.sign_source" placeholder="请选择签名来源">
+              <a-select v-model="form.signSource" placeholder="请选择签名来源">
                 <a-select-option
                   :value="item.key"
                   v-for="item in signSourceList"
@@ -97,7 +101,7 @@
                 type="textarea"
               />
             </a-form-model-item>
-            <a-form-model-item label="三证合一" prop="threeCert">
+            <a-form-model-item label="三证合一" prop="certificates">
               <div slot="help">
                 请上传签名归属方的企业营业执照、组织机构代码证、税务登记证
                 <a
@@ -107,15 +111,21 @@
                 >的证明支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
               </div>
               <Upload
-                :defaultFile="form.threeCert"
-                :size='2'
+                :defaultFile="form.certificates"
+                :size="2"
+                :limit="3"
                 @change="
-                  ({ urlList, firstImageUrl,base64List }) =>
-                    pcImgChange(urlList, firstImageUrl, base64List,'threeCert')
+                  ({ urlList, firstImageUrl, base64List }) =>
+                    pcImgChange(
+                      urlList,
+                      firstImageUrl,
+                      base64List,
+                      'certificates'
+                    )
                 "
               />
             </a-form-model-item>
-            <a-form-model-item label="委托授权书" prop="entrust">
+            <a-form-model-item label="委托授权书" prop="authorizations">
               <div slot="help">
                 下载
                 <a
@@ -130,12 +140,31 @@
                 支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
               </div>
               <Upload
-                :defaultFile="form.entrust"
+                :defaultFile="form.authorizations"
+                :size="2"
                 @change="
-                  ({ urlList, firstImageUrl }) =>
-                    pcImgChange(urlList, firstImageUrl, 'entrust')
+                  ({ urlList, firstImageUrl, base64List }) =>
+                    pcImgChange(
+                      urlList,
+                      firstImageUrl,
+                      base64List,
+                      'authorizations'
+                    )
                 "
               />
+            </a-form-model-item>
+            <a-form-model-item label="审核结果" prop="status">
+              <a-radio-group v-model="form.status">
+                <a-radio :value="0" :disabled="form.status !== 0">
+                  审核中
+                </a-radio>
+                <a-radio :value="1" :disabled="form.status !== 1">
+                  审核成功
+                </a-radio>
+                <a-radio :value="2" :disabled="form.status !== 2">
+                  审核未通过
+                </a-radio>
+              </a-radio-group>
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
@@ -316,14 +345,16 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
-        sign_name: "",
-        sign_source: "",
+        signName: "",
+        signSource: "",
         remark: "",
         aisle: "",
-
-        threeCert: "",
-        entrust: "",
-        zkeys: "ZKEYS短信",
+        signFileList: [],
+        certificates: "",
+        certificatesBase64List: [],
+        authorizations: "",
+        authorizationsBase64List: [],
+        zkeys: "赛拉云短信",
         linkSort: ""
       },
       rules: {
@@ -334,7 +365,7 @@ export default {
             trigger: "change"
           }
         ],
-        sign_name: [
+        signName: [
           {
             required: true,
             message: "必填，用于设置短信签名",
@@ -347,7 +378,7 @@ export default {
             trigger: ["change", "blur"]
           }
         ],
-        sign_source: [
+        signSource: [
           {
             required: true,
             message: "必选，用于设置短信签名来源",
@@ -361,14 +392,14 @@ export default {
             trigger: ["change", "blur"]
           }
         ],
-        threeCert: [
+        certificates: [
           {
             required: true,
             trigger: ["change", "blur"],
             message: "必传，请选择证书"
           }
         ],
-        entrust: [
+        authorizations: [
           {
             required: true,
             trigger: ["change", "blur"],
@@ -417,38 +448,42 @@ export default {
       ]
     };
   },
+  created() {
+    this.getNoteConfig();
+  },
   methods: {
-    pcImgChange(urlList, firstImageUrl,base64List, type) {
-      console.log("上传图片回调99999", urlList, base64List,firstImageUrl);
-      this.form[type] = firstImageUrl;
+    pcImgChange(urlList, firstImageUrl, base64List, type) {
+      console.log("上传图片回调99999", urlList, base64List, firstImageUrl);
+      this.form[type + "Base64List"] = base64List;
+      this.form[type] = urlList.toString();
     },
     tzminwin() {
       window.open(
         "//help.aliyun.com/document_detail/56741.htm",
         "newwindow",
-        "height=700, width=600, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=0,location=no, status=no"
+        "height=700, width=600, top=100, left=10000, toolbar=no, menubar=no, scrollbars=no, resizable=0,location=no, status=no"
       );
     },
     // 获取短信签名配置
     getNoteConfig() {
       this.$store.dispatch("note/getNoteConfig").then(res => {
-        this.form = res.data;
+        this.form = { ...this.form, ...res.data };
+        if (this.form.certificates.length > 0) {
+          this.form.certificates = this.form.certificates.split(",");
+        } else {
+          this.form.certificates = [];
+        }
       });
     },
     onSubmit() {
-      // this.$confirm({
-      //   title: "确定要删除吗?",
-      //   onOk: () => {
-      //     this.$store.dispatch("helpCategory/delList", id).then(val => {
-      //       this.$message.success("操作成功");
-      //       this.getList();
-      //     });
-      //   }
-      // });
       this.$refs.ruleForm.validate(valid => {
-        // console.log(valid);
-        console.log(this.form);
         if (valid) {
+          this.form.certificates = this.form.certificates.toString();
+          this.form.signFileList = [
+            ...this.form.certificatesBase64List,
+            ...this.form.authorizationsBase64List
+          ];
+          console.log(this.form);
           this.$confirm({
             title: "确定要保存设置吗？",
             onOk: () => {
@@ -462,27 +497,10 @@ export default {
                 });
             }
           });
+        } else {
+          this.$message.warning("请打开折叠面板，检查所有必填选项！");
         }
       });
-      // this.$confirm({
-      //   title: "确定要保存设置吗？",
-      //   onOk: () => {
-      //     this.$refs.ruleForm.validate(valid => {
-      //       // console.log(valid);
-      //       console.log(this.form);
-      //       if (valid) {
-      //         // this.$store
-      //         //   .dispatch("note/modifyNoteConfig", this.form)
-      //         //   .then(() => {
-      //         //     this.$message.success("保存成功");
-      //         //   })
-      //         //   .finally(() => {
-      //         //     this.getNoteConfig();
-      //         //   });
-      //       }
-      //     });
-      //   }
-      // });
     }
   }
 };

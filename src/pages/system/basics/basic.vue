@@ -17,12 +17,12 @@
           <a-collapse-panel key="1" header="网站基本信息">
             <a-form-model-item
               ref="websiteName"
-              label="网站名称"
+              label="网站标题"
               prop="websiteName"
             >
               <a-input v-model="form.websiteName" />
             </a-form-model-item>
-            <a-form-model-item label="首页标题" prop="title" ref="title">
+            <a-form-model-item label="网站名称" prop="title" ref="title">
               <a-input v-model="form.title" />
             </a-form-model-item>
             <a-form-model-item label="网站关键字" prop="keyWords">
@@ -34,7 +34,7 @@
             <a-form-model-item label="ICP备案" prop="recordNo">
               <a-input v-model="form.recordNo" />
             </a-form-model-item>
-             <a-form-model-item label="公安备案" prop="publicSecurityRecord">
+            <a-form-model-item label="公安备案" prop="publicSecurityRecord">
               <a-input v-model="form.publicSecurityRecord" />
             </a-form-model-item>
             <!-- <a-form-model-item
@@ -290,19 +290,10 @@ export default {
         bankAccount: "",
         id: "",
         phoneLogo: "",
-        publicSecurityRecord:'',
+        publicSecurityRecord: "",
 
-        linkTypeName: "",
-        linkTypeCode: "",
         linkName: "",
-        linkUrl: "",
-        linkDescribe: "",
-        bottomShow: 0,
-        status: 0,
-        linkSort: "",
-        channelCode: "",
-        linkLogo: "",
-        linkTypeSort: 0
+        status: 0
       },
       rules: {
         websiteName: [
@@ -457,7 +448,7 @@ export default {
         };
         this.form.cid = res.data.id;
       });
-    }
+    },
   }
 };
 </script>

@@ -172,10 +172,8 @@ export default {
       }
     };
   },
-  created() {
-    this.getList();
-  },
   activated() {
+    this.resetForm();
     this.getList();
   },
   computed: {
@@ -217,7 +215,9 @@ export default {
       });
     },
     resetForm() {
-      this.$refs.ruleForm.clearValidate();
+      this.$nextTick(() => {
+        this.$refs.ruleForm.clearValidate();
+      });
       this.form = {
         applyUserCode: "",
         checkMemo: "",

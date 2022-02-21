@@ -10,7 +10,7 @@ const note = {
     // 获取短信签名配置
     getNoteConfig({ commit, state }, params) {
       return request({
-        url: "/ccNewsType",
+        url: "/messageSign/getStatus",
         method: "get",
         params
       });
@@ -18,7 +18,7 @@ const note = {
     // 修改短信签名配置
     modifyNoteConfig({ commit, state }, data) {
       return request({
-        url: `/ccNewsType/sort`,
+        url: `/messageSign`,
         method: "post",
         data
       });

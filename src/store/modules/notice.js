@@ -9,25 +9,7 @@ const notice = {
     // 获取通知模板列表
     getList({ commit, state }, params) {
       return request({
-        url: "/ccCorporation",
-        method: "get",
-        params
-      });
-    },
-  
-   
-    getOne({ commit, state }, id) {
-      console.log(state);
-      return request({
-        url: `/ccCorporation/${id}`,
-        method: "get"
-      });
-    },
-    // 会员折扣
-    // 获取列表
-    getDisCountList({ commit, state }, params) {
-      return request({
-        url: "/ccCorportionPrice",
+        url: "/mcChannelTemplate",
         method: "get",
         params
       });
@@ -39,30 +21,15 @@ const notice = {
         method: "get"
       });
     },
-    // 新增
-    addDisCount({ commit, state }, data) {
-      return request({
-        url: "/ccCorportionPrice",
-        method: "post",
-        data
-      });
-    },
+    
     // 编辑
     editDisCount({ commit, state }, data) {
       return request({
-        url: `/ccCorportionPrice/${data.id}`,
-        method: "put",
+        url: `/mcChannelTemplate`,
+        method: "patch",
         data
       });
     },
-    // 删除
-    delDisCount({ commit, state }, data) {
-      return request({
-        url: `/ccCorportionPrice/${data.id}`,
-        method: "delete",
-        data
-      });
-    }
   }
 };
 
