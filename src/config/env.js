@@ -12,7 +12,7 @@ const jadepoolUrl = {
 };
 // form服务接口请求地址
 const formBaseUrl = {
-  dev: "http://www.ydidc.com/server/form",
+  dev: "http://site.ydidc.com/server/form",
   test: "http://www.zjyundun.com/server/form",
   prod: "http://www.zjyundun.com/server/form"
 };
