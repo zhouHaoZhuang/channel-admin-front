@@ -344,8 +344,19 @@ export const asyncRoute = [
                   )
               },
               {
-                path: "info",
+                path: "unsubscribe",
                 name: "业务详情",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "business-cloud-biz"
+                },
+                component: () =>
+                  import("@/pages/business/businesslist/unsubscribe/index.vue")
+              },
+              {
+                path: "info",
+                name: "业务退订",
                 meta: {
                   invisible: true,
                   back: true,

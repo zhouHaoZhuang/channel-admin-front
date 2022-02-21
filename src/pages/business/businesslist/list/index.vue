@@ -276,9 +276,15 @@
             <span slot="dataDiskSize" slot-scope="text">
               {{ text != 0 ? text : "---" }}
             </span>
-            <a slot="action" slot-scope="text" @click="infoChannel(text)"
-              >管理</a
-            >
+            <span slot="action" slot-scope="text">
+              <a-button type="link" @click="infoChannel(text)">
+                管理
+              </a-button>
+              <a-divider type="vertical" />
+              <a-button type="link" @click="unsubscribe(text)">
+                退订
+              </a-button>
+            </span>
           </a-table>
         </div>
       </div>
@@ -432,7 +438,6 @@ export default {
           dataIndex: "id",
           key: "action",
           fixed: "right",
-          width: 100,
           scopedSlots: { customRender: "action" }
         }
       ],
@@ -532,6 +537,12 @@ export default {
       this.paginationProps.current = current;
       this.paginationProps.pageSize = pageSize;
       this.getList();
+    },
+    unsubscribe(id) {
+      this.$router.push({
+        path: "/business/cloudservers/unsubscribe",
+        query: { id }
+      });
     },
     //
     infoChannel(id) {
