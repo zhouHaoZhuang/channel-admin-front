@@ -23,6 +23,7 @@ export default {
     customTitles,
     routeMetaPrem: "",
     firstPath: "",
+    redirectPath: "",
     ...config,
     ...localSetting
   },
@@ -124,6 +125,10 @@ export default {
     // 存储默认跳转的地址
     setFirstPath(state, firstPath) {
       state.firstPath = firstPath;
+    },
+    // 存储重定向地址
+    saveRedirect(state, path) {
+      state.redirectPath = path;
     }
   }
 };
