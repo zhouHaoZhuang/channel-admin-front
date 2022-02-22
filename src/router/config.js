@@ -611,7 +611,7 @@ export const asyncRoute = [
       // 服务
       {
         path: "/service",
-        name: "服务",
+        name: "工单",
         component: PageView,
         meta: {
           perm: "userinfo"
