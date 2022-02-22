@@ -63,9 +63,10 @@
                 </a-button>
               </a-form-model-item>
               <a-form-model-item class="btn-box">
-                <a-button size="large" class="btn1" type="link">
+                <!-- <a-button size="large" class="btn1" type="link">
                   重置密码
-                </a-button>
+                </a-button> -->
+                <span></span>
                 <a-button
                   size="large"
                   class="btn2"
