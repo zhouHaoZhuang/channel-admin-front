@@ -46,6 +46,22 @@ const frontPage = {
         params,
       });
     },
+    // 获取今日工单统计
+    getDayWorkOrder({ commit, state }, params) {
+      return request({
+        url: `/workOrder/count/day`,
+        method: "get",
+        params,
+      });
+    },
+    // 获取本月工单统计
+    getMonthWorkOrder({ commit, state }, params) {
+      return request({
+        url: `/workOrder/count/month`,
+        method: "get",
+        params,
+      });
+    },
      // 获取所在企业终端客户的售出的云服务器台数
      getSuccessCount({ commit, state }, params) {
       return request({

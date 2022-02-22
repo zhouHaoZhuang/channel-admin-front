@@ -299,6 +299,27 @@ export const asyncRoute = [
                 component: () => import("@/pages/finance/payment/addbalance")
               }
             ]
+          },
+          {
+            path: "refund",
+            name: "退款管理",
+            meta: {
+              icon: "home",
+              perm: "finance-book"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "record",
+                name: "退款记录",
+                meta: {
+                  icon: "home",
+                  perm: "finance-book-order"
+                },
+                component: () =>
+                  import("@/pages/finance/refund/record/index.vue")
+              }
+            ]
           }
         ]
       },

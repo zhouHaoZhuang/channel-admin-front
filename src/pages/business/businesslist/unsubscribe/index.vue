@@ -26,7 +26,7 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       form: {
-        name: ""
+        tradePrice: ""
       },
       rules: {
         name: [
@@ -46,6 +46,7 @@ export default {
     };
   },
   activated() {
+    this.resetForm();
     this.getData();
   },
   methods: {
@@ -60,18 +61,28 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.$store
-            .dispatch("business/unsubscribeServe", this.$route.query.id)
-            .then(res => {
-              console.log(res);
-              this.$message.success('退订成功')
-              this.$router.back()
-            });
-        } 
+          this.$confirm({
+            title: "确定要保存设置吗？",
+            onOk: () => {
+              this.$store
+                .dispatch("business/unsubscribeServe", this.$route.query.id)
+                .then(res => {
+                  console.log(res);
+                  this.$message.success("退订成功");
+                })
+                .finally(() => {
+                  this.$router.back();
+                });
+            }
+          });
+        }
       });
     },
     resetForm() {
-      this.$refs.ruleForm.resetFields();
+      //   this.$refs.ruleForm.resetFields();
+      this.form = {
+        tradePrice: ""
+      };
     }
   }
 };
