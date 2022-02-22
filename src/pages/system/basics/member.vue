@@ -21,37 +21,35 @@
               </a-radio-group>
             </a-form-model-item>
             <a-form-model-item required label="密码长度">
-              <a-row :gutter="1">
-                <a-col :span="6">
-                  <a-form-model-item prop="pwd_min_length">
-                    <a-input v-model="form.pwd_min_length" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="1">
-                  -
-                </a-col>
-                <a-col :span="6">
-                  <a-form-model-item prop="pwd_max_length">
-                    <a-input v-model="form.pwd_max_length" />
-                  </a-form-model-item>
-                </a-col>
-              </a-row>
+              <a-form-model-item
+                class="model-item"
+                prop="pwd_min_length"
+                style="width:100px"
+              >
+                <a-input v-model="form.pwd_min_length" />
+              </a-form-model-item>
+              <span class="model-item">-</span>
+              <a-form-model-item
+                prop="pwd_max_length"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.pwd_max_length" />
+              </a-form-model-item>
             </a-form-model-item>
             <a-form-model-item label="每个IP限制注册" prop="linkUrl">
-              <a-row :gutter="2">
-                <a-col :span="6">
-                  <a-input v-model="form.register_num" />
-                </a-col>
-                <a-col :span="3">
-                  <div>个账号，在</div>
-                </a-col>
-                <a-col :span="6">
-                  <a-input v-model="form.register_hour" />
-                </a-col>
-                <a-col :span="4">
-                  <div>小时内</div>
-                </a-col>
-              </a-row>
+              <a-input
+                v-model="form.register_num"
+                style="width:100px"
+                class="model-item"
+              />
+              <div class="model-item">个账号，在</div>
+              <a-input
+                v-model="form.register_hour"
+                style="width:100px"
+                class="model-item"
+              />
+              <div class="model-item">小时内</div>
             </a-form-model-item>
             <!-- <a-form-model-item label="注册成功送现金" prop="linkDescribe">
               <a-input v-model="form.linkName" />
@@ -114,40 +112,36 @@
               required
               prop="linkName"
             >
-              <a-row :gutter="1">
-                <a-col :span="5">
-                  <a-form-model-item prop="pwd_fail_times">
-                    <a-input v-model="form.pwd_fail_times" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="5">
-                  <div>次，锁定账号，锁定</div>
-                </a-col>
-                <a-col :span="5">
-                  <a-form-model-item prop="pwd_fail_minutes">
-                    <a-input v-model="form.pwd_fail_minutes" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="5">
-                  <div>分钟</div>
-                </a-col>
-              </a-row>
+              <a-form-model-item
+                prop="pwd_fail_times"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.pwd_fail_times" />
+              </a-form-model-item>
+              <div class="model-item">次，锁定账号，锁定</div>
+              <a-form-model-item
+                prop="pwd_fail_minutes"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.pwd_fail_minutes" />
+              </a-form-model-item>
+              <div class="model-item">分钟</div>
             </a-form-model-item>
             <a-form-model-item label="登录失败次数达到" prop="linkUrl">
-              <a-row :gutter="1">
-                <a-col :span="5">
-                  <a-input v-model="form.login_fail_times" />
-                </a-col>
-                <a-col :span="5">
-                  <div>次，锁定IP，锁定</div>
-                </a-col>
-                <a-col :span="5">
-                  <a-input v-model="form.login_fail_minutes" />
-                </a-col>
-                <a-col :span="5">
-                  <div>分钟</div>
-                </a-col>
-              </a-row>
+              <a-input
+                v-model="form.login_fail_times"
+                class="model-item"
+                style="width:100px"
+              />
+              <div class="model-item">次，锁定IP，锁定</div>
+              <a-input
+                v-model="form.login_fail_minutes"
+                class="model-item"
+                style="width:100px"
+              />
+              <div class="model-item">分钟</div>
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
@@ -280,63 +274,50 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="每个IP/会员限发送短信验证码" required>
-              <a-row :gutter="1">
-                <a-col :span="5">
-                  <a-form-model-item prop="send_msm_times">
-                    <a-input v-model="form.send_msm_times" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="2">
-                  <div>次，在</div>
-                </a-col>
-                <a-col :span="5">
-                  <a-form-model-item prop="send_msm_hour">
-                    <a-input v-model="form.send_msm_hour" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="5">
-                  <div>小时内</div>
-                </a-col>
-              </a-row>
+              <a-form-model-item
+                prop="send_msm_times"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.send_msm_times" />
+              </a-form-model-item>
+              <div class="model-item">次，在</div>
+              <a-form-model-item
+                prop="send_msm_hour"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.send_msm_hour" />
+              </a-form-model-item>
+              <div class="model-item">小时内</div>
             </a-form-model-item>
-            <a-form-model-item
-              label="每个IP/会员限发送邮件验证码"
-              required
-            >
-              <a-row :gutter="1">
-                <a-col :span="5">
-                  <a-form-model-item prop="send_email_times">
-                    <a-input v-model="form.send_email_times" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="2">
-                  <div>次，在</div>
-                </a-col>
-                <a-col :span="5">
-                  <a-form-model-item prop="send_email_hour">
-                    <a-input v-model="form.send_email_hour" />
-                  </a-form-model-item>
-                </a-col>
-                <a-col :span="5">
-                  <div>小时内</div>
-                </a-col>
-              </a-row>
+            <a-form-model-item label="每个IP/会员限发送邮件验证码" required>
+              <a-form-model-item
+                prop="send_email_times"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.send_email_times" />
+              </a-form-model-item>
+              <div class="model-item">次，在</div>
+              <a-form-model-item
+                prop="send_email_hour"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.send_email_hour" />
+              </a-form-model-item>
+              <div class="model-item">小时内</div>
             </a-form-model-item>
-            <a-form-model-item
-              label="每小时全站限制验证码发送条数"
-              required
-            >
-              <a-row :gutter="1">
-                <a-col :span="5">
-                    <a-form-model-item prop="hour_limit">
-                  <a-input v-model="form.hour_limit" />
-                  </a-form-model-item>
-
-                </a-col>
-                <a-col :span="5">
-                  <div>条</div>
-                </a-col>
-              </a-row>
+            <a-form-model-item label="每小时全站限制验证码发送条数" required>
+              <a-form-model-item
+                prop="hour_limit"
+                class="model-item"
+                style="width:100px"
+              >
+                <a-input v-model="form.hour_limit" />
+              </a-form-model-item>
+              <div class="model-item">条</div>
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
@@ -534,6 +515,10 @@ export default {
   }
   .ant-collapse {
     background-color: white;
+  }
+  .model-item {
+    display: inline-block;
+    margin-right: 10px;
   }
 }
 </style>

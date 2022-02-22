@@ -31,7 +31,7 @@ import domain from "./domain";
 import notice from "./notice";
 import note from "./note";
 import workorder from "./workorder";
-
+import record from "./record";
 
 export default {
   user,
@@ -66,5 +66,6 @@ export default {
   domain,
   notice,
   note,
-  workorder
+  workorder,
+  record
 };

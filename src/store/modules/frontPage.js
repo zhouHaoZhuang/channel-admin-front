@@ -52,6 +52,7 @@ const frontPage = {
         url: `/workOrder/count/day`,
         method: "get",
         params,
+        formService: true
       });
     },
     // 获取本月工单统计
@@ -60,6 +61,8 @@ const frontPage = {
         url: `/workOrder/count/month`,
         method: "get",
         params,
+        formService: true
+
       });
     },
      // 获取所在企业终端客户的售出的云服务器台数

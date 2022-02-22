@@ -10,6 +10,13 @@
       <a-form-model-item label="可退款金额">
         <span>{{ form.tradePrice }}元</span>
       </a-form-model-item>
+      <a-form-model-item label="备注" prop="remark">
+        <a-textarea
+          v-model="form.remark"
+          placeholder="请填写备注信息"
+          :auto-size="{ minRows: 7 }"
+        />
+      </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" @click="onSubmit">
           确定
@@ -24,9 +31,11 @@ export default {
   data() {
     return {
       labelCol: { span: 4 },
-      wrapperCol: { span: 14 },
+      wrapperCol: { span: 8 },
       form: {
-        tradePrice: ""
+        tradePrice: "",
+        remark: "",
+        id: ""
       },
       rules: {
         name: [
@@ -41,7 +50,12 @@ export default {
             message: "Length should be 3 to 5",
             trigger: "blur"
           }
-        ]
+        ],
+        remark: {
+          required: true,
+          message: "备注不能为空",
+          trigger: "blur"
+        }
       }
     };
   },
@@ -64,8 +78,9 @@ export default {
           this.$confirm({
             title: "确定要保存设置吗？",
             onOk: () => {
+              this.form.id = this.$route.query.id;
               this.$store
-                .dispatch("business/unsubscribeServe", this.$route.query.id)
+                .dispatch("business/unsubscribeServe", this.form)
                 .then(res => {
                   console.log(res);
                   this.$message.success("退订成功");
@@ -81,7 +96,8 @@ export default {
     resetForm() {
       //   this.$refs.ruleForm.resetFields();
       this.form = {
-        tradePrice: ""
+        tradePrice: "",
+        remark: ""
       };
     }
   }

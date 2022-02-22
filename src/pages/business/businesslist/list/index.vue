@@ -335,7 +335,8 @@ export default {
         pageSize: "10",
         saleTimeSort: "",
         sort: "",
-        runningStatus: ""
+        runningStatus: "",
+        createTimeSort: ""
       },
       searchColumns: [
         {
@@ -363,7 +364,7 @@ export default {
         },
         {
           title: "IP",
-          width: 130,
+          width: 140,
           dataIndex: "outIp"
         },
         {
@@ -478,6 +479,11 @@ export default {
           this.selectkey.endTimeSort = sorter.order.replace("end", "");
           this.getList(() => {
             this.selectkey.endTimeSort = "";
+          });
+        } else if (sorter.columnKey === "createTimeStr") {
+          this.selectkey.createTimeSort = sorter.order.replace("end", "");
+          this.getList(() => {
+            this.selectkey.createTimeSort = "";
           });
         }
       }

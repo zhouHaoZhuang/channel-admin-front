@@ -1,5 +1,5 @@
 <template>
-  <div class="record">
+  <div class="records">
     <a-table
       :loading="tableLoading"
       :columns="columns"
@@ -10,65 +10,69 @@
       <div slot="createTime" slot-scope="text">
         {{ text | formatDate }}
       </div>
-      <a slot="action" v-permission="'view'">
+      <div slot="tradeStatus" slot-scope="text">
+          {{orderStatusEnum[text]}}
+      </div>
+      <!-- <a slot="action" v-permission="'view'">
         <a-button type="link">
           编辑
-        </a-button>
+        </a-button> -->
         <!-- <a-divider type="vertical" />
         <a-button type="link">
           删除
         </a-button> -->
-      </a>
+      <!-- </a> -->
     </a-table>
   </div>
 </template>
 
 <script>
+import { orderStatusEnum } from "@/utils/enum.js";
+
 export default {
   data() {
     return {
       tableLoading: false,
+      orderStatusEnum,
       data: [],
       columns: [
         {
           title: "产品名称",
-          dataIndex: "name",
-          width: 220
+          dataIndex: "productName"
         },
         {
           title: "订单编号",
-          dataIndex: "id",
-          width: 220
+          dataIndex: "orderNo"
         },
         {
           title: "IP地址",
-          dataIndex: "ip",
-          key: "status",
+          dataIndex: "outIp",
+          key: "outIp",
           scopedSlots: {
-            customRender: "status"
+            customRender: "outIp"
           }
         },
         {
           title: "退款金额",
-          dataIndex: "jine",
-          key: "jine"
+          dataIndex: "amount",
+          key: "amount"
         },
         {
           title: "申请日期",
-          dataIndex: "id",
-          key: "action",
-          fixed: "right",
-          scopedSlots: { customRender: "action" }
+          dataIndex: "createTime",
+          key: "createTime",
+          scopedSlots: { customRender: "createTime" }
         },
         {
           title: "退款原因",
-          dataIndex: "a",
-          key: "tuikuan"
+          dataIndex: "remark",
+          key: "remark"
         },
         {
           title: "状态",
-          dataIndex: "b",
-          key: "zhuangtai"
+          dataIndex: "tradeStatus",
+          key: "tradeStatus",
+          scopedSlots: { customRender: "tradeStatus" }
         }
       ],
       listQuery: {
@@ -92,12 +96,12 @@ export default {
     };
   },
   activated() {
-    // this.getList();
+    this.getList();
   },
   methods: {
     getList() {
       this.tableLoading = true;
-      this.$getList("specification/getList", this.listQuery).then(res => {
+      this.$getList("record/getList", this.listQuery).then(res => {
         console.log(res, "获取列表");
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
@@ -120,9 +124,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.record{
-    margin: 0 20px;
-    padding: 20px;
-    background-color: #fff;
+.records {
+  margin: 0 20px;
+  padding: 20px;
+  background-color: #fff;
 }
 </style>
