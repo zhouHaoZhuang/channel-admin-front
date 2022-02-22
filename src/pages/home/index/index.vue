@@ -93,11 +93,11 @@
                   alt=""
                 />
                 <span>
-                  <a>{{ orderSumDay }}</a> 单
+                  <a>{{ dayWorkOrder }}</a> 单
                 </span>
               </div>
               <p class="moon-num">
-                <span>本月待解决工单</span><span>{{ orderSumMonth }}单</span>
+                <span>本月待解决工单</span><span>{{ monthWorkOrder }}单</span>
               </p>
             </div>
           </a-card>
@@ -191,7 +191,9 @@ export default {
         total: 0,
         "qp-status-eq": "0"
       },
-      messageList: null
+      messageList: null,
+      dayWorkOrder:'',
+      monthWorkOrder:''
     };
   },
   computed: {
@@ -211,10 +213,12 @@ export default {
     this.orderSumInfo(this.currentMonth(), "month");
     this.getSuccessCount(this.currentMonth());
     this.getMessageList();
+    this.getDayWorkOrder();
+    this.getMonthWorkOrder();
   },
   mounted() {
     this.userInfo.lastLogin = this.userInfo.lastLogin?.slice(0, 19);
-    console.log(this.userInfo.lastLogin, "后");
+    // console.log(this.userInfo.lastLogin, "后");
   },
   methods: {
     currentMonth() {
@@ -298,14 +302,29 @@ export default {
         }
       });
     },
-
+    // 统计今日工单
+    getDayWorkOrder(){
+      this.$store.dispatch("frontPage/getDayWorkOrder").then((res)=>{
+        console.log(res,'----');
+        this.dayWorkOrder = res.data;
+      })
+    },
+    // 获取本月工单统计
+    getMonthWorkOrder(){
+      this.$store.dispatch("frontPage/getMonthWorkOrder").then((res)=>{
+        console.log(res,'----');
+        this.monthWorkOrder = res.data;
+      })
+    },
     // getSuccessCount获取当日云服务器台数
     getSuccessCount(date) {
       this.$store.dispatch("frontPage/getSuccessCount", date).then(val => {
         this.SuccessCountNum = val.data;
         // console.log(val);
       });
-    }
+    },
+    
+
   }
 };
 </script>

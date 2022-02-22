@@ -238,9 +238,6 @@ export default {
   activated() {
     this.getList();
   },
-  created() {
-    this.getList();
-  },
   methods: {
     startValue(date, dateString) {
       this.listQuery.startTime = dateString;
