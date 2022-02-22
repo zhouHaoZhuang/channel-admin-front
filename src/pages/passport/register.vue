@@ -16,6 +16,7 @@
             placeholder="11位手机号"
             v-number-evolution
             :max-length="11"
+            size="large"
           />
         </a-form-model-item>
         <a-form-model-item class="code-wrap" prop="code">
@@ -25,8 +26,9 @@
             placeholder="输入验证码"
             v-number-evolution
             :max-length="6"
+            size="large"
           />
-          <CodeBtn :phone="form.phone" />
+          <CodeBtn :phone="form.phone" size="large" />
         </a-form-model-item>
         <a-form-model-item prop="password">
           <a-input-password
@@ -35,6 +37,7 @@
             type="password"
             :max-length="20"
             placeholder="6 - 20位密码，区分大小写"
+            size="large"
             @keydown.native="keydown($event)"
           />
         </a-form-model-item>
@@ -45,6 +48,7 @@
             type="password"
             :max-length="20"
             placeholder="确认密码"
+            size="large"
             @keydown.native="keydown($event)"
           />
         </a-form-model-item>
@@ -52,6 +56,7 @@
           <a-button
             class="submit-btn"
             type="primary"
+            size="large"
             @click="handleRegister"
             :loading="loading"
           >
@@ -60,6 +65,7 @@
           <a-button
             type="link"
             style="padding-right:0"
+            size="large"
             @click="handleJumpLogin"
           >
             使用已有账户登录
@@ -97,7 +103,7 @@ export default {
     };
     return {
       labelCol: { span: 0 },
-      wrapperCol: { span: 22, offset: 1 },
+      wrapperCol: { span: 24, offset: 0 },
       form: {
         phone: "",
         code: "",
@@ -176,10 +182,9 @@ export default {
 
 <style lang="less" scoped>
 .register-container {
-  background: #26a6f5;
   .register {
     width: 450px;
-    background: #fff;
+    // background: #fff;
     border-radius: 8px;
     padding: 30px 24px;
     position: absolute;

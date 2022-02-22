@@ -78,7 +78,7 @@
     <div class="table-content">
       <a-table
         :loading="tableLoading"
-        :columns="columns"
+        :columns="newColumns"
         :data-source="data"
         rowKey="id"
         :pagination="paginationProps"
@@ -95,7 +95,7 @@
             已回复
           </a-tag>
         </div>
-        <!-- 问题内容 -->
+        <!-- 问题标题 -->
         <div slot="title1" slot-scope="text, record">
           <a-button
             class="btn-link"
@@ -172,18 +172,18 @@ export default {
         total: 0
       },
       tableLoading: false,
+      dynamicColumn: {
+        title: "进度",
+        dataIndex: "schedule",
+        scopedSlots: { customRender: "schedule" }
+      },
       columns: [
         {
-          title: "ID",
-          dataIndex: "id"
+          title: "工单编号",
+          dataIndex: "workOrderNo"
         },
         {
-          title: "进度",
-          dataIndex: "schedule",
-          scopedSlots: { customRender: "schedule" }
-        },
-        {
-          title: "问题内容",
+          title: "问题标题",
           dataIndex: "title",
           scopedSlots: { customRender: "title1" }
         },
@@ -243,6 +243,16 @@ export default {
       }
     };
   },
+  computed: {
+    newColumns() {
+      if (this.tabsKey === 2) {
+        const newData = [...this.columns];
+        newData.splice(1, 0, this.dynamicColumn);
+        return newData;
+      }
+      return this.columns;
+    }
+  },
   watch: {
     tabsKey: {
       handler() {
@@ -291,12 +301,15 @@ export default {
         req = this.reqObj[this.tabsKey];
       }
       // 根据不同type处理不同的请求参数-status
-      const status =
+      let status =
         this.type === "list"
           ? this.tabsKey === 0
             ? undefined
             : this.tabsKey
           : undefined;
+      if (this.type !== "list") {
+        status = this.tabsKey === 3 ? 3 : undefined;
+      }
       const timeObj = this.getReq(this.listQuery.timeType, this.listQuery);
       const newListQuery = {
         ...this.listQuery,
@@ -306,6 +319,7 @@ export default {
       this.$getList(req, newListQuery)
         .then(res => {
           this.data = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
           this.tableLoading = false;
@@ -320,7 +334,6 @@ export default {
         })
         .then(res => {
           this.typeList = [...res.data.list];
-          this.paginationProps.total = res.data.totalCount * 1;
         });
     },
     // 日期选择

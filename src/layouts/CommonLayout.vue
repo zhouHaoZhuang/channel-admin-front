@@ -3,7 +3,6 @@
     <div class="content"><slot></slot></div>
     <!-- 底部 -->
     <!-- <page-footer :link-list="footerLinks" :copyright="copyright"></page-footer> -->
-    <div class="cloud-img"></div>
     <div class="footer">
       Copyright 2022 © 上海言富科技有限公司 沪ICP备2021032365号
     </div>
@@ -26,15 +25,17 @@ export default {
 <style scoped lang="less">
 .common-layout {
   height: 100vh;
-  position: relative;
-  .cloud-img {
-    width: 100%;
-    height: 330px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: url("../assets/img/passport/login_cloud.png") no-repeat center;
-    background-size: cover;
+  background-color: @layout-body-background;
+  background-image: url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 110px;
+  background-size: 100%;
+  .content {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .footer {
     width: 100%;
