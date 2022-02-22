@@ -115,7 +115,7 @@
             </a-button>
             <a-button
               type="primary"
-              v-if="detail.status === 2"
+              v-if="detail.transferCloud"
               @click="handleMoveCloudCustomer"
             >
               转移到云技术客服
