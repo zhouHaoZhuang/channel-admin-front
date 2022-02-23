@@ -23,9 +23,9 @@
         <span slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </span>
-        <span slot="action">
+        <!-- <span slot="action">
           <a-button type="link" disabled>暂无操作</a-button>
-          <!-- <a-button
+          <a-button
             v-permission="'modify'"
             type="link"
             @click="handleEdit(record)"
@@ -35,8 +35,8 @@
           <a-divider type="vertical" />
           <a-button v-permission="'del'" type="link" @click="handleDel(record)">
             删除
-          </a-button> -->
-        </span>
+          </a-button>
+        </span> -->
       </a-table>
     </div>
     <!-- 添加/编辑子账号弹窗 -->
@@ -75,12 +75,12 @@ export default {
           title: "创建时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" }
-        },
-        {
-          title: "操作",
-          dataIndex: "action",
-          scopedSlots: { customRender: "action" }
         }
+        // {
+        //   title: "操作",
+        //   dataIndex: "action",
+        //   scopedSlots: { customRender: "action" }
+        // }
       ],
       data: [],
       paginationProps: {
