@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="item">
-        <div class="label">响应时间：</div>
+        <div class="label">接单时间：</div>
         <div class="value">
           {{ detail.acceptTime | formatDate }}
         </div>
@@ -58,7 +58,12 @@
       </div>
       <div class="item">
         <div class="label">工单状态：</div>
-        <div class="value">
+        <div v-if="detail.acceptStatus === 2" class="value">
+          <a-tag color="blue">
+            转单待接单
+          </a-tag>
+        </div>
+        <div v-else class="value">
           <a-tag v-if="detail.status === 1">
             待接单
           </a-tag>
@@ -73,7 +78,9 @@
       <div class="item">
         <div class="label">结束时间：</div>
         <div class="value">
-          {{ detail.endTime | formatDate }}
+          <span v-if="detail.endTime">
+            {{ detail.endTime | formatDate }}
+          </span>
         </div>
       </div>
       <div class="item">
@@ -93,14 +100,14 @@
           <a-space>
             <a-button
               type="primary"
-              v-if="detail.status === 2 || detail.status === 3"
+              v-if="!detail.acceptChannel"
               :disabled="true"
             >
               已接单
             </a-button>
             <a-button
               type="primary"
-              v-if="detail.status === 1"
+              v-if="detail.acceptChannel"
               :loading="orderReceivingLoading"
               @click="handleOrderReceiving"
             >
@@ -108,7 +115,7 @@
             </a-button>
             <a-button
               type="primary"
-              v-if="detail.status !== 3"
+              v-if="detail.status === 2"
               @click="handleMoveWorkOrder"
             >
               移动工单
