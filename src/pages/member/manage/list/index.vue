@@ -338,7 +338,7 @@
             text | formatDate
           }}</span>
           <div slot-scope="text" slot="ecsCount">{{ text }}个</div>
-          <div slot="balance" slot-scope="text">
+          <div v-if="text != undefined" slot="balance" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
           <span slot="action" slot-scope="text" class="action">
@@ -487,7 +487,7 @@ export default {
             return a.balance - b.balance;
           },
           sortDirections: ["ascend", "descend"],
-          width: 80,
+          width: 100,
           scopedSlots: { customRender: "balance" }
         },
         // {

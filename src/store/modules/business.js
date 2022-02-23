@@ -24,10 +24,11 @@ const business = {
       });
     },
     // 服务器退订
-    unsubscribeServe({ commit, state }, id){
+    unsubscribeServe({ commit, state }, data){
       return request({
-        url: `/scEcsStock/unsubscribeEcs/${id}`,
+        url: `/scEcsStock/unsubscribeEcs/${data.id}`,
         method: "post",
+        data
       });
     },
     delList({ commit, state }, id) {
