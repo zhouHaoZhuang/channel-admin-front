@@ -70,14 +70,16 @@ export default {
   },
 
   activated() {
-    this.resetForm();
     this.getData();
+  },
+  deactivated() {
+    this.resetForm();
   },
   methods: {
     getData() {
       let data = {
         templateCode: this.$route.query.templateCode,
-        type: this.$route.query.type
+        code: this.$route.query.code
       };
       this.$store.dispatch("notice/getDisCountDetail", data).then(res => {
         console.log(res, "------------");
@@ -97,7 +99,12 @@ export default {
       });
     },
     resetForm() {
-      this.form.context = "";
+      this.form = {
+        context: "",
+        templateName: "",
+        code: ""
+      };
+      this.data = [];
     }
   }
 };

@@ -17,7 +17,7 @@ const globalBasic = {
     // 获取充值支付宝设置参数
     getAlipayConfig({ commit, state }, params) {
       return request({
-        url: `/pay/business/one`,
+        url: `/idcPay/business/one`,
         method: "get",
         params,
       });
@@ -25,7 +25,7 @@ const globalBasic = {
     // 更新充值支付宝设置参数
     updateAlipayConfig({ commit, state }, data) {
       return request({
-        url: `/pay/updateByBusinessCodeAndAccountType`,
+        url: `/idcPay/updateByBusinessCodeAndAccountType`,
         method: "patch",
         data,
       });

@@ -99,7 +99,7 @@
             <a-button
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.type)"
+              @click="templateJump(record.templateCode, record.code)"
             >
               短信模板
             </a-button>
@@ -107,7 +107,7 @@
             <a-button
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.type)"
+              @click="templateJump(record.templateCode, record.code)"
             >
               邮件模板
             </a-button>
@@ -115,7 +115,7 @@
             <a-button
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.type)"
+              @click="templateJump(record.templateCode, record.code)"
             >
               站内信模板
             </a-button>
@@ -199,82 +199,50 @@ let data = [
     address: true
   }
 ];
-// 对于二级选框的处理
-// data.forEach(item => {
-//   if (
-//     (item.tel != undefined ? item.tel : true) &&
-//     (item.phone != undefined ? item.phone : true) &&
-//     (item.address != undefined ? item.address : true)
-//   ) {
-//     item.agech = true;
-//     return;
-//   }
-//   item.agech = false;
-// });
-// console.log(data);
-// 给一级选框添加nameLength，（表示当前一级目录下的二级目录个数）
-// var name = data[data.length - 1].name; //初始值需等于数组中的最后一个值的name
-// data.reduceRight((acc, currentValue, currentIndex) => {
-//   // console.log(acc, currentValue, currentIndex);
-//   if (currentIndex == 0) {
-//     data[0].nameLength = acc + 1;
-//   }
-//   if (currentValue.name !== name) {
-//     name = currentValue.name;
-//     if (currentIndex + 1 == data.length) {
-//       currentIndex = currentIndex - 1;
-//     }
-//     data[currentIndex + 1].nameLength = acc;
-//     acc = 0;
-//   }
-//   return acc + 1;
-// }, 0);
 export default {
   data() {
     const columns = [
-      // {
-      //   // title: "场景",
-      //   // dataIndex: "name",
-      //   // colSpan: 0,
-      //   // customRender: (text, record, index) => {
-      //   //   if (!record.nameLength) {
-      //   //     return {
-      //   //       children: <span>{text}</span>,
-      //   //       attrs: {
-      //   //         rowSpan: 0
-      //   //       }
-      //   //     };
-      //   //   }
-      //   //   // a = record.name;
-      //   //   let checkAll = this.data
-      //   //     .slice(index, record.nameLength + index)
-      //   //     .every(item => {
-      //   //       return item.agech;
-      //   //     });
-      //   //   // if (index == 0) {
-      //   //   return {
-      //   //     children: (
-      //   //       <div>
-      //   //         <a-checkbox
-      //   //           checked={checkAll}
-      //   //           onchange={$event => {
-      //   //             this.onCheckAllChange(index, record.nameLength, $event);
-      //   //           }}
-      //   //         >
-      //   //           <span>{text}</span>
-      //   //         </a-checkbox>
-      //   //       </div>
-      //   //     ),
-      //   //     attrs: {
-      //   //       rowSpan: record.nameLength
-      //   //     }
-      //   //   };
-      //   // }
-      // },
+      {
+        title: "场景",
+        dataIndex: "name",
+        colSpan: 2,
+        customRender: (text, record, index) => {
+          if (!record.nameLength) {
+            return {
+              children: <span>{text}</span>,
+              attrs: {
+                rowSpan: 0
+              }
+            };
+          }
+          let checkAll = this.data
+            .slice(index, record.nameLength + index)
+            .every(item => {
+              return item.templateNameBool;
+            });
+          return {
+            children: (
+              <div>
+                <a-checkbox
+                  checked={checkAll}
+                  onchange={$event => {
+                    this.onCheckAllChange(index, record.nameLength, $event);
+                  }}
+                >
+                  <span>{text}</span>
+                </a-checkbox>
+              </div>
+            ),
+            attrs: {
+              rowSpan: record.nameLength
+            }
+          };
+        }
+      },
       {
         title: "场景",
         dataIndex: "templateName",
-        colSpan: 1,
+        colSpan: 0,
         // customRender: renderContent,
         scopedSlots: { customRender: "templateName" }
       },
@@ -332,7 +300,7 @@ export default {
       }
     };
   },
-  created() {
+  activated() {
     this.getList();
   },
   methods: {
@@ -356,56 +324,57 @@ export default {
       }
     },
     // 一级选框的事件
-    // onCheckAllChange(index, nameLength, e) {
-    //   this.data.slice(index, nameLength + index).forEach(element => {
-    //     if (element.tel != undefined) {
-    //       element.tel = e.target.checked;
-    //     }
-    //     if (element.phone != undefined) {
-    //       element.phone = e.target.checked;
-    //     }
-    //     if (element.address != undefined) {
-    //       element.address = e.target.checked;
-    //     }
-    //     element.agech = e.target.checked;
-    //   });
-    // },
-
+    onCheckAllChange(index, nameLength, e) {
+      this.data.slice(index, nameLength + index).forEach(element => {
+        element.emailStatusBool = e.target.checked;
+        element.onsiteStatusBool = e.target.checked;
+        element.smsStatusBool = e.target.checked;
+        element.templateNameBool = e.target.checked;
+      });
+    },
     // 获取列表数据
     getList() {
       this.$getList("notice/getList", this.listQuery).then(res => {
-        console.log(res);
-        res.data.list = [
-          ...res.data.channelConfiguration,
-          ...res.data.systemConfiguration
-        ];
-        if (res.data && res.data.list) {
-          res.data.list.forEach((item, index) => {
-            item.key = index;
-            item.emailStatusBool =
-              item.emailStatus == 2
-                ? item.emailStatus
-                : Boolean(item.emailStatus * 1);
-            item.onsiteStatusBool =
-              item.onsiteStatus == 2
-                ? item.onsiteStatus
-                : Boolean(item.onsiteStatus * 1);
-            item.smsStatusBool =
-              item.smsStatus == 2
-                ? item.smsStatus
-                : Boolean(item.smsStatus * 1);
-            if (
-              item.emailStatusBool &&
-              item.onsiteStatusBool &&
-              item.smsStatusBool
-            ) {
-              item.templateNameBool = true;
-              return;
+        // console.log(res);
+        res.data.list = res.data.channelConfiguration;
+        let arr = [];
+        // 给数据增加第一级处理
+        for (const key in res.data.list) {
+          console.log(key);
+          res.data.list[key].forEach((item, index) => {
+            item.name = key;
+            if (index == 0) {
+              item.nameLength = res.data.list[key].length;
             }
-            item.templateNameBool = false;
+            arr.push(item);
           });
-          this.data = res.data.list;
         }
+        console.log(res.data.list, arr, "-----------");
+        res.data.list = arr;
+        // 数据第二级，三级处理
+        res.data.list.forEach((item, index) => {
+          item.key = index;
+          item.emailStatusBool =
+            item.emailStatus == 2
+              ? item.emailStatus
+              : Boolean(item.emailStatus * 1);
+          item.onsiteStatusBool =
+            item.onsiteStatus == 2
+              ? item.onsiteStatus
+              : Boolean(item.onsiteStatus * 1);
+          item.smsStatusBool =
+            item.smsStatus == 2 ? item.smsStatus : Boolean(item.smsStatus * 1);
+          if (
+            item.emailStatusBool &&
+            item.onsiteStatusBool &&
+            item.smsStatusBool
+          ) {
+            item.templateNameBool = true;
+            return;
+          }
+          item.templateNameBool = false;
+        });
+        this.data = res.data.list;
       });
     },
     // 确认修改
@@ -421,13 +390,13 @@ export default {
       });
     },
     // 模板跳转回调函数
-    templateJump(templateCode, type) {
-      console.log(templateCode, type);
+    templateJump(templateCode, code) {
+      console.log(templateCode, code);
       this.$router.push({
         path: "/system/basics/mouldboard",
         query: {
           templateCode,
-          type
+          code
         }
       });
     }
