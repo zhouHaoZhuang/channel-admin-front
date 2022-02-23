@@ -63,7 +63,12 @@
                 </a-button>
               </a-form-model-item>
               <a-form-model-item class="btn-box">
-                <a-button size="large" class="btn1" type="link">
+                <a-button
+                  size="large"
+                  class="btn1"
+                  type="link"
+                  @click="resetPassword"
+                >
                   重置密码
                 </a-button>
                 <a-button
@@ -145,6 +150,11 @@ export default {
     // 跳转注册
     handleJumpRegister() {
       this.$router.push("/register");
+    },
+    // 跳转重置密码
+    resetPassword() {
+      console.log("jasdkasjkaa");
+      this.$router.push("/resetpassword");
     }
   }
 };
