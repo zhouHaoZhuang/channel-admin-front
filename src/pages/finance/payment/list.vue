@@ -98,7 +98,6 @@
             :data-source="data"
             rowKey="id"
             :pagination="paginationProps"
-            :scroll="{ x: 1200 }"
           >
             <div
               slot="status"
@@ -190,12 +189,14 @@ export default {
         {
           title: "款项类型",
           dataIndex: "accountType",
+          width: 100,
           scopedSlots: { customRender: "accountType" }
           // 2 线下充值 4 退款 1 在线充值 3 下单
         },
         {
           title: "申请金额",
           dataIndex: "amount",
+          width: 100,
           key: "amount"
         },
         {
@@ -208,6 +209,7 @@ export default {
         {
           title: "审核状态",
           dataIndex: "status",
+          width: 100,
           key: "",
           scopedSlots: { customRender: "status" }
         },

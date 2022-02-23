@@ -15,12 +15,12 @@ const notice = {
       });
     },
     // 获取详情
-    getDisCountDetail({ commit, state }, data) {
+    getDisCountDetail({ commit, state }, params) {
       // console.log(data,'-------');
       return request({
         url: `/messageTemplate/one`,
         method: "get",
-        data
+        params
       });
     },
     

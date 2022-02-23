@@ -43,7 +43,7 @@
           :columns="columns"
           :data-source="data"
           rowKey="corporationCode"
-          :scroll="{ x: 1400 }"
+          :pagination="false"
         >
           <div slot="tradeType" slot-scope="text">
             {{ orderTypeMap[text] }}

@@ -110,10 +110,14 @@
           {{ text === 0 ? "正常" : "冻结" }}
         </div>
         <span slot="action" slot-scope="text, record">
-          <a-button type="link" @click="addaFence(record.typeCode)" v-show="codeList.length <= 1">
+          <a-button
+            type="link"
+            @click="addaFence(record.typeCode)"
+            v-show="codeList.length <= 1"
+          >
             添加子栏
           </a-button>
-          <a-divider type="vertical" v-show="codeList.length <= 1"/>
+          <a-divider type="vertical" v-show="codeList.length <= 1" />
           <a-dropdown>
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
               更多 <a-icon type="down" />
@@ -212,9 +216,6 @@ export default {
   activated() {
     this.getList();
   },
-  created() {
-    this.getList();
-  },
   watch: {
     codeList: {
       handler() {
@@ -305,7 +306,8 @@ export default {
             let data = JSON.parse(JSON.stringify(res.data.ccHelpTypeList));
             this.data = data;
             this.dataList = res.data.ccHelpTypeList;
-            this.listQuery.total = res.data.total * 1;
+            this.paginationProps.total = res.data.ccHelpTypeList.length;
+            this.listQuery.total = res.data.ccHelpTypeList.length;
           } else {
             this.data = [];
             this.dataList = [];

@@ -107,9 +107,10 @@ export default {
     // },
     //查询数据表格
     getList() {
-      this.$store.dispatch("category/getList").then(res => {
+      this.$store.dispatch("category/getList",this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
+        this.paginationProps.total = res.data.totalCount * 1;
       });
       // this.$getList("banner/getList",this.listQuery)
       // .then(res=>{
