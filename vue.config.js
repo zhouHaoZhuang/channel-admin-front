@@ -110,7 +110,7 @@ module.exports = {
       }
     }
   },
-  publicPath: '/',
+  publicPath: '/shop/',
   outputDir: "dist",
   assetsDir: "static",
   productionSourceMap: false
