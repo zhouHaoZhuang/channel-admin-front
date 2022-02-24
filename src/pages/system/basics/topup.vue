@@ -49,7 +49,7 @@
           :wrapper-col="wrapperCol"
         >
           <a-form-model-item label="首选充值方式">
-            <a-radio-group v-model="form.first_payment">
+            <a-radio-group v-model="formRecharge.first_payment">
               <!-- <a-radio :value="0">
                 微信
               </a-radio> -->
@@ -59,7 +59,7 @@
             </a-radio-group>
           </a-form-model-item>
           <a-form-model-item label="支付宝PC充值开关">
-            <a-radio-group v-model="form.alipay_switch">
+            <a-radio-group v-model="formRecharge.alipay_switch">
               <a-radio value="1">
                 开启
               </a-radio>
@@ -69,10 +69,10 @@
             </a-radio-group>
           </a-form-model-item>
           <a-form-model-item label="最小充值金额">
-            <a-input v-model="form.min_recharge" suffix="元" />
+            <a-input v-model="formRecharge.min_recharge" suffix="元" />
           </a-form-model-item>
           <a-form-model-item label="订单在线支付">
-            <a-radio-group v-model="form.online_pay">
+            <a-radio-group v-model="formRecharge.online_pay">
               <a-radio value="1">
                 开启
               </a-radio>
@@ -362,12 +362,10 @@ export default {
     },
     // 获取支付宝设置
     getAlipay() {
-      this.loading = true;
       this.$store
         .dispatch("globalBasic/getAlipayConfig", { accountType: "ali" })
         .then(res => {
           console.log(res); 
-          this.loading = false;
           this.data = { ...res.data.accountConfig };
         });
     },
