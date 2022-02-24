@@ -43,7 +43,7 @@
       <div>
         <a-form-model
           ref="ruleForm"
-          :model="form"
+          :model="formRecharge"
           :rules="rules"
           :label-col="labelCol"
           :wrapper-col="wrapperCol"
@@ -226,7 +226,9 @@ export default {
         linkSort: "",
         channelCode: "",
         linkLogo: "",
-        linkTypeSort: 0,
+        linkTypeSort: 0
+      },
+      formRecharge: {
         first_payment: "",
         alipay_switch: "",
         min_recharge: "",
@@ -290,7 +292,7 @@ export default {
   created() {
     this.getAlipay();
     console.log(this.formData, "this.formData");
-    this.form = this.formData;
+    this.formRecharge = this.formData;
   },
   props: {
     formData: {
@@ -335,7 +337,7 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("emailSms/modifyAllConfig", this.form)
+            .dispatch("emailSms/modifyAllConfig", this.formRecharge)
             .then(() => {
               this.$message.success("保存成功");
               this.getData();
@@ -344,7 +346,7 @@ export default {
               this.loading = false;
               this.getData();
             });
-        }
+        } 
       });
     },
     // 修改成功之后获取最新的数据
@@ -365,7 +367,7 @@ export default {
       this.$store
         .dispatch("globalBasic/getAlipayConfig", { accountType: "ali" })
         .then(res => {
-          console.log(res);
+          console.log(res); 
           this.loading = false;
           this.data = { ...res.data.accountConfig };
         });
