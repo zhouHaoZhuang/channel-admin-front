@@ -110,7 +110,6 @@
             <a-form-model-item
               label="密码错误次数达到"
               required
-              prop="linkName"
             >
               <a-form-model-item
                 prop="pwd_fail_times"

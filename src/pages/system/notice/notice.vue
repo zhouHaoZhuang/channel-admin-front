@@ -23,13 +23,30 @@
           v-model="listQuery['qp-templateStatus-eq']"
         >
           <a-select-option value="">
+            模板模块
+          </a-select-option>
+          <a-select-option
+            v-for="item in templateModuleList"
+            :value="item.value"
+            :key="item.value"
+          >
+            {{ item.label }}
+          </a-select-option>
+        </a-select>
+        <a-select
+          default-value=""
+          style="width: 120px; margin: 0 10px;"
+          v-model="listQuery['qp-templateStatus-eq']"
+        >
+          <a-select-option value="">
             模板类型
           </a-select-option>
-          <a-select-option :value="0">
-            验证码
-          </a-select-option>
-          <a-select-option :value="1">
-            通知
+          <a-select-option
+            v-for="item in templateTypeList"
+            :value="item.value"
+            :key="item.value"
+          >
+            {{ item.label }}
           </a-select-option>
         </a-select>
         <a-button type="primary" @click="getList()">
@@ -275,6 +292,102 @@ export default {
     ];
     return {
       data: [],
+      templateTypeList: [
+        {
+          value: "1",
+          label: "短信验证码"
+        },
+        {
+          value: "2",
+          label: "短信通知"
+        },
+        {
+          value: "3",
+          label: "邮箱验证码"
+        },
+        {
+          value: "4",
+          label: "邮箱通知"
+        },
+        {
+          value: "5",
+          label: "站内信息"
+        },
+        {
+          value: "6",
+          label: "微信通知消息"
+        }
+      ],
+      templateModuleList: [
+        {
+          value: "group_ssl",
+          label: "证书"
+        },
+        {
+          value: "group_host",
+          label: "云虚拟主机"
+        },
+        {
+          value: "group_database",
+          label: "云数据库"
+        },
+        {
+          value: "group_server",
+          label: "云服务器"
+        },
+        {
+          value: "group_domain",
+          label: "域名"
+        },
+        {
+          value: "group_idc",
+          label: "托管"
+        },
+        {
+          value: "group_baremetal",
+          label: "裸金属"
+        },
+        {
+          value: "group_user",
+          label: "会员"
+        },
+        {
+          value: "group_loadbalance",
+          label: "负载均衡"
+        },
+        {
+          value: "group_sms_plan",
+          label: "短信套餐"
+        },
+        {
+          value: "group_financial",
+          label: "财务"
+        },
+        {
+          value: "group_icp",
+          label: "备案"
+        },
+        {
+          value: "group_whitelist",
+          label: "白名单"
+        },
+        {
+          value: "group_ip_exception",
+          label: "ip异常"
+        },
+        {
+          value: "group_admin",
+          label: "后台"
+        },
+        {
+          value: "group_other",
+          label: "其他"
+        },
+        {
+          value: "group_custom",
+          label: "自定义产品"
+        }
+      ],
       columns,
       cutover: "1",
       topList: [

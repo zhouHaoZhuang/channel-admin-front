@@ -44,7 +44,7 @@
         <a-form-model
           ref="ruleForm"
           :model="formRecharge"
-          :rules="rules"
+          :rules="rulesRecharge"
           :label-col="labelCol"
           :wrapper-col="wrapperCol"
         >
@@ -68,10 +68,10 @@
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <a-form-model-item label="最小充值金额">
+          <a-form-model-item label="最小充值金额" prop="min_recharge">
             <a-input v-model="formRecharge.min_recharge" suffix="元" />
           </a-form-model-item>
-          <a-form-model-item label="订单在线支付">
+          <a-form-model-item label="订单在线支付" prop="online_pay">
             <a-radio-group v-model="formRecharge.online_pay">
               <a-radio value="1">
                 开启
@@ -98,7 +98,7 @@
         </a-form-model>
       </div>
       <a-collapse default-active-key="1" :bordered="false" class="aa">
-        <a-collapse-panel key="1" header="支付宝设置" v-if="data">
+        <a-collapse-panel key="1" header="支付宝设置">
           <a-form-model
             ref="ruleForm"
             :model="data"
@@ -280,8 +280,28 @@ export default {
           }
         ]
       },
+      rulesRecharge: {
+        min_recharge: [
+          {
+            required: true,
+            message: "最小充值金额不能为空。",
+            trigger: "blur"
+          }
+        ],
+        online_pay: [
+          {
+            required: true,
+            message: "在线支付开关为必选。",
+            trigger: "change"
+          }
+        ]
+      },
       loading: false,
-      data: null,
+      data: {
+        aliAppId: "",
+        alipayPublicKey: "",
+        merchantPrivateKey: ""
+      },
       visible: false,
       confirmLoading: false
     };
@@ -345,7 +365,7 @@ export default {
               this.loading = false;
               this.getData();
             });
-        } 
+        }
       });
     },
     // 修改成功之后获取最新的数据
@@ -365,7 +385,7 @@ export default {
       this.$store
         .dispatch("globalBasic/getAlipayConfig", { accountType: "ali" })
         .then(res => {
-          console.log(res); 
+          console.log(res);
           this.data = { ...res.data.accountConfig };
         });
     },
