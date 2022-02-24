@@ -127,7 +127,7 @@ export default {
     },
     getRoles() {
       this.$store
-        .dispatch("user/getRoleList", { id: this.userInfo.id })
+        .dispatch("user/getRoleList", { id: this.userInfo.userCode })
         .then(val => {
           console.log("获取角色", val);
         });
