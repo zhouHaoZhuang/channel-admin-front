@@ -34,8 +34,7 @@ const member = {
       return request({
         url: "/icProduct",
         method: "get",
-        params,
-        // jadepool: true
+        params
       });
     },
     delList({ commit, state }, id) {

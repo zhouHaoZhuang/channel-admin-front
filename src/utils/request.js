@@ -8,7 +8,6 @@ const axiosSource = axios.CancelToken.source();
 const request = axios.create({
   // API 请求的默认前缀
   baseURL: env.BASE_URL,
-  // baseURL: '/api',
   timeout: 10000 // 请求超时时间
 });
 // 下载请求地址集合
@@ -25,10 +24,6 @@ request.interceptors.request.use(async config => {
   // 携带system区分不同项目
   config.headers.system = "channel";
   // 多个请求地址兼容
-  // 资源池请求地址
-  if (config.jadepool) {
-    config.baseURL = env.JADE_POOL_URL;
-  }
   // form，新的服务接口请求地址
   if (config.formService) {
     config.baseURL = env.FORM_BASE_URL;

@@ -36,11 +36,18 @@ const assetsCDN = {
 module.exports = {
   devServer: {
     proxy: {
-      "/api": {
-        target: 'http://i.ydidc.com/server',
+      "/server": {
+        target: "http://i.ydidc.com/server",
         changeOrigin: true,
         pathRewrite: {
-          "^/api": ""
+          "^/server": ""
+        }
+      },
+      "/form": {
+        target: "http://site.ydidc.com/server/form",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/form": ""
         }
       }
     }
@@ -110,7 +117,7 @@ module.exports = {
       }
     }
   },
-  publicPath: '/',
+  publicPath: "/",
   outputDir: "dist",
   assetsDir: "static",
   productionSourceMap: false
