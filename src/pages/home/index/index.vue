@@ -49,7 +49,7 @@
               <div class="day-num">
                 <img
                   width="70px"
-                  src="@/assets/img/passport/Order.png"
+                  src="@/assets/img/passport/workOrder.png"
                   alt=""
                 />
                 <span>
