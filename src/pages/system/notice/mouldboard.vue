@@ -79,7 +79,7 @@ export default {
     getData() {
       let data = {
         templateCode: this.$route.query.templateCode,
-        code: this.$route.query.code
+        templateType: this.$route.query.templateType
       };
       this.$store.dispatch("notice/getDisCountDetail", data).then(res => {
         console.log(res, "------------");

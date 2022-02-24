@@ -99,7 +99,7 @@
             <a-button
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.code)"
+              @click="templateJump(record.templateCode, 'sms')"
             >
               短信模板
             </a-button>
@@ -107,7 +107,7 @@
             <a-button
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.code)"
+              @click="templateJump(record.templateCode, 'email')"
             >
               邮件模板
             </a-button>
@@ -115,7 +115,7 @@
             <a-button
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.code)"
+              @click="templateJump(record.templateCode, 'mail')"
             >
               站内信模板
             </a-button>
@@ -390,13 +390,13 @@ export default {
       });
     },
     // 模板跳转回调函数
-    templateJump(templateCode, code) {
-      console.log(templateCode, code);
+    templateJump(templateCode, templateType) {
+      console.log(templateCode, templateType);
       this.$router.push({
         path: "/system/basics/mouldboard",
         query: {
           templateCode,
-          code
+          templateType
         }
       });
     }

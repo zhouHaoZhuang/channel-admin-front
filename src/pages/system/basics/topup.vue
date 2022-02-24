@@ -340,7 +340,6 @@ export default {
             .dispatch("emailSms/modifyAllConfig", this.formRecharge)
             .then(() => {
               this.$message.success("保存成功");
-              this.getData();
             })
             .finally(() => {
               this.loading = false;
