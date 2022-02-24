@@ -3,7 +3,7 @@
     <!-- 头部信息 -->
     <Detail :detail="detail" @success="detailSuccess" />
     <!-- 沟通记录 -->
-    <Record :recordList="recordList" @success="getRecord" />
+    <Record :recordList="recordList" :detail="detail" @success="getRecord" />
     <!-- 发表回复 -->
     <Reply :detail="detail" @success="getRecord" />
   </div>
@@ -48,7 +48,7 @@ export default {
     getDetail() {
       this.$store
         .dispatch("workorder/workOrderDetail", {
-          queryType: 2,
+          type: 2,
           workOrderNo: this.$route.query.workOrderNo
         })
         .then(res => {

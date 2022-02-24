@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="item">
-        <div class="label">响应时间：</div>
+        <div class="label">接单时间：</div>
         <div class="value">
           {{ detail.acceptTime | formatDate }}
         </div>
@@ -71,9 +71,22 @@
         </div>
       </div>
       <div class="item">
+        <div class="label">转单状态：</div>
+        <div class="value">
+          <a-tag v-if="detail.acceptStatus === 1">
+            未转单
+          </a-tag>
+          <a-tag v-if="detail.acceptStatus === 2" color="blue">
+            转单待接单
+          </a-tag>
+        </div>
+      </div>
+      <div class="item">
         <div class="label">结束时间：</div>
         <div class="value">
-          {{ detail.endTime | formatDate }}
+          <span v-if="detail.endTime">
+            {{ detail.endTime | formatDate }}
+          </span>
         </div>
       </div>
       <div class="item">
@@ -93,14 +106,14 @@
           <a-space>
             <a-button
               type="primary"
-              v-if="detail.status === 2 || detail.status === 3"
+              v-if="!detail.acceptChannel"
               :disabled="true"
             >
               已接单
             </a-button>
             <a-button
               type="primary"
-              v-if="detail.status === 1"
+              v-if="detail.acceptChannel"
               :loading="orderReceivingLoading"
               @click="handleOrderReceiving"
             >
@@ -108,7 +121,7 @@
             </a-button>
             <a-button
               type="primary"
-              v-if="detail.status !== 3"
+              v-if="detail.status === 2"
               @click="handleMoveWorkOrder"
             >
               移动工单
@@ -260,11 +273,13 @@ export default {
     display: flex;
     margin-bottom: 13px;
     .label {
+      width: 100px;
       color: #a0a2a3;
+      text-align: right;
     }
   }
   .actions {
-    width: 66.66%;
+    width: 100%;
     align-items: center;
   }
   .wait {

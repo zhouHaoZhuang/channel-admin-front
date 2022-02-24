@@ -112,11 +112,11 @@
             {{ text }}
           </a-button>
         </div>
-        <!-- 提交时间 -->
+        <!-- 创建时间 -->
         <div slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
-        <!-- 关闭状态 -->
+        <!-- 工单状态 -->
         <div slot="status" slot-scope="text">
           <a-tag v-if="text === 1">
             待接单
@@ -126,6 +126,15 @@
           </a-tag>
           <a-tag v-if="text === 3" color="green">
             处理完成
+          </a-tag>
+        </div>
+        <!-- 转单状态 -->
+        <div slot="acceptStatus" slot-scope="text">
+          <a-tag v-if="text === 1">
+            未转单
+          </a-tag>
+          <a-tag v-if="text === 2" color="blue">
+            转单待接单
           </a-tag>
         </div>
         <div slot="action" slot-scope="text, record">
@@ -197,14 +206,19 @@ export default {
           scopedSlots: { customRender: "submitName" }
         },
         {
-          title: "提交时间",
+          title: "创建时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" }
         },
         {
-          title: "关闭状态",
+          title: "工单状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" }
+        },
+        {
+          title: "转单状态",
+          dataIndex: "acceptStatus",
+          scopedSlots: { customRender: "acceptStatus" }
         },
         {
           title: "接单人",
