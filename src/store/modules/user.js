@@ -1,6 +1,4 @@
 import request from "@/utils/request";
-const { AuthenticationClient } = require("authing-js-sdk");
-import env from "@/config/env";
 
 const user = {
   namespaced: true,
@@ -86,25 +84,24 @@ const user = {
       return new Promise(resolve => {
         commit("SET_USERINFO", {});
         commit("SET_PERMS", []);
-        const authenticationClient = new AuthenticationClient({
-          appId: env.appId,
-          appHost: env.appHost,
-          token: state.token
-        });
-        authenticationClient.logout();
         commit("SET_TOKEN", "");
         resolve();
       });
     },
     // 获取用户信息
     getUserInfo({ commit, state }) {
-      const authenticationClient = new AuthenticationClient({
-        appId: env.appId,
-        appHost: env.appHost,
-        token: state.token
-      });
-      authenticationClient.getCurrentUser().then(user => {
-        commit("SET_USERINFO", user);
+      return new Promise((resolve, reject) => {
+        request({
+          url: "/uc/getByToken",
+          method: "get"
+        })
+          .then(res => {
+            commit("SET_USERINFO", res.data);
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
       });
     },
     //修改密码

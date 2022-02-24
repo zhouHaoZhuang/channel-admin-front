@@ -43,14 +43,14 @@
           >
             修改
           </a-button>
-          <a-divider type="vertical" />
+          <!-- <a-divider type="vertical" />
           <a-button
             v-permission="'del'"
             type="link"
             @click="handleDelType(record)"
           >
             删除
-          </a-button>
+          </a-button> -->
         </div>
       </a-table>
     </div>
