@@ -40,18 +40,7 @@
           </a-form-model-item>
         </a-form-model>
       </a-modal>
-
-      <!-- <a-form-model-item label="支付宝PC充值开关">
-            <a-radio-group v-model="form.status">
-              <a-radio :value="0">
-                开启
-              </a-radio>
-              <a-radio :value="1">
-                关闭
-              </a-radio>
-            </a-radio-group>
-          </a-form-model-item> -->
-      <!-- <div>
+      <div>
         <a-form-model
           ref="ruleForm"
           :model="form"
@@ -60,30 +49,54 @@
           :wrapper-col="wrapperCol"
         >
           <a-form-model-item label="首选充值方式">
-            <a-radio-group v-model="form.status">
-              <a-radio :value="0">
+            <a-radio-group v-model="form.first_payment">
+              <!-- <a-radio :value="0">
                 微信
-              </a-radio>
-              <a-radio :value="1">
+              </a-radio> -->
+              <a-radio value="alipay">
                 支付宝
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <a-form-model-item label="最小充值金额">
-            <a-input v-model="form.linkSort" />
-          </a-form-model-item>
-          <a-form-model-item label="订单在线支付">
-            <a-radio-group v-model="form.status">
-              <a-radio :value="0">
+          <a-form-model-item label="支付宝PC充值开关">
+            <a-radio-group v-model="form.alipay_switch">
+              <a-radio value="1">
                 开启
               </a-radio>
-              <a-radio :value="1">
+              <a-radio value="0">
                 关闭
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
+          <a-form-model-item label="最小充值金额">
+            <a-input v-model="form.min_recharge" suffix="元" />
+          </a-form-model-item>
+          <a-form-model-item label="订单在线支付">
+            <a-radio-group v-model="form.online_pay">
+              <a-radio value="1">
+                开启
+              </a-radio>
+              <a-radio value="0">
+                关闭
+              </a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+          <!-- 后台操作保护 -->
+          <!-- <a-form-model-item label="管理员密码" prop="linkName">
+            <a-input v-model="form.linkName" />
+          </a-form-model-item> -->
+          <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+            <a-button
+              v-permission="'save'"
+              type="primary"
+              @click="enterPay"
+              :loading="loading"
+            >
+              保存设置
+            </a-button>
+          </a-form-model-item>
         </a-form-model>
-      </div> -->
+      </div>
       <a-collapse default-active-key="1" :bordered="false" class="aa">
         <a-collapse-panel key="1" header="支付宝设置" v-if="data">
           <a-form-model
@@ -213,7 +226,11 @@ export default {
         linkSort: "",
         channelCode: "",
         linkLogo: "",
-        linkTypeSort: 0
+        linkTypeSort: 0,
+        first_payment: "",
+        alipay_switch: "",
+        min_recharge: "",
+        online_pay: ""
       },
       rules: {
         linkName: [
@@ -272,8 +289,19 @@ export default {
   },
   created() {
     this.getAlipay();
+    console.log(this.formData, "this.formData");
+    this.form = this.formData;
+  },
+  props: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   methods: {
+    // 修改支付宝设置
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
@@ -299,6 +327,31 @@ export default {
               this.getAlipay();
             });
         }
+      });
+    },
+    // 修改支付设置
+    enterPay() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.$store
+            .dispatch("emailSms/modifyAllConfig", this.form)
+            .then(() => {
+              this.$message.success("保存成功");
+              this.getData();
+            })
+            .finally(() => {
+              this.loading = false;
+              this.getData();
+            });
+        }
+      });
+    },
+    // 修改成功之后获取最新的数据
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then(res => {
+        console.log(res);
+        this.form = res.data;
       });
     },
     // 上传pc图片
