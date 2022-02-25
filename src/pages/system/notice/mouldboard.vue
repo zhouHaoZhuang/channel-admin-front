@@ -77,11 +77,8 @@ export default {
   },
   methods: {
     getData() {
-      let data = {
-        templateCode: this.$route.query.templateCode,
-        templateType: this.$route.query.templateType
-      };
-      this.$store.dispatch("notice/getDisCountDetail", data).then(res => {
+      let id = this.$route.query.id;
+      this.$store.dispatch("notice/getDisCountDetail", id).then(res => {
         console.log(res, "------------");
         this.form = res.data;
         this.data = res.data.messageParamResDtoList;

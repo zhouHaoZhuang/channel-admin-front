@@ -59,6 +59,7 @@
           :data-source="data"
           bordered
           :pagination="false"
+          :loading="loading"
         >
           <template slot="name" slot-scope="text">
             <a>{{ text }}</a>
@@ -114,25 +115,34 @@
           </template> -->
           <template slot="manage" slot-scope="text, record">
             <a-button
+              v-if="data[record.key].smsStatusBool != 2"
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, 'sms')"
+              @click="templateJump(record.smsId)"
             >
               短信模板
             </a-button>
-            <a-divider type="vertical" />
+            <a-divider
+              type="vertical"
+              v-if="data[record.key].emailStatusBool != 2"
+            />
             <a-button
               v-permission="'view'"
+              v-if="data[record.key].emailStatusBool != 2"
               type="link"
-              @click="templateJump(record.templateCode, 'email')"
+              @click="templateJump(record.emailId)"
             >
               邮件模板
             </a-button>
-            <a-divider type="vertical" />
+            <a-divider
+              v-if="data[record.key].onsiteStatusBool != 2"
+              type="vertical"
+            />
             <a-button
+              v-if="data[record.key].onsiteStatusBool != 2"
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, 'mail')"
+              @click="templateJump(record.mailId)"
             >
               站内信模板
             </a-button>
@@ -410,7 +420,8 @@ export default {
         endTime: "",
         newTypeCode: "",
         "qp-templateStatus-eq": ""
-      }
+      },
+      loading: false
     };
   },
   activated() {
@@ -419,10 +430,16 @@ export default {
   methods: {
     // 场景二级分类的事件
     itemAll(index, e) {
-      console.log(index, e.target.checked);
-      this.data[index].emailStatusBool = e.target.checked;
-      this.data[index].onsiteStatusBool = e.target.checked;
-      this.data[index].smsStatusBool = e.target.checked;
+      console.log(index, e.target.checked, this.data[index], "--------------");
+      if (this.data[index].emailStatusBool != 2) {
+        this.data[index].emailStatusBool = e.target.checked;
+      }
+      if (this.data[index].smsStatusBool != 2) {
+        this.data[index].smsStatusBool = e.target.checked;
+      }
+      if (this.data[index].onsiteStatusBool != 2) {
+        this.data[index].onsiteStatusBool = e.target.checked;
+      }
     },
     // 三级选框的事件
     itemCheckbox(index) {
@@ -439,44 +456,47 @@ export default {
     // 一级选框的事件
     onCheckAllChange(index, nameLength, e) {
       this.data.slice(index, nameLength + index).forEach(element => {
-        element.emailStatusBool = e.target.checked;
-        element.onsiteStatusBool = e.target.checked;
-        element.smsStatusBool = e.target.checked;
+        if (element.emailStatusBool != 2) {
+          element.emailStatusBool = e.target.checked;
+        }
+        if (element.onsiteStatusBool != 2) {
+          element.onsiteStatusBool = e.target.checked;
+        }
+        if (element.smsStatusBool != 2) {
+          element.smsStatusBool = e.target.checked;
+        }
         element.templateNameBool = e.target.checked;
       });
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       this.$getList("notice/getList", this.listQuery).then(res => {
         // console.log(res);
-        res.data.list = res.data.channelConfiguration;
+        let list = res.data;
         let arr = [];
         // 给数据增加第一级处理
-        for (const key in res.data.list) {
-          console.log(key);
-          res.data.list[key].forEach((item, index) => {
+        for (const key in list) {
+          console.log(key, list[key]);
+          list[key].forEach((item, index) => {
             item.name = key;
             if (index == 0) {
-              item.nameLength = res.data.list[key].length;
+              item.nameLength = list[key].length;
             }
             arr.push(item);
           });
         }
-        console.log(res.data.list, arr, "-----------");
-        res.data.list = arr;
+        console.log(list, arr, "-----------");
+        list = arr;
         // 数据第二级，三级处理
-        res.data.list.forEach((item, index) => {
+        list.forEach((item, index) => {
           item.key = index;
           item.emailStatusBool =
-            item.emailStatus == 2
-              ? item.emailStatus
-              : Boolean(item.emailStatus * 1);
+            item.emailStatus == undefined ? 2 : Boolean(item.emailStatus * 1);
           item.onsiteStatusBool =
-            item.onsiteStatus == 2
-              ? item.onsiteStatus
-              : Boolean(item.onsiteStatus * 1);
+            item.onsiteStatus == undefined ? 2 : Boolean(item.onsiteStatus * 1);
           item.smsStatusBool =
-            item.smsStatus == 2 ? item.smsStatus : Boolean(item.smsStatus * 1);
+            item.smsStatus == undefined ? 2 : Boolean(item.smsStatus * 1);
           if (
             item.emailStatusBool &&
             item.onsiteStatusBool &&
@@ -487,7 +507,8 @@ export default {
           }
           item.templateNameBool = false;
         });
-        this.data = res.data.list;
+        this.data = list;
+        this.loading = false;
       });
     },
     // 确认修改
@@ -503,13 +524,12 @@ export default {
       });
     },
     // 模板跳转回调函数
-    templateJump(templateCode, templateType) {
-      console.log(templateCode, templateType);
+    templateJump(id) {
+      console.log(id);
       this.$router.push({
         path: "/system/basics/mouldboard",
         query: {
-          templateCode,
-          templateType
+          id
         }
       });
     }

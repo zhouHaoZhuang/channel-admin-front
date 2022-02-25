@@ -11,28 +11,27 @@ const notice = {
       return request({
         url: "/mcChannelTemplate/getConfiguration",
         method: "post",
-        data
+        data,
       });
     },
     // 获取详情
-    getDisCountDetail({ commit, state }, params) {
+    getDisCountDetail({ commit, state }, id) {
       // console.log(data,'-------');
       return request({
-        url: `/messageTemplate/one`,
+        url: `/messageTemplate/${id}`,
         method: "get",
-        params
       });
     },
-    
+
     // 编辑
     editDisCount({ commit, state }, data) {
       return request({
         url: `/mcChannelTemplate`,
-        method: "patch",
-        data
+        method: "post",
+        data,
       });
     },
-  }
+  },
 };
 
 export default notice;
