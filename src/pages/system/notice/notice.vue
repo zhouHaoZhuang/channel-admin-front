@@ -522,6 +522,7 @@ export default {
       // console.log(this.data, "处理后");
       this.$store.dispatch("notice/editDisCount", this.data).then(res => {
         this.$message.success("修改成功");
+        this.getList();
       });
     },
     // 模板跳转回调函数
