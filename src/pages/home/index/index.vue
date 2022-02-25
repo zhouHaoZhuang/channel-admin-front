@@ -9,7 +9,7 @@
               <div class="day-num">
                 <img
                   width="70px"
-                  src="@/assets/img/passport/register.png"
+                  src="@/assets/img/frontPage/register.png"
                   alt=""
                 />
                 <span>
@@ -29,7 +29,7 @@
               <div class="day-num">
                 <img
                   width="70px"
-                  src="@/assets/img/passport/makeadeal.png"
+                  src="@/assets/img/frontPage/makeadeal.png"
                   alt=""
                 />
                 <span>
@@ -49,7 +49,7 @@
               <div class="day-num">
                 <img
                   width="70px"
-                  src="@/assets/img/passport/workOrder.png"
+                  src="@/assets/img/frontPage/workOrder.png"
                   alt=""
                 />
                 <span>
@@ -69,7 +69,7 @@
               <div class="day-num">
                 <img
                   width="70px"
-                  src="@/assets/img/passport/Consumption.png"
+                  src="@/assets/img/frontPage/Consumption.png"
                   alt=""
                 />
                 <span>
@@ -89,7 +89,7 @@
               <div class="day-num">
                 <img
                   width="70px"
-                  src="@/assets/img/passport/Order.png"
+                  src="@/assets/img/frontPage/Order.png"
                   alt=""
                 />
                 <span>
