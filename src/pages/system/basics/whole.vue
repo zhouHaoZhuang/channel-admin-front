@@ -12,7 +12,7 @@
         </a-tab-pane>
         <a-tab-pane key="3" tab="充值">
           <div class="big-block-title">充值</div>
-          <Topup />
+          <Topup :formData = 'formData'></Topup>
         </a-tab-pane>
         <a-tab-pane key="4" tab="邮件">
           <div class="big-block-title">邮件</div>

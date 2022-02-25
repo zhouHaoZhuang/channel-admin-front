@@ -23,13 +23,30 @@
           v-model="listQuery['qp-templateStatus-eq']"
         >
           <a-select-option value="">
+            模板模块
+          </a-select-option>
+          <a-select-option
+            v-for="item in templateModuleList"
+            :value="item.value"
+            :key="item.value"
+          >
+            {{ item.label }}
+          </a-select-option>
+        </a-select>
+        <a-select
+          default-value=""
+          style="width: 120px; margin: 0 10px;"
+          v-model="listQuery['qp-templateStatus-eq']"
+        >
+          <a-select-option value="">
             模板类型
           </a-select-option>
-          <a-select-option :value="0">
-            验证码
-          </a-select-option>
-          <a-select-option :value="1">
-            通知
+          <a-select-option
+            v-for="item in templateTypeList"
+            :value="item.value"
+            :key="item.value"
+          >
+            {{ item.label }}
           </a-select-option>
         </a-select>
         <a-button type="primary" @click="getList()">
@@ -42,6 +59,7 @@
           :data-source="data"
           bordered
           :pagination="false"
+          :loading="loading"
         >
           <template slot="name" slot-scope="text">
             <a>{{ text }}</a>
@@ -97,25 +115,34 @@
           </template> -->
           <template slot="manage" slot-scope="text, record">
             <a-button
+              v-if="data[record.key].smsStatusBool != 2"
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.code)"
+              @click="templateJump(record.smsId)"
             >
               短信模板
             </a-button>
-            <a-divider type="vertical" />
+            <a-divider
+              type="vertical"
+              v-if="data[record.key].emailStatusBool != 2"
+            />
             <a-button
               v-permission="'view'"
+              v-if="data[record.key].emailStatusBool != 2"
               type="link"
-              @click="templateJump(record.templateCode, record.code)"
+              @click="templateJump(record.emailId)"
             >
               邮件模板
             </a-button>
-            <a-divider type="vertical" />
+            <a-divider
+              v-if="data[record.key].onsiteStatusBool != 2"
+              type="vertical"
+            />
             <a-button
+              v-if="data[record.key].onsiteStatusBool != 2"
               v-permission="'view'"
               type="link"
-              @click="templateJump(record.templateCode, record.code)"
+              @click="templateJump(record.mailId)"
             >
               站内信模板
             </a-button>
@@ -275,6 +302,102 @@ export default {
     ];
     return {
       data: [],
+      templateTypeList: [
+        {
+          value: "1",
+          label: "短信验证码"
+        },
+        {
+          value: "2",
+          label: "短信通知"
+        },
+        {
+          value: "3",
+          label: "邮箱验证码"
+        },
+        {
+          value: "4",
+          label: "邮箱通知"
+        },
+        {
+          value: "5",
+          label: "站内信息"
+        },
+        {
+          value: "6",
+          label: "微信通知消息"
+        }
+      ],
+      templateModuleList: [
+        {
+          value: "group_ssl",
+          label: "证书"
+        },
+        {
+          value: "group_host",
+          label: "云虚拟主机"
+        },
+        {
+          value: "group_database",
+          label: "云数据库"
+        },
+        {
+          value: "group_server",
+          label: "云服务器"
+        },
+        {
+          value: "group_domain",
+          label: "域名"
+        },
+        {
+          value: "group_idc",
+          label: "托管"
+        },
+        {
+          value: "group_baremetal",
+          label: "裸金属"
+        },
+        {
+          value: "group_user",
+          label: "会员"
+        },
+        {
+          value: "group_loadbalance",
+          label: "负载均衡"
+        },
+        {
+          value: "group_sms_plan",
+          label: "短信套餐"
+        },
+        {
+          value: "group_financial",
+          label: "财务"
+        },
+        {
+          value: "group_icp",
+          label: "备案"
+        },
+        {
+          value: "group_whitelist",
+          label: "白名单"
+        },
+        {
+          value: "group_ip_exception",
+          label: "ip异常"
+        },
+        {
+          value: "group_admin",
+          label: "后台"
+        },
+        {
+          value: "group_other",
+          label: "其他"
+        },
+        {
+          value: "group_custom",
+          label: "自定义产品"
+        }
+      ],
       columns,
       cutover: "1",
       topList: [
@@ -297,7 +420,8 @@ export default {
         endTime: "",
         newTypeCode: "",
         "qp-templateStatus-eq": ""
-      }
+      },
+      loading: false
     };
   },
   activated() {
@@ -306,10 +430,16 @@ export default {
   methods: {
     // 场景二级分类的事件
     itemAll(index, e) {
-      console.log(index, e.target.checked);
-      this.data[index].emailStatusBool = e.target.checked;
-      this.data[index].onsiteStatusBool = e.target.checked;
-      this.data[index].smsStatusBool = e.target.checked;
+      console.log(index, e.target.checked, this.data[index], "--------------");
+      if (this.data[index].emailStatusBool != 2) {
+        this.data[index].emailStatusBool = e.target.checked;
+      }
+      if (this.data[index].smsStatusBool != 2) {
+        this.data[index].smsStatusBool = e.target.checked;
+      }
+      if (this.data[index].onsiteStatusBool != 2) {
+        this.data[index].onsiteStatusBool = e.target.checked;
+      }
     },
     // 三级选框的事件
     itemCheckbox(index) {
@@ -326,44 +456,47 @@ export default {
     // 一级选框的事件
     onCheckAllChange(index, nameLength, e) {
       this.data.slice(index, nameLength + index).forEach(element => {
-        element.emailStatusBool = e.target.checked;
-        element.onsiteStatusBool = e.target.checked;
-        element.smsStatusBool = e.target.checked;
+        if (element.emailStatusBool != 2) {
+          element.emailStatusBool = e.target.checked;
+        }
+        if (element.onsiteStatusBool != 2) {
+          element.onsiteStatusBool = e.target.checked;
+        }
+        if (element.smsStatusBool != 2) {
+          element.smsStatusBool = e.target.checked;
+        }
         element.templateNameBool = e.target.checked;
       });
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       this.$getList("notice/getList", this.listQuery).then(res => {
         // console.log(res);
-        res.data.list = res.data.channelConfiguration;
+        let list = res.data;
         let arr = [];
         // 给数据增加第一级处理
-        for (const key in res.data.list) {
-          console.log(key);
-          res.data.list[key].forEach((item, index) => {
+        for (const key in list) {
+          console.log(key, list[key]);
+          list[key].forEach((item, index) => {
             item.name = key;
             if (index == 0) {
-              item.nameLength = res.data.list[key].length;
+              item.nameLength = list[key].length;
             }
             arr.push(item);
           });
         }
-        console.log(res.data.list, arr, "-----------");
-        res.data.list = arr;
+        console.log(list, arr, "-----------");
+        list = arr;
         // 数据第二级，三级处理
-        res.data.list.forEach((item, index) => {
+        list.forEach((item, index) => {
           item.key = index;
           item.emailStatusBool =
-            item.emailStatus == 2
-              ? item.emailStatus
-              : Boolean(item.emailStatus * 1);
+            item.emailStatus == undefined ? 2 : Boolean(item.emailStatus * 1);
           item.onsiteStatusBool =
-            item.onsiteStatus == 2
-              ? item.onsiteStatus
-              : Boolean(item.onsiteStatus * 1);
+            item.onsiteStatus == undefined ? 2 : Boolean(item.onsiteStatus * 1);
           item.smsStatusBool =
-            item.smsStatus == 2 ? item.smsStatus : Boolean(item.smsStatus * 1);
+            item.smsStatus == undefined ? 2 : Boolean(item.smsStatus * 1);
           if (
             item.emailStatusBool &&
             item.onsiteStatusBool &&
@@ -374,7 +507,8 @@ export default {
           }
           item.templateNameBool = false;
         });
-        this.data = res.data.list;
+        this.data = list;
+        this.loading = false;
       });
     },
     // 确认修改
@@ -390,13 +524,12 @@ export default {
       });
     },
     // 模板跳转回调函数
-    templateJump(templateCode, code) {
-      console.log(templateCode, code);
+    templateJump(id) {
+      console.log(id);
       this.$router.push({
         path: "/system/basics/mouldboard",
         query: {
-          templateCode,
-          code
+          id
         }
       });
     }

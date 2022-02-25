@@ -40,52 +40,69 @@
           </a-form-model-item>
         </a-form-model>
       </a-modal>
-
-      <!-- <a-form-model-item label="支付宝PC充值开关">
-            <a-radio-group v-model="form.status">
-              <a-radio :value="0">
-                开启
-              </a-radio>
-              <a-radio :value="1">
-                关闭
-              </a-radio>
-            </a-radio-group>
-          </a-form-model-item> -->
-      <!-- <div>
+      <div>
         <a-form-model
-          ref="ruleForm"
-          :model="form"
-          :rules="rules"
+          ref="ruleFormRecharge"
+          :model="formRecharge"
+          :rules="rulesRecharge"
           :label-col="labelCol"
           :wrapper-col="wrapperCol"
         >
           <a-form-model-item label="首选充值方式">
-            <a-radio-group v-model="form.status">
-              <a-radio :value="0">
+            <a-radio-group v-model="formRecharge.first_payment">
+              <!-- <a-radio :value="0">
                 微信
-              </a-radio>
-              <a-radio :value="1">
+              </a-radio> -->
+              <a-radio value="alipay">
                 支付宝
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <a-form-model-item label="最小充值金额">
-            <a-input v-model="form.linkSort" />
-          </a-form-model-item>
-          <a-form-model-item label="订单在线支付">
-            <a-radio-group v-model="form.status">
-              <a-radio :value="0">
+          <a-form-model-item label="支付宝PC充值开关">
+            <a-radio-group v-model="formRecharge.alipay_switch">
+              <a-radio value="1">
                 开启
               </a-radio>
-              <a-radio :value="1">
+              <a-radio value="0">
                 关闭
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
+          <a-form-model-item label="最小充值金额" prop="min_recharge">
+            <a-input
+              type="number"
+              v-model="formRecharge.min_recharge"
+              suffix="元"
+            />
+          </a-form-model-item>
+          <a-form-model-item label="订单在线支付" prop="online_pay">
+            <a-radio-group v-model="formRecharge.online_pay">
+              <a-radio value="1">
+                开启
+              </a-radio>
+              <a-radio value="0">
+                关闭
+              </a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+          <!-- 后台操作保护 -->
+          <!-- <a-form-model-item label="管理员密码" prop="linkName">
+            <a-input v-model="form.linkName" />
+          </a-form-model-item> -->
+          <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+            <a-button
+              v-permission="'save'"
+              type="primary"
+              @click="enterPay"
+              :loading="loading"
+            >
+              保存设置
+            </a-button>
+          </a-form-model-item>
         </a-form-model>
-      </div> -->
+      </div>
       <a-collapse default-active-key="1" :bordered="false" class="aa">
-        <a-collapse-panel key="1" header="支付宝设置" v-if="data">
+        <a-collapse-panel key="1" header="支付宝设置">
           <a-form-model
             ref="ruleForm"
             :model="data"
@@ -215,6 +232,12 @@ export default {
         linkLogo: "",
         linkTypeSort: 0
       },
+      formRecharge: {
+        first_payment: "",
+        alipay_switch: "",
+        min_recharge: "",
+        online_pay: ""
+      },
       rules: {
         linkName: [
           {
@@ -261,8 +284,38 @@ export default {
           }
         ]
       },
+      rulesRecharge: {
+        min_recharge: [
+          {
+            required: true,
+            message: "最小充值金额不能为空。",
+            trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("最小充值金额不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
+        ],
+        online_pay: [
+          {
+            required: true,
+            message: "在线支付开关为必选。",
+            trigger: "change"
+          }
+        ]
+      },
       loading: false,
-      data: null,
+      data: {
+        aliAppId: "",
+        alipayPublicKey: "",
+        merchantPrivateKey: ""
+      },
       visible: false,
       confirmLoading: false
     };
@@ -272,8 +325,19 @@ export default {
   },
   created() {
     this.getAlipay();
+    console.log(this.formData, "this.formData");
+    this.formRecharge = this.formData;
+  },
+  props: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   methods: {
+    // 修改支付宝设置
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
@@ -301,6 +365,30 @@ export default {
         }
       });
     },
+    // 修改支付设置
+    enterPay() {
+      this.$refs.ruleFormRecharge.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.$store
+            .dispatch("emailSms/modifyAllConfig", this.formRecharge)
+            .then(() => {
+              this.$message.success("保存成功");
+            })
+            .finally(() => {
+              this.loading = false;
+              this.getData();
+            });
+        }
+      });
+    },
+    // 修改成功之后获取最新的数据
+    getData() {
+      this.$store.dispatch("emailSms/getAllConfig").then(res => {
+        console.log(res);
+        this.form = res.data;
+      });
+    },
     // 上传pc图片
     pcImgChange({ urlList, firstImageUrl }) {
       console.log("上传图片回调", urlList, firstImageUrl);
@@ -308,12 +396,10 @@ export default {
     },
     // 获取支付宝设置
     getAlipay() {
-      this.loading = true;
       this.$store
         .dispatch("globalBasic/getAlipayConfig", { accountType: "ali" })
         .then(res => {
           console.log(res);
-          this.loading = false;
           this.data = { ...res.data.accountConfig };
         });
     },
