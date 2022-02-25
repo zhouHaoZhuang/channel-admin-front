@@ -26,7 +26,7 @@
                 prop="pwd_min_length"
                 style="width:100px"
               >
-                <a-input v-model="form.pwd_min_length" />
+                <a-input-number :min="1" v-model="form.pwd_min_length" />
               </a-form-model-item>
               <span class="model-item">-</span>
               <a-form-model-item
@@ -34,17 +34,22 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.pwd_max_length" />
+                <a-input-number
+                  :min="form.pwd_min_length + 1"
+                  v-model="form.pwd_max_length"
+                />
               </a-form-model-item>
             </a-form-model-item>
             <a-form-model-item label="每个IP限制注册" prop="linkUrl">
-              <a-input
+              <a-input-number
+                :min="1"
                 v-model="form.register_num"
                 style="width:100px"
                 class="model-item"
               />
               <div class="model-item">个账号，在</div>
-              <a-input
+              <a-input-number
+                :min="1"
                 v-model="form.register_hour"
                 style="width:100px"
                 class="model-item"
@@ -107,16 +112,13 @@
                 </a-checkbox>
               </a-radio-group>
             </a-form-model-item> -->
-            <a-form-model-item
-              label="密码错误次数达到"
-              required
-            >
+            <a-form-model-item label="密码错误次数达到" required>
               <a-form-model-item
                 prop="pwd_fail_times"
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.pwd_fail_times" />
+                <a-input-number :min="1" v-model="form.pwd_fail_times" />
               </a-form-model-item>
               <div class="model-item">次，锁定账号，锁定</div>
               <a-form-model-item
@@ -124,18 +126,20 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.pwd_fail_minutes" />
+                <a-input-number :min="1" v-model="form.pwd_fail_minutes" />
               </a-form-model-item>
               <div class="model-item">分钟</div>
             </a-form-model-item>
             <a-form-model-item label="登录失败次数达到" prop="linkUrl">
-              <a-input
+              <a-input-number
+                :min="1"
                 v-model="form.login_fail_times"
                 class="model-item"
                 style="width:100px"
               />
               <div class="model-item">次，锁定IP，锁定</div>
-              <a-input
+              <a-input-number
+                :min="1"
                 v-model="form.login_fail_minutes"
                 class="model-item"
                 style="width:100px"
@@ -278,7 +282,7 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.send_msm_times" />
+                <a-input-number :min="1" v-model="form.send_msm_times" />
               </a-form-model-item>
               <div class="model-item">次，在</div>
               <a-form-model-item
@@ -286,7 +290,7 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.send_msm_hour" />
+                <a-input-number :min="0.1" v-model="form.send_msm_hour" />
               </a-form-model-item>
               <div class="model-item">小时内</div>
             </a-form-model-item>
@@ -296,7 +300,7 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.send_email_times" />
+                <a-input-number :min="1" v-model="form.send_email_times" />
               </a-form-model-item>
               <div class="model-item">次，在</div>
               <a-form-model-item
@@ -304,7 +308,7 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.send_email_hour" />
+                <a-input-number :min="0.1" v-model="form.send_email_hour" />
               </a-form-model-item>
               <div class="model-item">小时内</div>
             </a-form-model-item>
@@ -314,7 +318,7 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input v-model="form.hour_limit" />
+                <a-input-number :min="1" v-model="form.hour_limit" />
               </a-form-model-item>
               <div class="model-item">条</div>
             </a-form-model-item>

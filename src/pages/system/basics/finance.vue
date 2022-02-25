@@ -40,17 +40,32 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="发票申请时间限制" prop="invoice_pay_time_limit">
-              <a-input v-model="form.invoice_pay_time_limit" suffix="月" />
+            <a-form-model-item
+              label="发票申请时间限制"
+              prop="invoice_pay_time_limit"
+            >
+              <a-input
+                type="number"
+                v-model="form.invoice_pay_time_limit"
+                suffix="月"
+              />
             </a-form-model-item>
             <a-form-model-item label="发票手续费" prop="proportion_invoice">
-              <a-input v-model="form.proportion_invoice" suffix="%" />
+              <a-input
+                type="number"
+                v-model="form.proportion_invoice"
+                suffix="%"
+              />
             </a-form-model-item>
             <a-form-model-item label="发票邮费" prop="invoice_postage">
-              <a-input v-model="form.invoice_postage" suffix="元" />
+              <a-input
+                type="number"
+                v-model="form.invoice_postage"
+                suffix="元"
+              />
             </a-form-model-item>
             <a-form-model-item label="发票满指定金额免邮费" prop="to_money">
-              <a-input v-model="form.to_money" suffix="元" />
+              <a-input type="number" v-model="form.to_money" suffix="元" />
             </a-form-model-item>
             <a-form-model-item label="开票需实名" prop="invoice_real_name">
               <a-radio-group v-model="form.invoice_real_name">
@@ -82,8 +97,14 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="云服务器退款限制" prop="refund_days_server">
-              <a-input v-model="form.refund_days_server" suffix="天内的服务器" />
+            <a-form-model-item
+              label="云服务器退款限制"
+              prop="refund_days_server"
+            >
+              <a-input
+                v-model="form.refund_days_server"
+                suffix="天内的服务器"
+              />
             </a-form-model-item>
             <a-form-model-item label="退款次数限制" required>
               <a-row type="flex" justify="start">
@@ -91,12 +112,13 @@
                   <div class="gutter-box">云服务器:</div>
                 </a-col>
                 <a-col>
-                   <a-form-model-item  prop="refund_times_server">
-                  <a-input
-                    style="width: 100px"
-                    class="gutter-box"
-                    v-model="form.refund_times_server"
-                  />
+                  <a-form-model-item prop="refund_times_server">
+                    <a-input
+                      type="number"
+                      style="width: 100px"
+                      class="gutter-box"
+                      v-model="form.refund_times_server"
+                    />
                   </a-form-model-item>
                 </a-col>
                 <a-col>
@@ -160,7 +182,7 @@
                 </a-col>
               </a-row> -->
             </a-form-model-item>
-             <a-form-model-item label="退款需实名认证" prop="refund_real_name">
+            <a-form-model-item label="退款需实名认证" prop="refund_real_name">
               <a-radio-group v-model="form.refund_real_name">
                 <a-radio value="1">
                   开启
@@ -201,19 +223,19 @@ export default {
       wrapperCol: { span: 10 },
       form: {
         // 发票
-        integral_name:'',
-        electronic_invoice:'',
-        paper_invoice:'',
-        invoice_pay_time_limit:'',
-        proportion_invoice:'',
-        invoice_postage:'',
-        to_money:'',
-        invoice_real_name:'',
+        integral_name: "",
+        electronic_invoice: "",
+        paper_invoice: "",
+        invoice_pay_time_limit: "",
+        proportion_invoice: "",
+        invoice_postage: "",
+        to_money: "",
+        invoice_real_name: "",
         // 退款
-        refund_switch:'',
-        refund_days_server:'',
-        refund_times_server:'',
-        refund_real_name:''
+        refund_switch: "",
+        refund_days_server: "",
+        refund_times_server: "",
+        refund_real_name: ""
       },
       rules: {
         linkName: [
@@ -230,70 +252,134 @@ export default {
             trigger: "blur"
           }
         ],
-        invoice_pay_time_limit:[
+        invoice_pay_time_limit: [
           {
             required: true,
             message: "必填，用于限制发票申请时间。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("时间不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
-        proportion_invoice:[
+        proportion_invoice: [
           {
             required: true,
             message: "必填，用于设置发票手续费。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
-        invoice_postage:[
+        invoice_postage: [
           {
             required: true,
             message: "必填，用于设置发票邮费。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
-        to_money:[
+        to_money: [
           {
             required: true,
             message: "必填，用于设置发票满指定金额免邮费。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
-        invoice_real_name:[
+        invoice_real_name: [
           {
             required: true,
             message: "必填，用于设置开票是否需要实名。",
             trigger: "blur"
           }
         ],
-        refund_switch:[
+        refund_switch: [
           {
             required: true,
             message: "必填，用于设置是否开启退款。",
             trigger: "blur"
           }
         ],
-        refund_days_server:[
+        refund_days_server: [
           {
             required: true,
             message: "必填，用于限制云服务器退款天数。",
             trigger: "blur"
+          },
+          {
+            pattern: /^[1-9]\d*$/,
+            message: "请输入数字",
+            trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("时间不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
-        refund_times_server:[
+        refund_times_server: [
           {
             required: true,
             message: "选项必填。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
-        refund_real_name:[
-           {
+        refund_real_name: [
+          {
             required: true,
             message: "必填，用于设置退款是否需实名认证。",
             trigger: "blur"
           }
         ]
-
       },
       loading: false,
       data: []

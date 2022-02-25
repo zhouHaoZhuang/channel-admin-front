@@ -158,6 +158,21 @@ export default {
             required: true,
             message: "必填，用于设置自动锁定超出时间。",
             trigger: "blur"
+          },
+          {
+            pattern: /^[0-9]*$/,
+            message: "请输入数字",
+            trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
         rev_reply: [
@@ -165,12 +180,42 @@ export default {
             required: true,
             message: "必填，用于设置允许撤回时间。",
             trigger: "blur"
+          },
+          {
+            pattern: /^[0-9]*$/,
+            message: "请输入数字",
+            trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
         notice_time: [
           {
             required: true,
             message: "必填，用于设置工单提醒时间。",
+            trigger: "blur"
+          },
+          {
+            pattern: /^[0-9]*$/,
+            message: "请输入数字",
+            trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("数值不能小于1"));
+              } else {
+                callback();
+              }
+            },
             trigger: "blur"
           }
         ]

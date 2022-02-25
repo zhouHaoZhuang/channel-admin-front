@@ -352,7 +352,12 @@ export default {
         ],
         serverPhone: [
           { min: 5, max: 30, message: "长度在5-30个字符内", trigger: "blur" },
-          { pattern: /^[0-9]*$/, message: "请输入数字", trigger: "blur" }
+          {
+            pattern: /^[A-Za-z0-9()-/]*$/,
+            message:
+              "请输入正确格式,服务热线格式可由短横杆（-）、半角括号()、数字、英文字母组成，多个服务热线请使用 / 分隔",
+            trigger: "blur"
+          }
         ],
         qqNumber: [
           { pattern: /^[0-9]*$/, message: "请输入数字", trigger: "blur" }
