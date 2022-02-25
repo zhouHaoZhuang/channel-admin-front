@@ -1,13 +1,13 @@
 // 默认请求地址
 const baseUrl = {
-  local: "/server",
+  local: "http://i.ydidc.com/server",
   dev: "/server",
   test: "/server",
   prod: "/server"
 };
 // form服务接口请求地址
 const formBaseUrl = {
-  local: "/server/form",
+  local: "http://site.ydidc.com/server/form",
   dev: "/server/form",
   test: "/server/form",
   prod: "/server/form"
