@@ -38,6 +38,7 @@
         <a-form-model-item label="发布时间" prop="newsPublishTime">
           <a-date-picker
             show-time
+            v-model="form.newsPublishTime"
             format="YYYY-MM-DD HH:mm:ss"
             @change="onChange"
           />
@@ -59,7 +60,7 @@
           <Upload :defaultFile="form.tittleImage" @change="pcImgChange" />
         </a-form-model-item>
         <a-form-model-item v-if="!isWebsiteJump" label="内容">
-          <Tinymce @tinymceinput="tinymceinput" />
+          <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 19, offset: 4 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
@@ -131,12 +132,6 @@ export default {
       return this.form.type.includes("websiteJump");
     }
   },
-  created() {
-    this.$nextTick(() => {
-      this.resetForm();
-    });
-    this.getAllType();
-  },
   activated() {
     this.$nextTick(() => {
       this.resetForm();
@@ -204,7 +199,7 @@ export default {
         status: 0,
         newsTitle: "",
         context: "",
-        newsPublishTime: "" //发布时间
+        newsPublishTime: null //发布时间
       };
     }
   }

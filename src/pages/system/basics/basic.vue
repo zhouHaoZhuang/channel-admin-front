@@ -351,11 +351,6 @@ export default {
           { pattern: /^[0-9]*$/, message: "请输入数字", trigger: "blur" }
         ],
         serverPhone: [
-          {
-            required: true,
-            message: "服务热线不能为空",
-            trigger: "blur"
-          },
           { min: 5, max: 30, message: "长度在5-30个字符内", trigger: "blur" },
           { pattern: /^[0-9]*$/, message: "请输入数字", trigger: "blur" }
         ],
@@ -448,7 +443,7 @@ export default {
         };
         this.form.cid = res.data.id;
       });
-    },
+    }
   }
 };
 </script>
