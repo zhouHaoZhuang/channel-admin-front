@@ -131,10 +131,13 @@
         <!-- 转单状态 -->
         <div slot="acceptStatus" slot-scope="text">
           <a-tag v-if="text === 1">
-            未转单
+            未接单
           </a-tag>
           <a-tag v-if="text === 2" color="blue">
-            转单待接单
+            转单未接单
+          </a-tag>
+          <a-tag v-if="text === 3" color="green">
+            接单处理状态
           </a-tag>
         </div>
         <div slot="action" slot-scope="text, record">
@@ -186,6 +189,11 @@ export default {
         dataIndex: "schedule",
         scopedSlots: { customRender: "schedule" }
       },
+      acceptStatusColumn: {
+        title: "转单状态",
+        dataIndex: "acceptStatus",
+        scopedSlots: { customRender: "acceptStatus" }
+      },
       columns: [
         {
           title: "工单编号",
@@ -214,11 +222,6 @@ export default {
           title: "工单状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" }
-        },
-        {
-          title: "转单状态",
-          dataIndex: "acceptStatus",
-          scopedSlots: { customRender: "acceptStatus" }
         },
         {
           title: "接单人",
@@ -262,6 +265,11 @@ export default {
       if (this.tabsKey === 2) {
         const newData = [...this.columns];
         newData.splice(1, 0, this.dynamicColumn);
+        return newData;
+      }
+      if (this.tabsKey === 1) {
+        const newData = [...this.columns];
+        newData.splice(6, 0, this.acceptStatusColumn);
         return newData;
       }
       return this.columns;
