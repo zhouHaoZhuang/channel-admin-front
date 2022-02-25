@@ -42,7 +42,7 @@
       </a-modal>
       <div>
         <a-form-model
-          ref="ruleForm"
+          ref="ruleFormRecharge"
           :model="formRecharge"
           :rules="rulesRecharge"
           :label-col="labelCol"
@@ -69,7 +69,11 @@
             </a-radio-group>
           </a-form-model-item>
           <a-form-model-item label="最小充值金额" prop="min_recharge">
-            <a-input v-model="formRecharge.min_recharge" suffix="元" />
+            <a-input
+              type="number"
+              v-model="formRecharge.min_recharge"
+              suffix="元"
+            />
           </a-form-model-item>
           <a-form-model-item label="订单在线支付" prop="online_pay">
             <a-radio-group v-model="formRecharge.online_pay">
@@ -286,6 +290,16 @@ export default {
             required: true,
             message: "最小充值金额不能为空。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value < 1) {
+                callback(new Error("最小充值金额不能小于1"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ],
         online_pay: [
@@ -353,7 +367,7 @@ export default {
     },
     // 修改支付设置
     enterPay() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleFormRecharge.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
