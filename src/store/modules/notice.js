@@ -7,11 +7,11 @@ const notice = {
   mutations: {},
   actions: {
     // 获取通知模板列表
-    getList({ commit, state }, params) {
+    getList({ commit, state }, data) {
       return request({
         url: "/mcChannelTemplate/getConfiguration",
-        method: "get",
-        params
+        method: "post",
+        data
       });
     },
     // 获取详情
