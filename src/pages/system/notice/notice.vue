@@ -19,8 +19,8 @@
         />
         <a-select
           default-value=""
-          style="width: 120px; margin: 0 10px;"
-          v-model="listQuery['qp-templateStatus-eq']"
+          style="width: 140px; margin-left: 10px;"
+          v-model="listQuery.scenariosCode"
         >
           <a-select-option value="">
             模板模块
@@ -35,8 +35,8 @@
         </a-select>
         <a-select
           default-value=""
-          style="width: 120px; margin: 0 10px;"
-          v-model="listQuery['qp-templateStatus-eq']"
+          style="width: 140px; margin: 0 10px;"
+          v-model="listQuery.templateType"
         >
           <a-select-option value="">
             模板类型
@@ -411,7 +411,7 @@ export default {
         // }
       ],
       listQuery: {
-        key: "qp-templateName-like",
+        key: "templateName",
         search: "",
         currentPage: 1,
         pageSize: 999,
@@ -419,7 +419,8 @@ export default {
         startTime: "",
         endTime: "",
         newTypeCode: "",
-        "qp-templateStatus-eq": ""
+        scenariosCode: "",
+        templateType: ""
       },
       loading: false
     };
@@ -479,8 +480,8 @@ export default {
         for (const key in list) {
           console.log(key, list[key]);
           list[key].forEach((item, index) => {
-            item.name = key;
             if (index == 0) {
+              item.name = item.scenarios;
               item.nameLength = list[key].length;
             }
             arr.push(item);
