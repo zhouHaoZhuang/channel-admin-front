@@ -20,12 +20,12 @@ export default {
       default: "default"
     },
     codeType: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
     },
     sendType: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
     }
   },
   data() {

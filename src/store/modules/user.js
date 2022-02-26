@@ -113,6 +113,14 @@ const user = {
         data
       });
     },
+    // 重置密码
+    resetPassword({ commit, state }, data) {
+      return request({
+        url: "/user/channelFindPassword",
+        method: "post",
+        data
+      });
+    },
     // 上传图片
     uploadImg({ commit, state }, data) {
       return request({
