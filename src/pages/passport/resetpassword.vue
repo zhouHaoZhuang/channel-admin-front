@@ -28,7 +28,12 @@
             :max-length="6"
             size="large"
           />
-          <CodeBtn :phone="form.phone" size="large" />
+          <CodeBtn
+            codeType="3"
+            sendType="0"
+            :phone="form.phone"
+            size="large"
+          />
         </a-form-model-item>
         <a-form-model-item prop="password" label="登陆密码">
           <a-input-password
@@ -146,7 +151,7 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("user/changePassword", this.form)
+            .dispatch("user/resetPassword", this.form)
             .then(res => {
               if (res.data?.id) {
                 this.$message.success("重置密码成功");

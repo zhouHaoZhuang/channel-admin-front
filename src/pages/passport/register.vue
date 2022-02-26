@@ -30,8 +30,8 @@
           />
           <CodeBtn
             :phone="form.phone"
-            :codeType="1"
-            :sendType="0"
+            codeType="1"
+            sendType="0"
             size="large"
           />
         </a-form-model-item>
