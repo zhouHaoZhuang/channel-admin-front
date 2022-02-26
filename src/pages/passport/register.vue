@@ -28,7 +28,12 @@
             :max-length="6"
             size="large"
           />
-          <CodeBtn :phone="form.phone" size="large" />
+          <CodeBtn
+            :phone="form.phone"
+            :codeType="1"
+            :sendType="0"
+            size="large"
+          />
         </a-form-model-item>
         <a-form-model-item prop="password">
           <a-input-password
