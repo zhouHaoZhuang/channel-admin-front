@@ -63,10 +63,10 @@ export default {
         isAll: false
       },
       columns: [
-        // {
-        //   title: "子账号名称",
-        //   dataIndex: "username"
-        // },
+        {
+          title: "子账号名称",
+          dataIndex: "nickname"
+        },
         {
           title: "手机号",
           dataIndex: "phone"
