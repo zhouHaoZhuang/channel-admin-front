@@ -35,7 +35,7 @@
         >
           <a-icon slot="prefix" type="smile" />
         </a-input>
-        <CodeBtn :phone="form.phone" />
+        <CodeBtn :phone="form.phone" codeType="3" />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password v-password-input v-model="form.newPassword" />
