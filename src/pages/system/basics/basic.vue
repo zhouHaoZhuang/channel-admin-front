@@ -299,19 +299,19 @@ export default {
         websiteName: [
           {
             required: true,
+            message: "必填，用于网站首页的标题展示，且长度在2-100字以内。",
+            trigger: "blur"
+          },
+          { min: 2, max: 100, message: "长度在2-100个字符内", trigger: "blur" }
+        ],
+        title: [
+          {
+            required: true,
             message:
               "必填，用于站内需显示网站名称的地方，此处以填XX云为例，如：首页的了解XX云，为什么选择XX云，注册时的《XX云服务协议》等，网站名称限制中英文数字以及短横线（-）、下划线（_）。",
             trigger: "blur"
           },
           { min: 2, max: 20, message: "长度在2-20个字符内", trigger: "blur" }
-        ],
-        title: [
-          {
-            required: true,
-            message: "必填，用于网站首页的标题展示，且长度在2-100字以内。",
-            trigger: "blur"
-          },
-          { min: 2, max: 100, message: "长度在2-100个字符内", trigger: "blur" }
         ],
         keyWords: [
           {
