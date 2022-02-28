@@ -1077,24 +1077,24 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              {
-                path: "index",
-                name: "权限管理",
-                meta: {
-                  icon: "home",
-                  perm: "system-admin-perm"
-                },
-                component: () => import("@/pages/system/admin/index")
-              },
-              {
-                path: "role",
-                name: "角色管理",
-                meta: {
-                  icon: "home",
-                  perm: "system-admin-role"
-                },
-                component: () => import("@/pages/system/admin/role")
-              },
+              // {
+              //   path: "index",
+              //   name: "权限管理",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "system-admin-perm"
+              //   },
+              //   component: () => import("@/pages/system/admin/index")
+              // },
+              // {
+              //   path: "role",
+              //   name: "角色管理",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "system-admin-role"
+              //   },
+              //   component: () => import("@/pages/system/admin/role")
+              // },
               {
                 path: "detail",
                 name: "角色详情",
