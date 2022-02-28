@@ -192,8 +192,8 @@ export default {
         "qp-status-eq": "0"
       },
       messageList: null,
-      dayWorkOrder:'',
-      monthWorkOrder:''
+      dayWorkOrder: "",
+      monthWorkOrder: ""
     };
   },
   computed: {
@@ -303,18 +303,18 @@ export default {
       });
     },
     // 统计今日工单
-    getDayWorkOrder(){
-      this.$store.dispatch("frontPage/getDayWorkOrder").then((res)=>{
-        console.log(res,'----');
+    getDayWorkOrder() {
+      this.$store.dispatch("frontPage/getDayWorkOrder").then(res => {
+        console.log(res, "----");
         this.dayWorkOrder = res.data;
-      })
+      });
     },
     // 获取本月工单统计
-    getMonthWorkOrder(){
-      this.$store.dispatch("frontPage/getMonthWorkOrder").then((res)=>{
-        console.log(res,'----');
+    getMonthWorkOrder() {
+      this.$store.dispatch("frontPage/getMonthWorkOrder").then(res => {
+        console.log(res, "----");
         this.monthWorkOrder = res.data;
-      })
+      });
     },
     // getSuccessCount获取当日云服务器台数
     getSuccessCount(date) {
@@ -322,9 +322,7 @@ export default {
         this.SuccessCountNum = val.data;
         // console.log(val);
       });
-    },
-    
-
+    }
   }
 };
 </script>

@@ -1095,16 +1095,16 @@ export const asyncRoute = [
               //   },
               //   component: () => import("@/pages/system/admin/role")
               // },
-              {
-                path: "detail",
-                name: "角色详情",
-                meta: {
-                  invisible: true,
-                  back: true,
-                  perm: "system-admin-role"
-                },
-                component: () => import("@/pages/system/admin/detail")
-              },
+              // {
+              //   path: "detail",
+              //   name: "角色详情",
+              //   meta: {
+              //     invisible: true,
+              //     back: true,
+              //     perm: "system-admin-role"
+              //   },
+              //   component: () => import("@/pages/system/admin/detail")
+              // },
               {
                 path: "account",
                 name: "子账号管理",

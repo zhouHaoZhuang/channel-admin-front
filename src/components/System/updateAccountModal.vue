@@ -17,6 +17,13 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
+      <a-form-model-item label="子账号名称" prop="nickname">
+        <a-input
+          v-model="form.nickname"
+          placeholder="请输入子账号名称"
+          :max-length="20"
+        />
+      </a-form-model-item>
       <a-form-model-item label="手机号" prop="phone">
         <a-input
           v-model="form.phone"
@@ -34,7 +41,7 @@
           v-number-evolution
           :max-length="6"
         />
-        <CodeBtn :phone="form.phone" />
+        <CodeBtn :phone="form.phone" codeType='1' />
       </a-form-model-item>
       <a-form-model-item label="密码" prop="password">
         <a-input-password
@@ -134,6 +141,7 @@ export default {
       wrapperCol: { span: 15 },
       loading: false,
       form: {
+        nickname: "",
         password: "",
         confirmPassword: "",
         phone: "",
@@ -141,6 +149,13 @@ export default {
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
+        nickname: [
+          {
+            required: true,
+            message: "请输入子账号名称",
+            trigger: ["blur", "change"]
+          }
+        ],
         password: [{ validator: validatePass, trigger: ["blur", "change"] }],
         confirmPassword: [
           { validator: validatePass2, trigger: ["blur", "change"] }
@@ -171,6 +186,7 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
+        nickname: "",
         password: "",
         confirmPassword: "",
         phone: "",
