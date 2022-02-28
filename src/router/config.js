@@ -1195,14 +1195,14 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              {
-                path: "userInfo",
-                name: "个人信息",
-                meta: {
-                  perm: "userinfo-admin-info"
-                },
-                component: () => import("@/pages/accountRoot/userInfo")
-              },
+              // {
+              //   path: "userInfo",
+              //   name: "个人信息",
+              //   meta: {
+              //     perm: "userinfo-admin-info"
+              //   },
+              //   component: () => import("@/pages/accountRoot/userInfo")
+              // },
               {
                 path: "changePassword",
                 name: "修改密码",
