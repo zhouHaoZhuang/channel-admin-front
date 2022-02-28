@@ -38,7 +38,11 @@
         <CodeBtn :phone="form.phone" codeType="3" />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
-        <a-input-password v-password-input v-model="form.newPassword" />
+        <a-input-password
+          v-password-input
+          v-model="form.newPassword"
+          autoComplete="new-password"
+        />
       </a-form-model-item>
       <a-form-model-item label="确认密码" prop="newTwoPassword">
         <a-input-password v-model="form.newTwoPassword" v-password-input />
@@ -118,6 +122,7 @@ export default {
       console.log("submit!", this.form);
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          this.form.password = this.form.newPassword;
           this.$store.dispatch("user/changePassword", this.form).then(() => {
             this.$message.success("修改成功");
             this.logout();
