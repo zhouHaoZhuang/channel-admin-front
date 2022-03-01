@@ -18,12 +18,12 @@
       >
         批量删除
       </a-button>
-      <a-button v-permission="'view'" icon="check" class="btn">
+      <!-- <a-button v-permission="'view'" icon="check" class="btn">
         显示
       </a-button>
       <a-button v-permission="'disable'" icon="stop" class="btn">
         隐藏
-      </a-button>
+      </a-button> -->
     </div>
     <div class="table-content">
       <a-table
