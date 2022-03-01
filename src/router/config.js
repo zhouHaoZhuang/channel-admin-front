@@ -1183,7 +1183,8 @@ export const asyncRoute = [
         name: "个人",
         component: PageView,
         meta: {
-          perm: "userinfo"
+          perm: "userinfo",
+          invisible: true
         },
         children: [
           {
