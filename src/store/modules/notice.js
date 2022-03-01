@@ -18,7 +18,7 @@ const notice = {
     getDisCountDetail({ commit, state }, id) {
       // console.log(data,'-------');
       return request({
-        url: `/messageTemplate/${id}`,
+        url: `/imMessageTemplate/${id}`,
         method: "get",
       });
     },
