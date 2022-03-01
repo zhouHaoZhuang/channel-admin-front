@@ -124,7 +124,10 @@
             </a-button>
             <a-divider
               type="vertical"
-              v-if="data[record.key].emailStatusBool != 2"
+              v-if="
+                data[record.key].smsStatusBool != 2 &&
+                  data[record.key].emailStatusBool != 2
+              "
             />
             <a-button
               v-permission="'view'"
@@ -135,7 +138,10 @@
               邮件模板
             </a-button>
             <a-divider
-              v-if="data[record.key].onsiteStatusBool != 2"
+              v-if="
+                data[record.key].onsiteStatusBool != 2 &&
+                  data[record.key].emailStatusBool != 2
+              "
               type="vertical"
             />
             <a-button

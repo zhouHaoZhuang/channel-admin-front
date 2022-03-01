@@ -10,7 +10,7 @@ const note = {
     // 获取短信签名配置
     getNoteConfig({ commit, state }, params) {
       return request({
-        url: "/messageSign/getStatus",
+        url: "/imMessageSign/getStatus",
         method: "get",
         params
       });
@@ -18,7 +18,7 @@ const note = {
     // 修改短信签名配置
     modifyNoteConfig({ commit, state }, data) {
       return request({
-        url: `/messageSign`,
+        url: `/imMessageSign`,
         method: "post",
         data
       });
