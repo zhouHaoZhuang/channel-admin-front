@@ -9,7 +9,7 @@ const message = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: '/messageRecord',
+        url: '/imMessageRecord',
         method: 'get',
         params,
       });
@@ -17,7 +17,7 @@ const message = {
     // 全部已读接口
     readAll({ commit, state }, params) {
       return request({
-        url: '/messageRecord/updateAll',
+        url: '/imMessageRecord/updateAll',
         method: 'get',
         params,
       });
@@ -25,7 +25,7 @@ const message = {
     // 修改详细状态为已读
     changeList({ commit, state }, data) {
       return request({
-        url: `/messageRecord/update/${data.id}`,
+        url: `/imMessageRecord/update/${data.id}`,
         method: 'patch',
         data,
       });
@@ -33,7 +33,7 @@ const message = {
   //  删除接口 批量删除
     delList({ commit, state }, data) {
       return request({
-        url: `/messageRecord/${data.id}`,
+        url: `/imMessageRecord/${data.id}`,
         method: 'delete',
       });
     },
@@ -42,21 +42,21 @@ const message = {
     getOne({ commit, state }, params) {
       // console.log(params,'params');
       return request({
-        url: `/messageRecord/${params.id}`,
+        url: `/imMessageRecord/${params.id}`,
         method: 'get',
       });
     },
     // 获取详情
     getDisCountDetail({ commit, state }, data) {
       return request({
-        url: `/messageRecord/${data.id}`,
+        url: `/imMessageRecord/${data.id}`,
         method: 'get',
       });
     },
     // 添加消息接口
     addMessage({ commit, state }, data) {
       return request({
-        url: `/messageRecord/onSite`,
+        url: `/imMessageRecord/onSite`,
         method: 'post',
         data,
       });

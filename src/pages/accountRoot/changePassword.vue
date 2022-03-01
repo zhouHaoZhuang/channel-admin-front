@@ -7,11 +7,11 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="姓名">
+      <!-- <a-form-model-item label="姓名">
         <span>{{ nameOrphone }}</span>
-      </a-form-model-item>
+      </a-form-model-item> -->
       <a-form-model-item label="手机">
-        <span>{{ nameOrphone }}</span>
+        <span>{{ userInfo.phone }}</span>
       </a-form-model-item>
       <!-- <a-form-model-item label="角色">
         <span>{{ form.name }}</span>
