@@ -39,7 +39,7 @@
         </span> -->
       </a-table>
     </div>
-    <!-- 添加/编辑子账号弹窗 -->
+    <!-- 添加/编辑子账号的弹窗 -->
     <UpdateAccountModal
       v-model="visible"
       :detail="modalDetail"
