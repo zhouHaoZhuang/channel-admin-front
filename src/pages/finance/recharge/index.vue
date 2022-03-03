@@ -157,7 +157,8 @@
             slot="status"
             slot-scope="text"
           >
-            <span>{{ detailTypeMapData[text] }}</span>
+            <span>{{ detailsMapData[text] }}</span>
+            <!-- detailsMapData 0129-->
           </div>
           <div slot="channelCode" slot-scope="text">
             {{ rechargeTypeMap[text] }}
@@ -169,12 +170,12 @@
 </template>
 
 <script>
-import { detailTypeMapData, rechargeTypeMap } from "@/utils/enum.js";
+import { detailsMapData, rechargeTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       isfilter: false,
-      detailTypeMapData,
+      detailsMapData,
       rechargeTypeMap,
       // search: "",
       listQuery: {
@@ -215,6 +216,7 @@ export default {
         {
           title: "充值金额",
           dataIndex: "amount",
+          width: 150,
           key: "amount",
           scopedSlots: { customRender: "amount" }
         },
@@ -241,6 +243,7 @@ export default {
         {
           title: "充值状态",
           dataIndex: "status",
+          width: 200,
           key: "status",
           scopedSlots: { customRender: "status" }
         },

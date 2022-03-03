@@ -55,6 +55,8 @@
         <div slot-scope="text" slot="sendTime">
           {{ text | formatDate }}
         </div>
+        <div v-html="text" slot-scope="text" slot="content">
+        </div>
         <span slot="action" slot-scope="text, record">
           <a-button
             v-permission="'view'"
@@ -98,7 +100,10 @@ export default {
         {
           title: "内容",
           dataIndex: "content",
-          key: "content"
+          key: "content",
+          scopedSlots: {
+            customRender: "content"
+          }
         },
         {
           title: "发送时间",

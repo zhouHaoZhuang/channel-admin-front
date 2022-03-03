@@ -5,8 +5,7 @@
     <div class="line"></div>
     <div class="con-box">
       <div class="start-title"></div>
-      <p class="txt txt-indent">
-        {{ massageData.content }}
+      <p v-html="massageData.content" class="txt txt-indent">
       </p>
       <p class="txt txt-indent txt-right">{{ massageData.createUserName }}</p>
     </div>

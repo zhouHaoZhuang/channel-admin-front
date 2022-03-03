@@ -34,10 +34,7 @@
                 class="model-item"
                 style="width:100px"
               >
-                <a-input-number
-                  :min="form.pwd_min_length + 1"
-                  v-model="form.pwd_max_length"
-                />
+                <a-input-number v-model="form.pwd_max_length" />
               </a-form-model-item>
             </a-form-model-item>
             <a-form-model-item label="每个IP限制注册" prop="linkUrl">
@@ -414,6 +411,16 @@ export default {
             required: true,
             message: "必填，限制用户注册时的密码最大长度。",
             trigger: "blur"
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value <= this.form.pwd_min_length) {
+                callback(new Error("最大长度不能小于最小长度"));
+              } else {
+                callback();
+              }
+            },
+            trigger: ["blur", "change"]
           }
         ],
         pwd_fail_times: [

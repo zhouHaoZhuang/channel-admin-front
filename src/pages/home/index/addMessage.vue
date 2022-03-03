@@ -50,7 +50,7 @@
         <a-input v-model="form.title" />
       </a-form-model-item>
       <a-form-model-item label="内容">
-        <Tinymce @tinymceinput="tinymceinput" />
+        <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.content" />
       </a-form-model-item>
       <!-- <a-form-model-item label="每页发送" prop="name">
         <a-input-number v-model="form.name" />条
@@ -119,6 +119,8 @@ export default {
 
   activated() {
     this.getVipList();
+    this.resetForm();
+    console.log(this.form);
   },
   methods: {
     tinymceinput(value) {
@@ -158,6 +160,7 @@ export default {
                 .then(res => {
                   console.log(res);
                   this.$message.success("新增消息成功");
+                  this.resetForm();
                   this.$router.back();
                 });
             } else {
@@ -170,6 +173,13 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        messageType: "1",
+        title: "",
+        content: "",
+        sendObject: "all",
+        receiverCode: []
+      };
     }
   }
 };

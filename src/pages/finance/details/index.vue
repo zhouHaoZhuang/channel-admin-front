@@ -100,7 +100,7 @@
             <span>{{ paymentTypeMap[text] }}</span>
           </div>
           <div slot-scope="text" slot="status">
-            {{ detailTypeMapData[text] }}
+            {{ detailsMapData[text] }}
           </div>
           <div slot-scope="text" slot="type" v-if="text">
             {{ text == "I" ? "收入" : "支出" }}
@@ -124,12 +124,12 @@
 </template>
 
 <script>
-import { detailTypeMapData, paymentTypeMap } from "@/utils/enum.js";
+import { detailsMapData, paymentTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       isfilter: false,
-      detailTypeMapData,
+      detailsMapData,
       paymentTypeMap,
       listQuery: {
         key: "customerCode",
@@ -180,7 +180,7 @@ export default {
           scopedSlots: { customRender: "detailType" }
         },
         {
-          title: "订单状态",
+          title: "支付状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" }
         },
