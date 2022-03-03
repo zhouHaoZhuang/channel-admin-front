@@ -3,7 +3,9 @@
     <div class="content">
       <div>
         <p>
-          当前短信签名：{{ "赛拉云" }}<a @click="showModal">变更短信签名</a>
+          当前短信签名：
+          {{ signName }}
+          <a style="margin-left:15px" @click="showModal">变更短信签名</a>
         </p>
         <p>
           变更时间：<span v-if="changeTime">{{ changeTime | formatDate }}</span>
@@ -332,6 +334,7 @@ export default {
   data() {
     return {
       changeTime: undefined,
+      signName: "",
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
       form: {
@@ -451,7 +454,8 @@ export default {
     // 获取变更时间
     getChangeTime() {
       this.$store.dispatch("note/getChangeTime").then(res => {
-        this.changeTime = res.data.modifyTime;
+        this.changeTime = res.data?res.data.modifyTime:'';
+        this.signName = res.data?res.data.signName:'';
       });
     },
     pcImgChange(urlList, firstImageUrl, base64List, type) {
@@ -527,9 +531,14 @@ export default {
   }
   .sample-img {
     text-align: center;
-    width: 100px;
-    height: 100px;
+    width: 103px;
+    height: 103px;
     border: 1px dashed #d9d9d9;
+    border-radius: 3px;
+    div{
+      line-height: 20px;
+      font-size: 12px;
+    }
   }
 }
 </style>
