@@ -18,6 +18,7 @@
         width="80%"
         :visible="visible"
         :confirm-loading="confirmLoading"
+        :okButtonProps="{ props: { disabled: enterDisabled } }"
         okText="提交"
         @ok="onSubmit"
         @cancel="handleCancel"
@@ -440,7 +441,8 @@ export default {
           title: "商标名的全称或简称",
           key: 5
         }
-      ]
+      ],
+      enterDisabled: false
     };
   },
   created() {
@@ -454,8 +456,8 @@ export default {
     // 获取变更时间
     getChangeTime() {
       this.$store.dispatch("note/getChangeTime").then(res => {
-        this.changeTime = res.data?res.data.modifyTime:'';
-        this.signName = res.data?res.data.signName:'';
+        this.changeTime = res.data ? res.data.modifyTime : "";
+        this.signName = res.data ? res.data.signName : "";
       });
     },
     pcImgChange(urlList, firstImageUrl, base64List, type) {
@@ -479,6 +481,9 @@ export default {
     getNoteConfig() {
       this.$store.dispatch("note/getNoteConfig").then(res => {
         this.form = { ...this.form, ...res.data };
+        if (res.data && res.data.status == 0) {
+          this.enterDisabled = true;
+        }
         if (this.form.certificates.length > 0) {
           this.form.certificates = this.form.certificates.split(",");
         } else {
@@ -535,7 +540,7 @@ export default {
     height: 103px;
     border: 1px dashed #d9d9d9;
     border-radius: 3px;
-    div{
+    div {
       line-height: 20px;
       font-size: 12px;
     }
