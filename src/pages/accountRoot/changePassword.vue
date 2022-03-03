@@ -97,6 +97,11 @@ export default {
         phone: [
           { required: true, message: "验证手机号为必填", trigger: "blur" },
           {
+            pattern: /^1[3456789]\d{9}$/,
+            message: "手机号格式不正确",
+            trigger: "blur"
+          },
+          {
             validator: (rule, value, callback) => {
               if (value !== this.userInfo.phone) {
                 callback(new Error("请输入当前登录手机号"));

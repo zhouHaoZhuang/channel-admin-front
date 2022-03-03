@@ -202,6 +202,7 @@ export default {
         {
           title: "方式",
           dataIndex: "channelCode",
+          width: 150,
           scopedSlots: {
             customRender: "channelCode"
           }
@@ -257,7 +258,7 @@ export default {
           title: "操作",
           dataIndex: "payNo",
           key: "action",
-          // fixed: 'right',
+          fixed: 'right',
           scopedSlots: { customRender: "action" }
         }
       ],
