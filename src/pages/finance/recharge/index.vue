@@ -170,12 +170,12 @@
 </template>
 
 <script>
-import { detailTypeMapData, rechargeTypeMap } from "@/utils/enum.js";
+import { detailsMapData, rechargeTypeMap } from "@/utils/enum.js";
 export default {
   data() {
     return {
       isfilter: false,
-      detailTypeMapData,
+      detailsMapData,
       rechargeTypeMap,
       // search: "",
       listQuery: {
