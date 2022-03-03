@@ -95,7 +95,17 @@ export default {
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
         phone: [
-          { required: true, message: "验证手机号为必填", trigger: "blur" }
+          { required: true, message: "验证手机号为必填", trigger: "blur" },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.userInfo.phone) {
+                callback(new Error("请输入当前登录手机号"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
         ],
         code: [{ required: true, message: "验证码为必填", trigger: "blur" }],
         newPassword: [

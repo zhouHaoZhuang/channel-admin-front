@@ -28,12 +28,7 @@
             :max-length="6"
             size="large"
           />
-          <CodeBtn
-            :phone="form.phone"
-            codeType="1"
-            sendType="0"
-            size="large"
-          />
+          <CodeBtn :phone="form.phone" codeType="1" sendType="0" size="large" />
         </a-form-model-item>
         <a-form-model-item prop="password">
           <a-input-password
@@ -121,6 +116,11 @@ export default {
           {
             required: true,
             message: "请输入手机号",
+            trigger: ["blur", "change"]
+          },
+          {
+            pattern: /^1[3456789]\d{9}$/,
+            message: "手机号格式不正确",
             trigger: ["blur", "change"]
           }
         ],

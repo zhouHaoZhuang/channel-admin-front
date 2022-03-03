@@ -351,7 +351,7 @@
               查看
             </a-button>
             <a-divider type="vertical" />
-            <a-dropdown>
+            <!-- <a-dropdown>
               <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                 更多
                 <a-icon type="down" />
@@ -376,7 +376,7 @@
                   <a href="javascript:;">删除</a>
                 </a-menu-item>
               </a-menu>
-            </a-dropdown>
+            </a-dropdown> -->
           </span>
         </a-table>
       </div>
