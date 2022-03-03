@@ -385,7 +385,7 @@ export default {
     handleJumpDetail(record) {
       this.$router.push({
         path: "/service/workorderManage/detail",
-        query: { workOrderNo: record.workOrderNo }
+        query: { workOrderNo: record.workOrderNo, type: this.type }
       });
     }
   }
