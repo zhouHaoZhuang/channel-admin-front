@@ -280,6 +280,16 @@ export default {
       handler() {
         this.getList();
       }
+    },
+    $route: {
+      handler(newVal) {
+        if (newVal.path === "/service/workorderManage/list") {
+          this.listQuery.questionCategoryCode =
+            newVal.query.questionCategoryCode || undefined;
+        }
+      },
+      immediate: true,
+      deep: true
     }
   },
   activated() {
