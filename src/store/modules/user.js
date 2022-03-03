@@ -39,7 +39,7 @@ const user = {
     // 发送验证码
     sendCode({ commit, state }, data) {
       return request({
-        url: "/sms/sendMessage",
+        url: "/sms/sendSms",
         method: "post",
         data
       });
