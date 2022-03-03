@@ -157,7 +157,7 @@
             slot="status"
             slot-scope="text"
           >
-            <span>{{ detailTypeMapData[text] }}</span>
+            <span>{{ detailsMapData[text] }}</span>
             <!-- detailsMapData 0129-->
           </div>
           <div slot="channelCode" slot-scope="text">
