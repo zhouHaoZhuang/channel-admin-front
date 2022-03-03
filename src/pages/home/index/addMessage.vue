@@ -19,12 +19,12 @@
       </a-form-model-item>
       <a-form-model-item
         label="会员ID"
-        prop="receiverAccount"
+        prop="receiverAccountList"
         v-if="form.sendObject == 'some'"
       >
         <a-select
           mode="multiple"
-          v-model="form.receiverAccount"
+          v-model="form.receiverAccountList"
           style="width: 200px"
           @change="handleChange"
         >
@@ -87,7 +87,7 @@ export default {
         receiverCode: []
       },
       rules: {
-        receiverAccount: [
+        receiverAccountList: [
           {
             required: true,
             message: "会员ID不能为空",
@@ -149,11 +149,11 @@ export default {
         });
       }
       console.log(this.form);
-      this.$confirm({
-        title: "确定要发送吗?",
-        onOk: () => {
-          this.$refs.ruleForm.validate(valid => {
-            if (valid) {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$confirm({
+            title: "确定要发送吗?",
+            onOk: () => {
               console.log(this.form);
               this.$store
                 .dispatch("message/addMessage", this.form)
@@ -163,9 +163,6 @@ export default {
                   this.resetForm();
                   this.$router.back();
                 });
-            } else {
-              console.log("error submit!!");
-              return false;
             }
           });
         }
