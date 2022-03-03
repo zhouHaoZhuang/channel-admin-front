@@ -103,7 +103,7 @@
           </a-tag>
         </div>
       </div>
-      <div class="item actions">
+      <div v-if="type === 'my'" class="item actions">
         <div class="label">操作：</div>
         <div class="value">
           <a-space>
@@ -177,6 +177,11 @@ export default {
     detail: {
       type: Object,
       default: () => {}
+    },
+    // 类别
+    type: {
+      type: String,
+      default: "list"
     }
   },
   data() {

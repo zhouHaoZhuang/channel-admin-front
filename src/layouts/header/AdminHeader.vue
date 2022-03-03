@@ -15,6 +15,8 @@
       </div>
       <!-- 头部右侧 -->
       <div :class="['admin-header-right', headerTheme]">
+          <!-- 头部右侧自定义内容 -->
+          <header-right />
           <!-- 个人中心 -->
           <header-avatar class="header-item"/>
           <!-- 国际化语言切换 -->
@@ -32,13 +34,14 @@
 </template>
 
 <script>
+import HeaderRight from './HeaderRight'
 import HeaderAvatar from './HeaderAvatar'
 import IMenu from '@/components/menu/menu'
 import {mapState, mapMutations} from 'vuex'
 
 export default {
   name: 'AdminHeader',
-  components: {IMenu, HeaderAvatar},
+  components: {IMenu, HeaderRight, HeaderAvatar},
   props: ['collapsed', 'menuData'],
   data() {
     return {

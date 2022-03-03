@@ -22,8 +22,8 @@
         <div slot="type" slot-scope="text">
           {{ workOrderTypeEnum[text] }}
         </div>
-        <div slot="count" slot-scope="text">
-          <a-button type="link" @click="handleSelect">
+        <div slot="count" slot-scope="text, record">
+          <a-button type="link" @click="handleSelect(record)">
             查看({{ text }})
           </a-button>
         </div>
@@ -156,8 +156,13 @@ export default {
       this.visible = true;
     },
     // 跳转工单列表
-    handleSelect() {
-      this.$router.push("/service/workorderManage/list");
+    handleSelect(record) {
+      this.$router.push({
+        path: "/service/workorderManage/list",
+        query: {
+          questionCategoryCode: record.code
+        }
+      });
     },
     //删除
     handleDelType(record) {
