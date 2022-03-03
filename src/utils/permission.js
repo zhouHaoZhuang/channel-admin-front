@@ -12,6 +12,16 @@ function getUserHaveAllPerm(perms) {
   const index = perms.findIndex(ele => ele.code.replace(":*", "") === "*");
   return index;
 }
+// 获取跳转的第一个路由地址
+let newPath = "";
+const getFirstPath = route => {
+  if (route.children && route.children.length > 0) {
+    getFirstPath(route.children[0]);
+  } else {
+    newPath = route.fullPath;
+    return;
+  }
+};
 // 处理动态路由菜单
 export const setAsyncRouteMenu = (perms, router, store) => {
   // 根据权限生成新的菜单
@@ -29,7 +39,10 @@ export const setAsyncRouteMenu = (perms, router, store) => {
     newRoute = getNewRoute(newData[0].children, perms);
   }
   // 保存默认跳转地址，path是 / 的话，需要重定向到第一个路由
-  const firstPath = newRoute && newRoute.length > 0 ? newRoute[0].path : "/404";
+  if (newRoute && newRoute.length > 0) {
+    getFirstPath(newRoute[0]);
+  }
+  const firstPath = newPath ? newPath : "/404";
   store.commit("setting/setFirstPath", firstPath);
   // console.log("生成的新的权限动态菜单", newRoute, firstPath, perms, newData);
   // 重置本地存储中菜单数据
