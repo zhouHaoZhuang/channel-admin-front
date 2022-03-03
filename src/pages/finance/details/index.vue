@@ -156,6 +156,7 @@ export default {
         },
         {
           title: "发生金额(元)",
+          width: 120,
           dataIndex: "dealAmount",
           scopedSlots: { customRender: "dealAmount" }
         },
@@ -166,6 +167,7 @@ export default {
         },
         {
           title: "当时余额(元)",
+          width: 120,
           dataIndex: "beforeAmount",
           scopedSlots: { customRender: "beforeAmount" }
         },
@@ -180,7 +182,7 @@ export default {
           scopedSlots: { customRender: "detailType" }
         },
         {
-          title: "支付状态",
+          title: "订单状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" }
         },

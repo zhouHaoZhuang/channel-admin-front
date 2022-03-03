@@ -36,7 +36,7 @@
         <a-select
           default-value=""
           style="width: 140px; margin: 0 10px;"
-          v-model="listQuery.templateType"
+          v-model="listQuery.type"
         >
           <a-select-option value="">
             模板类型
@@ -426,7 +426,7 @@ export default {
         endTime: "",
         newTypeCode: "",
         scenariosCode: "",
-        templateType: ""
+        type: ""
       },
       loading: false
     };

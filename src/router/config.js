@@ -51,7 +51,6 @@ export const asyncRoute = [
       perm: "home"
     },
     component: TabsView,
-    redirect: "/dashboard/index/home",
     children: [
       // 首页 一级菜单
       {
@@ -1160,7 +1159,7 @@ export const asyncRoute = [
               },
               {
                 path: "mouldboard",
-                name: "通知模板",
+                name: "通知模板详情",
                 meta: {
                   invisible: true,
                   back: true,
