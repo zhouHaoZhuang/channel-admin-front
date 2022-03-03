@@ -884,7 +884,8 @@ export const asyncRoute = [
                 name: "SEO优化",
                 meta: {
                   icon: "home",
-                  perm: "personal-web-seo"
+                  perm: "personal-web-seo",
+                  invisible: true
                 },
                 component: () => import("@/pages/personal/seo/seo.vue")
               },
@@ -972,7 +973,8 @@ export const asyncRoute = [
                 name: "常见热点问题",
                 meta: {
                   icon: "home",
-                  perm: "personal-help-hot"
+                  perm: "personal-help-hot",
+                  invisible: true
                 },
                 component: () => import("@/pages/helpword/common/index.vue")
               },
