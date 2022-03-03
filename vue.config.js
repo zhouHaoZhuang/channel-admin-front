@@ -65,6 +65,9 @@ module.exports = {
     config.performance = {
       hints: false
     };
+    // 输出重构 打包编译后的js文件名称,添加时间戳.
+    config.output.filename = `js/[name].${timeStamp}.js`;
+    config.output.chunkFilename = `js/chunk.[id].${timeStamp}.js`;
     config.plugins.push(
       new ThemeColorReplacer({
         fileName: "css/theme-colors-[contenthash:8].css",
@@ -75,11 +78,6 @@ module.exports = {
     );
     // Ignore all locale files of moment.js
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
-    // 输出重构 打包编译后的js文件名称,添加时间戳.
-    config.output = {
-      filename: `js/[name].${timeStamp}.js`,
-      chunkFilename: `js/chunk.[id].${timeStamp}.js`
-    };
     // 生产环境下将资源压缩成gzip格式
     if (isProd) {
       // add `CompressionWebpack` plugin to webpack plugins
