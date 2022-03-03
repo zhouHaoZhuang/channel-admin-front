@@ -11,29 +11,15 @@
             :wrapper-col="wrapperCol"
           >
             <a-form-model-item label="首选通道" prop="zkeys">
-              <a-select
-                default-value="赛拉云短信"
-                v-model="form.zkeys"
-                style="width: 120px"
-              >
-                <a-select-option value="赛拉云短信">
-                  赛拉云短信
-                </a-select-option>
-              </a-select>
+              <span>赛拉云短信</span>
             </a-form-model-item>
-            <!-- <a-form-model-item label="备用通道">
-              <a-select default-value="ZKEYS短信" style="width: 120px">
-                <a-select-option value="jack">
-                  Jack
-                </a-select-option>
-                <a-select-option value="lucy">
-                  Lucy
-                </a-select-option>
-              </a-select>
-            </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="2" header="模板信息设置" forceRender>
+        <!-- <a-collapse-panel
+          key="2"
+          header="模板信息设置"
+          forceRender
+        >
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -60,7 +46,7 @@
               <a-input v-model="form.linkSort" />
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel>
+        </a-collapse-panel> -->
         <a-collapse-panel key="3" header="短信签名配置" forceRender>
           <a-form-model
             ref="ruleForm"
@@ -107,8 +93,10 @@
                 <a
                   href="https://img.alicdn.com/tfs/TB1_HiGeLDH8KJjy1XcXXcpdXXa-950-1430.jpg"
                   target="_blank"
-                  >三证合一</a
-                >的证明支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
+                >
+                  三证合一
+                </a>
+                的证明支持jpg、png、gif、jpeg格式的图片，每张图片不大于2MB
               </div>
               <Upload
                 :defaultFile="form.certificates"

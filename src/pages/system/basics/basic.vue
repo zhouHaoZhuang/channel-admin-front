@@ -50,7 +50,10 @@
               <a-input v-model="form.bottomInfo" type="textarea" />
             </a-form-model-item>
             <a-form-model-item label="百度统计">
-              <a-input v-model="form.statisticalCode" type="textarea" />
+              <a-textarea
+                v-model="form.statisticalCode"
+                :auto-size="{ minRows: 3 }"
+              />
             </a-form-model-item>
           </a-collapse-panel>
           <!-- <a-collapse-panel key="2" header="网站模板">
@@ -364,11 +367,12 @@ export default {
         ],
         businessPhone: [
           {
-            required: true,
-            message: "商务洽谈为必填",
+            pattern: /^[A-Za-z0-9()-/]*$/,
+            message:
+              "请输入正确格式,服务热线格式可由短横杆（-）、半角括号()、数字、英文字母组成，多个服务热线请使用 / 分隔",
             trigger: "blur"
           },
-          { min: 5, max: 30, message: "长度在5-30个字符内", trigger: "blur" }
+          { min: 11, max: 35, message: "长度在11-35个字符内", trigger: "blur" }
         ],
         email: [
           {
