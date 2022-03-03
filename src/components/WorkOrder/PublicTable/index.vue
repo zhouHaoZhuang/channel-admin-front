@@ -146,7 +146,7 @@
             type="link"
             @click="handleJumpDetail(record)"
           >
-            管理
+            查看
           </a-button>
         </div>
       </a-table>
@@ -280,6 +280,16 @@ export default {
       handler() {
         this.getList();
       }
+    },
+    $route: {
+      handler(newVal) {
+        if (newVal.path === "/service/workorderManage/list") {
+          this.listQuery.questionCategoryCode =
+            newVal.query.questionCategoryCode || undefined;
+        }
+      },
+      immediate: true,
+      deep: true
     }
   },
   activated() {
@@ -385,7 +395,7 @@ export default {
     handleJumpDetail(record) {
       this.$router.push({
         path: "/service/workorderManage/detail",
-        query: { workOrderNo: record.workOrderNo }
+        query: { workOrderNo: record.workOrderNo, type: this.type }
       });
     }
   }

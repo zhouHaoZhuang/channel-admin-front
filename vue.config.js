@@ -4,6 +4,7 @@ const ThemeColorReplacer = require("webpack-theme-color-replacer");
 const { getThemeColors, modifyVars } = require("./src/utils/themeUtil");
 const { resolveCss } = require("./src/utils/theme-color-replacer-extend");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const timeStamp = new Date().getTime();
 
 const productionGzipExtensions = ["js", "css"];
 const isProd = process.env.NODE_ENV === "production";
@@ -64,6 +65,9 @@ module.exports = {
     config.performance = {
       hints: false
     };
+    // 输出重构 打包编译后的js文件名称,添加时间戳.
+    config.output.filename = `js/[name].${timeStamp}.js`;
+    config.output.chunkFilename = `js/chunk.[id].${timeStamp}.js`;
     config.plugins.push(
       new ThemeColorReplacer({
         fileName: "css/theme-colors-[contenthash:8].css",
@@ -115,10 +119,17 @@ module.exports = {
           javascriptEnabled: true
         }
       }
+    },
+    // 打包后css文件名称添加时间戳
+    extract: {
+      filename: `css/[name].${timeStamp}.css`,
+      chunkFilename: `css/chunk.[id].${timeStamp}.css`
     }
   },
   publicPath: "/",
   outputDir: "dist",
   assetsDir: "static",
-  productionSourceMap: false
+  productionSourceMap: false,
+  // 打包的时候不使用hash值.因为我们有时间戳来确定项目的唯一性了.
+  filenameHashing: false
 };

@@ -20,7 +20,7 @@
       </a-menu-item> -->
       <a-menu-divider />
       <a-menu-item @click="logout">
-        <a-icon style="margin-right: 8px;" type="poweroff" />
+        <a-icon style="margin-right: 8px" type="poweroff" />
         <span>退出登录</span>
       </a-menu-item>
     </a-menu>
@@ -56,6 +56,7 @@ export default {
 
 <style lang="less">
 .header-avatar {
+  height: 65px;
   display: inline-flex;
   .avatar,
   .name {

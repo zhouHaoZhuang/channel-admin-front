@@ -47,6 +47,9 @@ export const asyncRoute = [
   {
     path: "/",
     name: "默认",
+    meta: {
+      perm: "home"
+    },
     component: TabsView,
     children: [
       // 首页 一级菜单
@@ -653,6 +656,15 @@ export const asyncRoute = [
             component: BlankView,
             children: [
               {
+                path: "list",
+                name: "工单列表",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/workorderManage/list")
+              },
+              {
                 path: "myWorkor",
                 name: "我的工单",
                 meta: {
@@ -884,7 +896,8 @@ export const asyncRoute = [
                 name: "SEO优化",
                 meta: {
                   icon: "home",
-                  perm: "personal-web-seo"
+                  perm: "personal-web-seo",
+                  invisible: true
                 },
                 component: () => import("@/pages/personal/seo/seo.vue")
               },
@@ -972,7 +985,8 @@ export const asyncRoute = [
                 name: "常见热点问题",
                 meta: {
                   icon: "home",
-                  perm: "personal-help-hot"
+                  perm: "personal-help-hot",
+                  invisible: true
                 },
                 component: () => import("@/pages/helpword/common/index.vue")
               },
@@ -1145,7 +1159,7 @@ export const asyncRoute = [
               },
               {
                 path: "mouldboard",
-                name: "通知模板",
+                name: "通知模板详情",
                 meta: {
                   invisible: true,
                   back: true,

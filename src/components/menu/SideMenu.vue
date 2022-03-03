@@ -8,7 +8,7 @@
     :trigger="null"
   >
     <div :class="['logo', theme]">
-      <router-link to="/dashboard/workplace">
+      <router-link :to="firstPath">
         <img src="@/assets/img/logo.png" />
         <h1>{{ systemName }}</h1>
       </router-link>
@@ -56,7 +56,7 @@ export default {
     sideTheme() {
       return this.theme == "light" ? this.theme : "dark";
     },
-    ...mapState("setting", ["isMobile", "systemName"])
+    ...mapState("setting", ["isMobile", "systemName", "firstPath"])
   },
   methods: {
     onSelect(obj) {

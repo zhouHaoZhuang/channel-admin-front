@@ -36,7 +36,7 @@
         <a-select
           default-value=""
           style="width: 140px; margin: 0 10px;"
-          v-model="listQuery.templateType"
+          v-model="listQuery.type"
         >
           <a-select-option value="">
             模板类型
@@ -310,27 +310,27 @@ export default {
       data: [],
       templateTypeList: [
         {
-          value: "1",
+          value: 1,
           label: "短信验证码"
         },
         {
-          value: "2",
+          value: 2,
           label: "短信通知"
         },
         {
-          value: "3",
+          value: 3,
           label: "邮箱验证码"
         },
         {
-          value: "4",
+          value: 4,
           label: "邮箱通知"
         },
         {
-          value: "5",
+          value: 5,
           label: "站内信息"
         },
         {
-          value: "6",
+          value: 6,
           label: "微信通知消息"
         }
       ],
@@ -426,7 +426,7 @@ export default {
         endTime: "",
         newTypeCode: "",
         scenariosCode: "",
-        templateType: ""
+        type: ""
       },
       loading: false
     };

@@ -19,12 +19,12 @@
       </a-form-model-item>
       <a-form-model-item
         label="会员ID"
-        prop="receiverAccount"
+        prop="receiverAccountList"
         v-if="form.sendObject == 'some'"
       >
         <a-select
           mode="multiple"
-          v-model="form.receiverAccount"
+          v-model="form.receiverAccountList"
           style="width: 200px"
           @change="handleChange"
         >
@@ -50,7 +50,7 @@
         <a-input v-model="form.title" />
       </a-form-model-item>
       <a-form-model-item label="内容">
-        <Tinymce @tinymceinput="tinymceinput" />
+        <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.content" />
       </a-form-model-item>
       <!-- <a-form-model-item label="每页发送" prop="name">
         <a-input-number v-model="form.name" />条
@@ -87,7 +87,7 @@ export default {
         receiverCode: []
       },
       rules: {
-        receiverAccount: [
+        receiverAccountList: [
           {
             required: true,
             message: "会员ID不能为空",
@@ -119,6 +119,8 @@ export default {
 
   activated() {
     this.getVipList();
+    this.resetForm();
+    console.log(this.form);
   },
   methods: {
     tinymceinput(value) {
@@ -147,22 +149,20 @@ export default {
         });
       }
       console.log(this.form);
-      this.$confirm({
-        title: "确定要发送吗?",
-        onOk: () => {
-          this.$refs.ruleForm.validate(valid => {
-            if (valid) {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$confirm({
+            title: "确定要发送吗?",
+            onOk: () => {
               console.log(this.form);
               this.$store
                 .dispatch("message/addMessage", this.form)
                 .then(res => {
                   console.log(res);
                   this.$message.success("新增消息成功");
+                  this.resetForm();
                   this.$router.back();
                 });
-            } else {
-              console.log("error submit!!");
-              return false;
             }
           });
         }
@@ -170,6 +170,13 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        messageType: "1",
+        title: "",
+        content: "",
+        sendObject: "all",
+        receiverCode: []
+      };
     }
   }
 };
