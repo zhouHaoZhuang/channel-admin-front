@@ -6,7 +6,6 @@
 
 <script>
 import { mapState } from "vuex";
-import { getDomainUrl } from "@/utils/index";
 export default {
   name: "HeaderRight",
   computed: {
@@ -15,12 +14,29 @@ export default {
     })
   },
   data() {
-    return {};
+    return {
+      url: ""
+    };
+  },
+  created() {
+    this.getDomain();
   },
   methods: {
+    // 获取默认云商城域名
+    getDomain() {
+      this.$store
+        .dispatch("domain/getList", {
+          currentPage: 1,
+          pageSize: 999
+        })
+        .then(res => {
+          const data = res.data.list.filter(ele => ele.defaultDomain * 1 === 1);
+          this.url = data[0].domain;
+        });
+    },
     // 跳转云商城
     handleGoCloudMall() {
-      const url = `http://${getDomainUrl()}`;
+      const url = `http://${this.url}`;
       window.open(url, "_blank");
     }
   }
