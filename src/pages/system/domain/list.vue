@@ -51,6 +51,7 @@
         </div>
         <div slot="action" slot-scope="text, record">
           <a-button
+            v-if="record.defaultDomain * 1 !== 1"
             v-permission="'del'"
             type="link"
             @click="handleDelDomain(record)"

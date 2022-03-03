@@ -1,11 +1,11 @@
 <template>
   <div class="work-detail-container">
     <!-- 头部信息 -->
-    <Detail :detail="detail" @success="detailSuccess" />
+    <Detail :detail="detail" @success="detailSuccess" :type="type" />
     <!-- 沟通记录 -->
     <Record :recordList="recordList" :detail="detail" @success="getRecord" />
     <!-- 发表回复 -->
-    <Reply :detail="detail" @success="getRecord" />
+    <Reply v-if="type === 'my'" :detail="detail" @success="getRecord" />
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default {
   },
   data() {
     return {
+      type: "list",
       time: null,
       step: 1,
       detail: {},
@@ -35,6 +36,7 @@ export default {
   watch: {
     $route: {
       handler(newVal) {
+        this.type = newVal.query.type;
         if (newVal.path !== "/service/workorderManage/detail") {
           this.time && clearInterval(this.time);
         }

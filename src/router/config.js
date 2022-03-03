@@ -47,7 +47,11 @@ export const asyncRoute = [
   {
     path: "/",
     name: "默认",
+    meta: {
+      perm: "home"
+    },
     component: TabsView,
+    redirect: "/dashboard/index/home",
     children: [
       // 首页 一级菜单
       {
@@ -652,6 +656,15 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
+              {
+                path: "list",
+                name: "工单列表",
+                meta: {
+                  icon: "home",
+                  perm: "userinfo"
+                },
+                component: () => import("@/pages/service/workorderManage/list")
+              },
               {
                 path: "myWorkor",
                 name: "我的工单",
