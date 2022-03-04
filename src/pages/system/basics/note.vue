@@ -6,7 +6,9 @@
           当前短信签名：
           {{ signName }}
           <a style="margin-left:15px" @click="showModal">变更短信签名</a>
-          <a style="margin-left:15px" @click="showRecord">查看审核状态</a>
+          <a v-show="!showStatus" style="margin-left:15px" @click="showRecord"
+            >查看审核状态</a
+          >
         </p>
         <p>
           变更时间：<span v-if="changeTime">{{ changeTime | formatDate }}</span>
@@ -336,12 +338,27 @@
       >
         <div>
           <div>
-            <div><span>审核状态：</span><span></span></div>
-            <div><span>短信签名：</span><span></span></div>
-            <div><span>签名来源：</span><span></span></div>
-            <div><span>三证合一：</span><span></span></div>
-            <div><span>委托授权书：</span><span></span></div>
-            <div><span>申请说明：</span><span></span></div>
+            <div>
+              <span>审核状态：</span><span>{{ recordData.status }}</span>
+            </div>
+            <div>
+              <span>短信签名：</span><span>{{ recordData.signName }}</span>
+            </div>
+            <div>
+              <span>签名来源：</span
+              ><span>{{ signSourceListData[recordData.signSource] }}</span>
+            </div>
+            <div>
+              <span>三证合一：</span>
+              <img width="100px" :src="recordData.recordData" alt="" />
+            </div>
+            <div>
+              <span>委托授权书：</span>
+              <img width="100px" :src="recordData.authorizations" alt="" />
+            </div>
+            <div>
+              <span>申请说明：</span><span>{{ recordData.remark }}</span>
+            </div>
           </div>
         </div>
       </a-modal>
@@ -465,12 +482,30 @@ export default {
           key: 5
         }
       ],
+      signSourceListData: {
+        0: "企事业单位的全称或简称",
+        1: "工信部备案网站的全称或简称",
+        2: "App应用的全称或简称",
+        3: "公众号或小程序的全称或简称",
+        4: "电商平台店铺名的全称或简称",
+        5: "商标名的全称或简称"
+      },
       enterDisabled: false,
-      visibleRecord: false
+      visibleRecord: false,
+      showStatus: undefined,
+      recordData: {
+        status: "",
+        signName: "",
+        signSource: "",
+        remark: "",
+        certificates: "",
+        authorizations: ""
+      }
     };
   },
   created() {
     this.getChangeTime();
+    this.getShow();
   },
   methods: {
     // 变更短信签名的回调
@@ -488,12 +523,24 @@ export default {
       this.visibleRecord = false;
     },
     // 获取审核状态弹窗的数据
-    getRecord() {},
+    getRecord() {
+      this.$store.dispatch("note/getNoteSign").then(res => {
+        console.log(res);
+        this.recordData = res.data;
+      });
+    },
     // 获取变更时间
     getChangeTime() {
       this.$store.dispatch("note/getChangeTime").then(res => {
         this.changeTime = res.data ? res.data.modifyTime : "";
         this.signName = res.data ? res.data.signName : "";
+      });
+    },
+    // 获取是否显示状态
+    getShow() {
+      this.$store.dispatch("note/getNoteStatus").then(res => {
+        console.log(res, "--------------");
+        this.showStatus = res.data;
       });
     },
     pcImgChange(urlList, firstImageUrl, base64List, type) {
