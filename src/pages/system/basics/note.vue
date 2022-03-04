@@ -6,9 +6,9 @@
           当前短信签名：
           {{ signName }}
           <a style="margin-left:15px" @click="showModal">变更短信签名</a>
-          <a v-show="!showStatus" style="margin-left:15px" @click="showRecord"
-            >查看审核状态</a
-          >
+          <a v-show="showStatus" style="margin-left:15px" @click="showRecord">
+            查看审核状态
+          </a>
         </p>
         <p>
           变更时间：<span v-if="changeTime">{{ changeTime | formatDate }}</span>
@@ -337,20 +337,30 @@
         @cancel="handleCancelRecord"
       >
         <div>
-          <div>
+          <div class="record-status">
             <div>
-              <span>审核状态：</span><span>{{ recordData.status }}</span>
+              <span>审核状态：</span>
+              <span>
+                {{ statusList[recordData.status] }}
+                {{ recordData.status == 2 ? recordData.reason : "" }}
+                {{ recordData.modifyTime | formatDate }}
+              </span>
             </div>
             <div>
               <span>短信签名：</span><span>{{ recordData.signName }}</span>
             </div>
             <div>
-              <span>签名来源：</span
-              ><span>{{ signSourceListData[recordData.signSource] }}</span>
+              <span>签名来源：</span>
+              <span>{{ signSourceListData[recordData.signSource] }}</span>
             </div>
             <div>
               <span>三证合一：</span>
-              <img width="100px" :src="recordData.recordData" alt="" />
+              <img
+                width="100px"
+                style="margin-bottom:10px"
+                :src="recordData.certificates"
+                alt=""
+              />
             </div>
             <div>
               <span>委托授权书：</span>
@@ -376,6 +386,11 @@ export default {
     return {
       changeTime: undefined,
       signName: "",
+      statusList: {
+        0: "待审核",
+        1: "审核通过",
+        2: "审核不通过"
+      },
       labelCol: { span: 6 },
       wrapperCol: { span: 12 },
       form: {
@@ -640,6 +655,11 @@ export default {
       line-height: 20px;
       font-size: 12px;
     }
+  }
+}
+.record-status{
+  div{
+    margin-bottom: 10px;
   }
 }
 </style>
