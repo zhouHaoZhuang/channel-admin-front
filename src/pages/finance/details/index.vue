@@ -242,7 +242,7 @@ export default {
           dataIndex: "customerCode"
         },
         {
-          title: "业务ID",
+          title: "编号ID",
           dataIndex: "paymentLineId"
         },
         {
