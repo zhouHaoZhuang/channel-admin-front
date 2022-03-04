@@ -50,14 +50,14 @@
         <a-button type="primary" @click="secectClick">
           查询
         </a-button>
-        <a-button @click="isfilter = !isfilter">
+        <!-- <a-button @click="isfilter = !isfilter">
           <a-icon :type="isfilter ? 'up' : 'down'" />
           高级筛选
         </a-button>
         <a-button v-permission="'export'">
           <a-icon type="export" />
           导出
-        </a-button>
+        </a-button> -->
       </a-space>
     </div>
     <div v-show="isfilter" class="member-filterall">

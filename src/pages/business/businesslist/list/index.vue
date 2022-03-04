@@ -31,6 +31,7 @@
                 <a-select
                   style="width:120px"
                   v-model="listQuery.key"
+                  allowClear
                   placeholder="请选择"
                 >
                   <a-select-option
@@ -502,7 +503,9 @@ export default {
       this.listQuery.search = this.listQuery.search.trim();
       console.log(this.listQuery);
       this.selectkey[this.listQuery.key] = this.listQuery.search;
-      this.getList();
+      this.getList(()=>{
+        this.selectkey[this.listQuery.key] = '';
+      });
     },
     // 查询表格数据
     getList(callBack) {
@@ -514,7 +517,6 @@ export default {
         .then(res => {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
-
           res.data.list.forEach(item => {
             let dataDiskSize = 0;
             // dataDiskSize += item.dataDisk.size * 1;

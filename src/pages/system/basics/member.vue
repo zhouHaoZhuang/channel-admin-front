@@ -321,7 +321,7 @@
             </a-form-model-item>
           </a-form-model>
         </a-collapse-panel>
-        <a-collapse-panel key="6" header="客服">
+        <!-- <a-collapse-panel key="6" header="客服">
           <a-form-model
             ref="ruleForm"
             :model="form"
@@ -340,7 +340,7 @@
               </a-radio-group>
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel>
+        </a-collapse-panel> -->
       </a-collapse>
       <div class="backstage">
         <!-- 后台操作保护 -->
