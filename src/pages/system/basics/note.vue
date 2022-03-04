@@ -6,6 +6,7 @@
           当前短信签名：
           {{ signName }}
           <a style="margin-left:15px" @click="showModal">变更短信签名</a>
+          <a style="margin-left:15px" @click="showRecord">查看审核状态</a>
         </p>
         <p>
           变更时间：<span v-if="changeTime">{{ changeTime | formatDate }}</span>
@@ -324,6 +325,27 @@
           </a-form-model-item>
         </div> -->
       </a-modal>
+      <!-- 查看审核状态 -->
+      <a-modal
+        title="审核明细"
+        :forceRender="true"
+        :centered="true"
+        :visible="visibleRecord"
+        okText="提交"
+        @ok="onSubmitRecord"
+        @cancel="handleCancelRecord"
+      >
+        <div>
+          <div>
+            <div><span>审核状态：</span><span></span></div>
+            <div><span>短信签名：</span><span></span></div>
+            <div><span>签名来源：</span><span></span></div>
+            <div><span>三证合一：</span><span></span></div>
+            <div><span>委托授权书：</span><span></span></div>
+            <div><span>申请说明：</span><span></span></div>
+          </div>
+        </div>
+      </a-modal>
     </div>
   </div>
 </template>
@@ -444,16 +466,35 @@ export default {
           key: 5
         }
       ],
-      enterDisabled: false
+      enterDisabled: false,
+      visibleRecord: false
     };
   },
   created() {
     this.getChangeTime();
   },
   methods: {
+    // 变更短信签名的回调
     showModal() {
       this.visible = true;
       this.getNoteConfig();
+    },
+    // 查看审核状态的回调
+    showRecord() {
+      this.visibleRecord = true;
+      this.getRecord();
+    },
+    // 审核状态弹窗确认的回调
+    onSubmitRecord() {
+      this.visibleRecord = false;
+    },
+    // 审核状态弹窗取消的回调
+    handleCancelRecord() {
+      this.visibleRecord = false;
+    },
+    // 获取审核状态弹窗的数据
+    getRecord() {
+     
     },
     // 获取变更时间
     getChangeTime() {
@@ -487,6 +528,7 @@ export default {
         }
       });
     },
+    // 提交短信签名配置
     onSubmit() {
       this.confirmLoading = false;
       this.$refs.ruleForm.validate(valid => {
@@ -511,6 +553,7 @@ export default {
         }
       });
     },
+    // 重置修改短信签名表单
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
