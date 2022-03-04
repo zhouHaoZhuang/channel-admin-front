@@ -331,8 +331,7 @@
         :forceRender="true"
         :centered="true"
         :visible="visibleRecord"
-        okText="提交"
-        @ok="onSubmitRecord"
+        :footer="null"
         @cancel="handleCancelRecord"
       >
         <div>
@@ -484,18 +483,12 @@ export default {
       this.visibleRecord = true;
       this.getRecord();
     },
-    // 审核状态弹窗确认的回调
-    onSubmitRecord() {
-      this.visibleRecord = false;
-    },
-    // 审核状态弹窗取消的回调
+    // 审核状态弹窗取消/遮罩/关闭的回调
     handleCancelRecord() {
       this.visibleRecord = false;
     },
     // 获取审核状态弹窗的数据
-    getRecord() {
-     
-    },
+    getRecord() {},
     // 获取变更时间
     getChangeTime() {
       this.$store.dispatch("note/getChangeTime").then(res => {
