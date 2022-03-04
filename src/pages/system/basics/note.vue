@@ -337,7 +337,7 @@
         @cancel="handleCancelRecord"
       >
         <div>
-          <div>
+          <div class="record-status">
             <div>
               <span>审核状态：</span>
               <span>
@@ -350,8 +350,8 @@
               <span>短信签名：</span><span>{{ recordData.signName }}</span>
             </div>
             <div>
-              <span>签名来源：</span
-              ><span>{{ signSourceListData[recordData.signSource] }}</span>
+              <span>签名来源：</span>
+              <span>{{ signSourceListData[recordData.signSource] }}</span>
             </div>
             <div>
               <span>三证合一：</span>
@@ -655,6 +655,11 @@ export default {
       line-height: 20px;
       font-size: 12px;
     }
+  }
+}
+.record-status{
+  div{
+    margin-bottom: 10px;
   }
 }
 </style>
