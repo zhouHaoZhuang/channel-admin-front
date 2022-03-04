@@ -28,7 +28,11 @@
               </a-form-model-item>
               <!-- 下拉框 -->
               <a-form-model-item>
-                <a-select style="width:120px" v-model="listQuery.key">
+                <a-select
+                  allowClear
+                  style="width:120px"
+                  v-model="listQuery.key"
+                >
                   <a-select-option value="id">
                     ID
                   </a-select-option>
@@ -39,7 +43,11 @@
               </a-form-model-item>
               <!-- 搜索 -->
               <a-form-model-item>
-                <a-input v-model="listQuery.search" placeholder="搜索关键词" />
+                <a-input
+                  allowClear
+                  v-model="listQuery.search"
+                  placeholder="搜索关键词"
+                />
               </a-form-model-item>
               <!-- 日期 -->
               <a-form-model-item>
@@ -62,7 +70,11 @@
                 </div>
               </a-form-model-item>
               <a-form-model-item>
-                <a-select style="width:120px" v-model="listQuery.accountType">
+                <a-select
+                  allowClear
+                  style="width:120px"
+                  v-model="listQuery.accountType"
+                >
                   <a-select-option value="">
                     款项类型
                   </a-select-option>

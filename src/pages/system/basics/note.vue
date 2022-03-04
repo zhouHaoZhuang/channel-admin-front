@@ -91,26 +91,28 @@
               type="textarea"
             />
           </a-form-model-item>
-          <a-form-model-item label="三证合一" prop="certificates">
+          <a-form-model-item label="三证合一" required>
             <div slot="help">
               请上传签名归属方执照，注意：1、公章为红色且清晰；2、上传有效期内执照；3、执照请勿自行涂改；4、支持jpg、png、gif、jpeg格式，图片不大于2MB
             </div>
             <div class="sample-graph">
-              <Upload
-                class="upload"
-                :defaultFile="form.certificates"
-                :size="2"
-                :limit="3"
-                @change="
-                  ({ urlList, firstImageUrl, base64List }) =>
-                    pcImgChange(
-                      urlList,
-                      firstImageUrl,
-                      base64List,
-                      'certificates'
-                    )
-                "
-              />
+              <a-form-model-item prop="certificates">
+                <Upload
+                  class="upload"
+                  :defaultFile="form.certificates"
+                  :size="2"
+                  :limit="3"
+                  @change="
+                    ({ urlList, firstImageUrl, base64List }) =>
+                      pcImgChange(
+                        urlList,
+                        firstImageUrl,
+                        base64List,
+                        'certificates'
+                      )
+                  "
+                />
+              </a-form-model-item>
               <div class="sample-img">
                 <a
                   href="https://img.alicdn.com/tfs/TB1_HiGeLDH8KJjy1XcXXcpdXXa-950-1430.jpg"
@@ -465,14 +467,6 @@ export default {
       this.form[type + "Base64List"] = base64List;
       this.form[type] = urlList.toString();
     },
-    handleOk(e) {
-      // this.ModalText = "The modal will be closed after two seconds";
-      this.confirmLoading = true;
-      setTimeout(() => {
-        this.visible = false;
-        this.confirmLoading = false;
-      }, 2000);
-    },
     handleCancel(e) {
       console.log("Clicked cancel button");
       this.visible = false;
@@ -506,6 +500,7 @@ export default {
             .then(() => {
               this.visible = false;
               this.confirmLoading = false;
+              this.resetForm();
               this.$message.success("保存成功");
             })
             .finally(() => {
@@ -513,6 +508,22 @@ export default {
             });
         }
       });
+    },
+    resetForm() {
+      this.$refs.ruleForm.clearValidate();
+      this.form = {
+        signName: "",
+        signSource: "",
+        remark: "",
+        aisle: "",
+        signFileList: [],
+        certificates: "",
+        certificatesBase64List: [],
+        authorizations: "",
+        authorizationsBase64List: [],
+        zkeys: "赛拉云短信",
+        linkSort: ""
+      };
     }
   }
 };
