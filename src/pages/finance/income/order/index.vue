@@ -6,6 +6,7 @@
           style="width:150px"
           placeholder="请选择"
           v-model="listQuery.key"
+          allowClear
         >
           <a-select-option
             :value="v.key"
@@ -16,7 +17,7 @@
           </a-select-option>
         </a-select>
         <div class="sechkey">
-          <a-input placeholder="搜索关键词" v-model="listQuery.search" />
+          <a-input allowClear placeholder="搜索关键词" v-model="listQuery.search" />
         </div>
         <div>
           <a-range-picker
@@ -29,6 +30,7 @@
         <a-select
           style="width:150px"
           placeholder="订单类型"
+          allowClear
           v-model="listQuery.tradeType"
         >
           <a-select-option
@@ -42,6 +44,7 @@
         <a-select
           style="width:150px"
           placeholder="订单状态"
+          allowClear
           v-model="listQuery.tradeStatus"
         >
           <a-select-option

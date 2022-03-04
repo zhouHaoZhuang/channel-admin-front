@@ -2,13 +2,13 @@
   <div>
     <div class="member-container">
       <div class="member-top">
-        <a-button v-permission="'add'" type="primary" @click="addMember">
+        <!-- <a-button v-permission="'add'" type="primary" @click="addMember">
           +添加会员
-        </a-button>
-        <a-button v-permission="'send-message'">
+        </a-button> -->
+        <!-- <a-button v-permission="'send-message'">
           <a-icon type="mobile" />发送短信
-        </a-button>
-        <a-dropdown>
+        </a-button> -->
+        <!-- <a-dropdown>
           <a-menu slot="overlay" @click="handleMenuClick">
             <a-menu-item key="1" v-permission="'send-email'">
               <a-icon type="mail" />发送邮件
@@ -24,7 +24,7 @@
             <a-icon type="appstore" /> 更多操作
             <a-icon type="down" />
           </a-button>
-        </a-dropdown>
+        </a-dropdown> -->
         <a-select style="width: 120px" v-model="title">
           <a-select-option value="corporationName">
             姓名
@@ -45,10 +45,10 @@
         <a-button type="primary" @click="searchClick">
           查询
         </a-button>
-        <a-button @click="isfilter = !isfilter">
-          <a-icon :type="isfilter ? 'up' : 'down'" />
-          <!-- <a-icon type="up" /> -->
-          高级筛选
+        <!-- <a-button @click="isfilter = !isfilter">
+          <a-icon :type="isfilter ? 'up' : 'down'" /> -->
+        <!-- <a-icon type="up" /> -->
+        <!-- 高级筛选
         </a-button>
         <a-button> <a-icon type="setting" /> 自定义列表 </a-button>
         <a-button v-permission="'import'">
@@ -58,7 +58,7 @@
         <a-button v-permission="'export'">
           <a-icon type="export" />
           导出
-        </a-button>
+        </a-button> -->
       </div>
       <div v-show="isfilter" class="member-filterall">
         <div class="member-filter">
@@ -297,11 +297,11 @@
         </div>
       </div>
       <div class="member-contenttable">
-        <a-table
-          :row-selection="{
+        <!-- :row-selection="{
             selectedRowKeys: selectedRowKeys,
             onChange: onSelectChange
-          }"
+          }" -->
+        <a-table
           :columns="columns"
           :data-source="data"
           :scroll="{ x: 1300 }"
@@ -638,13 +638,14 @@ export default {
   margin-left: 20px;
   padding: 20px;
   .member-top {
-    display: flex;
+    // display: flex;
     width: 100%;
     padding: 24px 0;
     justify-content: space-between;
     .search {
       display: inline-block;
       width: 250px;
+      margin: 0 10px;
     }
   }
   .member-filterall {

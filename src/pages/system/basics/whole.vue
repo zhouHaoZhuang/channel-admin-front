@@ -30,10 +30,10 @@
           <div class="big-block-title">服务</div>
           <Serve :formData = 'formData'></Serve>
         </a-tab-pane>
-        <a-tab-pane key="8" tab="安全">
+        <!-- <a-tab-pane key="8" tab="安全">
           <div class="big-block-title">安全</div>
           <Safety :formData = 'formData'></Safety>
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default {
     Note,
     Finance,
     Serve,
-    Safety
+    // Safety
   },
   created() {
     this.getData()

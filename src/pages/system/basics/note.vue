@@ -6,6 +6,7 @@
           当前短信签名：
           {{ signName }}
           <a style="margin-left:15px" @click="showModal">变更短信签名</a>
+          <a style="margin-left:15px" @click="showRecord">查看审核状态</a>
         </p>
         <p>
           变更时间：<span v-if="changeTime">{{ changeTime | formatDate }}</span>
@@ -91,26 +92,28 @@
               type="textarea"
             />
           </a-form-model-item>
-          <a-form-model-item label="三证合一" prop="certificates">
+          <a-form-model-item label="三证合一" required>
             <div slot="help">
               请上传签名归属方执照，注意：1、公章为红色且清晰；2、上传有效期内执照；3、执照请勿自行涂改；4、支持jpg、png、gif、jpeg格式，图片不大于2MB
             </div>
             <div class="sample-graph">
-              <Upload
-                class="upload"
-                :defaultFile="form.certificates"
-                :size="2"
-                :limit="3"
-                @change="
-                  ({ urlList, firstImageUrl, base64List }) =>
-                    pcImgChange(
-                      urlList,
-                      firstImageUrl,
-                      base64List,
-                      'certificates'
-                    )
-                "
-              />
+              <a-form-model-item prop="certificates">
+                <Upload
+                  class="upload"
+                  :defaultFile="form.certificates"
+                  :size="2"
+                  :limit="3"
+                  @change="
+                    ({ urlList, firstImageUrl, base64List }) =>
+                      pcImgChange(
+                        urlList,
+                        firstImageUrl,
+                        base64List,
+                        'certificates'
+                      )
+                  "
+                />
+              </a-form-model-item>
               <div class="sample-img">
                 <a
                   href="https://img.alicdn.com/tfs/TB1_HiGeLDH8KJjy1XcXXcpdXXa-950-1430.jpg"
@@ -322,6 +325,26 @@
           </a-form-model-item>
         </div> -->
       </a-modal>
+      <!-- 查看审核状态 -->
+      <a-modal
+        title="审核明细"
+        :forceRender="true"
+        :centered="true"
+        :visible="visibleRecord"
+        :footer="null"
+        @cancel="handleCancelRecord"
+      >
+        <div>
+          <div>
+            <div><span>审核状态：</span><span></span></div>
+            <div><span>短信签名：</span><span></span></div>
+            <div><span>签名来源：</span><span></span></div>
+            <div><span>三证合一：</span><span></span></div>
+            <div><span>委托授权书：</span><span></span></div>
+            <div><span>申请说明：</span><span></span></div>
+          </div>
+        </div>
+      </a-modal>
     </div>
   </div>
 </template>
@@ -442,17 +465,30 @@ export default {
           key: 5
         }
       ],
-      enterDisabled: false
+      enterDisabled: false,
+      visibleRecord: false
     };
   },
   created() {
     this.getChangeTime();
   },
   methods: {
+    // 变更短信签名的回调
     showModal() {
       this.visible = true;
       this.getNoteConfig();
     },
+    // 查看审核状态的回调
+    showRecord() {
+      this.visibleRecord = true;
+      this.getRecord();
+    },
+    // 审核状态弹窗取消/遮罩/关闭的回调
+    handleCancelRecord() {
+      this.visibleRecord = false;
+    },
+    // 获取审核状态弹窗的数据
+    getRecord() {},
     // 获取变更时间
     getChangeTime() {
       this.$store.dispatch("note/getChangeTime").then(res => {
@@ -465,20 +501,14 @@ export default {
       this.form[type + "Base64List"] = base64List;
       this.form[type] = urlList.toString();
     },
-    handleOk(e) {
-      // this.ModalText = "The modal will be closed after two seconds";
-      this.confirmLoading = true;
-      setTimeout(() => {
-        this.visible = false;
-        this.confirmLoading = false;
-      }, 2000);
-    },
     handleCancel(e) {
       console.log("Clicked cancel button");
+      this.resetForm();
       this.visible = false;
     },
     // 获取短信签名配置
     getNoteConfig() {
+      this.resetForm();
       this.$store.dispatch("note/getNoteConfig").then(res => {
         this.form = { ...this.form, ...res.data };
         if (res.data && res.data.status == 0) {
@@ -491,7 +521,9 @@ export default {
         }
       });
     },
+    // 提交短信签名配置
     onSubmit() {
+      this.confirmLoading = false;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.confirmLoading = true;
@@ -504,15 +536,32 @@ export default {
           this.$store
             .dispatch("note/modifyNoteConfig", this.form)
             .then(() => {
-              this.visible = false;
-              this.confirmLoading = false;
               this.$message.success("保存成功");
+              this.resetForm();
+              this.visible = false;
             })
             .finally(() => {
-              this.getNoteConfig();
+              this.confirmLoading = false;
             });
         }
       });
+    },
+    // 重置修改短信签名表单
+    resetForm() {
+      this.$refs.ruleForm.clearValidate();
+      this.form = {
+        signName: "",
+        signSource: "",
+        remark: "",
+        aisle: "",
+        signFileList: [],
+        certificates: "",
+        certificatesBase64List: [],
+        authorizations: "",
+        authorizationsBase64List: [],
+        zkeys: "赛拉云短信",
+        linkSort: ""
+      };
     }
   }
 };
