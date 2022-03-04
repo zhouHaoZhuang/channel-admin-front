@@ -415,36 +415,36 @@ export const asyncRoute = [
                 component: () =>
                   import("@/pages/business/feeReduction/list/examine.vue")
               },
-              {
-                path: "snapshot",
-                name: "快照列表",
-                meta: {
-                  icon: "home",
-                  perm: "business-cloud-snapshot"
-                },
-                component: () =>
-                  import("@/pages/business/snapshot/list/index.vue")
-              },
-              {
-                path: "automation",
-                name: "自动化列表",
-                meta: {
-                  icon: "home",
-                  perm: "business-cloud-auto"
-                },
-                component: () =>
-                  import("@/pages/business/automation/list/index.vue")
-              },
-              {
-                path: "hostRecord",
-                name: "宿主机异常记录",
-                meta: {
-                  icon: "home",
-                  perm: "business-cloud-logs"
-                },
-                component: () =>
-                  import("@/pages/business/hostRecord/list/index.vue")
-              }
+              // {
+              //   path: "snapshot",
+              //   name: "快照列表",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "business-cloud-snapshot"
+              //   },
+              //   component: () =>
+              //     import("@/pages/business/snapshot/list/index.vue")
+              // },
+              // {
+              //   path: "automation",
+              //   name: "自动化列表",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "business-cloud-auto"
+              //   },
+              //   component: () =>
+              //     import("@/pages/business/automation/list/index.vue")
+              // },
+              // {
+              //   path: "hostRecord",
+              //   name: "宿主机异常记录",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "business-cloud-logs"
+              //   },
+              //   component: () =>
+              //     import("@/pages/business/hostRecord/list/index.vue")
+              // }
             ]
           }
         ]

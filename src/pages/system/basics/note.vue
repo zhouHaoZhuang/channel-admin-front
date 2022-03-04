@@ -469,10 +469,12 @@ export default {
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
+      this.resetForm();
       this.visible = false;
     },
     // 获取短信签名配置
     getNoteConfig() {
+      this.resetForm();
       this.$store.dispatch("note/getNoteConfig").then(res => {
         this.form = { ...this.form, ...res.data };
         if (res.data && res.data.status == 0) {
@@ -486,6 +488,7 @@ export default {
       });
     },
     onSubmit() {
+      this.confirmLoading = false;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.confirmLoading = true;
@@ -498,13 +501,12 @@ export default {
           this.$store
             .dispatch("note/modifyNoteConfig", this.form)
             .then(() => {
-              this.visible = false;
-              this.confirmLoading = false;
-              this.resetForm();
               this.$message.success("保存成功");
+              this.resetForm();
+              this.visible = false;
             })
             .finally(() => {
-              this.getNoteConfig();
+              this.confirmLoading = false;
             });
         }
       });
