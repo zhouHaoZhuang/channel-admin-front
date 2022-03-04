@@ -69,7 +69,7 @@
                   </span>
                 </div>
               </a-form-model-item>
-              <a-form-model-item>
+              <!-- <a-form-model-item>
                 <a-select
                   allowClear
                   style="width:120px"
@@ -86,7 +86,7 @@
                     {{ item }}
                   </a-select-option>
                 </a-select>
-              </a-form-model-item>
+              </a-form-model-item> -->
               <!-- 按钮 -->
               <a-form-model-item>
                 <a-button type="primary" @click="search">

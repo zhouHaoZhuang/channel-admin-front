@@ -187,8 +187,8 @@ export default {
           dataIndex: "createTime",
           width: 190,
           scopedSlots: { customRender: "createTime" },
-          sorter: true,
-          sortDirections: ["ascend", "descend"]
+          sorter: (a, b) =>
+            new Date(a.createTime).getTime() - new Date(b.createTime).getTime()
         },
         {
           title: "支付时间",
