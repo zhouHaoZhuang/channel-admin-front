@@ -25,7 +25,7 @@
               "
               v-for="(item, index) in arr"
               :key="index"
-              :disabled="item.level != 2"
+              :disabled="item.level*1 !== 2"
             >
               <span :style="`margin-left: ${item.level}em;`">
                 |-{{ item.typeName }}

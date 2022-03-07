@@ -346,9 +346,9 @@
             </div>
             <div class="record-info">
               <div>
-                {{ recordData.status == 2 ? recordData.reason : "" }}
+                {{ recordData.status*1 === 2 ? recordData.reason : "" }}
               </div>
-              <div v-if="recordData.modifyTime != undefined">
+              <div v-if="recordData.modifyTime !== undefined">
                 {{ recordData.modifyTime | formatDate }}
               </div>
             </div>
