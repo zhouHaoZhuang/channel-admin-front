@@ -21,20 +21,12 @@
               </a-radio-group>
             </a-form-model-item>
             <a-form-model-item required label="密码长度">
-              <a-form-model-item
-                class="model-item"
-                prop="pwd_min_length"
-                style="width:100px"
-              >
-                <a-input-number :min="1" v-model="form.pwd_min_length" />
+              <a-form-model-item class="model-item" prop="pwd_min_length">
+                <a-input-number :min="6" v-model="form.pwd_min_length" />
               </a-form-model-item>
               <span class="model-item">-</span>
-              <a-form-model-item
-                prop="pwd_max_length"
-                class="model-item"
-                style="width:100px"
-              >
-                <a-input-number v-model="form.pwd_max_length" />
+              <a-form-model-item prop="pwd_max_length" class="model-item">
+                <a-input-number :max="20" v-model="form.pwd_max_length" />
               </a-form-model-item>
             </a-form-model-item>
             <a-form-model-item label="每个IP限制注册" prop="linkUrl">

@@ -388,8 +388,8 @@ export default {
         ],
         bankAccount: [
           {
-            pattern: /^\d{16,19}$/,
-            message: "银行账号为数字,长度为16-19位",
+            pattern: /^[0-9]*$/,
+            message: "请输入数字",
             trigger: "blur"
           }
         ],
@@ -414,7 +414,7 @@ export default {
   },
   methods: {
     imgChange(urlList, firstImageUrl, type) {
-      // console.log("上传图片回调", urlList, firstImageUrl, type);
+      console.log("上传图片回调", urlList, firstImageUrl, type);
       this.form[type] = firstImageUrl;
     },
     onSubmit() {
