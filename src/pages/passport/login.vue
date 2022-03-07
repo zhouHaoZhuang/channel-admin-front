@@ -35,6 +35,7 @@
                   type="password"
                   :max-length="20"
                   size="large"
+                  @pressEnter="onSubmit"
                 >
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
