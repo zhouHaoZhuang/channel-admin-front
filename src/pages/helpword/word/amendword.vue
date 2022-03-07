@@ -11,6 +11,7 @@
         <a-form-model-item label="分类">
           <a-select v-model="form.helpTypeCode">
             <a-select-option
+              :disabled="true"
               value='{"typeCode":"help_type_01","typeName":"帮助中心"}'
             >
               <span> |-帮助中心</span>
@@ -24,6 +25,7 @@
               "
               v-for="(item, index) in arr"
               :key="index"
+              :disabled="item.level != 2"
             >
               <span :style="`margin-left: ${item.level}em;`">
                 |-{{ item.typeName }}
