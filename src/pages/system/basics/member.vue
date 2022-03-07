@@ -24,7 +24,6 @@
               <a-form-model-item
                 class="model-item"
                 prop="pwd_min_length"
-                style="width:100px"
               >
                 <a-input-number :min="1" v-model="form.pwd_min_length" />
               </a-form-model-item>
@@ -32,7 +31,6 @@
               <a-form-model-item
                 prop="pwd_max_length"
                 class="model-item"
-                style="width:100px"
               >
                 <a-input-number v-model="form.pwd_max_length" />
               </a-form-model-item>

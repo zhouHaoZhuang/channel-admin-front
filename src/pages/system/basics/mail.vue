@@ -14,7 +14,7 @@
               <a-row :gutter="5">
                 <a-col :span="22">
                   <a-form-model-item prop="smtp">
-                  <a-input v-model="form.smtp" />
+                    <a-input v-model="form.smtp" />
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
@@ -30,7 +30,7 @@
               <a-row :gutter="5">
                 <a-col :span="22">
                   <a-form-model-item prop="email_address">
-                  <a-input v-model="form.email_address" />
+                    <a-input v-model="form.email_address" />
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
@@ -45,9 +45,9 @@
             <a-form-model-item label="发件人显示名称" required>
               <a-row :gutter="5">
                 <a-col :span="22">
-                   <a-form-model-item prop="email_username">
-                  <a-input v-model="form.email_username" />
-                     </a-form-model-item>
+                  <a-form-model-item prop="email_username">
+                    <a-input v-model="form.email_username" />
+                  </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
                   <a-tooltip
@@ -65,8 +65,8 @@
             >
               <a-row :gutter="5">
                 <a-col :span="22">
-                  <a-form-model-item prop = 'email_password'>
-                  <a-input v-model="form.email_password" />
+                  <a-form-model-item prop="email_password">
+                    <a-input-password v-model="form.email_password" />
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
@@ -78,8 +78,11 @@
                 </a-col>
               </a-row>
             </a-form-model-item>
-            <a-form-model-item label="加密方式" prop = 'smtp_secure'>
-              <a-radio-group v-model="form.smtp_secure">
+            <a-form-model-item label="加密方式" prop="smtp_secure">
+              <a-radio-group
+                v-model="form.smtp_secure"
+                @change="encryptionChange"
+              >
                 <a-radio value="TLS">
                   TLS
                 </a-radio>
@@ -101,10 +104,18 @@
                 <a-radio value="465">
                   465
                 </a-radio>
-                <a-radio value="其他">
+                <a-radio value="">
                   其他
                 </a-radio>
               </a-radio-group>
+              <a-form-model-item style="display: inline-block;">
+                <a-input-number
+                  v-if="form.email_port === ''"
+                  v-model="form.email_port_other"
+                  :min="1"
+                  :max="65535"
+                />
+              </a-form-model-item>
               <a-tooltip
                 title="邮箱发送服务器端口，可为空，默认TLS模式为25，SSL为465，如需其他端口可自行设置"
               >
@@ -161,7 +172,7 @@ export default {
         email_username: "",
         email_password: "",
         smtp_secure: "",
-        email_port: "",
+        email_port: ""
       },
       rules: {
         linkDescribe: [
@@ -206,7 +217,7 @@ export default {
             message: "必填，请选择发件邮箱加密方式",
             trigger: "blur"
           }
-        ],
+        ]
       },
       loading: false,
       data: []
@@ -215,6 +226,10 @@ export default {
   created() {
     console.log(this.formData, "this.formData");
     this.form = this.formData;
+    if (this.form.email_port !== "25" && this.form.email_port !== "465") {
+      this.form.email_port_other = this.form.email_port;
+      this.form.email_port = "";
+    }
   },
   props: {
     formData: {
@@ -228,6 +243,9 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          if (this.form.email_port === "") {
+            this.form.email_port = this.form.email_port_other;
+          }
           this.$store
             .dispatch("emailSms/modifyAllConfig", this.form)
             .then(() => {
@@ -240,11 +258,22 @@ export default {
         }
       });
     },
+    encryptionChange() {
+      if (this.form.smtp_secure === "SSL") {
+        this.form.email_port = "465";
+      } else if (this.form.smtp_secure === "TLS") {
+        this.form.email_port = "25";
+      }
+    },
     // 修改成功之后获取最新的数据
     getData() {
       this.$store.dispatch("emailSms/getAllConfig").then(res => {
         console.log(res);
         this.form = res.data;
+        if (this.form.email_port !== "25" && this.form.email_port !== "465") {
+          this.form.email_port_other = this.form.email_port;
+          this.form.email_port = "";
+        }
       });
     }
   }

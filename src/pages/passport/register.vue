@@ -36,6 +36,7 @@
             v-password-input
             type="password"
             :max-length="20"
+            autoComplete="new-password"
             placeholder="6 - 20位密码，区分大小写"
             size="large"
             @keydown.native="keydown($event)"

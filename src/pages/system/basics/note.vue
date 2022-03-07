@@ -342,9 +342,15 @@
               <span>审核状态：</span>
               <span>
                 {{ statusList[recordData.status] }}
-                {{ recordData.status == 2 ? recordData.reason : "" }}
-                {{ recordData.modifyTime | formatDate }}
               </span>
+            </div>
+            <div class="record-info">
+              <div>
+                {{ recordData.status == 2 ? recordData.reason : "" }}
+              </div>
+              <div v-if="recordData.modifyTime != undefined">
+                {{ recordData.modifyTime | formatDate }}
+              </div>
             </div>
             <div>
               <span>短信签名：</span><span>{{ recordData.signName }}</span>
@@ -657,9 +663,12 @@ export default {
     }
   }
 }
-.record-status{
-  div{
+.record-status {
+  div {
     margin-bottom: 10px;
+  }
+  .record-info {
+    margin-left: 73px;
   }
 }
 </style>
