@@ -14,6 +14,7 @@
         v-permission="'batch-del'"
         icon="delete"
         class="btn"
+        :disabled="selectedRowKeys.length === 0"
         @click="deleteinbatches"
       >
         批量删除
