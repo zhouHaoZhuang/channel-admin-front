@@ -430,9 +430,6 @@ export default {
         {
           title: "服务器",
           dataIndex: "ecsCount",
-          sorter: (a, b) => {
-            return a.ecsCount - b.ecsCount;
-          },
           width: 100,
           scopedSlots: { customRender: "ecsCount" }
         },
@@ -475,10 +472,6 @@ export default {
           title: "帐号状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
-          sorter: (a, b) => {
-            return a.status - b.status;
-          },
-          sortDirections: ["ascend", "descend"],
           width: 110
         },
         // {
@@ -490,10 +483,6 @@ export default {
         {
           title: "余额",
           dataIndex: "balance",
-          sorter: (a, b) => {
-            return a.balance - b.balance;
-          },
-          sortDirections: ["ascend", "descend"],
           width: 100,
           scopedSlots: { customRender: "balance" }
         },
@@ -517,20 +506,19 @@ export default {
           title: "注册时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
-          sorter: true,
+          // sorter: true,
           width: 200
         },
         {
           title: "最后登录时间",
           dataIndex: "modifyTime",
           scopedSlots: { customRender: "modifyTime" },
-          sorter: true,
+          // sorter: true,
           width: 200
         },
         {
           title: "备注",
           dataIndex: "remark",
-          sorter: true,
           width: 140
         },
         {
