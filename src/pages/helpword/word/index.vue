@@ -1,122 +1,138 @@
 <template>
   <div class="word-container">
-    <div class="btn-head">
-      <a-button
-        type="primary"
-        v-permission="'add'"
-        icon="plus"
-        class="btn"
-        @click="addbanner"
-      >
-        添加文档
-      </a-button>
-      <a-button
-        icon="delete"
-        v-permission="'batch-del'"
-        class="btn"
-        @click="deleteinbatches"
-      >
-        批量删除
-      </a-button>
-      <a-button
-        icon="check"
-        v-permission="'hot-setting'"
-        class="btn"
-        @click="hotset"
-      >
-        热门设置
-      </a-button>
-      <a-modal
-        title="确认"
-        :visible="hotvisible"
-        :confirm-loading="hotconfirmLoading"
-        @ok="hothandleOk"
-        @cancel="hothandleCancel"
-      >
-        <p>是否热门</p>
-        <a-radio-group v-model="ishot">
-          <a-radio value="true">
-            是
-          </a-radio>
-          <a-radio value="false">
-            否
-          </a-radio>
-        </a-radio-group>
-      </a-modal>
-      <a-button
-        icon="check"
-        class="btn"
-        v-permission="'top-setting'"
-        @click="topset"
-      >
-        置顶设置
-      </a-button>
-      <a-modal
-        title="确认"
-        :visible="topvisible"
-        :confirm-loading="topconfirmLoading"
-        @ok="tophandleOk"
-        @cancel="tophandleCancel"
-      >
-        <p>是否置顶</p>
-        <a-radio-group v-model="istop">
-          <a-radio value="true">
-            是
-          </a-radio>
-          <a-radio value="false">
-            否
-          </a-radio>
-        </a-radio-group>
-      </a-modal>
-      <a-button
-        icon="check"
-        class="btn"
-        @click="recommendedset"
-        v-permission="'recommend-setting'"
-      >
-        推荐设置
-      </a-button>
-      <a-modal
-        title="确认"
-        :visible="recvisible"
-        :confirm-loading="recconfirmLoading"
-        @ok="rechandleOk"
-        @cancel="rechandleCancel"
-      >
-        <p>是否置顶</p>
-        <a-radio-group v-model="isrec">
-          <a-radio value="true">
-            是
-          </a-radio>
-          <a-radio value="false">
-            否
-          </a-radio>
-        </a-radio-group>
-      </a-modal>
-      <a-select
-        style="width:120px"
-        v-model="listQuery.key"
-        placeholder="请选择"
-        class="btn"
-      >
-        <a-select-option
-          v-for="item in columns.slice(0, columns.length - 3)"
-          :key="item.dataIndex"
-          :value="item.dataIndex"
+    <div class="public-header-wrap">
+      <a-form-model layout="inline" :model="listQuery">
+        <a-form-model-item>
+          <a-button
+            type="primary"
+            v-permission="'add'"
+            icon="plus"
+            class="btn"
+            @click="addbanner"
+          >
+            添加文档
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            icon="delete"
+            v-permission="'batch-del'"
+            class="btn"
+            @click="deleteinbatches"
+          >
+            批量删除
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            icon="check"
+            v-permission="'hot-setting'"
+            class="btn"
+            @click="hotset"
+          >
+            热门设置
+          </a-button>
+        </a-form-model-item>
+        <a-modal
+          title="确认"
+          :visible="hotvisible"
+          :confirm-loading="hotconfirmLoading"
+          @ok="hothandleOk"
+          @cancel="hothandleCancel"
         >
-          {{ item.title }}
-        </a-select-option>
-      </a-select>
-      <div class="btn">
-        <a-input
-          placeholder="搜索关键词"
-          v-model="listQuery.value"
-          allowClear
-        />
-      </div>
-      <a-button type="primary" @click="secectClick" class="btn">
-        查询
-      </a-button>
+          <p>是否热门</p>
+          <a-radio-group v-model="ishot">
+            <a-radio value="true">
+              是
+            </a-radio>
+            <a-radio value="false">
+              否
+            </a-radio>
+          </a-radio-group>
+        </a-modal>
+        <a-form-model-item>
+          <a-button
+            icon="check"
+            class="btn"
+            v-permission="'top-setting'"
+            @click="topset"
+          >
+            置顶设置
+          </a-button>
+        </a-form-model-item>
+        <a-modal
+          title="确认"
+          :visible="topvisible"
+          :confirm-loading="topconfirmLoading"
+          @ok="tophandleOk"
+          @cancel="tophandleCancel"
+        >
+          <p>是否置顶</p>
+          <a-radio-group v-model="istop">
+            <a-radio value="true">
+              是
+            </a-radio>
+            <a-radio value="false">
+              否
+            </a-radio>
+          </a-radio-group>
+        </a-modal>
+        <a-form-model-item>
+          <a-button
+            icon="check"
+            class="btn"
+            @click="recommendedset"
+            v-permission="'recommend-setting'"
+          >
+            推荐设置
+          </a-button>
+        </a-form-model-item>
+        <a-modal
+          title="确认"
+          :visible="recvisible"
+          :confirm-loading="recconfirmLoading"
+          @ok="rechandleOk"
+          @cancel="rechandleCancel"
+        >
+          <p>是否置顶</p>
+          <a-radio-group v-model="isrec">
+            <a-radio value="true">
+              是
+            </a-radio>
+            <a-radio value="false">
+              否
+            </a-radio>
+          </a-radio-group>
+        </a-modal>
+        <a-form-model-item>
+          <a-select
+            style="width:120px"
+            v-model="listQuery.key"
+            placeholder="请选择"
+            class="btn"
+          >
+            <a-select-option
+              v-for="item in columns.slice(0, columns.length - 3)"
+              :key="item.dataIndex"
+              :value="item.dataIndex"
+            >
+              {{ item.title }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-input
+            placeholder="搜索关键词"
+            v-model="listQuery.value"
+            allowClear
+          />
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button type="primary" @click="secectClick" class="btn">
+            查询
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <div class="table-content">
       <a-table
@@ -420,6 +436,7 @@ export default {
       } else {
         this.listQuery.search = this.listQuery.value;
       }
+      this.listQuery.currentPage = 1;
       this.getList();
     },
     //热门设置

@@ -336,6 +336,7 @@ export default {
       this.endOpen = open;
     },
     secectClick() {
+      this.listQuery.currentPage = 1;
       this.getList();
     },
     changeKey(val) {

@@ -66,7 +66,7 @@
               <a-row :gutter="5">
                 <a-col :span="22">
                   <a-form-model-item prop="email_password">
-                    <a-input-password v-model="form.email_password" />
+                    <a-input-password autoComplete="new-password" v-model="form.email_password" />
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
