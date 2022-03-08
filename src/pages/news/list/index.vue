@@ -247,6 +247,7 @@ export default {
       if (this.listQuery.key == "newsTitle" && this.listQuery.search) {
         this.selectList.push(`标题：${this.listQuery.search}`);
       }
+      this.listQuery.currentPage = 1;
       this.getList();
     },
     addNewsList() {

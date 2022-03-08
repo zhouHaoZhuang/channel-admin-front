@@ -501,6 +501,7 @@ export default {
     // 查询
     search() {
       this.listQuery.search = this.listQuery.search.trim();
+      this.paginationProps.current = 1;
       console.log(this.listQuery);
       this.selectkey[this.listQuery.key] = this.listQuery.search;
       this.getList(()=>{

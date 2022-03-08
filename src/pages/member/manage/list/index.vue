@@ -616,6 +616,7 @@ export default {
       this.isMoreId = key;
     },
     searchClick() {
+      this.listQuery.currentPage = 1;
       this.listQuery.key = this.title;
       this.$getListQp("member/getList", this.listQuery).then(res => {
         // console.log(res);

@@ -307,6 +307,7 @@ export default {
     },
     // 查询的回调
     secectClick() {
+      this.listQuery.currentPage = 1;
       this.listQuery.search = this.listQuery.search.trim();
       if (this.listQuery.key === "customerCode") {
         if (this.listQuery.search !== "") {

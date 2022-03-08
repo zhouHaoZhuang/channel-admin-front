@@ -182,6 +182,7 @@ export default {
     },
     // 搜索
     handleSearch() {
+      this.listQuery.currentPage = 1;
       this.getList();
     },
     // 日期选择

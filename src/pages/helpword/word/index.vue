@@ -436,6 +436,7 @@ export default {
       } else {
         this.listQuery.search = this.listQuery.value;
       }
+      this.listQuery.currentPage = 1;
       this.getList();
     },
     //热门设置
