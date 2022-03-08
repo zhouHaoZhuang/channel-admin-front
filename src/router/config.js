@@ -156,6 +156,28 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/sale/customer/discount/update.vue")
+              },
+              {
+                path: "productDiscount",
+                name: "产品折扣",
+                meta: {
+                  icon: "home",
+                  perm: "production-admin-discount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/productDiscount/index.vue")
+              },
+              {
+                path: "updateDiscount",
+                name: "产品折扣更新",
+                meta: {
+                  icon: "home",
+                  invisible: true,
+                  back: true,
+                  perm: "production-admin-discount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/productDiscount/update.vue")
               }
             ]
           },
@@ -400,193 +422,171 @@ export const asyncRoute = [
         ]
       },
       // 生产
-      {
-        path: "/production",
-        name: "生产",
-        meta: {
-          perm: "production"
-        },
-        component: PageView,
-        children: [
-          // {
-          //   path: "supplier",
-          //   name: "供应商管理",
-          //   meta: {
-          //     icon: "home"
-          //   },
-          //   component: BlankView,
-          //   children: [
-          //     {
-          //       path: "supplierList",
-          //       name: "供应商列表",
-          //       meta: {
-          //         icon: "home"
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/list/list.vue")
-          //     },
-          //     {
-          //       path: "add",
-          //       name: "新建供应商",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/list/price.vue")
-          //     },
-          //     {
-          //       path: "amend",
-          //       name: "编辑供应商",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/list/amend.vue")
-          //     },
-          //     {
-          //       path: "purchase",
-          //       name: "采购账号列表",
-          //       meta: {
-          //         icon: "home"
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/purchase/list.vue")
-          //     },
-          //     {
-          //       path: "adda",
-          //       name: "新建采购账号",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/purchase/price.vue")
-          //     },
-          //     {
-          //       path: "amends",
-          //       name: "编辑采购账号",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/purchase/amend.vue")
-          //     }
-          //   ]
-          // },
-          {
-            path: "product",
-            name: "产品管理",
-            meta: {
-              icon: "home",
-              perm: "production-admin"
-            },
-            component: BlankView,
-            children: [
-              // {
-              //   path: "information",
-              //   name: "产品信息管理",
-              //   meta: {
-              //     icon: "home"
-              //   },
-              //   component: () =>
-              //     import("@/pages/production/product/information/list.vue")
-              // },
-              // {
-              //   path: "addproduct",
-              //   name: "新建产品线",
-              //   meta: {
-              //     invisible: true,
-              //     back: true
-              //   },
-              //   component: () =>
-              //     import(
-              //       "@/pages/production/product/information/addproduct.vue"
-              //     )
-              // },
-              // {
-              //   path: "editproduct",
-              //   name: "编辑产品线",
-              //   meta: {
-              //     invisible: true,
-              //     back: true
-              //   },
-              //   component: () =>
-              //     import(
-              //       "@/pages/production/product/information/editproduct.vue"
-              //     )
-              // },
-              {
-                path: "discount",
-                name: "产品折扣管理",
-                meta: {
-                  icon: "home",
-                  perm: "production-admin-discount"
-                },
-                component: () =>
-                  import("@/pages/production/product/discount/index.vue")
-              },
-              {
-                path: "updateDiscount",
-                name: "产品折扣管理更新",
-                meta: {
-                  icon: "home",
-                  invisible: true,
-                  back: true,
-                  perm: "production-admin-discount"
-                },
-                component: () =>
-                  import("@/pages/production/product/discount/update.vue")
-              }
-            ]
-          }
-          // {
-          //   path: "cloudServer",
-          //   name: "云服务器",
-          //   meta: {
-          //     icon: "home"
-          //   },
-          //   component: BlankView,
-          //   children: [
-          //     {
-          //       path: "orderRouting",
-          //       name: "订单路由配置",
-          //       meta: {
-          //         icon: "home"
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/cloudServer/orderRouting/list.vue")
-          //     },
-          //     {
-          //       path: "newOrder",
-          //       name: "新建订单路由规则",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import(
-          //           "@/pages/production/cloudServer/orderRouting/newOrder.vue"
-          //         )
-          //     },
-          //     {
-          //       path: "changeOrder",
-          //       name: "编辑订单路由规则",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import(
-          //           "@/pages/production/cloudServer/orderRouting/changeOrder.vue"
-          //         )
-          //     }
-          //   ]
-          // }
-        ]
-      },
+      // {
+      //   path: "/production",
+      //   name: "生产",
+      //   meta: {
+      //     perm: "production"
+      //   },
+      //   component: PageView,
+      //   children: [
+      //     // {
+      //     //   path: "supplier",
+      //     //   name: "供应商管理",
+      //     //   meta: {
+      //     //     icon: "home"
+      //     //   },
+      //     //   component: BlankView,
+      //     //   children: [
+      //     //     {
+      //     //       path: "supplierList",
+      //     //       name: "供应商列表",
+      //     //       meta: {
+      //     //         icon: "home"
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/list/list.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "add",
+      //     //       name: "新建供应商",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/list/price.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "amend",
+      //     //       name: "编辑供应商",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/list/amend.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "purchase",
+      //     //       name: "采购账号列表",
+      //     //       meta: {
+      //     //         icon: "home"
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/purchase/list.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "adda",
+      //     //       name: "新建采购账号",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/purchase/price.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "amends",
+      //     //       name: "编辑采购账号",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/purchase/amend.vue")
+      //     //     }
+      //     //   ]
+      //     // },
+      //     {
+      //       path: "product",
+      //       name: "产品管理",
+      //       meta: {
+      //         icon: "home",
+      //         perm: "production-admin"
+      //       },
+      //       component: BlankView,
+      //       children: [
+      //         // {
+      //         //   path: "information",
+      //         //   name: "产品信息管理",
+      //         //   meta: {
+      //         //     icon: "home"
+      //         //   },
+      //         //   component: () =>
+      //         //     import("@/pages/production/product/information/list.vue")
+      //         // },
+      //         // {
+      //         //   path: "addproduct",
+      //         //   name: "新建产品线",
+      //         //   meta: {
+      //         //     invisible: true,
+      //         //     back: true
+      //         //   },
+      //         //   component: () =>
+      //         //     import(
+      //         //       "@/pages/production/product/information/addproduct.vue"
+      //         //     )
+      //         // },
+      //         // {
+      //         //   path: "editproduct",
+      //         //   name: "编辑产品线",
+      //         //   meta: {
+      //         //     invisible: true,
+      //         //     back: true
+      //         //   },
+      //         //   component: () =>
+      //         //     import(
+      //         //       "@/pages/production/product/information/editproduct.vue"
+      //         //     )
+      //         // },
+      //       ]
+      //     }
+      //     // {
+      //     //   path: "cloudServer",
+      //     //   name: "云服务器",
+      //     //   meta: {
+      //     //     icon: "home"
+      //     //   },
+      //     //   component: BlankView,
+      //     //   children: [
+      //     //     {
+      //     //       path: "orderRouting",
+      //     //       name: "订单路由配置",
+      //     //       meta: {
+      //     //         icon: "home"
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/cloudServer/orderRouting/list.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "newOrder",
+      //     //       name: "新建订单路由规则",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import(
+      //     //           "@/pages/production/cloudServer/orderRouting/newOrder.vue"
+      //     //         )
+      //     //     },
+      //     //     {
+      //     //       path: "changeOrder",
+      //     //       name: "编辑订单路由规则",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import(
+      //     //           "@/pages/production/cloudServer/orderRouting/changeOrder.vue"
+      //     //         )
+      //     //     }
+      //     //   ]
+      //     // }
+      //   ]
+      // },
       // 服务
       {
         path: "/service",
