@@ -1,37 +1,48 @@
 <template>
   <div class="category-container">
-    <div class="btn-head">
-      <a-button
-        v-permission="'add'"
-        type="primary"
-        icon="plus"
-        class="btn"
-        @click="addbanner"
-      >
-        添加类别
-      </a-button>
-      <a-button
-        v-permission="'batch-del'"
-        icon="delete"
-        class="btn"
-        @click="deleteinbatches"
-      >
-        批量删除
-      </a-button>
-      <a-button
-        v-permission="'del'"
-        icon="delete"
-        class="btn"
-        @click="forceDelete"
-      >
-        强制删除
-      </a-button>
-      <a-button v-permission="'sort'" @click="showModal">
-        <span class="sort-icon">
-          <a-icon type="swap" />
-        </span>
-        排序
-      </a-button>
+    <!-- <div class="btn-head"> -->
+    <div class="public-header-wrap">
+      <a-form-model layout="inline" :model="listQuery">
+        <a-form-model-item>
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            icon="plus"
+            class="btn"
+            @click="addbanner"
+          >
+            添加类别
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            v-permission="'batch-del'"
+            icon="delete"
+            class="btn"
+            @click="deleteinbatches"
+          >
+            批量删除
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            v-permission="'del'"
+            icon="delete"
+            class="btn"
+            @click="forceDelete"
+          >
+            强制删除
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button v-permission="'sort'" @click="showModal">
+            <span class="sort-icon">
+              <a-icon type="swap" />
+            </span>
+            排序
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
       <a-modal
         title="排序"
         :visible="visible"

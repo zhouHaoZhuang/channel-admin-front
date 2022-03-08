@@ -1,64 +1,78 @@
 <template>
   <div class="orderList">
-    <div class="orderTop">
-      <a-space>
-        <a-select
-          style="width:150px"
-          placeholder="请选择"
-          v-model="listQuery.key"
-          allowClear
-        >
-          <a-select-option
-            :value="v.key"
-            v-for="v in useColumns"
-            :key="v.title"
+    <div class="public-header-wrap">
+      <a-form-model layout="inline" :model="listQuery">
+        <a-form-model-item>
+          <a-select
+            class="sechkey"
+            style="width:150px"
+            placeholder="请选择"
+            v-model="listQuery.key"
+            allowClear
           >
-            {{ v.title }}
-          </a-select-option>
-        </a-select>
-        <div class="sechkey">
-          <a-input allowClear placeholder="搜索关键词" v-model="listQuery.search" />
-        </div>
-        <div>
+            <a-select-option
+              :value="v.key"
+              v-for="v in useColumns"
+              :key="v.title"
+            >
+              {{ v.title }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-input
+            allowClear
+            placeholder="搜索关键词"
+            v-model="listQuery.search"
+          />
+        </a-form-model-item>
+        <a-form-model-item>
           <a-range-picker
+            style="margin-right: 10px"
             show-time
             format="YYYY-MM-DD HH:mm:ss"
             :placeholder="['开始时间', '结束时间']"
             @change="datePickerOnOk"
           />
-        </div>
-        <a-select
-          style="width:150px"
-          placeholder="订单类型"
-          allowClear
-          v-model="listQuery.tradeType"
-        >
-          <a-select-option
-            v-for="(value, key) in orderTypeMap"
-            :key="key"
-            :value="key"
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width:150px;margin-right: 10px"
+            placeholder="订单类型"
+            allowClear
+            v-model="listQuery.tradeType"
           >
-            {{ value }}
-          </a-select-option>
-        </a-select>
-        <a-select
-          style="width:150px"
-          placeholder="订单状态"
-          allowClear
-          v-model="listQuery.tradeStatus"
-        >
-          <a-select-option
-            v-for="(value, key) in orderStatusEnum"
-            :key="key"
-            :value="key"
+            <a-select-option
+              v-for="(value, key) in orderTypeMap"
+              :key="key"
+              :value="key"
+            >
+              {{ value }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width:150px"
+            placeholder="订单状态"
+            allowClear
+            v-model="listQuery.tradeStatus"
           >
-            {{ value }}
-          </a-select-option>
-        </a-select>
-        <a-button type="primary" @click="handleSearch">
-          查询
-        </a-button>
-      </a-space>
+            <a-select-option
+              v-for="(value, key) in orderStatusEnum"
+              :key="key"
+              :value="key"
+            >
+              {{ value }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button type="primary" @click="handleSearch">
+            查询
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <div class="orderTable">
       <div>
@@ -208,7 +222,7 @@ export default {
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        total: 1,
+        total: 0,
         showTotal: (total, range) =>
           `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
             total / this.listQuery.pageSize
@@ -307,10 +321,10 @@ export default {
     margin-bottom: 25px;
     .sechkey {
       width: 200px;
-      margin-right: 20px;
+      margin-right: 10px;
     }
     [type="button"] {
-      margin-left: 20px;
+      margin-left: 10px;
     }
     .zhi {
       margin: 10px;

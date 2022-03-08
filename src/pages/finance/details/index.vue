@@ -1,28 +1,30 @@
 <template>
   <div class="Content">
-    <div class="orderTop">
-      <a-space>
-        <a-select
-          style="width:150px"
-          v-model="listQuery.key"
-          @change="changeKey"
-        >
-          <a-select-option
-            :value="v.dataIndex"
-            v-for="v in useColumns"
-            :key="v.title"
+    <div class="public-header-wrap">
+      <a-form-model layout="inline" :model="listQuery">
+        <a-form-model-item>
+          <a-select
+            style="width:150px"
+            v-model="listQuery.key"
+            @change="changeKey"
           >
-            {{ v.title }}
-          </a-select-option>
-        </a-select>
-        <div class="sechkey">
+            <a-select-option
+              :value="v.dataIndex"
+              v-for="v in useColumns"
+              :key="v.title"
+            >
+              {{ v.title }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
           <a-input
             :disabled="!isTime"
             placeholder="搜索关键词"
             v-model="listQuery.search"
           />
-        </div>
-        <div class="disabled-date">
+        </a-form-model-item>
+        <a-form-model-item>
           <a-date-picker
             style="width:140px"
             :disabled-date="disabledStartDate"
@@ -33,7 +35,11 @@
             @change="changeStart"
             @openChange="handleStartOpenChange"
           />
+        </a-form-model-item>
+        <a-form-model-item>
           <span class="zhi">至</span>
+        </a-form-model-item>
+        <a-form-model-item>
           <a-date-picker
             :disabled="isTime"
             :disabled-date="disabledEndDate"
@@ -43,35 +49,39 @@
             placeholder="结束时间"
             @openChange="handleEndOpenChange"
           />
-        </div>
-        <a-select
-          v-model="listQuery.detailType"
-          style="width: 120px"
-          @change="handleChange"
-        >
-          <a-select-option value="">
-            款项类型
-          </a-select-option>
-          <a-select-option
-            v-for="(value, key) in paymentTypeMap"
-            :value="key"
-            :key="key"
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            v-model="listQuery.detailType"
+            style="width: 120px"
+            @change="handleChange"
           >
-            {{ value }}
-          </a-select-option>
-        </a-select>
-        <a-button type="primary" @click="secectClick">
-          查询
-        </a-button>
-        <a-button>
+            <a-select-option value="">
+              款项类型
+            </a-select-option>
+            <a-select-option
+              v-for="(value, key) in paymentTypeMap"
+              :value="key"
+              :key="key"
+            >
+              {{ value }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button type="primary" @click="secectClick">
+            查询
+          </a-button>
+        </a-form-model-item>
+        <!-- <a-button>
           <a-icon type="setting" />
           自定义列表
         </a-button>
         <a-button v-permission="'export'">
           <a-icon type="export" />
           导出
-        </a-button>
-      </a-space>
+        </a-button> -->
+      </a-form-model>
     </div>
     <!-- 表格 -->
     <div class="orderTable">

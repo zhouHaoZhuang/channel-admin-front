@@ -1,63 +1,77 @@
 <template>
   <div class="news-list-container">
     <div>
-      <div class="news-list-top">
-        <a-button type="primary" @click="addNewsList" v-permission="'add'">
-          <a-icon type="plus" />添加新闻
-        </a-button>
-        <a-select v-model="listQuery.key" style="width: 120px">
-          <a-select-option value="newsTitle">
-            标题
-          </a-select-option>
-          <!-- <a-select-option value="context">
+      <div class="public-header-wrap">
+        <a-form-model layout="inline" :model="listQuery">
+          <a-form-model-item>
+            <a-button type="primary" @click="addNewsList" v-permission="'add'">
+              <a-icon type="plus" />添加新闻
+            </a-button>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-select v-model="listQuery.key" style="width: 120px">
+              <a-select-option value="newsTitle">
+                标题
+              </a-select-option>
+              <!-- <a-select-option value="context">
                 内容
               </a-select-option> -->
-        </a-select>
-        <a-input
-          v-model="listQuery.search"
-          style="width: 160px"
-          placeholder="搜索关键词"
-        />
-        <a-space size="small">
-          <a-date-picker
-            v-model="startValue"
-            :disabled-date="disabledStartDate"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder="开始日期"
-            @change="changeStart"
-            @openChange="handleStartOpenChange"
-          />
-          <a-date-picker
-            v-model="endValue"
-            :disabled-date="disabledEndDate"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder="结束日期"
-            :open="endOpen"
-            @change="changeEnd"
-            @openChange="handleEndOpenChange"
-          />
-        </a-space>
-        <a-select
-          v-model="listQuery.newTypeCode"
-          style="width: 120px"
-          @change="sortType"
-        >
-          <a-select-option value="">
-            分类
-          </a-select-option>
-          <a-select-option
-            :value="item.newTypeCode"
-            v-for="item in typeList"
-            :key="item.newTypeCode"
-          >
-            {{ item.newTypeName }}
-          </a-select-option>
-        </a-select>
-        <a-button type="primary" @click="selectNewsList">
-          查询
-        </a-button>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-input
+              v-model="listQuery.search"
+              style="width: 160px"
+              placeholder="搜索关键词"
+            />
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-space size="small">
+              <a-date-picker
+                v-model="startValue"
+                :disabled-date="disabledStartDate"
+                show-time
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="开始日期"
+                @change="changeStart"
+                @openChange="handleStartOpenChange"
+              />
+              <a-date-picker
+                v-model="endValue"
+                :disabled-date="disabledEndDate"
+                show-time
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="结束日期"
+                :open="endOpen"
+                @change="changeEnd"
+                @openChange="handleEndOpenChange"
+              />
+            </a-space>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-select
+              v-model="listQuery.newTypeCode"
+              style="width: 120px"
+              @change="sortType"
+            >
+              <a-select-option value="">
+                分类
+              </a-select-option>
+              <a-select-option
+                :value="item.newTypeCode"
+                v-for="item in typeList"
+                :key="item.newTypeCode"
+              >
+                {{ item.newTypeName }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button type="primary" @click="selectNewsList">
+              查询
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
       </div>
       <div class="query-conditions" v-if="isCondition">
         <span>当前条件：</span>
