@@ -273,6 +273,7 @@ export default {
     },
     // 查询
     search() {
+      this.listQuery.currentPage = 1;
       this.getList();
     },
     // 查询表格数据

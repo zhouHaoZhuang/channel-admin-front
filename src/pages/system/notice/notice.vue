@@ -10,48 +10,58 @@
       </span>
     </div>
     <div>
-      <div class="search">
-        <a-input
-          style="width: 150px"
-          placeholder="搜索关键词"
-          v-model="listQuery.search"
-          allow-clear
-        />
-        <a-select
-          default-value=""
-          style="width: 140px; margin-left: 10px;"
-          v-model="listQuery.scenariosCode"
-        >
-          <a-select-option value="">
-            模板模块
-          </a-select-option>
-          <a-select-option
-            v-for="item in templateModuleList"
-            :value="item.value"
-            :key="item.value"
-          >
-            {{ item.label }}
-          </a-select-option>
-        </a-select>
-        <a-select
-          default-value=""
-          style="width: 140px; margin: 0 10px;"
-          v-model="listQuery.type"
-        >
-          <a-select-option value="">
-            模板类型
-          </a-select-option>
-          <a-select-option
-            v-for="item in templateTypeList"
-            :value="item.value"
-            :key="item.value"
-          >
-            {{ item.label }}
-          </a-select-option>
-        </a-select>
-        <a-button type="primary" @click="getList()">
-          查询
-        </a-button>
+      <div class="public-header-wrap">
+        <a-form-model layout="inline" :model="listQuery">
+          <a-form-model-item>
+            <a-input
+              style="width: 150px"
+              placeholder="搜索关键词"
+              v-model="listQuery.search"
+              allow-clear
+            />
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-select
+              default-value=""
+              style="width: 140px; margin-left: 10px;"
+              v-model="listQuery.scenariosCode"
+            >
+              <a-select-option value="">
+                模板模块
+              </a-select-option>
+              <a-select-option
+                v-for="item in templateModuleList"
+                :value="item.value"
+                :key="item.value"
+              >
+                {{ item.label }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-select
+              default-value=""
+              style="width: 140px; margin: 0 10px;"
+              v-model="listQuery.type"
+            >
+              <a-select-option value="">
+                模板类型
+              </a-select-option>
+              <a-select-option
+                v-for="item in templateTypeList"
+                :value="item.value"
+                :key="item.value"
+              >
+                {{ item.label }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button type="primary" @click="getList()">
+              查询
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
       </div>
       <div>
         <a-table

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="member-container">
-      <div class="member-top">
+      <div class="public-header-wrap">
         <!-- <a-button v-permission="'add'" type="primary" @click="addMember">
           +添加会员
         </a-button> -->
@@ -9,6 +9,7 @@
           <a-icon type="mobile" />发送短信
         </a-button> -->
         <!-- <a-dropdown>
+
           <a-menu slot="overlay" @click="handleMenuClick">
             <a-menu-item key="1" v-permission="'send-email'">
               <a-icon type="mail" />发送邮件
@@ -25,26 +26,32 @@
             <a-icon type="down" />
           </a-button>
         </a-dropdown> -->
-        <a-select style="width: 120px" v-model="title">
-          <a-select-option value="corporationName">
-            姓名
-          </a-select-option>
-          <a-select-option value="phoneNumber">
-            手机号码
-          </a-select-option>
-          <a-select-option value="qq">
-            QQ
-          </a-select-option>
-          <a-select-option value="email">
-            邮箱
-          </a-select-option>
-        </a-select>
-        <div class="search">
-          <a-input v-model="listQuery.search" placeholder="搜索关键字" />
-        </div>
-        <a-button type="primary" @click="searchClick">
-          查询
-        </a-button>
+        <a-form-model layout="inline" :model="listQuery">
+          <a-form-model-item>
+            <a-select style="width: 120px" v-model="title">
+              <a-select-option value="corporationName">
+                姓名
+              </a-select-option>
+              <a-select-option value="phoneNumber">
+                手机号码
+              </a-select-option>
+              <a-select-option value="qq">
+                QQ
+              </a-select-option>
+              <a-select-option value="email">
+                邮箱
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-input v-model="listQuery.search" placeholder="搜索关键字" />
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button type="primary" @click="searchClick">
+              查询
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
         <!-- <a-button @click="isfilter = !isfilter">
           <a-icon :type="isfilter ? 'up' : 'down'" /> -->
         <!-- <a-icon type="up" /> -->
@@ -423,9 +430,6 @@ export default {
         {
           title: "服务器",
           dataIndex: "ecsCount",
-          sorter: (a, b) => {
-            return a.ecsCount - b.ecsCount;
-          },
           width: 100,
           scopedSlots: { customRender: "ecsCount" }
         },
@@ -468,10 +472,6 @@ export default {
           title: "帐号状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
-          sorter: (a, b) => {
-            return a.status - b.status;
-          },
-          sortDirections: ["ascend", "descend"],
           width: 110
         },
         // {
@@ -483,10 +483,6 @@ export default {
         {
           title: "余额",
           dataIndex: "balance",
-          sorter: (a, b) => {
-            return a.balance - b.balance;
-          },
-          sortDirections: ["ascend", "descend"],
           width: 100,
           scopedSlots: { customRender: "balance" }
         },
@@ -510,20 +506,19 @@ export default {
           title: "注册时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
-          sorter: true,
+          // sorter: true,
           width: 200
         },
         {
           title: "最后登录时间",
           dataIndex: "modifyTime",
           scopedSlots: { customRender: "modifyTime" },
-          sorter: true,
+          // sorter: true,
           width: 200
         },
         {
           title: "备注",
           dataIndex: "remark",
-          sorter: true,
           width: 140
         },
         {
@@ -621,6 +616,7 @@ export default {
       this.isMoreId = key;
     },
     searchClick() {
+      this.listQuery.currentPage = 1;
       this.listQuery.key = this.title;
       this.$getListQp("member/getList", this.listQuery).then(res => {
         // console.log(res);
@@ -640,7 +636,7 @@ export default {
   .member-top {
     // display: flex;
     width: 100%;
-    padding: 24px 0;
+    padding-bottom: 20px;
     justify-content: space-between;
     .search {
       display: inline-block;
