@@ -135,7 +135,7 @@
             <div slot="help">
               下载
               <a
-                href="https://files.alicdn.com/tpsservice/8d2adf3abd677b668b70cf50c0d53bc4.doc"
+                href="https://ydidc-dev.oss-cn-shanghai.aliyuncs.com/%E7%9F%AD%E4%BF%A1%E7%AD%BE%E5%90%8D%E6%8E%88%E6%9D%83%E5%A7%94%E6%89%98%E4%B9%A620220308.doc"
                 download="委托授权书模板.doc"
               >
                 委托授权书模板 </a

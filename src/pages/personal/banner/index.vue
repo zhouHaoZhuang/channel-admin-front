@@ -1,50 +1,62 @@
 <template>
   <div class="banner-container">
-    <div class="btn-head">
-      <a-button
-        v-permission="'add'"
-        type="primary"
-        icon="plus"
-        class="btn"
-        @click="updateBanner('add')"
-      >
-        添加Banner
-      </a-button>
-      <a-button
-        v-permission="'batch-del'"
-        :disabled="selectedRowKeys.length === 0"
-        icon="delete"
-        class="btn"
-        @click="handleBatchDel"
-      >
-        批量删除
-      </a-button>
-      <a-button
-        v-permission="'view'"
-        :disabled="selectedRowKeys.length === 0"
-        icon="check"
-        class="btn"
-        @click="handleChangeShow('show')"
-      >
-        显示
-      </a-button>
-      <a-button
-        v-permission="'disable'"
-        :disabled="selectedRowKeys.length === 0"
-        icon="stop"
-        class="btn"
-        @click="handleChangeShow('hide')"
-      >
-        隐藏
-      </a-button>
-      <a-button
-        v-permission="'sort'"
-        icon="column-height"
-        class="btn"
-        @click="handleSort"
-      >
-        排序
-      </a-button>
+    <div class="public-header-wrap">
+      <a-form-model layout="inline" :model="listQuery">
+        <a-form-model-item>
+          <a-button
+            v-permission="'add'"
+            type="primary"
+            icon="plus"
+            class="btn"
+            @click="updateBanner('add')"
+          >
+            添加Banner
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            v-permission="'batch-del'"
+            :disabled="selectedRowKeys.length === 0"
+            icon="delete"
+            class="btn"
+            @click="handleBatchDel"
+          >
+            批量删除
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            v-permission="'view'"
+            :disabled="selectedRowKeys.length === 0"
+            icon="check"
+            class="btn"
+            @click="handleChangeShow('show')"
+          >
+            显示
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            v-permission="'disable'"
+            :disabled="selectedRowKeys.length === 0"
+            icon="stop"
+            class="btn"
+            @click="handleChangeShow('hide')"
+          >
+            隐藏
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            v-permission="'sort'"
+            icon="column-height"
+            class="btn"
+            @click="handleSort"
+          >
+            排序
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <div class="table-content">
       <a-table

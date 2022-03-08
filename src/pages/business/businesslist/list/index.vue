@@ -57,12 +57,11 @@
                   查询
                 </a-button>
               </a-form-model-item>
-              <div class="public-header-filter">
+              <!-- <div class="public-header-filter">
                 <a-form-model-item>
                   <a-button> <a-icon type="setting" />自定义列表 </a-button>
                   <a-button @click="isfilter = !isfilter">
-                    <a-icon :type="isfilter ? 'up' : 'down'" />
-                    <!-- <a-icon type="up" /> -->
+                    <a-icon :type="isfilter ? 'up' : 'down'" /> 
                     高级筛选
                   </a-button>
                   <a-button v-permission="'export'">
@@ -70,7 +69,7 @@
                     导出
                   </a-button>
                 </a-form-model-item>
-              </div>
+              </div>-->
             </a-form-model>
             <div v-show="isfilter" class="member-filterall">
               <div class="member-filter">
@@ -501,10 +500,11 @@ export default {
     // 查询
     search() {
       this.listQuery.search = this.listQuery.search.trim();
+      this.paginationProps.current = 1;
       console.log(this.listQuery);
       this.selectkey[this.listQuery.key] = this.listQuery.search;
-      this.getList(()=>{
-        this.selectkey[this.listQuery.key] = '';
+      this.getList(() => {
+        this.selectkey[this.listQuery.key] = "";
       });
     },
     // 查询表格数据
