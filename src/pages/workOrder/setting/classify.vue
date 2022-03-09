@@ -158,7 +158,7 @@ export default {
     // 跳转工单列表
     handleSelect(record) {
       this.$router.push({
-        path: "/service/workorderManage/list",
+        path: "/workOrder/workorderManage/list",
         query: {
           questionCategoryCode: record.code
         }

@@ -302,7 +302,7 @@ export default {
     // 查看详情
     handleSelectDetail(record) {
       this.$router.push({
-        path: "/finance/index/orderInfo",
+        path: "/sale/order/detail",
         query: {
           id: record.orderNo
         }

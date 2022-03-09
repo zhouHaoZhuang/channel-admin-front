@@ -347,7 +347,7 @@ export default {
     selectInfo(id) {
       // console.log(id);
       this.$router.push({
-        path: "/finance/index/orderInfo",
+        path: "/sale/order/detail",
         query: {
           id
         }

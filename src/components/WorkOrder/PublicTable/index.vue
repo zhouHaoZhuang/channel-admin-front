@@ -394,7 +394,7 @@ export default {
     // 跳转详情
     handleJumpDetail(record) {
       this.$router.push({
-        path: "/service/workorderManage/detail",
+        path: "/workOrder/workorderManage/detail",
         query: { workOrderNo: record.workOrderNo, type: this.type }
       });
     }

@@ -225,7 +225,7 @@ export default {
     //添加/修改友情链接
     updateLink(type, record) {
       this.$router.push({
-        path: "/personal/account/updateLink",
+        path: "/depot/web/updateLink",
         query: {
           id: type === "add" ? undefined : record.id
         }
@@ -234,7 +234,7 @@ export default {
     //添加/修改友情分类
     updateCategory(type, record) {
       this.$router.push({
-        path: "/personal/account/updateCategory",
+        path: "/depot/web/updateCategory",
         query: {
           id: type === "add" ? undefined : record.id
         }

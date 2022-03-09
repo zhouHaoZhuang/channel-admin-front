@@ -385,7 +385,7 @@ export default {
     // 跳转详情的回调
     selectPool(id) {
       this.$router.push({
-        path: "/finance/index/rechargeinfo",
+        path: "/sale/finance/rechargeDetail",
         query: {
           id
         }

@@ -2,17 +2,17 @@
   <div class="memberIndex">
     <!-- <ul>
       <li :class="{ switchto: atv == 'Infoindex' }">
-        <a @click="switchTo('/member/manage/Info/Infoindex', 'Infoindex')"
+        <a @click="switchTo('/sale/customer/Info/Infoindex', 'Infoindex')"
           >会员详情</a
         >
       </li>
       <li :class="{ switchto: atv == 'realName' }">
-        <a @click="switchTo('/member/manage/Info/realName', 'realName')"
+        <a @click="switchTo('/sale/customer/Info/realName', 'realName')"
           >实名认证</a
         >
       </li>
       <li :class="{ switchto: atv == 'memberapi' }">
-        <a @click="switchTo('/member/manage/Info/memberapi', 'memberapi')"
+        <a @click="switchTo('/sale/customer/Info/memberapi', 'memberapi')"
           >会员API</a
         >
       </li>

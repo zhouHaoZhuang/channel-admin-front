@@ -134,12 +134,12 @@ export default {
     },
     //添加banner
     addbanner() {
-      this.$router.push("/personal/helpword/add-category");
+      this.$router.push("/depot/help/add-category");
     },
     //修改
     updatePrice(id, typeName) {
       this.$router.push({
-        path: "/personal/helpword/amend-common",
+        path: "/depot/help/amend-common",
         query: {
           id,
           typeName

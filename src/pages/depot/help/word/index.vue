@@ -378,12 +378,12 @@ export default {
     },
     //添加banner
     addbanner() {
-      this.$router.push("/personal/helpword/add-word");
+      this.$router.push("/depot/help/add-word");
     },
     //修改
     updatePrice(text) {
       this.$router.push({
-        path: "/personal/helpword/amend-word",
+        path: "/depot/help/amend-word",
         query: {
           id: text
         }

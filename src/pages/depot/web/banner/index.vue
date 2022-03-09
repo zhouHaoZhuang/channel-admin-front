@@ -204,7 +204,7 @@ export default {
     //添加/修改banner
     updateBanner(type, record) {
       this.$router.push({
-        path: "/personal/account/update",
+        path: "/depot/web/update",
         query: {
           id: type === "add" ? undefined : record.id
         }

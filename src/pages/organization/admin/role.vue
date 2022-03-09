@@ -164,7 +164,7 @@ export default {
     // 跳转详情
     handleGoDetail(record) {
       this.$router.push({
-        path: "/system/admin/detail",
+        path: "/organization/admin/detail",
         query: {
           code: record.code
         }

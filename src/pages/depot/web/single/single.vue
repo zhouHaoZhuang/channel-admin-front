@@ -152,7 +152,7 @@ export default {
   methods: {
     //添加单页
     addsingle() {
-      this.$router.push("/personal/account/add-single");
+      this.$router.push("/depot/web/add-single");
     },
     getList() {
       this.$store.dispatch("page/getList", this.listQuery).then(res => {
@@ -173,7 +173,7 @@ export default {
     //修改单页
     updatePrice(id) {
       this.$router.push({
-        path: "/personal/account/amend-single",
+        path: "/depot/web/amend-single",
         query: {
           id: id
         }

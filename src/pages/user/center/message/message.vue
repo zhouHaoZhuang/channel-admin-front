@@ -147,7 +147,7 @@ export default {
         });
     },
     addMessage() {
-      this.$router.push("/dashboard/index/addMessage");
+      this.$router.push("/user/center/addMessage");
     },
     // 批量删除
     delmessage() {
@@ -179,7 +179,7 @@ export default {
     },
     selectMessage(id) {
       this.$router.push({
-        path: "/dashboard/index/detail",
+        path: "/user/center/detail",
         query: { id }
       });
     },
@@ -222,7 +222,7 @@ export default {
             console.log("表格行点击", event);
             // if (record.id !== 1) {
             this.$router.push({
-              path: "/dashboard/index/detail",
+              path: "/user/center/detail",
               query: { id: record.id }
             });
             // }

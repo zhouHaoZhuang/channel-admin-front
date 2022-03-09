@@ -181,7 +181,7 @@ export default {
     // 跳转新增/编辑会员折扣
     jumpUpdate(type, record) {
       this.$router.push({
-        path: "/member/manage/update",
+        path: "/sale/customer/update",
         query: {
           updateType: type,
           id: type === "edit" ? record.id : undefined

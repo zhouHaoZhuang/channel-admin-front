@@ -150,7 +150,7 @@ export default {
     // 跳转新增/编辑会员折扣
     handleUpdate(type, record) {
       this.$router.push({
-        path: "/production/product/updateDiscount",
+        path: "/sale/customer/updateDiscount",
         query: {
           id: type === "edit" ? record.id : undefined
         }

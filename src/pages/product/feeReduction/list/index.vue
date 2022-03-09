@@ -216,7 +216,7 @@ export default {
     // 查看详情
     handleSelectDetail(record) {
       this.$router.push({
-        path: "/business/cloudservers/feeReduction-examine",
+        path: "/product/cloudservers/feeReduction-examine",
         query: { orderNo: record.orderNo }
       });
     }

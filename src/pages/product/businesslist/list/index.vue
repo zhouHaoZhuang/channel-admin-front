@@ -490,7 +490,7 @@ export default {
     },
     businessOpening() {
       this.$router.push({
-        path: "/business/cloudservers/businessOpening"
+        path: "/product/cloudservers/businessOpening"
       });
     },
     changeRunningstatus(text) {
@@ -548,14 +548,14 @@ export default {
     },
     unsubscribe(id) {
       this.$router.push({
-        path: "/business/cloudservers/unsubscribe",
+        path: "/product/cloudservers/unsubscribe",
         query: { id }
       });
     },
     //
     infoChannel(id) {
       this.$router.push({
-        path: "/business/cloudservers/info",
+        path: "/product/cloudservers/info",
         query: { id }
       });
     },

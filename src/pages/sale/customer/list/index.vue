@@ -585,7 +585,7 @@ export default {
       console.log(e);
     },
     addMember() {
-      this.$router.push({ path: "/member/manage/add" });
+      this.$router.push({ path: "/sale/customer/add" });
     },
     handleChange(value) {
       console.log(`selected ${value}`);
@@ -605,7 +605,7 @@ export default {
     selectInfo(key) {
       // console.log(key);
       this.$router.push({
-        path: "/member/manage/Info",
+        path: "/sale/customer/detail",
         query: {
           id: key
         }

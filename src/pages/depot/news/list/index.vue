@@ -251,7 +251,7 @@ export default {
       this.getList();
     },
     addNewsList() {
-      this.$router.push("/personal/news/addnewslist");
+      this.$router.push("/depot/news/addnewslist");
     },
     changeStart(date, dateString) {
       this.listQuery.startTime = dateString;
@@ -262,7 +262,7 @@ export default {
     change(id) {
       console.log(id);
       this.$router.push({
-        path: "/personal/news/upnewslist",
+        path: "/depot/news/upnewslist",
         query: {
           id
         }
@@ -330,7 +330,7 @@ export default {
     },
     selectPool(data) {
       this.$router.push({
-        path: `/personal/news/bannerinfo`,
+        path: `/depot/news/bannerinfo`,
         query: {
           id: data.id
         }

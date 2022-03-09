@@ -223,7 +223,7 @@ export default {
     change(id) {
       console.log(id);
       this.$router.push({
-        path: "/personal/news/upcategory",
+        path: "/depot/news/upcategory",
         query: {
           id
         }
@@ -243,7 +243,7 @@ export default {
     },
     addNewsType() {
       this.$router.push({
-        path: "/personal/news/addcategory"
+        path: "/depot/news/addcategory"
       });
     },
     quickJump(current) {
@@ -266,7 +266,7 @@ export default {
     },
     selectPool(data) {
       this.$router.push({
-        path: `/personal/news/bannerinfo`,
+        path: `/depot/news/bannerinfo`,
         query: {
           id: data.id
         }

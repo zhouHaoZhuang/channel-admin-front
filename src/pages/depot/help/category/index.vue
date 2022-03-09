@@ -339,12 +339,12 @@ export default {
     },
     //添加banner
     addbanner() {
-      this.$router.push("/personal/helpword/add-category");
+      this.$router.push("/depot/help/add-category");
     },
     //修改
     updatahelp(id) {
       this.$router.push({
-        path: "/personal/helpword/edithelp",
+        path: "/depot/help/edithelp",
         query: {
           id
         }
@@ -418,7 +418,7 @@ export default {
     //添加子栏
     addaFence(typeCode) {
       this.$router.push({
-        path: "/personal/helpword/add-category",
+        path: "/depot/help/add-category",
         query: {
           typeCode
         }

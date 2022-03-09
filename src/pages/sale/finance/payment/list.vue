@@ -264,7 +264,7 @@ export default {
     },
     businessOpening() {
       this.$router.push({
-        path: "/finance/examine/addpayment"
+        path: "/sale/finance/addPayment"
       });
     },
     changeRunningstatus(text) {
@@ -298,7 +298,7 @@ export default {
     //
     infoChannel(id, applyUserCode) {
       this.$router.push({
-        path: "/finance/examine/details",
+        path: "/sale/finance/paymentDetail",
         query: {
           id,
           applyUserCode

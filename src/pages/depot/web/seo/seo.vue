@@ -179,7 +179,7 @@ export default {
     },
     //编辑
     updatePrice() {
-      this.$router.push("/personal/account/amend-seo");
+      this.$router.push("/depot/web/amend-seo");
     }
   }
 };
