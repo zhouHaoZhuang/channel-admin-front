@@ -36,7 +36,7 @@
       <div v-if="fileList.length < limit">
         <a-icon type="plus" />
         <div class="ant-upload-text">
-          上传图片
+          {{ title }}
         </div>
       </div>
     </a-upload>
@@ -58,6 +58,11 @@ import {
 } from "@/utils/index";
 export default {
   props: {
+    // 上传提示文字
+    title: {
+      type: String,
+      default: "上传图片"
+    },
     // 发送到后台的文件名
     name: {
       type: String,
