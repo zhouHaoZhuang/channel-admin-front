@@ -234,20 +234,20 @@ export default {
           key: "recommended",
           scopedSlots: { customRender: "recommended" }
         },
-        {
-          title: "有用",
-          dataIndex: "useful",
-          key: "useful",
-          sorter: (a, b) => a.useful - b.useful,
-          scopedSlots: {}
-        },
-        {
-          title: "没用",
-          dataIndex: "useless",
-          key: "useless",
-          sorter: (a, b) => a.useless - b.useless,
-          scopedSlots: {}
-        },
+        // {
+        //   title: "有用",
+        //   dataIndex: "useful",
+        //   key: "useful",
+        //   sorter: (a, b) => a.useful - b.useful,
+        //   scopedSlots: {}
+        // },
+        // {
+        //   title: "没用",
+        //   dataIndex: "useless",
+        //   key: "useless",
+        //   sorter: (a, b) => a.useless - b.useless,
+        //   scopedSlots: {}
+        // },
         {
           title: "反馈",
           dataIndex: "feedback",

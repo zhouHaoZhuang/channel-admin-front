@@ -33,7 +33,6 @@
         :data-source="data"
         rowKey="id"
         :pagination="paginationProps"
-        :scroll="{ x: 1300 }"
       >
         <span slot="status" slot-scope="text">
           {{ text == 1 ? "关闭" : "开启" }}
@@ -135,7 +134,7 @@ export default {
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        total: 1,
+        total: 0,
         showTotal: (total, range) =>
           `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
             total / this.listQuery.pageSize

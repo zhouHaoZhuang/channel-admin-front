@@ -17,7 +17,7 @@
         <div>
           <div class="public-header-wrap">
             <a-form-model layout="inline" :model="listQuery">
-              <a-form-model-item>
+              <!-- <a-form-model-item>
                 <a-button
                   v-permission="'biz-open'"
                   type="primary"
@@ -25,7 +25,7 @@
                 >
                   +业务开通
                 </a-button>
-              </a-form-model-item>
+              </a-form-model-item> -->
               <!-- 下拉框 -->
               <a-form-model-item>
                 <a-select

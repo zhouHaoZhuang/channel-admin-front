@@ -128,13 +128,13 @@ export default {
           title: "创建时间",
           dataIndex: "createTimeStr"
         },
-        {
-          title: "类型/到期日期",
-          dataIndex: "endTimeStr",
-          width: 190,
-          sorter: (a, b) => moment(a.endTimeStr) - moment(b.endTimeStr),
-          scopedSlots: { customRender: "endTimeStr" }
-        },
+        // {
+        //   title: "类型/到期日期",
+        //   dataIndex: "endTimeStr",
+        //   width: 190,
+        //   sorter: (a, b) => moment(a.endTimeStr) - moment(b.endTimeStr),
+        //   scopedSlots: { customRender: "endTimeStr" }
+        // },
         {
           title: "续费周期",
           dataIndex: "renewPeriod",
