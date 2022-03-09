@@ -82,6 +82,9 @@
           replaceUrl="formService"
           @change="imgChange"
         />
+        <div style="margin-top:-20px">
+          建议：图片不大于200*200px,PNG,JPG,JPEG格式
+        </div>
       </a-form-model-item>
     </a-form-model>
   </a-modal>
