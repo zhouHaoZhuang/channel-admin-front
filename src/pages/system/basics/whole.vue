@@ -22,14 +22,14 @@
           <div class="big-block-title">短信</div>
           <Note :formData = 'formData'></Note>
         </a-tab-pane>
-        <a-tab-pane key="6" tab="财务">
+        <!-- <a-tab-pane key="6" tab="财务">
           <div class="big-block-title">财务</div>
           <Finance :formData = 'formData'></Finance>
         </a-tab-pane>
         <a-tab-pane key="7" tab="服务">
           <div class="big-block-title">服务</div>
           <Serve :formData = 'formData'></Serve>
-        </a-tab-pane>
+        </a-tab-pane> -->
         <!-- <a-tab-pane key="8" tab="安全">
           <div class="big-block-title">安全</div>
           <Safety :formData = 'formData'></Safety>
@@ -62,8 +62,8 @@ export default {
     Topup,
     Mail,
     Note,
-    Finance,
-    Serve,
+    // Finance,
+    // Serve,
     // Safety
   },
   created() {
