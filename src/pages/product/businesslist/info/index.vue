@@ -171,7 +171,7 @@
               <div class="basicInformation-item">
                 <span class="basicInformation-type">会员姓名：</span>
                 <span class="basicInformation-info">
-                  {{ data.corporationName }}
+                  {{ data.realName }}
                 </span>
               </div>
               <div class="basicInformation-item">

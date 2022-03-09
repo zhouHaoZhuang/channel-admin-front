@@ -299,51 +299,51 @@ export const asyncRoute = [
                 },
                 component: () => import("@/pages/sale/finance/refund/index.vue")
               },
-              {
-                path: "withdraw",
-                name: "提现管理",
-                meta: {
-                  icon: "home",
-                  perm: "finance-book-order"
-                },
-                component: () => import("@/pages/sale/finance/withdraw/index.vue")
-              }
+              // {
+              //   path: "withdraw",
+              //   name: "提现管理",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "finance-book-order"
+              //   },
+              //   component: () => import("@/pages/sale/finance/withdraw/index.vue")
+              // }
             ]
           }
         ]
       },
       //采购
-      {
-        path: "/purchase",
-        name: "采购",
-        meta: {
-          perm: "member"
-        },
-        component: PageView,
-        children: [
-          {
-            path: "manage",
-            name: "财务管理",
-            meta: {
-              icon: "home",
-              perm: "member-admin"
-            },
-            component: BlankView,
-            children: [
-              {
-                path: "withdraw",
-                name: "提现管理",
-                meta: {
-                  icon: "home",
-                  perm: "member-admin-user"
-                },
-                component: () => import("@/pages/purchase/manage/withdraw/index.vue")
-              },
-            ]
-          },
-        ]
+      // {
+      //   path: "/purchase",
+      //   name: "采购",
+      //   meta: {
+      //     perm: "member"
+      //   },
+      //   component: PageView,
+      //   children: [
+      //     {
+      //       path: "manage",
+      //       name: "财务管理",
+      //       meta: {
+      //         icon: "home",
+      //         perm: "member-admin"
+      //       },
+      //       component: BlankView,
+      //       children: [
+      //         {
+      //           path: "withdraw",
+      //           name: "提现管理",
+      //           meta: {
+      //             icon: "home",
+      //             perm: "member-admin-user"
+      //           },
+      //           component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+      //         },
+      //       ]
+      //     },
+      //   ]
 
-      },
+      // },
       // 产品
       {
         path: "/product",
@@ -1199,6 +1199,15 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
+              // {
+              //   path: "enterprise",
+              //   name: "企业认证",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "home-index-message"
+              //   },
+              //   component: () => import("@/pages/user/enterprise/index.vue")
+              // },
               {
                 path: "message",
                 name: "我的消息",
@@ -1241,6 +1250,7 @@ export const asyncRoute = [
                 path: "changePassword",
                 name: "修改密码",
                 meta: {
+                  icon: "home",
                   perm: "userinfo-admin-password"
                 },
                 component: () => import("@/pages/user/center/changePassword")

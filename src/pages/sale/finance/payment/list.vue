@@ -17,7 +17,7 @@
         <div>
           <div class="public-header-wrap">
             <a-form-model layout="inline">
-              <a-form-model-item>
+              <!-- <a-form-model-item>
                 <a-button
                   type="primary"
                   v-permission="'modify-balance'"
@@ -25,7 +25,7 @@
                 >
                   +增减会员余额
                 </a-button>
-              </a-form-model-item>
+              </a-form-model-item> -->
               <!-- 下拉框 -->
               <a-form-model-item>
                 <a-select
@@ -194,7 +194,7 @@ export default {
           width: 220
         },
         {
-          title: "会员名称",
+          title: "汇款户名",
           dataIndex: "accountName",
           key: "accountName"
         },
