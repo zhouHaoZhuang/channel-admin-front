@@ -278,6 +278,17 @@ export default {
   watch: {
     tabsKey: {
       handler() {
+        this.listQuery = {
+          key: undefined,
+          search: "",
+          questionCategoryCode: undefined,
+          timeType: undefined,
+          startTime: "",
+          endTime: "",
+          currentPage: 1,
+          pageSize: 10,
+          total: 0
+        };
         this.getList();
       }
     },
@@ -286,6 +297,9 @@ export default {
         if (newVal.path === "/service/workorderManage/list") {
           this.listQuery.questionCategoryCode =
             newVal.query.questionCategoryCode || undefined;
+        }
+        if (newVal.path === "/service/workorderManage/myWorkor") {
+          this.listQuery.questionCategoryCode = undefined;
         }
       },
       immediate: true,
