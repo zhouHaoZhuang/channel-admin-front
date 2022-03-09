@@ -28,14 +28,14 @@
         </li>
       </ul>
       <div class="config">
-        <div>
+        <!-- <div>
           <span>价格备注:</span>
           <span>{{ orderInfo.priceRemark }}</span>
         </div>
         <div>
           <span>订单备注:</span>
           <span>{{ orderInfo.orderRemarks }}</span>
-        </div>
+        </div> -->
         <div>
           <span>配置信息</span>
         </div>

@@ -42,61 +42,63 @@
             排序
           </a-button>
         </a-form-model-item>
-      </a-form-model>
-      <a-modal
-        title="排序"
-        :visible="visible"
-        :confirm-loading="confirmLoading"
-        @ok="handleOk"
-        @cancel="handleCancel"
-      >
-        <div class="sort-container">
-          <span>排序</span>
-          <div class="sort-list">
-            <p
-              @click="onChange"
-              :id="index"
-              v-for="(item, index) in data"
-              :key="index"
-              :class="{
-                'sort-list-item': true,
-                'sort-ash': index === sortSwitch * 1
-              }"
-            >
-              {{ index + 1 }}、{{ item.typeName }}
-            </p>
+        <a-modal
+          title="排序"
+          :visible="visible"
+          :confirm-loading="confirmLoading"
+          @ok="handleOk"
+          @cancel="handleCancel"
+        >
+          <div class="sort-container">
+            <span>排序</span>
+            <div class="sort-list">
+              <p
+                @click="onChange"
+                :id="index"
+                v-for="(item, index) in data"
+                :key="index"
+                :class="{
+                  'sort-list-item': true,
+                  'sort-ash': index === sortSwitch * 1
+                }"
+              >
+                {{ index + 1 }}、{{ item.typeName }}
+              </p>
+            </div>
           </div>
-        </div>
-        <div>
-          <span type="link">
-            操作
-          </span>
-          <a-space>
-            <a-button type="primary" @click="topClick">
-              移至第一
-            </a-button>
-            <a-button @click="moveUp" type="primary">
-              <a-icon type="arrow-up" />上移
-            </a-button>
-            <a-button @click="moveDown" type="primary">
-              <a-icon type="arrow-down" />下移
-            </a-button>
-            <a-button @click="moveBottom" type="primary">
-              移至最后
-            </a-button>
-          </a-space>
-        </div>
-      </a-modal>
-      <!-- </div> -->
-      <a-button
-        style="margin-left: 15px;"
-        type="primary"
-        v-show="codeList.length > 1"
-        class="btn"
-        @click="comeBack"
-      >
-        返回上级
-      </a-button>
+          <div>
+            <span type="link">
+              操作
+            </span>
+            <a-space>
+              <a-button type="primary" @click="topClick">
+                移至第一
+              </a-button>
+              <a-button @click="moveUp" type="primary">
+                <a-icon type="arrow-up" />上移
+              </a-button>
+              <a-button @click="moveDown" type="primary">
+                <a-icon type="arrow-down" />下移
+              </a-button>
+              <a-button @click="moveBottom" type="primary">
+                移至最后
+              </a-button>
+            </a-space>
+          </div>
+        </a-modal>
+        <!-- </div> -->
+        <a-form-model-item>
+          <a-button
+            style="margin-left: 15px;"
+            type="primary"
+            v-show="codeList.length > 1"
+            class="btn"
+            @click="comeBack"
+          >
+            返回上级
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <div class="table-content">
       <a-table

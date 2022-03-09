@@ -29,7 +29,7 @@
         <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
             <a-select style="width: 120px" v-model="title">
-              <a-select-option value="corporationName">
+              <a-select-option value="realName">
                 姓名
               </a-select-option>
               <a-select-option value="phoneNumber">
@@ -397,7 +397,7 @@ export default {
     return {
       lucy: "lucy",
       isfilter: false,
-      title: "corporationName",
+      title: "realName",
       data: [],
       selectedRowKeys: [],
       columns: [
@@ -409,7 +409,7 @@ export default {
         },
         {
           title: "姓名",
-          dataIndex: "corporationName",
+          dataIndex: "realName",
           width: 120
         },
         {
