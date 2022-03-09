@@ -235,7 +235,7 @@ export default {
     // 跳转消息详情
     massageInfo(id) {
       this.$router.push({
-        path: "/dashboard/index/detail",
+        path: "/user/center/detail",
         query: { id }
       });
     },
