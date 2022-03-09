@@ -545,7 +545,7 @@ export default {
     templateJump(id) {
       console.log(id);
       this.$router.push({
-        path: "/system/basics/mouldboard",
+        path: "/system/admin/mouldboard",
         query: {
           id
         }

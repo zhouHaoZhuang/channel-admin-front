@@ -52,10 +52,10 @@ export const asyncRoute = [
     },
     component: TabsView,
     children: [
-      // 首页 一级菜单
+      // 总览 一级菜单
       {
         path: "/dashboard",
-        name: "首页",
+        name: "总览",
         meta: {
           perm: "home"
         },
@@ -74,58 +74,29 @@ export const asyncRoute = [
               // 三级菜单
               {
                 path: "home",
-                name: "后台首页",
+                name: "总览首页",
                 meta: {
                   icon: "home",
                   perm: "home-index-index"
                 },
                 component: () => import("@/pages/home/index/index")
-              },
-              {
-                path: "message",
-                name: "消息提醒",
-                meta: {
-                  icon: "home",
-                  perm: "home-index-message"
-                },
-                component: () => import("@/pages/home/index/message")
-              },
-              {
-                path: "detail",
-                name: "查看消息详情",
-                meta: {
-                  invisible: true,
-                  back: true,
-                  perm: "home-index-message"
-                },
-                component: () => import("@/pages/home/index/detail")
-              },
-              {
-                path: "addMessage",
-                name: "添加消息",
-                meta: {
-                  invisible: true,
-                  back: true,
-                  perm: "home-index-message"
-                },
-                component: () => import("@/pages/home/index/addMessage")
               }
             ]
           }
         ]
       },
-      // 会员
+      // 销售
       {
-        path: "/member",
-        name: "会员",
+        path: "/sale",
+        name: "销售",
         meta: {
           perm: "member"
         },
         component: PageView,
         children: [
           {
-            path: "manage",
-            name: "会员管理",
+            path: "customer",
+            name: "客户管理",
             meta: {
               icon: "home",
               perm: "member-admin"
@@ -134,27 +105,27 @@ export const asyncRoute = [
             children: [
               {
                 path: "list",
-                name: "会员列表",
+                name: "客户列表",
                 meta: {
                   icon: "home",
                   perm: "member-admin-user"
                 },
-                component: () => import("@/pages/member/manage/list/index.vue")
+                component: () => import("@/pages/sale/customer/list/index.vue")
               },
               {
-                path: "Info",
-                name: "会员详情",
+                path: "detail",
+                name: "客户详情",
                 meta: {
                   icon: "home",
                   invisible: true,
                   back: true,
                   perm: "member-admin-user"
                 },
-                component: () => import("@/pages/member/manage/info/index.vue")
+                component: () => import("@/pages/sale/customer/info/index.vue")
               },
               {
                 path: "add",
-                name: "添加会员",
+                name: "添加客户",
                 meta: {
                   icon: "home",
                   invisible: true,
@@ -162,21 +133,21 @@ export const asyncRoute = [
                   perm: "member-admin-user"
                 },
                 component: () =>
-                  import("@/pages/member/manage/addManage/index.vue")
+                  import("@/pages/sale/customer/addManage/index.vue")
               },
               {
                 path: "discount",
-                name: "会员折扣",
+                name: "客户折扣",
                 meta: {
                   icon: "home",
                   perm: "member-admin-discount"
                 },
                 component: () =>
-                  import("@/pages/member/manage/discount/index.vue")
+                  import("@/pages/sale/customer/discount/index.vue")
               },
               {
                 path: "update",
-                name: "新增会员折扣",
+                name: "新增客户折扣",
                 meta: {
                   icon: "home",
                   invisible: true,
@@ -184,24 +155,35 @@ export const asyncRoute = [
                   perm: "member-admin-discount"
                 },
                 component: () =>
-                  import("@/pages/member/manage/discount/update.vue")
+                  import("@/pages/sale/customer/discount/update.vue")
+              },
+              {
+                path: "productDiscount",
+                name: "产品折扣",
+                meta: {
+                  icon: "home",
+                  perm: "production-admin-discount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/productDiscount/index.vue")
+              },
+              {
+                path: "updateDiscount",
+                name: "产品折扣更新",
+                meta: {
+                  icon: "home",
+                  invisible: true,
+                  back: true,
+                  perm: "production-admin-discount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/productDiscount/update.vue")
               }
             ]
-          }
-        ]
-      },
-      // 财务
-      {
-        path: "/finance",
-        name: "财务",
-        meta: {
-          perm: "finance"
-        },
-        component: PageView,
-        children: [
+          },
           {
-            path: "index",
-            name: "收支账簿",
+            path: "order",
+            name: "订单管理",
             meta: {
               icon: "home",
               perm: "finance-book"
@@ -209,43 +191,53 @@ export const asyncRoute = [
             component: BlankView,
             children: [
               {
-                path: "order",
-                name: "订单管理",
+                path: "list",
+                name: "订单列表",
                 meta: {
                   icon: "home",
                   perm: "finance-book-order"
                 },
-                component: () => import("@/pages/finance/income/order/index")
+                component: () => import("@/pages/sale/order/index")
               },
               {
-                path: "orderInfo",
+                path: "detail",
                 name: "订单详情",
                 meta: {
                   invisible: true,
                   back: true,
                   perm: "finance-book-order"
                 },
-                component: () =>
-                  import("@/pages/finance/income/order/orderInfo")
-              },
+                component: () => import("@/pages/sale/order/detail")
+              }
+            ]
+          },
+          { 
+            path: "finance",
+            name: "财务管理",
+            meta: {
+              icon: "home",
+              perm: "finance-book"
+            },
+            component: BlankView,
+            children: [
               {
-                path: "detailed",
-                name: "财务明细",
+                path: "list",
+                name: "收支明细",
                 meta: {
                   icon: "home",
                   perm: "finance-book-detail"
                 },
-                component: () => import("@/pages/finance/details/index.vue")
+                component: () => import("@/pages/sale/finance/list.vue")
               },
               {
-                path: "detailedinfo",
-                name: "财务明细详情",
+                path: "detail",
+                name: "收支明细详情",
                 meta: {
                   invisible: true,
                   back: true,
                   perm: "finance-book-detail"
                 },
-                component: () => import("@/pages/finance/details/info.vue")
+                component: () => import("@/pages/sale/finance/detail.vue")
               },
               {
                 path: "recharge",
@@ -254,87 +246,108 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "finance-book-recharge"
                 },
-                component: () => import("@/pages/finance/recharge/index.vue")
+                component: () =>
+                  import("@/pages/sale/finance/recharge/index.vue")
               },
               {
-                path: "rechargeinfo",
+                path: "rechargeDetail",
                 name: "充值记录详情",
                 meta: {
                   invisible: true,
                   back: true,
                   perm: "finance-book-recharge"
                 },
-                component: () => import("@/pages/finance/recharge/info.vue")
-              }
-            ]
-          },
-          {
-            path: "examine",
-            name: "财务审核",
-            meta: {
-              icon: "home",
-              perm: "finance-examine"
-            },
-            component: BlankView,
-            children: [
+                component: () =>
+                  import("@/pages/sale/finance/recharge/detail.vue")
+              },
               {
                 path: "payment",
-                name: "人工入款",
+                name: "线下充值管理",
                 meta: {
                   icon: "home",
                   perm: "finance-examine-offline"
                 },
-                component: () => import("@/pages/finance/payment/list")
+                component: () => import("@/pages/sale/finance/payment/list")
               },
               {
-                path: "details",
-                name: "入款管理详情",
+                path: "paymentDetail",
+                name: "线下充值详情",
                 meta: {
                   invisible: true,
                   back: true,
                   perm: "finance-examine-offline"
                 },
-                component: () => import("@/pages/finance/payment/details")
+                component: () => import("@/pages/sale/finance/payment/detail")
               },
               {
-                path: "addpayment",
+                path: "addPayment",
                 name: "增减会员余额",
                 meta: {
                   invisible: true,
                   back: true,
                   perm: "finance-examine-offline"
                 },
-                component: () => import("@/pages/finance/payment/addbalance")
-              }
-            ]
-          },
-          {
-            path: "refund",
-            name: "退款管理",
-            meta: {
-              icon: "home",
-              perm: "finance-book"
-            },
-            component: BlankView,
-            children: [
+                component: () =>
+                  import("@/pages/sale/finance/payment/addbalance")
+              },
               {
-                path: "record",
-                name: "退款记录",
+                path: "refund",
+                name: "退款列表",
                 meta: {
                   icon: "home",
                   perm: "finance-book-order"
                 },
-                component: () =>
-                  import("@/pages/finance/refund/record/index.vue")
+                component: () => import("@/pages/sale/finance/refund/index.vue")
+              },
+              {
+                path: "withdraw",
+                name: "提现管理",
+                meta: {
+                  icon: "home",
+                  perm: "finance-book-order"
+                },
+                component: () => import("@/pages/sale/finance/withdraw/index.vue")
               }
             ]
           }
         ]
       },
-      //业务
+      //采购
       {
-        path: "/business",
-        name: "业务",
+        path: "/purchase",
+        name: "采购",
+        meta: {
+          perm: "member"
+        },
+        component: PageView,
+        children: [
+          {
+            path: "manage",
+            name: "财务管理",
+            meta: {
+              icon: "home",
+              perm: "member-admin"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "withdraw",
+                name: "提现管理",
+                meta: {
+                  icon: "home",
+                  perm: "member-admin-user"
+                },
+                component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+              },
+            ]
+          },
+        ]
+
+      },
+      // 产品
+      {
+        path: "/product",
+        name: "产品",
         meta: {
           perm: "business"
         },
@@ -350,14 +363,14 @@ export const asyncRoute = [
             component: BlankView,
             children: [
               {
-                path: "businesslist",
+                path: "businessList",
                 name: "业务列表",
                 meta: {
                   icon: "home",
                   perm: "business-cloud-biz"
                 },
                 component: () =>
-                  import("@/pages/business/businesslist/list/index.vue")
+                  import("@/pages/product/businesslist/list/index.vue")
               },
               {
                 path: "businessOpening",
@@ -369,7 +382,7 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import(
-                    "@/pages/business/businesslist/businessOpening/index.vue"
+                    "@/pages/product/businesslist/businessOpening/index.vue"
                   )
               },
               {
@@ -381,7 +394,7 @@ export const asyncRoute = [
                   perm: "business-cloud-biz"
                 },
                 component: () =>
-                  import("@/pages/business/businesslist/unsubscribe/index.vue")
+                  import("@/pages/product/businesslist/unsubscribe/index.vue")
               },
               {
                 path: "info",
@@ -392,7 +405,7 @@ export const asyncRoute = [
                   perm: "business-cloud-biz"
                 },
                 component: () =>
-                  import("@/pages/business/businesslist/info/index.vue")
+                  import("@/pages/product/businesslist/info/index.vue")
               },
               {
                 path: "feeReduction",
@@ -402,7 +415,7 @@ export const asyncRoute = [
                   perm: "business-cloud-renew"
                 },
                 component: () =>
-                  import("@/pages/business/feeReduction/list/index.vue")
+                  import("@/pages/product/feeReduction/list/index.vue")
               },
               {
                 path: "feeReduction-examine",
@@ -413,8 +426,8 @@ export const asyncRoute = [
                   perm: "business-cloud-renew"
                 },
                 component: () =>
-                  import("@/pages/business/feeReduction/list/examine.vue")
-              },
+                  import("@/pages/product/feeReduction/list/examine.vue")
+              }
               // {
               //   path: "snapshot",
               //   name: "快照列表",
@@ -423,7 +436,7 @@ export const asyncRoute = [
               //     perm: "business-cloud-snapshot"
               //   },
               //   component: () =>
-              //     import("@/pages/business/snapshot/list/index.vue")
+              //     import("@/pages/product/snapshot/list/index.vue")
               // },
               // {
               //   path: "automation",
@@ -433,7 +446,7 @@ export const asyncRoute = [
               //     perm: "business-cloud-auto"
               //   },
               //   component: () =>
-              //     import("@/pages/business/automation/list/index.vue")
+              //     import("@/pages/product/automation/list/index.vue")
               // },
               // {
               //   path: "hostRecord",
@@ -443,203 +456,181 @@ export const asyncRoute = [
               //     perm: "business-cloud-logs"
               //   },
               //   component: () =>
-              //     import("@/pages/business/hostRecord/list/index.vue")
+              //     import("@/pages/product/hostRecord/list/index.vue")
               // }
             ]
           }
         ]
       },
       // 生产
+      // {
+      //   path: "/production",
+      //   name: "生产",
+      //   meta: {
+      //     perm: "production"
+      //   },
+      //   component: PageView,
+      //   children: [
+      //     // {
+      //     //   path: "supplier",
+      //     //   name: "供应商管理",
+      //     //   meta: {
+      //     //     icon: "home"
+      //     //   },
+      //     //   component: BlankView,
+      //     //   children: [
+      //     //     {
+      //     //       path: "supplierList",
+      //     //       name: "供应商列表",
+      //     //       meta: {
+      //     //         icon: "home"
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/list/list.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "add",
+      //     //       name: "新建供应商",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/list/price.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "amend",
+      //     //       name: "编辑供应商",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/list/amend.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "purchase",
+      //     //       name: "采购账号列表",
+      //     //       meta: {
+      //     //         icon: "home"
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/purchase/list.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "adda",
+      //     //       name: "新建采购账号",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/purchase/price.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "amends",
+      //     //       name: "编辑采购账号",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/supplier/purchase/amend.vue")
+      //     //     }
+      //     //   ]
+      //     // },
+      //     {
+      //       path: "product",
+      //       name: "产品管理",
+      //       meta: {
+      //         icon: "home",
+      //         perm: "production-admin"
+      //       },
+      //       component: BlankView,
+      //       children: [
+      //         // {
+      //         //   path: "information",
+      //         //   name: "产品信息管理",
+      //         //   meta: {
+      //         //     icon: "home"
+      //         //   },
+      //         //   component: () =>
+      //         //     import("@/pages/production/product/information/list.vue")
+      //         // },
+      //         // {
+      //         //   path: "addproduct",
+      //         //   name: "新建产品线",
+      //         //   meta: {
+      //         //     invisible: true,
+      //         //     back: true
+      //         //   },
+      //         //   component: () =>
+      //         //     import(
+      //         //       "@/pages/production/product/information/addproduct.vue"
+      //         //     )
+      //         // },
+      //         // {
+      //         //   path: "editproduct",
+      //         //   name: "编辑产品线",
+      //         //   meta: {
+      //         //     invisible: true,
+      //         //     back: true
+      //         //   },
+      //         //   component: () =>
+      //         //     import(
+      //         //       "@/pages/production/product/information/editproduct.vue"
+      //         //     )
+      //         // },
+      //       ]
+      //     }
+      //     // {
+      //     //   path: "cloudServer",
+      //     //   name: "云服务器",
+      //     //   meta: {
+      //     //     icon: "home"
+      //     //   },
+      //     //   component: BlankView,
+      //     //   children: [
+      //     //     {
+      //     //       path: "orderRouting",
+      //     //       name: "订单路由配置",
+      //     //       meta: {
+      //     //         icon: "home"
+      //     //       },
+      //     //       component: () =>
+      //     //         import("@/pages/production/cloudServer/orderRouting/list.vue")
+      //     //     },
+      //     //     {
+      //     //       path: "newOrder",
+      //     //       name: "新建订单路由规则",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import(
+      //     //           "@/pages/production/cloudServer/orderRouting/newOrder.vue"
+      //     //         )
+      //     //     },
+      //     //     {
+      //     //       path: "changeOrder",
+      //     //       name: "编辑订单路由规则",
+      //     //       meta: {
+      //     //         invisible: true,
+      //     //         back: true
+      //     //       },
+      //     //       component: () =>
+      //     //         import(
+      //     //           "@/pages/production/cloudServer/orderRouting/changeOrder.vue"
+      //     //         )
+      //     //     }
+      //     //   ]
+      //     // }
+      //   ]
+      // },
+      // 工单
       {
-        path: "/production",
-        name: "生产",
-        meta: {
-          perm: "production"
-        },
-        component: PageView,
-        children: [
-          // {
-          //   path: "supplier",
-          //   name: "供应商管理",
-          //   meta: {
-          //     icon: "home"
-          //   },
-          //   component: BlankView,
-          //   children: [
-          //     {
-          //       path: "supplierList",
-          //       name: "供应商列表",
-          //       meta: {
-          //         icon: "home"
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/list/list.vue")
-          //     },
-          //     {
-          //       path: "add",
-          //       name: "新建供应商",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/list/price.vue")
-          //     },
-          //     {
-          //       path: "amend",
-          //       name: "编辑供应商",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/list/amend.vue")
-          //     },
-          //     {
-          //       path: "purchase",
-          //       name: "采购账号列表",
-          //       meta: {
-          //         icon: "home"
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/purchase/list.vue")
-          //     },
-          //     {
-          //       path: "adda",
-          //       name: "新建采购账号",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/purchase/price.vue")
-          //     },
-          //     {
-          //       path: "amends",
-          //       name: "编辑采购账号",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/supplier/purchase/amend.vue")
-          //     }
-          //   ]
-          // },
-          {
-            path: "product",
-            name: "产品管理",
-            meta: {
-              icon: "home",
-              perm: "production-admin"
-            },
-            component: BlankView,
-            children: [
-              // {
-              //   path: "information",
-              //   name: "产品信息管理",
-              //   meta: {
-              //     icon: "home"
-              //   },
-              //   component: () =>
-              //     import("@/pages/production/product/information/list.vue")
-              // },
-              // {
-              //   path: "addproduct",
-              //   name: "新建产品线",
-              //   meta: {
-              //     invisible: true,
-              //     back: true
-              //   },
-              //   component: () =>
-              //     import(
-              //       "@/pages/production/product/information/addproduct.vue"
-              //     )
-              // },
-              // {
-              //   path: "editproduct",
-              //   name: "编辑产品线",
-              //   meta: {
-              //     invisible: true,
-              //     back: true
-              //   },
-              //   component: () =>
-              //     import(
-              //       "@/pages/production/product/information/editproduct.vue"
-              //     )
-              // },
-              {
-                path: "discount",
-                name: "产品折扣管理",
-                meta: {
-                  icon: "home",
-                  perm: "production-admin-discount"
-                },
-                component: () =>
-                  import("@/pages/production/product/discount/index.vue")
-              },
-              {
-                path: "updateDiscount",
-                name: "产品折扣管理更新",
-                meta: {
-                  icon: "home",
-                  invisible: true,
-                  back: true,
-                  perm: "production-admin-discount"
-                },
-                component: () =>
-                  import("@/pages/production/product/discount/update.vue")
-              }
-            ]
-          }
-          // {
-          //   path: "cloudServer",
-          //   name: "云服务器",
-          //   meta: {
-          //     icon: "home"
-          //   },
-          //   component: BlankView,
-          //   children: [
-          //     {
-          //       path: "orderRouting",
-          //       name: "订单路由配置",
-          //       meta: {
-          //         icon: "home"
-          //       },
-          //       component: () =>
-          //         import("@/pages/production/cloudServer/orderRouting/list.vue")
-          //     },
-          //     {
-          //       path: "newOrder",
-          //       name: "新建订单路由规则",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import(
-          //           "@/pages/production/cloudServer/orderRouting/newOrder.vue"
-          //         )
-          //     },
-          //     {
-          //       path: "changeOrder",
-          //       name: "编辑订单路由规则",
-          //       meta: {
-          //         invisible: true,
-          //         back: true
-          //       },
-          //       component: () =>
-          //         import(
-          //           "@/pages/production/cloudServer/orderRouting/changeOrder.vue"
-          //         )
-          //     }
-          //   ]
-          // }
-        ]
-      },
-      // 服务
-      {
-        path: "/service",
+        path: "/workOrder",
         name: "工单",
         component: PageView,
         meta: {
@@ -662,7 +653,8 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/workorderManage/list")
+                component: () =>
+                  import("@/pages/workOrder/workorderManage/list")
               },
               {
                 path: "myWorkor",
@@ -671,18 +663,18 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/workorderManage/my")
+                component: () => import("@/pages/workOrder/workorderManage/my")
               },
               {
                 path: "detail",
-                name: "工单信息",
+                name: "工单详情",
                 meta: {
                   perm: "userinfo",
                   invisible: true,
                   back: true
                 },
                 component: () =>
-                  import("@/pages/service/workorderManage/detail")
+                  import("@/pages/workOrder/workorderManage/detail")
               }
               // {
               //   path: "appraise",
@@ -692,7 +684,7 @@ export const asyncRoute = [
               //     perm: "userinfo"
               //   },
               //   component: () =>
-              //     import("@/pages/service/workorderManage/appraise")
+              //     import("@/pages/workOrder/workorderManage/appraise")
               // }
             ]
           },
@@ -712,7 +704,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/setting/classify")
+                component: () => import("@/pages/workOrder/setting/classify")
               },
               // {
               //   path: "permission",
@@ -721,7 +713,7 @@ export const asyncRoute = [
               //     icon: "home",
               //     perm: "userinfo"
               //   },
-              //   component: () => import("@/pages/service/setting/permission")
+              //   component: () => import("@/pages/workOrder/setting/permission")
               // },
               {
                 path: "reply",
@@ -730,7 +722,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "userinfo"
                 },
-                component: () => import("@/pages/service/setting/reply")
+                component: () => import("@/pages/workOrder/setting/reply")
               }
             ]
           }
@@ -750,7 +742,7 @@ export const asyncRoute = [
           //         icon: "home",
           //         perm: "userinfo"
           //       },
-          //       component: () => import("@/pages/service/increment/list")
+          //       component: () => import("@/pages/workOrder/increment/list")
           //     },
           //     {
           //       path: "item",
@@ -759,7 +751,7 @@ export const asyncRoute = [
           //         icon: "home",
           //         perm: "userinfo"
           //       },
-          //       component: () => import("@/pages/service/increment/item")
+          //       component: () => import("@/pages/workOrder/increment/item")
           //     },
           //     {
           //       path: "grade",
@@ -768,7 +760,7 @@ export const asyncRoute = [
           //         icon: "home",
           //         perm: "userinfo"
           //       },
-          //       component: () => import("@/pages/service/increment/grade")
+          //       component: () => import("@/pages/workOrder/increment/grade")
           //     }
           //   ]
           // },
@@ -788,7 +780,7 @@ export const asyncRoute = [
           //         icon: "home",
           //         perm: "userinfo"
           //       },
-          //       component: () => import("@/pages/service/serviceManage/push")
+          //       component: () => import("@/pages/workOrder/serviceManage/push")
           //     }
           //   ]
           // }
@@ -796,7 +788,7 @@ export const asyncRoute = [
       },
       // 站务
       {
-        path: "/personal",
+        path: "/depot",
         name: "站务",
         component: PageView,
         meta: {
@@ -804,7 +796,7 @@ export const asyncRoute = [
         },
         children: [
           {
-            path: "account",
+            path: "web",
             name: "网站管理",
             meta: {
               icon: "home",
@@ -819,7 +811,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "personal-web-banner"
                 },
-                component: () => import("@/pages/personal/banner/index.vue")
+                component: () => import("@/pages/depot/web/banner/index.vue")
               },
               {
                 path: "update",
@@ -829,7 +821,7 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-web-banner"
                 },
-                component: () => import("@/pages/personal/banner/update.vue")
+                component: () => import("@/pages/depot/web/banner/update.vue")
               },
               {
                 path: "links",
@@ -838,7 +830,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "personal-web-link"
                 },
-                component: () => import("@/pages/personal/links/links.vue")
+                component: () => import("@/pages/depot/web/links/links.vue")
               },
               {
                 path: "updateLink",
@@ -848,7 +840,8 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-web-link"
                 },
-                component: () => import("@/pages/personal/links/updateLink.vue")
+                component: () =>
+                  import("@/pages/depot/web/links/updateLink.vue")
               },
               {
                 path: "updateCategory",
@@ -859,7 +852,7 @@ export const asyncRoute = [
                   perm: "personal-web-link"
                 },
                 component: () =>
-                  import("@/pages/personal/links/updateCategory.vue")
+                  import("@/pages/depot/web/links/updateCategory.vue")
               },
               {
                 path: "single",
@@ -868,7 +861,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "personal-web-page"
                 },
-                component: () => import("@/pages/personal/single/single.vue")
+                component: () => import("@/pages/depot/web/single/single.vue")
               },
               {
                 path: "add-single",
@@ -878,7 +871,8 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-web-page"
                 },
-                component: () => import("@/pages/personal/single/addsingle.vue")
+                component: () =>
+                  import("@/pages/depot/web/single/addsingle.vue")
               },
               {
                 path: "amend-single",
@@ -889,7 +883,7 @@ export const asyncRoute = [
                   perm: "personal-web-page"
                 },
                 component: () =>
-                  import("@/pages/personal/single/amendsingle.vue")
+                  import("@/pages/depot/web/single/amendsingle.vue")
               },
               {
                 path: "seo",
@@ -899,7 +893,7 @@ export const asyncRoute = [
                   perm: "personal-web-seo",
                   invisible: true
                 },
-                component: () => import("@/pages/personal/seo/seo.vue")
+                component: () => import("@/pages/depot/web/seo/seo.vue")
               },
               {
                 path: "amend-seo",
@@ -909,12 +903,12 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-web-seo"
                 },
-                component: () => import("@/pages/personal/seo/amendseo")
+                component: () => import("@/pages/depot/web/seo/amendseo")
               }
             ]
           },
           {
-            path: "helpword",
+            path: "help",
             name: "帮助文档",
             meta: {
               icon: "home",
@@ -924,12 +918,12 @@ export const asyncRoute = [
             children: [
               {
                 path: "typemanage",
-                name: "类别管理",
+                name: "文档类别管理",
                 meta: {
                   icon: "home",
                   perm: "personal-help-type"
                 },
-                component: () => import("@/pages/helpword/category/index.vue")
+                component: () => import("@/pages/depot/help/category/index.vue")
               },
               {
                 path: "add-category",
@@ -939,7 +933,8 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-help-type"
                 },
-                component: () => import("@/pages/helpword/category/addcategory")
+                component: () =>
+                  import("@/pages/depot/help/category/addcategory")
               },
               {
                 path: "edithelp",
@@ -949,16 +944,16 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-help-type"
                 },
-                component: () => import("@/pages/helpword/category/edithelp")
+                component: () => import("@/pages/depot/help/category/edithelp")
               },
               {
                 path: "wordmanage",
-                name: "文档管理",
+                name: "文档列表",
                 meta: {
                   icon: "home",
                   perm: "personal-help-doc"
                 },
-                component: () => import("@/pages/helpword/word/index.vue")
+                component: () => import("@/pages/depot/help/word/index.vue")
               },
               {
                 path: "add-word",
@@ -968,7 +963,7 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-help-doc"
                 },
-                component: () => import("@/pages/helpword/word/addword")
+                component: () => import("@/pages/depot/help/word/addword")
               },
               {
                 path: "amend-word",
@@ -978,7 +973,7 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-help-doc"
                 },
-                component: () => import("@/pages/helpword/word/amendword")
+                component: () => import("@/pages/depot/help/word/amendword")
               },
               {
                 path: "hotproblem",
@@ -988,7 +983,7 @@ export const asyncRoute = [
                   perm: "personal-help-hot",
                   invisible: true
                 },
-                component: () => import("@/pages/helpword/common/index.vue")
+                component: () => import("@/pages/depot/help/common/index.vue")
               },
               {
                 path: "amend-common",
@@ -998,7 +993,7 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-help-hot"
                 },
-                component: () => import("@/pages/helpword/common/amendcommon")
+                component: () => import("@/pages/depot/help/common/amendcommon")
               }
             ]
           },
@@ -1018,7 +1013,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "personal-news-type"
                 },
-                component: () => import("@/pages/news/category/index.vue")
+                component: () => import("@/pages/depot/news/category/index.vue")
               },
               {
                 path: "addcategory",
@@ -1028,7 +1023,8 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-news-type"
                 },
-                component: () => import("@/pages/news/category/addNewsType.vue")
+                component: () =>
+                  import("@/pages/depot/news/category/addNewsType.vue")
               },
               {
                 path: "upcategory",
@@ -1038,7 +1034,8 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-news-type"
                 },
-                component: () => import("@/pages/news/category/upNewsType")
+                component: () =>
+                  import("@/pages/depot/news/category/upNewsType")
               },
               {
                 path: "newslist",
@@ -1047,7 +1044,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "personal-news-news"
                 },
-                component: () => import("@/pages/news/list/index.vue")
+                component: () => import("@/pages/depot/news/list/index.vue")
               },
               {
                 path: "addnewslist",
@@ -1057,7 +1054,8 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-news-news"
                 },
-                component: () => import("@/pages/news/list/addNewsList.vue")
+                component: () =>
+                  import("@/pages/depot/news/list/addNewsList.vue")
               },
               {
                 path: "upnewslist",
@@ -1067,7 +1065,58 @@ export const asyncRoute = [
                   back: true,
                   perm: "personal-news-news"
                 },
-                component: () => import("@/pages/news/list/upNewsList.vue")
+                component: () =>
+                  import("@/pages/depot/news/list/upNewsList.vue")
+              }
+            ]
+          }
+        ]
+      },
+      // 组织
+      {
+        path: "/organization",
+        name: "组织",
+        component: PageView,
+        meta: {
+          perm: "system"
+        },
+        children: [
+          {
+            path: "admin",
+            name: "组织管理",
+            meta: {
+              icon: "home",
+              perm: "system-admin"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "account",
+                name: "子账号管理",
+                meta: {
+                  icon: "home",
+                  perm: "system-admin-user"
+                },
+                component: () => import("@/pages/organization/admin/account")
+              },
+              {
+                path: "role",
+                name: "角色管理",
+                meta: {
+                  icon: "home",
+                  perm: "system-admin-role"
+                },
+                component: () => import("@/pages/organization/admin/role")
+              },
+              {
+                path: "detail",
+                name: "角色详情",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "system-admin-role"
+                },
+                component: () => import("@/pages/organization/admin/detail")
               }
             ]
           }
@@ -1084,64 +1133,16 @@ export const asyncRoute = [
         children: [
           {
             path: "admin",
-            name: "管理员",
+            name: "系统设置",
             meta: {
               icon: "home",
               perm: "system-admin"
             },
             component: BlankView,
             children: [
-              // {
-              //   path: "index",
-              //   name: "权限管理",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "system-admin-perm"
-              //   },
-              //   component: () => import("@/pages/system/admin/index")
-              // },
-              // {
-              //   path: "role",
-              //   name: "角色管理",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "system-admin-role"
-              //   },
-              //   component: () => import("@/pages/system/admin/role")
-              // },
-              // {
-              //   path: "detail",
-              //   name: "角色详情",
-              //   meta: {
-              //     invisible: true,
-              //     back: true,
-              //     perm: "system-admin-role"
-              //   },
-              //   component: () => import("@/pages/system/admin/detail")
-              // },
-              {
-                path: "account",
-                name: "子账号管理",
-                meta: {
-                  icon: "home",
-                  perm: "system-admin-user"
-                },
-                component: () => import("@/pages/system/admin/account")
-              }
-            ]
-          },
-          {
-            path: "basics",
-            name: "基础设置",
-            meta: {
-              icon: "home",
-              perm: "system-setting"
-            },
-            component: BlankView,
-            children: [
               {
                 path: "whole",
-                name: "全局设置",
+                name: "基础设置",
                 meta: {
                   icon: "home",
                   perm: "system-setting-global"
@@ -1166,21 +1167,10 @@ export const asyncRoute = [
                   perm: "system-admin-role"
                 },
                 component: () => import("@/pages/system/notice/mouldboard")
-              }
-            ]
-          },
-          {
-            path: "domain",
-            name: "域名管理",
-            meta: {
-              icon: "home",
-              perm: "system-setting"
-            },
-            component: BlankView,
-            children: [
+              },
               {
                 path: "list",
-                name: "域名列表",
+                name: "域名管理",
                 meta: {
                   icon: "home",
                   perm: "system-setting-global"
@@ -1193,30 +1183,59 @@ export const asyncRoute = [
       },
       // 个人信息
       {
-        path: "/userinformation",
+        path: "/user",
         name: "个人",
         component: PageView,
         meta: {
-          perm: "userinfo",
-          invisible: true
+          perm: "userinfo"
         },
         children: [
           {
-            path: "account",
-            name: "账号管理",
+            path: "center",
+            name: "个人中心",
             meta: {
               icon: "home",
               perm: "userinfo-admin"
             },
             component: BlankView,
             children: [
+              {
+                path: "message",
+                name: "我的消息",
+                meta: {
+                  icon: "home",
+                  perm: "home-index-message"
+                },
+                component: () => import("@/pages/user/center/message/message")
+              },
+              {
+                path: "detail",
+                name: "查看消息详情",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "home-index-message"
+                },
+                component: () => import("@/pages/user/center/message/detail")
+              },
+              {
+                path: "addMessage",
+                name: "添加消息",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "home-index-message"
+                },
+                component: () =>
+                  import("@/pages/user/center/message/addMessage")
+              },
               // {
               //   path: "userInfo",
               //   name: "个人信息",
               //   meta: {
               //     perm: "userinfo-admin-info"
               //   },
-              //   component: () => import("@/pages/accountRoot/userInfo")
+              //   component: () => import("@/pages/user/center/userInfo")
               // },
               {
                 path: "changePassword",
@@ -1224,7 +1243,7 @@ export const asyncRoute = [
                 meta: {
                   perm: "userinfo-admin-password"
                 },
-                component: () => import("@/pages/accountRoot/changePassword")
+                component: () => import("@/pages/user/center/changePassword")
               }
             ]
           }

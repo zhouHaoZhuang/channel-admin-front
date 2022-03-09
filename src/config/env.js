@@ -1,13 +1,13 @@
-// 默认请求地址
+// 默认请求地址--应为i.sailayun
 const baseUrl = {
-  local: "http://i.sailayun.com/ims",
+  local: "http://site.sailayun.com/ims",
   dev: "/ims",
   test: "/ims",
   prod: "/ims"
 };
 // form服务接口请求地址
 const formBaseUrl = {
-  local: "http://i.sailayun.com/fs",
+  local: "http://site.sailayun.com/fs",
   dev: "/fs",
   test: "/fs",
   prod: "/fs"
