@@ -30,14 +30,14 @@
           <span class="menber-title">QQ：</span>
           <span class="menber-info">{{ dataBase.qq }}</span>
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">密码保护：</span>
           <span class="menber-info">-----未设置</span>
         </div>
         <div>
           <span class="menber-title">密码找回锁定：</span>
           <span class="menber-info">----未锁定</span>
-        </div>
+        </div> -->
         <div>
           <span class="menber-title">管理员锁定：</span>
           <span class="menber-info" v-if="dataBase.adminLock">
@@ -62,10 +62,10 @@
             {{ dataBase.status == 0 ? "冻结" : "正常" }}
           </span>
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">密保锁定：</span>
           <span class="menber-info">---未锁定</span>
-        </div>
+        </div> -->
         <div>
           <span class="menber-title">账户余额：</span>
           <span class="menber-info">{{ dataBase.balance }}元</span>
@@ -94,11 +94,11 @@
           <span class="menber-title">登录次数：</span>
           <span class="menber-info">{{ dataBase.loginFaileNumber }}次</span>
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">所属会员组：</span>
           <span class="menber-info">---普通会员</span>
-          <!-- <a class="mouse-enter">[修改会员组]</a> -->
-        </div>
+          <!-- <a class="mouse-enter">[修改会员组]</a>
+        </div> -->
         <div>
           <span class="menber-title">API状态：</span>
           <span
@@ -112,6 +112,11 @@
           <span class="menber-title">认证状态：</span>
           <span
             class="menber-info menber-certstate-uncert"
+            :class="{
+              'menber-info': true,
+              'menber-certstate-uncert': dataBase.status == 0,
+              'menber-state-freeze': dataBase.status == 1
+            }"
             v-if="dataBase.certificationStatus"
           >
             {{ dataBase.certificationStatus == 1 ? "已认证" : "未认证" }}
@@ -139,51 +144,51 @@
           <span>0条记录</span>
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">提现：</span>
           <span class="menber-info">0元</span><span>0条记录</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a> 
+        </div> -->
         <div>
           <span class="menber-title">已支付订单：</span>
           <span class="menber-info">{{ dataBase.payOrder }}单</span>
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">退款记录：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-        <div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
+        <!-- <div>
           <span class="menber-title">申请发票：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-        <div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
+        <!-- <div>
           <span class="menber-title">工单：</span>
           <span class="menber-info">0条</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-        <div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
+        <!-- <div>
           <span class="menber-title">投诉：</span>
           <span class="menber-info">0条</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
         <div>
           <span class="menber-title">站内消息：</span>
           <span class="menber-info">{{ dataBase.messageCount }}条</span>
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">官方留言：</span>
           <span class="menber-info">0条</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-        <div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
+        <!-- <div>
           <span class="menber-title">帮助中心留言：</span>
           <span class="menber-info">0条</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
       </div>
     </div>
     <div class="greyblock"></div>
@@ -244,7 +249,7 @@
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
     </div>
-    <div class="greyblock"></div>
+    <!-- <div class="greyblock"></div>
     <div>
       <p class="menber-p">会员日志</p>
       <div>
@@ -255,8 +260,8 @@
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
-    </div>
-    <div class="greyblock"></div>
+    </div> -->
+    <!-- <div class="greyblock"></div>
     <div>
       <p class="menber-p">登录日志</p>
       <div>
@@ -267,8 +272,8 @@
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
-    </div>
-    <div class="greyblock"></div>
+    </div> -->
+    <!-- <div class="greyblock"></div>
     <div>
       <p class="menber-p">资料变更记录</p>
       <div>
@@ -279,8 +284,8 @@
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
-    </div>
-    <div class="greyblock40"></div>
+    </div> -->
+    <!-- <div class="greyblock40"></div> -->
   </div>
 </template>
 
