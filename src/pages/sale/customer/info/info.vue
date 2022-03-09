@@ -111,7 +111,6 @@
         <div>
           <span class="menber-title">认证状态：</span>
           <span
-            class="menber-info menber-certstate-uncert"
             :class="{
               'menber-info': true,
               'menber-certstate-uncert': dataBase.status == 0,
