@@ -1,6 +1,5 @@
 <template>
   <div class="enterprise">
-    <h3>当前账号尚未进行企业实名认证</h3>
     <a-form-model
       ref="ruleForm"
       :model="form"
@@ -8,7 +7,10 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-     <a-form-model-item :colon="false">
+      <a-form-model-item label=" " :colon="false">
+        <h3>当前账号尚未进行企业实名认证</h3>
+      </a-form-model-item>
+      <a-form-model-item :colon="false">
         <span slot="label" class="form-title">营业执照</span>
       </a-form-model-item>
       <a-form-model-item label="上传营业执照" required>
@@ -158,15 +160,13 @@ export default {
   background-color: #fff;
   overflow: hidden;
   margin: 0 10px;
-  padding: 0 20px;
+  padding: 20px;
 }
 h3 {
   font-size: 18px;
   font-weight: bold;
   color: #333;
-  text-align: left;
-  width: 415px;
-  margin: 30px auto;
+  margin-bottom: 0;
 }
 .form-title {
   font-size: 16px;
