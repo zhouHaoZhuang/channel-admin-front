@@ -211,7 +211,7 @@ export const asyncRoute = [
               }
             ]
           },
-          { 
+          {
             path: "finance",
             name: "财务管理",
             meta: {
@@ -298,7 +298,7 @@ export const asyncRoute = [
                   perm: "finance-book-order"
                 },
                 component: () => import("@/pages/sale/finance/refund/index.vue")
-              },
+              }
               // {
               //   path: "withdraw",
               //   name: "提现管理",
@@ -1103,6 +1103,7 @@ export const asyncRoute = [
                 path: "role",
                 name: "角色管理",
                 meta: {
+                  invisible: true,
                   icon: "home",
                   perm: "system-admin-role"
                 },
@@ -1187,7 +1188,8 @@ export const asyncRoute = [
         name: "个人",
         component: PageView,
         meta: {
-          perm: "userinfo"
+          perm: "userinfo",
+          invisible: true
         },
         children: [
           {
