@@ -161,7 +161,7 @@
         <!-- <div>
           <span class="menber-title">申请发票：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
-         <a href="" class="mouse-enter">[查看详情]</a>
+           <a href="" class="mouse-enter">[查看详情]</a>
         </div> -->
         <!-- <div>
           <span class="menber-title">工单：</span>
@@ -171,7 +171,7 @@
         <!-- <div>
           <span class="menber-title">投诉：</span>
           <span class="menber-info">0条</span>
-         <a href="" class="mouse-enter">[查看详情]</a>
+           <a href="" class="mouse-enter">[查看详情]</a>
         </div> -->
         <div>
           <span class="menber-title">站内消息：</span>
@@ -181,7 +181,7 @@
         <!-- <div>
           <span class="menber-title">官方留言：</span>
           <span class="menber-info">0条</span>
-         <a href="" class="mouse-enter">[查看详情]</a>
+           <a href="" class="mouse-enter">[查看详情]</a>
         </div> -->
         <!-- <div>
           <span class="menber-title">帮助中心留言：</span>
