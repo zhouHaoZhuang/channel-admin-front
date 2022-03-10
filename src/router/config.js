@@ -1103,6 +1103,7 @@ export const asyncRoute = [
                 path: "role",
                 name: "角色管理",
                 meta: {
+                  invisible: true,
                   icon: "home",
                   perm: "system-admin-role"
                 },
