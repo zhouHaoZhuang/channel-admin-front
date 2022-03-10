@@ -155,9 +155,9 @@ export default {
         {
           title: "编号ID",
           dataIndex: "paymentLineId",
+          width: 180,
           sorter: true,
           sortDirections: ["ascend", "descend"],
-          width: 180
         },
         {
           title: "会员ID",
@@ -206,6 +206,8 @@ export default {
           title: "发生时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
+          sorter: true,
+          sortDirections: ["ascend", "descend"],
           width: 180
         },
         // {

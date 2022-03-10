@@ -71,7 +71,7 @@
             <router-link
               v-else
               :to="
-                `/personal/news/newslist?newTypeCode=${text.newTypeCode}&newTypeName=${text.newTypeName}`
+                `/depot/news/newslist?newTypeCode=${text.newTypeCode}&newTypeName=${text.newTypeName}`
               "
               >{{ text.newsCount }}篇</router-link
             >

@@ -88,11 +88,7 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="场景说明" prop="remark">
-            <a-input
-              v-model="form.remark"
-              placeholder="下单通知、付款通知、发货通知、留言通知、评论通知"
-              type="textarea"
-            />
+            <a-input v-model="form.remark" type="textarea" />
           </a-form-model-item>
           <a-form-model-item label="三证合一" required>
             <div slot="help">
@@ -346,7 +342,7 @@
             </div>
             <div class="record-info">
               <div>
-                {{ recordData.status*1 === 2 ? recordData.reason : "" }}
+                {{ recordData.status * 1 === 2 ? recordData.reason : "" }}
               </div>
               <div v-if="recordData.modifyTime !== undefined">
                 {{ recordData.modifyTime | formatDate }}
@@ -402,7 +398,7 @@ export default {
       form: {
         signName: "",
         signSource: "",
-        remark: "",
+        remark: "下单通知、付款通知、发货通知、留言通知、评论通知",
         aisle: "",
         signFileList: [],
         certificates: "",
@@ -620,7 +616,7 @@ export default {
       this.form = {
         signName: "",
         signSource: "",
-        remark: "",
+        remark: "下单通知、付款通知、发货通知、留言通知、评论通知",
         aisle: "",
         signFileList: [],
         certificates: "",

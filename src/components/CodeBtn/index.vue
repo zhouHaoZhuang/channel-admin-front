@@ -12,6 +12,10 @@
 <script>
 export default {
   props: {
+    isDisabled:{
+      type: Boolean,
+      default: false
+    },
     phone: {
       type: [String, Number]
     },
@@ -26,6 +30,14 @@ export default {
     sendType: {
       type: String,
       default: ''
+    }
+  },
+  watch: {
+    isDisabled: {
+      handler(val) {
+        this.loading = val;
+      },
+      immediate: true
     }
   },
   data() {
