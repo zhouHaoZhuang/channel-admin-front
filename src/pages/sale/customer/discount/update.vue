@@ -149,7 +149,7 @@ export default {
   watch: {
     $route: {
       handler(newVal, oldVal) {
-        if (newVal.path === "/member/manage/update") {
+        if (newVal.path === "/sale/customer/update") {
           this.$nextTick(() => {
             this.resetForm();
           });
