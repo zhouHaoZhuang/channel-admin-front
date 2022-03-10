@@ -188,12 +188,13 @@ export default {
           });
           return false;
         }
-        lrz(file, {
-          width: 1920
-        }).then(res => {
-          const file = base64ToFile(res.base64, res.origin.name);
-          resolve(file);
-        });
+        resolve(file);
+        // lrz(file, {
+        //   width: 1920
+        // }).then(res => {
+        //   const file = base64ToFile(res.base64, res.origin.name);
+        //   resolve(file);
+        // });
       });
     },
     // 关闭预览图片
