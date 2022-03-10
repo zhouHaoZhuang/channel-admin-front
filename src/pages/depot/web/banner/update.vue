@@ -125,7 +125,7 @@ export default {
   watch: {
     $route: {
       handler(newVal) {
-        if (newVal.path === "/personal/account/update") {
+        if (newVal.path === "/depot/web/update") {
           this.resetForm();
           if (newVal.query.id) {
             this.type = "edit";
