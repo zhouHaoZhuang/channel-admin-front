@@ -126,7 +126,7 @@ module.exports = {
       chunkFilename: `css/chunk.[id].${timeStamp}.css`
     }
   },
-  publicPath: "/shop",
+  publicPath: "/",
   outputDir: "dist",
   assetsDir: "static",
   productionSourceMap: false,
