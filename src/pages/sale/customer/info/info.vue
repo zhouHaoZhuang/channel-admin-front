@@ -178,6 +178,16 @@
           <span class="menber-info">{{ dataBase.messageCount }}条</span>
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
+        <div>
+          <span class="menber-title">退款记录：</span>
+          <span class="menber-info">{{ dataBase.reimburseOrder }}条</span>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
+        </div>
+        <div>
+          <span class="menber-title">工单：</span>
+          <span class="menber-info">{{ dataBase.workOrder }}条</span>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
+        </div>
         <!-- <div>
           <span class="menber-title">官方留言：</span>
           <span class="menber-info">0条</span>
