@@ -90,7 +90,7 @@ export default {
   watch: {
     $route: {
       handler(newVal) {
-        if (newVal.path === "/personal/account/updateLink") {
+        if (newVal.path === "/depot/web/updateLink") {
           this.getCategoryList();
           this.resetForm();
           if (newVal.query.id) {

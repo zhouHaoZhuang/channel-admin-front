@@ -85,9 +85,9 @@
             >
               添加分类
             </a-button>
-            <a-button v-permission="'type-sort'" icon="column-height" class="btn">
+            <!-- <a-button v-permission="'type-sort'" icon="column-height" class="btn">
               排序
-            </a-button>
+            </a-button> -->
           </div>
           <div class="table-content">
             <a-table

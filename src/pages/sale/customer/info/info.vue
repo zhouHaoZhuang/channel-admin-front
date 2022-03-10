@@ -97,7 +97,7 @@
         <!-- <div>
           <span class="menber-title">所属会员组：</span>
           <span class="menber-info">---普通会员</span>
-           <a class="mouse-enter">[修改会员组]</a>
+          <a class="mouse-enter">[修改会员组]</a>
         </div> -->
         <div>
           <span class="menber-title">API状态：</span>
@@ -146,7 +146,7 @@
         <!-- <div>
           <span class="menber-title">提现：</span>
           <span class="menber-info">0元</span><span>0条记录</span>
-           <a href="" class="mouse-enter">[查看详情]</a> 
+          <a href="" class="mouse-enter">[查看详情]</a> 
         </div> -->
         <div>
           <span class="menber-title">已支付订单：</span>
@@ -156,34 +156,43 @@
         <!-- <div>
           <span class="menber-title">退款记录：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
-           <a href="" class="mouse-enter">[查看详情]</a>
-        </div> -->
-        <!-- <div>
+          <a href="" class="mouse-enter">[查看详情]</a>
+        </div>
+        <div>
           <span class="menber-title">申请发票：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
            <a href="" class="mouse-enter">[查看详情]</a>
-        </div> -->
-        <!-- <div>
+        </div>
+         <div>
           <span class="menber-title">工单：</span>
           <span class="menber-info">0条</span>
-           <a href="" class="mouse-enter">[查看详情]</a>
-        </div> -->
-        <!-- <div>
+         <a href="" class="mouse-enter">[查看详情]</a>
+        </div>
+        <div>
           <span class="menber-title">投诉：</span>
           <span class="menber-info">0条</span>
-           <a href="" class="mouse-enter">[查看详情]</a>
+         <a href="" class="mouse-enter">[查看详情]</a>
         </div> -->
         <div>
           <span class="menber-title">站内消息：</span>
           <span class="menber-info">{{ dataBase.messageCount }}条</span>
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
+        <div>
+          <span class="menber-title">退款记录：</span>
+          <span class="menber-info">{{ dataBase.reimburseOrder }}条</span>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
+        </div>
+        <div>
+          <span class="menber-title">工单：</span>
+          <span class="menber-info">{{ dataBase.workOrder }}条</span>
+          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
+        </div>
         <!-- <div>
           <span class="menber-title">官方留言：</span>
           <span class="menber-info">0条</span>
-           <a href="" class="mouse-enter">[查看详情]</a>
-        </div> -->
-        <!-- <div>
+          <a href="" class="mouse-enter">[查看详情]</a>
+        </div><div>
           <span class="menber-title">帮助中心留言：</span>
           <span class="menber-info">0条</span>
            <a href="" class="mouse-enter">[查看详情]</a>
