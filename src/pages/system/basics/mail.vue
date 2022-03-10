@@ -66,7 +66,10 @@
               <a-row :gutter="5">
                 <a-col :span="22">
                   <a-form-model-item prop="email_password">
-                    <a-input-password autoComplete="new-password" v-model="form.email_password" />
+                    <a-input-password
+                      autoComplete="new-password"
+                      v-model="form.email_password"
+                    />
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="2">
@@ -122,6 +125,32 @@
                 <a-icon type="question-circle" />
               </a-tooltip>
             </a-form-model-item>
+            <a-form-model-item label="测试收件箱">
+              <a-row :gutter="5">
+                <a-col :span="10">
+                  <a-form-model-item prop="email_address">
+                    <a-input type="email" v-model="email" />
+                  </a-form-model-item>
+                </a-col>
+                <a-col :span="4">
+                  <a-button
+                    :loading="sendLoading"
+                    style="margin-left: 10px;"
+                    type="primary"
+                    @click="sendEmail"
+                  >
+                    {{ btnTxt }}
+                  </a-button>
+                </a-col>
+                <a-col :span="2">
+                  <a-tooltip
+                    title="用于测试您的邮箱是否可以正常发送邮件，测试发件不成功时，可尝试更换邮箱。"
+                  >
+                    <a-icon type="question-circle" />
+                  </a-tooltip>
+                </a-col>
+              </a-row>
+            </a-form-model-item>
             <!-- <a-form-model-item label="测试收件箱">
               <a-row :gutter="1">
                 <a-col :span="19">
@@ -164,6 +193,7 @@
 export default {
   data() {
     return {
+      email: "",
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
       form: {
@@ -220,8 +250,15 @@ export default {
         ]
       },
       loading: false,
-      data: []
+      data: [],
+      btnTxt: "测试发件",
+      sendLoading: false,
+      time: null,
+      timeCount: 60
     };
+  },
+  beforeDestroy() {
+    clearInterval(this.time);
   },
   created() {
     console.log(this.formData, "this.formData");
@@ -257,6 +294,34 @@ export default {
             });
         }
       });
+    },
+    // 测试发送邮件
+    sendEmail() {
+      if (this.email) {
+        this.sendLoading = true;
+        this.$store
+          .dispatch("user/sendEmail", { email: this.email })
+          .then(() => {
+            this.$message.success("发送成功");
+            this.startTime();
+          })
+          .catch(() => {
+            this.sendLoading = false;
+          });
+      }
+    },
+    startTime() {
+      this.time = setInterval(() => {
+        if (this.timeCount - 1 === 0) {
+          clearInterval(this.time);
+          this.btnTxt = "测试发件";
+          this.timeCount = 60;
+          this.sendLoading = false;
+          return;
+        }
+        this.timeCount -= 1;
+        this.btnTxt = this.timeCount + "S";
+      }, 1000);
     },
     encryptionChange() {
       if (this.form.smtp_secure === "SSL") {

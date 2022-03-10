@@ -44,6 +44,14 @@ const user = {
         data
       });
     },
+    // 向邮箱发送验证码
+    sendEmail({ commit, state }, data) {
+      return request({
+        url: `/sms/getCodeByEmail`,
+        method: "post",
+        data
+      });
+    },
     // 登录
     login({ commit, state, dispatch }, data) {
       return new Promise((resolve, reject) => {

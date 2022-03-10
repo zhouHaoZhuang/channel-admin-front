@@ -357,7 +357,7 @@
             >
               查看
             </a-button>
-            <a-divider type="vertical" />
+            <!-- <a-divider type="vertical" /> -->
             <!-- <a-dropdown>
               <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                 更多
@@ -516,11 +516,11 @@ export default {
           // sorter: true,
           width: 200
         },
-        {
-          title: "备注",
-          dataIndex: "remark",
-          width: 140
-        },
+        // {
+        //   title: "备注",
+        //   dataIndex: "remark",
+        //   width: 140
+        // },
         {
           title: "操作",
           Index: "action",

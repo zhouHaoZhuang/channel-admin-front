@@ -112,7 +112,7 @@ export default {
   watch: {
     $route: {
       handler(newVal, oldVal) {
-        if (newVal.path === "/production/product/updateDiscount") {
+        if (newVal.path === "/sale/customer/updateDiscount") {
           this.resetForm();
           this.getProductList();
           if (newVal.query.id) {
