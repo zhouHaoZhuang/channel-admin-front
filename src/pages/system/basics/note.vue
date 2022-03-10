@@ -90,7 +90,6 @@
           <a-form-model-item label="场景说明" prop="remark">
             <a-input
               v-model="form.remark"
-              placeholder="下单通知、付款通知、发货通知、留言通知、评论通知"
               type="textarea"
             />
           </a-form-model-item>
@@ -402,7 +401,7 @@ export default {
       form: {
         signName: "",
         signSource: "",
-        remark: "",
+        remark: "下单通知、付款通知、发货通知、留言通知、评论通知",
         aisle: "",
         signFileList: [],
         certificates: "",
