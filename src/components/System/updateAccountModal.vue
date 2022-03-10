@@ -17,14 +17,19 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="子账号名称" prop="nickname">
+      <!-- 添加时展示 -->
+      <a-form-model-item
+        v-if="type === 'add'"
+        label="子账号名称"
+        prop="nickname"
+      >
         <a-input
           v-model="form.nickname"
           placeholder="请输入子账号名称"
           :max-length="20"
         />
       </a-form-model-item>
-      <a-form-model-item label="手机号" prop="phone">
+      <a-form-model-item v-if="type === 'add'" label="手机号" prop="phone">
         <a-input
           v-model="form.phone"
           addon-before="+86"
@@ -33,7 +38,12 @@
           :max-length="11"
         />
       </a-form-model-item>
-      <a-form-model-item label="验证码" class="code-wrap" prop="code">
+      <a-form-model-item
+        v-if="type === 'add'"
+        label="验证码"
+        class="code-wrap"
+        prop="code"
+      >
         <a-input
           v-model="form.code"
           style="width:250px"
@@ -41,27 +51,55 @@
           v-number-evolution
           :max-length="6"
         />
-        <CodeBtn :phone="form.phone" codeType='1' />
+        <CodeBtn :phone="form.phone" codeType="1" />
       </a-form-model-item>
-      <a-form-model-item label="密码" prop="password">
+      <a-form-model-item v-if="type === 'add'" label="设置密码" prop="password">
         <a-input-password
           v-model="form.password"
           v-password-input
-          type="password"
           :max-length="20"
           placeholder="6 - 20位密码，区分大小写"
           @keydown.native="keydown($event)"
         />
       </a-form-model-item>
-      <a-form-model-item label="确认密码" prop="confirmPassword">
+      <a-form-model-item
+        v-if="type === 'add'"
+        label="确认密码"
+        prop="confirmPassword"
+      >
         <a-input-password
           v-model="form.confirmPassword"
           v-password-input
-          type="password"
           :max-length="20"
           placeholder="确认密码"
           @keydown.native="keydown($event)"
         />
+      </a-form-model-item>
+      <!-- 编辑时展示 -->
+      <a-form-model-item v-if="type === 'edit'" label="账号">
+        {{ form.nickname }}
+      </a-form-model-item>
+      <a-form-model-item v-if="type === 'edit'" label="子账号名称">
+        {{ form.nickname }}
+      </a-form-model-item>
+      <a-form-model-item v-if="type === 'edit'" label="手机号">
+        {{ form.phone }}
+      </a-form-model-item>
+      <!-- 添加/编辑都展示 -->
+      <a-form-model-item label="角色" prop="role">
+        <a-select
+          v-model="form.receiverUser"
+          allowClear
+          placeholder="请选择角色"
+        >
+          <a-select-option
+            v-for="item in roleList"
+            :key="item.code"
+            :value="item.code"
+          >
+            {{ item.nickname }}
+          </a-select-option>
+        </a-select>
       </a-form-model-item>
     </a-form-model>
   </a-modal>
@@ -111,6 +149,8 @@ export default {
           this.$nextTick(() => {
             this.resetForm();
           });
+        } else {
+          // this.getRoleList();
         }
       }
     }
@@ -156,10 +196,6 @@ export default {
             trigger: ["blur", "change"]
           }
         ],
-        password: [{ validator: validatePass, trigger: ["blur", "change"] }],
-        confirmPassword: [
-          { validator: validatePass2, trigger: ["blur", "change"] }
-        ],
         phone: [
           {
             required: true,
@@ -173,11 +209,46 @@ export default {
             message: "请输入验证码",
             trigger: ["blur", "change"]
           }
+        ],
+        password: [
+          {
+            required: true,
+            message: "请输入密码",
+            trigger: ["blur", "change"]
+          },
+          { validator: validatePass, trigger: ["blur", "change"] }
+        ],
+        confirmPassword: [
+          {
+            required: true,
+            message: "请输入确认密码",
+            trigger: ["blur", "change"]
+          },
+          { validator: validatePass2, trigger: ["blur", "change"] }
+        ],
+        role: [
+          {
+            required: true,
+            message: "请选择角色",
+            trigger: ["blur", "change"]
+          }
         ]
-      }
+      },
+      roleList: []
     };
   },
   methods: {
+    // 查询角色列表
+    getRoleList() {
+      this.$store
+        .dispatch("system/getRoleList", {
+          currentPage: 1,
+          pageSize: 999
+        })
+        .then(res => {
+          this.roleList = [...res.data.list];
+        });
+    },
     // 关闭弹窗
     handleCancel() {
       this.$emit("changeVisible", false);
