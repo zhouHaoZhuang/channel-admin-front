@@ -97,11 +97,7 @@
         <!-- <div>
           <span class="menber-title">所属会员组：</span>
           <span class="menber-info">---普通会员</span>
-          <a class="mouse-enter">[修改会员组]</a> -->
-        </div>
-         <a class="mouse-enter">[修改会员组]</a>
-        </div>
-          <!-- <a class="mouse-enter">[修改会员组]</a>
+          <a class="mouse-enter">[修改会员组]</a>
         </div> -->
         <div>
           <span class="menber-title">API状态：</span>
@@ -150,12 +146,7 @@
         <!-- <div>
           <span class="menber-title">提现：</span>
           <span class="menber-info">0元</span><span>0条记录</span>
-      <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-
-        <a href="" class="mouse-enter">[查看详情]</a> 
-        </div>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> 
+          <a href="" class="mouse-enter">[查看详情]</a> 
         </div> -->
         <div>
           <span class="menber-title">已支付订单：</span>
@@ -165,36 +156,22 @@
         <!-- <div>
           <span class="menber-title">退款记录：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
-          <a href="" class="mouse-enter">[查看详情]</a> -->
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a>
-        </div> <div>
           <span class="menber-title">申请发票：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
-          <a href="" class="mouse-enter">[查看详情]</a>
-        </div><div>
+           <a href="" class="mouse-enter">[查看详情]</a>
+        </div>
+         <div>
           <span class="menber-title">工单：</span>
           <span class="menber-info">0条</span>
-          <a href="" class="mouse-enter">[查看详情]</a>
+         <a href="" class="mouse-enter">[查看详情]</a>
         </div>
         <div>
           <span class="menber-title">投诉：</span>
           <span class="menber-info">0条</span>
          <a href="" class="mouse-enter">[查看详情]</a>
-        </div><div>
-          <span class="menber-title">申请发票：</span>
-          <span class="menber-info">0元</span><span>(0条记录)</span>
-          <a href="" class="mouse-enter">[查看详情]</a>
-        </div><div>
-          <span class="menber-title">工单：</span>
-          <span class="menber-info">0条</span>
-          <a href="" class="mouse-enter">[查看详情]</a>
-        </div> <div>
-          <span class="menber-title">投诉：</span>
-          <span class="menber-info">0条</span>
-          <a href="" class="mouse-enter">[查看详情]</a>
-        </div> <a href="" class="mouse-enter">[查看详情]</a>
         </div> -->
         <div>
           <span class="menber-title">站内消息：</span>
@@ -204,22 +181,8 @@
         <!-- <div>
           <span class="menber-title">官方留言：</span>
           <span class="menber-info">0条</span>
-          <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-        <div>
-          <span class="menber-title">帮助中心留言：</span>
-          <span class="menber-info">0条</span>
-          <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
-        </div>
-           <a href="" class="mouse-enter">[查看详情]</a>
+          <a href="" class="mouse-enter">[查看详情]</a>
         </div><div>
-          <span class="menber-title">帮助中心留言：</span>
-          <span class="menber-info">0条</span>
-         <a href="" class="mouse-enter">[查看详情]</a>
-        </div> 
-          <!-- <a href="" class="mouse-enter">[查看详情]</a>
-        </div>
-       <div>
           <span class="menber-title">帮助中心留言：</span>
           <span class="menber-info">0条</span>
            <a href="" class="mouse-enter">[查看详情]</a>
@@ -234,7 +197,7 @@
             <!-- <a slot="name" slot-scope="text">{{ text }}</a> -->
             <div slot="id" slot-scope="text">
               <a-button type="primary" size="small">
-                <a :href="`/product/cloudservers/info?id=${text}`">查看</a>
+                <a :href="`#/business/cloudservers/info?id=${text}`">查看</a>
               </a-button>
             </div>
           </a-table>
@@ -295,11 +258,8 @@
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
-    </div>
-    <div class="greyblock"></div>
-    </div><div class="greyblock"></div>
-    </div>
-    <div class="greyblock"></div>
+    </div> -->
+    <!-- <div class="greyblock"></div>
     <div>
       <p class="menber-p">登录日志</p>
       <div>
@@ -310,9 +270,8 @@
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
-    </div><div class="greyblock"></div>
-    </div> 
-    <div class="greyblock"></div>
+    </div> -->
+    <!-- <div class="greyblock"></div>
     <div>
       <p class="menber-p">资料变更记录</p>
       <div>
@@ -323,9 +282,8 @@
       <div class="Check">
         <a href="" class="mouse-enter">查看更多>></a>
       </div>
-    </div>
-    <div class="greyblock40"></div> 
-    </div> <div class="greyblock40"></div> -->
+    </div> -->
+    <!-- <div class="greyblock40"></div> -->
   </div>
 </template>
 
@@ -558,8 +516,7 @@ export default {
         // console.log(res.data, '子组件的data');
         this.$store
           .dispatch("member/getMemberServer", {
-            corporationCode: res.data.corporationCode,
-            runningStatus: ""
+            corporationCode: res.data.corporationCode
           })
           .then(data => {
             // this.data = res.data;
