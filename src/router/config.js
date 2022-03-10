@@ -1199,15 +1199,15 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              // {
-              //   path: "enterprise",
-              //   name: "企业认证",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "home-index-message"
-              //   },
-              //   component: () => import("@/pages/user/enterprise/index.vue")
-              // },
+              {
+                path: "enterprise",
+                name: "企业认证",
+                meta: {
+                  icon: "home",
+                  perm: "home-index-message"
+                },
+                component: () => import("@/pages/user/enterprise/index.vue")
+              },
               {
                 path: "message",
                 name: "我的消息",
