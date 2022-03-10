@@ -13,6 +13,18 @@
               添加角色
             </a-button>
           </a-form-model-item>
+          <a-form-model-item>
+            <a-input
+              v-model="listQuery.search"
+              allowClear
+              placeholder="请输入角色名称进行搜索"
+            />
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button type="primary" @click="search">
+              查询
+            </a-button>
+          </a-form-model-item>
         </a-form-model>
       </div>
       <div class="public-table-wrap">
@@ -23,33 +35,36 @@
           rowKey="id"
           :pagination="false"
         >
-          <span slot="createdAt" slot-scope="text">
-            {{ text | formatDate }}
+          <span slot="status" slot-scope="text, record">
+            <a-switch :checked="text" @change="handleChangeStatus(record)">
+              <a-icon slot="checkedChildren" type="check" />
+              <a-icon slot="unCheckedChildren" type="close" />
+            </a-switch>
           </span>
           <span slot="action" slot-scope="text, record">
-            <a-button
-              v-permission="'modify'"
-              type="link"
-              @click="handleEditRole(record)"
-            >
-              编辑
-            </a-button>
-            <a-divider type="vertical" />
-            <a-button
-              v-permission="'detail'"
-              type="link"
-              @click="handleGoDetail(record)"
-            >
-              详情
-            </a-button>
-            <a-divider type="vertical" />
-            <a-button
-              v-permission="'del'"
-              type="link"
-              @click="handleDel(record)"
-            >
-              删除
-            </a-button>
+            <a-space>
+              <a-button
+                v-permission="'detail'"
+                type="link"
+                @click="handleRelation(record)"
+              >
+                关联资源
+              </a-button>
+              <a-button
+                v-permission="'modify'"
+                type="link"
+                @click="handleEditRole(record)"
+              >
+                编辑
+              </a-button>
+              <a-button
+                v-permission="'del'"
+                type="link"
+                @click="handleDel(record)"
+              >
+                移除
+              </a-button>
+            </a-space>
           </span>
         </a-table>
       </div>
@@ -78,17 +93,21 @@ export default {
       },
       columns: [
         {
-          title: "角色Code",
+          title: "角色名称",
           dataIndex: "code"
         },
         {
-          title: "角色描述",
-          dataIndex: "description"
+          title: "角色类型",
+          dataIndex: "codae"
         },
         {
-          title: "创建时间",
-          dataIndex: "createdAt",
-          scopedSlots: { customRender: "createdAt" }
+          title: "状态",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
+        },
+        {
+          title: "描述",
+          dataIndex: "descr3iption"
         },
         {
           title: "操作",
@@ -96,7 +115,7 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      data: [],
+      data: [{}],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -161,24 +180,39 @@ export default {
     modalSuccess() {
       this.getList();
     },
-    // 跳转详情
-    handleGoDetail(record) {
+    // 关联资源-给角色添加权限
+    handleRelation(record) {
       this.$router.push({
-        path: "/organization/admin/detail",
+        path: "/organization/admin/relation",
         query: {
           code: record.code
+        }
+      });
+    },
+    // 修改角色状态
+    handleChangeStatus(record) {
+      const statusTxt = record.status === 1 ? "启用" : "禁用";
+      this.$confirm({
+        title: `确认要${statusTxt}当前角色吗？`,
+        onOk: () => {
+          this.$store
+            .dispatch("system/delRole", { code: record.code })
+            .then(res => {
+              this.$message.success(`${statusTxt}成功`);
+              this.getList();
+            });
         }
       });
     },
     // 删除
     handleDel(record) {
       this.$confirm({
-        title: "确认要删除吗？",
+        title: "确认要移除当前角色吗？",
         onOk: () => {
           this.$store
             .dispatch("system/delRole", { code: record.code })
             .then(res => {
-              this.$message.success("删除成功");
+              this.$message.success("移除成功");
               this.getList();
             });
         }

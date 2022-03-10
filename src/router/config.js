@@ -1109,14 +1109,14 @@ export const asyncRoute = [
                 component: () => import("@/pages/organization/admin/role")
               },
               {
-                path: "detail",
-                name: "角色详情",
+                path: "relation",
+                name: "角色关联资源",
                 meta: {
                   invisible: true,
                   back: true,
                   perm: "system-admin-role"
                 },
-                component: () => import("@/pages/organization/admin/detail")
+                component: () => import("@/pages/organization/admin/relation")
               }
             ]
           }

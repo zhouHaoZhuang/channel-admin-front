@@ -100,13 +100,6 @@ export const orderStatusEnum = {
   3: "支付中",
   5: "交易完成"
 };
-
-// 权限管理-权限单选map
-export const systemAdminMapEnum = {
-  MENU: "一级菜单",
-  DATA: "二级菜单",
-  BUTTON: "三级菜单"
-};
 // 轮播图类型map
 export const bannerTypeEnum = {
   "0": "首页banner",
