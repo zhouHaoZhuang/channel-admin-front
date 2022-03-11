@@ -134,7 +134,7 @@
                 </a-col>
                 <a-col :span="4">
                   <a-button
-                    :loading="sendLoading"
+                    :disabled="sendLoading"
                     style="margin-left: 10px;"
                     type="primary"
                     @click="sendEmail"
