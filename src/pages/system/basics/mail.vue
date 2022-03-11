@@ -120,6 +120,7 @@
                 />
               </a-form-model-item>
               <a-tooltip
+                style="margin-left: 10px;"
                 title="邮箱发送服务器端口，可为空，默认TLS模式为25，SSL为465，如需其他端口可自行设置"
               >
                 <a-icon type="question-circle" />
@@ -132,20 +133,20 @@
                     <a-input type="email" v-model="email" />
                   </a-form-model-item>
                 </a-col>
-                  <a-button
-                    :disabled="sendLoading"
-                    style="margin-left: 10px;"
-                    type="primary"
-                    @click="sendEmail"
-                  >
-                    {{ btnTxt }}
-                  </a-button>
-                  <a-tooltip
-                    style="margin-left: 10px;"
-                    title="用于测试您的邮箱是否可以正常发送邮件，测试发件不成功时，可尝试更换邮箱。"
-                  >
-                    <a-icon type="question-circle" />
-                  </a-tooltip>
+                <a-button
+                  :disabled="sendLoading"
+                  style="margin-left: 10px;"
+                  type="primary"
+                  @click="sendEmail"
+                >
+                  {{ btnTxt }}
+                </a-button>
+                <a-tooltip
+                  style="margin-left: 10px;"
+                  title="用于测试您的邮箱是否可以正常发送邮件，测试发件不成功时，可尝试更换邮箱。"
+                >
+                  <a-icon type="question-circle" />
+                </a-tooltip>
               </a-row>
             </a-form-model-item>
             <!-- <a-form-model-item label="测试收件箱">
