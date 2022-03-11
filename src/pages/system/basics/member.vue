@@ -22,7 +22,7 @@
             </a-form-model-item>
             <a-form-model-item required label="密码长度" help = '注意：密码长度在6-20位！'>
               <a-form-model-item class="model-item" prop="pwd_min_length">
-                <a-input-number :min="6" v-model="form.pwd_min_length" />
+                <a-input-number :min="6" :max="19" v-model="form.pwd_min_length" />
               </a-form-model-item>
               <span class="model-item">-</span>
               <a-form-model-item prop="pwd_max_length" class="model-item">
