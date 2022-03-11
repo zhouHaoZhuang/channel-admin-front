@@ -90,13 +90,13 @@
         <a-form-model-item label="上传PC图片">
           <div class="addimages">
             <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
-            <span>注：推荐尺寸:1920*660，不超过500kb</span>
+            <span>注：推荐尺寸:1920*660</span>
           </div>
         </a-form-model-item>
         <a-form-model-item label="上传手机图片">
           <div class="addimages">
             <Upload :defaultFile="form.phonePicture" @change="mbImgChange" />
-            <span>注：推荐尺寸:640*560,不超过500kb</span>
+            <span>注：推荐尺寸:640*560</span>
           </div>
         </a-form-model-item>
 
