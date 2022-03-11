@@ -35,7 +35,7 @@
         >
           <a-icon slot="prefix" type="smile" />
         </a-input>
-        <CodeBtn :phone="form.phone" codeType="3" />
+        <CodeBtn :phone="form.phone" codeType="3" :isDisabled="isDisabled" />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password
@@ -86,6 +86,7 @@ export default {
       labelCol: { span: 6 },
       phone: "",
       wrapperCol: { span: 8 },
+      isDisabled: false,
       form: {
         phone: "",
         newPassword: "",
@@ -105,8 +106,10 @@ export default {
             validator: (rule, value, callback) => {
               if (value !== this.userInfo.phone) {
                 callback(new Error("请输入当前登录手机号"));
+                this.isDisabled = true;
               } else {
                 callback();
+                this.isDisabled = false;
               }
             },
             trigger: "blur"

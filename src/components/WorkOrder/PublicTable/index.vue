@@ -294,11 +294,11 @@ export default {
     },
     $route: {
       handler(newVal) {
-        if (newVal.path === "/service/workorderManage/list") {
+        if (newVal.path === "/workOrder/workorderManage/list") {
           this.listQuery.questionCategoryCode =
             newVal.query.questionCategoryCode || undefined;
         }
-        if (newVal.path === "/service/workorderManage/myWorkor") {
+        if (newVal.path === "/workOrder/workorderManage/myWorkor") {
           this.listQuery.questionCategoryCode = undefined;
         }
       },

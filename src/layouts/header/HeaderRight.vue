@@ -30,7 +30,17 @@ export default {
           pageSize: 999
         })
         .then(res => {
-          const data = res.data.list.filter(ele => ele.defaultDomain * 1 === 1);
+          const newRes = [...res.data.list];
+          const data =
+            newRes.length > 2
+              ? newRes
+                  .slice(newRes.length - 2)
+                  .filter(
+                    ele => ele.cnameStatus !== -1 && ele.cnameStatus === 0
+                  )
+              : newRes.filter(
+                  ele => ele.cnameStatus !== -1 && ele.cnameStatus === 0
+                );
           this.url = data[0].domain;
         });
     },

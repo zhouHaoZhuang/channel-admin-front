@@ -27,6 +27,7 @@
           v-model="form.receiverAccountList"
           style="width: 200px"
           @change="handleChange"
+          :getPopupContainer="triggerNode => triggerNode.parentNode"
         >
           <a-select-option v-for="item in data" :key="item.corporationCode">
             {{ item.corporationName }}
@@ -49,7 +50,7 @@
       <a-form-model-item label="发送标题" prop="title">
         <a-input v-model="form.title" />
       </a-form-model-item>
-      <a-form-model-item label="内容">
+      <a-form-model-item label="内容" help="注意：内容字数不要超过1500字">
         <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.content" />
       </a-form-model-item>
       <!-- <a-form-model-item label="每页发送" prop="name">

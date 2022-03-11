@@ -112,7 +112,7 @@
             class="btn"
           >
             <a-select-option
-              v-for="item in columns.slice(0, columns.length - 3)"
+              v-for="item in columns.slice(0, columns.length - 5)"
               :key="item.dataIndex"
               :value="item.dataIndex"
             >
