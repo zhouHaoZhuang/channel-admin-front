@@ -326,7 +326,10 @@ export default {
   created() {
     this.getAlipay();
     console.log(this.formData, "this.formData");
-    this.formRecharge = this.formData;
+    for (let key in this.formRecharge) {
+      this.formRecharge[key] = this.formData[key];
+    }
+    console.log(this.formRecharge, "this.formRecharge");
   },
   props: {
     formData: {

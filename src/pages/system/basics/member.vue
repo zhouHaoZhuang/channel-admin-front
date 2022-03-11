@@ -20,9 +20,17 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item required label="密码长度" help = '注意：密码长度在6-20位！'>
+            <a-form-model-item
+              required
+              label="密码长度"
+              help="注意：密码长度在6-20位！"
+            >
               <a-form-model-item class="model-item" prop="pwd_min_length">
-                <a-input-number :min="6" :max="19" v-model="form.pwd_min_length" />
+                <a-input-number
+                  :min="6"
+                  :max="19"
+                  v-model="form.pwd_min_length"
+                />
               </a-form-model-item>
               <span class="model-item">-</span>
               <a-form-model-item prop="pwd_max_length" class="model-item">
@@ -119,7 +127,7 @@
               </a-form-model-item>
               <div class="model-item">分钟</div>
             </a-form-model-item>
-            <a-form-model-item label="登录失败次数达到" prop="linkUrl">
+            <!-- <a-form-model-item label="登录失败次数达到" prop="linkUrl">
               <a-input-number
                 :min="1"
                 v-model="form.login_fail_times"
@@ -134,7 +142,7 @@
                 style="width:100px"
               />
               <div class="model-item">分钟</div>
-            </a-form-model-item>
+            </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
         <!-- <a-collapse-panel key="3" header="实名认证">
@@ -372,16 +380,16 @@ export default {
         enable_elsewhere_login: "",
         pwd_fail_times: "",
         pwd_fail_minutes: "",
-        login_fail_times: "",
-        login_fail_minutes: "",
+        // login_fail_times: "",
+        // login_fail_minutes: "",
         // 短信邮件
         send_msm_times: "",
         send_msm_hour: "",
         send_email_times: "",
         send_email_hour: "",
-        hour_limit: "",
+        hour_limit: ""
         // 客服
-        enable_commissioner: ""
+        // enable_commissioner: ""
       },
       rules: {
         linkName: [
@@ -406,7 +414,7 @@ export default {
           },
           {
             validator: (rule, value, callback) => {
-              if (value <= this.form.pwd_min_length) {
+              if (value * 1 <= this.form.pwd_min_length * 1) {
                 callback(new Error("最大长度不能小于最小长度"));
               } else {
                 callback();
@@ -479,7 +487,10 @@ export default {
   },
   created() {
     console.log(this.formData, "this.formData");
-    this.form = this.formData;
+    for (let key in this.form) {
+      this.form[key] = this.formData[key];
+    }
+    console.log(this.form, "this.form");
   },
   methods: {
     onSubmit() {

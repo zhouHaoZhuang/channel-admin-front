@@ -260,7 +260,10 @@ export default {
   },
   created() {
     console.log(this.formData, "this.formData");
-    this.form = this.formData;
+    for (let key in this.form) {
+      this.form[key] = this.formData[key];
+    }
+    console.log(this.form, "this.form");
     if (this.form.email_port !== "25" && this.form.email_port !== "465") {
       this.form.email_port_other = this.form.email_port;
       this.form.email_port = "";
