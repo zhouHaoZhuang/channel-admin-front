@@ -83,7 +83,7 @@ export default {
                 .dispatch("business/unsubscribeServe", this.form)
                 .then(res => {
                   console.log(res);
-                  this.$message.success("退订成功,请稍等3秒",4);
+                  this.$message.success("退订成功,请稍等",3);
                 })
                 .finally(() => {
                   setTimeout(() => {
