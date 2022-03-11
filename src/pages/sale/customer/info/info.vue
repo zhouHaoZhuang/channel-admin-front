@@ -204,7 +204,7 @@
             <!-- <a slot="name" slot-scope="text">{{ text }}</a> -->
             <div slot="id" slot-scope="text">
               <a-button type="primary" size="small">
-                <a :href="`#/business/cloudservers/info?id=${text}`">查看</a>
+                <a :href="`/product/cloudservers/info?id=${text}`">查看</a>
               </a-button>
             </div>
           </a-table>
@@ -523,7 +523,8 @@ export default {
         // console.log(res.data, '子组件的data');
         this.$store
           .dispatch("member/getMemberServer", {
-            corporationCode: res.data.corporationCode
+            corporationCode: res.data.corporationCode,
+            runningStatus: ""
           })
           .then(data => {
             // this.data = res.data;
