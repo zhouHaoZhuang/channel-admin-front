@@ -11,7 +11,7 @@
       </div>
       <h1>
         <span>账户余额：</span>
-        <span>{{ balanceData.userAmount }} 元</span>
+        <span v-show="balanceData.userAmount">{{ balanceData.userAmount }} 元</span>
       </h1>
       <div>
         <span> 充值金额： </span>
@@ -29,11 +29,6 @@
       </div>
       <div class="paymentMethod">
         <span class="paymentMethod-type">支付方式：</span>
-        <!-- <div class="WeChatply">
-        <img width="30px" src="@/assets/img/pay/WeChat.png" />
-        <span>微信支付</span>
-      </div> -->
-
         <a-radio-group v-model="payType" @change="onChange">
           <a-radio value="ali">
             <!-- <div class="WeChatply Alipay"> -->
