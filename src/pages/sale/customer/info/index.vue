@@ -24,12 +24,12 @@
             <Info></Info>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="实名认证">
+        <!-- <a-tab-pane key="2" tab="实名认证">
           <p>实名认证</p>
         </a-tab-pane>
         <a-tab-pane key="3" tab="会员API">
           <p>会员API</p>
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
     </div>
   </div>

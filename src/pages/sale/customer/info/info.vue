@@ -9,7 +9,7 @@
         </div>
         <div>
           <span class="menber-title">姓名：</span>
-          <span class="menber-info">{{ dataBase.corporationName }}</span>
+          <span class="menber-info">{{ dataBase.realName }}</span>
         </div>
         <div>
           <span class="menber-title">注册时间：</span>
@@ -37,19 +37,17 @@
         <div>
           <span class="menber-title">密码找回锁定：</span>
           <span class="menber-info">----未锁定</span>
-        </div> -->
-        <div>
+        </div> <div>
           <span class="menber-title">管理员锁定：</span>
           <span class="menber-info" v-if="dataBase.adminLock">
             {{ dataBase.adminLock == 0 ? "正常" : "锁定" }}
           </span>
-        </div>
-        <div>
+        </div> <div>
           <span class="menber-title">登录锁定：</span>
           <span class="menber-info" v-if="dataBase.loginLock">
             {{ dataBase.loginLock == 0 ? "正常" : "锁定" }}
           </span>
-        </div>
+        </div> -->
         <div>
           <span class="menber-title">状态：</span>
           <span
@@ -71,20 +69,18 @@
           <span class="menber-info">{{ dataBase.balance }}元</span>
           <!-- <a class="mouse-enter" href="">[增减余额]</a> -->
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">现金券：</span>
           <span class="menber-info">{{ dataBase.cash }}元</span>
-          <!-- <a class="mouse-enter">(共0张)</a>
-          <a class="mouse-enter">(0条使用记录)</a> -->
-        </div>
-        <div>
+          <a class="mouse-enter">(共0张)</a>
+          <a class="mouse-enter">(0条使用记录)</a>
+        </div><div>
           <span class="menber-title">积分：</span>
           <span class="menber-info">{{ dataBase.integral }}分</span>
-        </div>
-        <div>
+        </div><div>
           <span class="menber-title">授信额度：</span>
           <span class="menber-info">{{ dataBase.creditNumber }}</span>
-          <!-- <a class="mouse-enter">[修改授信额度]</a> -->
+          <a class="mouse-enter">[修改授信额度]</a>
         </div>
         <div>
           <span class="menber-title">专席销售：</span>
@@ -94,11 +90,11 @@
           <span class="menber-title">登录次数：</span>
           <span class="menber-info">{{ dataBase.loginFaileNumber }}次</span>
         </div>
-        <!-- <div>
+         <div>
           <span class="menber-title">所属会员组：</span>
           <span class="menber-info">---普通会员</span>
           <a class="mouse-enter">[修改会员组]</a>
-        </div> -->
+        </div>
         <div>
           <span class="menber-title">API状态：</span>
           <span
@@ -107,7 +103,7 @@
           >
             {{ dataBase.apiStatus == 1 ? "正常" : "未开通" }}
           </span>
-        </div>
+        </div> -->
         <div>
           <span class="menber-title">认证状态：</span>
           <span
@@ -121,11 +117,11 @@
             {{ dataBase.certificationStatus == 1 ? "已认证" : "未认证" }}
           </span>
         </div>
-        <div>
+        <!-- <div>
           <span class="menber-title">备注：</span>
           <span class="menber-info">{{ dataBase.remark }}</span>
-          <!-- <a class="mouse-enter">[修改备注]</a> -->
-        </div>
+          <a class="mouse-enter">[修改备注]</a> 
+        </div> -->
       </div>
     </div>
     <div class="greyblock"></div>
@@ -140,7 +136,7 @@
         <div>
           <span class="menber-title">消费：</span>
           <span class="menber-info">{{ dataBase.payMoney }}元</span>
-          <span>0条记录</span>
+          <!-- <span>0条记录</span> -->
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
         <!-- <div>
@@ -162,8 +158,8 @@
           <span class="menber-title">申请发票：</span>
           <span class="menber-info">0元</span><span>(0条记录)</span>
            <a href="" class="mouse-enter">[查看详情]</a>
-        </div>
-         <div>
+        </div> -->
+        <!-- <div>
           <span class="menber-title">工单：</span>
           <span class="menber-info">0条</span>
          <a href="" class="mouse-enter">[查看详情]</a>
@@ -171,7 +167,7 @@
         <div>
           <span class="menber-title">投诉：</span>
           <span class="menber-info">0条</span>
-         <a href="" class="mouse-enter">[查看详情]</a>
+           <a href="" class="mouse-enter">[查看详情]</a>
         </div> -->
         <div>
           <span class="menber-title">站内消息：</span>
@@ -191,8 +187,9 @@
         <!-- <div>
           <span class="menber-title">官方留言：</span>
           <span class="menber-info">0条</span>
-          <a href="" class="mouse-enter">[查看详情]</a>
-        </div><div>
+           <a href="" class="mouse-enter">[查看详情]</a>
+        </div> -->
+        <!-- <div>
           <span class="menber-title">帮助中心留言：</span>
           <span class="menber-info">0条</span>
            <a href="" class="mouse-enter">[查看详情]</a>
