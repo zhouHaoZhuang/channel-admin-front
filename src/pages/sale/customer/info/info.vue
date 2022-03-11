@@ -200,7 +200,11 @@
     <div class="card-container">
       <a-tabs type="card">
         <a-tab-pane key="1" tab="云服务器">
-          <a-table :columns="columnsCloudService" :data-source="MemberServer">
+          <a-table
+            :pagination="false"
+            :columns="columnsCloudService"
+            :data-source="MemberServer"
+          >
             <!-- <a slot="name" slot-scope="text">{{ text }}</a> -->
             <div slot="id" slot-scope="text">
               <a-button type="primary" size="small">
@@ -307,12 +311,12 @@ export default {
         {
           title: "外网IP",
           dataIndex: "outIp"
-        },
-        {
-          title: "详情",
-          dataIndex: "id",
-          scopedSlots: { customRender: "id" }
         }
+        // {
+        //   title: "详情",
+        //   dataIndex: "id",
+        //   scopedSlots: { customRender: "id" }
+        // }
       ],
       MemberServer: null,
       columnsHosting: [
