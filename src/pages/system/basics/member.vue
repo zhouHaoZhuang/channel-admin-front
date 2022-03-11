@@ -416,9 +416,8 @@ export default {
             validator: (rule, value, callback) => {
               if (value * 1 <= this.form.pwd_min_length * 1) {
                 callback(new Error("最大长度不能小于最小长度"));
-              } else {
-                callback();
               }
+              callback();
             },
             trigger: ["blur", "change"]
           }
@@ -495,6 +494,7 @@ export default {
   methods: {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
+        console.log(valid, "valid");
         if (valid) {
           this.$store
             .dispatch("emailSms/modifyAllConfig", this.form)
