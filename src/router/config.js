@@ -298,6 +298,15 @@ export const asyncRoute = [
                   perm: "finance-book-order"
                 },
                 component: () => import("@/pages/sale/finance/refund/index.vue")
+              },
+              {
+                path: "rechargeCentre",
+                name: "充值中心",
+                meta: {
+                  icon: "home",
+                  perm: "finance-book-order"
+                },
+                component: () => import("@/pages/sale/finance/rechargeCentre/index.vue")
               }
               // {
               //   path: "withdraw",
