@@ -1,7 +1,7 @@
 <template>
   <div class="online">
     <div>
-      <a>温馨提示</a>
+      <u>温馨提示</u>
       <div class="warn">
         <p>1、充值最小金额1元</p>
         <p>
@@ -10,7 +10,8 @@
         <p>3、如充值后款项没有到账，请联系在线客服帮助处理，或提交工单</p>
       </div>
       <h1>
-        <span>账户余额：</span><span>{{ balanceData.userAmount }} 元</span>
+        <span>账户余额：</span>
+        <span>{{ balanceData.userAmount }} 元</span>
       </h1>
       <div>
         <span> 充值金额： </span>
@@ -136,7 +137,8 @@ export default {
 <style lang="less" scoped>
 .online {
   margin-top: 20px;
-  a {
+  margin-left: 20px;
+  u {
     color: #f59a23;
   }
   .warn {
@@ -183,8 +185,9 @@ h1 {
     display: inline-block;
   }
   > span:first-child {
-    width: 135px;
+    width: 90px;
     padding-right: 10px;
+    font-size: 14px;
   }
   > span:last-child {
     width: 500px;
