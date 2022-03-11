@@ -127,7 +127,7 @@
               </a-form-model-item>
               <div class="model-item">分钟</div>
             </a-form-model-item>
-            <a-form-model-item label="登录失败次数达到" prop="linkUrl">
+            <!-- <a-form-model-item label="登录失败次数达到" prop="linkUrl">
               <a-input-number
                 :min="1"
                 v-model="form.login_fail_times"
@@ -142,7 +142,7 @@
                 style="width:100px"
               />
               <div class="model-item">分钟</div>
-            </a-form-model-item>
+            </a-form-model-item> -->
           </a-form-model>
         </a-collapse-panel>
         <!-- <a-collapse-panel key="3" header="实名认证">
@@ -380,8 +380,8 @@ export default {
         enable_elsewhere_login: "",
         pwd_fail_times: "",
         pwd_fail_minutes: "",
-        login_fail_times: "",
-        login_fail_minutes: "",
+        // login_fail_times: "",
+        // login_fail_minutes: "",
         // 短信邮件
         send_msm_times: "",
         send_msm_hour: "",
