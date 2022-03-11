@@ -645,7 +645,7 @@ export default {
 .sample-graph {
   display: flex;
   .upload {
-    width: 120px;
+    display: inline-block;
   }
   .sample-img {
     text-align: center;
