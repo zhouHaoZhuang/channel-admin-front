@@ -31,6 +31,12 @@
             <a-form-model-item label="网站描述">
               <a-input v-model="form.describe" type="textarea" />
             </a-form-model-item>
+            <a-form-model-item
+              label="交换地址链接"
+              prop="internationalSiteAddress"
+            >
+              <a-input v-model="form.internationalSiteAddress" />
+            </a-form-model-item>
             <a-form-model-item label="ICP备案" prop="recordNo">
               <a-input v-model="form.recordNo" />
             </a-form-model-item>
