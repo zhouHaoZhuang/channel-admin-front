@@ -1,7 +1,7 @@
 <template>
   <div class="online">
-    <div >
-      <a >温馨提示</a>
+    <div>
+      <a>温馨提示</a>
       <div class="warn">
         <p>1、充值最小金额1元</p>
         <p>
@@ -12,11 +12,11 @@
       <h1>
         <span>账户余额：</span><span>{{ balanceData.userAmount }} 元</span>
       </h1>
-      <!-- <p>暂未开启充值</p> -->
       <div>
         <span> 充值金额： </span>
         <a-input-number
           style="width: 180px"
+          placeholder="请输入需要充值的金额"
           v-number-evolution="{
             min: 1,
             max: 9999999,
@@ -32,10 +32,35 @@
         <img width="30px" src="@/assets/img/pay/WeChat.png" />
         <span>微信支付</span>
       </div> -->
-        <div class="WeChatply Alipay" >
-          <img width="40px" src="@/assets/img/pay/Alipay.png" />
-          <span>支付宝支付</span>
-        </div>
+
+        <a-radio-group v-model="payType" @change="onChange">
+          <a-radio value="ali">
+            <!-- <div class="WeChatply Alipay"> -->
+            <span>支付宝</span>
+            <img
+              style="margin-left: 5px;"
+              width="20px"
+              src="@/assets/img/pay/Alipay.png"
+            />
+            <!-- </div> -->
+          </a-radio>
+          <a-radio :value="2">
+            <span>微信</span>
+            <img
+              style="margin-left: 5px;"
+              width="20px"
+              src="@/assets/img/pay/WeChatPay.png"
+            />
+          </a-radio>
+          <a-radio :value="3">
+            <span>云闪付</span>
+            <img
+              style="margin-left: 5px;"
+              width="20px"
+              src="@/assets/img/pay/CloudQuickPass.png"
+            />
+          </a-radio>
+        </a-radio-group>
       </div>
       <RechargeBtn
         class="rechargeBtn"
@@ -69,7 +94,8 @@ export default {
         balanceAmount: "",
         payType: ["ali", "balance"]
       },
-      time: null
+      time: null,
+      payType: "ali"
     };
   },
   created() {
@@ -80,15 +106,18 @@ export default {
   },
   computed: {
     ...mapState({
-      allConfig: (state) => state.user.allConfig
+      allConfig: state => state.user.allConfig
     })
   },
   methods: {
+    onChange(e) {
+      console.log("radio checked", e.target.value);
+    },
     // 查询余额
     getUserBalance() {
       this.$store
         .dispatch("finance/getUserBalance", this.balanceForm)
-        .then((res) => {
+        .then(res => {
           this.balanceData = { ...res.data };
         });
     },
@@ -107,6 +136,9 @@ export default {
 <style lang="less" scoped>
 .online {
   margin-top: 20px;
+  a {
+    color: #f59a23;
+  }
   .warn {
     padding: 7px 22px 5px 0;
     border-radius: 2px;
@@ -124,6 +156,7 @@ export default {
   }
   .paymentMethod {
     display: flex;
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 20px;
   }
@@ -145,7 +178,7 @@ export default {
   }
 }
 h1 {
-  margin: 20px 0 30px 0;
+  margin: 20px 0 10px 0;
   > span {
     display: inline-block;
   }
