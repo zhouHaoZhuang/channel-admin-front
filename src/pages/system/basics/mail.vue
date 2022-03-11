@@ -132,7 +132,6 @@
                     <a-input type="email" v-model="email" />
                   </a-form-model-item>
                 </a-col>
-                <a-col :span="4">
                   <a-button
                     :disabled="sendLoading"
                     style="margin-left: 10px;"
@@ -141,14 +140,12 @@
                   >
                     {{ btnTxt }}
                   </a-button>
-                </a-col>
-                <a-col :span="2">
                   <a-tooltip
+                    style="margin-left: 10px;"
                     title="用于测试您的邮箱是否可以正常发送邮件，测试发件不成功时，可尝试更换邮箱。"
                   >
                     <a-icon type="question-circle" />
                   </a-tooltip>
-                </a-col>
               </a-row>
             </a-form-model-item>
             <!-- <a-form-model-item label="测试收件箱">
