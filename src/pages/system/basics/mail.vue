@@ -132,9 +132,9 @@
                     <a-input type="email" v-model="email" />
                   </a-form-model-item>
                 </a-col>
-                <a-col :span="4">
+                <a-col :span="5">
                   <a-button
-                    :loading="sendLoading"
+                    :disabled="sendLoading"
                     style="margin-left: 10px;"
                     type="primary"
                     @click="sendEmail"
@@ -144,6 +144,7 @@
                 </a-col>
                 <a-col :span="2">
                   <a-tooltip
+                    style="margin-left: 10px;"
                     title="用于测试您的邮箱是否可以正常发送邮件，测试发件不成功时，可尝试更换邮箱。"
                   >
                     <a-icon type="question-circle" />
@@ -299,15 +300,33 @@ export default {
     sendEmail() {
       if (this.email) {
         this.sendLoading = true;
-        this.$store
-          .dispatch("user/sendEmail", { email: this.email })
-          .then(() => {
-            this.$message.success("发送成功");
-            this.startTime();
-          })
-          .catch(() => {
-            this.sendLoading = false;
-          });
+        this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+            if (this.form.email_port === "") {
+              this.form.email_port = this.form.email_port_other;
+            }
+            let data = {
+              host: this.form.smtp,
+              port: this.form.email_port,
+              form: this.form.email_address,
+              user: this.form.email_username,
+              pass: this.form.email_password,
+              secure: this.form.smtp_secure,
+              receiverList: [this.email]
+            };
+            this.$store
+              .dispatch("user/sendEmail", data)
+              .then(() => {
+                this.$message.success("发送成功");
+                this.startTime();
+              })
+              .catch(() => {
+                this.sendLoading = false;
+              });
+          }
+        });
+      } else {
+        this.$message.error("请填写测试邮箱");
       }
     },
     startTime() {
