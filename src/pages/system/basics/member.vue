@@ -512,7 +512,10 @@ export default {
     getData() {
       this.$store.dispatch("emailSms/getAllConfig").then(res => {
         console.log(res);
-        this.form = res.data;
+        // this.form = res.data;
+        for (let key in this.form) {
+          this.form[key] = res.data[key];
+        }
       });
     }
   }
