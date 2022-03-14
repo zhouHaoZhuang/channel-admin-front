@@ -353,7 +353,10 @@ export default {
     getData() {
       this.$store.dispatch("emailSms/getAllConfig").then(res => {
         console.log(res);
-        this.form = res.data;
+        // this.form = res.data;
+        for (let key in this.form) {
+          this.form[key] = res.data[key];
+        }
         if (this.form.email_port !== "25" && this.form.email_port !== "465") {
           this.form.email_port_other = this.form.email_port;
           this.form.email_port = "";
