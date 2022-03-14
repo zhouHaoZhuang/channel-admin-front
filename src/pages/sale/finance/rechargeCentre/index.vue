@@ -4,14 +4,8 @@
       <a-tab-pane key="1" tab="在线充值">
         <Online></Online>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="在线充值记录">
-        <Record></Record>
-      </a-tab-pane>
-      <a-tab-pane key="3" tab="线下汇款">
+      <a-tab-pane key="2" tab="线下汇款">
         <Offline></Offline>
-      </a-tab-pane>
-      <a-tab-pane key="4" tab="线下汇款查询">
-        <Inquire></Inquire>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -25,9 +19,9 @@ import Inquire from "./Inquire/index.vue";
 export default {
   components: {
     Online,
-    Record,
+    // Record,
     Offline,
-    Inquire
+    // Inquire
   },
   data() {
     return {};
