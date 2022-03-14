@@ -1082,56 +1082,56 @@ export const asyncRoute = [
         ]
       },
       // 组织
-      {
-        path: "/organization",
-        name: "组织",
-        component: PageView,
-        meta: {
-          perm: "system"
-        },
-        children: [
-          {
-            path: "admin",
-            name: "组织管理",
-            meta: {
-              icon: "home",
-              perm: "system-admin"
-            },
-            component: BlankView,
-            children: [
-              {
-                path: "account",
-                name: "子账号管理",
-                meta: {
-                  icon: "home",
-                  perm: "system-admin-user"
-                },
-                component: () => import("@/pages/organization/admin/account")
-              },
-              {
-                path: "role",
-                name: "角色管理",
-                meta: {
-                  invisible: true,
-                  icon: "home",
-                  perm: "system-admin-role"
-                },
-                component: () => import("@/pages/organization/admin/role")
-              },
-              {
-                path: "detail",
-                name: "角色详情",
-                meta: {
-                  invisible: true,
-                  back: true,
-                  perm: "system-admin-role"
-                },
-                component: () => import("@/pages/organization/admin/detail")
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   path: "/organization",
+      //   name: "组织",
+      //   component: PageView,
+      //   meta: {
+      //     perm: "system"
+      //   },
+      //   children: [
+      //     {
+      //       path: "admin",
+      //       name: "组织管理",
+      //       meta: {
+      //         icon: "home",
+      //         perm: "system-admin"
+      //       },
+      //       component: BlankView,
+      //       children: [
+      //         {
+      //           path: "account",
+      //           name: "子账号管理",
+      //           meta: {
+      //             icon: "home",
+      //             perm: "system-admin-user"
+      //           },
+      //           component: () => import("@/pages/organization/admin/account")
+      //         },
+      //         {
+      //           path: "role",
+      //           name: "角色管理",
+      //           meta: {
+      //             invisible: true,
+      //             icon: "home",
+      //             perm: "system-admin-role"
+      //           },
+      //           component: () => import("@/pages/organization/admin/role")
+      //         },
+      //         {
+      //           path: "detail",
+      //           name: "角色详情",
+      //           meta: {
+      //             invisible: true,
+      //             back: true,
+      //             perm: "system-admin-role"
+      //           },
+      //           component: () => import("@/pages/organization/admin/detail")
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       // 系统
       {
         path: "/system",

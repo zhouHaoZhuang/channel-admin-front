@@ -395,7 +395,10 @@ export default {
   },
   created() {
     console.log(this.formData, "this.formData");
-    this.form = this.formData;
+    for (let key in this.form) {
+      this.form[key] = this.formData[key];
+    }
+    console.log(this.form, "this.form");
   },
   methods: {
     onSubmit() {

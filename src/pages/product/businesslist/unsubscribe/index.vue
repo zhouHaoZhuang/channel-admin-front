@@ -83,10 +83,12 @@ export default {
                 .dispatch("business/unsubscribeServe", this.form)
                 .then(res => {
                   console.log(res);
-                  this.$message.success("退订成功");
+                  this.$message.success("退订成功,请稍等",3);
                 })
                 .finally(() => {
-                  this.$router.back();
+                  setTimeout(() => {
+                    this.$router.back();
+                  }, 3000);
                 });
             }
           });
