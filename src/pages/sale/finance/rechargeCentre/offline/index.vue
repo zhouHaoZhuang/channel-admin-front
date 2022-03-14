@@ -2,8 +2,7 @@
   <div class="offline-content">
     <div class="offline-title">
       <p>
-        温馨提示：建议您首先采用微信、支付宝、银行卡
-        <a @click="change('online')">在线充值</a>
+        温馨提示：建议您首先采用微信、支付宝、银行卡在线充值
         ，金额可实时到账；线下汇款受银行系统影响，到账时间可能会存在延迟。
       </p>
     </div>
@@ -229,20 +228,20 @@ export default {
       this.form.voucher = urlList.toString();
     },
     getInfo() {
-      this.$store.dispatch("offline/getInfo").then((res) => {
+      this.$store.dispatch("offline/getInfo").then(res => {
         this.data = [res.data];
         console.log(res);
       });
     },
     // 获取公司信息
     getCompanyInfo() {
-      this.$store.dispatch("user/getCompanyInfo").then((res) => {
+      this.$store.dispatch("user/getCompanyInfo").then(res => {
         console.log(res.data.companyName);
         this.companyName = res.data.companyName;
       });
     },
     putOffline() {
-      this.$store.dispatch("offline/putOffline", this.form).then((res) => {
+      this.$store.dispatch("offline/putOffline", this.form).then(res => {
         // this.data = res.data;
         console.log(res);
       });
@@ -252,7 +251,7 @@ export default {
         title: "确定要提交吗?",
         onOk: () => {
           console.log(this.form);
-          this.$store.dispatch("offline/putOffline", this.form).then((res) => {
+          this.$store.dispatch("offline/putOffline", this.form).then(res => {
             // this.data = res.data;
             this.$message.success("提交成功");
             this.change("Inquire");
