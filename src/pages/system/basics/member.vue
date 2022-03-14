@@ -86,7 +86,7 @@
                 </a-radio>
               </a-radio-group>
             </a-form-model-item>
-            <a-form-model-item label="开启异地登录验证">
+            <!-- <a-form-model-item label="开启异地登录验证">
               <a-radio-group v-model="form.enable_elsewhere_login">
                 <a-radio value="1">
                   开启
@@ -95,8 +95,7 @@
                   关闭
                 </a-radio>
               </a-radio-group>
-            </a-form-model-item>
-            <!-- <a-form-model-item label="会员登录">
+            </a-form-model-item><a-form-model-item label="会员登录">
               <a-radio-group v-model="form.status">
                 <a-checkbox>
                   ID
