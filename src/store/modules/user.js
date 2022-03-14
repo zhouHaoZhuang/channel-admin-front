@@ -52,6 +52,20 @@ const user = {
         data
       });
     },
+    getEnterpriseRealNameInfo({ commit, state }, data) {
+      return request({
+        url: `/manageUser/getEnterpriseRealNameInfo`,
+        method: "get"
+      });
+    },
+    //上传企业实名认证信息
+    uploadEnterpriseRealName({ commit, state }, data) {
+      return request({
+        url: `/manageUser/uploadEnterpriseRealName`,
+        method: "post",
+        data
+      });
+    },
     // 登录
     login({ commit, state, dispatch }, data) {
       return new Promise((resolve, reject) => {
