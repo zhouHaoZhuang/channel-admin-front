@@ -146,7 +146,8 @@ export default {
     Upload,
     Tinymce
   },
-  created() {
+  activated() {
+    this.resetForm();
     this.getList();
   },
   methods: {
