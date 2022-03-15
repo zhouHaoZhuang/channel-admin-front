@@ -198,6 +198,9 @@ export default {
               this.$message.success("重置密码成功");
               this.$router.push("/login");
             })
+            .catch(() => {
+              this.refreshCode();
+            })
             .finally(() => {
               this.loading = false;
             });

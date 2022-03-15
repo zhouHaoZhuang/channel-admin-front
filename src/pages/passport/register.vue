@@ -205,6 +205,7 @@ export default {
                 this.$message.success("注册成功");
                 this.$router.push("/login");
               } else {
+                this.refreshCode();
                 this.$message.warning("注册失败");
               }
             })

@@ -198,6 +198,9 @@ export default {
               this.$message.success("登录成功");
               this.$router.push("/");
             })
+            .catch(() => {
+              this.refreshCode();
+            })
             .finally(() => {
               this.loading = false;
             });

@@ -108,7 +108,12 @@
       </a-form-model-item>
       <!-- 添加/编辑都展示 -->
       <a-form-model-item label="角色" prop="roleNames">
-        <a-select v-model="form.roleNames" allowClear placeholder="请选择角色">
+        <a-select
+          v-model="form.roleNames"
+          mode="multiple"
+          allowClear
+          placeholder="请选择角色"
+        >
           <a-select-option
             v-for="item in roleList"
             :key="item.id"
@@ -171,7 +176,7 @@ export default {
           });
         } else {
           this.refreshCode();
-          // this.getRoleList();
+          this.getRoleList();
         }
       }
     }
@@ -327,6 +332,9 @@ export default {
               this.$message.success(this.modalTitle + "成功");
               this.$emit("success");
               this.$emit("changeVisible", false);
+            })
+            .catch(() => {
+              this.refreshCode();
             })
             .finally(() => {
               this.loading = false;

@@ -46,11 +46,7 @@
         >
           <a-icon slot="prefix" type="smile" />
         </a-input>
-        <CodeBtn
-          :phone="form.phone"
-          codeType="3"
-          @validate="validateImgCode"
-        />
+        <CodeBtn :phone="form.phone" codeType="3" @validate="validateImgCode" />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password
@@ -155,7 +151,7 @@ export default {
           }
         ]
       },
-      identifyCode: "", //要核对的验证码
+      identifyCode: "" //要核对的验证码
     };
   },
   created() {
@@ -175,10 +171,15 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.form.password = this.form.newPassword;
-          this.$store.dispatch("user/changePassword", this.form).then(() => {
-            this.$message.success("修改成功");
-            this.logout();
-          });
+          this.$store
+            .dispatch("user/changePassword", this.form)
+            .then(() => {
+              this.$message.success("修改成功");
+              this.logout();
+            })
+            .catch(() => {
+              this.refreshCode();
+            });
         }
       });
     },
@@ -189,7 +190,7 @@ export default {
           console.log("获取角色", val);
         });
     },
-      // 获取验证码组件校验图形验证
+    // 获取验证码组件校验图形验证
     validateImgCode(callback) {
       let flag = false;
       this.$refs.ruleForm.validateField(
@@ -199,7 +200,7 @@ export default {
       callback(flag);
     },
     // 更新验证码
-   refreshCode() {
+    refreshCode() {
       this.identifyCode = getRandomCode();
     }
   },

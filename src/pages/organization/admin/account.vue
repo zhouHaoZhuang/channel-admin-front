@@ -130,7 +130,7 @@ export default {
       this.$store
         .dispatch("organization/getAccountList", this.listQuery)
         .then(res => {
-          this.data = [...res.data];
+          this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {

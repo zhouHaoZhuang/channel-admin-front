@@ -7,7 +7,7 @@
           角色名称：
         </div>
         <div class="value">
-          商品运行
+          {{ detail.name }}
         </div>
       </div>
       <div class="item">
@@ -15,7 +15,7 @@
           角色描述：
         </div>
         <div class="value">
-          商品运行xxxxxx
+          {{ detail.description }}
         </div>
       </div>
     </div>
@@ -101,18 +101,20 @@ export default {
       checkedKeys: [],
       // 权限菜单数据
       permMap: [],
-      loading: false
+      loading: false,
+      detail: {}
     };
   },
   computed: {
-    code() {
-      return this.$route.query.code;
+    id() {
+      return this.$route.query.id;
     }
   },
   watch: {
     $route: {
       handler(newVal) {
         if (newVal.path === "/organization/admin/relation") {
+          this.getDetail();
           // this.getPermMap();
         }
       },
@@ -121,10 +123,18 @@ export default {
     }
   },
   methods: {
+    // 获取角色详情
+    getDetail() {
+      this.$store
+        .dispatch("organization/getRoleDetail", { id: this.id })
+        .then(res => {
+          this.detail = { ...res.data };
+        });
+    },
     // 获取权限菜单
     getPermMap() {
       this.$store
-        .dispatch("system/getRoleDetail", { code: this.code })
+        .dispatch("organization/getRolePermMap", { id: this.id })
         .then(res => {
           this.permMap = [...res.data];
         });
@@ -142,7 +152,7 @@ export default {
     handleSave() {
       this.loading = true;
       this.$store
-        .dispatch("system/addRole", this.permMap)
+        .dispatch("organization/addRole", this.permMap)
         .then(res => {
           this.$message.success("角色关联资源成功");
           this.$router.back();

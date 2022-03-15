@@ -155,7 +155,12 @@ export default {
       this.tableLoading = true;
       this.$getListQp("organization/getRoleList", this.listQuery)
         .then(res => {
-          this.data = [...res.data.list];
+          this.data = res.data.list.map(ele => {
+            return {
+              ...ele,
+              status: ele.status === 0 ? false : true
+            };
+          });
           this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
@@ -198,14 +203,15 @@ export default {
     },
     // 修改角色状态
     handleChangeStatus(record) {
-      const statusTxt = record.status === 0 ? "启用" : "禁用";
+      const statusTxt = !record.status ? "启用" : "禁用";
+      console.log(record, record.status, statusTxt);
       this.$confirm({
         title: `确认要${statusTxt}当前角色吗？`,
         onOk: () => {
           this.$store
             .dispatch("organization/editRole", {
               id: record.id,
-              status: record.status === 0 ? 1 : 0
+              status: record.status ? 0 : 1
             })
             .then(res => {
               this.$message.success(`${statusTxt}成功`);
