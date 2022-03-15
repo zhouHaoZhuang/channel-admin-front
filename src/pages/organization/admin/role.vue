@@ -123,7 +123,7 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      data: [{}],
+      data: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,

@@ -63,8 +63,7 @@ export default {
       listQuery: {
         currentPage: 1,
         pageSize: 10,
-        total: 0,
-        isAll: false
+        total: 0
       },
       columns: [
         {
@@ -129,7 +128,7 @@ export default {
     getList() {
       this.tableLoading = true;
       this.$store
-        .dispatch("organization/getAccountList")
+        .dispatch("organization/getAccountList", this.listQuery)
         .then(res => {
           this.data = [...res.data];
           this.paginationProps.total = res.data.totalCount * 1;

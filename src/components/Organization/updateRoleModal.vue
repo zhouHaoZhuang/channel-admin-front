@@ -20,14 +20,13 @@
       <a-form-model-item label="角色名称" prop="name">
         <a-input
           v-model="form.name"
-          v-role-input
           :disabled="type === 'edit'"
           :max-length="30"
           placeholder="请输入角色名称"
         />
       </a-form-model-item>
       <a-form-model-item label="状态">
-        <a-switch :checked="form.status">
+        <a-switch v-model="form.status">
           <a-icon slot="checkedChildren" type="check" />
           <a-icon slot="unCheckedChildren" type="close" />
         </a-switch>
@@ -121,7 +120,7 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        code: "",
+        name: "",
         status: true,
         description: ""
       };
@@ -131,16 +130,18 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          const status = this.form.status ? 1 : 0;
           const req =
             this.type === "add"
               ? "organization/addRole"
               : "organization/editRole";
           const data =
             this.type === "add"
-              ? { ...this.form }
+              ? { ...this.form, status }
               : {
                   ...this.form,
-                  id: this.detail.id
+                  id: this.detail.id,
+                  status
                 };
           this.$store
             .dispatch(req, data)
