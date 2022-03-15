@@ -49,8 +49,7 @@
         <CodeBtn
           :phone="form.phone"
           codeType="3"
-          :verificationCode="form.verificationCode"
-          :identifyCode="identifyCode"
+          @validate="validateImgCode"
         />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
@@ -76,7 +75,7 @@
 import { mapState } from "vuex";
 import CodeBtn from "@/components/CodeBtn/index";
 import Identify from "@/components/Identify";
-import { randomNum } from "@/utils/index";
+import { getRandomCode } from "@/utils/index";
 export default {
   components: { CodeBtn, Identify },
   data() {
@@ -144,26 +143,19 @@ export default {
             required: true,
             message: "请输入图片图片校验码",
             trigger: ["blur", "change"]
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.identifyCode) {
+                callback(new Error("图形验证码不正确"));
+              }
+              callback();
+            },
+            trigger: ["blur", "change"]
           }
         ]
       },
       identifyCode: "", //要核对的验证码
-      identifyCodes: [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "a",
-        "b",
-        "c",
-        "d"
-      ] //根据实际需求加入自己想要的字符
     };
   },
   created() {
@@ -197,20 +189,18 @@ export default {
           console.log("获取角色", val);
         });
     },
-    // 随机生成验证码字符串
-    makeCode(data, len) {
-      for (let i = 0; i < len; i++) {
-        this.identifyCode += this.identifyCodes[
-          randomNum(0, this.identifyCodes.length - 1)
-        ];
-      }
+      // 获取验证码组件校验图形验证
+    validateImgCode(callback) {
+      let flag = false;
+      this.$refs.ruleForm.validateField(
+        "verificationCode",
+        err => (flag = err ? false : true)
+      );
+      callback(flag);
     },
     // 更新验证码
-    refreshCode() {
-      this.identifyCode = "";
-      // this.form.verificationCode = "";
-      this.makeCode(this.identifyCodes, 4);
-      console.log("当前验证码:", this.identifyCode);
+   refreshCode() {
+      this.identifyCode = getRandomCode();
     }
   },
 
