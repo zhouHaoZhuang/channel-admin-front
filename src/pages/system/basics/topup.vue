@@ -52,9 +52,9 @@
         >
           <a-form-model-item label="首选充值方式">
             <a-radio-group v-model="formRecharge.first_payment">
-              <!-- <a-radio :value="0">
+              <a-radio value="wxpay">
                 微信
-              </a-radio> -->
+              </a-radio>
               <a-radio value="alipay">
                 支付宝
               </a-radio>
@@ -62,6 +62,16 @@
           </a-form-model-item>
           <a-form-model-item label="支付宝PC充值开关">
             <a-radio-group v-model="formRecharge.alipay_switch">
+              <a-radio value="1">
+                开启
+              </a-radio>
+              <a-radio value="0">
+                关闭
+              </a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+          <a-form-model-item label="微信PC充值开关">
+            <a-radio-group v-model="formRecharge.wxpay_switch">
               <a-radio value="1">
                 开启
               </a-radio>
@@ -245,7 +255,8 @@ export default {
         first_payment: "",
         alipay_switch: "",
         min_recharge: "",
-        online_pay: ""
+        online_pay: "",
+        wxpay_switch: "",
       },
       getWechatPay: {
         wechatApiV3: "",
