@@ -77,7 +77,7 @@
       </a-form-model-item>
       <!-- 编辑时展示 -->
       <a-form-model-item v-if="type === 'edit'" label="账号">
-        {{ form.nickname }}
+        {{ form.username }}
       </a-form-model-item>
       <a-form-model-item v-if="type === 'edit'" label="子账号名称">
         {{ form.nickname }}
@@ -86,18 +86,14 @@
         {{ form.phone }}
       </a-form-model-item>
       <!-- 添加/编辑都展示 -->
-      <a-form-model-item label="角色" prop="role">
-        <a-select
-          v-model="form.receiverUser"
-          allowClear
-          placeholder="请选择角色"
-        >
+      <a-form-model-item label="角色" prop="roleNames">
+        <a-select v-model="form.roleNames" allowClear placeholder="请选择角色">
           <a-select-option
             v-for="item in roleList"
-            :key="item.code"
-            :value="item.code"
+            :key="item.id"
+            :value="item.id"
           >
-            {{ item.nickname }}
+            {{ item.name }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
@@ -185,7 +181,8 @@ export default {
         password: "",
         confirmPassword: "",
         phone: "",
-        code: ""
+        code: "",
+        roleNames: undefined
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
@@ -226,7 +223,7 @@ export default {
           },
           { validator: validatePass2, trigger: ["blur", "change"] }
         ],
-        role: [
+        roleNames: [
           {
             required: true,
             message: "请选择角色",
@@ -241,7 +238,7 @@ export default {
     // 查询角色列表
     getRoleList() {
       this.$store
-        .dispatch("system/getRoleList", {
+        .dispatch("organization/getRoleList", {
           currentPage: 1,
           pageSize: 999
         })
@@ -261,7 +258,8 @@ export default {
         password: "",
         confirmPassword: "",
         phone: "",
-        code: ""
+        code: "",
+        roleNames: undefined
       };
     },
     // 禁止输入空格
@@ -276,7 +274,9 @@ export default {
         if (valid) {
           this.loading = true;
           const req =
-            this.type === "add" ? "system/addAccount" : "system/editAccount";
+            this.type === "add"
+              ? "organization/addAccount"
+              : "organization/editAccount";
           this.$store
             .dispatch(req, this.form)
             .then(res => {

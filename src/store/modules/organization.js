@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const channel = {
+const organization = {
   namespaced: true,
   state: {},
 
@@ -53,10 +53,11 @@ const channel = {
       });
     },
     // 获取子账号列表
-    getModalUserList({ commit, state }) {
+    getAccountList({ commit, state },data) {
       return request({
-        url: "/manageUser/getChannelUsers",
-        method: "get"
+        url: "/user/getAdminUsers",
+        method: "post",
+        data
       });
     },
     // 新增子账号
@@ -67,22 +68,15 @@ const channel = {
         data
       });
     },
-    // 编辑子账号
+    // 编辑子账号 冻结/解冻子账号
     editAccount({ commit, state }, data) {
       return request({
-        url: `/resource/modifyPermission`,
-        method: "put",
+        url: `/user/updateAdminUsers`,
+        method: "post",
         data
-      });
-    },
-    // 删除子账号
-    delAccount({ commit, state }, data) {
-      return request({
-        url: `/resource/${data.code}`,
-        method: "delete"
       });
     }
   }
 };
 
-export default channel;
+export default organization;

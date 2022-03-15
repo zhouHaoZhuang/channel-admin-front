@@ -141,6 +141,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          this.form.phone = this.form.username
           this.$store
             .dispatch("user/login", this.form)
             .then(res => {

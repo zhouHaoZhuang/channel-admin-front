@@ -17,9 +17,9 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="角色名称" prop="code">
+      <a-form-model-item label="角色名称" prop="name">
         <a-input
-          v-model="form.code"
+          v-model="form.name"
           v-role-input
           :disabled="type === 'edit'"
           :max-length="30"
@@ -97,12 +97,12 @@ export default {
       wrapperCol: { span: 15 },
       loading: false,
       form: {
-        code: "",
+        name: "",
         status: true,
         description: ""
       },
       rules: {
-        code: [
+        name: [
           {
             required: true,
             message: "请输入角色名称",
@@ -132,14 +132,15 @@ export default {
         if (valid) {
           this.loading = true;
           const req =
-            this.type === "add" ? "system/addRole" : "system/editRole";
+            this.type === "add"
+              ? "organization/addRole"
+              : "organization/editRole";
           const data =
             this.type === "add"
               ? { ...this.form }
               : {
                   ...this.form,
-                  code: this.detail.code,
-                  newCode: this.form.code
+                  id: this.detail.id
                 };
           this.$store
             .dispatch(req, data)

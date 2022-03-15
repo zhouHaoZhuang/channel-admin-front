@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import UpdateAccountModal from "@/components/System/updateAccountModal";
+import UpdateAccountModal from "@/components/Organization/updateAccountModal";
 export default {
   components: {
     UpdateAccountModal
@@ -69,7 +69,7 @@ export default {
       columns: [
         {
           title: "账号",
-          dataIndex: "nickn1ame"
+          dataIndex: "username"
         },
         {
           title: "子账号名称",
@@ -81,11 +81,11 @@ export default {
         },
         {
           title: "角色",
-          dataIndex: "ni2ckname"
+          dataIndex: "roleNames"
         },
         {
           title: "状态",
-          dataIndex: "nickn4ame"
+          dataIndex: "status"
         },
         {
           title: "创建时间",
@@ -129,7 +129,7 @@ export default {
     getList() {
       this.tableLoading = true;
       this.$store
-        .dispatch("system/getModalUserList")
+        .dispatch("organization/getAccountList")
         .then(res => {
           this.data = [...res.data];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -170,11 +170,14 @@ export default {
           ? "被冻结的账号无法进行登录，你还要继续吗？"
           : "是否要对该账号做解除冻结操作？";
       this.$confirm({
-        title: `账号${record.status === 1 ? "冻结" : "解冻"}提示`,
+        title: `账号${record.status === 0 ? "冻结" : "解冻"}提示`,
         content: contentTxt,
         onOk: () => {
           this.$store
-            .dispatch("system/delAccount", { code: record.code })
+            .dispatch("organization/editAccount", {
+              ...record,
+              status: record.status === 0 ? 1 : 0
+            })
             .then(res => {
               this.$message.success("操作成功");
               this.getList();

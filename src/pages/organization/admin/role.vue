@@ -35,13 +35,16 @@
           rowKey="id"
           :pagination="false"
         >
-          <span slot="roleStatus" slot-scope="text, record">
+          <div slot="type" slot-scope="text">
+            {{ roleTypeEnum[text] }}
+          </div>
+          <div slot="status" slot-scope="text, record">
             <a-switch :checked="text" @change="handleChangeStatus(record)">
               <a-icon slot="checkedChildren" type="check" />
               <a-icon slot="unCheckedChildren" type="close" />
             </a-switch>
-          </span>
-          <span slot="action" slot-scope="text, record">
+          </div>
+          <div slot="action" slot-scope="text, record">
             <a-space>
               <a-button
                 v-permission="'detail'"
@@ -65,7 +68,7 @@
                 移除
               </a-button>
             </a-space>
-          </span>
+          </div>
         </a-table>
       </div>
     </div>
@@ -79,13 +82,15 @@
 </template>
 
 <script>
-import UpdateRoleModal from "@/components/System/updateRoleModal";
+import { roleTypeEnum } from "@/utils/enum";
+import UpdateRoleModal from "@/components/Organization/updateRoleModal";
 export default {
   components: {
     UpdateRoleModal
   },
   data() {
     return {
+      roleTypeEnum,
       listQuery: {
         key: "",
         search: "",
@@ -96,20 +101,21 @@ export default {
       columns: [
         {
           title: "角色名称",
-          dataIndex: "roleName"
+          dataIndex: "name"
         },
         {
           title: "角色类型",
-          dataIndex: "roleType"
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
         },
         {
           title: "状态",
-          dataIndex: "roleStatus",
-          scopedSlots: { customRender: "roleStatus" }
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "描述",
-          dataIndex: "roleDescription"
+          dataIndex: "description"
         },
         {
           title: "操作",
@@ -186,20 +192,20 @@ export default {
       this.$router.push({
         path: "/organization/admin/relation",
         query: {
-          code: record.code
+          id: record.id
         }
       });
     },
     // 修改角色状态
     handleChangeStatus(record) {
-      const statusTxt = record.roleStatus === 1 ? "启用" : "禁用";
+      const statusTxt = record.status === 0 ? "启用" : "禁用";
       this.$confirm({
         title: `确认要${statusTxt}当前角色吗？`,
         onOk: () => {
           this.$store
-            .dispatch("system/delRole", {
+            .dispatch("organization/editRole", {
               id: record.id,
-              roleStatus: record.roleStatus === 1 ? 0 : 1
+              status: record.status === 0 ? 1 : 0
             })
             .then(res => {
               this.$message.success(`${statusTxt}成功`);
@@ -214,7 +220,7 @@ export default {
         title: "确认要移除当前角色吗？",
         onOk: () => {
           this.$store
-            .dispatch("system/delRole", { id: record.id })
+            .dispatch("organization/delRole", { id: record.id })
             .then(res => {
               this.$message.success("移除成功");
               this.getList();

@@ -170,3 +170,8 @@ export const workOrderTypeEnum = {
   1: "普通类型工单",
   2: "可转接资源池类型工单"
 };
+// 角色类型map
+export const roleTypeEnum = {
+  0: "系统角色",
+  1: "自建角色"
+};
