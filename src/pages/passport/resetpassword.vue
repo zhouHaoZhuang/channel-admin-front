@@ -81,7 +81,7 @@
           >
             确认
           </a-button>
-          <a-button style="margin-left: 96px;" @click="handleJumpLogin">
+          <a-button style="margin-left: 110px;" @click="handleJumpLogin">
             使用已有账户登录
           </a-button>
         </a-form-model-item>
