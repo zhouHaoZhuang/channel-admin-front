@@ -29,8 +29,14 @@ export default {
       type: String,
       default: ""
     },
-    identifyCode:{},
-    verificationCode:{}
+    identifyCode: {
+      type: String,
+      default: ""
+    },
+    verificationCode: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {
