@@ -92,7 +92,7 @@ export default {
     return {
       roleTypeEnum,
       listQuery: {
-        key: "",
+        key: "name",
         search: "",
         currentPage: 1,
         pageSize: 10,
