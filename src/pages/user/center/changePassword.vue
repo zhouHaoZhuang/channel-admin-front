@@ -25,6 +25,17 @@
           v-model="form.phone"
         />
       </a-form-model-item>
+      <a-form-model-item label="图片验证码" prop="verificationCode">
+        <a-input
+          type="text"
+          v-model="form.verificationCode"
+          placeholder="请在获取验证码之前进行图片验证"
+          :max-length="6"
+        />
+        <div @click="refreshCode()" class="code" title="点击切换验证码">
+          <Identify :identifyCode="identifyCode" />
+        </div>
+      </a-form-model-item>
       <a-form-model-item label="验证码" prop="code">
         <a-input
           v-model="form.code"
@@ -35,7 +46,12 @@
         >
           <a-icon slot="prefix" type="smile" />
         </a-input>
-        <CodeBtn :phone="form.phone" codeType="3" />
+        <CodeBtn
+          :phone="form.phone"
+          codeType="3"
+          :verificationCode="form.verificationCode"
+          :identifyCode="identifyCode"
+        />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password
@@ -59,9 +75,10 @@
 <script>
 import { mapState } from "vuex";
 import CodeBtn from "@/components/CodeBtn/index";
-
+import Identify from "@/components/Identify";
+import { randomNum } from "@/utils/index";
 export default {
-  components: { CodeBtn },
+  components: { CodeBtn, Identify },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -90,7 +107,8 @@ export default {
         phone: "",
         newPassword: "",
         newTwoPassword: "",
-        code: ""
+        code: "",
+        verificationCode: ""
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
@@ -120,12 +138,39 @@ export default {
         newTwoPassword: [
           { validator: validatePass2, trigger: ["blur", "change"] },
           { min: 6, max: 20, message: "密码位数在6~20位", trigger: "blur" }
+        ],
+        verificationCode: [
+          {
+            required: true,
+            message: "请输入图片图片校验码",
+            trigger: ["blur", "change"]
+          }
         ]
-      }
+      },
+      identifyCode: "", //要核对的验证码
+      identifyCodes: [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "a",
+        "b",
+        "c",
+        "d"
+      ] //根据实际需求加入自己想要的字符
     };
   },
   created() {
     // this.getRoles()
+  },
+  mounted() {
+    this.refreshCode();
   },
   methods: {
     logout() {
@@ -151,6 +196,21 @@ export default {
         .then(val => {
           console.log("获取角色", val);
         });
+    },
+    // 随机生成验证码字符串
+    makeCode(data, len) {
+      for (let i = 0; i < len; i++) {
+        this.identifyCode += this.identifyCodes[
+          randomNum(0, this.identifyCodes.length - 1)
+        ];
+      }
+    },
+    // 更新验证码
+    refreshCode() {
+      this.identifyCode = "";
+      // this.form.verificationCode = "";
+      this.makeCode(this.identifyCodes, 4);
+      console.log("当前验证码:", this.identifyCode);
     }
   },
 

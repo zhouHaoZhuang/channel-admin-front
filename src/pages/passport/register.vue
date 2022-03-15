@@ -229,7 +229,8 @@ export default {
         phone: "",
         code: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        verificationCode:""
       };
     },
     // 随机生成验证码字符串
@@ -243,7 +244,7 @@ export default {
     // 更新验证码
     refreshCode() {
       this.identifyCode = "";
-      this.form.verificationCode = "";
+      // this.form.verificationCode = "";
       this.makeCode(this.identifyCodes, 4);
       console.log("当前验证码:", this.identifyCode);
     }
