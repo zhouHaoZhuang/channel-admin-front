@@ -28,14 +28,6 @@ export default {
     sendType: {
       type: String,
       default: ""
-    },
-    identifyCode: {
-      type: String,
-      default: ""
-    },
-    verificationCode: {
-      type: String,
-      default: ""
     }
   },
   data() {
@@ -44,7 +36,6 @@ export default {
       time: null,
       timeCount: 60,
       loading: false,
-
       phoneReg: /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/
     };
   },
@@ -62,16 +53,15 @@ export default {
         this.$message.warning("手机号格式不正确");
         return;
       }
-      if (!this.verificationCode) {
-        this.$message.warning("请输入图片校验码");
-        return;
-      }
-      if (this.verificationCode !== this.identifyCode) {
-        this.$message.warning("图片校验码错误，请重新输入");
-        return;
+      // 判断父组件是否传递方法校验
+      if (this.$listeners["validate"]) {
+        let flag;
+        this.$emit("validate", val => {
+          flag = val;
+        });
+        if (!flag) return;
       }
       if (this.loading) return;
-
       this.loading = true;
       this.$store
         .dispatch("user/sendCode", {
