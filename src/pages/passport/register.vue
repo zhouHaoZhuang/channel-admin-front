@@ -28,7 +28,7 @@
             size="large"
           />
           <div @click="refreshCode()" class="code" title="点击切换验证码">
-            <s-identify :identifyCode="identifyCode"></s-identify>
+            <Identify :identifyCode="identifyCode" />
           </div>
         </a-form-model-item>
 
@@ -100,10 +100,10 @@
 <script>
 import CommonLayout from "@/layouts/CommonLayout";
 import CodeBtn from "@/components/CodeBtn/index";
-import sIdentify from "@/components/tool/sIdentify.vue";
+import Identify from "@/components/Identify";
 import { randomNum } from "@/utils/index";
 export default {
-  components: { CommonLayout, CodeBtn, sIdentify },
+  components: { CommonLayout, CodeBtn, Identify },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === "") {
