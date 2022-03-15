@@ -19,16 +19,36 @@
             size="large"
           />
         </a-form-model-item>
+        <a-form-model-item prop="verificationCode">
+          <a-input
+            type="text"
+            v-model="form.verificationCode"
+            placeholder="请在获取验证码之前进行图片验证"
+            style="width:280px"
+            size="large"
+          />
+          <div @click="refreshCode()" class="code" title="点击切换验证码">
+            <s-identify :identifyCode="identifyCode"></s-identify>
+          </div>
+        </a-form-model-item>
+
         <a-form-model-item class="code-wrap" prop="code">
           <a-input
             v-model="form.code"
-            style="width:250px"
+            style="width:280px"
             placeholder="输入验证码"
             v-number-evolution
             :max-length="6"
             size="large"
           />
-          <CodeBtn :phone="form.phone" codeType="1" sendType="0" size="large" />
+          <CodeBtn
+            :phone="form.phone"
+            codeType="1"
+            sendType="0"
+            size="large"
+            :verificationCode="form.verificationCode"
+            :identifyCode="identifyCode"
+          />
         </a-form-model-item>
         <a-form-model-item prop="password">
           <a-input-password
@@ -80,8 +100,10 @@
 <script>
 import CommonLayout from "@/layouts/CommonLayout";
 import CodeBtn from "@/components/CodeBtn/index";
+import sIdentify from "@/components/tool/sIdentify.vue";
+import { randomNum } from "@/utils/index";
 export default {
-  components: { CommonLayout, CodeBtn },
+  components: { CommonLayout, CodeBtn, sIdentify },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -109,7 +131,8 @@ export default {
         phone: "",
         code: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        verificationCode: "" //输入的图片验证码
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
@@ -135,10 +158,37 @@ export default {
         password: [{ validator: validatePass, trigger: ["blur", "change"] }],
         confirmPassword: [
           { validator: validatePass2, trigger: ["blur", "change"] }
+        ],
+        verificationCode: [
+          {
+            required: true,
+            message: "请输入图片图片校验码",
+            trigger: ["blur", "change"]
+          }
         ]
       },
-      loading: false
+      loading: false,
+      identifyCode: "", //要核对的验证码
+      identifyCodes: [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "a",
+        "b",
+        "c",
+        "d"
+      ] //根据实际需求加入自己想要的字符
     };
+  },
+  mounted() {
+    this.refreshCode();
   },
   methods: {
     // 跳转登录
@@ -181,6 +231,21 @@ export default {
         password: "",
         confirmPassword: ""
       };
+    },
+    // 随机生成验证码字符串
+    makeCode(data, len) {
+      for (let i = 0; i < len; i++) {
+        this.identifyCode += this.identifyCodes[
+          randomNum(0, this.identifyCodes.length - 1)
+        ];
+      }
+    },
+    // 更新验证码
+    refreshCode() {
+      this.identifyCode = "";
+      this.form.verificationCode = "";
+      this.makeCode(this.identifyCodes, 4);
+      console.log("当前验证码:", this.identifyCode);
     }
   }
 };
@@ -221,5 +286,11 @@ export default {
       justify-content: space-between;
     }
   }
+}
+.code {
+  cursor: pointer;
+  position: absolute;
+  right: -122px;
+  top: -10px;
 }
 </style>

@@ -1,12 +1,14 @@
 <template>
-  <a-button
-    class="code-btn"
-    :size="size"
-    :disabled="loading"
-    @click="handleCode"
-  >
-    {{ btnTxt }}
-  </a-button>
+  <div>
+    <a-button
+      class="code-btn"
+      :size="size"
+      :disabled="loading"
+      @click="handleCode"
+    >
+      {{ btnTxt }}
+    </a-button>
+  </div>
 </template>
 
 <script>
@@ -21,12 +23,14 @@ export default {
     },
     codeType: {
       type: String,
-      default: ''
+      default: ""
     },
     sendType: {
       type: String,
-      default: ''
-    }
+      default: ""
+    },
+    identifyCode:{},
+    verificationCode:{}
   },
   data() {
     return {
@@ -34,12 +38,14 @@ export default {
       time: null,
       timeCount: 60,
       loading: false,
+
       phoneReg: /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/
     };
   },
   beforeDestroy() {
     clearInterval(this.time);
   },
+
   methods: {
     handleCode() {
       if (!this.phone) {
@@ -50,10 +56,23 @@ export default {
         this.$message.warning("手机号格式不正确");
         return;
       }
+      if (!this.verificationCode) {
+        this.$message.warning("请输入图片校验码");
+        return;
+      }
+      if (this.verificationCode !== this.identifyCode) {
+        this.$message.warning("图片校验码错误，请重新输入");
+        return;
+      }
       if (this.loading) return;
+
       this.loading = true;
       this.$store
-        .dispatch("user/sendCode", { receiverAccount: this.phone,codeType: this.codeType,sendType: this.sendType })
+        .dispatch("user/sendCode", {
+          receiverAccount: this.phone,
+          codeType: this.codeType,
+          sendType: this.sendType
+        })
         .then(res => {
           this.startTime();
         })

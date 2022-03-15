@@ -133,24 +133,8 @@ export const randomNum = (min, max) => {
   max = max + 1;
   return Math.floor(Math.random() * (max - min) + min);
 };
-//
-export const getRandomCode = () => {
-  const identifyCodes = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "a",
-    "b",
-    "c",
-    "d"
-  ]; //根据实际需求加入自己想要的字符
+// 随机生成验证码字符串
+export const getRandomCode = (data, len) => {
   // for (let i = 0; i < len; i++) {
   //   this.identifyCode += this.identifyCodes[
   //     this.randomNum(0, this.identifyCodes.length - 1)
