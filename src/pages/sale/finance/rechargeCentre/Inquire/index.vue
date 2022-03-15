@@ -38,9 +38,9 @@
             >查看详情</a-button
           >
         </div>
-        <div slot-scope="text" slot="status">
-          {{ offlineRemittance[text] }}
-        </div>
+        <!-- <div slot-scope="text" slot="status"> -->
+          <!-- {{ offlineRemittance[text] }} -->
+        <!-- </div> -->
       </a-table>
     </div>
     <div class="modal-details" v-show="isinfo">
@@ -140,13 +140,13 @@
 </template>
 
 <script>
-import { offlineRemittance } from "@/utils/enum";
+// import { offlineRemittance } from "@/utils/enum";
 export default {
   data() {
     return {
       isinfo: false,
       data: [],
-      offlineRemittance,
+      // offlineRemittance,
       listQuery: {
         key: "accountBankName",
         search: "",

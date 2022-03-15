@@ -134,14 +134,14 @@
           <a-form-model-item label="微信应用ID" prop="wechatAppId">
             <a-input v-model="formWechatPay.wechatAppId" />
           </a-form-model-item>
-          <a-form-model-item label="微信证书key" prop="wechatCertKey">
-            <a-input v-model="formWechatPay.wechatCertKey" />
-          </a-form-model-item>
           <a-form-model-item label="证书序列号" prop="wechatCertNo">
             <a-input v-model="formWechatPay.wechatCertNo" />
           </a-form-model-item>
           <a-form-model-item label="微信商户号" prop="wechatMchId">
             <a-input v-model="formWechatPay.wechatMchId" />
+          </a-form-model-item>
+          <a-form-model-item label="微信证书key" prop="wechatCertKey">
+            <a-textarea :auto-size="{ minRows: 3, maxRows: 5 }" v-model="formWechatPay.wechatCertKey" />
           </a-form-model-item>
         </a-form-model>
       </a-modal>
@@ -256,7 +256,7 @@ export default {
         alipay_switch: "",
         min_recharge: "",
         online_pay: "",
-        wxpay_switch: "",
+        wxpay_switch: ""
       },
       getWechatPay: {
         wechatApiV3: "",
@@ -486,7 +486,10 @@ export default {
         .dispatch("globalBasic/getAlipayConfig", { accountType: "wechat" })
         .then(res => {
           console.log(res, "----------");
-          this.getWechatPay = { ...res.data, ...this.getWechatPay };
+          this.getWechatPay = {
+            ...res.data.accountConfig,
+            ...this.getWechatPay
+          };
         });
     },
     showModal() {
@@ -507,10 +510,13 @@ export default {
           console.log(this.formWechatPay, "this.formWechatPay");
           this.$store
             .dispatch("globalBasic/updateAlipayConfig", {
-              accountConfig: this.formWechatPay
+              accountConfig: this.formWechatPay,
+              accountType: "wechat"
             })
             .then(res => {
               this.$message.success("保存成功");
+              this.$refs.ruleForm.resetFields();
+              this.getWechat();
               this.visibleWechat = false;
             });
         }
