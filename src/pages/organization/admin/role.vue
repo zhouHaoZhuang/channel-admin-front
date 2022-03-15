@@ -35,7 +35,7 @@
           rowKey="id"
           :pagination="false"
         >
-          <span slot="status" slot-scope="text, record">
+          <span slot="roleStatus" slot-scope="text, record">
             <a-switch :checked="text" @change="handleChangeStatus(record)">
               <a-icon slot="checkedChildren" type="check" />
               <a-icon slot="unCheckedChildren" type="close" />
@@ -87,6 +87,8 @@ export default {
   data() {
     return {
       listQuery: {
+        key: "",
+        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0
@@ -94,20 +96,20 @@ export default {
       columns: [
         {
           title: "角色名称",
-          dataIndex: "code"
+          dataIndex: "roleName"
         },
         {
           title: "角色类型",
-          dataIndex: "codae"
+          dataIndex: "roleType"
         },
         {
           title: "状态",
-          dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          dataIndex: "roleStatus",
+          scopedSlots: { customRender: "roleStatus" }
         },
         {
           title: "描述",
-          dataIndex: "descr3iption"
+          dataIndex: "roleDescription"
         },
         {
           title: "操作",
@@ -145,8 +147,7 @@ export default {
     // 查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$store
-        .dispatch("system/getRoleList", this.listQuery)
+      this.$getListQp("organization/getRoleList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -191,12 +192,15 @@ export default {
     },
     // 修改角色状态
     handleChangeStatus(record) {
-      const statusTxt = record.status === 1 ? "启用" : "禁用";
+      const statusTxt = record.roleStatus === 1 ? "启用" : "禁用";
       this.$confirm({
         title: `确认要${statusTxt}当前角色吗？`,
         onOk: () => {
           this.$store
-            .dispatch("system/delRole", { code: record.code })
+            .dispatch("system/delRole", {
+              id: record.id,
+              roleStatus: record.roleStatus === 1 ? 0 : 1
+            })
             .then(res => {
               this.$message.success(`${statusTxt}成功`);
               this.getList();
@@ -210,7 +214,7 @@ export default {
         title: "确认要移除当前角色吗？",
         onOk: () => {
           this.$store
-            .dispatch("system/delRole", { code: record.code })
+            .dispatch("system/delRole", { id: record.id })
             .then(res => {
               this.$message.success("移除成功");
               this.getList();
