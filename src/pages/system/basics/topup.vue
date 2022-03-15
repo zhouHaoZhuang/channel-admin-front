@@ -1,6 +1,7 @@
 <template>
   <div class="topup-container">
     <div class="content">
+      <!-- 支付宝设置窗口 -->
       <a-modal
         title="修改支付宝设置"
         :visible="visible"
@@ -40,6 +41,7 @@
           </a-form-model-item>
         </a-form-model>
       </a-modal>
+      <!-- 充值 -->
       <div>
         <a-form-model
           ref="ruleFormRecharge"
@@ -101,6 +103,38 @@
           </a-form-model-item>
         </a-form-model>
       </div>
+      <!-- 微信设置窗口 -->
+      <a-modal
+        title="修改微信支付设置"
+        :visible="visibleWechat"
+        :confirm-loading="confirmLoadingWechat"
+        @ok="handleOkWechat"
+        @cancel="handleCancelWechat"
+      >
+        <a-form-model
+          ref="ruleForm"
+          :model="formWechatPay"
+          :rules="rulesWechatPay"
+          :label-col="{ span: 7 }"
+          :wrapper-col="{ span: 15, offset: 0 }"
+        >
+          <a-form-model-item label="API v3密钥" prop="wechatApiV3">
+            <a-input v-model="formWechatPay.wechatApiV3" />
+          </a-form-model-item>
+          <a-form-model-item label="微信应用ID" prop="wechatAppId">
+            <a-input v-model="formWechatPay.wechatAppId" />
+          </a-form-model-item>
+          <a-form-model-item label="微信证书key" prop="wechatCertKey">
+            <a-input v-model="formWechatPay.wechatCertKey" />
+          </a-form-model-item>
+          <a-form-model-item label="证书序列号" prop="wechatCertNo">
+            <a-input v-model="formWechatPay.wechatCertNo" />
+          </a-form-model-item>
+          <a-form-model-item label="微信商户号" prop="wechatMchId">
+            <a-input v-model="formWechatPay.wechatMchId" />
+          </a-form-model-item>
+        </a-form-model>
+      </a-modal>
       <a-collapse default-active-key="1" :bordered="false" class="aa">
         <a-collapse-panel key="1" header="支付宝设置">
           <a-form-model
@@ -153,61 +187,36 @@
               </a-radio-group>
             </a-form-model-item> -->
         </a-collapse-panel>
-        <!-- <a-collapse-panel key="2" header="微信支付设置">
+        <a-collapse-panel key="2" header="微信支付设置">
           <a-form-model
             ref="ruleForm"
-            :model="form"
+            :model="getWechatPay"
             :rules="rules"
             :label-col="labelCol"
             :wrapper-col="wrapperCol"
           >
-            <a-form-model-item label="微信PC充值开关">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
-                  开启
-                </a-radio>
-                <a-radio :value="1">
-                  关闭
-                </a-radio>
-              </a-radio-group>
+            <a-form-model-item label="API v3密钥">
+              <span>{{ getWechatPay.wechatApiV3 }}</span>
             </a-form-model-item>
-            <a-form-model-item label="微信H5充值开关">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
-                  开启
-                </a-radio>
-                <a-radio :value="1">
-                  关闭
-                </a-radio>
-              </a-radio-group>
+            <a-form-model-item label="微信应用ID">
+              <span>{{ getWechatPay.wechatAppId }}</span>
             </a-form-model-item>
-            <a-form-model-item label="微信公众号充值开关">
-              <a-radio-group v-model="form.status">
-                <a-radio :value="0">
-                  开启
-                </a-radio>
-                <a-radio :value="1">
-                  关闭
-                </a-radio>
-              </a-radio-group>
+            <a-form-model-item label="微信证书key">
+              <span>{{ getWechatPay.wechatCertKey }}</span>
+            </a-form-model-item>
+            <a-form-model-item label="证书序列号">
+              <span>{{ getWechatPay.wechatCertNo }}</span>
             </a-form-model-item>
             <a-form-model-item label="微信商户号">
-              <a-input v-model="form.linkSort" />
+              <span>{{ getWechatPay.wechatMchId }}</span>
             </a-form-model-item>
-            <a-form-model-item label="微信密钥">
-              <a-input v-model="form.linkSort" />
-            </a-form-model-item>
-            <a-form-model-item label="微信AppID">
-              <a-input v-model="form.linkSort" />
-            </a-form-model-item>
-             <a-form-model-item label="微信Secret">
-              <a-input v-model="form.linkSort" />
-            </a-form-model-item>
-             <a-form-model-item label="二维码中央小LOGO">
-               <Upload :defaultFile="form.pcPicture" @change="pcImgChange" />
+            <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+              <a-button type="primary" @click="showModalWechat">
+                修改设置
+              </a-button>
             </a-form-model-item>
           </a-form-model>
-        </a-collapse-panel> -->
+        </a-collapse-panel>
       </a-collapse>
     </div>
   </div>
@@ -237,6 +246,20 @@ export default {
         alipay_switch: "",
         min_recharge: "",
         online_pay: ""
+      },
+      getWechatPay: {
+        wechatApiV3: "",
+        wechatAppId: "",
+        wechatCertKey: "",
+        wechatCertNo: "",
+        wechatMchId: ""
+      },
+      formWechatPay: {
+        wechatApiV3: "",
+        wechatAppId: "",
+        wechatCertKey: "",
+        wechatCertNo: "",
+        wechatMchId: ""
       },
       rules: {
         linkName: [
@@ -310,6 +333,43 @@ export default {
           }
         ]
       },
+      rulesWechatPay: {
+        wechatApiV3: [
+          {
+            required: true,
+            message: "微信API V3为必填，用于微信支付。",
+            trigger: "blur"
+          }
+        ],
+        wechatAppId: [
+          {
+            required: true,
+            message: "微信APPID为必填，用于微信支付。",
+            trigger: "blur"
+          }
+        ],
+        wechatCertKey: [
+          {
+            required: true,
+            message: "微信商户证书私钥为必填，用于微信支付。",
+            trigger: "blur"
+          }
+        ],
+        wechatCertNo: [
+          {
+            required: true,
+            message: "微信商户证书序列号为必填，用于微信支付。",
+            trigger: "blur"
+          }
+        ],
+        wechatMchId: [
+          {
+            required: true,
+            message: "微信商户号为必填，用于微信支付。",
+            trigger: "blur"
+          }
+        ]
+      },
       loading: false,
       data: {
         aliAppId: "",
@@ -317,7 +377,9 @@ export default {
         merchantPrivateKey: ""
       },
       visible: false,
-      confirmLoading: false
+      visibleWechat: false,
+      confirmLoading: false,
+      confirmLoadingWechat: false
     };
   },
   components: {
@@ -325,6 +387,7 @@ export default {
   },
   created() {
     this.getAlipay();
+    this.getWechat();
     console.log(this.formData, "this.formData");
     for (let key in this.formRecharge) {
       this.formRecharge[key] = this.formData[key];
@@ -406,11 +469,45 @@ export default {
           this.data = { ...res.data.accountConfig };
         });
     },
+    // 获取微信设置
+    getWechat() {
+      this.$store
+        .dispatch("globalBasic/getAlipayConfig", { accountType: "wechat" })
+        .then(res => {
+          console.log(res, "----------");
+          this.getWechatPay = { ...res.data, ...this.getWechatPay };
+        });
+    },
     showModal() {
       this.visible = true;
     },
+    // 修改微信设置回调
+    showModalWechat() {
+      this.visibleWechat = true;
+    },
     handleOk(e) {
       this.onSubmit();
+    },
+    // 微信支付成功之后的回调
+    handleOkWechat(e) {
+      // this.visibleWechat = false;
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          console.log(this.formWechatPay, "this.formWechatPay");
+          this.$store
+            .dispatch("globalBasic/updateAlipayConfig", {
+              accountConfig: this.formWechatPay
+            })
+            .then(res => {
+              this.$message.success("保存成功");
+              this.visibleWechat = false;
+            });
+        }
+      });
+    },
+    // 微信支付关闭之后的回调
+    handleCancelWechat(e) {
+      this.visibleWechat = false;
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
