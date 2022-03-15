@@ -126,19 +126,4 @@ export const getDomainUrl = () => {
   return process.env.VUE_APP_ENV === "local"
     ? env.DOMAIN_URL
     : getWindowUrl(window.location.href);
-}; 
-
-// 生成随机数
-export const randomNum = (min, max) => {
-  max = max + 1;
-  return Math.floor(Math.random() * (max - min) + min);
-};
-// 
-export const getRandomCode = () => {
-  const identifyCodes = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d'] //根据实际需求加入自己想要的字符
-  // for (let i = 0; i < len; i++) {
-  //   this.identifyCode += this.identifyCodes[
-  //     this.randomNum(0, this.identifyCodes.length - 1)
-  //   ];
-  // }
 };
