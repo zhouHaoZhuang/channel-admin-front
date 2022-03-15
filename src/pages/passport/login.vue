@@ -40,6 +40,21 @@
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
               </a-form-model-item>
+              <!-- <a-form-model-item prop="verificationCode">
+                <a-input
+                  type="text"
+                  v-model="form.verificationCode"
+                  placeholder="请输入图形验证码"
+                  :max-length="4"
+                  style="width:250px"
+                  size="large"
+                >
+                  <a-icon slot="prefix" type="smile" />
+                </a-input>
+                <div @click="refreshCode()" class="code" title="点击切换验证码">
+                  <Identify :identifyCode="identifyCode" />
+                </div>
+              </a-form-model-item> -->
               <!-- <a-form-model-item class="code-wrap" prop="code">
               <a-input
                 v-model="form.code"
@@ -92,6 +107,8 @@
 <script>
 import CommonLayout from "@/layouts/CommonLayout";
 // import CodeBtn from "@/components/CodeBtn/index";
+import Identify from "@/components/Identify";
+import { getRandomCode } from "@/utils/index";
 export default {
   name: "Login",
   components: { CommonLayout },
@@ -102,7 +119,8 @@ export default {
       form: {
         username: "",
         password: "",
-        code: ""
+        code: "",
+        verificationCode: "" //输入的图片验证码
       },
       rules: {
         username: [
@@ -130,12 +148,45 @@ export default {
             message: "请输入验证码",
             trigger: ["blur", "change"]
           }
+        ],
+        verificationCode: [
+          {
+            required: true,
+            message: "请输入图形验证码",
+            trigger: ["blur", "change"]
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.identifyCode) {
+                callback(new Error("图形验证码不正确"));
+              }
+              callback();
+            },
+            trigger: ["blur", "change"]
+          }
         ]
       },
-      loading: false
+      loading: false,
+      identifyCode: "" //要核对的验证码
     };
   },
+  mounted() {
+    this.refreshCode();
+  },
   methods: {
+    // 获取验证码组件校验图形验证
+    validateImgCode(callback) {
+      let flag = false;
+      this.$refs.ruleForm.validateField(
+        "verificationCode",
+        err => (flag = err ? false : true)
+      );
+      callback(flag);
+    },
+    // 更新验证码
+    refreshCode() {
+      this.identifyCode = getRandomCode();
+    },
     // 登录
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
@@ -159,7 +210,6 @@ export default {
     },
     // 跳转重置密码
     resetPassword() {
-      console.log("jasdkasjkaa");
       this.$router.push("/resetpassword");
     }
   }
@@ -193,6 +243,12 @@ export default {
   .login {
     width: 400px;
     margin: 0 auto;
+  }
+  .code {
+    cursor: pointer;
+    position: absolute;
+    right: -122px;
+    top: -10px;
   }
 }
 </style>

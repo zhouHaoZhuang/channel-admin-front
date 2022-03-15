@@ -32,7 +32,6 @@
             <Identify :identifyCode="identifyCode" />
           </div>
         </a-form-model-item>
-
         <a-form-model-item class="code-wrap" prop="code">
           <a-input
             v-model="form.code"

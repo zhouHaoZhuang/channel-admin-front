@@ -40,6 +40,27 @@
       </a-form-model-item>
       <a-form-model-item
         v-if="type === 'add'"
+        label="图形验证码"
+        prop="verificationCode"
+      >
+        <a-input
+          type="text"
+          v-model="form.verificationCode"
+          placeholder="请输入图形验证码"
+          :max-length="4"
+          style="width:250px"
+        />
+        <div
+          v-if="identifyCode"
+          @click="refreshCode()"
+          class="code"
+          title="点击切换验证码"
+        >
+          <Identify :identifyCode="identifyCode" />
+        </div>
+      </a-form-model-item>
+      <a-form-model-item
+        v-if="type === 'add'"
         label="验证码"
         class="code-wrap"
         prop="code"
@@ -51,7 +72,7 @@
           v-number-evolution
           :max-length="6"
         />
-        <CodeBtn :phone="form.phone" codeType="1" />
+        <CodeBtn :phone="form.phone" codeType="1" @validate="validateImgCode" />
       </a-form-model-item>
       <a-form-model-item v-if="type === 'add'" label="设置密码" prop="password">
         <a-input-password
@@ -103,6 +124,9 @@
 
 <script>
 import CodeBtn from "@/components/CodeBtn/index";
+import Identify from "@/components/Identify";
+import { getRandomCode } from "@/utils/index";
+
 export default {
   // 双向绑定
   model: {
@@ -121,7 +145,7 @@ export default {
       default: () => {}
     }
   },
-  components: { CodeBtn },
+  components: { CodeBtn, Identify },
   computed: {
     modalTitle() {
       return this.type === "add" ? "添加子账号" : "修改子账号";
@@ -146,6 +170,7 @@ export default {
             this.resetForm();
           });
         } else {
+          this.refreshCode();
           // this.getRoleList();
         }
       }
@@ -182,7 +207,8 @@ export default {
         confirmPassword: "",
         phone: "",
         code: "",
-        roleNames: undefined
+        roleNames: undefined,
+        verificationCode: ""
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
@@ -229,9 +255,26 @@ export default {
             message: "请选择角色",
             trigger: ["blur", "change"]
           }
+        ],
+        verificationCode: [
+          {
+            required: true,
+            message: "请输入图形验证码",
+            trigger: ["blur", "change"]
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.identifyCode) {
+                callback(new Error("图形验证码不正确"));
+              }
+              callback();
+            },
+            trigger: ["blur", "change"]
+          }
         ]
       },
-      roleList: []
+      roleList: [],
+      identifyCode: "" //要核对的验证码
     };
   },
   methods: {
@@ -259,7 +302,8 @@ export default {
         confirmPassword: "",
         phone: "",
         code: "",
-        roleNames: undefined
+        roleNames: undefined,
+        verificationCode: ""
       };
     },
     // 禁止输入空格
@@ -289,6 +333,19 @@ export default {
             });
         }
       });
+    },
+    // 获取验证码组件校验图形验证
+    validateImgCode(callback) {
+      let flag = false;
+      this.$refs.ruleForm.validateField(
+        "verificationCode",
+        err => (flag = err ? false : true)
+      );
+      callback(flag);
+    },
+    // 更新验证码
+    refreshCode() {
+      this.identifyCode = getRandomCode();
     }
   }
 };
@@ -299,7 +356,14 @@ export default {
     .ant-form-item-children {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
+  }
+  .code {
+    cursor: pointer;
+    position: absolute;
+    right: -145px;
+    top: -10px;
   }
 }
 </style>
