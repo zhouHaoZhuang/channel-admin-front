@@ -7,7 +7,12 @@
 <script>
 import tinymce from "tinymce/tinymce";
 import editor from "@tinymce/tinymce-vue";
+// 插件+富文本按钮
+import plugins from "./plugins";
+import toolbar from "./toolbar";
+// 字体
 import "tinymce/icons/default";
+// 插件
 import "tinymce/plugins/contextmenu";
 import "tinymce/plugins/colorpicker";
 import "tinymce/plugins/textcolor"; // 文字颜色
@@ -67,12 +72,10 @@ export default {
         language: "zh_CN", //中文
         skin_url: "/tinymce/skins/ui/oxide", //编辑器皮肤，
         height: 400, //高度
-        plugins:
-          "lists image code table wordcount charmap codesample fullscreen insertdatetime preview print save searchreplace tabfocus textpattern toc visualblocks visualchars", // 插件
-        toolbar:['searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample', 'hr bullist numlist link image charmap preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen'],
+        plugins: plugins,
+        toolbar: toolbar,
         fontsize_formats: "12px 14px 16px 18px 20px 24px", // 字号
         branding: false, // 去水印
-        toolbar_sticky: true,
         // 增加下面的images_upload_handler对象，能够支持上传图片到服务器
         images_upload_handler: (blobInfo, success, failure) => {
           if (blobInfo.blob().size / 1024 / 1024 > 5) {
