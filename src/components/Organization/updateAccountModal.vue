@@ -38,7 +38,7 @@
           :max-length="11"
         />
       </a-form-model-item>
-      <a-form-model-item
+      <!-- <a-form-model-item
         v-if="type === 'add'"
         label="图形验证码"
         prop="verificationCode"
@@ -58,7 +58,7 @@
         >
           <Identify :identifyCode="identifyCode" />
         </div>
-      </a-form-model-item>
+      </a-form-model-item> -->
       <a-form-model-item
         v-if="type === 'add'"
         label="验证码"
@@ -72,7 +72,7 @@
           v-number-evolution
           :max-length="6"
         />
-        <CodeBtn :phone="form.phone" codeType="1" @validate="validateImgCode" />
+        <CodeBtn :phone="form.phone" codeType="1" />
       </a-form-model-item>
       <a-form-model-item v-if="type === 'add'" label="设置密码" prop="password">
         <a-input-password
@@ -150,7 +150,7 @@ export default {
       default: () => {}
     }
   },
-  components: { CodeBtn, Identify },
+  components: { CodeBtn },
   computed: {
     modalTitle() {
       return this.type === "add" ? "添加子账号" : "修改子账号";
