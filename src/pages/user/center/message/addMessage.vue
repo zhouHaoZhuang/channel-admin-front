@@ -50,13 +50,13 @@
       <a-form-model-item label="发送标题" prop="title">
         <a-input v-model="form.title" />
       </a-form-model-item>
-      <a-form-model-item label="内容" help="注意：内容字数不要超过1500字">
+      <a-form-model-item label="内容" help="注意：内容字数不要超过1500字" :wrapper-col="{ span: 20 }">
         <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.content" />
       </a-form-model-item>
       <!-- <a-form-model-item label="每页发送" prop="name">
         <a-input-number v-model="form.name" />条
       </a-form-model-item> -->
-      <a-form-model-item :wrapper-col="{ span: 8, offset: 8 }">
+      <a-form-model-item :wrapper-col="{ span: 10, offset: 3 }">
         <a-button
           v-permission="'send-message'"
           type="primary"
@@ -77,8 +77,8 @@ export default {
   data() {
     return {
       moment,
-      labelCol: { span: 8 },
-      wrapperCol: { span: 8 },
+      labelCol: { span: 3 },
+      wrapperCol: { span: 10 },
       other: "",
       form: {
         messageType: "1",

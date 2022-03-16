@@ -7,15 +7,35 @@
 <script>
 import tinymce from "tinymce/tinymce";
 import editor from "@tinymce/tinymce-vue";
-import "tinymce/themes/silver";
-import "tinymce/plugins/image"; // 插入上传图片插件
-import "tinymce/plugins/table"; // 插入表格插件
-import "tinymce/plugins/lists"; // 列表插件
-import "tinymce/plugins/wordcount"; // 字数统计插件
-import "tinymce/plugins/code";
+// 插件+富文本按钮
+import plugins from "./plugins";
+import toolbar from "./toolbar";
+// 字体
+import "tinymce/icons/default";
+// 插件
 import "tinymce/plugins/contextmenu";
 import "tinymce/plugins/colorpicker";
-import "tinymce/plugins/textcolor";
+import "tinymce/plugins/textcolor"; // 文字颜色
+import "tinymce/themes/silver";
+import "tinymce/plugins/lists"; // 列表插件
+import "tinymce/plugins/image"; // 插入上传图片插件
+import "tinymce/plugins/code"; // 代码
+import "tinymce/plugins/table"; // 插入表格插件
+import "tinymce/plugins/wordcount"; // 字数统计插件
+import "tinymce/plugins/charmap"; //特殊字符
+import "tinymce/plugins/codesample"; //插入代码
+import "tinymce/plugins/fullscreen"; //全屏
+import "tinymce/plugins/insertdatetime"; //时间插入
+import "tinymce/plugins/preview"; //预览
+import "tinymce/plugins/print"; //打印
+import "tinymce/plugins/save"; //保存
+import "tinymce/plugins/searchreplace"; //查询替换
+import "tinymce/plugins/tabfocus"; //
+import "tinymce/plugins/textpattern"; //
+import "tinymce/plugins/toc"; //
+import "tinymce/plugins/visualblocks"; //
+import "tinymce/plugins/visualchars"; //
+
 export default {
   props: {
     //tinyvalue首先在父组件中定义，用于向本子组件mytinymce发送数据
@@ -52,9 +72,9 @@ export default {
         language: "zh_CN", //中文
         skin_url: "/tinymce/skins/ui/oxide", //编辑器皮肤，
         height: 400, //高度
-        plugins: "lists image code table wordcount", // 插件
-        toolbar:
-          "undo redo | bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | image code | removeformat",
+        plugins: plugins,
+        toolbar: toolbar,
+        fontsize_formats: "12px 14px 16px 18px 20px 24px", // 字号
         branding: false, // 去水印
         // 增加下面的images_upload_handler对象，能够支持上传图片到服务器
         images_upload_handler: (blobInfo, success, failure) => {
