@@ -115,7 +115,7 @@ export default {
       handler(newVal) {
         if (newVal.path === "/organization/admin/relation") {
           this.getDetail();
-          // this.getPermMap();
+          this.getPermMap();
         }
       },
       immediate: true,

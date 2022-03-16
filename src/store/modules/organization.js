@@ -45,10 +45,10 @@ const organization = {
         method: "get"
       });
     },
-    // 获取当前角色权限map数据或默认无选择权限map数据
+    // 获取当前角色权限map数据
     getRolePermMap({ commit, state }, params) {
       return request({
-        url: `/role/${params.code}`,
+        url: `/imPermissions/getByUserCode/${params.id}`,
         method: "get"
       });
     },
