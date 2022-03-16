@@ -207,13 +207,5 @@ export default {
 .add-blogroll-container {
   background: #fff;
   padding: 24px;
-  display: flex;
-  justify-content: center;
-  .content {
-    width: 600px;
-    // .addimages {
-    //   margin-left: 150px;
-    // }
-  }
 }
 </style>
