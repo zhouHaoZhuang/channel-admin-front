@@ -52,8 +52,16 @@ const organization = {
         method: "get"
       });
     },
+    // 角色关联权限资源
+    roleRelationPerm({ commit, state }, data) {
+      return request({
+        url: "/rolePermissions",
+        method: "post",
+        data
+      });
+    },
     // 获取子账号列表
-    getAccountList({ commit, state },data) {
+    getAccountList({ commit, state }, data) {
       return request({
         url: "/user/getAdminUsers",
         method: "post",

@@ -26,12 +26,13 @@
         如果取消关联父级节点，对应的子级节点都会取消关联！
       </div>
       <a-tree
+        v-if="permMap.length > 0"
         v-model="checkedKeys"
         :replace-fields="replaceFields"
         checkable
         :show-line="true"
         :defaultExpandAll="true"
-        :tree-data="treeData"
+        :tree-data="permMap"
         @check="onCheck"
       />
     </div>
@@ -52,51 +53,12 @@
 export default {
   data() {
     return {
-      treeData: [
-        {
-          title: "0-0",
-          key: "0-0",
-          children: [
-            {
-              title: "0-0-0",
-              key: "0-0-0",
-              children: [
-                { title: "0-0-0-0", key: "0-0-0-0" },
-                { title: "0-0-0-1", key: "0-0-0-1" },
-                { title: "0-0-0-2", key: "0-0-0-2" }
-              ]
-            },
-            {
-              title: "0-0-1",
-              key: "0-0-1",
-              children: [
-                { title: "0-0-1-0", key: "0-0-1-0" },
-                { title: "0-0-1-1", key: "0-0-1-1" },
-                { title: "0-0-1-2", key: "0-0-1-2" }
-              ]
-            },
-            {
-              title: "0-0-2",
-              key: "0-0-2"
-            }
-          ]
-        },
-        {
-          title: "0-1",
-          key: "0-1",
-          children: [
-            { title: "0-1-0-0", key: "0-1-0-0" },
-            { title: "0-1-0-1", key: "0-1-0-1" },
-            { title: "0-1-0-2", key: "0-1-0-2" }
-          ]
-        },
-        {
-          title: "0-2",
-          key: "0-2"
-        }
-      ],
       // 自定义渲染节点的字段
-      replaceFields: { children: "children", title: "title", key: "key" },
+      replaceFields: {
+        children: "childrenList",
+        title: "permissionBelong",
+        key: "id"
+      },
       // 多选选择的数据
       checkedKeys: [],
       // 权限菜单数据
@@ -129,6 +91,7 @@ export default {
         .dispatch("organization/getRoleDetail", { id: this.id })
         .then(res => {
           this.detail = { ...res.data };
+          this.checkedKeys = [...res.data.permissionIdList];
         });
     },
     // 获取权限菜单
@@ -141,7 +104,6 @@ export default {
     },
     // 多选框选择
     onCheck(checkedKeys) {
-      console.log("checkedKeys", checkedKeys);
       this.checkedKeys = [...checkedKeys];
     },
     // 取消
@@ -152,7 +114,10 @@ export default {
     handleSave() {
       this.loading = true;
       this.$store
-        .dispatch("organization/addRole", this.permMap)
+        .dispatch("organization/roleRelationPerm", {
+          roleId: this.id,
+          permissionIdList: this.checkedKeys
+        })
         .then(res => {
           this.$message.success("角色关联资源成功");
           this.$router.back();
