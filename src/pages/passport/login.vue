@@ -40,7 +40,7 @@
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
               </a-form-model-item>
-              <!-- <a-form-model-item prop="verificationCode">
+              <a-form-model-item prop="verificationCode">
                 <a-input
                   type="text"
                   v-model="form.verificationCode"
@@ -54,7 +54,7 @@
                 <div @click="refreshCode()" class="code" title="点击切换验证码">
                   <Identify :identifyCode="identifyCode" />
                 </div>
-              </a-form-model-item> -->
+              </a-form-model-item>
               <!-- <a-form-model-item class="code-wrap" prop="code">
               <a-input
                 v-model="form.code"
@@ -111,7 +111,7 @@ import Identify from "@/components/Identify";
 import { getRandomCode } from "@/utils/index";
 export default {
   name: "Login",
-  components: { CommonLayout },
+  components: { CommonLayout, Identify },
   data() {
     return {
       labelCol: { span: 0 },
@@ -174,15 +174,6 @@ export default {
     this.refreshCode();
   },
   methods: {
-    // 获取验证码组件校验图形验证
-    validateImgCode(callback) {
-      let flag = false;
-      this.$refs.ruleForm.validateField(
-        "verificationCode",
-        err => (flag = err ? false : true)
-      );
-      callback(flag);
-    },
     // 更新验证码
     refreshCode() {
       this.identifyCode = getRandomCode();
