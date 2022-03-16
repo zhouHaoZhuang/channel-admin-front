@@ -69,8 +69,7 @@ export default {
         height: 400, //高度
         plugins:
           "lists image code table wordcount charmap codesample fullscreen insertdatetime preview print save searchreplace tabfocus textpattern toc visualblocks visualchars", // 插件
-        toolbar:
-          "formats undo redo | paste print | preview fullscreen | image | spellchecker searchreplace | fontsizeselect | fontselect | wordcount ltr rtl visualchars visualblocks toc | pagebreak nonbreaking|outdent indent aligncenter alignleft alignright alignjustify lineheight  underline quicklink h2 h3 blockquote numlist bullist table removeformat forecolor backcolor bold italic  strikethrough hr charmap link insertdatetime|subscript superscript cut codesample code",
+        toolbar:['searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample', 'hr bullist numlist link image charmap preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen'],
         fontsize_formats: "12px 14px 16px 18px 20px 24px", // 字号
         branding: false, // 去水印
         toolbar_sticky: true,
