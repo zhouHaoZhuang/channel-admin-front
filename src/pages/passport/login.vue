@@ -17,9 +17,9 @@
               :model="form"
               :rules="rules"
             >
-              <a-form-model-item prop="phone">
+              <a-form-model-item prop="username">
                 <a-input
-                  v-model="form.phone"
+                  v-model="form.username"
                   v-number-evolution
                   placeholder="请输入账号"
                   size="large"
@@ -100,7 +100,7 @@ export default {
       labelCol: { span: 0 },
       wrapperCol: { span: 24, offset: 0 },
       form: {
-        phone: "",
+        username: "",
         password: "",
         code: ""
       },
