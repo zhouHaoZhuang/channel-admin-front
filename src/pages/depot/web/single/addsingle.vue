@@ -50,12 +50,12 @@
             </a-radio>
           </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="内容">
+        <a-form-model-item label="内容" :wrapper-col="{ span: 20 }">
           <div class="Deputy">
             <Tinymce @tinymceinput="tinymceinput" />
           </div>
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
+        <a-form-model-item :wrapper-col="{ span: 10, offset: 3 }">
           <a-button
             v-permission="'add'"
             type="primary"
@@ -76,8 +76,8 @@ import Tinymce from "@/components/Tinymce/index.vue";
 export default {
   data() {
     return {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 18 },
+      labelCol: { span: 3 },
+      wrapperCol: { span: 10 },
       form: {
         bannerPicture: "",
         channelCode: "",
@@ -146,7 +146,8 @@ export default {
     Upload,
     Tinymce
   },
-  created() {
+  activated() {
+    this.resetForm();
     this.getList();
   },
   methods: {
@@ -207,13 +208,5 @@ export default {
 .add-blogroll-container {
   background: #fff;
   padding: 24px;
-  display: flex;
-  justify-content: center;
-  .content {
-    width: 600px;
-    // .addimages {
-    //   margin-left: 150px;
-    // }
-  }
 }
 </style>

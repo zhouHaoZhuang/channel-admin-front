@@ -58,10 +58,10 @@
         <a-form-model-item v-if="isWebsiteJump" label="跳转到">
           <a-input v-model="WebsiteJumpUrl" />
         </a-form-model-item>
-        <a-form-model-item v-if="!isWebsiteJump" label="内容">
+        <a-form-model-item v-if="!isWebsiteJump" label="内容" :wrapper-col="{ span: 20 }">
           <Tinymce :tinyvalue="form.context" @tinymceinput="tinymceinput" />
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ span: 19, offset: 4 }">
+        <a-form-model-item :wrapper-col="{ span: 10, offset: 3 }">
           <a-button type="primary" @click="onSubmit" :loading="loading">
             提交
           </a-button>
@@ -83,8 +83,8 @@ export default {
   },
   data() {
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 19 },
+      labelCol: { span: 3 },
+      wrapperCol: { span: 10 },
       type: [],
       form: {
         newsCode: "",
@@ -270,10 +270,5 @@ export default {
 .channel-list-add {
   background: #fff;
   padding: 24px;
-  display: flex;
-  justify-content: center;
-  .content {
-    width: 600px;
-  }
 }
 </style>
