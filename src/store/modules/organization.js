@@ -46,9 +46,9 @@ const organization = {
       });
     },
     // 获取当前角色权限map数据
-    getRolePermMap({ commit, state }, params) {
+    getRolePermMap({ commit, state }) {
       return request({
-        url: `/imPermissions/getByUserCode/${params.id}`,
+        url: `/imPermissions/getByUserCode`,
         method: "get"
       });
     },

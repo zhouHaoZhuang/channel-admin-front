@@ -96,11 +96,9 @@ export default {
     },
     // 获取权限菜单
     getPermMap() {
-      this.$store
-        .dispatch("organization/getRolePermMap", { id: this.id })
-        .then(res => {
-          this.permMap = [...res.data];
-        });
+      this.$store.dispatch("organization/getRolePermMap").then(res => {
+        this.permMap = [...res.data];
+      });
     },
     // 多选框选择
     onCheck(checkedKeys) {

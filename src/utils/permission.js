@@ -7,11 +7,6 @@ function getNewRoute(route, perms) {
   );
   return newData;
 }
-// 判断用户是否拥有所有菜单的权限
-function getUserHaveAllPerm(perms) {
-  const index = perms.findIndex(ele => ele.code.replace(":*", "") === "*");
-  return index;
-}
 // 获取跳转的第一个路由地址
 let newPath = "";
 const getFirstPath = route => {
@@ -27,17 +22,12 @@ export const setAsyncRouteMenu = (perms, router, store) => {
   // 根据权限生成新的菜单
   const newData = [...asyncRoute];
   let newRoute = [];
-  // 先判断用户的是否拥有所有权限
-  if (getUserHaveAllPerm(perms) !== -1) {
-    newRoute = [...newData[0].children];
-  } else {
-    // console.log(
-    //   "查看生成的路由",
-    //   perms,
-    //   getNewRoute(newData[0].children, perms)
-    // );
-    newRoute = getNewRoute(newData[0].children, perms);
-  }
+  console.log(
+    "查看生成的路由",
+    perms,
+    getNewRoute(newData[0].children, perms)
+  );
+  newRoute = getNewRoute(newData[0].children, perms);
   // 保存默认跳转地址，path是 / 的话，需要重定向到第一个路由
   if (newRoute && newRoute.length > 0) {
     getFirstPath(newRoute[0]);
@@ -59,12 +49,8 @@ export const hasPermissionMenu = (to, perms) => {
   if (!to.meta.perm) {
     return false;
   }
-  // 判断是否是所有菜单权限
-  if (getUserHaveAllPerm(perms) !== -1) {
-    return true;
-  }
   const index = perms.findIndex(
-    ele => ele.code.replace(":*", "") === to.meta.perm
+    ele => ele.code === to.meta.perm
   );
   if (index !== -1) {
     return true;
