@@ -343,6 +343,38 @@ export const asyncRoute = [
                 component: () =>
                   import("@/pages/sale/finance/billmanage/editbill.vue"),
               },
+              {
+                path: "refundmanage",
+                name: "退票管理",
+                meta: {
+                  icon: "home",
+                  perm: "finance-book-order",
+                },
+                component: () =>
+                  import("@/pages/sale/finance/refundmanage/list.vue"),
+              },
+              {
+                path: "refundApply",
+                name: "退票申请详情",
+                meta: {
+                  icon: "home",
+                  back: true,
+                  perm: "finance-book-order",
+                },
+                component: () =>
+                  import("@/pages/sale/finance/refundmanage/refundApply.vue"),
+              },
+              {
+                path: "reviewRefund",
+                name: "审核退票申请",
+                meta: {
+                  icon: "home",
+                  back: true,
+                  perm: "finance-book-order",
+                },
+                component: () =>
+                  import("@/pages/sale/finance/refundmanage/reviewRefund.vue"),
+              },
               // {
               //   path: "withdraw",
               //   name: "提现管理",
@@ -357,37 +389,58 @@ export const asyncRoute = [
         ],
       },
       //采购
-      // {
-      //   path: "/purchase",
-      //   name: "采购",
-      //   meta: {
-      //     perm: "member"
-      //   },
-      //   component: PageView,
-      //   children: [
-      //     {
-      //       path: "manage",
-      //       name: "财务管理",
-      //       meta: {
-      //         icon: "home",
-      //         perm: "member-admin"
-      //       },
-      //       component: BlankView,
-      //       children: [
-      //         {
-      //           path: "withdraw",
-      //           name: "提现管理",
-      //           meta: {
-      //             icon: "home",
-      //             perm: "member-admin-user"
-      //           },
-      //           component: () => import("@/pages/purchase/manage/withdraw/index.vue")
-      //         },
-      //       ]
-      //     },
-      //   ]
-
-      // },
+      {
+        path: "/purchase",
+        name: "采购",
+        meta: {
+          perm: "member",
+        },
+        component: PageView,
+        children: [
+          // {
+          //   path: "manage",
+          //   name: "财务管理",
+          //   meta: {
+          //     icon: "home",
+          //     perm: "member-admin",
+          //   },
+          //   component: BlankView,
+          //   children: [
+          //     {
+          //       path: "withdraw",
+          //       name: "提现管理",
+          //       meta: {
+          //         icon: "home",
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/manage/withdraw/index.vue"),
+          //     },
+          //   ],
+          // },
+          {
+            path: "billmanage",
+            name: "发票管理 ",
+            meta: {
+              icon: "home",
+              perm: "member-admin-user",
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "applybill",
+                name: "发票申请",
+                meta: {
+                  icon: "home",
+                  perm: "member-admin-user",
+                },
+                component: () =>
+                  import("@/pages/purchase/billmanage/billapply/list.vue"),
+              },
+            ],
+          },
+        ],
+      },
       // 产品
       {
         path: "/product",
