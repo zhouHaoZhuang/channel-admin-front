@@ -49,15 +49,29 @@
             请验证域名
           </a-button>
         </div>
+        <div class="status" slot="httpsStatus" slot-scope="text">
+          {{ cdnHttpsStatusEnum[text] }}
+        </div>
         <div slot="action" slot-scope="text, record">
-          <a-button
-            v-if="record.defaultDomain * 1 !== 1"
-            v-permission="'del'"
-            type="link"
-            @click="handleDelDomain(record)"
-          >
-            删除
-          </a-button>
+          <a-space>
+            <a-button
+              v-if="record.defaultDomain * 1 !== 1"
+              v-permission="'del'"
+              type="link"
+              @click="handleDelDomain(record)"
+            >
+              删除
+            </a-button>
+            <a-button
+              v-if="record.defaultDomain * 1 !== 1"
+              v-permission="'del'"
+              :disabled="record.cnameStatus !== -1 && record.cnameStatus !== 0"
+              type="link"
+              @click="handleDomainHttps(record)"
+            >
+              HTTPS设置
+            </a-button>
+          </a-space>
         </div>
       </a-table>
     </div>
@@ -77,6 +91,8 @@
     />
     <!-- 如何设置解析弹窗 -->
     <CourseModal v-model="courseVisible" />
+    <!-- https设置弹窗 -->
+    <DomainHttps v-model="domainHttpsVisible" :domain="domain" />
   </div>
 </template>
 
@@ -85,17 +101,20 @@ import AddDomain from "@/components/System/domain/addDomain.vue";
 import VerifyDomain from "@/components/System/domain/verifyDomain.vue";
 import VerifyResult from "@/components/System/domain/verifyResult.vue";
 import CourseModal from "@/components/System/domain/courseModal.vue";
-import { cdnStatusEnum } from "@/utils/enum";
+import DomainHttps from "@/components/System/domain/domainHttps.vue";
+import { cdnStatusEnum, cdnHttpsStatusEnum } from "@/utils/enum";
 export default {
   components: {
     AddDomain,
     VerifyDomain,
     VerifyResult,
-    CourseModal
+    CourseModal,
+    DomainHttps
   },
   data() {
     return {
       cdnStatusEnum,
+      cdnHttpsStatusEnum,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -128,6 +147,11 @@ export default {
           scopedSlots: { customRender: "cdnStatus" }
         },
         {
+          title: "HTTPS状态",
+          dataIndex: "httpsStatus",
+          scopedSlots: { customRender: "httpsStatus" }
+        },
+        {
           title: "操作",
           dataIndex: "action",
           fixed: "right",
@@ -156,6 +180,9 @@ export default {
       modalDetail: {},
       // 如何设置解析弹窗
       courseVisible: false,
+      // https设置弹窗
+      domainHttpsVisible: false,
+      domain: "",
       time: null
     };
   },
@@ -221,6 +248,11 @@ export default {
           });
         }
       });
+    },
+    // https设置
+    handleDomainHttps(record) {
+      this.domainHttpsVisible = true;
+      this.domain = record.domain;
     },
     // 定时轮询
     startTime() {

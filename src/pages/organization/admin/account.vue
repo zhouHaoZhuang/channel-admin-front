@@ -17,26 +17,37 @@
         :loading="tableLoading"
         :columns="columns"
         :data-source="data"
-        rowKey="authingId"
+        rowKey="id"
         :pagination="false"
       >
+        <span slot="roleNames" slot-scope="text">
+          <span>正常{{ text }}</span>
+        </span>
+        <span slot="status" slot-scope="text">
+          <span v-if="text === 1">正常</span>
+          <span v-else>冻结中</span>
+        </span>
         <span slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </span>
-        <!-- <span slot="action">
-          <a-button type="link" disabled>暂无操作</a-button>
-          <a-button
-            v-permission="'modify'"
-            type="link"
-            @click="handleEdit(record)"
-          >
-            编辑
-          </a-button>
-          <a-divider type="vertical" />
-          <a-button v-permission="'del'" type="link" @click="handleDel(record)">
-            删除
-          </a-button>
-        </span> -->
+        <span slot="action" slot-scope="text, record">
+          <a-space>
+            <a-button
+              v-permission="'del'"
+              type="link"
+              @click="handleFrozen(record)"
+            >
+              {{ record.status === 1 ? "冻结账号" : "解冻账号" }}
+            </a-button>
+            <a-button
+              v-permission="'modify'"
+              type="link"
+              @click="handleEdit(record)"
+            >
+              编辑
+            </a-button>
+          </a-space>
+        </span>
       </a-table>
     </div>
     <!-- 添加/编辑子账号的弹窗 -->
@@ -49,7 +60,7 @@
 </template>
 
 <script>
-import UpdateAccountModal from "@/components/System/updateAccountModal";
+import UpdateAccountModal from "@/components/Organization/updateAccountModal";
 export default {
   components: {
     UpdateAccountModal
@@ -59,10 +70,13 @@ export default {
       listQuery: {
         currentPage: 1,
         pageSize: 10,
-        total: 0,
-        isAll: false
+        total: 0
       },
       columns: [
+        {
+          title: "账号",
+          dataIndex: "username"
+        },
         {
           title: "子账号名称",
           dataIndex: "nickname"
@@ -72,15 +86,25 @@ export default {
           dataIndex: "phone"
         },
         {
+          title: "角色",
+          dataIndex: "roleNames",
+          scopedSlots: { customRender: "roleNames" }
+        },
+        {
+          title: "状态",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
+        },
+        {
           title: "创建时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" }
+        },
+        {
+          title: "操作",
+          dataIndex: "action",
+          scopedSlots: { customRender: "action" }
         }
-        // {
-        //   title: "操作",
-        //   dataIndex: "action",
-        //   scopedSlots: { customRender: "action" }
-        // }
       ],
       data: [],
       paginationProps: {
@@ -113,11 +137,10 @@ export default {
     getList() {
       this.tableLoading = true;
       this.$store
-        // .dispatch("system/getModalUserList", this.listQuery)
-        .dispatch("system/getModalUserList")
+        .dispatch("organization/getAccountList", this.listQuery)
         .then(res => {
-          this.data = [...res.data];
-          // this.paginationProps.total = res.data.totalCount * 1;
+          this.data = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
           this.tableLoading = false;
@@ -134,12 +157,12 @@ export default {
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
-    // 添加权限
+    // 添加子账号
     handleAdd() {
       this.modalDetail = {};
       this.visible = true;
     },
-    // 编辑权限
+    // 编辑子账号
     handleEdit(record) {
       this.modalDetail = { ...record };
       this.visible = true;
@@ -148,15 +171,24 @@ export default {
     modalSuccess() {
       this.getList();
     },
-    // 删除
-    handleDel(record) {
+    // 冻结账号
+    handleFrozen(record) {
+      const contentTxt =
+        record.status === 1
+          ? "被冻结的账号无法进行登录，你还要继续吗？"
+          : "是否要对该账号做解除冻结操作？";
       this.$confirm({
-        title: "确认要删除吗？",
+        title: `账号${record.status === 1 ? "冻结" : "解冻"}提示`,
+        content: contentTxt,
         onOk: () => {
           this.$store
-            .dispatch("system/delAccount", { code: record.code })
+            .dispatch("organization/editAccountStatus", {
+              id: record.id,
+              status: record.status === 0 ? 1 : 0,
+              typeCode: "ADMIN"
+            })
             .then(res => {
-              this.$message.success("删除成功");
+              this.$message.success("操作成功");
               this.getList();
             });
         }

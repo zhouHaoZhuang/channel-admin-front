@@ -17,19 +17,26 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="角色Code" prop="code">
+      <a-form-model-item label="角色名称" prop="name">
         <a-input
-          v-model="form.code"
-          v-role-input
+          v-model="form.name"
+          :disabled="type === 'edit'"
           :max-length="30"
-          placeholder="请输入角色Code，填写一个名词，例如：admin"
+          placeholder="请输入角色名称"
         />
       </a-form-model-item>
-      <a-form-model-item label="角色描述">
+      <a-form-model-item label="状态">
+        <a-switch v-model="form.status">
+          <a-icon slot="checkedChildren" type="check" />
+          <a-icon slot="unCheckedChildren" type="close" />
+        </a-switch>
+      </a-form-model-item>
+      <a-form-model-item label="描述">
         <a-input
           v-model="form.description"
-          :max-length="50"
-          placeholder="请输入角色描述"
+          type="textarea"
+          :max-length="100"
+          placeholder="请填写描述信息"
         />
       </a-form-model-item>
     </a-form-model>
@@ -37,7 +44,6 @@
 </template>
 
 <script>
-import { systemAdminMapEnum } from "@/utils/enum";
 export default {
   // 双向绑定
   model: {
@@ -85,62 +91,24 @@ export default {
   },
   data() {
     return {
-      systemAdminMapEnum,
       type: "add",
       labelCol: { span: 6 },
       wrapperCol: { span: 15 },
       loading: false,
       form: {
-        code: "",
+        name: "",
+        status: true,
         description: ""
       },
       rules: {
-        code: [
+        name: [
           {
             required: true,
-            message: "请输入角色Code",
+            message: "请输入角色名称",
             tigger: ["blur", "change"]
           }
         ]
-      },
-      listQuery: {
-        currentPage: 1,
-        pageSize: 10,
-        total: 0
-      },
-      columns: [
-        {
-          title: "角色Code",
-          dataIndex: "code"
-        },
-        {
-          title: "角色描述",
-          dataIndex: "description"
-        },
-        {
-          title: "创建时间",
-          dataIndex: "createdAt",
-          scopedSlots: { customRender: "createdAt" }
-        },
-        {
-          title: "操作",
-          dataIndex: "action",
-          scopedSlots: { customRender: "action" }
-        }
-      ],
-      data: [],
-      paginationProps: {
-        showQuickJumper: true,
-        showSizeChanger: true,
-        total: 1,
-        showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
-            total / this.listQuery.pageSize
-          )} 页`,
-        onChange: this.quickJump,
-        onShowSizeChange: this.onShowSizeChange
-      },
-      tableLoading: false
+      }
     };
   },
   methods: {
@@ -152,7 +120,8 @@ export default {
     resetForm() {
       this.$refs.ruleForm.clearValidate();
       this.form = {
-        code: "",
+        name: "",
+        status: true,
         description: ""
       };
     },
@@ -161,15 +130,18 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.loading = true;
+          const status = this.form.status ? 1 : 0;
           const req =
-            this.type === "add" ? "system/addRole" : "system/editRole";
+            this.type === "add"
+              ? "organization/addRole"
+              : "organization/editRole";
           const data =
             this.type === "add"
-              ? { ...this.form }
+              ? { ...this.form, status }
               : {
                   ...this.form,
-                  code: this.detail.code,
-                  newCode: this.form.code
+                  id: this.detail.id,
+                  status
                 };
           this.$store
             .dispatch(req, data)
@@ -183,19 +155,6 @@ export default {
             });
         }
       });
-    },
-    // 查询已授权用户列表
-    getList() {
-      this.tableLoading = true;
-      this.$store
-        .dispatch("system/getRoleList", this.listQuery)
-        .then(res => {
-          this.data = [...res.data.list];
-          this.paginationProps.total = res.data.totalCount * 1;
-        })
-        .finally(() => {
-          this.tableLoading = false;
-        });
     }
   }
 };

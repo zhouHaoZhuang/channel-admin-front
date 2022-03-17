@@ -23,7 +23,7 @@ import word from "./word";
 import manualDeposit from "./manualDeposit";
 import frontPage from "./frontPage";
 import helpCategory from "./helpCategory";
-import system from "./system";
+import organization from "./organization";
 import message from "./message";
 import product from "./product";
 import emailSms from "./emailSms";
@@ -59,7 +59,7 @@ export default {
   manualDeposit,
   frontPage,
   helpCategory,
-  system,
+  organization,
   message,
   product,
   emailSms,
