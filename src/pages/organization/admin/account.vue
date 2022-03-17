@@ -17,9 +17,16 @@
         :loading="tableLoading"
         :columns="columns"
         :data-source="data"
-        rowKey="authingId"
+        rowKey="id"
         :pagination="false"
       >
+        <span slot="roleNames" slot-scope="text">
+          <span>正常{{ text }}</span>
+        </span>
+        <span slot="status" slot-scope="text">
+          <span v-if="text === 1">正常</span>
+          <span v-else>冻结中</span>
+        </span>
         <span slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </span>
@@ -30,7 +37,7 @@
               type="link"
               @click="handleFrozen(record)"
             >
-              冻结账号
+              {{ record.status === 1 ? "冻结账号" : "解冻账号" }}
             </a-button>
             <a-button
               v-permission="'modify'"
@@ -80,11 +87,13 @@ export default {
         },
         {
           title: "角色",
-          dataIndex: "roleNames"
+          dataIndex: "roleNames",
+          scopedSlots: { customRender: "roleNames" }
         },
         {
           title: "状态",
-          dataIndex: "status"
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "创建时间",
@@ -169,13 +178,14 @@ export default {
           ? "被冻结的账号无法进行登录，你还要继续吗？"
           : "是否要对该账号做解除冻结操作？";
       this.$confirm({
-        title: `账号${record.status === 0 ? "冻结" : "解冻"}提示`,
+        title: `账号${record.status === 1 ? "冻结" : "解冻"}提示`,
         content: contentTxt,
         onOk: () => {
           this.$store
-            .dispatch("organization/editAccount", {
-              ...record,
-              status: record.status === 0 ? 1 : 0
+            .dispatch("organization/editAccountStatus", {
+              id: record.id,
+              status: record.status === 0 ? 1 : 0,
+              typeCode: "ADMIN"
             })
             .then(res => {
               this.$message.success("操作成功");
