@@ -4,8 +4,8 @@
       <a-tab-pane key="1" tab="在线充值">
         <Online></Online>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="线下汇款">
-        <Offline></Offline>
+      <a-tab-pane key="2" tab="">
+        <!-- <Offline></Offline> -->
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -20,7 +20,7 @@ export default {
   components: {
     Online,
     // Record,
-    Offline,
+    // Offline,
     // Inquire
   },
   data() {
