@@ -52,6 +52,7 @@ const user = {
         data
       });
     },
+    // 获取企业实名认证信息
     getEnterpriseRealNameInfo({ commit, state }, data) {
       return request({
         url: `/manageUser/getEnterpriseRealNameInfo`,

@@ -135,6 +135,9 @@ export default {
       }
     };
   },
+  activated() {
+    // this.getEnterpriseRealNameInfo();
+  },
   methods: {
     // 获取企业实名认证的数据信息
     getEnterpriseRealNameInfo(){
