@@ -326,7 +326,10 @@ export default {
   created() {
     this.getAlipay();
     console.log(this.formData, "this.formData");
-    this.formRecharge = this.formData;
+    for (let key in this.formRecharge) {
+      this.formRecharge[key] = this.formData[key];
+    }
+    console.log(this.formRecharge, "this.formRecharge");
   },
   props: {
     formData: {
@@ -386,7 +389,9 @@ export default {
     getData() {
       this.$store.dispatch("emailSms/getAllConfig").then(res => {
         console.log(res);
-        this.form = res.data;
+        for (let key in this.formRecharge) {
+          this.formRecharge[key] = res.data[key];
+        }
       });
     },
     // 上传pc图片

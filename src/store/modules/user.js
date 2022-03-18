@@ -47,7 +47,7 @@ const user = {
     // 向邮箱发送验证码
     sendEmail({ commit, state }, data) {
       return request({
-        url: `/sms/getCodeByEmail`,
+        url: `/imMessageRecord/testEmail`,
         method: "post",
         data
       });

@@ -144,7 +144,7 @@
         <!-- 业务统计模块 -->
         <div class="business-statistics">
           <h1>业务统计</h1>
-          <div class="business-info">云服务器（{{ SuccessCountNum }}台）</div>
+          <div class="business-info">云服务器（当月{{ SuccessCountNum }}台）</div>
         </div>
       </div>
       <!-- 消息提醒页面 -->

@@ -563,7 +563,7 @@ export default {
     pcImgChange(urlList, firstImageUrl, base64List, type) {
       console.log("上传图片回调99999", urlList, base64List, firstImageUrl);
       this.form[type + "Base64List"] = base64List;
-      this.form[type] = urlList.toString();
+      this.form[type] = urlList;
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
@@ -591,6 +591,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.confirmLoading = true;
+          this.form.authorizations = this.form.authorizations.toString();
           this.form.certificates = this.form.certificates.toString();
           this.form.signFileList = [
             ...this.form.certificatesBase64List,
@@ -645,7 +646,7 @@ export default {
 .sample-graph {
   display: flex;
   .upload {
-    width: 120px;
+    display: inline-block;
   }
   .sample-img {
     text-align: center;
