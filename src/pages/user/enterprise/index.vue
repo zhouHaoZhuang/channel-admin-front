@@ -187,6 +187,7 @@ export default {
     };
   },
   activated() {
+    this.resetForm();
     this.getEnterpriseRealNameInfo();
   },
   methods: {
@@ -285,6 +286,15 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        businessImg: "",
+        avatarImg: "",
+        emblemImg: "",
+        businessName: "",
+        certNo: "",
+        name: "",
+        idNo: ""
+      };
     }
   }
 };
