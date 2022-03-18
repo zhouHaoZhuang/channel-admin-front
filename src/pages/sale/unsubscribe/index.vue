@@ -67,7 +67,7 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-         <a-form-model-item>
+        <a-form-model-item>
           <a-select
             style="width:150px"
             placeholder="计费方式"
@@ -106,6 +106,12 @@
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text }}
           </div>
+          <span slot="customer" slot-scope="text" style="color: #00aaff">
+            {{ text }}
+          </span>
+          <span slot="channel" slot-scope="text" style="color: #00aaff">
+            {{ text }}
+          </span>
           <div v-if="text" slot="actualAmount" slot-scope="text">
             {{ text }}
           </div>
@@ -168,44 +174,38 @@ export default {
       tableLoading: false,
       columns: [
         {
-          title: "订单编号",
+          title: "退单编号",
           dataIndex: "orderNo",
           width: 170
         },
-        // {
-        //   title: "会员ID",
-        //   dataIndex: "corporationCode",
-        //   width: 170,
-        //   scopedSlots: { customRender: "corporationCode" }
-        // },
+        {
+          title: "订单编号",
+          dataIndex: "corporationCode",
+          width: 170,
+          scopedSlots: { customRender: "corporationCode" }
+        },
         {
           title: "订单类型",
           dataIndex: "tradeType",
           scopedSlots: { customRender: "tradeType" },
           width: 130
         },
-           {
+        {
           title: "所属终端客户",
-          dataIndex: "corporationCode",
+          dataIndex: "customer",
           width: 170,
-          scopedSlots: { customRender: "corporationCode" }
+          scopedSlots: { customRender: "customer" }
         },
         {
-          title: "原价",
+          title: "订单金额",
           dataIndex: "originAmount",
           scopedSlots: { customRender: "originAmount" },
           width: 100
         },
         {
-          title: "成交价",
+          title: "退款金额",
           dataIndex: "actualAmount",
           scopedSlots: { customRender: "actualAmount" },
-          width: 100
-        },
-           {
-          title: "折扣率",
-          dataIndex: "actual",
-          scopedSlots: { customRender: "actual" },
           width: 100
         },
         {
@@ -215,15 +215,10 @@ export default {
           scopedSlots: { customRender: "tradeStatus" }
         },
         {
-          title: '计费方式',
-          dataIndex: 'cashPay',
-          scopedSlots: { customRender: 'cashPay' },
+          title: "计费方式",
+          dataIndex: "cashPay",
+          scopedSlots: { customRender: "cashPay" }
         },
-        // {
-        //   title: '现金券支付',
-        //   dataIndex: 'actualPrice',
-        //   scopedSlots: { customRender: 'actualPrice' },
-        // },
         {
           title: "创建时间",
           dataIndex: "createTime",
@@ -231,12 +226,6 @@ export default {
           scopedSlots: { customRender: "createTime" },
           sorter: (a, b) =>
             new Date(a.createTime).getTime() - new Date(b.createTime).getTime()
-        },
-        {
-          title: "支付时间",
-          dataIndex: "payTime",
-          width: 250,
-          scopedSlots: { customRender: "payTime" }
         },
         {
           title: "操作",
@@ -267,15 +256,27 @@ export default {
     useColumns() {
       return [
         {
+          title: "退单编号",
+          dataIndex: "orderNo",
+          key: "orderNo",
+          width: 170
+        },
+        {
           title: "订单编号",
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
         },
         {
-          title: "会员ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
+          title: "渠道商名称",
+          dataIndex: "orderNo",
+          key: "orderNo",
+          width: 170
+        },
+        {
+          title: "渠道商ID",
+          dataIndex: "channel",
+          key: "channel",
           width: 150
         }
       ];
@@ -285,7 +286,7 @@ export default {
     //查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$getList("financialOrder/getList", this.listQuery)
+      this.$getList("member/getList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -330,7 +331,7 @@ export default {
     // 查看详情
     handleSelectDetail(record) {
       this.$router.push({
-        path: "/sale/order/detail",
+        path: "/sale/unsubscribe/detail",
         query: {
           id: record.orderNo
         }

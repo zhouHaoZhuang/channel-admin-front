@@ -198,8 +198,8 @@ export default {
         },
         {
           title: "成交价",
-          dataIndex: "actualAmount",
-          scopedSlots: { customRender: "actualAmount" },
+          dataIndex: "Amount",
+          scopedSlots: { customRender: "Amount" },
           width: 100
         },
            {
