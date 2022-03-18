@@ -1,12 +1,14 @@
 <template>
-  <a-button
-    class="code-btn"
-    :size="size"
-    :disabled="loading"
-    @click="handleCode"
-  >
-    {{ btnTxt }}
-  </a-button>
+  <div>
+    <a-button
+      class="code-btn"
+      :size="size"
+      :disabled="loading"
+      @click="handleCode"
+    >
+      {{ btnTxt }}
+    </a-button>
+  </div>
 </template>
 
 <script>
@@ -25,11 +27,11 @@ export default {
     },
     codeType: {
       type: String,
-      default: ''
+      default: ""
     },
     sendType: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   watch: {
@@ -52,6 +54,7 @@ export default {
   beforeDestroy() {
     clearInterval(this.time);
   },
+
   methods: {
     handleCode() {
       if (!this.phone) {
@@ -62,10 +65,22 @@ export default {
         this.$message.warning("手机号格式不正确");
         return;
       }
+      // 判断父组件是否传递方法校验
+      if (this.$listeners["validate"]) {
+        let flag;
+        this.$emit("validate", val => {
+          flag = val;
+        });
+        if (!flag) return;
+      }
       if (this.loading) return;
       this.loading = true;
       this.$store
-        .dispatch("user/sendCode", { receiverAccount: this.phone,codeType: this.codeType,sendType: this.sendType })
+        .dispatch("user/sendCode", {
+          receiverAccount: this.phone,
+          codeType: this.codeType,
+          sendType: this.sendType
+        })
         .then(res => {
           this.startTime();
         })

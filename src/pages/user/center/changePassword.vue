@@ -25,6 +25,17 @@
           v-model="form.phone"
         />
       </a-form-model-item>
+      <a-form-model-item label="图片验证码" prop="verificationCode">
+        <a-input
+          type="text"
+          v-model="form.verificationCode"
+          placeholder="请在获取验证码之前进行图片验证"
+          :max-length="6"
+        />
+        <div @click="refreshCode()" class="code" title="点击切换验证码">
+          <Identify :identifyCode="identifyCode" />
+        </div>
+      </a-form-model-item>
       <a-form-model-item label="验证码" prop="code">
         <a-input
           v-model="form.code"
@@ -35,7 +46,7 @@
         >
           <a-icon slot="prefix" type="smile" />
         </a-input>
-        <CodeBtn :phone="form.phone" codeType="3" :isDisabled="isDisabled" />
+        <CodeBtn :phone="form.phone" codeType="3" @validate="validateImgCode" />
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password
@@ -59,9 +70,10 @@
 <script>
 import { mapState } from "vuex";
 import CodeBtn from "@/components/CodeBtn/index";
-
+import Identify from "@/components/Identify";
+import { getRandomCode } from "@/utils/index";
 export default {
-  components: { CodeBtn },
+  components: { CodeBtn, Identify },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -91,7 +103,8 @@ export default {
         phone: "",
         newPassword: "",
         newTwoPassword: "",
-        code: ""
+        code: "",
+        verificationCode: ""
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
@@ -123,12 +136,32 @@ export default {
         newTwoPassword: [
           { validator: validatePass2, trigger: ["blur", "change"] },
           { min: 6, max: 20, message: "密码位数在6~20位", trigger: "blur" }
+        ],
+        verificationCode: [
+          {
+            required: true,
+            message: "请输入图片图片校验码",
+            trigger: ["blur", "change"]
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.identifyCode) {
+                callback(new Error("图形验证码不正确"));
+              }
+              callback();
+            },
+            trigger: ["blur", "change"]
+          }
         ]
-      }
+      },
+      identifyCode: "" //要核对的验证码
     };
   },
   created() {
     // this.getRoles()
+  },
+  mounted() {
+    this.refreshCode();
   },
   methods: {
     logout() {
@@ -141,10 +174,15 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.form.password = this.form.newPassword;
-          this.$store.dispatch("user/changePassword", this.form).then(() => {
-            this.$message.success("修改成功");
-            this.logout();
-          });
+          this.$store
+            .dispatch("user/changePassword", this.form)
+            .then(() => {
+              this.$message.success("修改成功");
+              this.logout();
+            })
+            .catch(() => {
+              this.refreshCode();
+            });
         }
       });
     },
@@ -154,6 +192,19 @@ export default {
         .then(val => {
           console.log("获取角色", val);
         });
+    },
+    // 获取验证码组件校验图形验证
+    validateImgCode(callback) {
+      let flag = false;
+      this.$refs.ruleForm.validateField(
+        "verificationCode",
+        err => (flag = err ? false : true)
+      );
+      callback(flag);
+    },
+    // 更新验证码
+    refreshCode() {
+      this.identifyCode = getRandomCode();
     }
   },
 

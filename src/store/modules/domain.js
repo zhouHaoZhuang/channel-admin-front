@@ -45,6 +45,21 @@ const domain = {
         url: `/ccDomain/${id}`,
         method: "delete"
       });
+    },
+    // 查询当前域名的https配置
+    getDomainHttps({ commit, state }, params) {
+      return request({
+        url: `/aliyun/dcdn/selectHttpsConfig/${params.domain}`,
+        method: "get"
+      });
+    },
+    // 配置当前域名的https配置
+    saveDomainHttps({ commit, state }, data) {
+      return request({
+        url: "/aliyun/dcdn/handleDcdnDomainCertificate",
+        method: "post",
+        data
+      });
     }
   }
 };
