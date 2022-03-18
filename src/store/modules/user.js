@@ -55,7 +55,7 @@ const user = {
     // 获取企业实名认证信息
     getEnterpriseRealNameInfo({ commit, state }, data) {
       return request({
-        url: `/ccCompanyInfo/getOne`,
+        url: `/ccCompanyInfo/oneCompanyInfo`,
         method: "get"
       });
     },
