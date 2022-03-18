@@ -322,47 +322,46 @@ export const asyncRoute = [
         ]
       },
       //采购
-      {
-        path: "/purchase",
-        name: "采购",
-        meta: {
-          perm: "member"
-        },
-        component: PageView,
-        children: [
-          {
-            path: "manage",
-            name: "财务管理",
-            meta: {
-              icon: "home",
-              perm: "member-admin"
-            },
-            component: BlankView,
-            children: [
-              {
-                path: "rechargeCentre",
-                name: "充值中心",
-                meta: {
-                  icon: "home",
-                  perm: "member-admin-user"
-                },
-                component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue")
-              },
-              {
-                path: "withdraw",
-                name: "提现管理",
-                meta: {
-                  icon: "home",
-                  perm: "member-admin-user"
-                },
-                component: () => import("@/pages/purchase/manage/withdraw/index.vue")
-              },
-            ]
-          },
-          
-        ]
+      // {
+      //   path: "/purchase",
+      //   name: "采购",
+      //   meta: {
+      //     perm: "member"
+      //   },
+      //   component: PageView,
+      //   children: [
+      //     {
+      //       path: "manage",
+      //       name: "财务管理",
+      //       meta: {
+      //         icon: "home",
+      //         perm: "member-admin"
+      //       },
+      //       component: BlankView,
+      //       children: [
+      //         {
+      //           path: "rechargeCentre",
+      //           name: "充值中心",
+      //           meta: {
+      //             icon: "home",
+      //             perm: "member-admin-user"
+      //           },
+      //           component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue")
+      //         },
+      //         {
+      //           path: "withdraw",
+      //           name: "提现管理",
+      //           meta: {
+      //             icon: "home",
+      //             perm: "member-admin-user"
+      //           },
+      //           component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+      //         },
+      //       ]
+      //     },
+      //   ]
 
-      },
+      // },
       // 产品
       {
         path: "/product",
