@@ -194,6 +194,10 @@ export default {
     getEnterpriseRealNameInfo() {
       this.$store.dispatch("user/getEnterpriseRealNameInfo").then(res => {
         console.log(res);
+        if (!res || !res.data) {
+          this.realNameStatus = 0;
+          return;
+        }
         this.realNameStatus = 2;
         this.form.businessImg = res.data.businessImg;
         this.form.businessName = res.data.companyName;
