@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <a-button
-      class="code-btn"
-      :size="size"
-      :disabled="loading"
-      @click="handleCode"
-    >
-      {{ btnTxt }}
-    </a-button>
-  </div>
+  <a-button
+    class="code-btn"
+    :size="size"
+    :disabled="loading"
+    @click="handleCode"
+  >
+    {{ btnTxt }}
+  </a-button>
 </template>
 
 <script>
@@ -26,10 +24,6 @@ export default {
       default: "default"
     },
     codeType: {
-      type: String,
-      default: ""
-    },
-    sendType: {
       type: String,
       default: ""
     }
@@ -54,39 +48,38 @@ export default {
   beforeDestroy() {
     clearInterval(this.time);
   },
-
   methods: {
     handleCode() {
       if (!this.phone) {
-        this.$message.warning("请输入手机号");
+        this.$message.warning("请正确输入手机号");
         return;
       }
       if (!this.phoneReg.test(this.phone)) {
         this.$message.warning("手机号格式不正确");
         return;
       }
-      // 判断父组件是否传递方法校验
+      //判断父组件是否传递显示图片校验的方法
+      if (this.$listeners["showValidate"]) {
+        let isShow;
+        this.$emit("showValidate", val => {
+          isShow = val;
+        });
+        if (!isShow) {
+          return;
+        }
+      }
+      //判断父组件是否传递图片校验的方法
       if (this.$listeners["validate"]) {
         let flag;
         this.$emit("validate", val => {
           flag = val;
         });
-        if (!flag) return;
+        if (!flag) {
+          return;
+        }
       }
       if (this.loading) return;
-      this.loading = true;
-      this.$store
-        .dispatch("user/sendCode", {
-          receiverAccount: this.phone,
-          codeType: this.codeType,
-          sendType: this.sendType
-        })
-        .then(res => {
-          this.startTime();
-        })
-        .catch(err => {
-          this.loading = false;
-        });
+      this.getMsg();
     },
     startTime() {
       this.time = setInterval(() => {
@@ -100,6 +93,21 @@ export default {
         this.timeCount -= 1;
         this.btnTxt = this.timeCount + "S";
       }, 1000);
+    },
+    // 发送验证码
+    getMsg() {
+      this.loading = true;
+      this.$store
+        .dispatch("user/sendCode", {
+          receiverAccount: this.phone,
+          codeType: this.codeType
+        })
+        .then(res => {
+          this.startTime();
+        })
+        .catch(err => {
+          this.loading = false;
+        });
     }
   }
 };
