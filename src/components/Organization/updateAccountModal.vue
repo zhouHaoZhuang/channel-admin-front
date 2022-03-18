@@ -107,9 +107,9 @@
         {{ form.phone }}
       </a-form-model-item>
       <!-- 添加/编辑都展示 -->
-      <a-form-model-item label="角色" prop="roleNames">
+      <a-form-model-item label="角色" prop="roleIds">
         <a-select
-          v-model="form.roleNames"
+          v-model="form.roleIds"
           mode="multiple"
           allowClear
           placeholder="请选择角色"
@@ -212,7 +212,7 @@ export default {
         confirmPassword: "",
         phone: "",
         code: "",
-        roleNames: undefined,
+        roleIds: undefined,
         verificationCode: ""
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
@@ -254,7 +254,7 @@ export default {
           },
           { validator: validatePass2, trigger: ["blur", "change"] }
         ],
-        roleNames: [
+        roleIds: [
           {
             required: true,
             message: "请选择角色",
@@ -307,7 +307,7 @@ export default {
         confirmPassword: "",
         phone: "",
         code: "",
-        roleNames: undefined,
+        roleIds: undefined,
         verificationCode: ""
       };
     },
@@ -327,7 +327,10 @@ export default {
               ? "organization/addAccount"
               : "organization/editAccount";
           this.$store
-            .dispatch(req, this.form)
+            .dispatch(req, {
+              ...this.form,
+              newRoleIds: this.type === "edit" ? this.form.roleIds : undefined
+            })
             .then(res => {
               this.$message.success(this.modalTitle + "成功");
               this.$emit("success");

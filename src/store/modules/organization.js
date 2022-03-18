@@ -76,10 +76,18 @@ const organization = {
         data
       });
     },
-    // 编辑子账号 冻结/解冻子账号
+    // 编辑子账号
     editAccount({ commit, state }, data) {
       return request({
-        url: `/user/updateAdminUsers`,
+        url: `/user/updateUserRole`,
+        method: "post",
+        data
+      });
+    },
+    // 冻结/解冻子账号
+    editAccountStatus({ commit, state }, data) {
+      return request({
+        url: `/user/updateStatus`,
         method: "post",
         data
       });

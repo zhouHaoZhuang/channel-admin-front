@@ -67,7 +67,7 @@ const user = {
     getUserPerms({ commit, state }) {
       return new Promise((resolve, reject) => {
         request({
-          url: `/imPermissions/getByUserCode`,
+          url: `/imPermissions/getPermissionsList`,
           method: "get"
         })
           .then(res => {

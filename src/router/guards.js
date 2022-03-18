@@ -65,14 +65,15 @@ const permsGuard = async (to, from, next, options) => {
     // 设置动态路由
     const perms = store.state.user.perms;
     setAsyncRouteMenu(perms, router, store);
-  }
-  if (to.path === "/") {
-    const perms = store.state.user.perms;
-    if (!perms || (perms && perms.length === 0)) {
+    // 获取生成的默认跳转路由
+    const firstPath = store.state.setting.firstPath;
+    if (!firstPath) {
       message.warning("当前登录用户没有任何权限，将退出登录");
       store.dispatch("user/logout");
       next({ path: "/login" });
     }
+  }
+  if (to.path === "/") {
     const firstPath = store.state.setting.firstPath;
     next({ path: firstPath });
   }
@@ -101,6 +102,7 @@ const authorityGuard = (to, from, next, options) => {
   if (!loginIgnore.includes(to) && !hasPermissionMenu(to, perms, router)) {
     message.warning(`对不起，您无权访问页面，请联系管理员`);
     const firstPath = store.state.setting.firstPath;
+    console.log("首路由", firstPath);
     next({ path: firstPath });
     NProgress.done();
   } else {

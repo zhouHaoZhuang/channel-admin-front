@@ -5,7 +5,7 @@
         <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
             <a-button
-              v-permission="'add-role'"
+              v-permission="'add'"
               type="primary"
               icon="plus"
               @click="handleAddRole"
@@ -47,14 +47,14 @@
           <div slot="action" slot-scope="text, record">
             <a-space>
               <a-button
-                v-permission="'detail'"
+                v-permission="'relation'"
                 type="link"
                 @click="handleRelation(record)"
               >
                 关联资源
               </a-button>
               <a-button
-                v-permission="'modify'"
+                v-permission="'edit'"
                 type="link"
                 @click="handleEditRole(record)"
               >

@@ -56,7 +56,7 @@ export default {
       // 自定义渲染节点的字段
       replaceFields: {
         children: "childrenList",
-        title: "permissionBelong",
+        title: "name",
         key: "id"
       },
       // 多选选择的数据

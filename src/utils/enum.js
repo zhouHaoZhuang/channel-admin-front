@@ -153,6 +153,12 @@ export const cdnStatusEnum = {
   5: "正在审核",
   6: "审核失败"
 };
+// https状态
+export const cdnHttpsStatusEnum = {
+  0: "未配置",
+  1: "未启用",
+  2: "已启用"
+};
 // 工单状态
 export const workOrderStatusEnum = {
   1: "待接单",
