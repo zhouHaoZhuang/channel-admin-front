@@ -19,19 +19,6 @@
             size="large"
           />
         </a-form-model-item>
-        <a-form-model-item prop="verificationCode" label="图形验证码">
-          <a-input
-            type="text"
-            v-model="form.verificationCode"
-            placeholder="请输入图形验证码"
-            :max-length="4"
-            style="width:180px"
-            size="large"
-          />
-          <div @click="refreshCode()" class="code" title="点击切换验证码">
-            <Identify :identifyCode="identifyCode" />
-          </div>
-        </a-form-model-item>
         <a-form-model-item class="code-wrap" prop="code" label="验证码">
           <a-input
             v-model="form.code"
@@ -47,7 +34,28 @@
             :phone="form.phone"
             size="large"
             @validate="validateImgCode"
+            @showValidate="showValidate"
+            ref="child"
           />
+        </a-form-model-item>
+        <a-form-model-item
+          prop="verificationCode"
+          label="图形验证码"
+          v-show="showVerfication"
+        >
+          <a-input
+            type="text"
+            ref="verificationCode"
+            v-model="form.verificationCode"
+            placeholder="请输入图形验证码"
+            :max-length="4"
+            style="width:180px"
+            size="large"
+            @keyup="getCode"
+          />
+          <div @click="refreshCode()" class="code" title="点击切换验证码">
+            <Identify :identifyCode="identifyCode" />
+          </div>
         </a-form-model-item>
         <a-form-model-item prop="password" label="登陆密码">
           <a-input-password
@@ -171,7 +179,8 @@ export default {
         ]
       },
       loading: false,
-      identifyCode: "" //要核对的验证码
+      identifyCode: "" ,//要核对的验证码
+      showVerfication:false
     };
   },
   mounted() {
@@ -221,15 +230,30 @@ export default {
     // 获取验证码组件校验图形验证
     validateImgCode(callback) {
       let flag = false;
-      this.$refs.ruleForm.validateField(
-        "verificationCode",
-        err => (flag = err ? false : true)
-      );
-      callback(flag);
+      if (this.$refs.verificationCode.value) {
+        this.$refs.ruleForm.validateField(
+          "verificationCode",
+          err => (flag = err ? false : true)
+        );
+        callback(flag);
+      }
     },
     // 更新验证码
     refreshCode() {
       this.identifyCode = getRandomCode();
+    },
+    // 是否显示图片校验
+    showValidate(callback) {
+      let isShow = true;
+      this.showVerfication = true;
+      callback(isShow);
+    },
+    //是否调用发送验证码接口
+    getCode() {
+      if (this.$refs.verificationCode.value == this.identifyCode) {
+        console.log("相等");
+        this.$refs.child.getMsg();
+      }
     }
   }
 };
