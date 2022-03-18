@@ -298,7 +298,16 @@ export const asyncRoute = [
                   perm: "sale-finance-refund"
                 },
                 component: () => import("@/pages/sale/finance/refund/index.vue")
-              }
+              },
+              // {
+              //   path: "rechargeCentre",
+              //   name: "充值中心",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "finance-book-order"
+              //   },
+              //   component: () => import("@/pages/sale/finance/rechargeCentre/index.vue")
+              // }
               // {
               //   path: "withdraw",
               //   name: "提现管理",
@@ -330,6 +339,15 @@ export const asyncRoute = [
       //       },
       //       component: BlankView,
       //       children: [
+      //         {
+      //           path: "rechargeCentre",
+      //           name: "充值中心",
+      //           meta: {
+      //             icon: "home",
+      //             perm: "member-admin-user"
+      //           },
+      //           component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue")
+      //         },
       //         {
       //           path: "withdraw",
       //           name: "提现管理",
@@ -1199,15 +1217,15 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              // {
-              //   path: "enterprise",
-              //   name: "企业认证",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "home-index-message"
-              //   },
-              //   component: () => import("@/pages/user/enterprise/index.vue")
-              // },
+              {
+                path: "enterprise",
+                name: "企业认证",
+                meta: {
+                  icon: "home",
+                  perm: "home-index-message"
+                },
+                component: () => import("@/pages/user/enterprise/index.vue")
+              },
               {
                 path: "message",
                 name: "我的消息",
