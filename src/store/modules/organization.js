@@ -79,7 +79,7 @@ const organization = {
     // 编辑子账号
     editAccount({ commit, state }, data) {
       return request({
-        url: `/user/updateAdminUsers`,
+        url: `/user/updateUserRole`,
         method: "post",
         data
       });

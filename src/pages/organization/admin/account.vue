@@ -24,8 +24,14 @@
           <span>正常{{ text }}</span>
         </span>
         <span slot="status" slot-scope="text">
-          <span v-if="text === 1">正常</span>
-          <span v-else>冻结中</span>
+          <span v-if="text === 1">
+            <a-badge status="success" />
+            正常
+          </span>
+          <span v-else>
+            <a-badge status="error" />
+            冻结中
+          </span>
         </span>
         <span slot="createTime" slot-scope="text">
           {{ text | formatDate }}
@@ -188,7 +194,7 @@ export default {
         onOk: () => {
           this.$store
             .dispatch("organization/editAccountStatus", {
-              id: record.id,
+              userCode: record.id,
               status: record.status === 0 ? 1 : 0,
               typeCode: "ADMIN"
             })
