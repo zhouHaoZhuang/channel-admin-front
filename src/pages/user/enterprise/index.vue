@@ -187,6 +187,7 @@ export default {
     };
   },
   activated() {
+    this.resetForm();
     this.getEnterpriseRealNameInfo();
   },
   methods: {
@@ -194,6 +195,10 @@ export default {
     getEnterpriseRealNameInfo() {
       this.$store.dispatch("user/getEnterpriseRealNameInfo").then(res => {
         console.log(res);
+        if (!res || !res.data) {
+          this.realNameStatus = 0;
+          return;
+        }
         this.realNameStatus = 2;
         this.form.businessImg = res.data.businessImg;
         this.form.businessName = res.data.companyName;
@@ -281,6 +286,15 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        businessImg: "",
+        avatarImg: "",
+        emblemImg: "",
+        businessName: "",
+        certNo: "",
+        name: "",
+        idNo: ""
+      };
     }
   }
 };
