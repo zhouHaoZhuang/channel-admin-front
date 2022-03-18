@@ -25,6 +25,8 @@
           }"
           :columns="columns"
           :data-source="data"
+          :pagination="paginationProps"
+          rowKey="id"
         >
           <div slot="action">
             <a-button type="link">编辑</a-button>
@@ -33,7 +35,12 @@
         <a-button type="link" icon="plus">新增开票信息</a-button>
       </a-form-model-item>
       <a-form-model-item label="订单信息">
-        <a-table :columns="columnsOrder" :data-source="dataOrder">
+        <a-table
+          :pagination="paginationProps"
+          rowKey="id"
+          :columns="columnsOrder"
+          :data-source="dataOrder"
+        >
           <div slot="action">
             <a-button type="link">删除</a-button>
           </div>
@@ -143,7 +150,27 @@ export default {
             customRender: "action"
           }
         }
-      ]
+      ],
+      listQuery: {
+        key: "",
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0,
+        startTime: "",
+        endTime: "",
+      },
+      paginationProps: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )} 页`,
+        onChange: this.quickJump,
+        onShowSizeChange: this.onShowSizeChange
+      }
     };
   },
   methods: {
@@ -163,6 +190,25 @@ export default {
     onSelectChange(selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
+    },
+    //查询数据表格
+    getList() {
+      this.$getListQp("word/getList", this.listQuery).then(res => {
+        console.log(res);
+        this.data = [...res.data.list];
+        this.paginationProps.total = res.data.totalCount * 1;
+      });
+    },
+    //表格分页跳转
+    quickJump(currentPage) {
+      this.listQuery.currentPage = currentPage;
+      this.getList();
+    },
+    //表格分页切换每页条数
+    onShowSizeChange(current, pageSize) {
+      this.listQuery.currentPage = current;
+      this.listQuery.pageSize = pageSize;
+      this.getList();
     }
   }
 };

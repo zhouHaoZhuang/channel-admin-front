@@ -50,7 +50,8 @@
       </a-form-model>
     </div>
     <div>
-      <a-table :columns="columns" :data-source="data">
+      <a-table :columns="columns" :data-source="data" :pagination="paginationProps"
+        rowKey="id">
         <div slot="companyName" slot-scope="text">{{ text }}</div>
         <div slot="action">
           <a-button type="link">申请开票</a-button>
@@ -109,7 +110,18 @@ export default {
           }
         }
       ],
-      data: []
+      data: [],
+      paginationProps: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )} 页`,
+        onChange: this.quickJump,
+        onShowSizeChange: this.onShowSizeChange
+      }
     };
   },
   methods: {
@@ -118,6 +130,25 @@ export default {
     },
     endValue(date, dateString) {
       // this.listQuery.endTime = dateString;
+    },
+    //查询数据表格
+    getList() {
+      this.$getListQp("word/getList", this.listQuery).then(res => {
+        console.log(res);
+        this.data = [...res.data.list];
+        this.paginationProps.total = res.data.totalCount * 1;
+      });
+    },
+    //表格分页跳转
+    quickJump(currentPage) {
+      this.listQuery.currentPage = currentPage;
+      this.getList();
+    },
+    //表格分页切换每页条数
+    onShowSizeChange(current, pageSize) {
+      this.listQuery.currentPage = current;
+      this.listQuery.pageSize = pageSize;
+      this.getList();
     }
   }
 };
