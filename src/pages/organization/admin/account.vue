@@ -164,7 +164,12 @@ export default {
     },
     // 编辑子账号
     handleEdit(record) {
-      this.modalDetail = { ...record };
+      const newRoleIds = record.roleIds.split(",");
+      this.modalDetail = {
+        ...record,
+        roleIds: newRoleIds,
+        oldRoleIds: newRoleIds
+      };
       this.visible = true;
     },
     // 添加/编辑弹窗事件成功的回调

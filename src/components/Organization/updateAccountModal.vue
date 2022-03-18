@@ -327,7 +327,10 @@ export default {
               ? "organization/addAccount"
               : "organization/editAccount";
           this.$store
-            .dispatch(req, this.form)
+            .dispatch(req, {
+              ...this.form,
+              newRoleIds: this.type === "edit" ? this.form.roleIds : undefined
+            })
             .then(res => {
               this.$message.success(this.modalTitle + "成功");
               this.$emit("success");
