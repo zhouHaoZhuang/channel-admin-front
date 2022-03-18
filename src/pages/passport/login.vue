@@ -20,7 +20,7 @@
               <a-form-model-item prop="username">
                 <a-input
                   v-model="form.username"
-                  v-number-evolution
+                  v-password-input
                   placeholder="请输入账号"
                   size="large"
                 >
@@ -128,12 +128,12 @@ export default {
             required: true,
             message: "请输入账号",
             trigger: ["blur", "change"]
-          },
-          {
-            pattern: /^1[3456789]\d{9}$/,
-            message: "手机号格式不正确",
-            trigger: ["blur", "change"]
           }
+          // {
+          //   pattern: /^1[3456789]\d{9}$/,
+          //   message: "手机号格式不正确",
+          //   trigger: ["blur", "change"]
+          // }
         ],
         password: [
           {

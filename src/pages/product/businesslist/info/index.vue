@@ -140,7 +140,7 @@
                 <span class="basicInformation-info">
                   {{ data.tradeCode }}
                 </span>
-                <a href="">[设置]</a>
+                <!-- <a href="">[设置]</a> -->
               </div>
               <div class="basicInformation-item">
                 <span class="basicInformation-type"></span>
