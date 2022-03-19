@@ -1222,7 +1222,7 @@ export const asyncRoute = [
                 name: "企业认证",
                 meta: {
                   icon: "home",
-                  perm: "home-index-message"
+                  perm: "user-center-message"
                 },
                 component: () => import("@/pages/user/enterprise/index.vue")
               },
