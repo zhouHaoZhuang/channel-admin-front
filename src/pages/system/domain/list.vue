@@ -92,7 +92,11 @@
     <!-- 如何设置解析弹窗 -->
     <CourseModal v-model="courseVisible" />
     <!-- https设置弹窗 -->
-    <DomainHttps v-model="domainHttpsVisible" :domain="domain" />
+    <DomainHttps
+      v-model="domainHttpsVisible"
+      :domain="domain"
+      @success="domainHttpsCallBack"
+    />
   </div>
 </template>
 
@@ -236,6 +240,10 @@ export default {
     // 如何设置域名
     handleCourse() {
       this.courseVisible = true;
+    },
+    // https设置成功回调
+    domainHttpsCallBack() {
+      this.getList();
     },
     //删除
     handleDelDomain(record) {
