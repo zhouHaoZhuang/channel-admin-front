@@ -603,6 +603,8 @@ export default {
             .then(() => {
               this.$message.success("保存成功");
               this.resetForm();
+              this.getChangeTime();
+              this.getShow();
               this.visible = false;
             })
             .finally(() => {
