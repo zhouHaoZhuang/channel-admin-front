@@ -3,7 +3,7 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline">
         <a-form-model-item>
-          <a-button type="primary" icon="plus">合并开票</a-button>
+          <a-button type="primary" icon="plus" @click="$router.push('/purchase/billmanage/listApply')">合并开票</a-button>
         </a-form-model-item>
         <a-form-model-item>
           <a-input placeholder="请输入资源池订单ID" />

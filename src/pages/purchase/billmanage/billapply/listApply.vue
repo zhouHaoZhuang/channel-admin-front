@@ -32,7 +32,7 @@
             <a-button type="link">编辑</a-button>
           </div>
         </a-table>
-        <a-button type="link" icon="plus">新增开票信息</a-button>
+        <a-button type="link" icon="plus" @click="$router.push('/purchase/billmanage/addbillInform')">新增开票信息</a-button>
       </a-form-model-item>
       <a-form-model-item label="订单信息">
         <a-table
