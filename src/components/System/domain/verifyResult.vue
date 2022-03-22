@@ -86,7 +86,7 @@ export default {
     }
     .info1 {
       font-size: 16px;
-      color: #aaaabd;
+      color: #aaa;
     }
   }
 }

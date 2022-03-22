@@ -1,6 +1,6 @@
 // 默认请求地址--应为i.sailayun
 const baseUrl = {
-  local: "http://site.sailayun.com/ims",
+  local: "/ims",
   dev: "/ims",
   test: "/ims",
   prod: "/ims"
