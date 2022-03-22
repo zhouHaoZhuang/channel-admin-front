@@ -51,21 +51,18 @@
         <a-form-item label="备注" prop="memo">
           {{ form.memo }}
         </a-form-item>
-        <a-form-item label="反馈信息" prop="feedback" v-if="title == 1">
+        <a-form-item label="反馈信息" prop="feedback" v-show="title == 1">
           <span> {{ form.feedback }}</span>
         </a-form-item>
-        <a-form-item label="反馈信息" prop="feedback" v-if="title == 2">
+        <a-form-item
+          label="反馈信息"
+          prop="feedback"
+          v-show="title == 2 || title == 3"
+        >
           <a-input
             v-model="form.feedback"
             placeholder="请填写驳回原因"
-            type="textarea"
-          />
-        </a-form-item>
-        <a-form-item label="反馈信息" prop="feedback" v-if="title == 3">
-          <a-input
-            v-model="form.orderNo"
-            placeholder="请填写银行付款单号"
-            type="textarea"
+            type="input"
           />
         </a-form-item>
       </a-form-model>
@@ -109,10 +106,12 @@ export default {
     },
     detailInfo: {
       handler(newVal) {
-        console.log(newVal);
-        this.form = newVal;
+        this.$nextTick(() => {
+          this.form = newVal;
+        });
       },
-      immediate: true
+      immediate: true,
+      deep: true
     },
     title: {
       handler(newVal) {
@@ -124,7 +123,6 @@ export default {
         } else if (newVal == 3) {
           this.newTitle = "确认提现申请";
         }
-        console.log(newVal, "newVal11");
       },
       immediate: true,
       deep: true
@@ -143,8 +141,14 @@ export default {
         feedback: [
           {
             required: true,
-            message: "Please input activity form",
-            trigger: "blur"
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(new Error("请输入反馈信息"));
+              } else {
+                callback();
+              }
+            },
+            trigger: ["blur", "change"]
           }
         ]
       }
@@ -155,6 +159,12 @@ export default {
     handleOk(val) {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          if (this.title != 1) {
+            if (!this.form.feedback) {
+              this.$message.error("请填写反馈信息");
+            }
+            return;
+          }
           let title;
           if (val == "ok") {
             this.form.status = 1;

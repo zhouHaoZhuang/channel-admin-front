@@ -101,7 +101,7 @@
       </div>
     </div>
     <!-- 新增,编辑申请 -->
-    <add-apply v-if="visible" v-model="visible" @success="getList" :detailInfo="detailInfos" />
+    <add-apply v-if="visible" v-model="visible" @success="getList" :detailInfo="detailInfos" :apply="apply"/>
     <!-- 申请详情 -->
     <applyOption
       v-model="visibleDetail"
@@ -124,6 +124,7 @@ export default {
     return {
       moment,
       applyStatus,
+      apply:1,
       visibleDetail: false, //是否显示申请详情的弹框
       visible: false, //是否显示新增申请申请
       detailInfo: {}, //详情信息
@@ -240,6 +241,7 @@ export default {
     //编辑
     goUpdate(record) {
       this.visible = true;
+      this.apply = 2
       this.$store
         .dispatch("withdraw/getRecordDetail", record.id)
         .then(res => {
@@ -251,6 +253,7 @@ export default {
     },
     //新增
     toAdd() {
+      this.apply = 1
       this.visible = true;
       this.detailInfos = {};
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-modal
-      :title="detailInfo?'提现申请详情':'新建提现申请'"
+      :title="newTitle"
       :visible="visible"
       :confirm-loading="confirmLoading"
       @cancel="handleCancel"
@@ -36,6 +36,7 @@
           <a-input
             v-model="form.dealAmount"
             placeholder="请输入需要提现的金额"
+            @change="toValidate"
           />
           <span class="tigs">请确保符合当前账号下余额充足</span>
         </a-form-model-item>
@@ -67,22 +68,56 @@ export default {
     detailInfo: {
       type: Object,
       default: () => {}
+    },
+    apply: {}
+  },
+  watch: {
+    apply: {
+      handler(newVal) {
+        if (newVal == 1) {
+          this.newTitle = "新建提现申请";
+          this.form = {};
+        } else if (newVal == 2) {
+          this.$nextTick(() => {
+            this.newTitle = "提现申请详情";
+            this.form = this.detailInfo;
+          });
+        }
+      },
+      immediate: true,
+      deep: true
+    },
+    detailInfo: {
+      handler(newVal) {
+        if (!newVal) {
+          this.form = {};
+        } else if (newVal) {
+          this.$nextTick(() => {
+            this.form = this.detailInfo;
+          });
+        }
+      },
+      immediate: true,
+      deep: true
     }
   },
-  // watch: {
-  //   detailInfo: {
-  //     handler(newVal) {
-  //        this.title = newVal ? "提现申请详情":'新建提现申请';
-  //       },
-  //     deep: true, 
-  //     immediate:true
-  //   },
-  // },
   data() {
+    const validateAccount = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入银行卡号"));
+      } else {
+        if (!this.codeReg.test(value)) {
+          callback(new Error("银行卡号不符合编号规则"));
+        }
+        callback();
+      }
+    };
     return {
+      newTitle: "",
       confirmLoading: false,
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
+      codeReg: /^(\d{16}|\d{19}|\d{17})$/, //银行卡校验正则
       form: {
         status: 2,
         accountName: "",
@@ -102,9 +137,8 @@ export default {
         accountNo: [
           {
             required: true,
-            message: "银行卡号不符合编号规则",
-            trigger: "blur"
-            //    银行卡校验：/^(\d{16}|\d{19}|\d{17})$/
+            validator: validateAccount,
+            trigger: ["blur", "change"]
           }
         ],
         dealAmount: [
@@ -124,15 +158,6 @@ export default {
       }
     };
   },
-  created(){
-    console.log(111111111);
-    if(this.detailInfo){
-      console.log('shide');
-      this.form = this.detailInfo
-    }else{
-      this.resetForm()
-    }
-  },
   methods: {
     // 保存,提交新增申请
     handleOk(val) {
@@ -143,26 +168,23 @@ export default {
           if (val == "save") {
             title = "确认保存申请吗?";
             this.form.status = 0;
+            if (this.apply == 1) {
+              this.add(title);
+            }
+            if (this.apply == 2) {
+              this.edit(title);
+            }
           }
           if (val == "submit") {
             title = "确认提交申请吗?";
             this.form.status = 2;
-          }
-          this.$confirm({
-            title: title,
-            onOk: () => {
-              this.$store
-                .dispatch("withdraw/addRecord", this.form)
-                .then(res => {
-                  this.$message.success("提交成功");
-                  this.$emit("changeVisible", false);
-                  this.$emit("success");
-                })
-                .catch(err => {
-                  this.confirmLoading = false;
-                });
+            if (this.apply == 1) {
+              this.add(title);
             }
-          });
+            if (this.apply == 2) {
+              this.edit(title);
+            }
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -174,6 +196,49 @@ export default {
     },
     handleCancel(e) {
       this.$emit("changeVisible", false);
+    },
+    // 新增
+    add(title) {
+      this.$confirm({
+        title: title,
+        onOk: () => {
+          this.$store
+            .dispatch("withdraw/addRecord", this.form)
+            .then(res => {
+              this.$message.success("提交成功");
+              this.$emit("changeVisible", false);
+              this.$emit("success");
+            })
+            .catch(err => {
+              this.confirmLoading = false;
+            });
+        }
+      });
+    },
+    // 编辑
+    edit(title) {
+      this.$confirm({
+        title: title,
+        onOk: () => {
+          this.$store
+            .dispatch("withdraw/editRecord", this.form)
+            .then(res => {
+              this.$message.success("提交成功");
+              this.$emit("changeVisible", false);
+              this.$emit("success");
+            })
+            .catch(err => {
+              this.confirmLoading = false;
+            });
+        }
+      });
+    },
+    // 校验提现余额
+    toValidate(e) {
+      console.log(e.target.value, "eeeeeeeeeeee");
+      if (e.target.value > this.form.afterBalance) {
+        console.log("budui");
+      }
     },
     // 重置表单数据
     resetForm() {
