@@ -100,7 +100,6 @@
                   class="upload"
                   :defaultFile="form.certificates"
                   :size="2"
-                  :limit="3"
                   @change="
                     ({ urlList, firstImageUrl, base64List }) =>
                       pcImgChange(
@@ -603,6 +602,8 @@ export default {
             .then(() => {
               this.$message.success("保存成功");
               this.resetForm();
+              this.getChangeTime();
+              this.getShow();
               this.visible = false;
             })
             .finally(() => {
