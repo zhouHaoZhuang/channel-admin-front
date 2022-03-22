@@ -1,13 +1,21 @@
 <template>
   <div class="bill-inform">
     <div style="margin-bottom: 20px;">
-      <a-button type="primary" icon="plus">
+      <a-button
+        type="primary"
+        icon="plus"
+        @click="$router.push('/purchase/billmanage/addbillInform')"
+      >
         新增发票信息
       </a-button>
     </div>
     <div>
-      <a-table :columns="columns" :data-source="data" :pagination="paginationProps"
-        rowKey="id">
+      <a-table
+        :columns="columns"
+        :data-source="data"
+        :pagination="paginationProps"
+        rowKey="id"
+      >
         <div slot="action">
           <a-button type="link">编辑</a-button>
           <a-button type="link">删除</a-button>
@@ -48,7 +56,7 @@ export default {
         pageSize: 10,
         total: 0,
         startTime: "",
-        endTime: "",
+        endTime: ""
       },
       paginationProps: {
         showQuickJumper: true,
@@ -66,7 +74,7 @@ export default {
   methods: {
     //查询数据表格
     getList() {
-      this.$getListQp("word/getList", this.listQuery).then(res => {
+      this.$getList("word/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
@@ -83,7 +91,7 @@ export default {
       this.listQuery.pageSize = pageSize;
       this.getList();
     }
-  },
+  }
 };
 </script>
 
