@@ -100,7 +100,6 @@
                   class="upload"
                   :defaultFile="form.certificates"
                   :size="2"
-                  :limit="3"
                   @change="
                     ({ urlList, firstImageUrl, base64List }) =>
                       pcImgChange(
