@@ -20,8 +20,8 @@
         :pagination="paginationProps"
       >
         <div slot="cnameStatus" slot-scope="text">
-          <span v-if="text !== -1 && text === 0">已配置</span>
-          <span v-if="text !== -1 && text !== 0">未配置</span>
+          <span v-if="text === 0">已配置</span>
+          <span v-else>未配置</span>
         </div>
         <div slot="type">CNAME</div>
         <div slot="cnameValue" slot-scope="text, record">
@@ -65,7 +65,7 @@
             <a-button
               v-if="record.defaultDomain * 1 !== 1"
               v-permission="'del'"
-              :disabled="record.cnameStatus !== -1 && record.cnameStatus !== 0"
+              :disabled="record.cnameStatus !== 0"
               type="link"
               @click="handleDomainHttps(record)"
             >
