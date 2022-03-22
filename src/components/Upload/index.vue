@@ -15,7 +15,7 @@
             type="eye"
             @click="handlePreview(img)"
           />
-          <a-icon class="icon" type="delete" @click="delImg(img)" />
+          <a-icon v-show="isDel" class="icon" type="delete" @click="delImg(img)" />
         </div>
       </div>
     </transition-group>
@@ -79,6 +79,11 @@ export default {
     },
     // 是否可弹窗预览
     showPreview: {
+      type: Boolean,
+      default: true
+    },
+    // 是否可删除
+    isDel: {
       type: Boolean,
       default: true
     },
