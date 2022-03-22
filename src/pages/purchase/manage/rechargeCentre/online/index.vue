@@ -95,7 +95,7 @@ export default {
     };
   },
   created() {
-    // this.getUserBalance();
+    this.getUserBalance();
   },
   beforeDestroy() {
     this.time && clearInterval(this.time);
