@@ -60,6 +60,7 @@
           v-show="title == 2 || title == 3"
         >
           <a-input
+            ref="feedback"
             v-model="form.feedback"
             placeholder="请填写驳回原因"
             type="input"
@@ -160,10 +161,11 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           if (this.title != 1) {
-            if (!this.form.feedback) {
+            console.log(this.$refs.feedback.value);
+            if (!this.$refs.feedback.value) {
               this.$message.error("请填写反馈信息");
+              return;
             }
-            return;
           }
           let title;
           if (val == "ok") {

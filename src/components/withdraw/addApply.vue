@@ -144,8 +144,21 @@ export default {
         dealAmount: [
           {
             required: true,
-            message: "当前无足够余额可以进行提现，请核对剩余余额",
-            trigger: "blur"
+            trigger: ["blur", "change"],
+            validator:(rule, value, callback) => {
+              if (!value) {
+                callback(new Error("请输入提现余额"));
+              } else if(/[^\d.]/g.test(value)){
+                callback(new Error("余额格式输入有误"));
+              }
+              //大于系统余额提示
+              // else if(value > 10){
+              //    callback(new Error("当前无足够余额可以进行提现，请核对剩余余额"));
+              // }
+              else {
+                callback();
+              }
+            },
           }
         ],
         receiverName: [
@@ -235,10 +248,8 @@ export default {
     },
     // 校验提现余额
     toValidate(e) {
+      // e.target.value = e.target.value.replace(/[^\d.]/g,'')
       console.log(e.target.value, "eeeeeeeeeeee");
-      if (e.target.value > this.form.afterBalance) {
-        console.log("budui");
-      }
     },
     // 重置表单数据
     resetForm() {
