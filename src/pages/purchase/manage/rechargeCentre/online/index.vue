@@ -40,7 +40,7 @@
             />
             <!-- </div> -->
           </a-radio>
-          <a-radio :value="2">
+          <a-radio value="wechat">
             <span>微信</span>
             <img
               style="margin-left: 5px;"
@@ -108,6 +108,7 @@ export default {
   methods: {
     onChange(e) {
       console.log("radio checked", e.target.value);
+      this.rechargeBtnForm.payType = [e.target.value, "balance"];
     },
     // 查询余额
     getUserBalance() {

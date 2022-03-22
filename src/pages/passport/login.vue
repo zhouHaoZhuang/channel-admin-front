@@ -17,9 +17,9 @@
               :model="form"
               :rules="rules"
             >
-              <a-form-model-item prop="phone">
+              <a-form-model-item prop="username">
                 <a-input
-                  v-model="form.phone"
+                  v-model="form.username"
                   v-number-evolution
                   placeholder="请输入账号"
                   size="large"
@@ -50,7 +50,7 @@
               >
                 <a-icon slot="prefix" type="smile" />
               </a-input>
-              <CodeBtn :phone="form.phone" />
+              <CodeBtn :username="form.username" />
             </a-form-model-item> -->
               <a-form-model-item class="login-btn">
                 <a-button
@@ -100,12 +100,12 @@ export default {
       labelCol: { span: 0 },
       wrapperCol: { span: 24, offset: 0 },
       form: {
-        phone: "",
+        username: "",
         password: "",
         code: ""
       },
       rules: {
-        phone: [
+        username: [
           {
             required: true,
             message: "请输入账号",
