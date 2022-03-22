@@ -35,7 +35,6 @@
                   type="password"
                   :max-length="20"
                   size="large"
-                  @pressEnter="onSubmit"
                 >
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
@@ -48,6 +47,7 @@
                   :max-length="4"
                   style="width:250px"
                   size="large"
+                  @pressEnter="onSubmit"
                 >
                   <a-icon slot="prefix" type="smile" />
                 </a-input>
@@ -188,9 +188,6 @@ export default {
             .then(res => {
               this.$message.success("登录成功");
               this.$router.push("/");
-            })
-            .catch(() => {
-              this.refreshCode();
             })
             .finally(() => {
               this.loading = false;
