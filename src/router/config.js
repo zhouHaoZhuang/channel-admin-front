@@ -304,19 +304,20 @@ export const asyncRoute = [
               //   name: "充值中心",
               //   meta: {
               //     icon: "home",
-              //     perm: "finance-book-order"
+              //     perm: "sale-finance-refund"
               //   },
               //   component: () => import("@/pages/sale/finance/rechargeCentre/index.vue")
               // }
-              // {
-              //   path: "withdraw",
-              //   name: "提现管理",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "sale-finance-withdraw"
-              //   },
-              //   component: () => import("@/pages/sale/finance/withdraw/index.vue")
-              // }
+              {
+                path: "withdraw",
+                name: "提现管理",
+                meta: {
+                  icon: "home",
+                  perm: "sale-finance-refund"
+                },
+                component: () =>
+                  import("@/pages/sale/finance/withdraw/index.vue")
+              }
             ]
           }
         ]
