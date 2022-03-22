@@ -15,7 +15,8 @@ const filterList = [
   "hot",
   "top",
   "recommended",
-  "useful"
+  "useful",
+  "modifyTime"
 ];
 export const getListQp = (request, listQuery) => {
   return new Promise((resolve, reject) => {

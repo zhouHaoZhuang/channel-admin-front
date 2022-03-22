@@ -4,12 +4,15 @@
       <div class="public-header-wrap">
         <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
-            <a-button type="primary" @click="visible = true">
+            <a-button type="primary" @click="toAdd">
               新建申请
             </a-button>
           </a-form-model-item>
           <a-form-model-item>
-            <a-input v-model="listQuery.search" placeholder="请输入申请单号" />
+            <a-input
+              v-model="listQuery['qp-orderNo-eq']"
+              placeholder="请输入申请单号"
+            />
           </a-form-model-item>
           <a-form-model-item>
             <a-range-picker
@@ -29,15 +32,15 @@
             <a-select
               style="width: 120px"
               allowClear
-              v-model="listQuery.key"
+              v-model="listQuery['qp-status-eq']"
               placeholder="请选择状态"
             >
               <a-select-option
-                v-for="item in columns.slice(0, columns.length - 3)"
-                :key="item.dataIndex"
-                :value="item.dataIndex"
+                v-for="(item, keyIndex) in applyStatus"
+                :key="item"
+                :value="keyIndex"
               >
-                {{ item.title }}
+                {{ item }}
               </a-select-option>
             </a-select>
           </a-form-model-item>
@@ -58,34 +61,55 @@
           <span slot="orderNo" style="color: #00aaff" slot-scope="text">
             {{ text }}
           </span>
-          <span slot="discountAmount" style="color: #ff6600" slot-scope="text">
-            {{ text }}
-          </span>
-
-          <span slot="tradeStatus" style="color: #ff6600" slot-scope="text">
-            {{ text }}
+          <span slot="status" slot-scope="text">
+          <a-tag :color="text ==1 ?'#87d068':text ==2 ?'#2db7f5':text ==3 ?'red':text ==4 ?'orange':text ==5 ?'blue':'gray'">{{ applyStatus[text] }}</a-tag>    
           </span>
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div slot="tradeType" slot-scope="text">
-            {{ text }}
+          <div slot="modifyTime" slot-scope="text">
+            {{ text | formatDate }}
           </div>
-          <span slot="message" slot-scope="text">
-            {{ text }}
-          </span>
           <span slot="action" slot-scope="text, record">
-            <a-button type="link" @click="goDetail(record)"> 查看 </a-button>
+            <a-button type="link" @click="goDetail(record)"> 详情 </a-button>
+            <a-divider type="vertical" v-if="record.status == 0" />
+            <a-button
+              type="link"
+              @click="goUpdate(record)"
+              v-if="record.status == 0"
+            >
+              编辑
+            </a-button>
+            <a-divider type="vertical" v-if="record.status == 0" />
+            <a-button
+              type="danger"
+              @click="delOrder(record)"
+              v-if="record.status == 0"
+            >
+              删除
+            </a-button>
             <a-divider type="vertical" />
-            <a-button type="link" @click="cancelOrder(record)"> 取消 </a-button>
+            <a-button
+              type="link"
+              @click="cancelOrder(record)"
+              :disabled="record.status !== 2"
+            >
+              取消
+            </a-button>
           </span>
         </a-table>
       </div>
     </div>
-    <!-- 新增申请 -->
-    <add-apply v-model="visible"/>
+    <!-- 新增,编辑申请 -->
+    <add-apply v-if="visible" v-model="visible" @success="getList" :detailInfo="detailInfos" />
     <!-- 申请详情 -->
-    <applyOption v-model="visibleDetail" :detailData="detailData" :title="1" :type='1'/>
+    <applyOption
+      v-model="visibleDetail"
+      :detailInfo="detailInfo"
+      @success="getList"
+      :title="1"
+      :type="1"
+    />
   </div>
 </template>
 
@@ -93,17 +117,18 @@
 import moment from "moment";
 import applyOption from "@/components/withdraw/applyOption.vue";
 import addApply from "@/components/withdraw/addApply.vue";
+import { applyStatus } from "@/utils/enum";
 export default {
   components: { addApply, applyOption },
   data() {
     return {
       moment,
+      applyStatus,
       visibleDetail: false, //是否显示申请详情的弹框
       visible: false, //是否显示新增申请申请
-      detailData: {}, //详情信息
+      detailInfo: {}, //详情信息
+      detailInfos: {},
       listQuery: {
-        key: undefined,
-        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0
@@ -116,14 +141,13 @@ export default {
         },
         {
           title: "提现金额",
-          dataIndex: "discountAmount",
-          scopedSlots: { customRender: "discountAmount" }
+          dataIndex: "dealAmount",
+          scopedSlots: { customRender: "dealAmount" }
         },
         {
           title: "状态",
-          dataIndex: "tradeStatus",
-          width: 100,
-          scopedSlots: { customRender: "tradeStatus" }
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "创建时间",
@@ -134,20 +158,20 @@ export default {
         },
         {
           title: "反馈时间",
-          dataIndex: "create1Time",
-          scopedSlots: { customRender: "createTime" },
+          dataIndex: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" },
           sorter: true,
           sortDirections: ["ascend", "descend"]
         },
         {
           title: "备注",
-          dataIndex: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
+          dataIndex: "memo",
+          scopedSlots: { customRender: "memo" }
         },
         {
           title: "反馈信息",
-          dataIndex: "message",
-          scopedSlots: { customRender: "message" }
+          dataIndex: "feedback",
+          scopedSlots: { customRender: "feedback" }
         },
         {
           title: "操作",
@@ -182,13 +206,13 @@ export default {
     // 查询表格数据
     getList() {
       //   this.tableLoading = true;
-      this.$getListQp("product/getProductDiscountList", this.listQuery).then(
-        res => {
+      this.$store
+        .dispatch("withdraw/getRecordList", this.listQuery)
+        .then(res => {
           this.tableLoading = false;
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
-        }
-      );
+        });
     },
     // 表格分页快速跳转n页
     quickJump(currentPage) {
@@ -203,32 +227,71 @@ export default {
     },
     // 查看
     goDetail(record) {
-      this.detailData = record;
       this.visibleDetail = true;
+      this.$store
+        .dispatch("withdraw/getRecordDetail", record.id)
+        .then(res => {
+          this.detailInfo = res.data;
+        })
+        .finally(() => {
+          this.visibleDetail = true;
+        });
+    },
+    //编辑
+    goUpdate(record) {
+      this.visible = true;
+      this.$store
+        .dispatch("withdraw/getRecordDetail", record.id)
+        .then(res => {
+          this.detailInfos = res.data;
+        })
+        .finally(() => {
+          this.visible = true;
+        });
+    },
+    //新增
+    toAdd() {
+      this.visible = true;
+      this.detailInfos = {};
     },
     // 日期选择
     datePickerOnOk(value) {
       if (value.length !== 0) {
-        this.listQuery.startTime = moment(value[0]).format(
+        this.listQuery["qp-createTime-ge"] = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery["qp-modifyTime-le"] = moment(value[1]).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
       } else {
-        this.listQuery.startTime = "";
-        this.listQuery.endTime = "";
+          this.listQuery["qp-createTime-ge"] = "";
+        this.listQuery["qp-modifyTime-le"]= "";
       }
     },
+    // 取消申请
     cancelOrder(record) {
+      record.status = 4;
       this.$confirm({
         title: "确认要取消申请吗？",
         onOk: () => {
           console.log("点击了取消");
-          // this.$store
-          //   .dispatch("income/cancelOrder", { id: record.id })
-          //   .then((res) => {
-          //     this.$message.success("取消成功");
-          //     this.getList();
-          //   });
+          this.$store.dispatch("withdraw/editRecord", record).then(res => {
+            this.$message.success("取消成功");
+            this.getList();
+          });
+        }
+      });
+    },
+    //删除申请
+    delOrder(record) {
+      this.$confirm({
+        title: "确认要删除申请吗？",
+        onOk: () => {
+          console.log("点击了删除");
+          this.$store.dispatch("withdraw/delRecord", record.id).then(res => {
+            this.$message.success("删除成功");
+            this.getList();
+          });
         }
       });
     }
@@ -255,6 +318,14 @@ export default {
         background: red;
       }
     }
+  }
+  /deep/.ant-btn-danger {
+    border: none;
+    color: red;
+    background: none;
+    box-shadow: none;
+    text-shadow: none;
+    padding: 0;
   }
 }
 </style>
