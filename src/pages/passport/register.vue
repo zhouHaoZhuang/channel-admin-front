@@ -235,13 +235,14 @@ export default {
     // 获取验证码组件校验图形验证
     validateImgCode(callback) {
       let flag = false;
-      if (this.$refs.verificationCode.value) {
+      // if (this.$refs.verificationCode.value) {
+      // }
         this.$refs.ruleForm.validateField(
           "verificationCode",
           err => (flag = err ? false : true)
         );
         callback(flag);
-      }
+    
     },
     // 更新验证码
     refreshCode() {
