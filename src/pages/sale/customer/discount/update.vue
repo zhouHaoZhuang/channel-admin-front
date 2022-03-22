@@ -53,6 +53,31 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
+        <a-form-model-item
+          v-if="type === 'add'"
+          label="产品分类"
+          prop="productCode"
+        >
+          <a-select
+            style="width:100%"
+            allowClear
+            v-model="form.productCode"
+            placeholder="请选择产品分类"
+          >
+            <a-select-option
+              :value="
+                JSON.stringify({
+                  productCode: item.productCode,
+                  productName: item.productName
+                })
+              "
+              v-for="(item, index) in productList"
+              :key="index"
+            >
+              {{ item.productName }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item v-if="type === 'edit'" label="企业名称">
           {{ form.corporationName }}
         </a-form-model-item>
@@ -68,6 +93,18 @@
               比例折扣
             </a-radio>
           </a-radio-group>
+        </a-form-model-item>
+        <a-form-model-item
+          v-if="form.discountType === '0'"
+          label="固定价格"
+          prop="discountPrice"
+        >
+          <a-input
+            style="width:150px"
+            v-model="form.discountPrice"
+            v-number-evolution="{ value: 2, min: 0, max: 99999 }"
+            addon-after="元/GB"
+          />
         </a-form-model-item>
         <a-form-model-item
           v-if="form.discountType === '1'"
