@@ -40,7 +40,12 @@
           </a-form-model-item>
           <div class="example-img" v-show="realNameStatus !== 2">
             <img width="90px" src="@/assets/img/realName/business.png" alt="" />
-            <p>示例图</p>
+            <p>
+              示例图
+              <a href="/static/img/business.png" target="_blank">
+                <a-icon type="zoom-in" />
+              </a>
+            </p>
           </div>
         </div>
       </a-form-model-item>
@@ -93,7 +98,12 @@
           </a-form-model-item>
           <div class="example-img" v-show="realNameStatus !== 2">
             <img width="90px" src="@/assets/img/realName/avatar.png" alt="" />
-            <p>示例图</p>
+            <p>
+              示例图
+              <a href="/static/img/avatar.png" target="_blank">
+                <a-icon type="zoom-in" />
+              </a>
+            </p>
           </div>
           <div class="example-img" v-show="realNameStatus !== 2">
             <img
@@ -101,7 +111,12 @@
               src="@/assets/img/realName/nationalEmblem.png"
               alt=""
             />
-            <p>示例图</p>
+            <p>
+              示例图
+              <a href="/static/img/nationalEmblem.png" target="_blank">
+                <a-icon type="zoom-in" />
+              </a>
+            </p>
           </div>
         </div>
       </a-form-model-item>
@@ -308,6 +323,9 @@ export default {
   margin: 0 10px;
   padding: 20px;
 }
+a {
+  color: #333;
+}
 h3 {
   font-size: 18px;
   font-weight: bold;
@@ -322,7 +340,7 @@ h3 {
 .business-item {
   display: flex;
   .upload-item {
-    width: 102px;
+    width: 110px;
   }
   .upload-item,
   .example-img {
