@@ -22,7 +22,7 @@
         </a-form-model-item>
 
         <a-form-model-item label="银行卡号" prop="accountNo">
-          <a-input v-model="form.accountNo" placeholder="请输入银行卡号" />
+          <a-input v-number-evolution v-model="form.accountNo" placeholder="请输入银行卡号" />
           <span class="tigs">请确保符合银行卡号规则</span>
         </a-form-model-item>
         <a-form-model-item label="银行卡绑定人" prop="receiverName">
@@ -35,8 +35,8 @@
         <a-form-model-item label="提现金额" prop="dealAmount">
           <a-input
             v-model="form.dealAmount"
+           v-number-evolution="{ value: 2, min: 0, max:9999999 }"
             placeholder="请输入需要提现的金额"
-            @change="toValidate"
           />
           <span class="tigs">请确保符合当前账号下余额充足</span>
         </a-form-model-item>
@@ -102,22 +102,11 @@ export default {
     }
   },
   data() {
-    const validateAccount = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入银行卡号"));
-      } else {
-        if (!this.codeReg.test(value)) {
-          callback(new Error("银行卡号不符合编号规则"));
-        }
-        callback();
-      }
-    };
     return {
       newTitle: "",
       confirmLoading: false,
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
-      codeReg: /^(\d{16}|\d{19}|\d{17})$/, //银行卡校验正则
       form: {
         status: 2,
         accountName: "",
@@ -137,7 +126,7 @@ export default {
         accountNo: [
           {
             required: true,
-            validator: validateAccount,
+            message:'请输入银行卡号',
             trigger: ["blur", "change"]
           }
         ],
@@ -145,20 +134,7 @@ export default {
           {
             required: true,
             trigger: ["blur", "change"],
-            validator:(rule, value, callback) => {
-              if (!value) {
-                callback(new Error("请输入提现余额"));
-              } else if(/[^\d.]/g.test(value)){
-                callback(new Error("余额格式输入有误"));
-              }
-              //大于系统余额提示
-              // else if(value > 10){
-              //    callback(new Error("当前无足够余额可以进行提现，请核对剩余余额"));
-              // }
-              else {
-                callback();
-              }
-            },
+            message:'请输入余额',
           }
         ],
         receiverName: [
@@ -245,11 +221,6 @@ export default {
             });
         }
       });
-    },
-    // 校验提现余额
-    toValidate(e) {
-      // e.target.value = e.target.value.replace(/[^\d.]/g,'')
-      console.log(e.target.value, "eeeeeeeeeeee");
     },
     // 重置表单数据
     resetForm() {
