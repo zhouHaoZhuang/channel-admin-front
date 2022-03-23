@@ -33,17 +33,17 @@ const finance = {
     // 充值
     recharge({ commit, state }, data) {
       return request({
-        url: "/idcPay/onlineTopUp",
+        url: "/idcPay/channelOnlineTopUp",
         method: "post",
         data
       });
     },
     // 支付前查询余额和价格
-    getUserBalance({ commit, state }, data) {
+    getUserBalance({ commit, state }, params) {
       return request({
-        url: "/tcMergeOrder/queryPayBalanceDetail",
-        method: "post",
-        data
+        url: "/idcPay/getBalanceAmount",
+        method: "get",
+        params
       });
     },
     // 支付宝支付

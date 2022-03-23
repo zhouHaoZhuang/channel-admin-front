@@ -340,15 +340,16 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              // {
-              //   path: "rechargeCentre",
-              //   name: "充值中心",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "purchase-manage-withdraw"
-              //   },
-              //   component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue")
-              // },
+              {
+                path: "rechargeCentre",
+                name: "充值中心",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/rechargeCentre/index.vue")
+              },
               {
                 path: "withdraw",
                 name: "提现管理",
@@ -356,10 +357,11 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "purchase-manage-withdraw"
                 },
-                component: () => import("@/pages/purchase/manage/withdraw/index.vue")
-              },
+                component: () =>
+                  import("@/pages/purchase/manage/withdraw/index.vue")
+              }
             ]
-          },
+          }
         ]
       },
       // 产品
