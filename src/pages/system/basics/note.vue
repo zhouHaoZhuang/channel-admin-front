@@ -533,6 +533,7 @@ export default {
     showRecord() {
       this.visibleRecord = true;
       this.getRecord();
+      this.getChangeTime();
     },
     // 审核状态弹窗取消/遮罩/关闭的回调
     handleCancelRecord() {
