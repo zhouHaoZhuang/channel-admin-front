@@ -41,7 +41,7 @@ const finance = {
     // 支付前查询余额和价格
     getUserBalance({ commit, state }, data) {
       return request({
-        url: "/tcMergeOrder/queryPayBalanceDetail",
+        url: "/idcPay/getBalanceAmount",
         method: "post",
         data
       });
