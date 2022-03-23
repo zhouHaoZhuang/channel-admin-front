@@ -492,7 +492,6 @@ export default {
             ...this.getWechatPay,
             ...res.data.accountConfig
           };
-          console.log(this.getWechatPay, "this.getWechatPay");
         });
     },
     showModal() {
