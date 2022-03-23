@@ -489,8 +489,8 @@ export default {
         .then(res => {
           console.log(res, "----------");
           this.getWechatPay = {
-            ...res.data.accountConfig,
-            ...this.getWechatPay
+            ...this.getWechatPay,
+            ...res.data.accountConfig
           };
         });
     },
