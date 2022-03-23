@@ -33,7 +33,7 @@ const finance = {
     // 充值
     recharge({ commit, state }, data) {
       return request({
-        url: "/channelOnlineTopUp",
+        url: "/idcPay/channelOnlineTopUp",
         method: "post",
         data
       });
