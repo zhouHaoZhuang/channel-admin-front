@@ -38,6 +38,7 @@
             allowClear
             v-model="form.productCode"
             placeholder="产品名称"
+            @change="handleProductChange"
           >
             <a-select-option
               :value="
@@ -56,25 +57,15 @@
         <a-form-model-item
           v-if="type === 'add'"
           label="产品分类"
-          prop="productCode"
+          prop="supplierProductCode"
         >
-          <a-select
-            style="width:100%"
-            allowClear
-            v-model="form.productCode"
-            placeholder="请选择产品分类"
-          >
+          <a-select v-model="form.productTypeCode">
             <a-select-option
-              :value="
-                JSON.stringify({
-                  productCode: item.productCode,
-                  productName: item.productName
-                })
-              "
-              v-for="(item, index) in productList"
-              :key="index"
+              v-for="item in productTypeList"
+              :value="item.productTypeCode"
+              :key="item.productTypeCode"
             >
-              {{ item.productName }}
+              {{ item.productTypeName }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -83,6 +74,9 @@
         </a-form-model-item>
         <a-form-model-item v-if="type === 'edit'" label="产品名称">
           {{ form.productName }}
+        </a-form-model-item>
+        <a-form-model-item v-if="type === 'edit'" label="产品分类">
+          {{ form.productTypeName }}
         </a-form-model-item>
         <a-form-model-item label="折扣方式" prop="discountType">
           <a-radio-group v-model="form.discountType">
@@ -95,7 +89,7 @@
           </a-radio-group>
         </a-form-model-item>
         <a-form-model-item
-          v-if="form.discountType === '0'"
+          v-show="form.discountType === '0'"
           label="固定价格"
           prop="discountPrice"
         >
@@ -103,19 +97,19 @@
             style="width:150px"
             v-model="form.discountPrice"
             v-number-evolution="{ value: 2, min: 0, max: 99999 }"
-            addon-after="元/GB"
+            :addon-after="'元/' + inputUnit"
           />
         </a-form-model-item>
         <a-form-model-item
-          v-if="form.discountType === '1'"
+          v-show="form.discountType === '1'"
           label="折扣比例"
           prop="discountPrice"
         >
           <a-input
-            style="width:150px"
             v-model="form.discountPrice"
-            v-number-evolution="{ value: 2, min: 0, max: 100 }"
+            style="width:150px"
             addon-after="%"
+            v-number-evolution="{ value: 2, min: 0, max: 100 }"
           />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 6 }">
@@ -146,7 +140,8 @@ export default {
         productCode: undefined,
         productName: "",
         discountType: "1",
-        discountPrice: undefined
+        discountPrice: undefined,
+        productTypeCode: undefined
       },
       rules: {
         corporationCode: [
@@ -173,14 +168,16 @@ export default {
         discountPrice: [
           {
             required: true,
-            message: "请输入折扣比例",
+            message: "请输入",
             trigger: "blur"
           }
         ]
       },
       loading: false,
       data: [],
-      productList: []
+      productList: [],
+      productTypeList: [],
+      inputUnit: ""
     };
   },
   watch: {
@@ -217,7 +214,6 @@ export default {
       this.$store
         .dispatch("member/getProductList", { currentPage: 1, pageSize: 999 })
         .then(res => {
-          console.log(res, "res");
           this.productList = [...res.data.list];
         });
     },
@@ -227,7 +223,31 @@ export default {
         .dispatch("member/getDisCountDetail", { id: this.$route.query.id })
         .then(res => {
           this.form = { ...res.data };
+          this.inputUnit = res.data.chargeUnit;
         });
+    },
+    // 产品切换
+    handleProductChange(val) {
+      const newVal = JSON.parse(val);
+      console.log(JSON.parse(val), this.productList);
+      const productObj = this.productList.find(
+        ele => ele.productCode === newVal.productCode
+      );
+      const flag =
+        Object.keys(productObj).includes("productType") &&
+        productObj.productType.productTypes.length > 0;
+      this.productTypeList = flag
+        ? [...productObj.productType.productTypes]
+        : [];
+      if (!flag) {
+        this.form.productTypeCode = undefined;
+      } else {
+        this.form.productTypeCode = this.productTypeList[0].productTypeCode;
+        this.inputUnit = this.productTypeList[0].chargeUnit;
+      }
+    },
+    handleRadioChange() {
+      this.form.discountPrice = "";
     },
     // 提交
     onSubmit() {
@@ -280,8 +300,11 @@ export default {
         productCode: undefined,
         productName: "",
         discountType: "1",
-        discountPrice: ""
+        discountPrice: undefined,
+        productTypeCode: undefined
       };
+      this.productTypeList = [];
+      this.inputUnit = "";
     }
   }
 };
