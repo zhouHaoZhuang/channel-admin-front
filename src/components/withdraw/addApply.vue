@@ -35,7 +35,7 @@
         <a-form-model-item label="提现金额" prop="dealAmount">
           <a-input
             v-model="form.dealAmount"
-            v-number-evolution="{ value: 2 }"
+           v-number-evolution="{ value: 2, min: 0, max:9999999 }"
             placeholder="请输入需要提现的金额"
           />
           <span class="tigs">请确保符合当前账号下余额充足</span>
