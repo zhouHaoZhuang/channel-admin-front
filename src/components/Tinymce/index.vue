@@ -11,7 +11,7 @@ import editor from "@tinymce/tinymce-vue";
 import plugins from "./plugins";
 import toolbar from "./toolbar";
 // 字体
-import "tinymce/icons/default";
+// import "tinymce/icons/default";
 // 插件
 import "tinymce/plugins/contextmenu";
 import "tinymce/plugins/colorpicker";
