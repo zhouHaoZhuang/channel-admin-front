@@ -39,11 +39,11 @@ const finance = {
       });
     },
     // 支付前查询余额和价格
-    getUserBalance({ commit, state }, data) {
+    getUserBalance({ commit, state }, params) {
       return request({
         url: "/idcPay/getBalanceAmount",
-        method: "post",
-        data
+        method: "get",
+        params
       });
     },
     // 支付宝支付

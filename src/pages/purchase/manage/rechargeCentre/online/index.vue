@@ -11,7 +11,7 @@
       </div>
       <h1>
         <span>账户余额：</span>
-        <span v-show="balanceData.userAmount">{{ balanceData.userAmount }} 元</span>
+        <span v-show="balanceData">{{ balanceData }} 元</span>
       </h1>
       <div>
         <span> 充值金额： </span>
@@ -25,20 +25,18 @@
           }"
           v-model="rechargeBtnForm.totalAmount"
         />
-        <span> 元</span>
+        <span>元</span>
       </div>
       <div class="paymentMethod">
         <span class="paymentMethod-type">支付方式：</span>
         <a-radio-group v-model="payType" @change="onChange">
           <a-radio value="ali">
-            <!-- <div class="WeChatply Alipay"> -->
             <span>支付宝</span>
             <img
               style="margin-left: 5px;"
               width="20px"
               src="@/assets/img/pay/Alipay.png"
             />
-            <!-- </div> -->
           </a-radio>
           <a-radio value="wechat">
             <span>微信</span>
@@ -48,14 +46,14 @@
               src="@/assets/img/pay/WeChatPay.png"
             />
           </a-radio>
-          <a-radio :value="3">
+          <!-- <a-radio :value="3">
             <span>云闪付</span>
             <img
               style="margin-left: 5px;"
               width="20px"
               src="@/assets/img/pay/CloudQuickPass.png"
             />
-          </a-radio>
+          </a-radio> -->
         </a-radio-group>
       </div>
       <RechargeBtn
@@ -84,7 +82,7 @@ export default {
         useVoucher: false,
         useWechatPay: false
       },
-      balanceData: {},
+      balanceData: "",
       rechargeBtnForm: {
         totalAmount: "",
         balanceAmount: "",
@@ -115,7 +113,7 @@ export default {
       this.$store
         .dispatch("finance/getUserBalance", this.balanceForm)
         .then(res => {
-          this.balanceData = { ...res.data };
+          this.balanceData = res.data;
         });
     },
     // 轮询查询余额
