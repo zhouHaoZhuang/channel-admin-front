@@ -134,18 +134,7 @@ export default {
           {
             required: true,
             trigger: ["blur", "change"],
-            validator: (rule, value, callback) => {
-              if (!value) {
-                callback(new Error("请输入提现余额"));
-              }
-              //大于系统余额提示
-              // else if(value > 10){
-              //    callback(new Error("当前无足够余额可以进行提现，请核对剩余余额"));
-              // }
-              else {
-                callback();
-              }
-            }
+            message:'请输入余额',
           }
         ],
         receiverName: [
