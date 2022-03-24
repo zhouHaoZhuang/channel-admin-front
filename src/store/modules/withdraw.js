@@ -101,7 +101,7 @@ const withdraw = {
    //根据当前的订单号重新进行余额支付
    receiveOrderNo({ commit, state }, orderNo) {
     return request({
-      url: `/pcWithdrawRecord/payAgainByOrderNo/${orderNo}`,
+      url: `/idcPay/payAgainByOrderNo/${orderNo}`,
       method: "get"
     });
   },

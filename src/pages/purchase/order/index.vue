@@ -108,14 +108,10 @@
            <br/>
           {{record.customerCode}}
         </div>
-        <!-- <div slot="customerName" slot-scope="text, record">
-          {{ record.customerName }}
-          <span> {{ record.customerCode }}</span>
-        </div> -->
-        <div slot="corporationCode" slot-scope="text, record">
-          {{ record.corporationCode }}
+        <div slot="ccCorporation" slot-scope="text, record">
+          {{ record.ccCorporation.corporationName }}
           <br/>
-          {{ record.corporationName }}
+          {{ record.ccCorporation.corporationCode }}
         </div>
         <div slot="chargingType" slot-scope="text">
           {{ text == "AfterPay" ? "后支付" : "预支付" }}
@@ -135,7 +131,7 @@
             type="link"
             @click="toPayment(text)"
             :disabled="
-              text.chargingType !== 'AfterPay' && text.tradeStatus !== 0
+              text.chargingType !== 'AfterPay' && text.tradeStatus != 0
             "
           >
             继续支付
@@ -195,10 +191,10 @@ export default {
         },
         {
           title: "所属终端客户",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
+          dataIndex: "ccCorporation",
+          key: "ccCorporation",
           width: 180,
-          scopedSlots: { customRender: "corporationCode" }
+          scopedSlots: { customRender: "ccCorporation" }
         },
 
         {

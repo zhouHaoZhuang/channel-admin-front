@@ -197,7 +197,7 @@ export const orderStatus = {
   "1": "订单待支付",
   "5": "交易完成",
   "-3": "服务器创建异常",
-  '0':'支付失败'
+  0:'支付失败'
 };
 // 降费续配
 export const feeReduction = {
