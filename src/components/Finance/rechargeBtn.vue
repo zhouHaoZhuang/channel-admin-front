@@ -50,11 +50,15 @@ export default {
         useVoucher: false,
         useWechatPay: false
       },
-      time: null
+      time: null,
+      balance: 0
     };
   },
   deactivated() {
     this.time && clearInterval(this.time);
+  },
+  activated() {
+    this.balance = this.balanceData
   },
   methods: {
     //链接生成二维码 Api
@@ -71,7 +75,7 @@ export default {
         .dispatch("finance/getUserBalance", this.balanceForm)
         .then(res => {
           // this.balanceData = res.data;
-          if (res.data !== this.balanceData) {
+          if (res.data !== this.balance) {
             this.time && clearInterval(this.time);
             this.visible = false;
           }
