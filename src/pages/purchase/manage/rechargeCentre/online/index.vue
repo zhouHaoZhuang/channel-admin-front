@@ -11,7 +11,7 @@
       </div>
       <h1>
         <span>账户余额：</span>
-        <span v-show="balanceData">{{ balanceData }} 元</span>
+        <span v-show="balanceData != undefined">{{ balanceData }} 元</span>
       </h1>
       <div>
         <span> 充值金额： </span>
@@ -82,7 +82,7 @@ export default {
         useVoucher: false,
         useWechatPay: false
       },
-      balanceData: "",
+      balanceData: undefined,
       rechargeBtnForm: {
         totalAmount: "",
         balanceAmount: "",
