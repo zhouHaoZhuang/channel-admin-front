@@ -1,78 +1,55 @@
 <template>
-  <div class="orderInfo" v-if="data[0]">
+  <div class="orderInfo">
     <!-- 订单信息 -->
-    <div v-if="orderInfo" class="channel">
+    <div class="channel">
       <p>订单信息</p>
       <ul>
         <li>
+          <span>退单编号:</span>
+          <!-- <span>{{ orderInfo.orderNo }}</span> -->
+          <span>1</span>
+        </li>
+        <li>
           <span>订单编号:</span>
-          <span>{{ orderInfo.orderNo }}</span>
+          <span>1</span>
+
+          <!-- <span>{{ orderInfo.orderNo }}</span> -->
         </li>
         <li>
           <span>订单类型:</span>
-          <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
-        </li>
-        <li>
-          <span>状态:</span>
-          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
+          <span>1</span>
+
+          <!-- <span>{{ orderTypeMap[orderInfo.tradeType] }} </span> -->
         </li>
         <li>
           <span>创建时间:</span>
-          <span>{{ orderInfo.createTime | formatDate }}</span>
+          <span>1</span>
+
+          <!-- <span>{{ orderInfo.createTime | formatDate }}</span> -->
         </li>
         <li>
-          <span>支付时间:</span>
-          <span v-if="orderInfo.payTime">{{
-            orderInfo.payTime | formatDate
-          }}</span>
+          <span>退款原因:</span>
+          <span>1</span>
+
+          <!-- <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span> -->
         </li>
       </ul>
-      <div class="config">
-        <!-- <div>
-          <span>价格备注:</span>
-          <span>{{ orderInfo.priceRemark }}</span>
-        </div>
-        <div>
-          <span>订单备注:</span>
-          <span>{{ orderInfo.orderRemarks }}</span>
-        </div> -->
-        <div>
-          <span>配置信息</span>
-        </div>
-        <a-table
-          :columns="columns"
-          :data-source="data"
-          rowKey="corporationCode"
-          :pagination="false"
-        >
-          <div slot="tradeType" slot-scope="text">
-            {{ orderTypeMap[text] }}
-          </div>
-          <div slot="productConfig" slot-scope="text, record">
-            <div>CPU:{{ record.cpu }}核</div>
-            <div>内存:{{ record.memory }}G</div>
-            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
-            <div>系统盘:{{ record.systemDiskSize }}G</div>
-            <div>数据盘:{{ record.dataDiskSize }}G</div>
-            <div>操作系统:{{ record.osName }}</div>
-            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
-          </div>
-          <span slot="chargeModel">包年包月</span>
-        </a-table>
-      </div>
     </div>
-
-    <!-- 支付信息 -->
+    <!-- 退款信息 -->
     <div class="channel">
-      <p>支付信息</p>
+      <p>退款信息</p>
       <ul>
         <li>
-          <span>支付金额:</span>
+          <span>退款金额:</span>
           <span>1</span>
+
+          <!-- <span>{{ data[0].corporationCode }}</span> -->
         </li>
         <li>
-          <span>支付状态:</span>
+          <span>退款状态:</span>
           <span>1</span>
+
+          <!-- <span>{{ data[0].realName }} </span> -->
         </li>
       </ul>
     </div>
@@ -103,17 +80,22 @@
         </a-table>
       </div>
     </div>
+
     <!-- 客户信息 -->
     <div class="channel">
       <p>客户信息</p>
       <ul>
         <li>
           <span>客户ID:</span>
-          <span>{{ data[0].corporationCode }}</span>
+          <span>1</span>
+
+          <!-- <span>{{ data[0].corporationCode }}</span> -->
         </li>
         <li>
           <span>客户名称:</span>
-          <span>{{ data[0].realName }} </span>
+          <span>1</span>
+
+          <!-- <span>{{ data[0].realName }} </span> -->
         </li>
       </ul>
     </div>
@@ -150,30 +132,15 @@ export default {
           scopedSlots: { customRender: "chargeModel" }
         },
         {
-          title: "原价",
-          dataIndex: "originAmount",
-          key: "originAmount"
-        },
-        {
-          title: "金额",
+          title: "订单金额",
           dataIndex: "actualAmount",
           key: "actualAmount"
+        },
+        {
+          title: "退款金额",
+          dataIndex: "originAmount",
+          key: "originAmount"
         }
-        // {
-        //   title: "推广优惠",
-        //   key: "promotionPreference",
-        //   dataIndex: "promotionPreference"
-        // },
-        // {
-        //   title: "代金券抵扣",
-        //   key: "deduction",
-        //   dataIndex: "deduction"
-        // },
-        // {
-        //   title: "现金实付",
-        //   key: "cashActualPay",
-        //   dataIndex: "cashActualPay"
-        // }
       ]
     };
   },
@@ -191,7 +158,7 @@ export default {
       //   res.data.ecsPrice.dataDiskSize = dataDiskSize;
       // }
       // console.log(dataDisk);
-      this.orderInfo = res.data;
+      this.orderInfo = {};
       this.data = [res.data];
     });
   }
