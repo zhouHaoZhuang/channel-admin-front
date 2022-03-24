@@ -100,9 +100,6 @@ export default {
   deactivated() {
     this.time && clearInterval(this.time);
   },
-  mounted() {
-    this.balanceAmount = this.balanceData;
-  },
   computed: {
     ...mapState({
       allConfig: state => state.user.allConfig
@@ -119,6 +116,7 @@ export default {
         .dispatch("finance/getUserBalance", this.balanceForm)
         .then(res => {
           this.balanceData = res.data;
+          this.balanceAmount = res.data;
         });
     },
     // 轮询查询余额
