@@ -328,16 +328,26 @@ export const asyncRoute = [
                   perm: "sale-finance-refund"
                 },
                 component: () => import("@/pages/sale/finance/refund/index.vue")
-              }
+              },
               // {
-              //   path: "withdraw",
-              //   name: "提现管理",
+              //   path: "rechargeCentre",
+              //   name: "充值中心",
               //   meta: {
               //     icon: "home",
-              //     perm: "sale-finance-withdraw"
+              //     perm: "sale-finance-refund"
               //   },
-              //   component: () => import("@/pages/sale/finance/withdraw/index.vue")
+              //   component: () => import("@/pages/sale/finance/rechargeCentre/index.vue")
               // }
+              {
+                path: "withdraw",
+                name: "提现管理",
+                meta: {
+                  icon: "home",
+                  perm: "sale-finance-refund"
+                },
+                component: () =>
+                  import("@/pages/sale/finance/withdraw/index.vue")
+              }
             ]
           }
         ]
@@ -380,6 +390,14 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
+              {
+                path: "rechargeCentre",
+                name: "充值中心",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw"
+                },
+              },
               {
                 path: "list",
                 name: "订单列表",
@@ -1290,15 +1308,15 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              // {
-              //   path: "enterprise",
-              //   name: "企业认证",
-              //   meta: {
-              //     icon: "home",
-              //     perm: "home-index-message"
-              //   },
-              //   component: () => import("@/pages/user/enterprise/index.vue")
-              // },
+              {
+                path: "enterprise",
+                name: "企业认证",
+                meta: {
+                  icon: "home",
+                  perm: "user-center-message"
+                },
+                component: () => import("@/pages/user/enterprise/index.vue")
+              },
               {
                 path: "message",
                 name: "我的消息",

@@ -100,7 +100,6 @@
                   class="upload"
                   :defaultFile="form.certificates"
                   :size="2"
-                  :limit="3"
                   @change="
                     ({ urlList, firstImageUrl, base64List }) =>
                       pcImgChange(
@@ -534,6 +533,7 @@ export default {
     showRecord() {
       this.visibleRecord = true;
       this.getRecord();
+      this.getChangeTime();
     },
     // 审核状态弹窗取消/遮罩/关闭的回调
     handleCancelRecord() {
@@ -603,6 +603,8 @@ export default {
             .then(() => {
               this.$message.success("保存成功");
               this.resetForm();
+              this.getChangeTime();
+              this.getShow();
               this.visible = false;
             })
             .finally(() => {

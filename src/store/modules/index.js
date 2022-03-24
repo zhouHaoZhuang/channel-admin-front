@@ -32,6 +32,8 @@ import notice from "./notice";
 import note from "./note";
 import workorder from "./workorder";
 import record from "./record";
+import finance from "./finance";
+import withdraw from './withdraw'
 
 export default {
   user,
@@ -67,5 +69,7 @@ export default {
   notice,
   note,
   workorder,
-  record
+  record,
+  finance,
+  withdraw
 };
