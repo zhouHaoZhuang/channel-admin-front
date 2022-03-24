@@ -98,6 +98,14 @@ const withdraw = {
         data
       });
     },
+    //查询当前系统余额------------
+    getBalance({ commit, state }, params) {
+      return request({
+        url: "/pcChannelWithdraw/getBalance",
+        method: "get",
+        params
+      });
+    },
 
 
   }
