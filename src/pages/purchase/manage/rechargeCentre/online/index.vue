@@ -59,7 +59,7 @@
       <RechargeBtn
         class="rechargeBtn"
         :form="rechargeBtnForm"
-        :balanceData="balanceData"
+        :balanceData="balanceAmount"
         @success="startTime"
       />
     </div>
@@ -90,7 +90,8 @@ export default {
         payType: ["ali", "balance"]
       },
       time: null,
-      payType: "ali"
+      payType: "ali",
+      balanceAmount: 0
     };
   },
   activated() {
@@ -98,6 +99,9 @@ export default {
   },
   deactivated() {
     this.time && clearInterval(this.time);
+  },
+  mounted() {
+    this.balanceAmount = this.balanceData;
   },
   computed: {
     ...mapState({
