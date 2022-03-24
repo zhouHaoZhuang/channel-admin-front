@@ -59,7 +59,7 @@
       <RechargeBtn
         class="rechargeBtn"
         :form="rechargeBtnForm"
-        :balanceData="balanceData"
+        :balanceData="balanceAmount"
         @success="startTime"
       />
     </div>
@@ -90,7 +90,8 @@ export default {
         payType: ["ali", "balance"]
       },
       time: null,
-      payType: "ali"
+      payType: "ali",
+      balanceAmount: 0
     };
   },
   activated() {
@@ -115,6 +116,7 @@ export default {
         .dispatch("finance/getUserBalance", this.balanceForm)
         .then(res => {
           this.balanceData = res.data;
+          this.balanceAmount = res.data;
         });
     },
     // 轮询查询余额

@@ -32,7 +32,6 @@ export default {
     // 充值前余额
     balanceData: {
       type: [Number, String],
-      default: 0
     }
   },
   data() {
@@ -51,14 +50,10 @@ export default {
         useWechatPay: false
       },
       time: null,
-      balance: 0
     };
   },
   deactivated() {
     this.time && clearInterval(this.time);
-  },
-  activated() {
-    this.balance = this.balanceData
   },
   methods: {
     //链接生成二维码 Api
@@ -75,9 +70,10 @@ export default {
         .dispatch("finance/getUserBalance", this.balanceForm)
         .then(res => {
           // this.balanceData = res.data;
-          if (res.data !== this.balance) {
-            this.time && clearInterval(this.time);
+          if (res.data * 1 > this.balanceData * 1) {
+            console.log(this.balance * 1, res.data * 1, "============");
             this.visible = false;
+            this.time && clearInterval(this.time);
           }
         });
     },
