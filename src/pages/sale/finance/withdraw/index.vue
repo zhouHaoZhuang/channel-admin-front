@@ -85,9 +85,6 @@
           <div slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div slot="finishTime" slot-scope="text">
-            {{ text | formatDate }}
-          </div>
           <span slot="action" slot-scope="text, record">
             <a-space>
             <a-button type="link" @click="goDetail(record, 'detail')">
@@ -189,7 +186,6 @@ export default {
         {
           title: "反馈时间",
           dataIndex: "finishTime",
-          scopedSlots: { customRender: "finishTime" },
         },
         {
           title: "备注",
@@ -240,6 +236,9 @@ export default {
         .then(res => {
           this.tableLoading = false;
           this.data = res.data.list;
+          this.data.forEach(element => {
+            element.finishTime = element.finishTime ? moment(element.finishTime).format("YYYY-MM-DD HH:mm:ss"):''
+          });
           this.paginationProps.total = res.data.totalCount * 1;
         });
     },
