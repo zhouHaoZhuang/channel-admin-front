@@ -1,6 +1,6 @@
 // 默认请求地址--应为i.sailayun
 const baseUrl = {
-  local: "http://site.sailayun.com/ims",
+  local: "/ims",
   dev: "/ims",
   test: "/ims",
   prod: "/ims"
@@ -13,7 +13,7 @@ const formBaseUrl = {
   prod: "/fs"
 };
 const domains = {
-  local: "t946471742443573248.site.sailayun.com"
+  local: "t410796.site.sailayun.com"
 };
 
 export default {

@@ -23,7 +23,7 @@ import word from "./word";
 import manualDeposit from "./manualDeposit";
 import frontPage from "./frontPage";
 import helpCategory from "./helpCategory";
-import system from "./system";
+import organization from "./organization";
 import message from "./message";
 import product from "./product";
 import emailSms from "./emailSms";
@@ -34,6 +34,10 @@ import workorder from "./workorder";
 import record from "./record";
 import billmangage from "./billmangage";
 import refundmangage from "./refundmangage";
+import finance from "./finance";
+import withdraw from "./withdraw";
+import purchaseOrder from "./purchaseOrder";
+
 export default {
   user,
   account,
@@ -60,7 +64,7 @@ export default {
   manualDeposit,
   frontPage,
   helpCategory,
-  system,
+  organization,
   message,
   product,
   emailSms,
@@ -70,5 +74,8 @@ export default {
   workorder,
   record,
   billmangage,
-  refundmangage
+  refundmangage,
+  finance,
+  withdraw,
+  purchaseOrder,
 };

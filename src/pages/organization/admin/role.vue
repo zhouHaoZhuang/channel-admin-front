@@ -5,12 +5,24 @@
         <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
             <a-button
-              v-permission="'add-role'"
+              v-permission="'add'"
               type="primary"
               icon="plus"
               @click="handleAddRole"
             >
               添加角色
+            </a-button>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-input
+              v-model="listQuery.search"
+              allowClear
+              placeholder="请输入角色名称进行搜索"
+            />
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button type="primary" @click="search">
+              查询
             </a-button>
           </a-form-model-item>
         </a-form-model>
@@ -23,34 +35,40 @@
           rowKey="id"
           :pagination="false"
         >
-          <span slot="createdAt" slot-scope="text">
-            {{ text | formatDate }}
-          </span>
-          <span slot="action" slot-scope="text, record">
-            <a-button
-              v-permission="'modify'"
-              type="link"
-              @click="handleEditRole(record)"
-            >
-              编辑
-            </a-button>
-            <a-divider type="vertical" />
-            <a-button
-              v-permission="'detail'"
-              type="link"
-              @click="handleGoDetail(record)"
-            >
-              详情
-            </a-button>
-            <a-divider type="vertical" />
-            <a-button
-              v-permission="'del'"
-              type="link"
-              @click="handleDel(record)"
-            >
-              删除
-            </a-button>
-          </span>
+          <div slot="type" slot-scope="text">
+            {{ roleTypeEnum[text] }}
+          </div>
+          <div slot="status" slot-scope="text, record">
+            <a-switch :checked="text" @change="handleChangeStatus(record)">
+              <a-icon slot="checkedChildren" type="check" />
+              <a-icon slot="unCheckedChildren" type="close" />
+            </a-switch>
+          </div>
+          <div slot="action" slot-scope="text, record">
+            <a-space>
+              <a-button
+                v-permission="'relation'"
+                type="link"
+                @click="handleRelation(record)"
+              >
+                关联资源
+              </a-button>
+              <a-button
+                v-permission="'edit'"
+                type="link"
+                @click="handleEditRole(record)"
+              >
+                编辑
+              </a-button>
+              <a-button
+                v-permission="'del'"
+                type="link"
+                @click="handleDel(record)"
+              >
+                移除
+              </a-button>
+            </a-space>
+          </div>
         </a-table>
       </div>
     </div>
@@ -64,31 +82,40 @@
 </template>
 
 <script>
-import UpdateRoleModal from "@/components/System/updateRoleModal";
+import { roleTypeEnum } from "@/utils/enum";
+import UpdateRoleModal from "@/components/Organization/updateRoleModal";
 export default {
   components: {
     UpdateRoleModal
   },
   data() {
     return {
+      roleTypeEnum,
       listQuery: {
+        key: "name",
+        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0
       },
       columns: [
         {
-          title: "角色Code",
-          dataIndex: "code"
+          title: "角色名称",
+          dataIndex: "name"
         },
         {
-          title: "角色描述",
+          title: "角色类型",
+          dataIndex: "type",
+          scopedSlots: { customRender: "type" }
+        },
+        {
+          title: "状态",
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
+        },
+        {
+          title: "描述",
           dataIndex: "description"
-        },
-        {
-          title: "创建时间",
-          dataIndex: "createdAt",
-          scopedSlots: { customRender: "createdAt" }
         },
         {
           title: "操作",
@@ -126,10 +153,14 @@ export default {
     // 查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$store
-        .dispatch("system/getRoleList", this.listQuery)
+      this.$getListQp("organization/getRoleList", this.listQuery)
         .then(res => {
-          this.data = [...res.data.list];
+          this.data = res.data.list.map(ele => {
+            return {
+              ...ele,
+              status: ele.status === 0 ? false : true
+            };
+          });
           this.paginationProps.total = res.data.totalCount * 1;
         })
         .finally(() => {
@@ -161,24 +192,43 @@ export default {
     modalSuccess() {
       this.getList();
     },
-    // 跳转详情
-    handleGoDetail(record) {
+    // 关联资源-给角色添加权限
+    handleRelation(record) {
       this.$router.push({
-        path: "/organization/admin/detail",
+        path: "/organization/admin/relation",
         query: {
-          code: record.code
+          id: record.id
+        }
+      });
+    },
+    // 修改角色状态
+    handleChangeStatus(record) {
+      const statusTxt = !record.status ? "启用" : "禁用";
+      console.log(record, record.status, statusTxt);
+      this.$confirm({
+        title: `确认要${statusTxt}当前角色吗？`,
+        onOk: () => {
+          this.$store
+            .dispatch("organization/editRole", {
+              id: record.id,
+              status: record.status ? 0 : 1
+            })
+            .then(res => {
+              this.$message.success(`${statusTxt}成功`);
+              this.getList();
+            });
         }
       });
     },
     // 删除
     handleDel(record) {
       this.$confirm({
-        title: "确认要删除吗？",
+        title: "确认要移除当前角色吗？",
         onOk: () => {
           this.$store
-            .dispatch("system/delRole", { code: record.code })
+            .dispatch("organization/delRole", { id: record.id })
             .then(res => {
-              this.$message.success("删除成功");
+              this.$message.success("移除成功");
               this.getList();
             });
         }

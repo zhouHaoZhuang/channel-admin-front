@@ -52,6 +52,37 @@ const user = {
         data
       });
     },
+    // 获取企业实名认证信息
+    getEnterpriseRealNameInfo({ commit, state }, data) {
+      return request({
+        url: `/ccCompanyInfo/oneCompanyInfo`,
+        method: "get"
+      });
+    },
+    // 获取企业实名认证信息(营业执照)
+    businessImgData({ commit, state }, data) {
+      return request({
+        url: `/ccCompanyInfo/businessOcr`,
+        method: "post",
+        data
+      });
+    },
+    // 获取企业实名认证信息(身份证 正反面)
+    legalPersonData({ commit, state }, data) {
+      return request({
+        url: `/ccCompanyInfo/idCardOcr`,
+        method: "post",
+        data
+      });
+    },
+    //上传企业实名认证信息
+    uploadEnterpriseRealName({ commit, state }, data) {
+      return request({
+        url: `/ccCompanyInfo/legalPerson`,
+        method: "post",
+        data
+      });
+    },
     // 登录
     login({ commit, state, dispatch }, data) {
       return new Promise((resolve, reject) => {
@@ -73,20 +104,19 @@ const user = {
     },
     // 登录后获取当前用户的权限数据
     getUserPerms({ commit, state }) {
-      commit("SET_PERMS", [{ code: "*:*" }]);
-      // return new Promise((resolve, reject) => {
-      //   request({
-      //     url: `/user/listAuthorizedResources`,
-      //     method: "get"
-      //   })
-      //     .then(res => {
-      //       commit("SET_PERMS", res.data.list);
-      //       resolve();
-      //     })
-      //     .catch(error => {
-      //       reject(error);
-      //     });
-      // });
+      return new Promise((resolve, reject) => {
+        request({
+          url: `/imPermissions/getPermissionsList`,
+          method: "get"
+        })
+          .then(res => {
+            commit("SET_PERMS", res.data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     },
     // 登出
     logout({ commit, state }) {

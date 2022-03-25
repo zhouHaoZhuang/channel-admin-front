@@ -5,7 +5,7 @@
       <p>订单信息</p>
       <ul>
         <li>
-          <span>订单ID:</span>
+          <span>订单编号:</span>
           <span>{{ orderInfo.orderNo }}</span>
         </li>
         <li>
@@ -13,12 +13,12 @@
           <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
         </li>
         <li>
-          <span>创建时间:</span>
-          <span>{{ orderInfo.createTime | formatDate }}</span>
-        </li>
-        <li>
           <span>状态:</span>
           <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
+        </li>
+        <li>
+          <span>创建时间:</span>
+          <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
         <li>
           <span>支付时间:</span>
@@ -61,58 +61,59 @@
         </a-table>
       </div>
     </div>
-    <!-- 用户信息 -->
+
+    <!-- 支付信息 -->
     <div class="channel">
-      <p>用户信息</p>
+      <p>支付信息</p>
       <ul>
         <li>
-          <span>会员ID:</span>
-          <span>{{ data[0].corporationCode }}</span>
+          <span>支付金额:</span>
+          <span>1</span>
         </li>
         <li>
-          <span>姓名:</span>
-          <span>{{ data[0].realName }} </span>
-        </li>
-        <li>
-          <span>实名认证:</span>
-          <span>{{ data[0].remark == 1 ? "已认证" : "未认证" }}</span>
-        </li>
-        <li>
-          <span>联系电话:</span>
-          <span>{{ data[0].phoneNumber }}</span>
-        </li>
-        <li>
-          <span>电子邮箱:</span>
-          <span>{{ data[0].email }}</span>
-        </li>
-        <li>
-          <span>qq账号:</span>
-          <span>{{ data[0].qq }}</span>
+          <span>支付状态:</span>
+          <span>1</span>
         </li>
       </ul>
     </div>
-    <!-- 业务信息 -->
+    <!-- 产品信息 -->
     <div class="channel">
-      <p>业务信息</p>
+      <p>产品信息</p>
+      <div class="config">
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          rowKey="corporationCode"
+          :pagination="false"
+        >
+          <div slot="tradeType" slot-scope="text">
+            {{ text }}
+            <!-- {{ orderTypeMap[text] }} -->
+          </div>
+          <div slot="productConfig" slot-scope="text, record">
+            <div>CPU:{{ record.cpu }}核</div>
+            <div>内存:{{ record.memory }}G</div>
+            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
+            <div>系统盘:{{ record.systemDiskSize }}G</div>
+            <div>数据盘:{{ record.dataDiskSize }}G</div>
+            <div>操作系统:{{ record.osName }}</div>
+            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
+          </div>
+          <span slot="chargeModel">包年包月</span>
+        </a-table>
+      </div>
+    </div>
+    <!-- 客户信息 -->
+    <div class="channel">
+      <p>客户信息</p>
       <ul>
         <li>
-          <span>业务ID:</span><span>{{ data[0].id }}</span>
+          <span>客户ID:</span>
+          <span>{{ data[0].corporationCode }}</span>
         </li>
         <li>
-          <span>产品类型:</span>
-          <span>{{ orderTypeMap[data[0].tradeType] }} </span>
-        </li>
-        <li>
-          <span>IP地址:</span>
-          <span>{{ data[0].outIp }}</span>
-        </li>
-        <li>
-          <span>创建时间:</span>
-          <span>{{ data[0].createTime | formatDate }}</span>
-        </li>
-        <li>
-          <span>到期时间:</span>
-          <span>{{ data[0].stockEndTime | formatDate }}</span>
+          <span>客户名称:</span>
+          <span>{{ data[0].realName }} </span>
         </li>
       </ul>
     </div>
@@ -137,24 +138,13 @@ export default {
           width: 100
         },
         {
-          title: "类型",
-          dataIndex: "tradeType",
-          key: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
-        },
-        {
-          title: "配置信息",
+          title: "具体配置",
           key: "productConfig",
           width: 250,
           scopedSlots: { customRender: "productConfig" }
         },
         {
-          title: "数量",
-          dataIndex: "quantity",
-          key: "quantity"
-        },
-        {
-          title: "付费方式",
+          title: "计费方式",
           dataIndex: "chargeModel",
           key: "chargeModel",
           scopedSlots: { customRender: "chargeModel" }
@@ -165,7 +155,7 @@ export default {
           key: "originAmount"
         },
         {
-          title: "订单金额",
+          title: "金额",
           dataIndex: "actualAmount",
           key: "actualAmount"
         }

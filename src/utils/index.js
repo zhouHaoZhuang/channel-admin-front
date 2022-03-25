@@ -15,14 +15,15 @@ const filterList = [
   "hot",
   "top",
   "recommended",
-  "useful"
+  "useful",
+  "modifyTime"
 ];
 export const getListQp = (request, listQuery) => {
   return new Promise((resolve, reject) => {
     store
       .dispatch(
         request,
-        listQuery.key
+        listQuery.key && listQuery.search
           ? {
               ...listQuery,
               [`qp-${listQuery.key}-${
@@ -40,6 +41,40 @@ export const getListQp = (request, listQuery) => {
   });
 };
 
+// 打开新页面跳转支付宝支付
+export const openAlipayPay = (form) => {
+  // 支付宝支付
+  // 添加之前先删除一下，如果单页面，页面不刷新，添加进去的内容会一直保留在页面中，二次调用form表单会出错
+  const divForm = document.getElementsByTagName("divform");
+  if (divForm.length) {
+    document.body.removeChild(divForm[0]);
+  }
+  const div = document.createElement("divform");
+  // data就是接口返回的form 表单字符串
+  div.innerHTML = form;
+  document.body.appendChild(div);
+  // 新开窗口跳转
+  document.forms[0].setAttribute("target", "_blank");
+  document.forms[0].submit();
+  // 当前页直接跳转
+  //跳转支付页面
+  // document.querySelector("body").innerHTML = res.data;
+  // document.forms[0].submit();
+};
+
+// 充值页面支付生成支付宝回调地址
+export const getRechargeAliPayCallBack = () => {
+  if (process.env.VUE_APP_ENV === "local") {
+    return "";
+  }
+  const url = window.location.href;
+  const index = url.indexOf(".com") !== -1 ? url.indexOf(".com") + 4 : -1;
+  const result =
+    index !== -1
+      ? `${url.substring(0, index)}/console/user/finance/recharge`
+      : "";
+  return result;
+};
 export const getList = (request, listQuery) => {
   return new Promise((resolve, reject) => {
     store
@@ -126,4 +161,38 @@ export const getDomainUrl = () => {
   return process.env.VUE_APP_ENV === "local"
     ? env.DOMAIN_URL
     : getWindowUrl(window.location.href);
+};
+
+const identifyCodes = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "a",
+  "b",
+  "c",
+  "d",
+  'A',
+  'B',
+  'C',
+  'D'
+]; //根据实际需求加入自己想要的字符
+// 生成随机数
+export const randomNum = (min, max) => {
+  max = max + 1;
+  return Math.floor(Math.random() * (max - min) + min);
+};
+// 随机生成验证码字符串
+export const getRandomCode = (len = 4) => {
+  let identifyCode = "";
+  for (let i = 0; i < len; i++) {
+    identifyCode += identifyCodes[randomNum(0, identifyCodes.length - 1)];
+  }
+  return identifyCode;
 };

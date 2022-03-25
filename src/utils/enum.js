@@ -32,10 +32,10 @@ export const renewalStatusEnum = {
 };
 // 状态map数据支付状态
 export const detailsMapData = {
-  '0': '待支付',
-  '1': '已取消',
-  '2': '支付失败',
-  '9': '支付完成',
+  "0": "待支付",
+  "1": "已取消",
+  "2": "支付失败",
+  "9": "支付完成"
 };
 // 充值状态map数据
 export const detailTypeMapData = {
@@ -111,13 +111,6 @@ export const orderStatusEnum = {
   3: "支付中",
   5: "交易完成"
 };
-
-// 权限管理-权限单选map
-export const systemAdminMapEnum = {
-  MENU: "一级菜单",
-  DATA: "二级菜单",
-  BUTTON: "三级菜单"
-};
 // 轮播图类型map
 export const bannerTypeEnum = {
   "0": "首页banner",
@@ -171,6 +164,12 @@ export const cdnStatusEnum = {
   5: "正在审核",
   6: "审核失败"
 };
+// https状态
+export const cdnHttpsStatusEnum = {
+  0: "未配置",
+  1: "未启用",
+  2: "已启用"
+};
 // 工单状态
 export const workOrderStatusEnum = {
   1: "待接单",
@@ -187,4 +186,25 @@ export const workOrderGroupEnum = {
 export const workOrderTypeEnum = {
   1: "普通类型工单",
   2: "可转接资源池类型工单"
+};
+// 角色类型map
+export const roleTypeEnum = {
+  0: "系统角色",
+  1: "自建角色"
+};
+//提现申请状态
+export const applyStatus = {
+  0: "草稿",
+  1: "已完成",
+  2: "已提交",
+  3: "已驳回",
+  4: "已取消",
+  5: "待处理"
+};
+export const applyManStatus = {
+  1: "已完成",
+  2: "已提交",
+  3: "已驳回",
+  4: "已取消",
+  5: "待处理"
 };

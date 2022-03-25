@@ -22,7 +22,7 @@
         <a-form-model-item>
           <a-input
             allowClear
-            placeholder="搜索关键词"
+            placeholder="请输入订单编号"
             v-model="listQuery.search"
           />
         </a-form-model-item>
@@ -55,6 +55,22 @@
           <a-select
             style="width:150px"
             placeholder="订单状态"
+            allowClear
+            v-model="listQuery.tradeStatus"
+          >
+            <a-select-option
+              v-for="(value, key) in orderStatusEnum"
+              :key="key"
+              :value="key"
+            >
+              {{ value }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+         <a-form-model-item>
+          <a-select
+            style="width:150px"
+            placeholder="计费方式"
             allowClear
             v-model="listQuery.tradeStatus"
           >
@@ -115,7 +131,7 @@
               type="link"
               @click="handleSelectDetail(record)"
             >
-              查看
+              查询
             </a-button>
           </div>
           <div slot-scope="text" slot="cashPay" v-if="text != undefined">
@@ -156,17 +172,23 @@ export default {
           dataIndex: "orderNo",
           width: 170
         },
-        {
-          title: "会员ID",
-          dataIndex: "corporationCode",
-          width: 170,
-          scopedSlots: { customRender: "corporationCode" }
-        },
+        // {
+        //   title: "会员ID",
+        //   dataIndex: "corporationCode",
+        //   width: 170,
+        //   scopedSlots: { customRender: "corporationCode" }
+        // },
         {
           title: "订单类型",
           dataIndex: "tradeType",
           scopedSlots: { customRender: "tradeType" },
           width: 130
+        },
+           {
+          title: "所属终端客户",
+          dataIndex: "corporationCode",
+          width: 170,
+          scopedSlots: { customRender: "corporationCode" }
         },
         {
           title: "原价",
@@ -175,9 +197,15 @@ export default {
           width: 100
         },
         {
-          title: "价格",
+          title: "成交价",
           dataIndex: "actualAmount",
           scopedSlots: { customRender: "actualAmount" },
+          width: 100
+        },
+           {
+          title: "折扣率",
+          dataIndex: "actual",
+          scopedSlots: { customRender: "actual" },
           width: 100
         },
         {
@@ -186,11 +214,11 @@ export default {
           width: 130,
           scopedSlots: { customRender: "tradeStatus" }
         },
-        // {
-        //   title: '现金支付',
-        //   dataIndex: 'cashPay',
-        //   scopedSlots: { customRender: 'cashPay' },
-        // },
+        {
+          title: '计费方式',
+          dataIndex: 'cashPay',
+          scopedSlots: { customRender: 'cashPay' },
+        },
         // {
         //   title: '现金券支付',
         //   dataIndex: 'actualPrice',
