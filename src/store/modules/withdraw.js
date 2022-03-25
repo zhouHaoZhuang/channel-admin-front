@@ -105,6 +105,13 @@ const withdraw = {
       method: "get"
     });
   },
+  //查询余额
+  getBalance({ commit, state }) {
+    return request({
+      url: `/pcChannelWithdraw/getBalance`,
+      method: "get"
+    });
+  },
 
   }
 };
