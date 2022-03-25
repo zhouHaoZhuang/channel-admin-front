@@ -442,6 +442,15 @@ export const asyncRoute = [
             component: BlankView,
             children: [
               {
+                path: "rechargeCentre",
+                name: "充值中心",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw",
+                },
+                component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue")
+              },
+              {
                 path: "withdraw",
                 name: "提现管理",
                 meta: {
@@ -461,14 +470,7 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              {
-                path: "rechargeCentre",
-                name: "充值中心",
-                meta: {
-                  icon: "home",
-                  perm: "purchase-manage-withdraw",
-                },
-              },
+        
               {
                 path: "list",
                 name: "订单列表",
