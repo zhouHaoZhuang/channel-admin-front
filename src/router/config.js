@@ -468,6 +468,7 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "purchase-manage-withdraw",
                 },
+                component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue"),
               },
               {
                 path: "list",
