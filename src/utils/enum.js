@@ -190,3 +190,10 @@ export const applyStatus = {
   4: "已取消",
   5: "待处理"
 };
+export const applyManStatus = {
+  1: "已完成",
+  2: "已提交",
+  3: "已驳回",
+  4: "已取消",
+  5: "待处理"
+};

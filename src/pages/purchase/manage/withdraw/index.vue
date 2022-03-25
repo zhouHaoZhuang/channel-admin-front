@@ -71,8 +71,8 @@
             {{ text | formatDate }}
           </div>
           <span slot="action" slot-scope="text, record">
+            <a-space>
             <a-button type="link" @click="goDetail(record)"> 详情 </a-button>
-            <a-divider type="vertical" v-if="record.status == 0" />
             <a-button
               type="link"
               @click="goUpdate(record)"
@@ -80,7 +80,6 @@
             >
               编辑
             </a-button>
-            <a-divider type="vertical" v-if="record.status == 0" />
             <a-button
               type="danger"
               @click="delOrder(record)"
@@ -88,7 +87,6 @@
             >
               删除
             </a-button>
-            <a-divider type="vertical" />
             <a-button
               type="link"
               @click="cancelOrder(record)"
@@ -96,6 +94,7 @@
             >
               取消
             </a-button>
+            </a-space>
           </span>
         </a-table>
       </div>
