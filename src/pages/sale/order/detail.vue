@@ -27,39 +27,6 @@
           }}</span>
         </li>
       </ul>
-      <div class="config">
-        <!-- <div>
-          <span>价格备注:</span>
-          <span>{{ orderInfo.priceRemark }}</span>
-        </div>
-        <div>
-          <span>订单备注:</span>
-          <span>{{ orderInfo.orderRemarks }}</span>
-        </div> -->
-        <div>
-          <span>配置信息</span>
-        </div>
-        <a-table
-          :columns="columns"
-          :data-source="data"
-          rowKey="corporationCode"
-          :pagination="false"
-        >
-          <div slot="tradeType" slot-scope="text">
-            {{ orderTypeMap[text] }}
-          </div>
-          <div slot="productConfig" slot-scope="text, record">
-            <div>CPU:{{ record.cpu }}核</div>
-            <div>内存:{{ record.memory }}G</div>
-            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
-            <div>系统盘:{{ record.systemDiskSize }}G</div>
-            <div>数据盘:{{ record.dataDiskSize }}G</div>
-            <div>操作系统:{{ record.osName }}</div>
-            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
-          </div>
-          <span slot="chargeModel">包年包月</span>
-        </a-table>
-      </div>
     </div>
 
     <!-- 支付信息 -->
@@ -182,14 +149,14 @@ export default {
     // console.log(id);
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
       console.log(res);
-      // let dataDisk = res.data.ecsPrice.dataDisk;
-      // let dataDiskSize = 0;
-      // if (dataDisk) {
-      //   for (let index = 0; index < dataDisk.length; index++) {
-      //     dataDiskSize += dataDisk[index].size;
-      //   }
-      //   res.data.ecsPrice.dataDiskSize = dataDiskSize;
-      // }
+      let dataDisk = res.data.ecsPrice.dataDisk;
+      let dataDiskSize = 0;
+      if (dataDisk) {
+        for (let index = 0; index < dataDisk.length; index++) {
+          dataDiskSize += dataDisk[index].size;
+        }
+        res.data.ecsPrice.dataDiskSize = dataDiskSize;
+      }
       // console.log(dataDisk);
       this.orderInfo = res.data;
       this.data = [res.data];
