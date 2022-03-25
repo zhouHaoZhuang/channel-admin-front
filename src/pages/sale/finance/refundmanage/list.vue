@@ -76,7 +76,7 @@
           <a-button
             type="link"
             style="margin-left: 10px"
-            :disabled="record.status !== 3"
+            :disabled="record.status !== 6"
             @click="$router.push('/sale/finance/reviewRefund?id=' + record.id)"
           >
             审核
