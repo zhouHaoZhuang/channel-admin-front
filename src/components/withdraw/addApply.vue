@@ -132,7 +132,7 @@ export default {
         accountNo: [
           {
             required: true,
-            message: "请输入银行卡号",
+            message: "银行卡号未填写",
             trigger: ["blur", "change"]
           }
         ],
@@ -140,13 +140,13 @@ export default {
           {
             required: true,
             trigger: ["blur", "change"],
-            message: "请输入余额"
+            message: "余额未填写"
           }
         ],
         receiverName: [
           {
             required: true,
-            message: "银行卡绑定人不正确",
+            message: "银行卡绑定人未填写",
             trigger: "blur"
           }
         ]
