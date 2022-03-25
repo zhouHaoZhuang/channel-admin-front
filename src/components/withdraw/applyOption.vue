@@ -62,7 +62,7 @@
           <a-input
             ref="feedback"
             v-model="form.feedback"
-            placeholder="请填写驳回原因"
+            placeholder="请填写反馈信息"
             type="input"
           />
         </a-form-item>
@@ -142,13 +142,7 @@ export default {
         feedback: [
           {
             required: true,
-            validator: (rule, value, callback) => {
-              if (!value) {
-                callback(new Error("请输入反馈信息"));
-              } else {
-                callback();
-              }
-            },
+            message: "请填写反馈信息",
             trigger: ["blur", "change"]
           }
         ]
