@@ -35,11 +35,11 @@
       <ul>
         <li>
           <span>支付金额:</span>
-          <span>1</span>
+          <span>{{orderInfo.actualAmount}}</span>
         </li>
         <li>
           <span>支付状态:</span>
-          <span>1</span>
+          <span>{{ orderInfo.payStatus == 1 ? "待支付" : "已支付" }}</span>
         </li>
       </ul>
     </div>
@@ -118,8 +118,8 @@ export default {
         },
          {
           title: "数量",
-          dataIndex: "originAmount",
-          key: "originAmount"
+          dataIndex: "quantity",
+          key: "quantity"
         },
         {
           title: "原价",
@@ -133,13 +133,13 @@ export default {
         },
         {
           title: "折扣",
-          key: "deduction",
-          dataIndex: "deduction"
+          key: "discountRate",
+          dataIndex: "discountRate"
         },
         {
           title: "成交价",
-          key: "cashActualPay",
-          dataIndex: "cashActualPay"
+          key: "actualAmount",
+          dataIndex: "actualAmount"
         }
       ]
     };
