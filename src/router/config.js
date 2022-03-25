@@ -432,32 +432,12 @@ export const asyncRoute = [
         },
         component: PageView,
         children: [
-          // {
-          //   path: "manage",
-          //   name: "财务管理",
-          //   meta: {
-          //     icon: "home",
-          //     perm: "purchase-manage"
-          //   },
-          //   component: BlankView,
-          //   children: [
-          //     {
-          //       path: "withdraw",
-          //       name: "提现管理",
-          //       meta: {
-          //         icon: "home",
-          //         perm: "purchase-manage-withdraw"
-          //       },
-          //       component: () => import("@/pages/purchase/manage/withdraw/index.vue")
-          //     },
-          //   ]
-          // },
           {
-            path: "order",
-            name: "订单管理",
+            path: "manage",
+            name: "财务管理",
             meta: {
               icon: "home",
-              perm: "purchase-manage",
+              perm: "purchase-manage"
             },
             component: BlankView,
             children: [
@@ -468,7 +448,29 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "purchase-manage-withdraw",
                 },
+                component: () => import("@/pages/purchase/manage/rechargeCentre/index.vue")
               },
+              {
+                path: "withdraw",
+                name: "提现管理",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+              },
+            ]
+          },
+          {
+            path: "order",
+            name: "订单管理",
+            meta: {
+              icon: "home",
+              perm: "purchase-manage",
+            },
+            component: BlankView,
+            children: [
+        
               {
                 path: "list",
                 name: "订单列表",

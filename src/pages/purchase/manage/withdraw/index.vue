@@ -142,6 +142,7 @@ export default {
         {
           title: "提现金额",
           dataIndex: "dealAmount",
+          width:120,
           scopedSlots: { customRender: "dealAmount" }
         },
         {
@@ -157,6 +158,7 @@ export default {
         {
           title: "反馈时间",
           dataIndex: "finishTime",
+          width:160,
           scopedSlots: { customRender: "finishTime" },
         },
         {
