@@ -27,7 +27,7 @@
           />
         </a-form-model-item>
 
-        <a-form-model-item>
+        <!-- <a-form-model-item>
           <a-select
             style="width: 120px"
             defaultValue="0"
@@ -42,7 +42,7 @@
               {{ item }}
             </a-select-option>
           </a-select>
-        </a-form-model-item>
+        </a-form-model-item> -->
         <a-form-model-item>
           <a-select
             style="width: 130px"
@@ -185,6 +185,11 @@ export default {
       tableLoading: false,
       columns: [
         {
+          title: "退单编号",
+          dataIndex: "orderNo",
+          width: 170
+        },
+          {
           title: "订单编号",
           dataIndex: "orderNo",
           width: 170
@@ -202,21 +207,15 @@ export default {
           scopedSlots: { customRender: "ccCorporation" }
         },
         {
-          title: "原价",
-          dataIndex: "originAmount",
-          scopedSlots: { customRender: "originAmount" },
-          width: 100
-        },
-        {
-          title: "成交价",
+          title: "订单金额",
           dataIndex: "actualAmount",
           scopedSlots: { customRender: "actualAmount" },
           width: 100
         },
         {
-          title: "折扣率",
-          dataIndex: "discountRate",
-          scopedSlots: { customRender: "discountRate" },
+          title: "退款金额",
+          dataIndex: "actualAmount1",
+          scopedSlots: { customRender: "actualAmount" },
           width: 100
         },
         {
@@ -236,12 +235,6 @@ export default {
           dataIndex: "createTime",
           width: 190,
           scopedSlots: { customRender: "createTime" }
-        },
-        {
-          title: "支付时间",
-          dataIndex: "payTime",
-          width: 250,
-          scopedSlots: { customRender: "payTime" }
         },
         {
           title: "操作",
@@ -272,19 +265,25 @@ export default {
     useColumns() {
       return [
         {
+          title: "退单编号",
+          dataIndex: "orderNo",
+          key: "orderNo",
+          width: 170
+        },
+        {
           title: "订单编号",
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
         },
         {
-          title: "终端客户名称",
+          title: "渠道商名称",
           dataIndex: "corporationName",
           key: "corporationName",
           width: 150
         },
         {
-          title: "终端客户ID",
+          title: "渠道商ID",
           dataIndex: "corporationCode",
           key: "corporationCode",
           width: 150
@@ -341,7 +340,7 @@ export default {
     // 查看详情
     handleSelectDetail(record) {
       this.$router.push({
-        path: "/sale/order/detail",
+        path: "/sale/unsubscribe/detail",
         query: {
           id: record.orderNo
         }

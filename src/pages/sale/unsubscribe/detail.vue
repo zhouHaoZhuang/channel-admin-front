@@ -5,6 +5,10 @@
       <p>订单信息</p>
       <ul>
         <li>
+          <span>退单编号:</span>
+          <span>{{ orderInfo.orderNo }}</span>
+        </li>
+        <li>
           <span>订单编号:</span>
           <span>{{ orderInfo.orderNo }}</span>
         </li>
@@ -20,26 +24,20 @@
           <span>创建时间:</span>
           <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
-        <li>
-          <span>支付时间:</span>
-          <span v-if="orderInfo.payTime">{{
-            orderInfo.payTime | formatDate
-          }}</span>
-        </li>
       </ul>
     </div>
 
-    <!-- 支付信息 -->
+    <!-- 退款信息 -->
     <div class="channel">
-      <p>支付信息</p>
+      <p>退款信息</p>
       <ul>
         <li>
-          <span>支付金额:</span>
+          <span>退款金额:</span>
           <span>{{orderInfo.actualAmount}}</span>
         </li>
         <li>
-          <span>支付状态:</span>
-          <span>{{ orderInfo.payStatus == 1 ? "待支付" : "已支付" }}</span>
+          <span>退款状态:</span>
+          <span>{{ orderInfo.payStatus == 1 ? "待退款" : "已退款" }}</span>
         </li>
       </ul>
     </div>
@@ -56,15 +54,6 @@
           <div slot="tradeType" slot-scope="text">
             {{ text }}
             <!-- {{ orderTypeMap[text] }} -->
-          </div>
-          <div slot="productConfig" slot-scope="text, record">
-            <div>CPU:{{ record.cpu }}核</div>
-            <div>内存:{{ record.memory }}G</div>
-            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
-            <div>系统盘:{{ record.systemDiskSize }}G</div>
-            <div>数据盘:{{ record.dataDiskSize }}G</div>
-            <div>操作系统:{{ record.osName }}</div>
-            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
           </div>
           <span slot="chargeModel">包年包月</span>
         </a-table>
@@ -105,31 +94,15 @@ export default {
           width: 100
         },
         {
-          title: "具体配置",
-          key: "productConfig",
-          width: 250,
-          scopedSlots: { customRender: "productConfig" }
-        },
-        {
           title: "计费方式",
           dataIndex: "chargeModel",
           key: "chargeModel",
           scopedSlots: { customRender: "chargeModel" }
         },
-         {
-          title: "数量",
-          dataIndex: "quantity",
-          key: "quantity"
-        },
         {
           title: "原价",
           dataIndex: "originAmount",
           key: "originAmount"
-        },
-        {
-          title: "推广优惠",
-          key: "promotionPreference",
-          dataIndex: "promotionPreference"
         },
         {
           title: "折扣",
