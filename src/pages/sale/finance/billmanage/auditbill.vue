@@ -210,7 +210,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           console.log(this.form);
-          this.form.invoiceRecordReqDto = {
+          this.form = {
             rejectRemark: this.form.remark,
             expressDelivery: this.form.expressDelivery
           };
