@@ -36,22 +36,22 @@ const assetsCDN = {
 
 module.exports = {
   devServer: {
-    // proxy: {
-    //   "/ims": {
-    //     target: "http://i.ydidc.com/ims",
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       "^/ims": ""
-    //     }
-    //   },
-    //   "/fs": {
-    //     target: "http://site.ydidc.com/fs",
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       "^/fs": ""
-    //     }
-    //   }
-    // }
+    proxy: {
+      "/ims": {
+        target: "http://i.ydidc.com/ims",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/ims": ""
+        }
+      },
+      "/fs": {
+        target: "http://site.ydidc.com/fs",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/fs": ""
+        }
+      }
+    }
   },
   pluginOptions: {
     "style-resources-loader": {
