@@ -145,11 +145,11 @@ export default {
         },
         {
           title: "发票抬头",
-          dataIndex: "invoiceInfo.invoiceTitle"
+          dataIndex: "invoiceTitle"
         },
         {
           title: "创建时间",
-          dataIndex: "invoiceInfo.createTime",
+          dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" }
         },
         {
