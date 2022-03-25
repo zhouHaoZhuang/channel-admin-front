@@ -91,7 +91,7 @@
           <a-button type="primary" @click="onSubmit">
             审核通过
           </a-button>
-          <a-button type="danger" style="margin-left: 10px;" @click="resetForm">
+          <a-button type="danger" style="margin-left: 10px;" @click="turnDown">
             审核驳回
           </a-button>
         </a-form-model-item>
@@ -229,6 +229,10 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        remark: "",
+        expressDelivery: ""
+      };
     },
     // 获取详情数据
     getDetail() {
