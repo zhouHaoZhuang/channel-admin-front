@@ -423,82 +423,82 @@ export const asyncRoute = [
           //     },
           //   ],
           // },
-          {
-            path: "billmanage",
-            name: "发票管理 ",
-            meta: {
-              icon: "home",
-              perm: "member-admin-user",
-            },
-            component: BlankView,
-            children: [
-              {
-                path: "applybill",
-                name: "发票申请",
-                meta: {
-                  icon: "home",
-                  perm: "member-admin-user",
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billapply/list.vue"),
-              },
-              {
-                path: "listApply",
-                name: "申请发票",
-                meta: {
-                  icon: "home",
-                  back: true,
-                  invisible: true,
-                  perm: "member-admin-user",
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billapply/listApply.vue"),
-              },
-              {
-                path: "billlist",
-                name: "发票列表",
-                meta: {
-                  icon: "home",
-                  perm: "member-admin-user",
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billlist/list.vue"),
-              },
-              {
-                path: "billinfo",
-                name: "发票申请详情",
-                meta: {
-                  icon: "home",
-                  back: true,
-                  perm: "member-admin-user",
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billlist/info.vue"),
-              },
-              {
-                path: "billInform",
-                name: "发票信息管理",
-                meta: {
-                  icon: "home",
-                  back: true,
-                  perm: "member-admin-user",
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billInform/list.vue"),
-              },
-              {
-                path: "addbillInform",
-                name: "新增发票信息",
-                meta: {
-                  icon: "home",
-                  back: true,
-                  perm: "member-admin-user",
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billInform/addinfobill.vue"),
-              },
-            ],
-          },
+          // {
+          //   path: "billmanage",
+          //   name: "发票管理 ",
+          //   meta: {
+          //     icon: "home",
+          //     perm: "member-admin-user",
+          //   },
+          //   component: BlankView,
+          //   children: [
+          //     {
+          //       path: "applybill",
+          //       name: "发票申请",
+          //       meta: {
+          //         icon: "home",
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/billmanage/billapply/list.vue"),
+          //     },
+          //     {
+          //       path: "listApply",
+          //       name: "申请发票",
+          //       meta: {
+          //         icon: "home",
+          //         back: true,
+          //         invisible: true,
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/billmanage/billapply/listApply.vue"),
+          //     },
+          //     {
+          //       path: "billlist",
+          //       name: "发票列表",
+          //       meta: {
+          //         icon: "home",
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/billmanage/billlist/list.vue"),
+          //     },
+          //     {
+          //       path: "billinfo",
+          //       name: "发票申请详情",
+          //       meta: {
+          //         icon: "home",
+          //         back: true,
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/billmanage/billlist/info.vue"),
+          //     },
+          //     {
+          //       path: "billInform",
+          //       name: "发票信息管理",
+          //       meta: {
+          //         icon: "home",
+          //         back: true,
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/billmanage/billInform/list.vue"),
+          //     },
+          //     {
+          //       path: "addbillInform",
+          //       name: "新增发票信息",
+          //       meta: {
+          //         icon: "home",
+          //         back: true,
+          //         perm: "member-admin-user",
+          //       },
+          //       component: () =>
+          //         import("@/pages/purchase/billmanage/billInform/addinfobill.vue"),
+          //     },
+          //   ],
+          // },
         ],
       },
       // 产品
