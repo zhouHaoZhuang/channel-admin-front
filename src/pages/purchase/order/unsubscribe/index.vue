@@ -330,7 +330,7 @@ export default {
     // 查看详情
     handleSelectDetail(record) {
       this.$router.push({
-        path: "/finance/order/unsubscribe/detail",
+        path: "/purchase/order/unsubscribe/detail",
         query: {
           id: record.id
         }

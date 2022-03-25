@@ -20,10 +20,10 @@
           <span>创建时间:</span>
           <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
-        <!-- <li>
+        <li>
           <span>支付时间:</span>
           <span>{{ orderInfo.payTime | formatDate }}</span>
-        </li> -->
+        </li>
       </ul>
     </div>
     <!-- 支付信息 -->
@@ -53,15 +53,6 @@
           <div slot="chargingType" slot-scope="text">
              {{ text == 'AfterPay' ?'后支付':'预支付' }}
           </div>
-          <div slot="ecsPrice" slot-scope="text">
-            <div>CPU：{{ text.cpu }}</div>
-            <div>内存：{{ text.memory }}</div>
-            <div>磁盘：{{ text.dataDiskSize }}</div>
-            <div>带宽：{{ text.internetMaxBandwidthOut }}</div>
-            <div>防御：{{ "20G" }}</div>
-            <div>镜像：{{ text.imageId }}</div>
-            <div>所在区：{{ regionDataEnum[text.regionId] }}</div>
-          </div>
         </a-table>
       </div>
     </div>
@@ -69,18 +60,6 @@
     <div class="channel">
       <p>客户信息</p>
       <ul>
-        <li>
-          <span>渠道商ID:</span>
-          <span>{{ data[0].customerCode }}</span>
-        </li>
-        <li>
-          <span>渠道商名称:</span>
-          <span>{{ data[0].customerName }}</span>
-        </li>
-        <li>
-          <span>租户ID:</span>
-          <span>{{ data[0].tenantId }}</span>
-        </li>
         <li>
           <span>客户ID:</span>
           <span>{{ data[0].corporationCode }} </span>
@@ -109,13 +88,6 @@ export default {
           title: "产品名称",
           dataIndex: "productName",
           key: "productName",
-          width: 100
-        },
-        {
-          title: "具体配置",
-          dataIndex: "ecsPrice",
-          key: "ecsPrice",
-          scopedSlots: { customRender: "ecsPrice" }
         },
         {
           title: "计费方式",
@@ -124,21 +96,9 @@ export default {
           scopedSlots: { customRender: "chargingType" }
         },
         {
-          title: "数量",
-          dataIndex: "ecsPrice.amount",
-          key: "ecsPrice.amount",
-          width: 100
-        },
-        {
           title: "原价",
           dataIndex: "originAmount",
           key: "originAmount"
-        },
-        {
-          title: "推广优惠",
-          dataIndex: "discountAmount",
-          key: "discountAmount",
-          width: 100
         },
         {
           title: "折扣",
@@ -155,18 +115,7 @@ export default {
   },
   activated() {
     let id = this.$route.query.id;
-    // console.log(id);
-    this.$store.dispatch("financialOrder/getOne", id).then(res => {
-      // console.log(res);
-      let dataDisk = res.data.ecsPrice.dataDisk;
-      let dataDiskSize = 0;
-      if (dataDisk) {
-        for (let index = 0; index < dataDisk.length; index++) {
-          dataDiskSize += dataDisk[index].size;
-        }
-        res.data.ecsPrice.dataDiskSize = dataDiskSize;
-      }
-      console.log(dataDisk);
+    this.$store.dispatch("purchaseOrder/getProOne", id).then(res => {
       this.orderInfo = res.data;
       this.data = [res.data];
     });

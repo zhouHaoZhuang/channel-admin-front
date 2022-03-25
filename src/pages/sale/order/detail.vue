@@ -116,48 +116,37 @@ export default {
           key: "chargeModel",
           scopedSlots: { customRender: "chargeModel" }
         },
+         {
+          title: "数量",
+          dataIndex: "originAmount",
+          key: "originAmount"
+        },
         {
           title: "原价",
           dataIndex: "originAmount",
           key: "originAmount"
         },
         {
-          title: "金额",
-          dataIndex: "actualAmount",
-          key: "actualAmount"
+          title: "推广优惠",
+          key: "promotionPreference",
+          dataIndex: "promotionPreference"
+        },
+        {
+          title: "折扣",
+          key: "deduction",
+          dataIndex: "deduction"
+        },
+        {
+          title: "成交价",
+          key: "cashActualPay",
+          dataIndex: "cashActualPay"
         }
-        // {
-        //   title: "推广优惠",
-        //   key: "promotionPreference",
-        //   dataIndex: "promotionPreference"
-        // },
-        // {
-        //   title: "代金券抵扣",
-        //   key: "deduction",
-        //   dataIndex: "deduction"
-        // },
-        // {
-        //   title: "现金实付",
-        //   key: "cashActualPay",
-        //   dataIndex: "cashActualPay"
-        // }
       ]
     };
   },
   activated() {
     let id = this.$route.query.id;
-    // console.log(id);
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
-      console.log(res);
-      let dataDisk = res.data.ecsPrice.dataDisk;
-      let dataDiskSize = 0;
-      if (dataDisk) {
-        for (let index = 0; index < dataDisk.length; index++) {
-          dataDiskSize += dataDisk[index].size;
-        }
-        res.data.ecsPrice.dataDiskSize = dataDiskSize;
-      }
-      // console.log(dataDisk);
       this.orderInfo = res.data;
       this.data = [res.data];
     });

@@ -15,7 +15,7 @@ const purchaseOrder = {
   },
 
   actions: {
-    // 获取列表
+    // 获取列表 ------ 销售
     getList({ commit, state }, params) {
       return request({
         url: `/tcOrder/store`,
@@ -65,7 +65,21 @@ const purchaseOrder = {
         url: `/tcOrder/one?id=${id}`,
         method: "get"
       });
-    }
+    },
+    //采购 ------
+    getProList({ commit, state }, params) {
+      return request({
+        url: `/tcOrder/procurementOrder`,
+        method: "get",
+        params
+      });
+    },
+    getProOne({ commit, state }, id) {
+      return request({
+        url: `/tcOrder/procurementOrder/${id}`,
+        method: "get"
+      });
+    },
   }
 };
 

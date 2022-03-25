@@ -390,14 +390,14 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              {
-                path: "rechargeCentre",
-                name: "充值中心",
-                meta: {
-                  icon: "home",
-                  perm: "purchase-manage-withdraw"
-                },
-              },
+              // {
+              //   path: "rechargeCentre",
+              //   name: "充值中心",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "purchase-manage-withdraw"
+              //   },
+              // },
               {
                 path: "list",
                 name: "订单列表",
@@ -415,7 +415,7 @@ export const asyncRoute = [
                   back: true,
                   perm: "purchase-order-detail"
                 },
-                component: () => import("@/pages/purchase/order/detail")
+                component: () => import("@/pages/purchase/order/detail.vue")
               },
               {
                 path: "unsubscribe/list",
@@ -428,7 +428,7 @@ export const asyncRoute = [
                   import("@/pages/purchase/order/unsubscribe/index")
               },
               {
-                path: "detail",
+                path: "unsubscribe/detail",
                 name: "退订详情",
                 meta: {
                   invisible: true,

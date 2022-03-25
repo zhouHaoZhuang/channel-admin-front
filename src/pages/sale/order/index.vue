@@ -26,6 +26,58 @@
             v-model="listQuery.search"
           />
         </a-form-model-item>
+
+        <a-form-model-item>
+          <a-select
+            style="width: 120px"
+            defaultValue="0"
+            placeholder=" 订单类型"
+            v-model="listQuery['qp-tradeType-eq']"
+            >
+            <a-select-option
+              :value="index"
+              v-for="(item, index) in feeReduction"
+              :key="index"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width: 130px"
+            defaultValue="0"
+            placeholder=" 订单状态"
+            v-model="listQuery['qp-tradeStatus-eq']"
+            ><a-select-option value="">
+            </a-select-option>
+            <a-select-option
+              :value="index"
+              v-for="(item, index) in orderStatus"
+              :key="index"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width: 130px"
+            defaultValue="0"
+            placeholder="计费方式"
+            v-model="listQuery['qp-tradeStatus-eq']"
+            ><a-select-option value="">
+              计费方式
+            </a-select-option>
+            <a-select-option
+              :value="index"
+              v-for="(item, index) in orderStatus"
+              :key="index"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item>
           <a-range-picker
             style="margin-right: 10px"
@@ -36,56 +88,8 @@
           />
         </a-form-model-item>
         <a-form-model-item>
-          <a-select
-            style="width:150px;margin-right: 10px"
-            placeholder="订单类型"
-            allowClear
-            v-model="listQuery.tradeType"
-          >
-            <a-select-option
-              v-for="(value, key) in orderTypeMap"
-              :key="key"
-              :value="key"
-            >
-              {{ value }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
-          <a-select
-            style="width:150px"
-            placeholder="订单状态"
-            allowClear
-            v-model="listQuery.tradeStatus"
-          >
-            <a-select-option
-              v-for="(value, key) in orderStatusEnum"
-              :key="key"
-              :value="key"
-            >
-              {{ value }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-         <a-form-model-item>
-          <a-select
-            style="width:150px"
-            placeholder="计费方式"
-            allowClear
-            v-model="listQuery.tradeStatus"
-          >
-            <a-select-option
-              v-for="(value, key) in orderStatusEnum"
-              :key="key"
-              :value="key"
-            >
-              {{ value }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
           <a-button type="primary" @click="handleSearch">
-            查询
+            搜索
           </a-button>
         </a-form-model-item>
       </a-form-model>
@@ -100,14 +104,23 @@
           :pagination="paginationProps"
           :scroll="{ x: 1400 }"
         >
-          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
-            {{ text }}
+          <span
+            slot="ccCorporation"
+            slot-scope="text, record"
+            style="color: #00aaff"
+          >
+            {{ record.corporationName }}
+            <br />
+            <span style="color:#ccc;">{{ record.corporationCode }}</span>
           </span>
-          <div v-if="text" slot="originAmount" slot-scope="text">
-            {{ text }}
+          <div slot="originAmount" slot-scope="text">
+            {{ text.toFixed(2) }}
           </div>
-          <div v-if="text" slot="actualAmount" slot-scope="text">
-            {{ text }}
+          <div slot="discountRate" slot-scope="text">
+            {{ text.toFixed(2) }}
+          </div>
+          <div slot="actualAmount" slot-scope="text">
+            {{ text.toFixed(2) }}
           </div>
           <div slot="tradeType" slot-scope="text">
             <span>{{ orderTypeMap[text] }}</span>
@@ -118,11 +131,7 @@
           <div slot="payTime" slot-scope="text" v-if="text">
             {{ text | formatDate }}
           </div>
-          <span
-            :class="{ green: text === 9, blue: text !== 9 }"
-            slot="tradeStatus"
-            slot-scope="text"
-          >
+          <span slot="tradeStatus" slot-scope="text">
             {{ orderStatusEnum[text] }}
           </span>
           <div slot="action" slot-scope="text, record">
@@ -131,11 +140,11 @@
               type="link"
               @click="handleSelectDetail(record)"
             >
-              查询
+              详情
             </a-button>
           </div>
-          <div slot-scope="text" slot="cashPay" v-if="text != undefined">
-            {{ text.toFixed(2) }}
+          <div slot="chargingType" slot-scope="text">
+            {{ text == "AfterPay" ? "后支付" : "预支付" }}
           </div>
           <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
             {{ text.toFixed(2) }}
@@ -148,12 +157,19 @@
 
 <script>
 import moment from "moment";
-import { orderStatusEnum, orderTypeMap } from "@/utils/enum.js";
+import {
+  orderStatusEnum,
+  orderTypeMap,
+  feeReduction,
+  orderStatus
+} from "@/utils/enum.js";
 export default {
   data() {
     return {
       orderStatusEnum,
       orderTypeMap,
+      feeReduction,
+      orderStatus,
       listQuery: {
         key: undefined,
         search: "",
@@ -172,23 +188,17 @@ export default {
           dataIndex: "orderNo",
           width: 170
         },
-        // {
-        //   title: "会员ID",
-        //   dataIndex: "corporationCode",
-        //   width: 170,
-        //   scopedSlots: { customRender: "corporationCode" }
-        // },
         {
           title: "订单类型",
           dataIndex: "tradeType",
           scopedSlots: { customRender: "tradeType" },
           width: 130
         },
-           {
+        {
           title: "所属终端客户",
-          dataIndex: "corporationCode",
+          dataIndex: "ccCorporation",
           width: 170,
-          scopedSlots: { customRender: "corporationCode" }
+          scopedSlots: { customRender: "ccCorporation" }
         },
         {
           title: "原价",
@@ -202,10 +212,10 @@ export default {
           scopedSlots: { customRender: "actualAmount" },
           width: 100
         },
-           {
+        {
           title: "折扣率",
-          dataIndex: "actual",
-          scopedSlots: { customRender: "actual" },
+          dataIndex: "discountRate",
+          scopedSlots: { customRender: "discountRate" },
           width: 100
         },
         {
@@ -215,22 +225,16 @@ export default {
           scopedSlots: { customRender: "tradeStatus" }
         },
         {
-          title: '计费方式',
-          dataIndex: 'cashPay',
-          scopedSlots: { customRender: 'cashPay' },
+          title: "计费方式",
+          dataIndex: "chargingType",
+          width: 120,
+          scopedSlots: { customRender: "chargingType" }
         },
-        // {
-        //   title: '现金券支付',
-        //   dataIndex: 'actualPrice',
-        //   scopedSlots: { customRender: 'actualPrice' },
-        // },
         {
           title: "创建时间",
           dataIndex: "createTime",
           width: 190,
-          scopedSlots: { customRender: "createTime" },
-          sorter: (a, b) =>
-            new Date(a.createTime).getTime() - new Date(b.createTime).getTime()
+          scopedSlots: { customRender: "createTime" }
         },
         {
           title: "支付时间",
@@ -273,7 +277,13 @@ export default {
           width: 170
         },
         {
-          title: "会员ID",
+          title: "终端客户名称",
+          dataIndex: "corporationName",
+          key: "corporationName",
+          width: 150
+        },
+        {
+          title: "终端客户ID",
           dataIndex: "corporationCode",
           key: "corporationCode",
           width: 150
