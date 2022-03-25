@@ -1,55 +1,45 @@
 <template>
-  <div class="orderInfo">
+  <div class="orderInfo" v-if="data[0]">
     <!-- 订单信息 -->
-    <div class="channel">
+    <div v-if="orderInfo" class="channel">
       <p>订单信息</p>
       <ul>
         <li>
-          <span>退单编号:</span>
-          <!-- <span>{{ orderInfo.orderNo }}</span> -->
-          <span>1</span>
-        </li>
-        <li>
           <span>订单编号:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderInfo.orderNo }}</span> -->
+          <span>{{ orderInfo.orderNo }}</span>
         </li>
         <li>
           <span>订单类型:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderTypeMap[orderInfo.tradeType] }} </span> -->
+          <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
+        </li>
+        <li>
+          <span>状态:</span>
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
         </li>
         <li>
           <span>创建时间:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderInfo.createTime | formatDate }}</span> -->
+          <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
         <li>
-          <span>退款原因:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span> -->
+          <span>支付时间:</span>
+          <span v-if="orderInfo.payTime">{{
+            orderInfo.payTime | formatDate
+          }}</span>
         </li>
       </ul>
     </div>
-    <!-- 退款信息 -->
+
+    <!-- 支付信息 -->
     <div class="channel">
-      <p>退款信息</p>
+      <p>支付信息</p>
       <ul>
         <li>
-          <span>退款金额:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].corporationCode }}</span> -->
+          <span>支付金额:</span>
+          <span>{{orderInfo.actualAmount}}</span>
         </li>
         <li>
-          <span>退款状态:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].realName }} </span> -->
+          <span>支付状态:</span>
+          <span>{{ orderInfo.payStatus == 1 ? "待支付" : "已支付" }}</span>
         </li>
       </ul>
     </div>
@@ -80,22 +70,17 @@
         </a-table>
       </div>
     </div>
-
     <!-- 客户信息 -->
     <div class="channel">
       <p>客户信息</p>
       <ul>
         <li>
           <span>客户ID:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].corporationCode }}</span> -->
+          <span>{{ data[0].corporationCode }}</span>
         </li>
         <li>
           <span>客户名称:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].realName }} </span> -->
+          <span>{{ data[0].realName }} </span>
         </li>
       </ul>
     </div>
@@ -131,34 +116,38 @@ export default {
           key: "chargeModel",
           scopedSlots: { customRender: "chargeModel" }
         },
-        {
-          title: "订单金额",
-          dataIndex: "actualAmount",
-          key: "actualAmount"
+         {
+          title: "数量",
+          dataIndex: "quantity",
+          key: "quantity"
         },
         {
-          title: "退款金额",
+          title: "原价",
           dataIndex: "originAmount",
           key: "originAmount"
+        },
+        {
+          title: "推广优惠",
+          key: "promotionPreference",
+          dataIndex: "promotionPreference"
+        },
+        {
+          title: "折扣",
+          key: "discountRate",
+          dataIndex: "discountRate"
+        },
+        {
+          title: "成交价",
+          key: "actualAmount",
+          dataIndex: "actualAmount"
         }
       ]
     };
   },
   activated() {
     let id = this.$route.query.id;
-    // console.log(id);
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
-      console.log(res);
-      // let dataDisk = res.data.ecsPrice.dataDisk;
-      // let dataDiskSize = 0;
-      // if (dataDisk) {
-      //   for (let index = 0; index < dataDisk.length; index++) {
-      //     dataDiskSize += dataDisk[index].size;
-      //   }
-      //   res.data.ecsPrice.dataDiskSize = dataDiskSize;
-      // }
-      // console.log(dataDisk);
-      this.orderInfo = {};
+      this.orderInfo = res.data;
       this.data = [res.data];
     });
   }
