@@ -140,6 +140,7 @@ export default {
       title: "",
       visibleDetail: false, //是否显示申请详情的弹框
       detailInfo: {}, //详情信息
+      balance:undefined,
       listQuery: {
         currentPage: 1,
         pageSize: 10,
@@ -221,6 +222,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getDashboardData()
   },
   methods: {
     // 查询
@@ -241,6 +243,11 @@ export default {
           });
           this.paginationProps.total = res.data.totalCount * 1;
         });
+    },
+        getDashboardData() {
+       this.$store.dispatch("withdraw/getBalance").then(res => {
+        this.balance = res.data;
+      });
     },
     // 表格分页快速跳转n页
     quickJump(currentPage) {

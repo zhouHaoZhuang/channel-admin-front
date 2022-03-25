@@ -74,7 +74,8 @@ export default {
       type: Object,
       default: () => {}
     },
-    apply: {}
+    apply: {},
+    balance:{}
   },
   watch: {
     apply: {
@@ -109,7 +110,6 @@ export default {
   data() {
     return {
       newTitle: "",
-      balance: 0, // 当前系统余额
       confirmLoading: false,
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
@@ -232,12 +232,6 @@ export default {
         }
       });
     },
-    //获取当前系统余额
-    getBalance() {
-      this.$store.dispatch("withdraw/getBalance").then(res => {
-        this.balance = res.data;
-      });
-    },
     // 重置表单数据
     resetForm() {
       this.form = {
@@ -249,9 +243,6 @@ export default {
       };
     }
   },
-  created() {
-    this.getBalance();
-  }
 };
 </script>
 
