@@ -88,10 +88,10 @@
             {{ text | formatDate }}
           </div>
           <span slot="action" slot-scope="text, record">
-            <!-- <a-button type="link" @click="goDetail(record, 'detail')">
+            <a-button type="link" @click="goDetail(record, 'detail')">
               详情
             </a-button>
-            <a-divider type="vertical" /> -->
+            <a-divider type="vertical" v-if="record.status == 2"/>
 
             <a-button
               type="link"
@@ -111,11 +111,11 @@
             >
               确认
             </a-button>
-            <a-divider type="vertical" v-if="record.status == 5" />
+            <a-divider type="vertical" v-if="record.status == 5 || record.status == 2" />
             <a-button
               type="link"
               @click="goDetail(record, 'refuse')"
-              v-if="record.status == 5"
+              v-if="record.status == 5 || record.status == 2"
             >
               驳回
             </a-button>

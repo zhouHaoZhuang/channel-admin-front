@@ -22,7 +22,11 @@
         </a-form-model-item>
 
         <a-form-model-item label="银行卡号" prop="accountNo">
-          <a-input v-number-evolution v-model="form.accountNo" placeholder="请输入银行卡号" />
+          <a-input
+            v-number-evolution
+            v-model="form.accountNo"
+            placeholder="请输入银行卡号"
+          />
           <span class="tigs">请确保符合银行卡号规则</span>
         </a-form-model-item>
         <a-form-model-item label="银行卡绑定人" prop="receiverName">
@@ -35,7 +39,8 @@
         <a-form-model-item label="提现金额" prop="dealAmount">
           <a-input
             v-model="form.dealAmount"
-           v-number-evolution="{ value: 2, min: 0, max:9999999 }"
+            ref="dealAmount"
+            v-number-evolution="{ value: 2, min: 0, max: 9999999 }"
             placeholder="请输入需要提现的金额"
           />
           <span class="tigs">请确保符合当前账号下余额充足</span>
@@ -104,6 +109,7 @@ export default {
   data() {
     return {
       newTitle: "",
+      balance: 0, // 当前系统余额
       confirmLoading: false,
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
@@ -126,7 +132,7 @@ export default {
         accountNo: [
           {
             required: true,
-            message:'请输入银行卡号',
+            message: "请输入银行卡号",
             trigger: ["blur", "change"]
           }
         ],
@@ -134,7 +140,7 @@ export default {
           {
             required: true,
             trigger: ["blur", "change"],
-            message:'请输入余额',
+            message: "请输入余额"
           }
         ],
         receiverName: [
@@ -154,6 +160,10 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let title;
+          if (this.$refs.dealAmount.value > this.balance) {
+            this.$message.error("当前无足够余额可以进行提现，请核对剩余余额");
+            return;
+          }
           if (val == "save") {
             title = "确认保存申请吗?";
             this.form.status = 0;
@@ -194,7 +204,7 @@ export default {
           this.$store
             .dispatch("withdraw/addRecord", this.form)
             .then(res => {
-              this.$message.success("提交成功");
+              this.$message.success("余额将被冻结，请等待审核",4);
               this.$emit("changeVisible", false);
               this.$emit("success");
             })
@@ -222,6 +232,12 @@ export default {
         }
       });
     },
+    //获取当前系统余额
+    getBalance() {
+      this.$store.dispatch("withdraw/getBalance").then(res => {
+        this.balance = res.data;
+      });
+    },
     // 重置表单数据
     resetForm() {
       this.form = {
@@ -232,6 +248,9 @@ export default {
         memo: ""
       };
     }
+  },
+  created() {
+    this.getBalance();
   }
 };
 </script>
