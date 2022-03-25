@@ -11,7 +11,7 @@
       </div>
       <h1>
         <span>账户余额：</span>
-        <span v-show="balanceData">{{ balanceData }} 元</span>
+        <span v-show="balanceData != undefined">{{ balanceData }} 元</span>
       </h1>
       <div>
         <span> 充值金额： </span>
@@ -59,6 +59,7 @@
       <RechargeBtn
         class="rechargeBtn"
         :form="rechargeBtnForm"
+        :balanceData="balanceAmount"
         @success="startTime"
       />
     </div>
@@ -82,20 +83,21 @@ export default {
         useVoucher: false,
         useWechatPay: false
       },
-      balanceData: "",
+      balanceData: undefined,
       rechargeBtnForm: {
         totalAmount: "",
         balanceAmount: "",
         payType: ["ali", "balance"]
       },
       time: null,
-      payType: "ali"
+      payType: "ali",
+      balanceAmount: 0
     };
   },
-  created() {
+  activated() {
     this.getUserBalance();
   },
-  beforeDestroy() {
+  deactivated() {
     this.time && clearInterval(this.time);
   },
   computed: {
@@ -114,6 +116,7 @@ export default {
         .dispatch("finance/getUserBalance", this.balanceForm)
         .then(res => {
           this.balanceData = res.data;
+          this.balanceAmount = res.data;
         });
     },
     // 轮询查询余额

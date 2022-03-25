@@ -98,15 +98,13 @@ const withdraw = {
         data
       });
     },
-    //查询当前系统余额------------
-    getBalance({ commit, state }, params) {
-      return request({
-        url: "/pcChannelWithdraw/getBalance",
-        method: "get",
-        params
-      });
-    },
-
+   //根据当前的订单号重新进行余额支付
+   receiveOrderNo({ commit, state }, orderNo) {
+    return request({
+      url: `/idcPay/payAgainByOrderNo/${orderNo}`,
+      method: "get"
+    });
+  },
 
   }
 };
