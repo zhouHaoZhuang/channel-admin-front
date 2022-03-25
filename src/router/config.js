@@ -212,6 +212,36 @@ export const asyncRoute = [
             ]
           },
           {
+            path: "unsubscribe",
+            name: "订单退订管理",
+            meta: {
+              icon: "home",
+              perm: "sale-order"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "list",
+                name: "订单退订列表",
+                meta: {
+                  icon: "home",
+                  perm: "sale-order-list"
+                },
+                component: () => import("@/pages/sale/unsubscribe/index")
+              },
+              {
+                path: "detail",
+                name: "退订详情",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "sale-order-list"
+                },
+                component: () => import("@/pages/sale/unsubscribe/detail")
+              }
+            ]
+          },
+          {
             path: "finance",
             name: "财务管理",
             meta: {
@@ -331,9 +361,29 @@ export const asyncRoute = [
         },
         component: PageView,
         children: [
+          // {
+          //   path: "manage",
+          //   name: "财务管理",
+          //   meta: {
+          //     icon: "home",
+          //     perm: "purchase-manage"
+          //   },
+          //   component: BlankView,
+          //   children: [
+          //     {
+          //       path: "withdraw",
+          //       name: "提现管理",
+          //       meta: {
+          //         icon: "home",
+          //         perm: "purchase-manage-withdraw"
+          //       },
+          //       component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+          //     },
+          //   ]
+          // },
           {
-            path: "manage",
-            name: "财务管理",
+            path: "order",
+            name: "订单管理",
             meta: {
               icon: "home",
               perm: "purchase-manage"
@@ -347,21 +397,59 @@ export const asyncRoute = [
                   icon: "home",
                   perm: "purchase-manage-withdraw"
                 },
-                component: () =>
-                  import("@/pages/purchase/manage/rechargeCentre/index.vue")
               },
               {
-                path: "withdraw",
-                name: "提现管理",
+                path: "list",
+                name: "订单列表",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () => import("@/pages/purchase/order/index.vue")
+              },
+              {
+                path: "detail",
+                name: "订单详情",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "purchase-order-detail"
+                },
+                component: () => import("@/pages/purchase/order/detail")
+              },
+              {
+                path: "unsubscribe/list",
+                name: "订单退单管理",
                 meta: {
                   icon: "home",
                   perm: "purchase-manage-withdraw"
                 },
                 component: () =>
-                  import("@/pages/purchase/manage/withdraw/index.vue")
+                  import("@/pages/purchase/order/unsubscribe/index")
+              },
+              {
+                path: "detail",
+                name: "退订详情",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/order/unsubscribe/detail")
+              },
+              {
+                path: "bill",
+                name: "采购账单",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/order/bill/index.vue")
               }
             ]
-          }
+          },
         ]
       },
       // 产品

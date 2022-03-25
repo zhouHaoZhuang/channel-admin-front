@@ -36,54 +36,6 @@
           />
         </a-form-model-item>
         <a-form-model-item>
-          <a-select
-            style="width:150px;margin-right: 10px"
-            placeholder="订单类型"
-            allowClear
-            v-model="listQuery.tradeType"
-          >
-            <a-select-option
-              v-for="(value, key) in orderTypeMap"
-              :key="key"
-              :value="key"
-            >
-              {{ value }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
-          <a-select
-            style="width:150px"
-            placeholder="订单状态"
-            allowClear
-            v-model="listQuery.tradeStatus"
-          >
-            <a-select-option
-              v-for="(value, key) in orderStatusEnum"
-              :key="key"
-              :value="key"
-            >
-              {{ value }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-         <a-form-model-item>
-          <a-select
-            style="width:150px"
-            placeholder="计费方式"
-            allowClear
-            v-model="listQuery.tradeStatus"
-          >
-            <a-select-option
-              v-for="(value, key) in orderStatusEnum"
-              :key="key"
-              :value="key"
-            >
-              {{ value }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
           <a-button type="primary" @click="handleSearch">
             查询
           </a-button>
@@ -168,82 +120,65 @@ export default {
       tableLoading: false,
       columns: [
         {
-          title: "订单编号",
+          title: "帐单编号",
           dataIndex: "orderNo",
-          width: 170
         },
-        // {
-        //   title: "会员ID",
-        //   dataIndex: "corporationCode",
-        //   width: 170,
-        //   scopedSlots: { customRender: "corporationCode" }
-        // },
         {
-          title: "订单类型",
-          dataIndex: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
-          width: 130
-        },
-           {
-          title: "所属终端客户",
+          title: "订单编号",
           dataIndex: "corporationCode",
-          width: 170,
           scopedSlots: { customRender: "corporationCode" }
         },
         {
-          title: "原价",
+          title: "供应商",
+          dataIndex: "corporation",
+          scopedSlots: { customRender: "corporation" }
+        },
+        {
+          title: "单价",
           dataIndex: "originAmount",
           scopedSlots: { customRender: "originAmount" },
-          width: 100
         },
         {
-          title: "成交价",
-          dataIndex: "actualAmount",
-          scopedSlots: { customRender: "actualAmount" },
-          width: 100
+          title: "单价单位",
+          dataIndex: "Amount",
+          scopedSlots: { customRender: "Amount" },
         },
-           {
-          title: "折扣率",
+        {
+          title: "账单金额",
+          dataIndex: "tradeType",
+          scopedSlots: { customRender: "tradeType" },
+        },
+        {
+          title: "成本金额",
           dataIndex: "actual",
           scopedSlots: { customRender: "actual" },
-          width: 100
         },
         {
-          title: "状态",
-          dataIndex: "tradeStatus",
-          width: 130,
-          scopedSlots: { customRender: "tradeStatus" }
-        },
-        {
-          title: '计费方式',
-          dataIndex: 'cashPay',
-          scopedSlots: { customRender: 'cashPay' },
-        },
-        // {
-        //   title: '现金券支付',
-        //   dataIndex: 'actualPrice',
-        //   scopedSlots: { customRender: 'actualPrice' },
-        // },
-        {
-          title: "创建时间",
+          title: "消费时间",
           dataIndex: "createTime",
           width: 190,
           scopedSlots: { customRender: "createTime" },
           sorter: (a, b) =>
             new Date(a.createTime).getTime() - new Date(b.createTime).getTime()
         },
+
         {
-          title: "支付时间",
+          title: "计费项",
+          dataIndex: "cashPay",
+          scopedSlots: { customRender: "cashPay" }
+        },
+        {
+          title: "实际用量",
           dataIndex: "payTime",
           width: 250,
           scopedSlots: { customRender: "payTime" }
-        },
-        {
-          title: "操作",
-          dataIndex: "action",
-          fixed: "right",
-          scopedSlots: { customRender: "action" }
         }
+        // {
+        //   title: "操作",
+        //   dataIndex: "action",
+        //   fixed: "right",
+        //   scopedSlots: { customRender: "action" }
+        // }
       ],
       data: [],
       // 表格分页器配置
@@ -267,16 +202,24 @@ export default {
     useColumns() {
       return [
         {
-          title: "订单编号",
+          title: "账单编号",
           dataIndex: "orderNo",
           key: "orderNo",
-          width: 170
         },
         {
-          title: "会员ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150
+          title: "订单编号",
+          dataIndex: "actual",
+          key: "actual",
+        },
+        {
+          title: "渠道商名称",
+          dataIndex: "tradeType",
+          key: "tradeType",
+        },
+        {
+          title: "渠道商ID",
+          dataIndex: "corporate",
+          key: "corporate",
         }
       ];
     }
