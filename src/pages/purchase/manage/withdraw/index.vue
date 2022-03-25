@@ -118,6 +118,7 @@
       @success="getList"
       :detailInfo="detailInfos"
       :apply="apply"
+      :balance='balance'
     />
     <!-- 申请详情 -->
     <applyOption
@@ -145,6 +146,8 @@ export default {
       visibleDetail: false, //是否显示申请详情的弹框
       visible: false, //是否显示新增申请申请
       detailInfo: {}, //详情信息
+      overviewData: {},
+      balance: undefined,
       detailInfos: {},
       listQuery: {
         currentPage: 1,
@@ -171,13 +174,13 @@ export default {
         {
           title: "创建时间",
           dataIndex: "createTime",
-          width:120,
+          width: 120,
           scopedSlots: { customRender: "createTime" }
         },
         {
           title: "反馈时间",
           dataIndex: "finishTime",
-          width:120,
+          width: 120
         },
         {
           title: "备注",
@@ -213,6 +216,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getDashboardData();
   },
   methods: {
     // 查询
@@ -235,6 +239,12 @@ export default {
           });
           this.paginationProps.total = res.data.totalCount * 1;
         });
+    },
+    getDashboardData() {
+       this.$store.dispatch("withdraw/getBalance").then(res => {
+        this.balance = res.data;
+        console.log(this.balance,'this.balance');
+      });
     },
     // 表格分页快速跳转n页
     quickJump(currentPage) {
