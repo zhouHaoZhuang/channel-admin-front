@@ -1,41 +1,49 @@
 <template>
   <div class="bill-select">
-    <div class="bill-info">
+    <div class="bill-info" v-if="data">
       <a-descriptions style="margin: 20px 0" title="申请信息">
         <a-descriptions-item label="发票ID">
-          FP20220314001
+          {{ data.invoiceNo }}
         </a-descriptions-item>
-        <a-descriptions-item label="客户名称"> 上海XX公司 </a-descriptions-item>
+        <a-descriptions-item label="客户名称">
+          {{ data.invoiceInfo.createUserName }}
+        </a-descriptions-item>
         <a-descriptions-item label="开具类型">
-          企业
+          {{ issueTypeMap[data.invoiceInfo.issueType] }}
         </a-descriptions-item>
         <a-descriptions-item label="发票类型">
-          增值税专用发票
+          {{ invoiceTypeMap[data.invoiceInfo.invoiceType] }}
         </a-descriptions-item>
         <a-descriptions-item label="发票抬头">
-          上海XX公司
+          {{ data.invoiceInfo.invoiceTitle }}
         </a-descriptions-item>
         <a-descriptions-item label="税务登记号">
-          91000000000
+          {{ data.invoiceInfo.registerNo }}
         </a-descriptions-item>
         <a-descriptions-item label="开票金额">
-          <b>￥500.00</b>
+          <b>￥{{ data.invoiceAmount }}</b>
         </a-descriptions-item>
-        <a-descriptions-item label="状态"> 已提交 </a-descriptions-item>
-        <a-descriptions-item label="退票申请创建时间">
-          2016-09-21 08:50:08
+        <a-descriptions-item label="状态">
+          {{ invoiceStatusEnum[data.status] }}
         </a-descriptions-item>
-        <a-descriptions-item label="备注"> 测试备注 </a-descriptions-item>
+        <a-descriptions-item label="退款申请创建时间">
+          <span v-if="data.refundCreateTime">
+            {{ data.refundCreateTime | formatDate }}
+          </span>
+        </a-descriptions-item>
+        <a-descriptions-item label="备注">
+          {{ data.feedbackRemark }}
+        </a-descriptions-item>
       </a-descriptions>
-      <a-descriptions style="margin: 20px 0" title="物流信息">
+      <a-descriptions style="margin: 20px 0" title="收件人信息">
         <a-descriptions-item label="物流单号">
-          SF45621000000000
+          {{ data.expressDelivery }}
         </a-descriptions-item>
         <a-descriptions-item label="寄件联系人">
-          王三
+          {{ data.sender }}
         </a-descriptions-item>
         <a-descriptions-item label="联系电话">
-          13088888888
+          {{ data.senderPhone }}
         </a-descriptions-item>
       </a-descriptions>
     </div>
@@ -43,10 +51,13 @@
       <h2 style="margin: 20px 0">开票明细</h2>
       <a-table
         :columns="columns"
-        :data-source="data"
-        :pagination="paginationProps"
+        :data-source="dataList"
+        :pagination="false"
         rowKey="id"
       >
+        <div v-if="text" slot="createTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
       </a-table>
     </div>
     <div>
@@ -58,14 +69,14 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="反馈说明" prop="name">
-          <a-input v-model="form.name" />
+        <a-form-model-item label="反馈说明" prop="rejectRemark">
+          <a-input v-model="form.rejectRemark" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary" @click="onSubmit">
             确认
           </a-button>
-          <a-button type="danger" style="margin-left: 10px;" @click="resetForm">
+          <a-button type="danger" style="margin-left: 10px;" @click="reject">
             拒绝
           </a-button>
         </a-form-model-item>
@@ -75,26 +86,30 @@
 </template>
 
 <script>
+import { invoiceStatusEnum } from "@/utils/enum";
+
 export default {
   data() {
     return {
-      data: [],
+      data: null,
+      invoiceStatusEnum,
+      dataList: [],
+      issueTypeMap: {
+        1: "个人",
+        2: "企业"
+      },
+      invoiceTypeMap: {
+        1: "增值税普通发票",
+        2: "增值税专用发票"
+      },
       columns: [
         {
           title: "订单ID",
-          dataIndex: "orderId"
-        },
-        {
-          title: "类型",
-          dataIndex: "type"
+          dataIndex: "orderNo"
         },
         {
           title: "产品名称",
-          dataIndex: "productName"
-        },
-        {
-          title: "订单金额",
-          dataIndex: "orderAmount"
+          dataIndex: "bizTypeName"
         },
         {
           title: "可开票金额",
@@ -102,33 +117,22 @@ export default {
         },
         {
           title: "订单创建时间",
-          dataIndex: "orderCreateTime"
+          dataIndex: "createTime",
+          scopedSlots: {
+            customRender: "createTime"
+          }
         }
       ],
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
-      other: "",
       form: {
-        name: "",
-        region: undefined,
-        date1: undefined,
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
+        rejectRemark: ""
       },
       rules: {
-        name: [
+        rejectRemark: [
           {
             required: true,
-            message: "Please input Activity name",
-            trigger: "blur"
-          },
-          {
-            min: 3,
-            max: 5,
-            message: "Length should be 3 to 5",
-            trigger: "blur"
+            message: "请输入反馈说明"
           }
         ]
       },
@@ -139,7 +143,7 @@ export default {
         pageSize: 10,
         total: 0,
         startTime: "",
-        endTime: "",
+        endTime: ""
       },
       paginationProps: {
         showQuickJumper: true,
@@ -154,14 +158,42 @@ export default {
       }
     };
   },
+  activated() {
+    this.getData();
+    this.$nextTick(() => {
+      this.resetForm();
+    });
+  },
   methods: {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+          this.$store
+            .dispatch("refundmangage/audit", {
+              id: this.$route.query.id,
+              ...this.form
+            })
+            .then(() => {
+              this.$message.success("操作成功");
+              this.resetForm();
+              this.$router.back();
+            });
+        }
+      });
+    },
+    reject() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("refundmangage/refuse", {
+              id: this.$route.query.id,
+              ...this.form
+            })
+            .then(() => {
+              this.$message.success("操作成功");
+              this.resetForm();
+              this.$router.back();
+            });
         }
       });
     },
@@ -169,24 +201,27 @@ export default {
       this.$refs.ruleForm.resetFields();
     },
     //查询数据表格
-    getList() {
-      this.$getListQp("word/getList", this.listQuery).then(res => {
-        console.log(res);
-        this.data = [...res.data.list];
-        this.paginationProps.total = res.data.totalCount * 1;
-      });
+    getData() {
+      this.$store
+        .dispatch("refundmangage/getDetail", { id: this.$route.query.id })
+        .then(res => {
+          this.data = res.data;
+          this.dataList = res.data.invoiceEvaluatePage.list;
+          this.paginationProps.total =
+            res.data.invoiceEvaluatePage.totalCount * 1;
+        });
     },
     //表格分页跳转
     quickJump(currentPage) {
       this.listQuery.currentPage = currentPage;
-      this.getList();
+      // this.getList();
     },
     //表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
-      this.getList();
-    },
+      // this.getList();
+    }
   }
 };
 </script>

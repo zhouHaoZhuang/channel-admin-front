@@ -315,6 +315,7 @@ export const asyncRoute = [
                 name: "发票申请详情",
                 meta: {
                   icon: "home",
+                  invisible: true,
                   back: true,
                   perm: "finance-book-order",
                 },
@@ -326,6 +327,7 @@ export const asyncRoute = [
                 name: "审核发票申请",
                 meta: {
                   icon: "home",
+                  invisible: true,
                   back: true,
                   perm: "finance-book-order",
                 },
@@ -337,6 +339,7 @@ export const asyncRoute = [
                 name: "编辑发票申请",
                 meta: {
                   icon: "home",
+                  invisible: true,
                   back: true,
                   perm: "finance-book-order",
                 },
@@ -358,6 +361,7 @@ export const asyncRoute = [
                 name: "退票申请详情",
                 meta: {
                   icon: "home",
+                  invisible: true,
                   back: true,
                   perm: "finance-book-order",
                 },
@@ -370,6 +374,7 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   back: true,
+                  invisible: true,
                   perm: "finance-book-order",
                 },
                 component: () =>

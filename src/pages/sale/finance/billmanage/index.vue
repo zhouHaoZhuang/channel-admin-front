@@ -3,11 +3,19 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline">
         <a-form-model-item>
-          <a-input placeholder="请输入发票ID" />
+          <a-input
+            v-model="listQuery.invoiceNo"
+            placeholder="请输入发票ID"
+            allowClear
+          />
         </a-form-model-item>
-        <a-form-model-item>
-          <a-input placeholder="请输入客户名称" />
-        </a-form-model-item>
+        <!-- <a-form-model-item>
+          <a-input
+            v-model="listQuery.companyName"
+            placeholder="请输入客户名称"
+            allowClear
+          />
+        </a-form-model-item> -->
         <a-form-model-item>
           <a-date-picker
             placeholder="创建开始日期"
@@ -25,24 +33,24 @@
           >
           </a-date-picker>
         </a-form-model-item>
-
         <a-form-model-item>
           <a-select
-            placeholder="请选择状态"
             allowClear
-            style="width:120px"
-            v-model="listQuery.key"
+            style="width:200px"
+            v-model="listQuery.status"
+            placeholder="请选择状态"
           >
-            <a-select-option value="id">
-              审核中
-            </a-select-option>
-            <a-select-option value="applyUserCode">
-              已驳回
+            <a-select-option
+              :value="inx"
+              v-for="(item, inx) in invoiceStatusEnum"
+              :key="inx"
+            >
+              {{ item }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
         <a-form-model-item>
-          <a-button type="primary">查询</a-button>
+          <a-button type="primary" @click="getList">查询</a-button>
         </a-form-model-item>
       </a-form-model>
     </div>
@@ -53,12 +61,46 @@
         :pagination="paginationProps"
         rowKey="id"
       >
-        <div slot="companyName" slot-scope="text">{{ text }}</div>
-        <div slot="action">
-          <a-button type="link">详情</a-button>
-          <a-button type="link">接受</a-button>
-          <a-button type="link">审核</a-button>
-          <a-button type="link">编辑</a-button>
+        <div slot="status" slot-scope="text">
+          {{ invoiceStatusEnum[text] }}
+        </div>
+        <div v-if="text" slot="createTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
+        <div v-if="text" slot="feedbackTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
+        <div slot="action" slot-scope="text, record">
+          <a-button
+            type="link"
+            @click="$router.push('/sale/finance/billInfo?id=' + record.id)"
+          >
+            详情
+          </a-button>
+          <a-button
+            type="link"
+            style="margin-left:10px"
+            :disabled="record.status !== 1"
+            @click="takeOver(record.id)"
+          >
+            接收
+          </a-button>
+          <a-button
+            type="link"
+            style="margin-left:10px"
+            @click="$router.push('/sale/finance/auditbill?id=' + record.id)"
+            :disabled="record.status !== 3"
+          >
+            审核
+          </a-button>
+          <a-button
+            type="link"
+            v-if="record.status === 5"
+            style="margin-left:10px"
+            @click="$router.push('/sale/finance/editbill?id=' + record.id)"
+          >
+            编辑
+          </a-button>
         </div>
       </a-table>
     </div>
@@ -66,9 +108,11 @@
 </template>
 
 <script>
+import { invoiceStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
+      invoiceStatusEnum,
       listQuery: {
         key: "",
         search: "",
@@ -77,45 +121,51 @@ export default {
         total: 0,
         startTime: "",
         endTime: "",
+        companyName: "",
+        invoiceNo: "",
+        status: undefined
       },
       columns: [
         {
           title: "发票ID",
-          dataIndex: "id"
+          dataIndex: "invoiceNo"
         },
         {
           title: "状态",
-          dataIndex: "status"
+          dataIndex: "status",
+          scopedSlots: { customRender: "status" }
         },
-        {
-          title: "客户名称",
-          dataIndex: "companyName"
-        },
+        // {
+        //   title: "客户名称",
+        //   dataIndex: "companyName"
+        // },
         {
           title: "开票金额",
-          dataIndex: "amount"
+          dataIndex: "invoiceAmount"
         },
         {
           title: "发票抬头",
-          dataIndex: "title"
+          dataIndex: "invoiceInfo.invoiceTitle"
         },
         {
           title: "创建时间",
-          dataIndex: "createTime"
+          dataIndex: "invoiceInfo.createTime",
+          scopedSlots: { customRender: "createTime" }
         },
         {
           title: "反馈时间",
-          dataIndex: "feedbackTime"
+          dataIndex: "feedbackTime",
+          scopedSlots: { customRender: "feedbackTime" }
         },
         {
           title: "反馈信息",
-          dataIndex: "feedbackMsg"
+          dataIndex: "feedbackRemark"
         },
         {
           title: "操作",
           dataIndex: "action",
           scopedSlots: {
-            default: "action"
+            customRender: "action"
           }
         }
       ],
@@ -133,16 +183,30 @@ export default {
       }
     };
   },
+  activated() {
+    this.getList();
+  },
   methods: {
+    takeOver(id) {
+      this.$confirm({
+        title: "确定要接收吗?",
+        onOk: () => {
+          this.$store.dispatch("billmangage/takeOver", { id }).then(() => {
+            this.$massage.success("接收成功");
+            this.getList();
+          });
+        }
+      });
+    },
     startValue(date, dateString) {
-      // this.listQuery.startTime = dateString;
+      this.listQuery.startTime = dateString;
     },
     endValue(date, dateString) {
-      // this.listQuery.endTime = dateString;
+      this.listQuery.endTime = dateString;
     },
     //查询数据表格
     getList() {
-      this.$getListQp("word/getList", this.listQuery).then(res => {
+      this.$getList("billmangage/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
@@ -158,7 +222,7 @@ export default {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
-    },
+    }
   }
 };
 </script>

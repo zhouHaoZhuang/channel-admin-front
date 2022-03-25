@@ -32,7 +32,8 @@ import notice from "./notice";
 import note from "./note";
 import workorder from "./workorder";
 import record from "./record";
-
+import billmangage from "./billmangage";
+import refundmangage from "./refundmangage";
 export default {
   user,
   account,
@@ -67,5 +68,7 @@ export default {
   notice,
   note,
   workorder,
-  record
+  record,
+  billmangage,
+  refundmangage
 };

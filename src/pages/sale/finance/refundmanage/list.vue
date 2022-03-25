@@ -3,11 +3,14 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline">
         <a-form-model-item>
-          <a-input placeholder="请输入发票ID" />
+          <a-input v-model="listQuery.invoiceNo" placeholder="请输入发票ID" />
         </a-form-model-item>
-        <a-form-model-item>
-          <a-input placeholder="请输入客户名称" />
-        </a-form-model-item>
+        <!-- <a-form-model-item>
+          <a-input
+            v-model="listQuery.companyName"
+            placeholder="请输入客户名称"
+          />
+        </a-form-model-item> -->
         <a-form-model-item>
           <a-date-picker
             placeholder="创建开始日期"
@@ -28,31 +31,56 @@
 
         <a-form-model-item>
           <a-select
-            placeholder="请选择状态"
             allowClear
-            style="width:120px"
-            v-model="listQuery.key"
+            style="width:200px"
+            v-model="listQuery.status"
+            placeholder="请选择状态"
           >
-            <a-select-option value="id">
-              审核中
-            </a-select-option>
-            <a-select-option value="applyUserCode">
-              已驳回
+            <a-select-option
+              :value="inx"
+              v-for="(item, inx) in invoiceStatusEnum"
+              :key="inx"
+            >
+              {{ item }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
         <a-form-model-item>
-          <a-button type="primary">查询</a-button>
+          <a-button type="primary" @click="getList">查询</a-button>
         </a-form-model-item>
       </a-form-model>
     </div>
     <div>
-      <a-table :columns="columns" :data-source="data" :pagination="paginationProps"
-        rowKey="id">
-        <div slot="companyName" slot-scope="text">{{ text }}</div>
-        <div slot="action">
-          <a-button type="link">详情</a-button>
-          <a-button type="link">审核</a-button>
+      <a-table
+        :columns="columns"
+        :data-source="data"
+        :pagination="paginationProps"
+        rowKey="id"
+      >
+        <div slot="status" slot-scope="text">
+          {{ invoiceStatusEnum[text] }}
+        </div>
+        <div v-if="text" slot="refundCreateTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
+        <div v-if="text" slot="refundFeedbackTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
+        <div slot="action" slot-scope="text, record">
+          <a-button
+            type="link"
+            @click="$router.push('/sale/finance/refundApply?id=' + record.id)"
+          >
+            详情
+          </a-button>
+          <a-button
+            type="link"
+            style="margin-left: 10px"
+            :disabled="record.status !== 3"
+            @click="$router.push('/sale/finance/reviewRefund?id=' + record.id)"
+          >
+            审核
+          </a-button>
         </div>
       </a-table>
     </div>
@@ -60,62 +88,70 @@
 </template>
 
 <script>
+import { invoiceStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
+      invoiceStatusEnum,
       listQuery: {
+        invoiceNo: "",
+        companyName: "",
         key: "",
         search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        status: "",
+        status: undefined,
         startTime: "",
-        endTime: "",
-        accountType: ""
+        endTime: ""
       },
       columns: [
         {
           title: "发票ID",
-          dataIndex: "id"
+          dataIndex: "invoiceNo"
         },
         {
           title: "状态",
-          dataIndex: "status"
+          dataIndex: "status",
+          scopedSlots: {
+            customRender: "status"
+          }
         },
-        {
-          title: "客户名称",
-          dataIndex: "companyName"
-        },
+        // {
+        //   title: "客户名称",
+        //   dataIndex: "companyName"
+        // },
         {
           title: "开票金额",
-          dataIndex: "amount"
+          dataIndex: "invoiceAmount"
         },
         {
           title: "发票抬头",
-          dataIndex: "title"
+          dataIndex: "invoiceInfo.invoiceTitle"
         },
         {
           title: "退票申请创建时间",
-          dataIndex: "createTime"
+          dataIndex: "refundCreateTime",
+          scopedSlots: { customRender: "refundCreateTime" }
         },
         {
           title: "备注",
-          dataIndex: "remark"
+          dataIndex: "refundRemark"
         },
         {
           title: "退款申请反馈时间",
-          dataIndex: "feedbackTime"
+          dataIndex: "refundFeedbackTime",
+          scopedSlots: { customRender: "refundFeedbackTime" }
         },
         {
           title: "退款申请反馈说明",
-          dataIndex: "feedbackMsg"
+          dataIndex: "refundFeedbackRemark"
         },
         {
           title: "操作",
           dataIndex: "action",
           scopedSlots: {
-            default: "action"
+            customRender: "action"
           }
         }
       ],
@@ -133,16 +169,19 @@ export default {
       }
     };
   },
+  activated() {
+    this.getList();
+  },
   methods: {
     startValue(date, dateString) {
-      // this.listQuery.startTime = dateString;
+      this.listQuery.startTime = dateString;
     },
     endValue(date, dateString) {
-      // this.listQuery.endTime = dateString;
+      this.listQuery.endTime = dateString;
     },
     //查询数据表格
     getList() {
-      this.$getListQp("word/getList", this.listQuery).then(res => {
+      this.$getList("refundmangage/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
@@ -158,7 +197,7 @@ export default {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
-    },
+    }
   }
 };
 </script>
