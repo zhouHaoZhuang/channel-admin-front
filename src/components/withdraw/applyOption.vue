@@ -169,6 +169,7 @@ export default {
           }
           let title;
           let obj = {};
+          obj.feedback = this.$refs.feedback.value
           obj.id = this.form.id;
           if (val == "ok") {
             obj.status = 1;
