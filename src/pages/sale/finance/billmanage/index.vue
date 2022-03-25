@@ -192,7 +192,7 @@ export default {
         title: "确定要接收吗?",
         onOk: () => {
           this.$store.dispatch("billmangage/takeOver", { id }).then(() => {
-            this.$massage.success("接收成功");
+            this.$message.success("接收成功");
             this.getList();
           });
         }
