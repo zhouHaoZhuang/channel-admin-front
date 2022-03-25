@@ -432,26 +432,26 @@ export const asyncRoute = [
         },
         component: PageView,
         children: [
-          // {
-          //   path: "manage",
-          //   name: "财务管理",
-          //   meta: {
-          //     icon: "home",
-          //     perm: "purchase-manage"
-          //   },
-          //   component: BlankView,
-          //   children: [
-          //     {
-          //       path: "withdraw",
-          //       name: "提现管理",
-          //       meta: {
-          //         icon: "home",
-          //         perm: "purchase-manage-withdraw"
-          //       },
-          //       component: () => import("@/pages/purchase/manage/withdraw/index.vue")
-          //     },
-          //   ]
-          // },
+          {
+            path: "manage",
+            name: "财务管理",
+            meta: {
+              icon: "home",
+              perm: "purchase-manage"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "withdraw",
+                name: "提现管理",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+              },
+            ]
+          },
           {
             path: "order",
             name: "订单管理",
