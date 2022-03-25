@@ -155,7 +155,7 @@ export default {
         {
           title: "编号ID",
           dataIndex: "payNo",
-          width: 200,
+          width: 220,
           sorter: true,
           sortDirections: ["ascend", "descend"],
         },
