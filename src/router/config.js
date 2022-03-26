@@ -496,7 +496,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "purchase-order-detail"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () => import("@/pages/purchase/order/detail.vue")
               },
@@ -525,6 +525,7 @@ export const asyncRoute = [
                 path: "bill",
                 name: "采购账单",
                 meta: {
+                  // invisible: true,
                   icon: "home",
                   perm: "purchase-manage-withdraw"
                 },
@@ -648,6 +649,36 @@ export const asyncRoute = [
               //   component: () =>
               //     import("@/pages/product/hostRecord/list/index.vue")
               // }
+            ]
+          },
+          {
+            path: "cdn",
+            name: "CDN云加速",
+            meta: {
+              icon: "home",
+              perm: "product-cloud"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "domain",
+                name: "域名管理",
+                meta: {
+                  icon: "home",
+                  perm: "product-cloud-businessList"
+                },
+                component: () => import("@/pages/product/domain/index.vue")
+              },
+              {
+                path: "bill",
+                name: "账单管理",
+                meta: {
+                  icon: "home",
+                  perm: "product-cloud-businessList"
+                },
+                component: () =>
+                  import("@/pages/product/bill/index.vue")
+              },
             ]
           }
         ]
