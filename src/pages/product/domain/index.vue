@@ -79,6 +79,7 @@
               v-if="record.cdnStatus == 6"
               v-permission="'view'"
               type="link"
+              :disabled="record.systemLockStatus == 0"
               @click="operationline('online', record)"
             >
               上线
@@ -87,6 +88,7 @@
               v-if="record.cdnStatus == 1"
               v-permission="'view'"
               type="link"
+              :disabled="record.systemLockStatus == 0"
               @click="operationline('offline', record)"
             >
               下线
