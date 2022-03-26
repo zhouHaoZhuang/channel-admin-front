@@ -650,6 +650,36 @@ export const asyncRoute = [
               //     import("@/pages/product/hostRecord/list/index.vue")
               // }
             ]
+          },
+          {
+            path: "cdn",
+            name: "CDN云加速",
+            meta: {
+              icon: "home",
+              perm: "product-cloud"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "domain",
+                name: "域名管理",
+                meta: {
+                  icon: "home",
+                  perm: "product-cloud-businessList"
+                },
+                component: () => import("@/pages/product/domain/index.vue")
+              },
+              {
+                path: "bill",
+                name: "账单管理",
+                meta: {
+                  icon: "home",
+                  perm: "product-cloud-businessList"
+                },
+                component: () =>
+                  import("@/pages/product/bill/index.vue")
+              },
+            ]
           }
         ]
       },
