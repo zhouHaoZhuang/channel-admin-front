@@ -26,6 +26,61 @@
             v-model="listQuery.search"
           />
         </a-form-model-item>
+
+        <a-form-model-item>
+          <a-select
+            style="width: 120px"
+            defaultValue="0"
+            placeholder=" 订单类型"
+            v-model="listQuery['qp-tradeType-eq']"
+            ><a-select-option value="">
+              订单类型
+            </a-select-option>
+            <a-select-option
+              :value="index"
+              v-for="(item, index) in feeReduction"
+              :key="index"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width: 130px"
+            defaultValue="0"
+            placeholder=" 订单状态"
+            v-model="listQuery['qp-tradeStatus-eq']"
+            ><a-select-option value="">
+              状态
+            </a-select-option>
+            <a-select-option
+              :value="index"
+              v-for="(item, index) in orderStatus"
+              :key="index"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width: 130px"
+            defaultValue="0"
+            placeholder=" 计费方式"
+            v-model="listQuery['qp-tradeStatus-eq']"
+            ><a-select-option value="">
+              计费方式
+            </a-select-option>
+            <a-select-option
+              :value="index"
+              v-for="(item, index) in orderStatus"
+              :key="index"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item>
           <a-date-picker
             v-model="startValue"
@@ -50,40 +105,6 @@
           />
         </a-form-model-item>
         <a-form-model-item>
-          <a-select
-            style="width: 120px"
-            defaultValue="0"
-            v-model="listQuery['qp-tradeType-eq']"
-            ><a-select-option value="">
-              订单类型
-            </a-select-option>
-            <a-select-option
-              :value="index"
-              v-for="(item, index) in feeReduction"
-              :key="index"
-            >
-              {{ item }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
-          <a-select
-            style="width: 130px"
-            defaultValue="0"
-            v-model="listQuery['qp-tradeStatus-eq']"
-            ><a-select-option value="">
-              状态
-            </a-select-option>
-            <a-select-option
-              :value="index"
-              v-for="(item, index) in orderStatus"
-              :key="index"
-            >
-              {{ item }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
           <a-button type="primary" @click="secectClick">
             查询
           </a-button>
@@ -104,14 +125,14 @@
           {{ text.toFixed(2) }}
         </div>
         <div slot="customerName" slot-scope="text, record">
-          {{record.customerName}}
-           <br/>
-          {{record.customerCode}}
+          {{ record.customerName }}
+          <br />
+          {{ record.customerCode }}
         </div>
-        <div slot="ccCorporation" slot-scope="text, record">
-          {{ record.ccCorporation.corporationName }}
-          <br/>
-          {{ record.ccCorporation.corporationCode }}
+        <div slot="corporationCode" slot-scope="text, record">
+          {{ record.corporationName }}
+          <br />
+          <span style="color:#ccc;">{{ record.corporationCode }}</span>
         </div>
         <div slot="chargingType" slot-scope="text">
           {{ text == "AfterPay" ? "后支付" : "预支付" }}
@@ -183,18 +204,11 @@ export default {
           width: 150
         },
         {
-          title: "所属渠道商",
-          dataIndex: "customerName",
-          key: "customerName",
-          width: 180,
-          scopedSlots: { customRender: "customerName" }
-        },
-        {
           title: "所属终端客户",
-          dataIndex: "ccCorporation",
-          key: "ccCorporation",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
           width: 180,
-          scopedSlots: { customRender: "ccCorporation" }
+          scopedSlots: { customRender: "corporationCode" }
         },
 
         {
@@ -290,18 +304,17 @@ export default {
           width: 170
         },
         {
-          title: "渠道ID",
+          title: "渠道商名称",
           dataIndex: "cutomerCode",
           key: "cutomerCode",
           width: 150
         },
-        {
-          title: "创建时间",
-          dataIndex: "createTime",
-          key: "createTime",
-          width: 190,
-          scopedSlots: { customRender: "createTime" }
-        }
+         {
+          title: "渠道商ID",
+          dataIndex: "cutomerCode",
+          key: "cutomerCode",
+          width: 150
+        },
       ];
     }
   },
@@ -309,7 +322,7 @@ export default {
     getList() {
       this.loading = true;
       this.$store
-        .dispatch("purchaseOrder/getList", this.listQuery)
+        .dispatch("purchaseOrder/getProList", this.listQuery)
         .then(res => {
           this.paginationProps.total = res.data.totalCount * 1;
           this.data = res.data.list;
@@ -357,9 +370,9 @@ export default {
     },
     selectPool(v, i) {
       this.$router.push({
-        path: "/sale/order/detail",
+        path: "/purchase/order/detail",
         query: {
-          id: v.orderNo
+          id: v.id
         }
       });
     },
@@ -396,9 +409,8 @@ export default {
     },
     //继续支付
     toPayment(val) {
-      console.log(val, "valllll");
       this.$confirm({
-        title: "确认要继续支付吗？",
+        title: "继续支付，将扣除余额内对应订单金额，是否继续？",
         onOk: () => {
           this.$store
             .dispatch("withdraw/receiveOrderNo", val.orderNo)
