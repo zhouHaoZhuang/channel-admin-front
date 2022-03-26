@@ -145,11 +145,11 @@ export default {
         },
         {
           title: "发票抬头",
-          dataIndex: "invoiceInfo.invoiceTitle"
+          dataIndex: "invoiceTitle"
         },
         {
           title: "创建时间",
-          dataIndex: "invoiceInfo.createTime",
+          dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" }
         },
         {
@@ -192,7 +192,7 @@ export default {
         title: "确定要接收吗?",
         onOk: () => {
           this.$store.dispatch("billmangage/takeOver", { id }).then(() => {
-            this.$massage.success("接收成功");
+            this.$message.success("接收成功");
             this.getList();
           });
         }

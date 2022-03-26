@@ -154,8 +154,8 @@ export default {
       columns: [
         {
           title: "编号ID",
-          dataIndex: "paymentLineId",
-          width: 180,
+          dataIndex: "payNo",
+          width: 220,
           sorter: true,
           sortDirections: ["ascend", "descend"],
         },
@@ -255,7 +255,7 @@ export default {
         },
         {
           title: "编号ID",
-          dataIndex: "paymentLineId"
+          dataIndex: "payNo"
         },
         {
           title: "起始日期",

@@ -450,6 +450,15 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
+              // {
+              //   path: "withdraw",
+              //   name: "提现管理",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "purchase-manage-withdraw"
+              //   },
+              //   component: () => import("@/pages/purchase/manage/withdraw/index.vue")
+              // },
               {
                 path: "rechargeCentre",
                 name: "充值中心",
