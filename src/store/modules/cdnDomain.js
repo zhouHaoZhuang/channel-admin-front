@@ -53,7 +53,15 @@ const cdnDomain = {
         method: "post",
         data
       });
-    }
+    },
+    // 获取cdn云加速-账单管理列表
+    getBillList({ commit, state }, params) {
+      return request({
+        url: "/tcBill",
+        method: "get",
+        params
+      });
+    },
   }
 };
 

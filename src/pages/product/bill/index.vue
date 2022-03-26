@@ -102,10 +102,10 @@
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text }}
           </div>
-          <div slot="channelName" slot-scope="text, record">
-            {{ record.channelName }}
+          <div slot="corporationName" slot-scope="text, record">
+            {{ record.corporationName }}
             <br />
-            <span style="color:#ccc">{{ record.channelCode }}</span>
+            <span style="color:#ccc">{{ record.corporationCode }}</span>
           </div>
           <span slot="customTitle">
             支付状态
@@ -203,10 +203,10 @@ export default {
           dataIndex: "orderNo"
         },
         {
-          title: "所属渠道商",
-          dataIndex: "channelName",
+          title: "所属终端客户",
+          dataIndex: "corporationName",
           width: 190,
-          scopedSlots: { customRender: "channelName" }
+          scopedSlots: { customRender: "corporationName" }
         },
         {
           //支付状态
@@ -263,10 +263,10 @@ export default {
           dataIndex: "billPeriod"
         },
         {
-          title: "所属渠道商",
-          dataIndex: "channelName",
+          title: "所属终端客户",
+          dataIndex: "corporationName",
           width: 190,
-          scopedSlots: { customRender: "channelName" }
+          scopedSlots: { customRender: "corporationName" }
         },
         {
           title: "计费项",
@@ -340,8 +340,8 @@ export default {
         },
         {
           title: "渠道商名称",
-          dataIndex: "channelName",
-          key: "channelName",
+          dataIndex: "corporationName",
+          key: "corporationName",
           width: 170
         },
         {
@@ -359,7 +359,7 @@ export default {
     getList() {
       console.log(this.listQuery["qp-billPeriod-eq"]);
       this.tableLoading = true;
-      this.$getListQp("bills/getList", this.listQuery)
+      this.$getListQp("cdnDomain/getBillList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -373,8 +373,9 @@ export default {
     },
     //切换tab
     callback(key) {
-      this.listQuery["qp-billType-eq"] = key;
       this.listQuery = { currentPage: 1, pageSize: 10, total: 0 };
+      this.listQuery["qp-billType-eq"] = key;
+
       this.getList();
     },
     // 搜索
