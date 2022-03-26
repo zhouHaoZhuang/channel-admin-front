@@ -28,7 +28,6 @@
           >
           </a-date-picker>
         </a-form-model-item>
-
         <a-form-model-item>
           <a-select
             allowClear
@@ -60,7 +59,7 @@
         <div slot="status" slot-scope="text">
           {{ invoiceStatusEnum[text] }}
         </div>
-        <div v-if="text" slot="refundCreateTime" slot-scope="text">
+        <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
         <div v-if="text" slot="refundFeedbackTime" slot-scope="text">
@@ -127,12 +126,11 @@ export default {
         },
         {
           title: "发票抬头",
-          dataIndex: "invoiceInfo.invoiceTitle"
+          dataIndex: "invoiceTitle"
         },
         {
           title: "退票申请创建时间",
-          dataIndex: "refundCreateTime",
-          scopedSlots: { customRender: "refundCreateTime" }
+          dataIndex: "refundCreateTimeShow",
         },
         {
           title: "备注",
@@ -140,8 +138,7 @@ export default {
         },
         {
           title: "退款申请反馈时间",
-          dataIndex: "refundFeedbackTime",
-          scopedSlots: { customRender: "refundFeedbackTime" }
+          dataIndex: "refundFeedbackTimeShow",
         },
         {
           title: "退款申请反馈说明",

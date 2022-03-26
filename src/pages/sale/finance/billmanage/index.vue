@@ -149,13 +149,11 @@ export default {
         },
         {
           title: "创建时间",
-          dataIndex: "createTime",
-          scopedSlots: { customRender: "createTime" }
+          dataIndex: "createTimeShow",
         },
         {
           title: "反馈时间",
-          dataIndex: "feedbackTime",
-          scopedSlots: { customRender: "feedbackTime" }
+          dataIndex: "feedbackTimeShow",
         },
         {
           title: "反馈信息",

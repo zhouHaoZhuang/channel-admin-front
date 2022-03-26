@@ -9,6 +9,13 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
+        <a-form-model-item prop="username" label="账号">
+          <a-input
+            v-model="form.username"
+            placeholder="请输入账号"
+            size="large"
+          />
+        </a-form-model-item>
         <a-form-model-item prop="phone" label="手机号">
           <a-input
             v-model="form.phone"
@@ -57,7 +64,7 @@
             <Identify :identifyCode="identifyCode" />
           </div>
         </a-form-model-item>
-        <a-form-model-item prop="password" label="登陆密码">
+        <a-form-model-item prop="password" label="登陆密码" required>
           <a-input-password
             v-model="form.password"
             v-password-input
@@ -69,7 +76,7 @@
             @keydown.native="keydown($event)"
           />
         </a-form-model-item>
-        <a-form-model-item prop="confirmPassword" label="确认密码">
+        <a-form-model-item prop="confirmPassword" label="确认密码" required>
           <a-input-password
             v-model="form.confirmPassword"
             v-password-input
@@ -130,6 +137,7 @@ export default {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       form: {
+        username: "",
         phone: "",
         code: "",
         password: "",
@@ -138,6 +146,13 @@ export default {
       },
       pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
+        username: [
+          {
+            required: true,
+            message: "请输入账号",
+            trigger: "blur"
+          }
+        ],
         phone: [
           {
             required: true,
@@ -179,8 +194,8 @@ export default {
         ]
       },
       loading: false,
-      identifyCode: "" ,//要核对的验证码
-      showVerfication:false
+      identifyCode: "", //要核对的验证码
+      showVerfication: false
     };
   },
   mounted() {
@@ -230,11 +245,11 @@ export default {
     // 获取验证码组件校验图形验证
     validateImgCode(callback) {
       let flag = false;
-        this.$refs.ruleForm.validateField(
-          "verificationCode",
-          err => (flag = err ? false : true)
-        );
-        callback(flag);
+      this.$refs.ruleForm.validateField(
+        "verificationCode",
+        err => (flag = err ? false : true)
+      );
+      callback(flag);
     },
     // 更新验证码
     refreshCode() {
