@@ -27,7 +27,7 @@
           {{ invoiceStatusEnum[data.status] }}
         </a-descriptions-item>
         <a-descriptions-item label="申请时间">
-          {{ data.refundCreateTime }}
+          {{ data.refundCreateTimeShow }}
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions style="margin: 20px 0" title="收件人信息">
@@ -114,10 +114,7 @@ export default {
         },
         {
           title: "订单创建时间",
-          dataIndex: "createTime",
-          scopedSlots: {
-            customRender: "createTime"
-          }
+          dataIndex: "createTimeShow",
         }
       ],
       labelCol: { span: 4 },

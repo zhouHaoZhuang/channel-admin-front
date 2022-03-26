@@ -28,7 +28,6 @@
           >
           </a-date-picker>
         </a-form-model-item>
-
         <a-form-model-item>
           <a-select
             allowClear
@@ -131,8 +130,7 @@ export default {
         },
         {
           title: "退票申请创建时间",
-          dataIndex: "createTime",
-          scopedSlots: { customRender: "createTime" }
+          dataIndex: "refundCreateTimeShow",
         },
         {
           title: "备注",
@@ -140,8 +138,7 @@ export default {
         },
         {
           title: "退款申请反馈时间",
-          dataIndex: "refundFeedbackTime",
-          scopedSlots: { customRender: "refundFeedbackTime" }
+          dataIndex: "refundFeedbackTimeShow",
         },
         {
           title: "退款申请反馈说明",
