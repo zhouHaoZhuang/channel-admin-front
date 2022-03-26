@@ -1,55 +1,43 @@
 <template>
-  <div class="orderInfo">
+  <div class="orderInfo" v-if="data[0]">
     <!-- 订单信息 -->
-    <div class="channel">
+    <div v-if="orderInfo" class="channel">
       <p>订单信息</p>
       <ul>
         <li>
           <span>退单编号:</span>
-          <!-- <span>{{ orderInfo.orderNo }}</span> -->
-          <span>1</span>
+          <span>{{ orderInfo.orderNo }}</span>
         </li>
         <li>
           <span>订单编号:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderInfo.orderNo }}</span> -->
+          <span>{{ orderInfo.orderNo }}</span>
         </li>
         <li>
           <span>订单类型:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderTypeMap[orderInfo.tradeType] }} </span> -->
+          <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
+        </li>
+        <li>
+          <span>状态:</span>
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
         </li>
         <li>
           <span>创建时间:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderInfo.createTime | formatDate }}</span> -->
-        </li>
-        <li>
-          <span>退款原因:</span>
-          <span>1</span>
-
-          <!-- <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span> -->
+          <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
       </ul>
     </div>
+
     <!-- 退款信息 -->
     <div class="channel">
       <p>退款信息</p>
       <ul>
         <li>
           <span>退款金额:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].corporationCode }}</span> -->
+          <span>{{orderInfo.actualAmount}}</span>
         </li>
         <li>
           <span>退款状态:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].realName }} </span> -->
+          <span>{{ orderInfo.payStatus == 1 ? "待退款" : "已退款" }}</span>
         </li>
       </ul>
     </div>
@@ -67,35 +55,21 @@
             {{ text }}
             <!-- {{ orderTypeMap[text] }} -->
           </div>
-          <div slot="productConfig" slot-scope="text, record">
-            <div>CPU:{{ record.cpu }}核</div>
-            <div>内存:{{ record.memory }}G</div>
-            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
-            <div>系统盘:{{ record.systemDiskSize }}G</div>
-            <div>数据盘:{{ record.dataDiskSize }}G</div>
-            <div>操作系统:{{ record.osName }}</div>
-            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
-          </div>
           <span slot="chargeModel">包年包月</span>
         </a-table>
       </div>
     </div>
-
     <!-- 客户信息 -->
     <div class="channel">
       <p>客户信息</p>
       <ul>
         <li>
           <span>客户ID:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].corporationCode }}</span> -->
+          <span>{{ data[0].corporationCode }}</span>
         </li>
         <li>
           <span>客户名称:</span>
-          <span>1</span>
-
-          <!-- <span>{{ data[0].realName }} </span> -->
+          <span>{{ data[0].realName }} </span>
         </li>
       </ul>
     </div>
@@ -120,45 +94,33 @@ export default {
           width: 100
         },
         {
-          title: "具体配置",
-          key: "productConfig",
-          width: 250,
-          scopedSlots: { customRender: "productConfig" }
-        },
-        {
           title: "计费方式",
           dataIndex: "chargeModel",
           key: "chargeModel",
           scopedSlots: { customRender: "chargeModel" }
         },
         {
-          title: "订单金额",
-          dataIndex: "actualAmount",
-          key: "actualAmount"
-        },
-        {
-          title: "退款金额",
+          title: "原价",
           dataIndex: "originAmount",
           key: "originAmount"
+        },
+        {
+          title: "折扣",
+          key: "discountRate",
+          dataIndex: "discountRate"
+        },
+        {
+          title: "成交价",
+          key: "actualAmount",
+          dataIndex: "actualAmount"
         }
       ]
     };
   },
   activated() {
     let id = this.$route.query.id;
-    // console.log(id);
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
-      console.log(res);
-      // let dataDisk = res.data.ecsPrice.dataDisk;
-      // let dataDiskSize = 0;
-      // if (dataDisk) {
-      //   for (let index = 0; index < dataDisk.length; index++) {
-      //     dataDiskSize += dataDisk[index].size;
-      //   }
-      //   res.data.ecsPrice.dataDiskSize = dataDiskSize;
-      // }
-      // console.log(dataDisk);
-      this.orderInfo = {};
+      this.orderInfo = res.data;
       this.data = [res.data];
     });
   }
