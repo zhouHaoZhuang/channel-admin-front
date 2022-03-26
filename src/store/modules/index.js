@@ -35,6 +35,7 @@ import record from "./record";
 import finance from "./finance";
 import withdraw from './withdraw'
 import purchaseOrder from './purchaseOrder'
+import bills from "./bills";
 
 export default {
   user,
@@ -73,5 +74,6 @@ export default {
   record,
   finance,
   withdraw,
-  purchaseOrder
+  purchaseOrder,
+  bills
 };

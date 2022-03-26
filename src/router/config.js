@@ -413,7 +413,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "purchase-order-detail"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () => import("@/pages/purchase/order/detail.vue")
               },
@@ -442,6 +442,7 @@ export const asyncRoute = [
                 path: "bill",
                 name: "采购账单",
                 meta: {
+                  // invisible: true,
                   icon: "home",
                   perm: "purchase-manage-withdraw"
                 },
