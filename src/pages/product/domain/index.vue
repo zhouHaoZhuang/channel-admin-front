@@ -128,12 +128,12 @@ export default {
           dataIndex: "domain",
           scopedSlots: { customRender: "domain" }
         },
-        {
-          title: "所属渠道商",
-          dataIndex: "channelName",
-          width:180,
-          scopedSlots: { customRender: "channelName" }
-        },
+        // {
+        //   title: "所属渠道商",
+        //   dataIndex: "channelName",
+        //   width:180,
+        //   scopedSlots: { customRender: "channelName" }
+        // },
         {
           title: "所属终端客户",
           dataIndex: "corporationCode",
