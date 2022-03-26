@@ -27,9 +27,7 @@
           {{ invoiceStatusEnum[data.status] }}
         </a-descriptions-item>
         <a-descriptions-item label="退款申请创建时间">
-          <span v-if="data.refundCreateTime">
-            {{ data.refundCreateTime | formatDate }}
-          </span>
+          {{ data.refundCreateTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="备注">
           {{ data.feedbackRemark }}
@@ -117,10 +115,7 @@ export default {
         },
         {
           title: "订单创建时间",
-          dataIndex: "createTime",
-          scopedSlots: {
-            customRender: "createTime"
-          }
+          dataIndex: "createTimeShow"
         }
       ],
       labelCol: { span: 4 },
