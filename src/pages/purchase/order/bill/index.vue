@@ -1,54 +1,55 @@
 <template>
   <div class="orderList">
-    <div class="public-header-wrap">
-      <a-form-model layout="inline" :model="listQuery">
-        <a-form-model-item>
-          <a-select
-            class="sechkey"
-            style="width:150px"
-            placeholder="请选择"
-            v-model="listQuery.key"
-            allowClear
-          >
-            <a-select-option
-              :value="v.key"
-              v-for="v in useColumns"
-              :key="v.title"
-            >
-              {{ v.title }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item>
-          <a-input
-            allowClear
-            placeholder="请输入订单编号"
-            v-model="listQuery.search"
-          />
-        </a-form-model-item>
-        <a-form-model-item>
-          <a-range-picker
-            style="margin-right: 10px"
-            show-time
-            format="YYYY-MM-DD HH:mm:ss"
-            :placeholder="['开始时间', '结束时间']"
-            @change="datePickerOnOk"
-          />
-        </a-form-model-item>
-        <a-form-model-item>
-          <a-button type="primary" @click="handleSearch">
-            查询
-          </a-button>
-        </a-form-model-item>
-      </a-form-model>
-    </div>
-    <div class="orderTable">
+    <a-tabs default-active-key="1" @change="callback">
+      <a-tab-pane key="day" tab="账单流水">
+        <div class="public-header-wrap">
+          <a-form-model layout="inline" :model="listQuery">
+            <a-form-model-item>
+              <a-select
+                class="sechkey"
+                style="width:150px"
+                placeholder="请选择"
+                v-model="listQuery.key"
+                allowClear
+              >
+                <a-select-option
+                  :value="v.key"
+                  v-for="v in useColumns"
+                  :key="v.title"
+                >
+                  {{ v.title }}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+            <a-form-model-item>
+              <a-input
+                allowClear
+                placeholder="请输入"
+                v-model="listQuery.search"
+              />
+            </a-form-model-item>
+            <a-form-model-item>
+              <a-range-picker
+                style="margin-right: 10px"
+                show-time
+                format="YYYY-MM-DD HH:mm:ss"
+                :placeholder="['开始时间', '结束时间']"
+                @change="datePickerOnOk"
+              />
+            </a-form-model-item>
+            <a-form-model-item>
+              <a-button type="primary" @click="handleSearch">
+                查询
+              </a-button>
+            </a-form-model-item>
+          </a-form-model>
+        </div>
+           <div class="orderTable">
       <div>
         <a-table
-          :columns="columns"
+          :columns="columnsDay"
           :data-source="data"
           :loading="tableLoading"
-          rowKey="id"
           :pagination="paginationProps"
           :scroll="{ x: 1400 }"
         >
@@ -58,43 +59,201 @@
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text }}
           </div>
+          <div slot="channelName" slot-scope="text, record">
+            {{ record.channelName }}
+            <!-- <br />
+            <span style="color:#ccc">{{ record.channelCode }}</span> -->
+          </div>
+          <span slot="customTitle">
+            支付状态
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>
+                  未结算：已消费，未出帐的账单<br />
+                  未结清：已出帐，未支付的账单</span
+                >
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <span slot="customTitle" slot-scope="text, record">
+            {{ record.owe == "0.00" ? "已结清" : "未结清" }}
+          </span>
+          <span slot="channel" slot-scope="text" style="color: #00aaff">
+            {{ text }}
+          </span>
           <div v-if="text" slot="actualAmount" slot-scope="text">
             {{ text }}
           </div>
-          <div slot="tradeType" slot-scope="text">
-            <span>{{ orderTypeMap[text] }}</span>
-          </div>
-          <div slot="createTime" slot-scope="text" v-if="text">
-            {{ text | formatDate }}
-          </div>
-          <div slot="payTime" slot-scope="text" v-if="text">
-            {{ text | formatDate }}
-          </div>
-          <span
-            :class="{ green: text === 9, blue: text !== 9 }"
-            slot="tradeStatus"
-            slot-scope="text"
-          >
-            {{ orderStatusEnum[text] }}
+          <span slot="actualAmount">
+            账单金额
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span> 账单金额=单价*实际用量</span>
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
           </span>
-          <div slot="action" slot-scope="text, record">
-            <a-button
-              v-permission="'view'"
-              type="link"
-              @click="handleSelectDetail(record)"
-            >
-              查询
-            </a-button>
-          </div>
-          <div slot-scope="text" slot="cashPay" v-if="text != undefined">
-            {{ text.toFixed(2) }}
+          <span slot="originAmount">
+            成本金额
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>
+                  成本金额=渠道折扣金额*实际用量
+                </span>
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <span slot="owe">
+            欠费金额
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>
+                  已出帐未结清的金额
+                </span>
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <div slot="consumeTime" slot-scope="text" v-if="text">
+            {{ text | formatDate }}
           </div>
           <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
+            {{ text.toFixed(2) }}
+          </div>
+          <div slot-scope="text" slot="owe" v-if="text != undefined">
             {{ text.toFixed(2) }}
           </div>
         </a-table>
       </div>
     </div>
+      </a-tab-pane>
+      <a-tab-pane key="month" tab="月账单" force-render>
+        <div class="public-header-wrap">
+          <a-form-model layout="inline" :model="listQuery">
+            <a-form-model-item>
+              <a-select
+                class="sechkey"
+                style="width:150px"
+                placeholder="请选择"
+                v-model="listQuery.key"
+                allowClear
+              >
+                <a-select-option
+                  :value="v.key"
+                  v-for="v in useColumns"
+                  :key="v.title"
+                >
+                  {{ v.title }}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+            <a-form-model-item>
+              <a-input
+                allowClear
+                placeholder="请输入"
+                v-model="listQuery.search"
+              />
+            </a-form-model-item>
+            <a-form-model-item>
+              <!--  :defaultValue="moment(getCurrentData(), 'YYYY-MM')" -->
+              <a-month-picker placeholder="请选择账期" @change="onChange" />
+            </a-form-model-item>
+            <a-form-model-item>
+              <a-button type="primary" @click="handleSearch">
+                查询
+              </a-button>
+            </a-form-model-item>
+          </a-form-model>
+        </div>
+           <div class="orderTable">
+      <div>
+        <a-table
+          :columns="columnsMonth"
+          :data-source="data"
+          :loading="tableLoading"
+          :pagination="paginationProps"
+          :scroll="{ x: 1400 }"
+        >
+          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
+            {{ text }}
+          </span>
+          <div v-if="text" slot="originAmount" slot-scope="text">
+            {{ text }}
+          </div>
+          <div slot="channelName" slot-scope="text, record">
+            {{ record.channelName }}
+            <!-- <br />
+            <span style="color:#ccc">{{ record.channelCode }}</span> -->
+          </div>
+          <span slot="customTitle">
+            支付状态
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>
+                  未结算：已消费，未出帐的账单<br />
+                  未结清：已出帐，未支付的账单</span
+                >
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <span slot="customTitle" slot-scope="text, record">
+            {{ record.owe == "0.00" ? "已结清" : "未结清" }}
+          </span>
+          <span slot="channel" slot-scope="text" style="color: #00aaff">
+            {{ text }}
+          </span>
+          <div v-if="text" slot="actualAmount" slot-scope="text">
+            {{ text }}
+          </div>
+          <span slot="actualAmount">
+            账单金额
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span> 账单金额=单价*实际用量</span>
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <span slot="originAmount">
+            成本金额
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>
+                  成本金额=渠道折扣金额*实际用量
+                </span>
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <span slot="owe">
+            欠费金额
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>
+                  已出帐未结清的金额
+                </span>
+              </template>
+              <a-icon type="question-circle" />
+            </a-tooltip>
+          </span>
+          <div slot="consumeTime" slot-scope="text" v-if="text">
+            {{ text | formatDate }}
+          </div>
+          <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
+            {{ text.toFixed(2) }}
+          </div>
+          <div slot-scope="text" slot="owe" v-if="text != undefined">
+            {{ text.toFixed(2) }}
+          </div>
+        </a-table>
+      </div>
+    </div>
+      </a-tab-pane>
+    </a-tabs>
+ 
   </div>
 </template>
 
@@ -111,74 +270,114 @@ export default {
         search: "",
         startTime: "",
         endTime: "",
-        tradeType: undefined,
-        tradeStatus: undefined,
+        "qp-billType-eq": "day",
         currentPage: 1,
         pageSize: 10,
         total: 0
       },
       tableLoading: false,
-      columns: [
+      columnsDay: [
         {
-          title: "帐单编号",
-          dataIndex: "orderNo",
+          title: "账单编号",
+          dataIndex: "billNo"
         },
         {
           title: "订单编号",
-          dataIndex: "corporationCode",
-          scopedSlots: { customRender: "corporationCode" }
+          dataIndex: "orderNo"
         },
         {
           title: "供应商",
-          dataIndex: "corporation",
-          scopedSlots: { customRender: "corporation" }
+          dataIndex: "channelName",
+          width: 190,
+          scopedSlots: { customRender: "channelName" }
         },
         {
           title: "单价",
-          dataIndex: "originAmount",
-          scopedSlots: { customRender: "originAmount" },
+          dataIndex: "unitPrice",
+          scopedSlots: { customRender: "unitPrice" }
         },
         {
           title: "单价单位",
-          dataIndex: "Amount",
-          scopedSlots: { customRender: "Amount" },
+          dataIndex: "unitPricePerUnit",
+          scopedSlots: { customRender: "unitPricePerUnit" }
         },
+        // {
+        //   //账单金额
+        //   dataIndex: "actualAmount",
+        //   slots: { title: "actualAmount" }
+        // },
+        // {
+        //   //成本金额
+        //   dataIndex: "originAmount",
+        //   slots: { title: "originAmount" }
+        // },
         {
-          title: "账单金额",
-          dataIndex: "tradeType",
-          scopedSlots: { customRender: "tradeType" },
-        },
-        {
-          title: "成本金额",
-          dataIndex: "actual",
-          scopedSlots: { customRender: "actual" },
+          //欠费金额
+          slots: { title: "owe" },
+          dataIndex: "owe"
         },
         {
           title: "消费时间",
-          dataIndex: "createTime",
-          width: 190,
-          scopedSlots: { customRender: "createTime" },
+          dataIndex: "consumeTime",
+          scopedSlots: { customRender: "consumeTime" },
           sorter: (a, b) =>
-            new Date(a.createTime).getTime() - new Date(b.createTime).getTime()
+            new Date(a.consumeTime).getTime() -
+            new Date(b.consumeTime).getTime()
         },
-
         {
           title: "计费项",
-          dataIndex: "cashPay",
-          scopedSlots: { customRender: "cashPay" }
+          dataIndex: "billItem"
         },
         {
           title: "实际用量",
-          dataIndex: "payTime",
-          width: 250,
-          scopedSlots: { customRender: "payTime" }
+          dataIndex: "useData"
         }
+      ],
+      columnsMonth: [
+        {
+          title: "账期",
+          // colSpan:0,     //隐藏表头
+          dataIndex: "billPeriod"
+        },
+        {
+          title: "供应商",
+          dataIndex: "channelName",
+          width: 190,
+          scopedSlots: { customRender: "channelName" }
+        },
+        {
+          title: "计费项",
+          dataIndex: "billItem"
+        },
+        {
+          title: "单价",
+          dataIndex: "unitPrice",
+          scopedSlots: { customRender: "unitPrice" }
+        },
+        {
+          title: "单价单位",
+          dataIndex: "unitPricePerUnit",
+          scopedSlots: { customRender: "unitPricePerUnit" }
+        },
+        {
+          title: "实际用量",
+          dataIndex: "useData"
+        },
+        {
+          //账单金额
+          dataIndex: "actualAmount",
+          slots: { title: "actualAmount" }
+        },
         // {
-        //   title: "操作",
-        //   dataIndex: "action",
-        //   fixed: "right",
-        //   scopedSlots: { customRender: "action" }
-        // }
+        //   //成本金额
+        //   dataIndex: "originAmount",
+        //   slots: { title: "originAmount" }
+        // },
+        {
+          //欠费金额
+          slots: { title: "owe" },
+          dataIndex: "owe"
+        }
       ],
       data: [],
       // 表格分页器配置
@@ -198,37 +397,45 @@ export default {
   activated() {
     this.getList();
   },
+  created() {
+    this.getCurrentData();
+  },
   computed: {
     useColumns() {
       return [
         {
           title: "账单编号",
-          dataIndex: "orderNo",
-          key: "orderNo",
+          dataIndex: "billNo",
+          key: "billNo",
+          width: 170
         },
         {
           title: "订单编号",
-          dataIndex: "actual",
-          key: "actual",
+          dataIndex: "orderNo",
+          key: "orderNo",
+          width: 170
         },
         {
           title: "渠道商名称",
-          dataIndex: "tradeType",
-          key: "tradeType",
+          dataIndex: "channelName",
+          key: "channelName",
+          width: 170
         },
         {
           title: "渠道商ID",
-          dataIndex: "corporate",
-          key: "corporate",
+          dataIndex: "channelCode",
+          key: "channelCode",
+          width: 150
         }
       ];
     }
   },
   methods: {
+    moment,
     //查询表格数据
     getList() {
       this.tableLoading = true;
-      this.$getList("financialOrder/getList", this.listQuery)
+      this.$getListQp("bills/getList", this.listQuery)
         .then(res => {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
@@ -237,14 +444,34 @@ export default {
           this.tableLoading = false;
         });
     },
+    onChange(value) {
+      this.listQuery["qp-billPeriod-eq"] = moment(value).format("YYYY-MM");
+    },
+    //切换tab
+    callback(key) {
+      console.log(key);
+      this.listQuery = { currentPage: 1, pageSize: 10, total: 0 };
+      this.listQuery["qp-billType-eq"] = key;
+      this.getList();
+    },
     // 搜索
     handleSearch() {
       this.listQuery.currentPage = 1;
       this.getList();
     },
+    //账单选择默认日期
+    getCurrentData() {
+      var nowMonth = new Date().getMonth();
+      // 对月份进行处理，1-9月在前面添加一个“0”
+      if (nowMonth >= 1 && nowMonth <= 9) {
+        nowMonth = "0" + nowMonth;
+      }
+      this.listQuery["qp-billPeriod-eq"] =
+        new Date().getFullYear() + "-" + nowMonth;
+      return new Date().getFullYear() + "-" + nowMonth;
+    },
     // 日期选择
     datePickerOnOk(value) {
-      console.log(value);
       if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
@@ -269,15 +496,6 @@ export default {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
       this.getList();
-    },
-    // 查看详情
-    handleSelectDetail(record) {
-      this.$router.push({
-        path: "/sale/order/detail",
-        query: {
-          id: record.orderNo
-        }
-      });
     }
   }
 };
