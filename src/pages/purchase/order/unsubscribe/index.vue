@@ -106,14 +106,24 @@
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text }}
           </div>
+          <span
+            slot="NumberNo"
+            slot-scope="text, record"
+            style="color: #00aaff"
+          >
+            {{ record.orderNo }}
+          </span>
           <span slot="customer" slot-scope="text" style="color: #00aaff">
             {{ text }}
           </span>
-        <div slot="chargingType" slot-scope="text">
-          {{ text == 'AfterPay' ?'后支付':'预支付' }}
-        </div>
-          <div v-if="text" slot="actualAmount" slot-scope="text">
-            {{ text }}
+          <div slot="chargingType" slot-scope="text">
+            {{ text == "AfterPay" ? "后支付" : "预支付" }}
+          </div>
+          <div slot="actualAmount" slot-scope="text">
+            {{ text.toFixed(2) }}
+          </div>
+          <div  slot="actual" slot-scope="text, record">
+            {{ record.actualAmount.toFixed(2) }}
           </div>
           <div slot="tradeType" slot-scope="text">
             <span>{{ orderTypeMap[text] }}</span>
@@ -173,16 +183,17 @@ export default {
       },
       tableLoading: false,
       columns: [
-        // {
-        //   title: "退单编号",
-        //   dataIndex: "orderNo",
-        //   width: 170
-        // },
+        {
+          title: "退单编号",
+          dataIndex: "orderNo",
+          scopedSlots: { customRender: "orderNo" },
+          width: 170
+        },
         {
           title: "订单编号",
-          dataIndex: "orderNo",
+          dataIndex: "NumberNo",
           width: 170,
-          scopedSlots: { customRender: "orderNo" }
+          scopedSlots: { customRender: "NumberNo" }
         },
         {
           title: "订单类型",
@@ -202,12 +213,12 @@ export default {
           scopedSlots: { customRender: "actualAmount" },
           width: 100
         },
-        // {
-        //   title: "退款金额",
-        //   dataIndex: "actualAmount",
-        //   scopedSlots: { customRender: "actualAmount" },
-        //   width: 100
-        // },
+        {
+          title: "退款金额",
+          dataIndex: "actual",
+          scopedSlots: { customRender: "actual" },
+          width: 100
+        },
         {
           title: "状态",
           dataIndex: "tradeStatus",
@@ -284,7 +295,7 @@ export default {
   },
   methods: {
     //查询表格数据
-   getList() {
+    getList() {
       this.loading = true;
       this.$store
         .dispatch("financialOrder/getList", this.listQuery)
@@ -302,14 +313,16 @@ export default {
     // 日期选择
     datePickerOnOk(value) {
       console.log(value);
-        if (value.length !== 0) {
-        this.listQuery['qp-createTime-ge'] = moment(value[0]).format(
+      if (value.length !== 0) {
+        this.listQuery["qp-createTime-ge"] = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery['qp-createTime-le']= moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery["qp-createTime-le"] = moment(value[1]).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
       } else {
-        this.listQuery['qp-createTime-ge'] = "";
-        this.listQuery['qp-createTime-le'] = "";
+        this.listQuery["qp-createTime-ge"] = "";
+        this.listQuery["qp-createTime-le"] = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有
