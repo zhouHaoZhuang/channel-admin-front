@@ -34,7 +34,12 @@
           </a-radio>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item class="form-label-before" v-if="form.type === 1" label="证书文件" prop="upload">
+      <a-form-model-item
+        class="form-label-before"
+        v-if="form.type === 1"
+        label="证书文件"
+        prop="upload"
+      >
         <a-upload
           name="file"
           accept=".zip"
@@ -49,7 +54,10 @@
           </a-button>
         </a-upload>
       </a-form-model-item>
-      <a-form-model-item v-if="form.type === 2" label="证书公钥" prop="sslPub">
+      <a-form-model-item
+        label="证书公钥"
+        prop="sslPub"
+      >
         <a-textarea
           v-model="form.sslPub"
           :rows="4"
@@ -59,7 +67,10 @@
           pem编码参考样例
         </a-button>
       </a-form-model-item>
-      <a-form-model-item v-if="form.type === 2" label="证书私钥" prop="sslPri">
+      <a-form-model-item
+        label="证书私钥"
+        prop="sslPri"
+      >
         <a-textarea
           v-model="form.sslPri"
           :rows="4"
@@ -275,4 +286,13 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.domain-https-container {
+  overflow: hidden;
+  .hideEle {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+}
+</style>
