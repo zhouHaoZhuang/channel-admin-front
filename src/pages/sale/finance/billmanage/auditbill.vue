@@ -27,7 +27,7 @@
           {{ invoiceStatusEnum[data.status] }}
         </a-descriptions-item>
         <a-descriptions-item label="申请时间">
-          {{ data.refundCreateTimeShow }}
+          {{ data.createTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="反馈时间">
           {{ data.feedbackTimeShow }}
