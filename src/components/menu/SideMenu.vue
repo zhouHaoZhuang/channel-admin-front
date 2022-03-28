@@ -9,8 +9,8 @@
   >
     <div :class="['logo', theme]">
       <router-link :to="firstPath">
-        <img src="@/assets/img/logo.png" />
-        <h1>{{ systemName }}</h1>
+        <img  :src="logoUrl" />
+        <!-- <h1>{{ systemName }}</h1> -->
       </router-link>
     </div>
     <!-- logo -->
@@ -31,6 +31,11 @@ import { mapState } from "vuex";
 export default {
   name: "SideMenu",
   components: { IMenu },
+  data() {
+    return {
+      logoUrl: ""
+    };
+  },
   props: {
     collapsible: {
       type: Boolean,
@@ -58,9 +63,19 @@ export default {
     },
     ...mapState("setting", ["isMobile", "systemName", "firstPath"])
   },
+  created() {
+    this.getInfo();
+  },
   methods: {
     onSelect(obj) {
       this.$emit("menuSelect", obj);
+    },
+    // 获取logo
+    getInfo() {
+      this.$store.dispatch("globalBasic/getInfo").then(res => {
+        this.logoUrl = res.data.adminCenterLogo;
+        console.log(this.logoUrl);
+      });
     }
   }
 };
@@ -68,4 +83,11 @@ export default {
 
 <style lang="less" scoped>
 @import "index";
+.logo {
+  width: 100%;
+  a {
+    display: block;
+    width: 100%;
+  }
+}
 </style>
