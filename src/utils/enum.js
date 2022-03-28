@@ -220,6 +220,6 @@ export const feeReduction = {
 // 计费方式、
 
 export const charingStatus ={
-  'AfterPay':'后支付',
-  'BeforePay':'后付费'
+  'AfterPay':'后付费',
+  'BeforePay':'预付费'
 }
