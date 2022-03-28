@@ -302,14 +302,14 @@ export default {
     // 日期选择
     datePickerOnOk(value) {
       console.log(value);
-      if (value.length !== 0) {
-        this.listQuery.startTime = moment(value[0]).format(
+        if (value.length !== 0) {
+        this.listQuery['qp-createTime-ge'] = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery['qp-createTime-le']= moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
       } else {
-        this.listQuery.startTime = "";
-        this.listQuery.endTime = "";
+        this.listQuery['qp-createTime-ge'] = "";
+        this.listQuery['qp-createTime-le'] = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有

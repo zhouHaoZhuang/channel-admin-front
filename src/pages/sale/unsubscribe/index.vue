@@ -116,19 +116,22 @@
           <div slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
+            <div slot="NumberNo" slot-scope="text,record">
+            {{ record.orderNo }}
+          </div>
           <div slot="discountRate" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
           <div slot="actualAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
+           <div slot="actual" slot-scope="text,record">
+            {{ record.actualAmount.toFixed(2) }}
+          </div>
           <div slot="tradeType" slot-scope="text">
             <span>{{ orderTypeMap[text] }}</span>
           </div>
           <div slot="createTime" slot-scope="text" v-if="text">
-            {{ text | formatDate }}
-          </div>
-          <div slot="payTime" slot-scope="text" v-if="text">
             {{ text | formatDate }}
           </div>
           <span slot="tradeStatus" slot-scope="text">
@@ -191,7 +194,8 @@ export default {
         },
           {
           title: "订单编号",
-          dataIndex: "orderNo",
+          dataIndex: "NumberNo",
+           scopedSlots: { customRender: "NumberNo" },
           width: 170
         },
         {
@@ -214,8 +218,8 @@ export default {
         },
         {
           title: "退款金额",
-          dataIndex: "actualAmount1",
-          scopedSlots: { customRender: "actualAmount" },
+          dataIndex: "actual",
+          scopedSlots: { customRender: "actual" },
           width: 100
         },
         {
@@ -311,15 +315,14 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
-      console.log(value);
-      if (value.length !== 0) {
-        this.listQuery.startTime = moment(value[0]).format(
+      if (!value.length !== 0) {
+        this.listQuery['qp-createTime-ge'] = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery['qp-createTime-le'] = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
       } else {
-        this.listQuery.startTime = "";
-        this.listQuery.endTime = "";
+        this.listQuery['qp-createTime-ge'] = "";
+        this.listQuery['qp-createTime-le'] = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有
