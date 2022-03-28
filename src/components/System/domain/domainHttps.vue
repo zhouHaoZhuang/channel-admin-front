@@ -54,10 +54,7 @@
           </a-button>
         </a-upload>
       </a-form-model-item>
-      <a-form-model-item
-        label="证书公钥"
-        prop="sslPub"
-      >
+      <a-form-model-item v-if="form.type === 2" label="证书公钥" prop="sslPub">
         <a-textarea
           v-model="form.sslPub"
           :rows="4"
@@ -67,10 +64,7 @@
           pem编码参考样例
         </a-button>
       </a-form-model-item>
-      <a-form-model-item
-        label="证书私钥"
-        prop="sslPri"
-      >
+      <a-form-model-item v-if="form.type === 2" label="证书私钥" prop="sslPri">
         <a-textarea
           v-model="form.sslPri"
           :rows="4"
