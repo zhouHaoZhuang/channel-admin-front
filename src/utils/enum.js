@@ -217,3 +217,9 @@ export const feeReduction = {
   65: "CDN产品",
   66: "后付费订单"
 };
+// 计费方式、
+
+export const charingStatus ={
+  'AfterPay':'后支付',
+  'BeforePay':'后付费'
+}

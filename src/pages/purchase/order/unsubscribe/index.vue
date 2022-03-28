@@ -72,10 +72,10 @@
             style="width:150px"
             placeholder="计费方式"
             allowClear
-            v-model="listQuery.tradeStatus"
+            v-model="listQuery.charingType"
           >
             <a-select-option
-              v-for="(value, key) in orderStatusEnum"
+              v-for="(value, key) in charingStatus"
               :key="key"
               :value="key"
             >
@@ -117,7 +117,7 @@
             {{ text }}
           </span>
           <div slot="chargingType" slot-scope="text">
-            {{ text == "AfterPay" ? "后支付" : "预支付" }}
+            {{charingStatus[text]}}
           </div>
           <div slot="actualAmount" slot-scope="text">
             {{ text.toFixed(2) }}
@@ -164,12 +164,13 @@
 
 <script>
 import moment from "moment";
-import { orderStatusEnum, orderTypeMap } from "@/utils/enum.js";
+import { orderStatusEnum, orderTypeMap ,charingStatus} from "@/utils/enum.js";
 export default {
   data() {
     return {
       orderStatusEnum,
       orderTypeMap,
+      charingStatus,
       listQuery: {
         key: undefined,
         search: "",
