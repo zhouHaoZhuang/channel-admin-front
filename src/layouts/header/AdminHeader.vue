@@ -3,7 +3,7 @@
     <div :class="['admin-header-wide', layout, pageWidth]">
       <!-- logo -->
       <router-link v-if="isMobile || layout === 'head'" :to="firstPath" :class="['logo', isMobile ? null : 'pc', headerTheme]">
-        <img width="32" src="@/assets/img/logo.png" />
+        <img width="32" :src="logoUrl" />
         <h1 v-if="!isMobile">{{systemName}}</h1>
       </router-link>
       <a-divider v-if="isMobile" type="vertical" />
@@ -50,7 +50,8 @@ export default {
         {key: 'HK', name: '繁體中文', alias: '繁體'},
         {key: 'US', name: 'English', alias: 'English'}
       ],
-      searchActive: false
+      searchActive: false,
+      logoUrl: '',
     }
   },
   computed: {
@@ -72,7 +73,17 @@ export default {
       return `calc(${headWidth} - ${extraWidth})`
     }
   },
+  created() {
+    this.getInfo()
+  },
   methods: {
+    // 获取logo
+     getInfo() {
+      this.$store.dispatch("globalBasic/getInfo").then(res => {
+        this.logoUrl = res.data.adminCenterLogo
+        console.log(this.logoUrl);
+      });
+    },
     toggleCollapse () {
       this.$emit('toggleCollapse')
     },

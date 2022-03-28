@@ -241,6 +241,17 @@
                 />
               </a-form-model-item>
             </div>
+            <div class="addimages">
+              <a-form-model-item label="管理平台logo" help="推荐尺寸114*50px">
+                <Upload
+                  :defaultFile="form.adminCenterLogo"
+                  @change="
+                    ({ urlList, firstImageUrl }) =>
+                      imgChange(urlList, firstImageUrl, 'adminCenterLogo')
+                  "
+                />
+              </a-form-model-item>
+            </div>
           </a-collapse-panel>
         </a-collapse>
         <div class="backstage">
@@ -282,6 +293,7 @@ export default {
         bottomInfo: "",
         statisticalCode: "",
         userCenterMiniLogo: "",
+        adminCenterLogo: "",
         userCenterLogo: "",
         websiteLogo: "",
         wechatQrCode: "",
