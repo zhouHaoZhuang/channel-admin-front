@@ -27,7 +27,7 @@
           {{ invoiceStatusEnum[data.status] }}
         </a-descriptions-item>
         <a-descriptions-item label="申请时间">
-          {{ data.refundCreateTimeShow }}
+          {{ data.createTimeShow }}
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions style="margin: 20px 0" title="收件人信息">
