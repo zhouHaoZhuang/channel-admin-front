@@ -130,7 +130,7 @@ export default {
         },
         {
           title: "退票申请创建时间",
-          dataIndex: "createTimeShow",
+          dataIndex: "refundCreateTimeShow",
         },
         {
           title: "备注",
