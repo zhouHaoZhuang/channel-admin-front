@@ -60,6 +60,14 @@
         :pagination="false"
         rowKey="id"
       >
+        <div slot="canInvoiceAmount" slot-scope="text, record">
+          <span v-if="record.consumptionType === 2">
+            {{ record.debtAmount }}
+          </span>
+          <span v-if="record.consumptionType === 1">
+            {{ record.canInvoiceAmount }}
+          </span>
+        </div>
         <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
@@ -126,7 +134,8 @@ export default {
         },
         {
           title: "可开票金额",
-          dataIndex: "canInvoiceAmount"
+          dataIndex: "canInvoiceAmount",
+          scopedSlots: { customRender: "canInvoiceAmount" }
         },
         {
           title: "订单创建时间",
@@ -179,7 +188,7 @@ export default {
   },
   activated() {
     this.getDetail();
-    this.resetForm()
+    this.resetForm();
   },
   methods: {
     onSubmit() {
