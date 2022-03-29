@@ -44,8 +44,13 @@
     </div>
     <div>
       <h2 style="margin: 20px 0">开票明细</h2>
-      <a-table :pagination="paginationProps"
-        rowKey="id" :columns="columns" :data-source="data"> </a-table>
+      <a-table
+        :pagination="false"
+        rowKey="id"
+        :columns="columns"
+        :data-source="dataList"
+      >
+      </a-table>
     </div>
   </div>
 </template>
@@ -54,7 +59,8 @@
 export default {
   data() {
     return {
-      data: [],
+      dataList: [],
+      data: null,
       columns: [
         {
           title: "资源池订单ID",
@@ -88,7 +94,7 @@ export default {
         pageSize: 10,
         total: 0,
         startTime: "",
-        endTime: "",
+        endTime: ""
       },
       paginationProps: {
         showQuickJumper: true,
@@ -103,27 +109,33 @@ export default {
       }
     };
   },
+  activated() {
+    // this.getData()
+  },
   methods: {
-    //查询数据表格
-    getList() {
-      this.$getListQp("word/getList", this.listQuery).then(res => {
-        console.log(res);
-        this.data = [...res.data.list];
-        this.paginationProps.total = res.data.totalCount * 1;
-      });
+    //查询数据表格(页面所有数据)
+    getData() {
+      this.$store
+        .dispatch("cbilllist/getDetail", { id: this.$route.query.id })
+        .then(res => {
+          console.log(res);
+          this.dataList = res.data.list;
+          this.data = res.data;
+          this.paginationProps.total = res.data.totalCount * 1;
+        });
     },
     //表格分页跳转
     quickJump(currentPage) {
       this.listQuery.currentPage = currentPage;
-      this.getList();
+      // this.getList();
     },
     //表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
-      this.getList();
+      // this.getList();
     }
-  },
+  }
 };
 </script>
 

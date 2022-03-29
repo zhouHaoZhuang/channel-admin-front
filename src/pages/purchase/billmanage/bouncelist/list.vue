@@ -6,7 +6,7 @@
           <a-input style="width:220px" placeholder="请输入发票订单ID进行搜索" />
         </a-form-model-item>
         <a-form-model-item>
-          <a-button type="primary">查询</a-button>
+          <a-button type="primary" @click="getList">查询</a-button>
         </a-form-model-item>
       </a-form-model>
     </div>
@@ -18,10 +18,24 @@
         rowKey="id"
       >
         <div slot="companyName" slot-scope="text">{{ text }}</div>
-        <div slot="action">
-          <a-button type="link">详情</a-button>
-          <a-button type="link">取消</a-button>
-          <a-button type="link">重新提交</a-button>
+        <div slot="action" slot-scope="text, record">
+          <a-button
+            type="link"
+            @click="
+              $router.push('/purchase/billmanage/bounceInfo?id=' + record.id)
+            "
+          >
+            详情
+          </a-button>
+          <a-button type="link" @click="cancel(record.id)">取消</a-button>
+          <a-button
+            type="link"
+            @click="
+              $router.push('/purchase/billmanage/bounceapply?id=' + record.id)
+            "
+          >
+            重新提交
+          </a-button>
         </div>
       </a-table>
     </div>
@@ -38,10 +52,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        status: "",
-        startTime: "",
-        endTime: "",
-        accountType: ""
+        status: ""
       },
       columns: [
         {
@@ -99,18 +110,24 @@ export default {
     };
   },
   methods: {
-    startValue(date, dateString) {
-      // this.listQuery.startTime = dateString;
-    },
-    endValue(date, dateString) {
-      // this.listQuery.endTime = dateString;
-    },
     //查询数据表格
     getList() {
       this.$getList("word/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
+      });
+    },
+    // 取消
+    cancel(id) {
+      this.$confirm({
+        title: "确定要取消吗?",
+        onOk: () => {
+          this.$store.dispatch("cbilllist/cancel", { id }).then(res => {
+            this.$message.success("取消成功");
+            this.getList();
+          });
+        }
       });
     },
     //表格分页跳转

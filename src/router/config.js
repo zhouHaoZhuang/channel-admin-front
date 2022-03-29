@@ -542,16 +542,16 @@ export const asyncRoute = [
             },
             component: BlankView,
             children: [
-              {
-                path: "applybill",
-                name: "发票申请",
-                meta: {
-                  icon: "home",
-                  perm: "purchase-manage"
-                },
-                component: () =>
-                  import("@/pages/purchase/billmanage/billapply/list.vue")
-              },
+              // {
+              //   path: "applybill",
+              //   name: "发票申请",
+              //   meta: {
+              //     icon: "home",
+              //     perm: "purchase-manage"
+              //   },
+              //   component: () =>
+              //     import("@/pages/purchase/billmanage/billapply/list.vue")
+              // },
               {
                 path: "listApply",
                 name: "申请发票",
@@ -580,6 +580,7 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   back: true,
+                  invisible: true,
                   perm: "purchase-manage"
                 },
                 component: () =>
