@@ -179,12 +179,13 @@ export default {
   },
   activated() {
     this.getDetail();
+    this.resetForm()
   },
   methods: {
     onSubmit() {
       console.log(this.form);
       this.form.remark = "审核通过";
-      this.form = {
+      let data = {
         feedbackRemark: this.form.remark,
         expressDelivery: this.form.expressDelivery
       };
@@ -192,7 +193,7 @@ export default {
         .dispatch("billmangage/audit", {
           id: this.$route.query.id,
           status: 5,
-          ...this.form
+          ...data
         })
         .then(() => {
           this.$message.success("操作成功");
@@ -204,15 +205,15 @@ export default {
         this.$message.error("请输入驳回原因");
         return;
       }
-      this.form = {
-        feedbackRemark: this.form.remark,
+      let data = {
+        rejectRemark: this.form.remark,
         expressDelivery: this.form.expressDelivery
       };
       this.$store
         .dispatch("billmangage/audit", {
           id: this.$route.query.id,
           status: 4,
-          ...this.form
+          ...data
         })
         .then(() => {
           this.$message.success("操作成功");
