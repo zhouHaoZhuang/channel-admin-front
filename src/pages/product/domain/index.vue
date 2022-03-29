@@ -75,8 +75,9 @@
             }}</a-tag>
           </div>
           <div slot="action" slot-scope="text, record">
+            <a-space>
             <a-button
-              v-if="record.cdnStatus == 6"
+              v-if="record.corporationLockStatus == 0"
               v-permission="'view'"
               type="link"
               :disabled="record.systemLockStatus == 0"
@@ -85,7 +86,7 @@
               上线
             </a-button>
             <a-button
-              v-if="record.cdnStatus == 1"
+              v-if="record.corporationLockStatus == 1"
               v-permission="'view'"
               type="link"
               :disabled="record.systemLockStatus == 0"
@@ -93,6 +94,7 @@
             >
               下线
             </a-button>
+            </a-space>
           </div>
           <div slot-scope="text" slot="cashPay" v-if="text != undefined">
             {{ text.toFixed(2) }}
