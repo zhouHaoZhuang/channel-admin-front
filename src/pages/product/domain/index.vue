@@ -75,8 +75,9 @@
             }}</a-tag>
           </div>
           <div slot="action" slot-scope="text, record">
+            <a-space>
             <a-button
-              v-if="record.cdnStatus == 6"
+              v-if="record.corporationLockStatus == 0"
               v-permission="'view'"
               type="link"
               :disabled="record.systemLockStatus == 0"
@@ -85,7 +86,7 @@
               上线
             </a-button>
             <a-button
-              v-if="record.cdnStatus == 1"
+              v-if="record.corporationLockStatus == 1"
               v-permission="'view'"
               type="link"
               :disabled="record.systemLockStatus == 0"
@@ -93,6 +94,7 @@
             >
               下线
             </a-button>
+            </a-space>
           </div>
           <div slot-scope="text" slot="cashPay" v-if="text != undefined">
             {{ text.toFixed(2) }}
@@ -238,15 +240,15 @@ export default {
     datePickerOnOk(value) {
       console.log(value);
       if (value.length !== 0) {
-        this.listQuery["qp-createTime-eq"] = moment(value[0]).format(
+        this.listQuery["qp-createTime-ge"] = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery["qp-modifyTime-eq"] = moment(value[1]).format(
+        this.listQuery["qp-createTime-le"] = moment(value[1]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
       } else {
-        this.listQuery["qp-createTime-eq"] = "";
-        this.listQuery["qp-modifyTime-eq"] = "";
+        this.listQuery["qp-createTime-ge"] = "";
+        this.listQuery["qp-createTime-le"] = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有

@@ -184,7 +184,7 @@ export default {
           },
           {
             validator: (rule, value, callback) => {
-              if (value !== this.identifyCode) {
+              if (value.toLowerCase() !== this.identifyCode.toLowerCase()) {
                 callback(new Error("图形验证码不正确"));
               }
               callback();
@@ -263,7 +263,7 @@ export default {
     },
     //是否调用发送验证码接口
     getCode() {
-      if (this.$refs.verificationCode.value == this.identifyCode) {
+      if (this.$refs.verificationCode.value.toLowerCase() == this.identifyCode.toLowerCase()) {
         console.log("相等");
         this.$refs.child.getMsg();
       }

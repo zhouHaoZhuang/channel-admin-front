@@ -11,7 +11,7 @@ import editor from "@tinymce/tinymce-vue";
 import plugins from "./plugins";
 import toolbar from "./toolbar";
 // 字体
-// import "tinymce/icons/default";
+import "tinymce/icons/default";
 // 插件
 import "tinymce/plugins/contextmenu";
 import "tinymce/plugins/colorpicker";
@@ -76,6 +76,8 @@ export default {
         toolbar: toolbar,
         fontsize_formats: "12px 14px 16px 18px 20px 24px", // 字号
         branding: false, // 去水印
+        toolbar_sticky_type: true,
+        cfyun_toolbar_sticky: true,
         // 增加下面的images_upload_handler对象，能够支持上传图片到服务器
         images_upload_handler: (blobInfo, success, failure) => {
           if (blobInfo.blob().size / 1024 / 1024 > 5) {
