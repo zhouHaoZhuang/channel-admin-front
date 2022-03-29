@@ -33,9 +33,7 @@
             defaultValue="0"
             placeholder=" 订单类型"
             v-model="listQuery['qp-tradeType-eq']"
-            ><a-select-option value="">
-              订单类型
-            </a-select-option>
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in feeReduction"
@@ -51,9 +49,7 @@
             defaultValue="0"
             placeholder=" 订单状态"
             v-model="listQuery['qp-tradeStatus-eq']"
-            ><a-select-option value="">
-              状态
-            </a-select-option>
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -68,13 +64,11 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 计费方式"
-            v-model="listQuery['qp-tradeStatus-eq']"
-            ><a-select-option value="">
-              计费方式
-            </a-select-option>
+            v-model="listQuery['qp-chargingType-eq']"
+            >
             <a-select-option
               :value="index"
-              v-for="(item, index) in orderStatus"
+              v-for="(item, index) in charingStatus"
               :key="index"
             >
               {{ item }}
@@ -135,7 +129,7 @@
           <span style="color:#ccc;">{{ record.corporationCode }}</span>
         </div>
         <div slot="chargingType" slot-scope="text">
-          {{ text == "AfterPay" ? "后支付" : "预支付" }}
+          {{ charingStatus[text] }}
         </div>
         <div slot="actualAmount" slot-scope="text">
           {{ text.toFixed(2) }}
@@ -174,13 +168,14 @@
 </template>
 
 <script>
-import { feeReduction, orderStatus } from "@/utils/enum.js";
+import { feeReduction, orderStatus ,charingStatus} from "@/utils/enum.js";
 export default {
   data() {
     return {
       title: "orderNo",
       feeReduction,
       orderStatus,
+      charingStatus,
       // search: "",
       listQuery: {
         key: undefined,

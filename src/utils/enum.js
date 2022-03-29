@@ -246,3 +246,8 @@ export const cdnStatus = {
   "-1": "已下线",
   "-2": "已下线"
 };
+// 计费方式、
+export const charingStatus ={
+  'AfterPay':'后付费',
+  'BeforePay':'预付费'
+}
