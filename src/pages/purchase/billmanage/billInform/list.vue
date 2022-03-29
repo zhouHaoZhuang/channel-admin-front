@@ -16,9 +16,16 @@
         :pagination="paginationProps"
         rowKey="id"
       >
-        <div slot="action">
-          <a-button type="link">编辑</a-button>
-          <a-button type="link">删除</a-button>
+        <div slot="action" slot-scope="text, record">
+          <a-button
+            type="link"
+            @click="
+              $router.push('/purchase/billmanage/addbillInform?id=' + record.id)
+            "
+          >
+            编辑
+          </a-button>
+          <a-button type="link" @click="del(record.id)">删除</a-button>
         </div>
       </a-table>
     </div>
@@ -71,13 +78,28 @@ export default {
       }
     };
   },
+  activated() {
+    // this.getList();
+  },
   methods: {
     //查询数据表格
     getList() {
-      this.$getList("word/getList", this.listQuery).then(res => {
+      this.$getList("cbillinfo/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
+      });
+    },
+    // 删除
+    del(id) {
+      this.$confirm({
+        title: "确定要删除吗?",
+        onOk: () => {
+          this.$store.dispatch("cbillinfo/del", { id }).then(() => {
+            this.$message.success("删除成功");
+            this.getList();
+          });
+        }
       });
     },
     //表格分页跳转

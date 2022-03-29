@@ -56,7 +56,7 @@
       <a-table
         :columns="columns"
         :data-source="dataDetails"
-        :pagination="paginationProps"
+        :pagination="false"
         rowKey="id"
       >
         <div slot="operation">
@@ -132,13 +132,13 @@ export default {
       dataDetails: []
     };
   },
-  created() {
+  activated() {
     // this.getData();
   },
   methods: {
     getData() {
       this.$store
-        .dispatch("billapply/getInvoiceInfo", { id: this.$route.query.id })
+        .dispatch("cbouncelist/getDetail", { id: this.$route.query.id })
         .then(res => {
           console.log(res, "---------");
           this.data = res.data;
@@ -150,13 +150,13 @@ export default {
     //表格分页跳转
     quickJump(currentPage) {
       this.listQuery.currentPage = currentPage;
-      this.getData();
+      // this.getData();
     },
     //表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
-      this.getData();
+      // this.getData();
     }
   }
 };

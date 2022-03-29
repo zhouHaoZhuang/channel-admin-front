@@ -40,6 +40,8 @@ import purchaseOrder from "./purchaseOrder";
 import bills from "./bills";
 import cdnDomain from "./cdnDomain";
 import cbilllist from "./cbilllist";
+import cbouncelist from "./cbouncelist";
+import cbillinfo from "./cbillinfo";
 
 export default {
   user,
@@ -83,5 +85,7 @@ export default {
   purchaseOrder,
   bills,
   cdnDomain,
-  cbilllist
+  cbilllist,
+  cbouncelist,
+  cbillinfo
 };

@@ -186,7 +186,7 @@ export default {
       }
     };
   },
-  created() {
+  activated() {
     // this.getData();
   },
   methods: {
@@ -194,7 +194,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         this.form.id = this.$route.query.id;
         if (valid) {
-          this.$store.dispatch("billapply/refundApply", this.form).then(res => {
+          this.$store.dispatch("cbouncelist/audit", this.form).then(res => {
             this.$message.success("提交成功");
             this.$router.back();
           });
@@ -207,7 +207,7 @@ export default {
     // 获取页面数据
     getData() {
       this.$store
-        .dispatch("billapply/getInvoiceInfo", { id: this.$route.query.id })
+        .dispatch("cbouncelist/getDetail", { id: this.$route.query.id })
         .then(res => {
           console.log(res, "---------");
           this.data = res.data;
@@ -227,13 +227,13 @@ export default {
     //表格分页跳转
     quickJump(currentPage) {
       this.listQuery.currentPage = currentPage;
-      this.getList();
+      // this.getList();
     },
     //表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
-      this.getList();
+      // this.getList();
     }
   }
 };

@@ -167,7 +167,7 @@ export default {
       }
     };
   },
-  created() {
+  activated() {
     this.$nextTick(() => {
       this.resetForm();
       if (this.$route.query.id) {
@@ -189,7 +189,7 @@ export default {
             this.update();
             return;
           }
-          this.$store.dispatch("billnews/add", this.form).then(() => {
+          this.$store.dispatch("cbillinfo/add", this.form).then(() => {
             this.$message.success("添加成功");
             this.$router.back();
           });
@@ -210,7 +210,7 @@ export default {
       };
     },
     update() {
-      this.$store.dispatch("billnews/edit", this.form).then(() => {
+      this.$store.dispatch("cbillinfo/edit", this.form).then(() => {
         this.$message.success("修改成功");
         this.$router.back();
       });
@@ -218,7 +218,7 @@ export default {
     // 获取单个记录详情
     getDetail() {
       this.$store
-        .dispatch("billnews/getOne", { id: this.$route.query.id })
+        .dispatch("cbillinfo/getOne", { id: this.$route.query.id })
         .then(res => {
           this.form = res.data;
         });

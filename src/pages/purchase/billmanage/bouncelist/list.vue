@@ -109,10 +109,13 @@ export default {
       }
     };
   },
+  activated() {
+    // this.getList();
+  },
   methods: {
     //查询数据表格
     getList() {
-      this.$getList("word/getList", this.listQuery).then(res => {
+      this.$getList("cbouncelist/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
@@ -123,7 +126,7 @@ export default {
       this.$confirm({
         title: "确定要取消吗?",
         onOk: () => {
-          this.$store.dispatch("cbilllist/cancel", { id }).then(res => {
+          this.$store.dispatch("cbouncelist/cancel", { id }).then(res => {
             this.$message.success("取消成功");
             this.getList();
           });

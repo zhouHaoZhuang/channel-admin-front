@@ -601,6 +601,7 @@ export const asyncRoute = [
                 name: "退票申请详情",
                 meta: {
                   icon: "home",
+                  invisible: true,
                   perm: "purchase-manage"
                 },
                 component: () =>
@@ -611,6 +612,7 @@ export const asyncRoute = [
                 name: "退票申请",
                 meta: {
                   icon: "home",
+                  invisible: true,
                   perm: "purchase-manage"
                 },
                 component: () =>
@@ -633,6 +635,7 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   back: true,
+                  invisible: true,
                   perm: "purchase-manage"
                 },
                 component: () =>
