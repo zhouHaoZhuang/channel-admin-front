@@ -34,7 +34,12 @@
           </a-radio>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item class="form-label-before" v-if="form.type === 1" label="证书文件" prop="upload">
+      <a-form-model-item
+        class="form-label-before"
+        v-if="form.type === 1"
+        label="证书文件"
+        prop="upload"
+      >
         <a-upload
           name="file"
           accept=".zip"
@@ -275,4 +280,13 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.domain-https-container {
+  overflow: hidden;
+  .hideEle {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+}
+</style>

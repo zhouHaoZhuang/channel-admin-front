@@ -65,10 +65,8 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
-            v-model="listQuery['qp-tradeStatus-eq']"
-            ><a-select-option value="">
-              计费方式
-            </a-select-option>
+            v-model="listQuery['qp-chargingType-eq']"
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -144,7 +142,7 @@
             </a-button>
           </div>
           <div slot="chargingType" slot-scope="text">
-            {{ text == "AfterPay" ? "后支付" : "预支付" }}
+            {{ charingStatus[text] }}
           </div>
           <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
             {{ text.toFixed(2) }}
@@ -161,7 +159,8 @@ import {
   orderStatusEnum,
   orderTypeMap,
   feeReduction,
-  orderStatus
+  orderStatus,
+  charingStatus
 } from "@/utils/enum.js";
 export default {
   data() {
@@ -170,6 +169,7 @@ export default {
       orderTypeMap,
       feeReduction,
       orderStatus,
+      charingStatus,
       listQuery: {
         key: undefined,
         search: "",

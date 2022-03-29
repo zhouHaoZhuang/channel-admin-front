@@ -74,7 +74,7 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="反馈说明" prop="remark">
+        <a-form-model-item label="反馈说明" help="注意：驳回时，反馈说明不能为空！">
           <a-textarea
             v-model="form.remark"
             placeholder="如果驳回请输入驳回原因"
@@ -179,46 +179,42 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          console.log(this.form);
-          this.form = {
-            feedbackRemark: this.form.remark,
-            expressDelivery: this.form.expressDelivery
-          };
-          this.$store
-            .dispatch("billmangage/audit", {
-              id: this.$route.query.id,
-              status: 5,
-              ...this.form
-            })
-            .then(() => {
-              this.$message.success("操作成功");
-              this.$router.back();
-            });
-        }
-      });
+      console.log(this.form);
+      this.form.remark = "审核通过";
+      this.form = {
+        feedbackRemark: this.form.remark,
+        expressDelivery: this.form.expressDelivery
+      };
+      this.$store
+        .dispatch("billmangage/audit", {
+          id: this.$route.query.id,
+          status: 5,
+          ...this.form
+        })
+        .then(() => {
+          this.$message.success("操作成功");
+          this.$router.back();
+        });
     },
     turnDown() {
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          console.log(this.form);
-          this.form = {
-            rejectRemark: this.form.remark,
-            expressDelivery: this.form.expressDelivery
-          };
-          this.$store
-            .dispatch("billmangage/audit", {
-              id: this.$route.query.id,
-              status: 4,
-              ...this.form
-            })
-            .then(() => {
-              this.$message.success("操作成功");
-              this.$router.back();
-            });
-        }
-      });
+      if (this.form.remark === "") {
+        this.$message.error("请输入驳回原因");
+        return;
+      }
+      this.form = {
+        rejectRemark: this.form.remark,
+        expressDelivery: this.form.expressDelivery
+      };
+      this.$store
+        .dispatch("billmangage/audit", {
+          id: this.$route.query.id,
+          status: 4,
+          ...this.form
+        })
+        .then(() => {
+          this.$message.success("操作成功");
+          this.$router.back();
+        });
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();

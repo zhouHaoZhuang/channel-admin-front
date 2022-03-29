@@ -107,7 +107,7 @@ export default {
         },
         {
           title: "产品名称",
-          dataIndex: "bizTypeName"
+          dataIndex: "productName"
         },
         {
           title: "可开票金额",
