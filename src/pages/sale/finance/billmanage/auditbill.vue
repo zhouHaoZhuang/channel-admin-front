@@ -74,7 +74,10 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="反馈说明" help="注意：驳回时，反馈说明不能为空！">
+        <a-form-model-item
+          label="反馈说明"
+          help="注意：驳回时，反馈说明不能为空！"
+        >
           <a-textarea
             v-model="form.remark"
             placeholder="如果驳回请输入驳回原因"
@@ -202,7 +205,7 @@ export default {
         return;
       }
       this.form = {
-        rejectRemark: this.form.remark,
+        feedbackRemark: this.form.remark,
         expressDelivery: this.form.expressDelivery
       };
       this.$store
