@@ -596,6 +596,26 @@ export const asyncRoute = [
                   import("@/pages/purchase/billmanage/bouncelist/list.vue")
               },
               {
+                path: "bounceInfo",
+                name: "退票申请详情",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage"
+                },
+                component: () =>
+                  import("@/pages/purchase/billmanage/bouncelist/info.vue")
+              },
+              {
+                path: "bounceapply",
+                name: "退票申请",
+                meta: {
+                  icon: "home",
+                  perm: "purchase-manage"
+                },
+                component: () =>
+                  import("@/pages/purchase/billmanage/bouncelist/bounceApply.vue")
+              },
+              {
                 path: "billInform",
                 name: "发票信息管理",
                 meta: {
