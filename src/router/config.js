@@ -444,6 +444,15 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/purchase/manage/withdraw/index.vue")
+              },
+              {
+                path: "reconciliation",
+                name: "对账管理",
+                meta: {
+                  perm: "sale-finance-refund"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/reconciliation/index.vue")
               }
             ]
           },
@@ -641,9 +650,8 @@ export const asyncRoute = [
                 meta: {
                   perm: "product-cloud-businessList"
                 },
-                component: () =>
-                  import("@/pages/product/bill/index.vue")
-              },
+                component: () => import("@/pages/product/bill/index.vue")
+              }
             ]
           }
         ]
