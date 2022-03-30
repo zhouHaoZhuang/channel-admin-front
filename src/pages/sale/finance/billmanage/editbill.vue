@@ -57,9 +57,17 @@
         <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
+        <div slot="canInvoiceAmount" slot-scope="text, record">
+          <span v-if="record.consumptionType === 2">
+            {{ record.debtAmount }}
+          </span>
+          <span v-if="record.consumptionType === 1">
+            {{ record.canInvoiceAmount }}
+          </span>
+        </div>
       </a-table>
     </div>
-    <div v-show="false">
+    <div>
       <h2 style="margin: 20px 0">审核反馈</h2>
       <a-form-model
         ref="ruleForm"
@@ -69,10 +77,10 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-model-item label="反馈说明">
-          <a-input v-model="form.name" />
+          <a-input v-model="form.feedbackRemark" />
         </a-form-model-item>
         <a-form-model-item label="物流单号">
-          <a-input />
+          <a-input v-model="form.businessExpressDelivery" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary" @click="onSubmit">
@@ -109,24 +117,20 @@ export default {
           dataIndex: "productName"
         },
         {
-          title: "可开票金额",
-          dataIndex: "canInvoiceAmount"
+          title: "开票金额",
+          dataIndex: "canInvoiceAmount",
+          scopedSlots: { customRender: "canInvoiceAmount" }
         },
         {
           title: "订单创建时间",
-          dataIndex: "createTimeShow",
+          dataIndex: "createTimeShow"
         }
       ],
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       form: {
-        name: "",
-        region: undefined,
-        date1: undefined,
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
+        feedbackRemark: "",
+        businessExpressDelivery: ""
       },
       rules: {
         name: [
@@ -167,20 +171,30 @@ export default {
   },
   activated() {
     this.getDetail();
+    this.resetForm()
   },
   methods: {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+          this.$store
+            .dispatch("billmangage/editInvoice", {
+              id: this.$route.query.id,
+              ...this.form
+            })
+            .then(() => {
+              this.$message.success("保存成功");
+              this.$router.back();
+            });
         }
       });
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        feedbackRemark: "",
+        businessExpressDelivery: ""
+      };
     },
     // 获取详情数据
     getDetail() {

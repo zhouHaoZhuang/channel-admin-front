@@ -53,6 +53,14 @@
         :pagination="false"
         rowKey="id"
       >
+        <div slot="canInvoiceAmount" slot-scope="text, record">
+          <span v-if="record.consumptionType === 2">
+            {{ record.debtAmount }}
+          </span>
+          <span v-if="record.consumptionType === 1">
+            {{ record.canInvoiceAmount }}
+          </span>
+        </div>
         <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
@@ -67,8 +75,8 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="反馈说明" prop="rejectRemark">
-          <a-input v-model="form.rejectRemark" />
+        <a-form-model-item label="反馈说明" prop="feedbackRemark ">
+          <a-input v-model="form.feedbackRemark" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary" @click="onSubmit">
@@ -110,8 +118,9 @@ export default {
           dataIndex: "productName"
         },
         {
-          title: "可开票金额",
-          dataIndex: "canInvoiceAmount"
+          title: "开票金额",
+          dataIndex: "canInvoiceAmount",
+          scopedSlots: { customRender: "canInvoiceAmount" }
         },
         {
           title: "订单创建时间",
@@ -121,10 +130,10 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       form: {
-        rejectRemark: ""
+        feedbackRemark: ""
       },
       rules: {
-        rejectRemark: [
+        feedbackRemark: [
           {
             required: true,
             message: "请输入反馈说明"

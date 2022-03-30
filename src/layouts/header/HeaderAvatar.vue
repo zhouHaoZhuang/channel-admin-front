@@ -61,12 +61,16 @@ export default {
   .avatar,
   .name {
     align-self: center;
+    margin-right: 40px;
   }
   .avatar {
     margin-right: 8px;
   }
   .name {
     font-weight: 500;
+  }
+  &:hover{
+    background: transparent !important;
   }
 }
 .avatar-menu {

@@ -37,7 +37,15 @@ const billmangage = {
         method: "patch",
         data,
       });
-    }
+    },
+    // 编辑发票信息
+    editInvoice({ commit, state }, data) {
+      return request({
+        url: `/channelInvoiceRecord/update/${data.id}`,
+        method: "post",
+        data,
+      });
+    },
   },
 };
 
