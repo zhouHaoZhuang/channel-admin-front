@@ -64,7 +64,7 @@
   }
 }
 // 链接样式的按钮
-.ant-btn-link{
+.ant-btn-link {
   padding: 0;
 }
 // 表单label加红色*
@@ -79,3 +79,57 @@
     content: "*";
   }
 }
+// 调整菜单样式---start
+// 头部菜单
+.admin-header {
+  .ant-menu-item {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 4px;
+      background: #fff;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 100px 100px 0px 0px;
+      display: none;
+    }
+  }
+  .ant-menu-dark {
+    background: #3b77e3;
+  }
+  .ant-menu.ant-menu-dark .ant-menu-item-selected {
+    background: #3b77e3;
+    &::after {
+      display: block;
+    }
+  }
+  .admin-header-wide .trigger:hover {
+    color: #fff !important;
+  }
+}
+// 左侧菜单
+.ant-layout-sider {
+  background: #fff;
+  .ant-menu-submenu-title {
+    color: #000;
+    padding: 0 10px;
+  }
+}
+.side-menu {
+  .logo {
+    background-color: #3b77e3 !important;
+  }
+  .ant-menu-dark {
+    background: #fff;
+  }
+  .menu{
+    padding: 10px 0 0;
+  }
+}
+.shadow {
+  box-shadow: none !important;
+}
+// 调整菜单样式---end

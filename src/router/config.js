@@ -1365,7 +1365,6 @@ export const asyncRoute = [
                 path: "whole",
                 name: "基础设置",
                 meta: {
-                  icon: "home",
                   perm: "system-admin-whole"
                 },
                 component: () => import("@/pages/system/basics/whole")
@@ -1374,7 +1373,6 @@ export const asyncRoute = [
                 path: "notice",
                 name: "通知模板",
                 meta: {
-                  icon: "home",
                   perm: "system-admin-notice"
                 },
                 component: () => import("@/pages/system/notice/notice")
@@ -1393,7 +1391,6 @@ export const asyncRoute = [
                 path: "list",
                 name: "域名管理",
                 meta: {
-                  icon: "home",
                   perm: "system-admin-domain"
                 },
                 component: () => import("@/pages/system/domain/list")
