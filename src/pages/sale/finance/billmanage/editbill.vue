@@ -118,8 +118,7 @@ export default {
         },
         {
           title: "开票金额",
-          dataIndex: "canInvoiceAmount",
-          scopedSlots: { customRender: "canInvoiceAmount" }
+          dataIndex: "originalAmountShow"
         },
         {
           title: "订单创建时间",
@@ -171,7 +170,7 @@ export default {
   },
   activated() {
     this.getDetail();
-    this.resetForm()
+    this.resetForm();
   },
   methods: {
     onSubmit() {
