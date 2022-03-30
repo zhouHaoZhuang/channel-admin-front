@@ -115,7 +115,43 @@
   background: #fff;
   .ant-menu-submenu-title {
     color: #000;
-    padding: 0 10px;
+    margin: 0;
+    margin-bottom: 10px;
+    .ant-menu-submenu-arrow {
+      opacity: 1 !important;
+      &::before,
+      &::after {
+        background: #3b77e3 !important;
+      }
+    }
+    &:hover {
+      color: #000;
+    }
+  }
+  .ant-menu-inline {
+    background: #fff !important;
+    box-shadow: none !important;
+    .ant-menu-submenu {
+      .ant-menu-item {
+        width: 180px;
+        height: 38px;
+        border-radius: 4px;
+        background: rgba(59, 119, 227, 0.06);
+        margin: 0 10px 10px !important;
+        padding: 0 !important;
+        a {
+          width: 100%;
+          text-align: center;
+          color: #000;
+        }
+      }
+      .ant-menu-item-selected {
+        background: #3b77e3 !important;
+        a {
+          color: #fff !important;
+        }
+      }
+    }
   }
 }
 .side-menu {
@@ -125,11 +161,16 @@
   .ant-menu-dark {
     background: #fff;
   }
-  .menu{
+  .menu {
     padding: 10px 0 0;
   }
 }
 .shadow {
   box-shadow: none !important;
+}
+// 右侧主题背景色
+.admin-layout-main,
+.admin-layout-content {
+  background: #f5f7fd !important;
 }
 // 调整菜单样式---end
