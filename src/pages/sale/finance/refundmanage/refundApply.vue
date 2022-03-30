@@ -103,10 +103,7 @@ export default {
         },
         {
           title: "开票金额",
-          dataIndex: "canInvoiceAmount",
-          scopedSlots: {
-            customRender: "canInvoiceAmount"
-          }
+          dataIndex: "originalAmountShow"
         },
         {
           title: "订单创建时间",
