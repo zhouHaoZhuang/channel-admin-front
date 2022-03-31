@@ -386,7 +386,7 @@ export default {
             this.listQuery.search = 0;
           }
         }
-        this.$getListQp("purchaseOrder/getList", this.listQuery).then(val => {
+        this.$getListQp("purchaseOrder/getProList", this.listQuery).then(val => {
           // console.log(val, "时间请求结果");
           this.paginationProps.total = val.data.totalCount * 1;
           this.data = val.data.list;

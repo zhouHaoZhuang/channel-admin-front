@@ -36,7 +36,7 @@
         </li>
         <li>
           <span>退款状态:</span>
-          <span>{{ orderInfo.payStatus == 1 ? "待退款" : "已退款" }}</span>
+          <span>{{ orderStatus[orderInfo.tradeStatus] }}</span>
         </li>
       </ul>
     </div>

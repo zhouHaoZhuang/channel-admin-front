@@ -231,7 +231,6 @@ export const feeReduction = {
   45: "交易关闭",
   55: "退订",
   65: "后付费订单",
-  66: "后付费订单"
 };
 //cdn状态
 export const cdnStatus = {
@@ -247,6 +246,6 @@ export const cdnStatus = {
 };
 // 计费方式、
 export const charingStatus ={
-  'AfterPay':'后付费',
-  'BeforePay':'预付费'
+  "AfterPay":'后付费',
+  "BeforePay":'预付费'
 }
