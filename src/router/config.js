@@ -453,6 +453,15 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/index.vue")
+              },
+              {
+                path: "recon",
+                name: "确认对账",
+                meta: {
+                  perm: "sale-finance-refund"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/reconciliation/recon.vue")
               }
             ]
           },

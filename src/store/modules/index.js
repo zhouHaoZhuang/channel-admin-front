@@ -39,6 +39,7 @@ import withdraw from "./withdraw";
 import purchaseOrder from "./purchaseOrder";
 import bills from "./bills";
 import cdnDomain from "./cdnDomain";
+import reconciliation from "./reconciliation";
 
 export default {
   user,
@@ -81,5 +82,6 @@ export default {
   withdraw,
   purchaseOrder,
   bills,
-  cdnDomain
+  cdnDomain,
+  reconciliation
 };

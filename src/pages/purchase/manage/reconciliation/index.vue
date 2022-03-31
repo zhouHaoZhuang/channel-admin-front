@@ -100,7 +100,11 @@
           >
             详情
           </a-button>
-          <a-button type="link" style="margin-left:10px">
+          <a-button
+            @click="$router.push('/sale/finance/billInfo?id=' + record.id)"
+            type="link"
+            style="margin-left:10px"
+          >
             对账
           </a-button>
           <a-button type="link" style="margin-left:10px">
@@ -226,7 +230,7 @@ export default {
     },
     //查询数据表格
     getList() {
-      this.$getList("billmangage/getList", this.listQuery).then(res => {
+      this.$getList("reconciliation/getList", this.listQuery).then(res => {
         console.log(res);
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
