@@ -35,7 +35,7 @@
       <ul>
         <li>
           <span>支付金额:</span>
-          <span>{{orderInfo.actualAmount}}</span>
+          <span>{{ orderInfo.actualAmount }}</span>
         </li>
         <li>
           <span>支付状态:</span>
@@ -58,15 +58,23 @@
             <!-- {{ orderTypeMap[text] }} -->
           </div>
           <div slot="productConfig" slot-scope="text, record">
-            <div>CPU:{{ record.cpu }}核</div>
-            <div>内存:{{ record.memory }}G</div>
-            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
-            <div>系统盘:{{ record.systemDiskSize }}G</div>
-            <div>数据盘:{{ record.dataDiskSize }}G</div>
-            <div>操作系统:{{ record.osName }}</div>
-            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
+            <div v-if="record.chargingType == '按量付费'">
+              {{ record.productName + "功能开通:按流量计费" }}
+            </div>
+            <div v-else>
+              <div>CPU:{{ record.cpu }}核</div>
+              <div>内存:{{ record.memory }}G</div>
+              <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
+              <div>系统盘:{{ record.systemDiskSize }}G</div>
+              <div>数据盘:{{ record.dataDiskSize }}G</div>
+              <div>操作系统:{{ record.osName }}</div>
+              <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
+            </div>
           </div>
-          <span slot="chargeModel">包年包月</span>
+          <div slot="discountRate" slot-scope="text, record">
+            <span v-if="record.chargingType == '按量付费'">--</span>
+            <span v-else>{{ text }}</span>
+          </div>
         </a-table>
       </div>
     </div>
@@ -112,11 +120,10 @@ export default {
         },
         {
           title: "计费方式",
-          dataIndex: "chargeModel",
-          key: "chargeModel",
-          scopedSlots: { customRender: "chargeModel" }
+          dataIndex: "chargingType",
+          key: "chargingType"
         },
-         {
+        {
           title: "数量",
           dataIndex: "quantity",
           key: "quantity"
@@ -134,7 +141,8 @@ export default {
         {
           title: "折扣",
           key: "discountRate",
-          dataIndex: "discountRate"
+          dataIndex: "discountRate",
+          scopedSlots: { customRender: "discountRate" }
         },
         {
           title: "成交价",
