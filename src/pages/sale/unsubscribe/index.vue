@@ -107,9 +107,9 @@
             slot-scope="text, record"
             style="color: #00aaff"
           >
-            {{ record.corporationName }}
+            {{ record.ccCorporation.corporationName }}
             <br />
-            <span style="color:#ccc;">{{ record.corporationCode }}</span>
+            <span style="color:#ccc;">{{ record.ccCorporation.corporationCode }}</span>
           </span>
           <div slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}

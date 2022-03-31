@@ -39,7 +39,7 @@
         </li>
         <li>
           <span>支付状态:</span>
-          <span>{{ orderInfo.payStatus == 1 ? "待支付" : "已支付" }}</span>
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
         </li>
       </ul>
     </div>
