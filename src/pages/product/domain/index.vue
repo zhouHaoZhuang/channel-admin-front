@@ -203,18 +203,18 @@ export default {
           key: "cnameValue",
           width: 170
         },
-        {
-          title: "渠道商名称",
-          dataIndex: "channelName",
-          key: "channelName",
-          width: 170
-        },
-        {
-          title: "渠道商ID",
-          dataIndex: "channelCode",
-          key: "channelCode",
-          width: 150
-        }
+        // {
+        //   title: "渠道商名称",
+        //   dataIndex: "channelName",
+        //   key: "channelName",
+        //   width: 170
+        // },
+        // {
+        //   title: "渠道商ID",
+        //   dataIndex: "channelCode",
+        //   key: "channelCode",
+        //   width: 150
+        // }
       ];
     }
   },
