@@ -30,7 +30,7 @@
           {{ data.refundCreateTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="备注">
-          {{ data.feedbackRemark }}
+          {{ data.refundRemark }}
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions style="margin: 20px 0" title="收件人信息">
