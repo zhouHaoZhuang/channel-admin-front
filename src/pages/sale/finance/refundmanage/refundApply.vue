@@ -30,7 +30,7 @@
           {{ data.refundCreateTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="备注">
-          {{ data.feedbackRemark }}
+          {{ data.refundRemark }}
         </a-descriptions-item>
         <a-descriptions-item label="退票申请反馈时间">
           {{ data.refundCreateTimeShow }}
@@ -107,7 +107,7 @@ export default {
         },
         {
           title: "订单创建时间",
-          dataIndex: "refundCreateTimeShow"
+          dataIndex: "createTimeShow"
         }
       ],
       paginationProps: {
