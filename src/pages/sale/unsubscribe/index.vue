@@ -23,7 +23,7 @@
           <a-input
             allowClear
             placeholder="请输入订单编号"
-            v-model="listQuery.search"
+            v-model="listQuery[listQuery.key]"
           />
         </a-form-model-item>
 
@@ -48,7 +48,7 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 订单状态"
-            v-model="listQuery['qp-tradeStatus-eq']"
+            v-model="listQuery.tradeStatus"
             ><a-select-option value="">
             </a-select-option>
             <a-select-option
@@ -65,7 +65,7 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
-            v-model="listQuery['qp-chargingType-eq']"
+            v-model="listQuery.chargingType"
             >
             <a-select-option
               :value="index"
@@ -315,14 +315,14 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
-      if (!value.length !== 0) {
-        this.listQuery['qp-createTime-ge'] = moment(value[0]).format(
+       if (value.length !== 0) {
+        this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery['qp-createTime-le'] = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
       } else {
-        this.listQuery['qp-createTime-ge'] = "";
-        this.listQuery['qp-createTime-le'] = "";
+        this.listQuery.startTime = "";
+        this.listQuery.endTime = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有
