@@ -297,12 +297,6 @@ export default {
   },
   activated() {
     // this.getData()
-    // let a = 2;
-    // let b = 1;
-    // for (let index = 0; index < 20; index++) {
-    //   [a, b] = [a + b, a];
-    //   console.log(a, b, index + 2);
-    // }
   },
   methods: {
     showModal() {
@@ -335,7 +329,6 @@ export default {
     resetForm() {
       this.$refs.ruleForm.resetFields();
     },
-
     del(id) {
       this.$confirm({
         title: "确认要删除吗？",
