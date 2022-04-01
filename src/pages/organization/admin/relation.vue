@@ -101,8 +101,9 @@ export default {
       });
     },
     // 多选框选择
-    onCheck(checkedKeys) {
-      this.checkedKeys = [...checkedKeys];
+    onCheck(checkedKeys, e) {
+      // console.log(checkedKeys, e.halfCheckedKeys);
+      this.checkedKeys = [...checkedKeys, ...e.halfCheckedKeys];
     },
     // 取消
     handleCancel() {
