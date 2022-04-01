@@ -104,8 +104,13 @@ export const orderTypeMap = {
 
 // 充值方式map
 export const rechargeTypeMap = {
-  "1": "余额支付",
-  ali: "支付宝"
+  1: "在线充值",
+  2: "线下充值",
+  3: "下单",
+  4: "退款",
+  5: "冻结",
+  6: "资金解冻",
+  7: "扣除冻结"
 };
 // 订单状态
 export const orderStatusEnum = {
@@ -244,7 +249,7 @@ export const cdnStatus = {
   "-2": "已下线"
 };
 // 计费方式、
-export const charingStatus ={
-  "AfterPay":'后付费',
-  "BeforePay":'预付费'
-}
+export const charingStatus = {
+  AfterPay: "后付费",
+  BeforePay: "预付费"
+};
