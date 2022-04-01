@@ -82,14 +82,12 @@
             show-time
             format="YYYY-MM-DD 00:00:00"
             placeholder="开始时间"
-            :disabled="isTime"
             @change="changeStart"
             @openChange="handleStartOpenChange"
           />
           <span class="zhi">至</span>
           <a-date-picker
             v-model="endValue"
-            :disabled="isTime"
             :disabled-date="disabledEndDate"
             show-time
             format="YYYY-MM-DD 00:00:00"
@@ -299,18 +297,18 @@ export default {
           key: "orderNo",
           width: 170
         },
-        {
-          title: "终端客户名称",
-          dataIndex: "corporationName",
-          key: "corporationName",
-          width: 150
-        },
-         {
-          title: "终端客户ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150
-        },
+        // {
+        //   title: "终端客户名称",
+        //   dataIndex: "corporationName",
+        //   key: "corporationName",
+        //   width: 150
+        // },
+        //  {
+        //   title: "终端客户ID",
+        //   dataIndex: "corporationCode",
+        //   key: "corporationCode",
+        //   width: 150
+        // },
       ];
     }
   },
