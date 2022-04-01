@@ -138,11 +138,11 @@ export default {
         },
         {
           title: "退款申请反馈时间",
-          dataIndex: "refundFeedbackTimeShow",
+          dataIndex: "feedbackTimeShow",
         },
         {
           title: "退款申请反馈说明",
-          dataIndex: "refundFeedbackRemark"
+          dataIndex: "feedbackRemark"
         },
         {
           title: "操作",

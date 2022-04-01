@@ -41,7 +41,7 @@
       </a-descriptions>
       <a-descriptions style="margin: 20px 0" title="收件人信息">
         <a-descriptions-item label="物流单号">
-          {{ data.expressDelivery }}
+          {{ data.businessExpressDelivery }}
         </a-descriptions-item>
         <a-descriptions-item label="寄件联系人">
           {{ data.sender }}
