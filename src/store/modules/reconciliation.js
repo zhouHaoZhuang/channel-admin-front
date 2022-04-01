@@ -19,6 +19,37 @@ const reconciliation = {
         url: `/customer/${id}`,
         method: "get"
       });
+    },
+    // 删除
+    del({ commit, state }, id) {
+      return request({
+        url: `/customer/${id}`,
+        method: "delete"
+      });
+    },
+    // 确认
+    confirm({ commit, state }, data) {
+      return request({
+        url: "/tcOrder/unSubscrube/confirm",
+        method: "post",
+        data
+      });
+    },
+    // 退回
+    goBack({ commit, state }, data) {
+      return request({
+        url: "/tcOrder/unSubscrube/back",
+        method: "post",
+        data
+      });
+    },
+    // 新增建议添加项
+    addSteerItem({ commit, state }, data) {
+      return request({
+        url: "/tcOrder/unSubscrube/addSteerItem",
+        method: "post",
+        data
+      });
     }
   }
 };

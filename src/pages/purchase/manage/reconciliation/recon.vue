@@ -28,7 +28,11 @@
         对账单明细
       </div>
       <div>
-        <a-table :columns="columnsDetails" :data-source="dataDetails">
+        <a-table
+          :columns="columnsDetails"
+          :data-source="dataDetails"
+          :pagination="paginationProps"
+        >
         </a-table>
         <p>
           账单拉取总金额：
@@ -40,11 +44,55 @@
       <div class="table-title">
         调整单明细
       </div>
-      <b>建议调整项</b>
+      <b style="display:inline-block">建议调整项</b>
+      <a-button style="margin-left: 20px;" type="primary" @click="showModal">
+        新增建议调整项
+      </a-button>
+      <!-- 新增建议调整项 窗口 -->
+      <a-modal
+        title="添加建议调整项"
+        :visible="visible"
+        :confirm-loading="confirmLoading"
+        @ok="handleOk"
+        @cancel="handleCancel"
+        width="50%"
+      >
+        <a-form-model
+          ref="ruleForm"
+          :model="form"
+          :rules="rules"
+          :label-col="labelCol"
+          :wrapper-col="wrapperCol"
+        >
+          <a-form-model-item label="订单号" prop="name">
+            <a-input placeholder="请输入订单号" v-model="form.name" />
+          </a-form-model-item>
+          <a-form-model-item label="产品">
+            <span>根据订单号带出</span>
+          </a-form-model-item>
+          <a-form-model-item label="订单金额（元）">
+            <span>根据订单号带出</span>
+          </a-form-model-item>
+          <a-form-model-item label="可开票金额（元）">
+            <span>根据订单号带出</span>
+          </a-form-model-item>
+          <a-form-model-item label="订单调整金额（元）" prop="name">
+            <a-input placeholder="请输入金额（正或负数）" v-model="form.name" />
+          </a-form-model-item>
+          <a-form-model-item label="可开票调整金额（元）" prop="name">
+            <a-input placeholder="请输入金额（正或负数）" v-model="form.name" />
+          </a-form-model-item>
+        </a-form-model>
+      </a-modal>
+
       <div>
-        <a-table :columns="columns" :data-source="data">
-          <div slot="action">
-            <a-button type="link">
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          :pagination="steerPaginationProps"
+        >
+          <div slot="action" slot-scope="text, record">
+            <a-button @click="del(record.id)" type="link">
               删除
             </a-button>
           </div>
@@ -58,7 +106,11 @@
       </div>
       <b>实际调整项</b>
       <div>
-        <a-table :columns="columns.slice(0, 9)" :data-source="actualData">
+        <a-table
+          :columns="columns.slice(0, 9)"
+          :data-source="actualData"
+          :pagination="actualPaginationProps"
+        >
         </a-table>
         <p>
           实际账单调整总金额：
@@ -74,10 +126,10 @@
         <span>¥ 2213.00</span>
       </p>
       <div class="bottom-button">
-        <a-button type="primary">
+        <a-button type="primary" @click="confirm">
           确认
         </a-button>
-        <a-button type="danger" style="margin-left: 10px;">
+        <a-button type="danger" style="margin-left: 10px;" @click="goBack">
           退回
         </a-button>
       </div>
@@ -91,6 +143,14 @@ export default {
     return {
       data: null,
       actualData: null,
+      listQuery: {
+        //(对账单明细)
+        key: "",
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
       columns: [
         {
           title: "订单号",
@@ -164,20 +224,185 @@ export default {
           dataIndex: "kproductName"
         }
       ],
-      dataDetails: null
+      dataDetails: null,
+      paginationProps: {
+        //(对账单明细)
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+            total / this.listQuery.pageSize
+          )} 页`,
+        onChange: this.quickJump,
+        onShowSizeChange: this.onShowSizeChange
+      },
+      steerListQuery: {
+        //(对账单明细)
+        key: "",
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
+      steerPaginationProps: {
+        //(建议调整项)
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${
+            this.steerListQuery.currentPage
+          } / ${Math.ceil(total / this.steerListQuery.pageSize)} 页`,
+        onChange: this.quickJumpSteer,
+        onShowSizeChange: this.onShowSizeChangeSteer
+      },
+      actualListQuery: {
+        //(对账单明细)
+        key: "",
+        search: "",
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
+      actualPaginationProps: {
+        //(实际调整项)
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: (total, range) =>
+          `共 ${total} 条记录 第 ${
+            this.actualListQuery.currentPage
+          } / ${Math.ceil(total / this.actualListQuery.pageSize)} 页`,
+        onChange: this.quickJumpActual,
+        onShowSizeChange: this.onShowSizeChangeActual
+      },
+      visible: false,
+      confirmLoading: false,
+      labelCol: { span: 6 },
+      wrapperCol: { span: 16 },
+      form: {
+        name: ""
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "当前选项不能为空",
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   activated() {
-    this.getData()
+    // this.getData()
+    // let a = 2;
+    // let b = 1;
+    // for (let index = 0; index < 20; index++) {
+    //   [a, b] = [a + b, a];
+    //   console.log(a, b, index + 2);
+    // }
   },
   methods: {
+    showModal() {
+      this.visible = true;
+    },
+    // 确认添加
+    handleOk(e) {
+      this.confirmLoading = true;
+      this.onSubmit();
+    },
+    // 取消（关闭弹窗）
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    // 添加建议调整项
+    onSubmit() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("reconciliation/addSteerItem", this.form)
+            .then(() => {
+              this.confirmLoading = false;
+              this.visible = false;
+              this.$message.success("添加成功");
+            });
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.ruleForm.resetFields();
+    },
+
+    del(id) {
+      this.$confirm({
+        title: "确认要删除吗？",
+        onOk: () => {
+          this.$store.dispatch("reconciliation/del", { id }).then(() => {
+            this.$message.success("删除成功");
+            // this.getData();
+          });
+        }
+      });
+    },
+    // 确认
+    confirm(id) {
+      this.$store.dispatch("reconciliation/confirm", { id }).then(() => {
+        this.$message.success("操作成功");
+        // this.getData();
+      });
+    },
+    // 退回
+    goBack(id) {
+      this.$store.dispatch("reconciliation/goBack", { id }).then(() => {
+        this.$message.success("操作成功");
+        // this.getData();
+      });
+    },
     // 获取页面数据
     getData() {
-      this.$store.dispatch("reconciliation/getData").then((res)=>{
+      this.$store.dispatch("reconciliation/getData").then(res => {
         this.data = res.data;
         this.actualData = res.actualData;
         this.dataDetails = res.dataDetails;
       });
+    },
+    //表格分页跳转(对账单明细)
+    quickJump(currentPage) {
+      this.listQuery.currentPage = currentPage;
+      // this.getList();
+    },
+    //表格分页切换每页条数(对账单明细)
+    onShowSizeChange(current, pageSize) {
+      this.listQuery.currentPage = current;
+      this.listQuery.pageSize = pageSize;
+      // this.getList();
+    },
+
+    //表格分页跳转(建议调整项)
+    quickJumpSteer(currentPage) {
+      this.steerListQuery.currentPage = currentPage;
+      // this.getSteerList();
+    },
+    //表格分页切换每页条数(建议调整项)
+    onShowSizeChangeSteer(current, pageSize) {
+      this.steerListQuery.currentPage = current;
+      this.steerListQuery.pageSize = pageSize;
+      // this.getSteerList();
+    },
+
+    //表格分页跳转(实际调整项)
+    quickJumpActual(currentPage) {
+      this.actualListQuery.currentPage = currentPage;
+      // this.getActualList();
+    },
+    //表格分页切换每页条数(实际调整项)
+    onShowSizeChangeActual(current, pageSize) {
+      this.actualListQuery.currentPage = current;
+      this.actualListQuery.pageSize = pageSize;
+      // this.getActualList();
     }
   }
 };
