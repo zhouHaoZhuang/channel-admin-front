@@ -58,7 +58,7 @@
               >
                 <a-select-option
                   :value="v.key"
-                  v-for="v in useColumns"
+                  v-for="v in monthColumns"
                   :key="v.title"
                 >
                   {{ v.title }}
@@ -73,8 +73,8 @@
               />
             </a-form-model-item>
             <a-form-model-item>
-               <!-- :defaultValue="moment(getCurrentData(), 'YYYY-MM')" -->
-              <a-month-picker placeholder="请选择账期"  @change="onChange" />
+              <!-- :defaultValue="moment(getCurrentData(), 'YYYY-MM')" -->
+              <a-month-picker placeholder="请选择账期" @change="onChange" />
             </a-form-model-item>
             <a-form-model-item>
               <a-button type="primary" @click="handleSearch">
@@ -106,6 +106,9 @@
             {{ record.corporationName }}
             <br />
             <span style="color:#ccc">{{ record.corporationCode }}</span>
+          </div>
+          <div slot="useData" slot-scope="text, record">
+            {{ text }}{{ record.unitPricePerUnit }}
           </div>
           <span slot="customTitle">
             支付状态
@@ -249,7 +252,8 @@ export default {
         },
         {
           title: "实际用量",
-          dataIndex: "useData"
+          dataIndex: "useData",
+          scopedSlots: { customRender: "useData" }
         }
       ],
       columnsMonth: [
@@ -280,7 +284,8 @@ export default {
         },
         {
           title: "实际用量",
-          dataIndex: "useData"
+          dataIndex: "useData",
+          scopedSlots: { customRender: "useData" }
         },
         {
           //账单金额
@@ -335,15 +340,31 @@ export default {
           width: 170
         },
         {
-          title: "渠道商名称",
+          title: "终端客户名称",
           dataIndex: "corporationName",
           key: "corporationName",
           width: 170
         },
         {
-          title: "渠道商ID",
-          dataIndex: "channelCode",
-          key: "channelCode",
+          title: "终端客户ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
+          width: 150
+        }
+      ];
+    },
+    monthColumns() {
+      return [
+        {
+          title: "终端客户名称",
+          dataIndex: "corporationName",
+          key: "corporationName",
+          width: 170
+        },
+        {
+          title: "终端客户ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
           width: 150
         }
       ];
@@ -360,7 +381,9 @@ export default {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
           this.data.forEach(element => {
-            element.consumeTime=moment(element.consumeTime).format("YYYY-MM-DD")
+            element.consumeTime = moment(element.consumeTime).format(
+              "YYYY-MM-DD"
+            );
           });
         })
         .finally(() => {
@@ -393,18 +416,20 @@ export default {
         this.listQuery["qp-billPeriod-eq"] =
           new Date().getFullYear() + "-" + nowMonth;
       }
-       return new Date().getFullYear() + "-" + nowMonth;
+      return new Date().getFullYear() + "-" + nowMonth;
     },
     // 日期选择
     datePickerOnOk(value) {
       if (value.length !== 0) {
-        this.listQuery['qp-consumeTime-ge'] = moment(value[0]).format(
+        this.listQuery["qp-consumeTime-ge"] = moment(value[0]).format(
           "YYYY-MM-DD"
         );
-        this.listQuery['qp-consumeTime-le'] = moment(value[1]).format("YYYY-MM-DD");
+        this.listQuery["qp-consumeTime-le"] = moment(value[1]).format(
+          "YYYY-MM-DD"
+        );
       } else {
-        this.listQuery['qp-consumeTime-ge'] = "";
-        this.listQuery['qp-consumeTime-le'] = "";
+        this.listQuery["qp-consumeTime-ge"] = "";
+        this.listQuery["qp-consumeTime-le"] = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有

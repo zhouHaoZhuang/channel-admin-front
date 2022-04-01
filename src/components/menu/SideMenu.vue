@@ -9,7 +9,7 @@
   >
     <div :class="['logo', theme]">
       <router-link :to="firstPath">
-        <img  :src="logoUrl" />
+        <img :src="logoUrl" />
         <!-- <h1>{{ systemName }}</h1> -->
       </router-link>
     </div>
@@ -86,8 +86,8 @@ export default {
 .logo {
   width: 100%;
   a {
-    display: block;
-    width: 100%;
+    display: flex;
+    align-items: center;
   }
 }
 </style>

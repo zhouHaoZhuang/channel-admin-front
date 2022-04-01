@@ -20,10 +20,7 @@
           <span>创建时间:</span>
           <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
-        <li>
-          <span>支付时间:</span>
-          <span>{{ orderInfo.payTime | formatDate }}</span>
-        </li>
+      
       </ul>
     </div>
     <!-- 支付信息 -->
@@ -34,10 +31,14 @@
           <span>支付金额:</span>
           <span>{{ orderInfo.actualAmount }}</span>
         </li>
-        <li>
-          <span>支付状态:</span>
-          <span>{{ orderInfo.payStatus == 1 ? "待支付" : "已支付" }}</span>
+          <li>
+          <span>支付时间:</span>
+          <span>{{ orderInfo.payTime | formatDate }}</span>
         </li>
+        <!-- <li>
+          <span>支付状态:</span>
+          <span>{{ orderStatus[orderInfo.tradeStatus] }}</span>
+        </li> -->
       </ul>
     </div>
     <!-- 产品信息 -->
