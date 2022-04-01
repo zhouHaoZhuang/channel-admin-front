@@ -32,8 +32,9 @@
             style="width: 120px"
             defaultValue="0"
             placeholder=" 订单类型"
+            allowClear
             v-model="listQuery['qp-tradeType-eq']"
-            >
+          >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderTypeMap"
@@ -48,8 +49,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 订单状态"
+            allowClear
             v-model="listQuery['qp-tradeStatus-eq']"
-            >
+          >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -64,8 +66,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 计费方式"
+            allowClear
             v-model="listQuery['qp-chargingType-eq']"
-            >
+          >
             <a-select-option
               :value="index"
               v-for="(item, index) in charingStatus"
@@ -166,7 +169,12 @@
 </template>
 
 <script>
-import { feeReduction, orderStatus ,charingStatus,orderTypeMap} from "@/utils/enum.js";
+import {
+  feeReduction,
+  orderStatus,
+  charingStatus,
+  orderTypeMap
+} from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -296,7 +304,7 @@ export default {
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
-        },
+        }
         // {
         //   title: "终端客户名称",
         //   dataIndex: "corporationName",
@@ -356,7 +364,7 @@ export default {
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
-       // 表格分页切换每页条数
+    // 表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
       this.listQuery.currentPage = current;
       this.listQuery.pageSize = pageSize;
@@ -385,11 +393,13 @@ export default {
             this.listQuery.search = 0;
           }
         }
-        this.$getListQp("purchaseOrder/getProList", this.listQuery).then(val => {
-          // console.log(val, "时间请求结果");
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.data = val.data.list;
-        });
+        this.$getListQp("purchaseOrder/getProList", this.listQuery).then(
+          val => {
+            // console.log(val, "时间请求结果");
+            this.paginationProps.total = val.data.totalCount * 1;
+            this.data = val.data.list;
+          }
+        );
       }
     },
     changeKey(val) {
@@ -410,7 +420,7 @@ export default {
             .dispatch("withdraw/receiveOrderNo", val.orderNo)
             .then(res => {
               this.$message.success("操作成功");
-              this.getList()
+              this.getList();
             });
         }
       });
