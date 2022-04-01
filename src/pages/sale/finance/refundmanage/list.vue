@@ -137,12 +137,12 @@ export default {
           dataIndex: "refundRemark"
         },
         {
-          title: "退款申请反馈时间",
-          dataIndex: "refundFeedbackTimeShow",
+          title: "退票申请反馈时间",
+          dataIndex: "feedbackTimeShow",
         },
         {
-          title: "退款申请反馈说明",
-          dataIndex: "refundFeedbackRemark"
+          title: "退票申请反馈说明",
+          dataIndex: "feedbackRemark"
         },
         {
           title: "操作",
