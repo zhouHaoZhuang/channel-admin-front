@@ -27,7 +27,7 @@
       </div>
       <a-tree
         v-if="permMap.length > 0"
-        v-model="checkedKeys"
+        :checkedKeys="checkedKeys"
         :replace-fields="replaceFields"
         checkable
         :show-line="true"
@@ -101,9 +101,9 @@ export default {
       });
     },
     // 多选框选择
-    onCheck(checkedKeys, e) {
-      // console.log(checkedKeys, e.halfCheckedKeys);
-      this.checkedKeys = [...checkedKeys, ...e.halfCheckedKeys];
+    onCheck(checkedKeys, info) {
+      console.log(checkedKeys, info);
+      this.checkedKeys = [...checkedKeys, ...info.halfCheckedKeys];
     },
     // 取消
     handleCancel() {
