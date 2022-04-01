@@ -299,15 +299,15 @@ export default {
           width: 170
         },
         {
-          title: "渠道商名称",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
+          title: "终端客户名称",
+          dataIndex: "corporationName",
+          key: "corporationName",
           width: 150
         },
          {
-          title: "渠道商ID",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
+          title: "终端客户ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
           width: 150
         },
       ];

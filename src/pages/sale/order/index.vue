@@ -69,7 +69,7 @@
             >
             <a-select-option
               :value="index"
-              v-for="(item, index) in orderStatus"
+              v-for="(item, index) in charingStatus"
               :key="index"
             >
               {{ item }}

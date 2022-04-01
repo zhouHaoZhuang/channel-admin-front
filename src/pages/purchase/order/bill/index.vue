@@ -223,7 +223,7 @@
               <span slot="channel" slot-scope="text" style="color: #00aaff">
                 {{ text }}
               </span>
-              <div v-if="text" slot="actualAmount" slot-scope="text">
+              <div slot="actualAmount" slot-scope="text">
                 {{ text }}
               </div>
               <span slot="actualAmount">
