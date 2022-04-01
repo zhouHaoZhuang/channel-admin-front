@@ -167,9 +167,17 @@ export default {
       dataDetails: null
     };
   },
+  activated() {
+    this.getData()
+  },
   methods: {
-    handleClick(row) {
-      this.$message.info(`点击了${row.name}`);
+    // 获取页面数据
+    getData() {
+      this.$store.dispatch("reconciliation/getData").then((res)=>{
+        this.data = res.data;
+        this.actualData = res.actualData;
+        this.dataDetails = res.dataDetails;
+      });
     }
   }
 };

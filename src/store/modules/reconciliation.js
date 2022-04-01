@@ -14,7 +14,7 @@ const reconciliation = {
       });
     },
     // 获取详情
-    getOne({ commit, state }, id) {
+    getData({ commit, state }, id) {
       return request({
         url: `/customer/${id}`,
         method: "get"
