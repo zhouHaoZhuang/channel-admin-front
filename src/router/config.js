@@ -207,7 +207,7 @@ export const asyncRoute = [
             name: "订单退订管理",
             meta: {
               icon: "home",
-              perm: "sale_refund"
+              perm: "sale-refund"
             },
             component: BlankView,
             children: [
@@ -215,7 +215,7 @@ export const asyncRoute = [
                 path: "list",
                 name: "订单退订列表",
                 meta: {
-                  perm: "sale_refund-list"
+                  perm: "sale-refund-list"
                 },
                 component: () => import("@/pages/sale/unsubscribe/index")
               },
@@ -225,7 +225,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "sale_refund-list"
+                  perm: "sale-refund-list"
                 },
                 component: () => import("@/pages/sale/unsubscribe/detail")
               }
@@ -1352,7 +1352,7 @@ export const asyncRoute = [
                 path: "enterprise",
                 name: "企业认证",
                 meta: {
-                  perm: "user_center_enterprise"
+                  perm: "user-center-enterprise"
                 },
                 component: () => import("@/pages/user/enterprise/index.vue")
               },
