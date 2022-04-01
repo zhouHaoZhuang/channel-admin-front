@@ -152,7 +152,7 @@ export default {
         },
         {
           title: "退票申请反馈时间",
-          dataIndex: "refundCreateTimeShow",
+          dataIndex: "refundFeedbackTimeShow",
           width: 180
         },
         {

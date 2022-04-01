@@ -54,7 +54,7 @@
           >
             <a-select-option
               :value="index"
-              v-for="(item, index) in orderStatus"
+              v-for="(item, index) in orderStatusEnum"
               :key="index"
             >
               {{ item }}
@@ -146,8 +146,7 @@
           <a-button
             type="link"
             @click="toPayment(text)"
-            :disabled="
-              text.chargingType !== 'AfterPay' && text.tradeStatus != 0
+            :disabled="text.chargingType !== 'AfterPay' || text.tradeStatus !== 0
             "
           >
             继续支付
@@ -161,7 +160,7 @@
           {{ text | formatDate }}
         </div>
         <div slot="tradeStatus" slot-scope="text">
-          {{ orderStatus[text] }}
+          {{ orderStatusEnum[text] }}
         </div>
       </a-table>
     </div>
@@ -171,7 +170,7 @@
 <script>
 import {
   feeReduction,
-  orderStatus,
+  orderStatusEnum,
   charingStatus,
   orderTypeMap
 } from "@/utils/enum.js";
@@ -180,7 +179,7 @@ export default {
     return {
       title: "orderNo",
       feeReduction,
-      orderStatus,
+      orderStatusEnum,
       charingStatus,
       orderTypeMap,
       // search: "",
