@@ -202,6 +202,7 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form.feedbackRemark = "";
     },
     //查询数据表格
     getData() {
