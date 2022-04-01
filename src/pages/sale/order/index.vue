@@ -273,18 +273,18 @@ export default {
           key: "orderNo",
           width: 170
         },
-        {
-          title: "终端客户名称",
-          dataIndex: "corporationName",
-          key: "corporationName",
-          width: 150
-        },
-        {
-          title: "终端客户ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150
-        }
+        // {
+        //   title: "终端客户名称",
+        //   dataIndex: "corporationName",
+        //   key: "corporationName",
+        //   width: 150
+        // },
+        // {
+        //   title: "终端客户ID",
+        //   dataIndex: "corporationCode",
+        //   key: "corporationCode",
+        //   width: 150
+        // }
       ];
     }
   },
