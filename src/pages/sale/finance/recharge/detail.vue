@@ -10,12 +10,12 @@
       <div>
         <span class="details-type">充值方式：</span>
         <span class="details-value">
-          {{rechargeTypeMap[data.channelCode]}}
+          {{rechargeTypeMap[data.detailType]}}
         </span>
       </div>
       <div>
         <span class="details-type">充值金额：</span>
-        <span class="details-value">{{ data.amount }}</span>
+        <span class="details-value">{{ data.dealAmount.toFixed(2) }}</span>
       </div>
       <div>
         <span class="details-type">充值时间：</span>
