@@ -99,8 +99,7 @@ export const orderTypeMap = {
   35: "云服务降配",
   45: "交易关闭",
   55: "服务器退订",
-  65: "后付费订单"
-  // 66:'向'
+  65: "cdn流量"
 };
 
 // 充值方式map
@@ -115,10 +114,10 @@ export const rechargeTypeMap = {
 };
 // 订单状态
 export const orderStatusEnum = {
-  "-3": "操作服务器异常",
+  "-3": "交易异常",
   "-1": "交易关闭",
   1: "待支付",
-  3: "支付中",
+  3: "订单支付中",
   5: "交易完成",
   "-5": "退款失败"
 };
@@ -236,7 +235,6 @@ export const feeReduction = {
   45: "交易关闭",
   55: "退订",
   65: "后付费订单",
-  66: "后付费订单"
 };
 //cdn状态
 export const cdnStatus = {

@@ -44,90 +44,103 @@
             </a-form-model-item>
           </a-form-model>
         </div>
-           <div class="orderTable">
-      <div>
-        <a-table
-          :columns="columnsDay"
-          :data-source="data"
-          :loading="tableLoading"
-          :pagination="paginationProps"
-          :scroll="{ x: 1400 }"
-        >
-          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
-            {{ text }}
-          </span>
-          <div v-if="text" slot="originAmount" slot-scope="text">
-            {{ text }}
+        <div class="orderTable">
+          <div>
+            <a-table
+              :columns="columnsDay"
+              :data-source="data"
+              :loading="tableLoading"
+              :pagination="paginationProps"
+              :scroll="{ x: 1400 }"
+            >
+              <span
+                slot="corporationCode"
+                slot-scope="text"
+                style="color: #00aaff"
+              >
+                {{ text }}
+              </span>
+              <div v-if="text" slot="originAmount" slot-scope="text">
+                {{ text }}
+              </div>
+
+              <div slot="channelName">
+                浙江云盾科技有限公司
+              </div>
+              <span slot="customTitle">
+                支付状态
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span>
+                      未结算：已消费，未出帐的账单<br />
+                      未结清：已出帐，未支付的账单</span
+                    >
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <span slot="customTitle" slot-scope="text, record">
+                {{ record.owe == "0.00" ? "已结清" : "未结清" }}
+              </span>
+              <span slot="channel" slot-scope="text" style="color: #00aaff">
+                {{ text }}
+              </span>
+              <div v-if="text" slot="actualAmount" slot-scope="text">
+                {{ text }}
+              </div>
+              <div slot="useData" slot-scope="text, record">
+                {{ text }}{{ record.unitPricePerUnit }}
+              </div>
+              <div slot="actualAmount" slot-scope="text">
+                {{ text }}
+              </div>
+              <span slot="actualAmount">
+                账单金额
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span> 账单金额=单价*实际用量</span>
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <span slot="originAmount">
+                成本金额
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span>
+                      成本金额=渠道折扣金额*实际用量
+                    </span>
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <span slot="owe">
+                欠费金额
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span>
+                      已出帐未结清的金额
+                    </span>
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <div slot="consumeTime" slot-scope="text" v-if="text">
+                {{ text | formatDate }}
+              </div>
+              <div
+                slot-scope="text"
+                slot="actualPrice"
+                v-if="text != undefined"
+              >
+                {{ text.toFixed(2) }}
+              </div>
+              <div slot-scope="text" slot="owe" v-if="text != undefined">
+                {{ text.toFixed(2) }}
+              </div>
+            </a-table>
           </div>
-          <div slot="channelName" slot-scope="text, record">
-            {{ record.channelName }}
-            <!-- <br />
-            <span style="color:#ccc">{{ record.channelCode }}</span> -->
-          </div>
-          <span slot="customTitle">
-            支付状态
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span>
-                  未结算：已消费，未出帐的账单<br />
-                  未结清：已出帐，未支付的账单</span
-                >
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <span slot="customTitle" slot-scope="text, record">
-            {{ record.owe == "0.00" ? "已结清" : "未结清" }}
-          </span>
-          <span slot="channel" slot-scope="text" style="color: #00aaff">
-            {{ text }}
-          </span>
-          <div v-if="text" slot="actualAmount" slot-scope="text">
-            {{ text }}
-          </div>
-          <span slot="actualAmount">
-            账单金额
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span> 账单金额=单价*实际用量</span>
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <span slot="originAmount">
-            成本金额
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span>
-                  成本金额=渠道折扣金额*实际用量
-                </span>
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <span slot="owe">
-            欠费金额
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span>
-                  已出帐未结清的金额
-                </span>
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <div slot="consumeTime" slot-scope="text" v-if="text">
-            {{ text | formatDate }}
-          </div>
-          <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
-            {{ text.toFixed(2) }}
-          </div>
-          <div slot-scope="text" slot="owe" v-if="text != undefined">
-            {{ text.toFixed(2) }}
-          </div>
-        </a-table>
-      </div>
-    </div>
+        </div>
       </a-tab-pane>
       <a-tab-pane key="month" tab="月账单" force-render>
         <div class="public-header-wrap">
@@ -142,7 +155,7 @@
               >
                 <a-select-option
                   :value="v.key"
-                  v-for="v in useColumns"
+                  v-for="v in monthColumns"
                   :key="v.title"
                 >
                   {{ v.title }}
@@ -167,90 +180,103 @@
             </a-form-model-item>
           </a-form-model>
         </div>
-           <div class="orderTable">
-      <div>
-        <a-table
-          :columns="columnsMonth"
-          :data-source="data"
-          :loading="tableLoading"
-          :pagination="paginationProps"
-          :scroll="{ x: 1400 }"
-        >
-          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
-            {{ text }}
-          </span>
-          <div v-if="text" slot="originAmount" slot-scope="text">
-            {{ text }}
+        <div class="orderTable">
+          <div>
+            <a-table
+              :columns="columnsMonth"
+              :data-source="data"
+              :loading="tableLoading"
+              :pagination="paginationProps"
+              :scroll="{ x: 1400 }"
+            >
+              <span
+                slot="corporationCode"
+                slot-scope="text"
+                style="color: #00aaff"
+              >
+                {{ text }}
+              </span>
+              <div v-if="text" slot="originAmount" slot-scope="text">
+                {{ text }}
+              </div>
+              <!-- <div slot="channelName" slot-scope="text, record">
+                {{ record.channelName }}
+               <br />
+            <span style="color:#ccc">{{ record.channelCode }}</span> 
+              </div> -->
+              <div slot="channelName">
+                浙江云盾科技有限公司
+              </div>
+              <div slot="useData" slot-scope="text, record">
+                {{ text }}{{ record.unitPricePerUnit }}
+              </div>
+              <span slot="customTitle">
+                支付状态
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span>
+                      未结算：已消费，未出帐的账单<br />
+                      未结清：已出帐，未支付的账单</span
+                    >
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <span slot="customTitle" slot-scope="text, record">
+                {{ record.owe == "0.00" ? "已结清" : "未结清" }}
+              </span>
+              <span slot="channel" slot-scope="text" style="color: #00aaff">
+                {{ text }}
+              </span>
+              <div slot="actualAmount" slot-scope="text">
+                {{ text }}
+              </div>
+              <span slot="actualAmount">
+                账单金额
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span> 账单金额=单价*实际用量</span>
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <span slot="originAmount">
+                成本金额
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span>
+                      成本金额=渠道折扣金额*实际用量
+                    </span>
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <span slot="owe">
+                欠费金额
+                <a-tooltip placement="top">
+                  <template slot="title">
+                    <span>
+                      已出帐未结清的金额
+                    </span>
+                  </template>
+                  <a-icon type="question-circle" />
+                </a-tooltip>
+              </span>
+              <div
+                slot-scope="text"
+                slot="actualPrice"
+                v-if="text != undefined"
+              >
+                {{ text.toFixed(2) }}
+              </div>
+              <div slot-scope="text" slot="owe" v-if="text != undefined">
+                {{ text.toFixed(2) }}
+              </div>
+            </a-table>
           </div>
-          <div slot="channelName" slot-scope="text, record">
-            {{ record.channelName }}
-            <!-- <br />
-            <span style="color:#ccc">{{ record.channelCode }}</span> -->
-          </div>
-          <span slot="customTitle">
-            支付状态
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span>
-                  未结算：已消费，未出帐的账单<br />
-                  未结清：已出帐，未支付的账单</span
-                >
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <span slot="customTitle" slot-scope="text, record">
-            {{ record.owe == "0.00" ? "已结清" : "未结清" }}
-          </span>
-          <span slot="channel" slot-scope="text" style="color: #00aaff">
-            {{ text }}
-          </span>
-          <div v-if="text" slot="actualAmount" slot-scope="text">
-            {{ text }}
-          </div>
-          <span slot="actualAmount">
-            账单金额
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span> 账单金额=单价*实际用量</span>
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <span slot="originAmount">
-            成本金额
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span>
-                  成本金额=渠道折扣金额*实际用量
-                </span>
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <span slot="owe">
-            欠费金额
-            <a-tooltip placement="top">
-              <template slot="title">
-                <span>
-                  已出帐未结清的金额
-                </span>
-              </template>
-              <a-icon type="question-circle" />
-            </a-tooltip>
-          </span>
-          <div slot-scope="text" slot="actualPrice" v-if="text != undefined">
-            {{ text.toFixed(2) }}
-          </div>
-          <div slot-scope="text" slot="owe" v-if="text != undefined">
-            {{ text.toFixed(2) }}
-          </div>
-        </a-table>
-      </div>
-    </div>
+        </div>
       </a-tab-pane>
     </a-tabs>
- 
   </div>
 </template>
 
@@ -298,11 +324,12 @@ export default {
           dataIndex: "unitPricePerUnit",
           scopedSlots: { customRender: "unitPricePerUnit" }
         },
-        // {
-        //   //账单金额
-        //   dataIndex: "actualAmount",
-        //   slots: { title: "actualAmount" }
-        // },
+        {
+          //账单金额
+          dataIndex: "actualAmount",
+          slots: { title: "actualAmount" },
+          scopedSlots: { customRender: "actualAmount" }
+        },
         // {
         //   //成本金额
         //   dataIndex: "originAmount",
@@ -326,7 +353,8 @@ export default {
         },
         {
           title: "实际用量",
-          dataIndex: "useData"
+          dataIndex: "useData",
+          scopedSlots: { customRender: "useData" }
         }
       ],
       columnsMonth: [
@@ -357,12 +385,14 @@ export default {
         },
         {
           title: "实际用量",
-          dataIndex: "useData"
+          dataIndex: "useData",
+          scopedSlots: { customRender: "useData" }
         },
         {
           //账单金额
           dataIndex: "actualAmount",
-          slots: { title: "actualAmount" }
+          slots: { title: "actualAmount" },
+          scopedSlots: { customRender: "actualAmount" }
         },
         // {
         //   //成本金额
@@ -412,16 +442,20 @@ export default {
           width: 170
         },
         {
-          title: "渠道商名称",
+          title: "供应商名称",
           dataIndex: "channelName",
           key: "channelName",
           width: 170
-        },
+        }
+      ];
+    },
+    monthColumns() {
+      return [
         {
-          title: "渠道商ID",
-          dataIndex: "channelCode",
-          key: "channelCode",
-          width: 150
+          title: "供应商名称",
+          dataIndex: "channelName",
+          key: "channelName",
+          width: 170
         }
       ];
     }
@@ -436,7 +470,9 @@ export default {
           this.data = [...res.data.list];
           this.paginationProps.total = res.data.totalCount * 1;
           this.data.forEach(element => {
-            element.consumeTime =  moment(element.consumeTime ).format("YYYY-MM-DD");
+            element.consumeTime = moment(element.consumeTime).format(
+              "YYYY-MM-DD"
+            );
           });
         })
         .finally(() => {
@@ -472,13 +508,15 @@ export default {
     // 日期选择
     datePickerOnOk(value) {
       if (value.length !== 0) {
-        this.listQuery['qp-consumeTime-ge'] = moment(value[0]).format(
+        this.listQuery["qp-consumeTime-ge"] = moment(value[0]).format(
           "YYYY-MM-DD"
         );
-        this.listQuery['qp-consumeTime-le']= moment(value[1]).format("YYYY-MM-DD");
+        this.listQuery["qp-consumeTime-le"] = moment(value[1]).format(
+          "YYYY-MM-DD"
+        );
       } else {
-        this.listQuery['qp-consumeTime-ge'] = "";
-        this.listQuery['qp-consumeTime-le'] = "";
+        this.listQuery["qp-consumeTime-ge"] = "";
+        this.listQuery["qp-consumeTime-le"] = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有

@@ -35,12 +35,12 @@
             @change="datePickerOnOk"
           />
         </a-form-model-item>
-        <a-form-model-item>
+        <!-- <a-form-model-item>
           <a-select
             style="width:150px;margin-right: 10px"
             placeholder="订单类型"
             allowClear
-            v-model="listQuery.tradeType"
+            v-model="listQuery['qp-tradeType-eq']"
           >
             <a-select-option
               v-for="(value, key) in orderTypeMap"
@@ -50,13 +50,13 @@
               {{ value }}
             </a-select-option>
           </a-select>
-        </a-form-model-item>
+        </a-form-model-item> -->
         <a-form-model-item>
           <a-select
             style="width:150px"
             placeholder="订单状态"
             allowClear
-            v-model="listQuery.tradeStatus"
+            v-model="listQuery['qp-tradeStatus-eq']"
           >
             <a-select-option
               v-for="(value, key) in orderStatusEnum"
@@ -72,7 +72,7 @@
             style="width:150px"
             placeholder="计费方式"
             allowClear
-            v-model="listQuery.charingType"
+            v-model="listQuery['qp-charingType-eq']"
           >
             <a-select-option
               v-for="(value, key) in charingStatus"
@@ -100,8 +100,10 @@
           :pagination="paginationProps"
           :scroll="{ x: 1400 }"
         >
-          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
-            {{ text }}
+          <span slot="corporationCode" slot-scope="text,record" style="color: #00aaff">
+            {{ record.corporationName }}
+          <br />
+          <span style="color:#ccc;">{{ record.corporationCode }}</span>
           </span>
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text }}
@@ -117,12 +119,12 @@
             {{ text }}
           </span>
           <div slot="chargingType" slot-scope="text">
-            {{charingStatus[text]}}
+            {{ charingStatus[text] }}
           </div>
           <div slot="actualAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-          <div  slot="actual" slot-scope="text, record">
+          <div slot="actual" slot-scope="text, record">
             {{ record.actualAmount.toFixed(2) }}
           </div>
           <div slot="tradeType" slot-scope="text">
@@ -164,7 +166,7 @@
 
 <script>
 import moment from "moment";
-import { orderStatusEnum, orderTypeMap ,charingStatus} from "@/utils/enum.js";
+import { orderStatusEnum, orderTypeMap, charingStatus } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -174,10 +176,7 @@ export default {
       listQuery: {
         key: undefined,
         search: "",
-        startTime: "",
-        endTime: "",
-        tradeType: undefined,
-        tradeStatus: undefined,
+        "qp-tradeType-eq": 55,
         currentPage: 1,
         pageSize: 10,
         total: 0
@@ -279,18 +278,18 @@ export default {
           key: "orderNo",
           width: 170
         },
-        {
-          title: "渠道商名称",
-          dataIndex: "customerName",
-          key: "customerName",
-          width: 170
-        },
-        {
-          title: "渠道商ID",
-          dataIndex: "channel",
-          key: "channel",
-          width: 150
-        }
+        // {
+        //   title: "终端客户名称",
+        //   dataIndex: "corporationName",
+        //   key: "corporationName",
+        //   width: 150
+        // },
+        //  {
+        //   title: "终端客户ID",
+        //   dataIndex: "corporationCode",
+        //   key: "corporationCode",
+        //   width: 150
+        // },
       ];
     }
   },
@@ -298,8 +297,7 @@ export default {
     //查询表格数据
     getList() {
       this.loading = true;
-      this.$store
-        .dispatch("financialOrder/getList", this.listQuery)
+      this.$getListQp("purchaseOrder/getProList", this.listQuery)
         .then(res => {
           this.paginationProps.total = res.data.totalCount * 1;
           this.data = res.data.list;

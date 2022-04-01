@@ -32,11 +32,12 @@
             style="width: 120px"
             defaultValue="0"
             placeholder=" 订单类型"
+            allowClear
             v-model="listQuery['qp-tradeType-eq']"
-            >
+          >
             <a-select-option
               :value="index"
-              v-for="(item, index) in feeReduction"
+              v-for="(item, index) in orderTypeMap"
               :key="index"
             >
               {{ item }}
@@ -48,8 +49,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 订单状态"
+            allowClear
             v-model="listQuery['qp-tradeStatus-eq']"
-            >
+          >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -64,8 +66,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 计费方式"
+            allowClear
             v-model="listQuery['qp-chargingType-eq']"
-            >
+          >
             <a-select-option
               :value="index"
               v-for="(item, index) in charingStatus"
@@ -82,14 +85,12 @@
             show-time
             format="YYYY-MM-DD 00:00:00"
             placeholder="开始时间"
-            :disabled="isTime"
             @change="changeStart"
             @openChange="handleStartOpenChange"
           />
           <span class="zhi">至</span>
           <a-date-picker
             v-model="endValue"
-            :disabled="isTime"
             :disabled-date="disabledEndDate"
             show-time
             format="YYYY-MM-DD 00:00:00"
@@ -135,7 +136,7 @@
           {{ text.toFixed(2) }}
         </div>
         <div slot="tradeType" slot-scope="text">
-          <span>{{ feeReduction[text] }}</span>
+          <span>{{ orderTypeMap[text] }}</span>
         </div>
         <div slot="action" slot-scope="text">
           <a-button type="link" @click="selectPool(text)">
@@ -168,7 +169,12 @@
 </template>
 
 <script>
-import { feeReduction, orderStatus ,charingStatus} from "@/utils/enum.js";
+import {
+  feeReduction,
+  orderStatus,
+  charingStatus,
+  orderTypeMap
+} from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -176,6 +182,7 @@ export default {
       feeReduction,
       orderStatus,
       charingStatus,
+      orderTypeMap,
       // search: "",
       listQuery: {
         key: undefined,
@@ -297,19 +304,19 @@ export default {
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
-        },
-        {
-          title: "渠道商名称",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
-          width: 150
-        },
-         {
-          title: "渠道商ID",
-          dataIndex: "cutomerCode",
-          key: "cutomerCode",
-          width: 150
-        },
+        }
+        // {
+        //   title: "终端客户名称",
+        //   dataIndex: "corporationName",
+        //   key: "corporationName",
+        //   width: 150
+        // },
+        //  {
+        //   title: "终端客户ID",
+        //   dataIndex: "corporationCode",
+        //   key: "corporationCode",
+        //   width: 150
+        // },
       ];
     }
   },
@@ -357,10 +364,10 @@ export default {
       this.listQuery.pageSize = pageSize;
       this.getList();
     },
+    // 表格分页切换每页条数
     onShowSizeChange(current, pageSize) {
-      // console.log("改变了分页的大小", current, pageSize);
-      this.paginationProps.currentPage = current;
-      this.paginationProps.pageSize = pageSize;
+      this.listQuery.currentPage = current;
+      this.listQuery.pageSize = pageSize;
       this.getList();
     },
     selectPool(v, i) {
@@ -386,11 +393,13 @@ export default {
             this.listQuery.search = 0;
           }
         }
-        this.$getListQp("purchaseOrder/getList", this.listQuery).then(val => {
-          // console.log(val, "时间请求结果");
-          this.paginationProps.total = val.data.totalCount * 1;
-          this.data = val.data.list;
-        });
+        this.$getListQp("purchaseOrder/getProList", this.listQuery).then(
+          val => {
+            // console.log(val, "时间请求结果");
+            this.paginationProps.total = val.data.totalCount * 1;
+            this.data = val.data.list;
+          }
+        );
       }
     },
     changeKey(val) {
@@ -411,6 +420,7 @@ export default {
             .dispatch("withdraw/receiveOrderNo", val.orderNo)
             .then(res => {
               this.$message.success("操作成功");
+              this.getList();
             });
         }
       });

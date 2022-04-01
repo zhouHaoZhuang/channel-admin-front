@@ -18,13 +18,7 @@
         </li>
         <li>
           <span>创建时间:</span>
-          <span>{{ orderInfo.createTime | formatDate }}</span>
-        </li>
-        <li>
-          <span>支付时间:</span>
-          <span v-if="orderInfo.payTime">{{
-            orderInfo.payTime | formatDate
-          }}</span>
+          <span>{{ orderInfo.orderCreateTime | formatDate }}</span>
         </li>
       </ul>
     </div>
@@ -37,10 +31,16 @@
           <span>支付金额:</span>
           <span>{{ orderInfo.actualAmount }}</span>
         </li>
-        <li>
-          <span>支付状态:</span>
-          <span>{{ orderInfo.payStatus == 1 ? "待支付" : "已支付" }}</span>
+           <li>
+          <span>支付时间:</span>
+          <span v-if="orderInfo.payTime">{{
+            orderInfo.payTime | formatDate
+          }}</span>
         </li>
+        <!-- <li>
+          <span>支付状态:</span>
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
+        </li> -->
       </ul>
     </div>
     <!-- 产品信息 -->

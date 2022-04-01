@@ -23,20 +23,21 @@
           <a-input
             allowClear
             placeholder="请输入订单编号"
-            v-model="listQuery.search"
+            v-model="listQuery[listQuery.key]"
           />
         </a-form-model-item>
 
         <a-form-model-item>
           <a-select
-            style="width: 120px"
+            style="width: 140px"
             defaultValue="0"
             placeholder=" 订单类型"
-            v-model="listQuery['qp-tradeType-eq']"
-            >
+            allowClear
+            v-model="listQuery.tradeType"
+          >
             <a-select-option
               :value="index"
-              v-for="(item, index) in feeReduction"
+              v-for="(item, index) in orderTypeMap"
               :key="index"
             >
               {{ item }}
@@ -48,9 +49,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 订单状态"
-            v-model="listQuery['qp-tradeStatus-eq']"
-            ><a-select-option value="">
-            </a-select-option>
+            allowClear
+            v-model="listQuery.tradeStatus"
+            ><a-select-option value=""> </a-select-option>
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -65,11 +66,12 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
-            v-model="listQuery['qp-chargingType-eq']"
-            >
+            allowClear
+            v-model="listQuery.chargingType"
+          >
             <a-select-option
               :value="index"
-              v-for="(item, index) in orderStatus"
+              v-for="(item, index) in charingStatus"
               :key="index"
             >
               {{ item }}
@@ -107,9 +109,11 @@
             slot-scope="text, record"
             style="color: #00aaff"
           >
-            {{ record.corporationName }}
+            {{ record.ccCorporation.corporationName }}
             <br />
-            <span style="color:#ccc;">{{ record.corporationCode }}</span>
+            <span style="color:#ccc;">{{
+              record.ccCorporation.corporationCode
+            }}</span>
           </span>
           <div slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
@@ -172,9 +176,6 @@ export default {
       charingStatus,
       listQuery: {
         key: undefined,
-        search: "",
-        startTime: "",
-        endTime: "",
         tradeType: undefined,
         tradeStatus: undefined,
         currentPage: 1,
@@ -275,19 +276,19 @@ export default {
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
-        },
-        {
-          title: "终端客户名称",
-          dataIndex: "corporationName",
-          key: "corporationName",
-          width: 150
-        },
-        {
-          title: "终端客户ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150
         }
+        // {
+        //   title: "终端客户名称",
+        //   dataIndex: "corporationName",
+        //   key: "corporationName",
+        //   width: 150
+        // },
+        // {
+        //   title: "终端客户ID",
+        //   dataIndex: "corporationCode",
+        //   key: "corporationCode",
+        //   width: 150
+        // }
       ];
     }
   },
@@ -312,13 +313,13 @@ export default {
     // 日期选择
     datePickerOnOk(value) {
       if (value.length !== 0) {
-        this.listQuery['qp-createTime-ge'] = moment(value[0]).format(
+        this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        this.listQuery['qp-createTime-le'] = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
+        this.listQuery.endTime = moment(value[1]).format("YYYY-MM-DD HH:mm:ss");
       } else {
-        this.listQuery['qp-createTime-ge'] = "";
-        this.listQuery['qp-createTime-le'] = "";
+        this.listQuery.startTime = "";
+        this.listQuery.endTime = "";
       }
     },
     // 禁用日期--禁用当天之后+当天前一个月所有

@@ -33,11 +33,11 @@
       <ul>
         <li>
           <span>退款金额:</span>
-          <span>{{orderInfo.actualAmount}}</span>
+          <span>{{ orderInfo.actualAmount }}</span>
         </li>
         <li>
           <span>退款状态:</span>
-          <span>{{ orderInfo.payStatus == 1 ? "待退款" : "已退款" }}</span>
+          <span>{{ orderStatusEnum[orderInfo.tradeStatus] }}</span>
         </li>
       </ul>
     </div>
