@@ -178,12 +178,11 @@ export default {
         search: "",
         startTime: "",
         endTime: "",
-        tradeType: undefined,
         tradeStatus: undefined,
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        'qp-tradeType-eq':55
+        tradeType:55
       },
       tableLoading: false,
       columns: [
@@ -281,13 +280,13 @@ export default {
           width: 170
         },
         {
-          title: "渠道商名称",
+          title: "终端客户名称",
           dataIndex: "corporationName",
           key: "corporationName",
           width: 150
         },
         {
-          title: "渠道商ID",
+          title: "终端客户ID",
           dataIndex: "corporationCode",
           key: "corporationCode",
           width: 150

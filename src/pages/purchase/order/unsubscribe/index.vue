@@ -100,8 +100,10 @@
           :pagination="paginationProps"
           :scroll="{ x: 1400 }"
         >
-          <span slot="corporationCode" slot-scope="text" style="color: #00aaff">
-            {{ text }}
+          <span slot="corporationCode" slot-scope="text,record" style="color: #00aaff">
+            {{ record.corporationName }}
+          <br />
+          <span style="color:#ccc;">{{ record.corporationCode }}</span>
           </span>
           <div v-if="text" slot="originAmount" slot-scope="text">
             {{ text }}
@@ -277,17 +279,17 @@ export default {
           width: 170
         },
         {
-          title: "渠道商名称",
-          dataIndex: "customerName",
-          key: "customerName",
-          width: 170
-        },
-        {
-          title: "渠道商ID",
-          dataIndex: "channel",
-          key: "channel",
+          title: "终端客户名称",
+          dataIndex: "corporationName",
+          key: "corporationName",
           width: 150
-        }
+        },
+         {
+          title: "终端客户ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
+          width: 150
+        },
       ];
     }
   },
