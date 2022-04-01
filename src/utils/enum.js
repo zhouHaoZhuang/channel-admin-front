@@ -119,7 +119,8 @@ export const orderStatusEnum = {
   1: "待支付",
   3: "订单支付中",
   5: "交易完成",
-  "-5": "退款失败"
+  "-5": "退款失败",
+  0: "支付失败"
 };
 // 轮播图类型map
 export const bannerTypeEnum = {
