@@ -19,7 +19,7 @@
       </div>
       <div>
         <span class="details-type">充值时间：</span>
-        <span class="details-value">{{ data.createTime }}</span>
+        <span class="details-value">{{ data.createTime|formatDate }}</span>
       </div>
       <div>
         <span class="details-type">充值状态：</span>

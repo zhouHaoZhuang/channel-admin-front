@@ -87,11 +87,21 @@
 </template>
 
 <script>
-import { invoiceStatusEnum } from "@/utils/enum";
+// import { invoiceStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
-      invoiceStatusEnum,
+      invoiceStatusEnum: {
+        // 1: "开票中（已提交）",
+        // 2: "已取消",
+        // 3: "审核中",
+        // 4: "已驳回",
+        // 5: "已开票（已通过）",
+        6: "退票中（退票申请中）",
+        7: "退票申请取消",
+        8: "退票申请已拒绝",
+        9: "已退票（退票申请确认）"
+      },
       listQuery: {
         invoiceNo: "",
         companyName: "",
@@ -130,7 +140,7 @@ export default {
         },
         {
           title: "退票申请创建时间",
-          dataIndex: "refundCreateTimeShow",
+          dataIndex: "refundCreateTimeShow"
         },
         {
           title: "备注",
@@ -138,7 +148,7 @@ export default {
         },
         {
           title: "退票申请反馈时间",
-          dataIndex: "feedbackTimeShow",
+          dataIndex: "feedbackTimeShow"
         },
         {
           title: "退票申请反馈说明",
