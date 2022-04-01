@@ -92,6 +92,9 @@
               <div slot="useData" slot-scope="text, record">
                 {{ text }}{{ record.unitPricePerUnit }}
               </div>
+              <div slot="actualAmount" slot-scope="text">
+                {{ text }}
+              </div>
               <span slot="actualAmount">
                 账单金额
                 <a-tooltip placement="top">
@@ -319,11 +322,12 @@ export default {
           dataIndex: "unitPricePerUnit",
           scopedSlots: { customRender: "unitPricePerUnit" }
         },
-        // {
-        //   //账单金额
-        //   dataIndex: "actualAmount",
-        //   slots: { title: "actualAmount" }
-        // },
+        {
+          //账单金额
+          dataIndex: "actualAmount",
+          slots: { title: "actualAmount" },
+          scopedSlots: { customRender: "actualAmount" }
+        },
         // {
         //   //成本金额
         //   dataIndex: "originAmount",
@@ -385,7 +389,8 @@ export default {
         {
           //账单金额
           dataIndex: "actualAmount",
-          slots: { title: "actualAmount" }
+          slots: { title: "actualAmount" },
+          scopedSlots: { customRender: "actualAmount" }
         },
         // {
         //   //成本金额
