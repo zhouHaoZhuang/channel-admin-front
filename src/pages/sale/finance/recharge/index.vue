@@ -147,7 +147,8 @@
           </div>
           <div
             slot="finishTime"
-            slot-scope="text"
+            slot-scope="text, record"
+            v-if="text && record.status == 9"
           >
             {{ text | formatDate }}
           </div>
