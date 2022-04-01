@@ -23,13 +23,14 @@
       <div class="public-title">关联资源</div>
       <div class="info-box">
         <a-icon class="icon" type="info-circle" theme="filled" />
-        如果取消关联父级节点，对应的子级节点都会取消关联！
+        勾选子菜单的同时务必要勾选对应的上级菜单！
       </div>
       <a-tree
         v-if="permMap.length > 0"
         v-model="checkedKeys"
         :replace-fields="replaceFields"
         checkable
+        checkStrictly
         :show-line="true"
         :defaultExpandAll="true"
         :tree-data="permMap"
@@ -61,6 +62,8 @@ export default {
       },
       // 多选选择的数据
       checkedKeys: [],
+      // 多选数据传递给后端的数据
+      resultCheckedKeys: [],
       // 权限菜单数据
       permMap: [],
       loading: false,
@@ -92,6 +95,7 @@ export default {
         .then(res => {
           this.detail = { ...res.data };
           this.checkedKeys = [...res.data.permissionIdList];
+          this.resultCheckedKeys = [...res.data.permissionIdList];
         });
     },
     // 获取权限菜单
@@ -101,9 +105,8 @@ export default {
       });
     },
     // 多选框选择
-    onCheck(checkedKeys, e) {
-      // console.log(checkedKeys, e.halfCheckedKeys);
-      this.checkedKeys = [...checkedKeys, ...e.halfCheckedKeys];
+    onCheck(checkedKeys, info) {
+      this.resultCheckedKeys = [...checkedKeys, ...info.halfCheckedKeys];
     },
     // 取消
     handleCancel() {
