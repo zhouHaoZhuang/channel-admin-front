@@ -48,9 +48,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 订单状态"
+            allowClear
             v-model="listQuery.tradeStatus"
-            ><a-select-option value="">
-            </a-select-option>
+            ><a-select-option value=""> </a-select-option>
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -65,8 +65,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
+            allowClear
             v-model="listQuery.chargingType"
-            >
+          >
             <a-select-option
               :value="index"
               v-for="(item, index) in charingStatus"
@@ -109,12 +110,14 @@
           >
             {{ record.ccCorporation.corporationName }}
             <br />
-            <span style="color:#ccc;">{{ record.ccCorporation.corporationCode }}</span>
+            <span style="color:#ccc;">{{
+              record.ccCorporation.corporationCode
+            }}</span>
           </span>
           <div slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-            <div slot="NumberNo" slot-scope="text,record">
+          <div slot="NumberNo" slot-scope="text, record">
             {{ record.orderNo }}
           </div>
           <div slot="discountRate" slot-scope="text">
@@ -123,7 +126,7 @@
           <div slot="actualAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
-           <div slot="actual" slot-scope="text,record">
+          <div slot="actual" slot-scope="text, record">
             {{ record.actualAmount.toFixed(2) }}
           </div>
           <div slot="tradeType" slot-scope="text">
@@ -182,7 +185,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        tradeType:55
+        tradeType: 55
       },
       tableLoading: false,
       columns: [
@@ -191,10 +194,10 @@ export default {
           dataIndex: "orderNo",
           width: 170
         },
-          {
+        {
           title: "订单编号",
           dataIndex: "NumberNo",
-           scopedSlots: { customRender: "NumberNo" },
+          scopedSlots: { customRender: "NumberNo" },
           width: 170
         },
         {
@@ -278,7 +281,7 @@ export default {
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
-        },
+        }
         // {
         //   title: "终端客户名称",
         //   dataIndex: "corporationName",
@@ -314,7 +317,7 @@ export default {
     },
     // 日期选择
     datePickerOnOk(value) {
-       if (value.length !== 0) {
+      if (value.length !== 0) {
         this.listQuery.startTime = moment(value[0]).format(
           "YYYY-MM-DD HH:mm:ss"
         );
