@@ -410,6 +410,7 @@ export default {
             .dispatch("withdraw/receiveOrderNo", val.orderNo)
             .then(res => {
               this.$message.success("操作成功");
+              this.getList()
             });
         }
       });

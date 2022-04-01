@@ -63,10 +63,9 @@
               <div v-if="text" slot="originAmount" slot-scope="text">
                 {{ text }}
               </div>
-              <div slot="channelName" slot-scope="text, record">
-                {{ record.channelName }}
-                <!-- <br />
-            <span style="color:#ccc">{{ record.channelCode }}</span> -->
+
+              <div slot="channelName">
+                浙江云盾科技有限公司
               </div>
               <span slot="customTitle">
                 支付状态
@@ -200,10 +199,13 @@
               <div v-if="text" slot="originAmount" slot-scope="text">
                 {{ text }}
               </div>
-              <div slot="channelName" slot-scope="text, record">
+              <!-- <div slot="channelName" slot-scope="text, record">
                 {{ record.channelName }}
-                <!-- <br />
-            <span style="color:#ccc">{{ record.channelCode }}</span> -->
+               <br />
+            <span style="color:#ccc">{{ record.channelCode }}</span> 
+              </div> -->
+              <div slot="channelName">
+                浙江云盾科技有限公司
               </div>
               <div slot="useData" slot-scope="text, record">
                 {{ text }}{{ record.unitPricePerUnit }}
@@ -444,7 +446,7 @@ export default {
           dataIndex: "channelName",
           key: "channelName",
           width: 170
-        },
+        }
       ];
     },
     monthColumns() {
@@ -454,7 +456,7 @@ export default {
           dataIndex: "channelName",
           key: "channelName",
           width: 170
-        },
+        }
       ];
     }
   },
