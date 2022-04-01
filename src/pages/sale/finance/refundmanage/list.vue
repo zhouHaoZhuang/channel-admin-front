@@ -55,6 +55,7 @@
         :data-source="data"
         :pagination="paginationProps"
         rowKey="id"
+        :scroll="{ x: 1300 }"
       >
         <div slot="status" slot-scope="text">
           {{ invoiceStatusEnum[text] }}
@@ -117,11 +118,13 @@ export default {
       columns: [
         {
           title: "发票ID",
-          dataIndex: "invoiceNo"
+          dataIndex: "invoiceNo",
+          width: 150,
         },
         {
           title: "状态",
           dataIndex: "status",
+          width: 200,
           scopedSlots: {
             customRender: "status"
           }
@@ -140,7 +143,8 @@ export default {
         },
         {
           title: "退票申请创建时间",
-          dataIndex: "refundCreateTimeShow"
+          dataIndex: "refundCreateTimeShow",
+          width: 180
         },
         {
           title: "备注",
@@ -148,15 +152,19 @@ export default {
         },
         {
           title: "退票申请反馈时间",
-          dataIndex: "feedbackTimeShow"
+          dataIndex: "feedbackTimeShow",
+          width: 180
         },
         {
           title: "退票申请反馈说明",
-          dataIndex: "feedbackRemark"
+          dataIndex: "feedbackRemark",
+          width: 180
         },
         {
           title: "操作",
           dataIndex: "action",
+          width: 100,
+          fixed: "right",
           scopedSlots: {
             customRender: "action"
           }
