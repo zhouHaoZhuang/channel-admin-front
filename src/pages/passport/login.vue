@@ -8,8 +8,13 @@
         </div>
       </div>
       <div class="login">
-        <a-tabs size="large" style="margin-left:20px">
-          <a-tab-pane tab="账号密码登录">
+        <a-tabs
+          size="large"
+          style="margin-left:20px"
+          default-active-key="1"
+          @change="callback"
+        >
+          <a-tab-pane tab="账号密码登录" key="1">
             <a-form-model
               ref="ruleForm"
               :label-col="labelCol"
@@ -67,38 +72,107 @@
               </a-input>
               <CodeBtn :phone="form.username" />
             </a-form-model-item> -->
-              <a-form-model-item class="login-btn">
-                <a-button
-                  style="width:100%"
-                  type="primary"
-                  size="large"
-                  :loading="loading"
-                  @click="onSubmit"
-                >
-                  登录
-                </a-button>
-              </a-form-model-item>
-              <a-form-model-item class="btn-box">
-                <a-button
-                  size="large"
-                  class="btn1"
-                  type="link"
-                  @click="resetPassword"
-                >
-                  重置密码
-                </a-button>
-                <a-button
-                  size="large"
-                  class="btn2"
-                  type="link"
-                  @click="handleJumpRegister"
-                >
-                  注册账户
-                </a-button>
-              </a-form-model-item>
             </a-form-model>
           </a-tab-pane>
+          <a-tab-pane tab="验证码登录" key="2" force-render>
+            <a-form-model
+              ref="ruleForm"
+              :label-col="labelCol"
+              :wrapper-col="wrapperCol"
+              :model="form"
+              :rules="rules"
+            >
+              <a-form-model-item prop="username">
+                <a-input
+                  v-model="form.username"
+                  v-password-input
+                  placeholder="请输入账号"
+                  size="large"
+                >
+                  <a-icon slot="prefix" type="user" />
+                </a-input>
+              </a-form-model-item>
+              <a-form-model-item prop="password">
+                <a-input
+                  v-model="form.password"
+                  v-password-input
+                  placeholder="请输入密码"
+                  type="password"
+                  :max-length="20"
+                  size="large"
+                >
+                  <a-icon slot="prefix" type="lock" />
+                </a-input>
+              </a-form-model-item>
+              <a-form-model-item prop="verificationCode">
+                <a-input
+                  type="text"
+                  v-model="form.verificationCode"
+                  placeholder="请输入图形验证码"
+                  :max-length="4"
+                  style="width:250px"
+                  size="large"
+                  @pressEnter="onSubmit"
+                >
+                  <a-icon slot="prefix" type="smile" />
+                </a-input>
+                <div @click="refreshCode()" class="code" title="点击切换验证码">
+                  <Identify :identifyCode="identifyCode" />
+                </div>
+              </a-form-model-item>
+              <!-- <a-form-model-item class="code-wrap" prop="code">
+              <a-input
+                v-model="form.code"
+                style="width:250px"
+                placeholder="输入验证码"
+                v-number-evolution
+                :max-length="6"
+              >
+                <a-icon slot="prefix" type="smile" />
+              </a-input>
+              <CodeBtn :phone="form.username" />
+            </a-form-model-item> -->
+            </a-form-model>
+          </a-tab-pane>
+         
         </a-tabs>
+         <div class="login-btn">
+            <a-button
+              style="width:100%"
+              type="primary"
+              size="large"
+              :loading="loading"
+              @click="onSubmit"
+            >
+              登录
+            </a-button>
+          </div>
+          <div class="btn-box">
+            <a-button
+              size="large"
+              class="btn1"
+              type="link"
+              @click="resetPassword"
+            >
+              重置密码
+            </a-button>
+            <a-button
+              size="large"
+              class="btn1"
+              type="link"
+              @click="bypassAccount"
+            >
+              子账号登陆
+            </a-button>
+            <a-button
+              size="large"
+              class="btn2"
+              type="link"
+              @click="handleJumpRegister"
+            >
+              注册账户
+            </a-button>
+          </div>
       </div>
     </div>
   </common-layout>
@@ -174,6 +248,10 @@ export default {
     this.refreshCode();
   },
   methods: {
+    //切换tab
+    callback(key) {
+      console.log(key);
+    },
     // 更新验证码
     refreshCode() {
       this.identifyCode = getRandomCode();
@@ -202,6 +280,10 @@ export default {
     // 跳转重置密码
     resetPassword() {
       this.$router.push("/resetpassword");
+    },
+    // 跳转子账号登录
+    bypassAccount() {
+      this.$router.push("/bypassAccount");
     }
   }
 };
@@ -247,12 +329,23 @@ export default {
 .beauty-scroll {
   overflow-y: auto !important;
 }
+  .btn-box {
+    .ant-form-item-children {
+      display: flex;
+      justify-content: space-between;
+      .btn1 {
+        padding-left: 0;
+      }
+      .btn2 {
+        padding-right: 0;
+      }
+    }
+  }
 .login-container {
   .login-btn {
     margin-bottom: 10px;
   }
-  .code-wrap,
-  .btn-box {
+  .code-wrap {
     .ant-form-item-children {
       display: flex;
       justify-content: space-between;
