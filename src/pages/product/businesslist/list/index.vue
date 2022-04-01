@@ -276,12 +276,16 @@
             <span slot="dataDiskSize" slot-scope="text">
               {{ text != 0 ? text : "---" }}
             </span>
-            <span slot="action" slot-scope="text">
+            <span slot="action" slot-scope="text, record">
               <a-button type="link" @click="infoChannel(text)">
                 管理
               </a-button>
               <a-divider type="vertical" />
-              <a-button type="link" @click="unsubscribe(text)">
+              <a-button
+                :disabled="record.runningStatus === 0"
+                type="link"
+                @click="unsubscribe(text)"
+              >
                 退订
               </a-button>
             </span>
