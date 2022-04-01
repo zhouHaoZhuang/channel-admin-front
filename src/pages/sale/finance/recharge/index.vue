@@ -130,7 +130,7 @@
           :scroll="{ x: 1400 }"
         >
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <div slot="originAmount" slot-scope="text">
+          <div slot="dealAmount" slot-scope="text">
             {{ text.toFixed(2) }}
           </div>
           <div slot="action" slot-scope="text">
@@ -146,7 +146,7 @@
             {{ text | formatDate }}
           </div>
           <div
-            slot="modifyTime"
+            slot="finishTime"
             slot-scope="text, record"
             v-if="text && record.status == 9"
           >
@@ -160,7 +160,7 @@
             <span>{{ detailsMapData[text] }}</span>
             <!-- detailsMapData 0129-->
           </div>
-          <div slot="channelCode" slot-scope="text">
+          <div slot="detailType" slot-scope="text">
             {{ rechargeTypeMap[text] }}
           </div>
         </a-table>
@@ -201,10 +201,10 @@ export default {
         },
         {
           title: "方式",
-          dataIndex: "channelCode",
+          dataIndex: "detailType",
           width: 150,
           scopedSlots: {
-            customRender: "channelCode"
+            customRender: "detailType"
           }
         },
         {
@@ -216,10 +216,10 @@ export default {
         },
         {
           title: "充值金额",
-          dataIndex: "amount",
+          dataIndex: "dealAmount",
           width: 150,
-          key: "amount",
-          scopedSlots: { customRender: "amount" }
+          key: "dealAmount",
+          scopedSlots: { customRender: "dealAmount" }
         },
         // {
         //   title: "交易号",
@@ -236,9 +236,9 @@ export default {
         },
         {
           title: "到账时间",
-          dataIndex: "payTime",
-          key: "modifyTime",
-          scopedSlots: { customRender: "modifyTime" },
+          dataIndex: "finishTime",
+          key: "finishTime",
+          scopedSlots: { customRender: "finishTime" },
           width: 220
         },
         {
