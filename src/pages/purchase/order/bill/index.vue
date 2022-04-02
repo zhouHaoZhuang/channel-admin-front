@@ -89,7 +89,7 @@
                 {{ text }}
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.unitPricePerUnit }}
+                {{ text }}{{ record.useDataPerUnit }}
               </div>
               <div slot="actualAmount" slot-scope="text">
                 {{ text }}
@@ -208,7 +208,7 @@
                 浙江云盾科技有限公司
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.unitPricePerUnit }}
+                {{ text }}{{ record.useDataPerUnit }}
               </div>
               <span slot="customTitle">
                 支付状态
@@ -501,8 +501,8 @@ export default {
       if (nowMonth >= 1 && nowMonth <= 9) {
         nowMonth = "0" + nowMonth;
       }
-      this.listQuery["qp-billPeriod-eq"] =
-        new Date().getFullYear() + "-" + nowMonth;
+      // this.listQuery["qp-billPeriod-eq"] =
+      //   new Date().getFullYear() + "-" + nowMonth;
       return new Date().getFullYear() + "-" + nowMonth;
     },
     // 日期选择
