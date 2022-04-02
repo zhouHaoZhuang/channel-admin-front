@@ -89,7 +89,7 @@
                 {{ text }}
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.unitPricePerUnit }}
+                {{ text }}{{ record.useDataPerUnit }}
               </div>
               <div slot="actualAmount" slot-scope="text">
                 {{ text }}
@@ -208,7 +208,7 @@
                 浙江云盾科技有限公司
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.unitPricePerUnit }}
+                {{ text }}{{ record.useDataPerUnit }}
               </div>
               <span slot="customTitle">
                 支付状态
