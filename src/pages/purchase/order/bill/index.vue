@@ -501,8 +501,8 @@ export default {
       if (nowMonth >= 1 && nowMonth <= 9) {
         nowMonth = "0" + nowMonth;
       }
-      this.listQuery["qp-billPeriod-eq"] =
-        new Date().getFullYear() + "-" + nowMonth;
+      // this.listQuery["qp-billPeriod-eq"] =
+      //   new Date().getFullYear() + "-" + nowMonth;
       return new Date().getFullYear() + "-" + nowMonth;
     },
     // 日期选择
