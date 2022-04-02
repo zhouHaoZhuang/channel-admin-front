@@ -128,7 +128,7 @@ export default {
   },
   activated() {
     let id = this.$route.query.id;
-    this.$store.dispatch("financialOrder/getOne", id).then(res => {
+    this.$store.dispatch("purchaseOrder/getProOne", id).then(res => {
       let dataDisk = res.data.ecsPrice.dataDisk;
       let dataDiskSize = 0;
       if (dataDisk) {
