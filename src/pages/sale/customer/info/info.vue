@@ -134,7 +134,7 @@
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
         </div>
         <div>
-          <span class="menber-title">消费：</span>
+          <span class="menber-title">预付费产品金额：</span>
           <span class="menber-info">{{ dataBase.payMoney }}元</span>
           <!-- <span>0条记录</span> -->
           <!-- <a href="" class="mouse-enter">[查看详情]</a> -->
