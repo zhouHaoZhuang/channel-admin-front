@@ -42,7 +42,7 @@ export default {
   methods: {
     // 跳转个人中心
     handleGoUserCenter() {
-      this.$router.push("/user/center/changePassword");
+      this.$router.push("/user");
     },
     // 退出
     logout() {
