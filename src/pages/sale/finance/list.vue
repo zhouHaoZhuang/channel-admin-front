@@ -173,6 +173,7 @@ export default {
         {
           title: "流水类型",
           dataIndex: "type",
+          width: 120,
           scopedSlots: { customRender: "type" }
         },
         {
@@ -182,17 +183,20 @@ export default {
           scopedSlots: { customRender: "beforeAmount" }
         },
         {
-          title: "余额(元)",
+          title: "预计余额(元)",
+          width: 120,
           dataIndex: "afterAmount",
           scopedSlots: { customRender: "afterAmount" }
         },
         {
           title: "款项类型",
           dataIndex: "detailType",
+          width: 120,
           scopedSlots: { customRender: "detailType" }
         },
         {
           title: "订单状态",
+          width: 120,
           dataIndex: "status",
           scopedSlots: { customRender: "status" }
         },
@@ -217,7 +221,8 @@ export default {
         // },
         {
           title: "操作管理员",
-          dataIndex: "modifyUserName"
+          dataIndex: "modifyUserName",
+          width: 150
         },
         {
           title: "操作",

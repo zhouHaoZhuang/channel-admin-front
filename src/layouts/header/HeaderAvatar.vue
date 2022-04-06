@@ -7,7 +7,7 @@
         shape="circle"
         :src="userInfo.photo"
       />
-      <span class="name">{{ userInfo.username }}</span>
+      <div class="name text-overflow">{{ userInfo.username }}</div>
     </div>
     <a-menu :class="['avatar-menu']" slot="overlay">
       <a-menu-item @click="handleGoUserCenter">
@@ -67,9 +67,10 @@ export default {
     margin-right: 8px;
   }
   .name {
+    max-width: 160px;
     font-weight: 500;
   }
-  &:hover{
+  &:hover {
     background: transparent !important;
   }
 }
