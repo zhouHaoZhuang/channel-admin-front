@@ -170,6 +170,37 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/sale/customer/productDiscount/update.vue")
+              },
+              {
+                path: "customermanage",
+                name: "客服管理",
+                meta: {
+                  perm: "sale-customer-productionDiscount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/manage/index.vue")
+              },
+              {
+                path: "distribute",
+                name: "分配客服",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "sale-customer-productionDiscount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/manage/distribute.vue")
+              },
+              {
+                path: "addcustomer",
+                name: "添加客服",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "sale-customer-productionDiscount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/manage/addcustomer.vue")
               }
             ]
           },
