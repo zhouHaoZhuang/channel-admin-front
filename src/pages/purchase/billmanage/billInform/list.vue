@@ -16,6 +16,9 @@
         :pagination="paginationProps"
         rowKey="id"
       >
+        <div slot="invoiceType" slot-scope="text">
+          {{ invoiceTypeMap[text] }}
+        </div>
         <div slot="action" slot-scope="text, record">
           <a-button
             type="link"
@@ -25,7 +28,13 @@
           >
             编辑
           </a-button>
-          <a-button type="link" @click="del(record.id)">删除</a-button>
+          <a-button
+            style="margin-left:10px"
+            type="link"
+            @click="del(record.id)"
+          >
+            删除
+          </a-button>
         </div>
       </a-table>
     </div>
@@ -37,18 +46,23 @@ export default {
   data() {
     return {
       data: [],
+      invoiceTypeMap: {
+        1: "增值税普通发票",
+        2: "增值税专用发票"
+      },
       columns: [
         {
           title: "发票抬头",
-          dataIndex: "title"
+          dataIndex: "invoiceTitle"
         },
         {
           title: "发票类型",
-          dataIndex: "invoiceType"
+          dataIndex: "invoiceType",
+          scopedSlots: { customRender: "invoiceType" }
         },
         {
           title: "税务登记号",
-          dataIndex: "taxNumber"
+          dataIndex: "registerNo"
         },
         {
           title: "操作",
@@ -79,7 +93,7 @@ export default {
     };
   },
   activated() {
-    // this.getList();
+    this.getList();
   },
   methods: {
     //查询数据表格
@@ -95,7 +109,7 @@ export default {
       this.$confirm({
         title: "确定要删除吗?",
         onOk: () => {
-          this.$store.dispatch("cbillinfo/del", { id }).then(() => {
+          this.$store.dispatch("cbillinfo/del", { ids: id }).then(() => {
             this.$message.success("删除成功");
             this.getList();
           });

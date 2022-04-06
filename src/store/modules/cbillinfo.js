@@ -9,40 +9,41 @@ const cbillinfo = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: "/channelInvoiceRecord/page",
+        url: "/channelInvoiceInfo",
         method: "get",
-        params,
+        params
       });
     },
     // 获取详情
     getOne({ commit, state }, params) {
       return request({
-        url: `/channelInvoiceRecord/${params.id}`,
+        url: `/channelInvoiceInfo/${params.id}`,
         method: "get",
-        params,
+        params
       });
     },
     // 取消
-    del({ commit, state }, data) {
+    del({ commit, state }, params) {
       return request({
-        url: `/channelInvoiceRecord/receive/${data.id}`,
+        url: `/channelInvoiceInfo/delete`,
         method: "delete",
+        params
       });
     },
     // 增加信息
     add({ commit, state }, data) {
       return request({
-        url: "/channelInvoiceRecord",
+        url: "/channelInvoiceInfo",
         method: "post",
-        data,
+        data
       });
     },
     // 编辑
     edit({ commit, state }, data) {
       return request({
-        url: `/channelInvoiceRecord/${data.id}`,
-        method: "put",
-        data,
+        url: `/channelInvoiceInfo/${data.id}`,
+        method: "patch",
+        data
       });
     },
     // 审核
@@ -50,10 +51,10 @@ const cbillinfo = {
       return request({
         url: `/channelInvoiceRecord/examine/${data.id}?status=${data.status}`,
         method: "patch",
-        data,
+        data
       });
     }
-  },
+  }
 };
 
 export default cbillinfo;
