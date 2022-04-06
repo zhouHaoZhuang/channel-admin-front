@@ -200,7 +200,7 @@ export default {
     .admin-header {
       top: 0;
       right: 0;
-      overflow: hidden;
+      // overflow: hidden;
       transition: all 0.2s;
       &.fixed-tabs.multi-page:not(.fixed-header) {
         height: 0;
