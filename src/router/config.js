@@ -66,7 +66,7 @@ export const asyncRoute = [
             path: "index",
             name: "总览管理",
             meta: {
-              icon: "home",
+              icon: "icon-zonglanguanli",
               perm: "dashboard-index"
             },
             component: BlankView,
@@ -97,7 +97,7 @@ export const asyncRoute = [
             path: "customer",
             name: "客户管理",
             meta: {
-              icon: "home",
+              icon: "icon-kehuguanli",
               perm: "sale-customer"
             },
             component: BlankView,
@@ -177,7 +177,7 @@ export const asyncRoute = [
             path: "order",
             name: "订单管理",
             meta: {
-              icon: "home",
+              icon: "icon-dingdanguanli",
               perm: "sale-order"
             },
             component: BlankView,
@@ -206,7 +206,7 @@ export const asyncRoute = [
             path: "unsubscribe",
             name: "订单退订管理",
             meta: {
-              icon: "home",
+              icon: "icon-dingdantuidingguanli",
               perm: "sale-refund"
             },
             component: BlankView,
@@ -235,7 +235,7 @@ export const asyncRoute = [
             path: "finance",
             name: "财务管理",
             meta: {
-              icon: "home",
+              icon: "icon-caiwuguanli",
               perm: "sale-finance"
             },
             component: BlankView,
@@ -414,7 +414,7 @@ export const asyncRoute = [
             path: "manage",
             name: "财务管理",
             meta: {
-              icon: "home",
+              icon: "icon-caiwuguanli",
               perm: "purchase-manage"
             },
             component: BlankView,
@@ -443,7 +443,7 @@ export const asyncRoute = [
             path: "order",
             name: "订单管理",
             meta: {
-              icon: "home",
+              icon: "icon-dingdanguanli",
               perm: "purchase-order"
             },
             component: BlankView,
@@ -511,7 +511,7 @@ export const asyncRoute = [
             path: "cloudservers",
             name: "云服务器",
             meta: {
-              icon: "home",
+              icon: "icon-yunfuwuqi",
               perm: "product-cloud"
             },
             component: BlankView,
@@ -613,7 +613,7 @@ export const asyncRoute = [
             path: "cdn",
             name: "CDN云加速",
             meta: {
-              icon: "home",
+              icon: "icon-CDNyunjiasu",
               perm: "product-cdn"
             },
             component: BlankView,
@@ -813,7 +813,7 @@ export const asyncRoute = [
             path: "workorderManage",
             name: "工单管理",
             meta: {
-              icon: "home",
+              icon: "icon-gongdanguanli",
               perm: "workOrder-workorderManage"
             },
             component: BlankView,
@@ -861,7 +861,7 @@ export const asyncRoute = [
             path: "setting",
             name: "工单设置",
             meta: {
-              icon: "home",
+              icon: "icon-gongdanshezhi",
               perm: "workOrder-setting"
             },
             component: BlankView,
@@ -961,7 +961,7 @@ export const asyncRoute = [
             path: "web",
             name: "网站管理",
             meta: {
-              icon: "home",
+              icon: "icon-wangzhanguanli",
               perm: "depot-web"
             },
             component: BlankView,
@@ -1069,7 +1069,7 @@ export const asyncRoute = [
             path: "help",
             name: "帮助文档",
             meta: {
-              icon: "home",
+              icon: "icon-bangzhuwendang",
               perm: "depot-help"
             },
             component: BlankView,
@@ -1156,7 +1156,7 @@ export const asyncRoute = [
             path: "news",
             name: "新闻公告",
             meta: {
-              icon: "home",
+              icon: "icon-xinwengonggao",
               perm: "depot-news"
             },
             component: BlankView,
@@ -1238,7 +1238,7 @@ export const asyncRoute = [
             path: "admin",
             name: "组织管理",
             meta: {
-              icon: "home",
+              icon: "icon-zuzhiguanli",
               perm: "organization-admin"
             },
             component: BlankView,
@@ -1286,7 +1286,7 @@ export const asyncRoute = [
             path: "admin",
             name: "系统设置",
             meta: {
-              icon: "home",
+              icon: "icon-xitongshezhi",
               perm: "system-admin"
             },
             component: BlankView,
