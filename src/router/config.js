@@ -588,7 +588,9 @@ export const asyncRoute = [
                   perm: "purchase-manage"
                 },
                 component: () =>
-                  import("@/pages/purchase/billmanage/bouncelist/bounceApply.vue")
+                  import(
+                    "@/pages/purchase/billmanage/bouncelist/bounceApply.vue"
+                  )
               },
               {
                 path: "billInform",
@@ -1521,6 +1523,14 @@ export const asyncRoute = [
                   perm: "user-center-changePassword"
                 },
                 component: () => import("@/pages/user/center/changePassword")
+              },
+              {
+                path: "manageadress",
+                name: "常用地址管理",
+                component: () => import("@/pages/user/manageadress/index.vue"),
+                meta: {
+                  perm: "user-center-changePassword"
+                }
               }
             ]
           }

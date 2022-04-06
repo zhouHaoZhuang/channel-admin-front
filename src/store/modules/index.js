@@ -42,6 +42,7 @@ import cdnDomain from "./cdnDomain";
 import cbilllist from "./cbilllist";
 import cbouncelist from "./cbouncelist";
 import cbillinfo from "./cbillinfo";
+import mangeaddress from "./mangeaddress";
 
 export default {
   user,
@@ -87,5 +88,6 @@ export default {
   cdnDomain,
   cbilllist,
   cbouncelist,
-  cbillinfo
+  cbillinfo,
+  mangeaddress
 };
