@@ -52,18 +52,6 @@
               <Identify :identifyCode="identifyCode" />
             </div>
           </a-form-model-item>
-          <!-- <a-form-model-item class="code-wrap" prop="code">
-              <a-input
-                v-model="form.code"
-                style="width:250px"
-                placeholder="输入验证码"
-                v-number-evolution
-                :max-length="6"
-              >
-                <a-icon slot="prefix" type="smile" />
-              </a-input>
-              <CodeBtn :phone="form.username" />
-            </a-form-model-item> -->
           <a-form-model-item class="login-btn">
             <a-button
               style="width:100%"
@@ -97,7 +85,7 @@ import CommonLayout from "@/layouts/CommonLayout";
 import Identify from "@/components/Identify";
 import { getRandomCode } from "@/utils/index";
 export default {
-  name: "Login",
+  name: "bypassAccount",
   components: { CommonLayout, Identify },
   data() {
     return {
@@ -170,7 +158,7 @@ export default {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("user/login", this.form)
+            .dispatch("user/channelUserLogin", this.form)
             .then(res => {
               this.$message.success("登录成功");
               this.$router.push("/");

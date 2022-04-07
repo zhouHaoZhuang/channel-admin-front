@@ -102,6 +102,52 @@ const user = {
           });
       });
     },
+    // 验证码登录
+    loginBycode({ commit, state, dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: "/user/loginByCodeForChannel",
+          method: "post",
+          data
+        })
+          .then(res => {
+            const token = res.data.token;
+            commit("SET_TOKEN", token);
+            commit("SET_USERINFO", res.data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    // 子账号登录
+    channelUserLogin({ commit, state, dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: "/user/channelUserLogin",
+          method: "post",
+          data
+        })
+          .then(res => {
+            const token = res.data.token;
+            commit("SET_TOKEN", token);
+            commit("SET_USERINFO", res.data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    // 用户账号验证
+    getTest({ commit, state }, params) {
+      return request({
+        url: "/user/phone",
+        method: "get",
+        params
+      });
+    },
     // 登录后获取当前用户的权限数据
     getUserPerms({ commit, state }) {
       return new Promise((resolve, reject) => {
