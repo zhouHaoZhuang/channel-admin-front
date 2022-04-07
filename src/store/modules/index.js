@@ -44,6 +44,7 @@ import cbouncelist from "./cbouncelist";
 import cbillinfo from "./cbillinfo";
 import mangeaddress from "./mangeaddress";
 import reconciliation from "./reconciliation";
+import billapply from "./billapply";
 
 export default {
   user,
@@ -91,5 +92,6 @@ export default {
   cbouncelist,
   cbillinfo,
   mangeaddress,
-  reconciliation
+  reconciliation,
+  billapply
 };

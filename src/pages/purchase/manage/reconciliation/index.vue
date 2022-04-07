@@ -3,7 +3,14 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline">
         <a-form-model-item>
-          <a-button type="primary" icon="plus">合并开票</a-button>
+          <a-button
+            :disabled="selectedRowKeys.length == 0"
+            type="primary"
+            icon="plus"
+            @click="$router.push('/purchase/manage/applybill?data=' + JSON.stringify(selectedRowKeysList))"
+          >
+            合并开票
+          </a-button>
         </a-form-model-item>
         <a-form-model-item>
           <a-input
@@ -137,7 +144,7 @@ export default {
       columns: [
         {
           title: "对账单号",
-          dataIndex: "invoiceNo"
+          dataIndex: "billNo"
         },
         {
           title: "状态",
@@ -166,11 +173,11 @@ export default {
         },
         {
           title: "账单总金额（元）",
-          dataIndex: "amount"
+          dataIndex: "finalTotalAomount"
         },
         {
           title: "可开票总金额（元）",
-          dataIndex: "invoiceAmount"
+          dataIndex: "finalInvoiceAmount"
         },
         {
           title: "最后更新人",
@@ -188,7 +195,21 @@ export default {
           }
         }
       ],
-      data: [],
+      data: [
+        {
+          id: 1,
+          billNo: "123456789",
+          status: 1,
+          invoiceStatus: 1,
+          zcreateTime: "2019-01-01",
+          companyCode: "123456789",
+          companyName: "测试供应商",
+          finalTotalAomount: "123456789",
+          finalInvoiceAmount: "123456789",
+          updateUser: "张三",
+          updateTime: "2019-01-01"
+        }
+      ],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -200,7 +221,8 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      selectedRowKeys: [] // Check here to configure the default column
+      selectedRowKeys: [], // Check here to configure the default column
+      selectedRowKeysList:[]
     };
   },
   activated() {
@@ -224,9 +246,10 @@ export default {
     endValue(date, dateString) {
       this.listQuery.endTime = dateString;
     },
-    onSelectChange(selectedRowKeys) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
+    onSelectChange(selectedRowKeys,obj) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys,obj);
       this.selectedRowKeys = selectedRowKeys;
+      this.selectedRowKeysList = obj;
     },
     //查询数据表格
     getList() {

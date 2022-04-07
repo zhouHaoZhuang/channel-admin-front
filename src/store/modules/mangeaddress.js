@@ -6,7 +6,7 @@ const mangeaddress = {
     // 获取常用地址列表
     getList({ commit, state},params ) {
       return request({
-				url: "/address",
+				url: "/channelAddress",
 				method: "get",
 				params,
 			})
@@ -14,14 +14,14 @@ const mangeaddress = {
 		// 获取线下充值记录详情
     getOne({ commit, state }, data) {
       return request({
-        url: `/address/${data.id}`,
+        url: `/channelAddress/${data.id}`,
         method: "get"
       });
     },
     // 添加常用地址
     add({ commit, state }, data) {
       return request({
-        url: "/address",
+        url: "/channelAddress",
         method: "post",
         data
       });
@@ -29,7 +29,7 @@ const mangeaddress = {
     // 修改常用地址
     edit({ commit, state }, data) {
       return request({
-        url: `/address/${data.id}`,
+        url: `/channelAddress/${data.id}`,
         method: "patch",
         data
       });
@@ -37,14 +37,14 @@ const mangeaddress = {
     // 设为默认
     setDefault({ commit, state }, data) {
       return request({
-        url: `/address/defaultSign/${data.id}`,
+        url: `/channelAddress/defaultSign/${data.id}`,
         method: "patch"
       });
     },
     // 删除常用地址
     del({ commit, state }, params) {
       return request({
-        url: `/address/deletes`,
+        url: `/channelAddress/deletes`,
         method: "delete",
         params
       });

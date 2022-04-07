@@ -13,6 +13,9 @@
       <a-descriptions-item label="状态">
         确认
       </a-descriptions-item>
+      <a-descriptions-item label="开票状态">
+        确认
+      </a-descriptions-item>
       <a-descriptions-item label="最后更新人">
         浙江云盾科技有限公司
       </a-descriptions-item>
@@ -45,11 +48,6 @@
           :data-source="dataDetails"
           :pagination="paginationProps"
         >
-          <div slot="action" slot-scope="text, record">
-            <a-button type="primary" @click="showModal(record.id)">
-              调整
-            </a-button>
-          </div>
         </a-table>
         <p>
           账单拉取总金额：
@@ -251,11 +249,6 @@ export default {
           title: "可开票金额",
           dataIndex: "kproductName"
         },
-        {
-          title: "操作",
-          dataIndex: "action",
-          scopedSlots: { customRender: "action" }
-        }
       ],
       actualColumns: [
         {
@@ -297,7 +290,7 @@ export default {
         {
           title: "调整后可开票金额（元）",
           dataIndex: "tzkproductName"
-        },
+        }
       ],
       dataDetails: null,
       paginationProps: {

@@ -462,6 +462,24 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/recon.vue")
+              },
+              {
+                path: "reconinfo",
+                name: "对账单详情",
+                meta: {
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/reconciliation/info.vue")
+              },
+              {
+                path: "applybill",
+                name: "申请开票",
+                meta: {
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/reconciliation/apply/list.vue")
               }
             ]
           },
