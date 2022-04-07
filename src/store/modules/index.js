@@ -39,6 +39,8 @@ import withdraw from "./withdraw";
 import purchaseOrder from "./purchaseOrder";
 import bills from "./bills";
 import cdnDomain from "./cdnDomain";
+import customer from "./customer";
+
 
 export default {
   user,
@@ -81,5 +83,6 @@ export default {
   withdraw,
   purchaseOrder,
   bills,
-  cdnDomain
+  cdnDomain,
+  customer
 };

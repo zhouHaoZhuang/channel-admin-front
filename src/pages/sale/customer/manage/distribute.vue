@@ -8,29 +8,36 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="分配方式选择" prop="corporationCode">
+        <a-form-model-item label="分配方式选择" prop="distributeWay">
           <a-select
             style="width: 100%"
             allowClear
-            v-model="form.corporationCode"
+            v-model="form.distributeWay"
             placeholder="请选择"
           >
             <a-select-option
               v-for="item in distributeList"
-              :key="item.id"
+              :key="item.value"
               :value="item.value"
+              @change="distributeWays"
             >
               {{ item.label }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="选择客服" prop="productCode">
+        <!-- 指定客户 -->
+        <a-form-model-item
+          label="选择客服"
+          prop="productCode"
+          v-if="form.distributeWay === 0"
+        >
           <a-select
             style="width: 100%"
             allowClear
             v-model="form.productCode"
             placeholder="请选择"
             @change="handleProductChange"
+            @dropdownVisibleChange="dropdownChange"
           >
             <a-select-option
               :value="
@@ -46,16 +53,126 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="选择客户" prop="supplierProductCode">
-          <a-select v-model="form.productTypeCode" @change="handleTypeChange">
-            <a-select-option
-              v-for="item in productTypeList"
-              :value="item.productTypeCode"
-              :key="item.productTypeCode"
+        <a-form-model-item
+          label="选择客户"
+          prop="supplierProductCode"
+          v-if="form.distributeWay === 0"
+        >
+          <a-space :size="40">
+            <a-select
+              class="input-one"
+              v-model="form.productTypeCode"
+              mode="multiple"
+              @change="handleTypeChange"
+              :open="false"
             >
-              {{ item.productTypeName }}
+            </a-select>
+            <a-button type="primary" @click="selectClient">选择客户</a-button>
+          </a-space>
+        </a-form-model-item>
+        <!-- 指定替换 -->
+        <a-form-model-item
+          label="选择原客服"
+          prop="supplierProductCode"
+          v-if="form.distributeWay === 1"
+        >
+          <a-space :size="40">
+            <a-select
+              class="input-one"
+              v-model="form.productTypeCode"
+              mode="multiple"
+              @change="handleTypeChange"
+              :open="false"
+            >
+            </a-select>
+            <a-button type="primary" @click="selectClient(1)"
+              >选择原客服</a-button
+            >
+          </a-space>
+        </a-form-model-item>
+        <a-form-model-item
+          label="选择新客服"
+          prop="productCode"
+          v-if="form.distributeWay === 1"
+        >
+          <a-select
+            style="width: 100%"
+            allowClear
+            v-model="form.productCode"
+            placeholder="请选择"
+            @change="handleProductChange"
+            @dropdownVisibleChange="dropdownChange"
+          >
+            <a-select-option
+              :value="
+                JSON.stringify({
+                  productCode: item.productCode,
+                  productName: item.productName,
+                })
+              "
+              v-for="(item, index) in productList"
+              :key="index"
+            >
+              {{ item.productName }}
             </a-select-option>
           </a-select>
+        </a-form-model-item>
+        <!-- 随机替换 -->
+        <a-form-model-item
+          label="选择原客服"
+          prop="supplierProductCode"
+          v-if="form.distributeWay === 2"
+        >
+          <a-space :size="40">
+            <a-select
+              class="input-one"
+              v-model="form.productTypeCode"
+              mode="multiple"
+              @change="handleTypeChange"
+              :open="false"
+            >
+            </a-select>
+            <a-button type="primary" @click="selectClient(2, 'yuan')"
+              >选择原客服</a-button
+            >
+          </a-space>
+        </a-form-model-item>
+        <a-form-model-item
+          label="选择新客服"
+          prop="supplierProductCode"
+          v-if="form.distributeWay === 2"
+        >
+          <a-space :size="40">
+            <a-select
+              class="input-one"
+              v-model="form.productTypeCode"
+              mode="multiple"
+              @change="handleTypeChange"
+              :open="false"
+            >
+            </a-select>
+            <a-button type="primary" @click="selectClient(2, 'new')"
+              >选择新客服</a-button
+            >
+          </a-space>
+        </a-form-model-item>
+        <!-- 平均分配 -->
+        <a-form-model-item
+          label="选择客服"
+          prop="supplierProductCode"
+          v-if="form.distributeWay === 3"
+        >
+          <a-space :size="40">
+            <a-select
+              class="input-one"
+              v-model="form.productTypeCode"
+              mode="multiple"
+              @change="handleTypeChange"
+              :open="false"
+            >
+            </a-select>
+            <a-button type="primary" @click="selectClient">选择客服</a-button>
+          </a-space>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 18, offset: 11 }">
           <a-space :size="80">
@@ -109,11 +226,21 @@
         </a-table>
       </div>
     </div>
+    <SelectClient v-model="SelectClientVisible" @success="getList" />
+    <SelectCustomer v-model="SelectCustomerVisibleOne" @success="getList" />
   </div>
 </template>
 
 <script>
+//选择客户
+import SelectCustomer from "@/components/cunstomerManage/customer.vue";
+// 选择客服
+import SelectClient from "@/components/cunstomerManage/client.vue";
 export default {
+  components: {
+    SelectClient,
+    SelectCustomer,
+  },
   data() {
     return {
       type: "add",
@@ -126,6 +253,8 @@ export default {
       },
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
+      SelectClientVisible: false,
+      SelectCustomerVisibleOne: false,
       distributeList: [
         {
           label: "指定客户",
@@ -152,6 +281,7 @@ export default {
         discountType: "1",
         discountPrice: undefined,
         productTypeCode: undefined,
+        distributeWay: 0,
       },
       columns: [
         {
@@ -212,10 +342,10 @@ export default {
         },
       ],
       rules: {
-        corporationCode: [
+        distributeWay: [
           {
             required: true,
-            message: "请选择企业",
+            message: "请选择分配方式",
             trigger: "change",
           },
         ],
@@ -269,7 +399,7 @@ export default {
   watch: {
     $route: {
       handler(newVal, oldVal) {
-        if (newVal.path === "/sale/customer/addcustomer") {
+        if (newVal.path === "/sale/customer/distribute") {
           this.$nextTick(() => {
             this.resetForm();
           });
@@ -288,6 +418,36 @@ export default {
     },
   },
   methods: {
+    getList() {
+      console.log("请求数据");
+    },
+    selectClient(key, type) {
+      //指定客户 指定替换 随机替换 平均分配
+      if (this.form.distributeWay === 0) {
+        //选择客户
+        this.SelectClientVisible = true;
+      } else if (this.form.distributeWay === 1) {
+        // 选择客服
+        if (key == 1) {
+          this.SelectCustomerVisibleOne = true;
+        }
+      } else if (this.form.distributeWay === 2) {
+        if (type === "yuan") {
+          this.SelectCustomerVisibleOne = true;
+        } else if (type === "new") {
+          // 先选完原客服才能选新客服
+          this.SelectCustomerVisibleOne = true;
+        }
+      } else if (this.form.distributeWay === 3) {
+        this.SelectCustomerVisibleOne = true;
+      }
+    },
+    distributeWays(val) {
+      console.log(this.form.distributeWay, "<<", val);
+    },
+    dropdownChange() {
+      console.log("展开了");
+    },
     // 查询会员列表数据
     getMemberList() {
       this.$store
@@ -406,6 +566,7 @@ export default {
         discountType: "1",
         discountPrice: undefined,
         productTypeCode: undefined,
+        distributeWay: 0,
       };
       this.productTypeList = [];
       this.inputUnit = "";
@@ -431,6 +592,9 @@ export default {
         font-weight: 600;
         color: black;
       }
+    }
+    .input-one {
+      width: 320px;
     }
   }
 
