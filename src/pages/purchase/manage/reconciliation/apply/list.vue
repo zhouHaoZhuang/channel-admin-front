@@ -177,7 +177,7 @@
             <a-button
               type="link"
               @click="
-                $router.push(`/user/finance/bill/addBillInfo?id=${record.id}`)
+                $router.push(`/purchase/billmanage/addbillInform?id=${record.id}`)
               "
             >
               编辑
@@ -188,7 +188,7 @@
       <a-button
         type="link"
         icon="plus"
-        @click="$router.push('/user/finance/bill/addBillInfo')"
+        @click="$router.push('/purchase/billmanage/addbillInform')"
         >新增开票信息</a-button
       >
       <div class="table-type">
@@ -226,7 +226,7 @@
       <a-button
         type="link"
         icon="plus"
-        @click="$router.push('/user/finance/manageadress')"
+        @click="$router.push('/user/center/manageadress')"
       >
         新增常用地址
       </a-button>
@@ -598,7 +598,7 @@ export default {
       console.log(data, "data");
       this.$store.dispatch("billapply/applyInvoice", data).then(res => {
         this.$message.success("申请成功");
-        this.$router.push("/user/finance/bill/list");
+        this.$router.back()
       });
     },
     // 保存信息
