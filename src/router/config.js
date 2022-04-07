@@ -444,6 +444,24 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/purchase/manage/withdraw/index.vue")
+              },
+              {
+                path: "reconciliation",
+                name: "对账管理",
+                meta: {
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/reconciliation/index.vue")
+              },
+              {
+                path: "recon",
+                name: "确认对账",
+                meta: {
+                  perm: "purchase-manage-withdraw"
+                },
+                component: () =>
+                  import("@/pages/purchase/manage/reconciliation/recon.vue")
               }
             ]
           },

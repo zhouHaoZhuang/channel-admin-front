@@ -30,7 +30,7 @@
           {{ data.refundCreateTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="备注">
-          {{ data.feedbackRemark }}
+          {{ data.refundRemark }}
         </a-descriptions-item>
         <a-descriptions-item label="退票申请反馈时间">
           {{ data.refundCreateTimeShow }}
@@ -41,7 +41,7 @@
       </a-descriptions>
       <a-descriptions style="margin: 20px 0" title="收件人信息">
         <a-descriptions-item label="物流单号">
-          {{ data.expressDelivery }}
+          {{ data.businessExpressDelivery }}
         </a-descriptions-item>
         <a-descriptions-item label="寄件联系人">
           {{ data.sender }}
@@ -103,14 +103,11 @@ export default {
         },
         {
           title: "开票金额",
-          dataIndex: "canInvoiceAmount",
-          scopedSlots: {
-            customRender: "canInvoiceAmount"
-          }
+          dataIndex: "originalAmountShow"
         },
         {
           title: "订单创建时间",
-          dataIndex: "refundCreateTimeShow"
+          dataIndex: "createTimeShow"
         }
       ],
       paginationProps: {

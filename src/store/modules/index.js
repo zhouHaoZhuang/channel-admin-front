@@ -43,6 +43,7 @@ import cbilllist from "./cbilllist";
 import cbouncelist from "./cbouncelist";
 import cbillinfo from "./cbillinfo";
 import mangeaddress from "./mangeaddress";
+import reconciliation from "./reconciliation";
 
 export default {
   user,
@@ -89,5 +90,6 @@ export default {
   cbilllist,
   cbouncelist,
   cbillinfo,
-  mangeaddress
+  mangeaddress,
+  reconciliation
 };
