@@ -12,19 +12,21 @@
           {{ data.invoiceNo }}
         </a-descriptions-item>
         <a-descriptions-item label="发票类型">
-          {{ invoiceTypeMap[data.invoiceInfo.invoiceType] }}
+          {{ invoiceTypeMap[data.invoiceType] }}
         </a-descriptions-item>
         <a-descriptions-item label="发票抬头">
-          {{ data.invoiceInfo.invoiceTitle }}
+          {{ data.invoiceTitle }}
         </a-descriptions-item>
         <a-descriptions-item label="税务登记号">
-          {{ data.invoiceInfo.registerNo }}
+          <span v-if="data.invoiceInfo">
+            {{ data.invoiceInfo.registerNo }}
+          </span>
         </a-descriptions-item>
         <a-descriptions-item label="开票主体">
           {{ data.invoiceAmount }}
         </a-descriptions-item>
         <a-descriptions-item label="开票金额">
-          <b style="color: #02a7f0">￥{{ data.invoiceAmount }}</b>
+          <b style="color: #02a7f0"> ￥{{ data.invoiceAmount }} </b>
         </a-descriptions-item>
       </a-descriptions>
       <h3>开票明细</h3>
@@ -71,8 +73,8 @@
         <a-form-model-item label="联系电话" prop="senderPhone">
           <a-input v-model="form.senderPhone" />
         </a-form-model-item>
-        <a-form-model-item label="备注" prop="refundRemark">
-          <a-input v-model="form.refundRemark" />
+        <a-form-model-item label="备注" prop="feedbackRemark">
+          <a-input v-model="form.feedbackRemark" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 9, offset: 8 }">
           <a-button type="primary" @click="onSubmit"> 提交申请 </a-button>
@@ -108,7 +110,7 @@ export default {
         expressDelivery: "",
         sender: "",
         senderPhone: "",
-        refundRemark: ""
+        feedbackRemark: ""
       },
       rules: {
         expressDelivery: [
@@ -137,7 +139,7 @@ export default {
             trigger: ["blur", "change"]
           }
         ],
-        refundRemark: [
+        feedbackRemark: [
           {
             required: true,
             message: "请填写备注",
@@ -187,7 +189,9 @@ export default {
     };
   },
   activated() {
-    // this.getData();
+    this.getData();
+    this.current= 0;
+    this.resetForm();
   },
   methods: {
     onSubmit() {
@@ -203,17 +207,23 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
+      this.form = {
+        expressDelivery: "",
+        sender: "",
+        senderPhone: "",
+        feedbackRemark: ""
+      };
     },
     // 获取页面数据
     getData() {
       this.$store
-        .dispatch("cbouncelist/getDetail", { id: this.$route.query.id })
+        .dispatch("cbilllist/getDetail", { id: this.$route.query.id })
         .then(res => {
           console.log(res, "---------");
           this.data = res.data;
-          this.dataDetails = res.data.invoiceEvaluatePage.list;
-          this.paginationProps.total =
-            res.data.invoiceEvaluatePage.totalCount * 1;
+          // this.dataDetails = res.data.invoiceEvaluatePage.list;
+          // this.paginationProps.total =
+            // res.data.invoiceEvaluatePage.totalCount * 1;
         });
     },
     //查询数据表格

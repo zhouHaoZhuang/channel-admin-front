@@ -595,6 +595,18 @@ export const asyncRoute = [
                   import("@/pages/purchase/billmanage/billlist/info.vue")
               },
               {
+                path: "changeadress",
+                name: "修改地址",
+                meta: {
+                  icon: "home",
+                  back: true,
+                  invisible: true,
+                  perm: "purchase-manage"
+                },
+                component: () =>
+                  import("@/pages/purchase/billmanage/billlist/address/index.vue")
+              },
+              {
                 path: "bouncelist",
                 name: "退票列表",
                 meta: {
@@ -610,6 +622,7 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   invisible: true,
+                  back: true,
                   perm: "purchase-manage"
                 },
                 component: () =>
@@ -621,6 +634,7 @@ export const asyncRoute = [
                 meta: {
                   icon: "home",
                   invisible: true,
+                  back: true,
                   perm: "purchase-manage"
                 },
                 component: () =>

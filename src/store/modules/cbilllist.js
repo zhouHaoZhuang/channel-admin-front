@@ -9,7 +9,7 @@ const cbilllist = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: "/channelInvoiceRecord/page",
+        url: "/channelInvoice/channelPage",
         method: "get",
         params,
       });
@@ -17,7 +17,7 @@ const cbilllist = {
     // 获取详情
     getDetail({ commit, state }, params) {
       return request({
-        url: `/channelInvoiceRecord/${params.id}`,
+        url: `/channelInvoice/channel/${params.id}`,
         method: "get",
         params,
       });
@@ -25,7 +25,7 @@ const cbilllist = {
     // 取消
     cancel({ commit, state }, data) {
       return request({
-        url: `/channelInvoiceRecord/receive/${data.id}`,
+        url: `/channelInvoice/cancelRefund/${data.id}`,
         method: "patch",
         data,
       });
@@ -36,6 +36,14 @@ const cbilllist = {
         url: `/channelInvoiceRecord/examine/${data.id}?status=${data.status}`,
         method: "patch",
         data,
+      });
+    },
+    // 修改发票地址
+    updateAddress({ commit, state }, params) {
+      return request({
+        url: `/channelInvoice/updateAddress/${params.id}`,
+        method: "patch",
+        params,
       });
     }
   },

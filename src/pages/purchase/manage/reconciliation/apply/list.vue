@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="apply-recon">
     <div class="title-hint">
       <a-steps :current="current">
         <a-step>
@@ -177,7 +177,9 @@
             <a-button
               type="link"
               @click="
-                $router.push(`/purchase/billmanage/addbillInform?id=${record.id}`)
+                $router.push(
+                  `/purchase/billmanage/addbillInform?id=${record.id}`
+                )
               "
             >
               编辑
@@ -391,6 +393,7 @@ export default {
       // 选择发票抬头
       dataTitle: [],
       selectedRowKeysTitle: [], // Check here to configure the default column
+      selectedRowKeysInvoiceType: "", // Check here to configure the default column
       columnsTitle: [
         {
           title: "发票抬头",
@@ -544,6 +547,7 @@ export default {
     }
   },
   activated() {
+    this.current = 0;
     // this.getList();
     // this.getDetailsList();
     this.getListTitle();
@@ -592,13 +596,14 @@ export default {
       console.log(this.selectedRowKeys, "selectedRowKeys");
       let data = {
         accountAmount: this.data,
-        invoiceEvaluateIds: this.selectedRowKeys,
-        invoiceInfoId: this.selectedRowKeysTitle[0]
+        addressInfoId: this.selectedRowKeysAddress[0],
+        invoiceInfoId: this.selectedRowKeysTitle[0],
+        invoiceType: this.selectedRowKeysInvoiceType
       };
       console.log(data, "data");
       this.$store.dispatch("billapply/applyInvoice", data).then(res => {
         this.$message.success("申请成功");
-        this.$router.back()
+        this.$router.back();
       });
     },
     // 保存信息
@@ -657,17 +662,17 @@ export default {
     onSelectChange(selectedRowKeys, obj) {
       console.log("selectedRowKeys changed: ", selectedRowKeys, obj);
       this.selectedRowKeys = selectedRowKeys;
-      this.invoiceAmount = obj.reduce((prev, cur) => {
-        return math.format(math.add(prev, cur.originalAmount), {
-          precision: 14
-        });
-      }, 0);
-      this.invoiceAmount = math.format(
-        math.subtract(
-          math.bignumber(this.invoiceAmount),
-          math.bignumber(this.dataAmount.negativeAmount)
-        )
-      );
+      // this.invoiceAmount = obj.reduce((prev, cur) => {
+      //   return math.format(math.add(prev, cur.originalAmount), {
+      //     precision: 14
+      //   });
+      // }, 0);
+      // this.invoiceAmount = math.format(
+      //   math.subtract(
+      //     math.bignumber(this.invoiceAmount),
+      //     math.bignumber(this.dataAmount.negativeAmount)
+      //   )
+      // );
       console.log(this.invoiceAmount, "this.invoiceAmount");
     },
     // 欠票表格多选
@@ -704,9 +709,10 @@ export default {
         });
     },
     // 选择发票抬头
-    onSelectChangeTitle(selectedRowKeysTitle) {
-      console.log("selectedRowKeysTitle changed: ", selectedRowKeysTitle);
+    onSelectChangeTitle(selectedRowKeysTitle, obj) {
+      console.log("selectedRowKeysTitle changed: ", selectedRowKeysTitle, obj);
       this.selectedRowKeysTitle = selectedRowKeysTitle;
+      this.selectedRowKeysInvoiceType = obj.invoiceType;
     },
     // 选择收货信息
     onSelectChangeAddress(selectedRowKeysAddress) {
@@ -767,6 +773,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.apply-recon {
+  margin: 0 20px;
+  padding: 20px;
+  background-color: #fff;
+}
 .title-hint {
   width: 80%;
   margin: 30px auto;

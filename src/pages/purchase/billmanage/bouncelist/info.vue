@@ -1,24 +1,24 @@
 <template>
-  <div>
-    <div class="bill-info">
+  <div class="bill-info">
+    <div v-if="data">
       <a-descriptions style="margin: 20px 0" title="申请信息">
-        <a-descriptions-item label="发票ID">
+        <a-descriptions-item label="发票申请号">
           {{ data.invoiceNo }}
         </a-descriptions-item>
         <!-- <a-descriptions-item label="开具类型">
           {{ issueTypeMap[data.invoiceInfo.issueType] }}
         </a-descriptions-item> -->
         <a-descriptions-item label="发票类型">
-          {{ invoiceTypeMap[data.invoiceInfo.invoiceType] }}
+          {{ invoiceTypeMap[data.invoiceType] }}
         </a-descriptions-item>
         <a-descriptions-item label="发票抬头">
-          {{ data.invoiceInfo.invoiceTitle }}
+          {{ data.invoiceTitle }}
         </a-descriptions-item>
         <a-descriptions-item label="税务登记号">
-          {{ data.invoiceInfo.registerNo }}
+          <span v-if="data.invoiceInfo">{{ data.invoiceInfo.registerNo }}</span>
         </a-descriptions-item>
         <a-descriptions-item label="开票主体">
-          <!-- {{ data.invoiceInfo.registerNo }} -->
+          {{ data.status }}----
         </a-descriptions-item>
         <a-descriptions-item label="状态">
           {{ invoiceStatusEnum[data.status] }}
@@ -133,18 +133,18 @@ export default {
     };
   },
   activated() {
-    // this.getData();
+    this.getData();
   },
   methods: {
     getData() {
       this.$store
-        .dispatch("cbouncelist/getDetail", { id: this.$route.query.id })
+        .dispatch("cbilllist/getDetail", { id: this.$route.query.id })
         .then(res => {
           console.log(res, "---------");
           this.data = res.data;
-          this.dataDetails = res.data.invoiceEvaluatePage.list;
-          this.paginationProps.total =
-            res.data.invoiceEvaluatePage.totalCount * 1;
+          // this.dataDetails = res.data.invoiceEvaluatePage.list;
+          // this.paginationProps.total =
+          //   res.data.invoiceEvaluatePage.totalCount * 1;
         });
     },
     //表格分页跳转
@@ -164,6 +164,8 @@ export default {
 
 <style lang="less" scoped>
 .bill-info {
-  margin: 30px 0;
+  margin: 0 20px;
+  padding: 20px;
+  background-color: #fff;
 }
 </style>

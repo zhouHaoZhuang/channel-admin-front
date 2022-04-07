@@ -9,7 +9,7 @@ const cbouncelist = {
     // 获取列表
     getList({ commit, state }, params) {
       return request({
-        url: "/channelInvoiceRecord/page",
+        url: "/channelInvoice/refund/page",
         method: "get",
         params,
       });
@@ -33,7 +33,7 @@ const cbouncelist = {
     // 审核
     audit({ commit, state }, data) {
       return request({
-        url: `/channelInvoiceRecord/examine/${data.id}`,
+        url: `/channelInvoice/refund/${data.id}`,
         method: "patch",
         data,
       });

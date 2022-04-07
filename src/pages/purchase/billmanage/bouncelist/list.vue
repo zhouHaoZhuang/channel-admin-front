@@ -3,7 +3,12 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline">
         <a-form-model-item>
-          <a-input style="width:220px" placeholder="请输入发票订单ID进行搜索" />
+          <a-input
+            v-model="listQuery.invoiceNo"
+            style="width:220px"
+            placeholder="请输入发票订单ID进行搜索"
+            allowClear
+          />
         </a-form-model-item>
         <a-form-model-item>
           <a-button type="primary" @click="getList">查询</a-button>
@@ -16,8 +21,12 @@
         :data-source="data"
         :pagination="paginationProps"
         rowKey="id"
+        :loading="loading"
       >
         <div slot="companyName" slot-scope="text">{{ text }}</div>
+        <div slot="status" slot-scope="text">
+          {{ invoiceStatusEnum[text] }}
+        </div>
         <div slot="action" slot-scope="text, record">
           <a-button
             type="link"
@@ -27,9 +36,18 @@
           >
             详情
           </a-button>
-          <a-button type="link" @click="cancel(record.id)">取消</a-button>
+          <a-button
+            style="margin-left:10px"
+            type="link"
+            @click="cancel(record.id)"
+            v-show="record.status === 3"
+          >
+            取消
+          </a-button>
           <a-button
             type="link"
+            style="margin-left:10px"
+            v-show="record.status === 2 || record.status === 8"
             @click="
               $router.push('/purchase/billmanage/bounceapply?id=' + record.id)
             "
@@ -43,59 +61,67 @@
 </template>
 
 <script>
+import { invoiceStatusEnum } from "@/utils/enum";
+
 export default {
   data() {
     return {
+      invoiceStatusEnum,
       listQuery: {
         key: "",
         search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        status: ""
+        status: "",
+        invoiceNo: ""
       },
       columns: [
         {
           title: "发票申请号",
-          dataIndex: "id"
+          dataIndex: "invoiceNo"
         },
         {
           title: "发票抬头",
-          dataIndex: "title"
+          dataIndex: "invoiceTitle"
         },
         {
           title: "开票金额",
-          dataIndex: "amount"
+          dataIndex: "invoiceAmount"
         },
         {
           title: "状态",
-          dataIndex: "status"
+          dataIndex: "status",
+          scopedSlots: {
+            customRender: "status"
+          }
         },
         {
           title: "退票申请时间",
-          dataIndex: "applyTime"
+          dataIndex: "refundCreateTimeShow"
         },
         {
           title: "备注",
-          dataIndex: "remark"
+          dataIndex: "refundRemark"
         },
         {
           title: "退票申请反馈时间",
-          dataIndex: "createTime"
+          dataIndex: "refundFeedbackTimeShow"
         },
         {
           title: "退票申请反馈说明",
-          dataIndex: "feedbackRemark"
+          dataIndex: "refundFeedbackRemark"
         },
         {
           title: "操作",
           dataIndex: "action",
           scopedSlots: {
-            default: "action"
+            customRender: "action"
           }
         }
       ],
       data: [],
+      loading: false,
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -110,23 +136,28 @@ export default {
     };
   },
   activated() {
-    // this.getList();
+    this.getList();
   },
   methods: {
     //查询数据表格
     getList() {
-      this.$getList("cbouncelist/getList", this.listQuery).then(res => {
-        console.log(res);
-        this.data = [...res.data.list];
-        this.paginationProps.total = res.data.totalCount * 1;
-      });
+      this.loading = true;
+      this.$getList("cbouncelist/getList", this.listQuery)
+        .then(res => {
+          console.log(res);
+          this.data = [...res.data.list];
+          this.paginationProps.total = res.data.totalCount * 1;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     // 取消
     cancel(id) {
       this.$confirm({
         title: "确定要取消吗?",
         onOk: () => {
-          this.$store.dispatch("cbouncelist/cancel", { id }).then(res => {
+          this.$store.dispatch("cbilllist/cancel", { id }).then(res => {
             this.$message.success("取消成功");
             this.getList();
           });
