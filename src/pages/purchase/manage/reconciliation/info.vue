@@ -1,6 +1,6 @@
 <template>
   <div class="recon-info">
-    <a-descriptions title="基本信息">
+    <a-descriptions title="基本信息" v-if="data">
       <a-descriptions-item label="对账单号">
         {{ data.billNo }}
       </a-descriptions-item>
