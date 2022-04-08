@@ -65,6 +65,24 @@ const reconciliation = {
         data,
         billService: true
       });
+    },
+    // 获取建议调整项
+    getsteerListSteer({ commit, state }, data) {
+      return request({
+        url: "/billDetail/getAdjustData",
+        method: "post",
+        data,
+        billService: true
+      });
+    },
+    // 获取实际调整项
+    getsteerListActual({ commit, state }, data) {
+      return request({
+        url: "/billDetail/getRealAdjustDate",
+        method: "post",
+        data,
+        billService: true
+      });
     }
   }
 };

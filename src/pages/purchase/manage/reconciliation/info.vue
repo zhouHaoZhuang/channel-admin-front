@@ -46,7 +46,7 @@
         <a-table
           :columns="columnsDetails"
           :data-source="dataDetails"
-          :pagination="steerPaginationProps"
+          :pagination="paginationProps"
         >
         </a-table>
         <p>
@@ -310,7 +310,7 @@ export default {
         onShowSizeChange: this.onShowSizeChange
       },
       steerListQuery: {
-        //(对账单明细)
+        //(建议调整项)
         key: "",
         search: "",
         pageNo: 1,
@@ -330,7 +330,7 @@ export default {
         onShowSizeChange: this.onShowSizeChangeSteer
       },
       actualListQuery: {
-        //(对账单明细)
+        //(实际调整项)
         key: "",
         search: "",
         pageNo: 1,
@@ -370,6 +370,8 @@ export default {
   activated() {
     this.data = JSON.parse(this.$route.query.data);
     this.getsteerList();
+    this.getsteerListSteer();
+    this.getsteerListActual();
   },
   methods: {
     showModal() {
@@ -439,6 +441,45 @@ export default {
           this.dataDetails = res.data.list;
           this.paginationProps.total = res.data.total * 1;
         });
+    },
+    // 建议调整项
+    getsteerListSteer() {
+      let data = JSON.parse(this.$route.query.data);
+      this.$store
+        .dispatch("reconciliation/getsteerListSteer", {
+          ...this.steerListQuery,
+          billNo: data.billNo
+        })
+        .then(res => {
+          this.data = res.data.list;
+          this.steerPaginationProps.total = res.data.total * 1;
+        });
+    },
+    // 实际调整项
+    getsteerListActual() {
+      let data = JSON.parse(this.$route.query.data);
+      this.$store
+        .dispatch("reconciliation/getsteerListActual", {
+          ...this.actualListQuery,
+          billNo: data.billNo
+        })
+        .then(res => {
+          this.actualData = res.data.list;
+          this.actualPaginationProps.total = res.data.total * 1;
+        });
+    },
+    // 获取金额
+    getAmount() {
+      let data = JSON.parse(this.$route.query.data);
+      this.$store
+        .dispatch("reconciliation/getAmount", {
+          billNo: data.billNo
+        })
+        .then(res => {
+          console.log(res);
+          // this.amount = res.data.amount;
+        });
+      
     },
     // 获取页面数据
     getData() {
