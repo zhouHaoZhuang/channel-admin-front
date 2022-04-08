@@ -16,6 +16,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isCode: {
+      type: Boolean,
+      default: false
+    },
     phone: {
       type: [String, Number]
     },
@@ -57,6 +61,15 @@ export default {
       if (!this.phoneReg.test(this.phone)) {
         this.$message.warning("手机号格式不正确");
         return;
+      }
+      if (this.isCode) {
+        this.$store
+          .dispatch("user/getTest", {
+            phone: this.phone
+          }).then(res =>{
+           this.$emit('showPicCode',true)
+           this.$message.warning("请输入图形验证码");
+          })
       }
       if (!this.$listeners["showValidate"]) {
         this.getMsg();

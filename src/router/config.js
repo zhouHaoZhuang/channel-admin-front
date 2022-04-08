@@ -27,6 +27,11 @@ export const basicRoute = [
     component: () => import("@/pages/passport/resetpassword")
   },
   {
+    path: "/bypassAccount",
+    name: "子账号登陆",
+    component: () => import("@/pages/passport/bypassAccount")
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("@/pages/exception/404")
