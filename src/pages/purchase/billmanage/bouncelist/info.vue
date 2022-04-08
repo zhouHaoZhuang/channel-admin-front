@@ -18,7 +18,7 @@
           <span v-if="data.invoiceInfo">{{ data.invoiceInfo.registerNo }}</span>
         </a-descriptions-item>
         <a-descriptions-item label="开票主体">
-          {{ data.status }}----
+          {{ data.companyName }}
         </a-descriptions-item>
         <a-descriptions-item label="状态">
           {{ invoiceStatusEnum[data.status] }}

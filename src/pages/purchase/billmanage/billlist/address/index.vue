@@ -24,7 +24,7 @@
           {{ dataInfo.refundCreateTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="开票主体">
-          {{  }}----------
+          {{dataInfo.companyName}}
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions title="原收件人信息">

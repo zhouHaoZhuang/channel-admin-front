@@ -23,7 +23,7 @@
           </span>
         </a-descriptions-item>
         <a-descriptions-item label="开票主体">
-          {{ data.invoiceAmount }}
+          {{ data.companyName }}
         </a-descriptions-item>
         <a-descriptions-item label="开票金额">
           <b style="color: #02a7f0"> ￥{{ data.invoiceAmount }} </b>
