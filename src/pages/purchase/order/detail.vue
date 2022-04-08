@@ -10,7 +10,7 @@
         </li>
         <li>
           <span>订单类型:</span>
-          <span>{{ orderTypeMap[orderInfo.tradeType] }}</span>
+          <span>{{ orderInfo.tradeType === 1 ? "新购" : "销售" }} </span>
         </li>
         <li>
           <span>状态:</span>
@@ -20,6 +20,7 @@
           <span>创建时间:</span>
           <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
+      
       </ul>
     </div>
     <!-- 支付信息 -->
@@ -30,7 +31,7 @@
           <span>支付金额:</span>
           <span>{{ orderInfo.actualAmount }}</span>
         </li>
-        <li>
+          <li>
           <span>支付时间:</span>
           <span>{{ orderInfo.payTime | formatDate }}</span>
         </li>
@@ -51,7 +52,7 @@
           :pagination="false"
         >
           <div slot="chargingType" slot-scope="text">
-            {{ charingStatus[text] }}
+             {{ text == 'AfterPay' ?'后支付':'预支付' }}
           </div>
         </a-table>
       </div>
@@ -74,13 +75,7 @@
 </template>
 
 <script>
-import {
-  orderStatus,
-  feeReduction,
-  regionDataEnum,
-  charingStatus,
-  orderTypeMap
-} from "@/utils/enum.js";
+import { orderStatus, feeReduction, regionDataEnum } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -88,14 +83,12 @@ export default {
       feeReduction,
       regionDataEnum,
       orderInfo: null,
-      charingStatus,
-      orderTypeMap,
       data: [],
       columns: [
         {
           title: "产品名称",
           dataIndex: "productName",
-          key: "productName"
+          key: "productName",
         },
         {
           title: "计费方式",

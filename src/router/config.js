@@ -27,11 +27,6 @@ export const basicRoute = [
     component: () => import("@/pages/passport/resetpassword")
   },
   {
-    path: "/bypassAccount",
-    name: "子账号登陆",
-    component: () => import("@/pages/passport/bypassAccount")
-  },
-  {
     path: "/404",
     name: "404",
     component: () => import("@/pages/exception/404")
@@ -71,7 +66,7 @@ export const asyncRoute = [
             path: "index",
             name: "总览管理",
             meta: {
-              icon: "icon-zonglanguanli",
+              icon: "home",
               perm: "dashboard-index"
             },
             component: BlankView,
@@ -102,7 +97,7 @@ export const asyncRoute = [
             path: "customer",
             name: "客户管理",
             meta: {
-              icon: "icon-kehuguanli",
+              icon: "home",
               perm: "sale-customer"
             },
             component: BlankView,
@@ -182,7 +177,7 @@ export const asyncRoute = [
             path: "order",
             name: "订单管理",
             meta: {
-              icon: "icon-dingdanguanli",
+              icon: "home",
               perm: "sale-order"
             },
             component: BlankView,
@@ -211,8 +206,8 @@ export const asyncRoute = [
             path: "unsubscribe",
             name: "订单退订管理",
             meta: {
-              icon: "icon-dingdantuidingguanli",
-              perm: "sale-refund"
+              icon: "home",
+              perm: "sale-order"
             },
             component: BlankView,
             children: [
@@ -220,7 +215,7 @@ export const asyncRoute = [
                 path: "list",
                 name: "订单退订列表",
                 meta: {
-                  perm: "sale-refund-list"
+                  perm: "sale-order-list"
                 },
                 component: () => import("@/pages/sale/unsubscribe/index")
               },
@@ -230,7 +225,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "sale-refund-list"
+                  perm: "sale-order-list"
                 },
                 component: () => import("@/pages/sale/unsubscribe/detail")
               }
@@ -240,7 +235,7 @@ export const asyncRoute = [
             path: "finance",
             name: "财务管理",
             meta: {
-              icon: "icon-caiwuguanli",
+              icon: "home",
               perm: "sale-finance"
             },
             component: BlankView,
@@ -312,19 +307,19 @@ export const asyncRoute = [
                 component: () =>
                   import("@/pages/sale/finance/payment/addbalance")
               },
-              // { 疑似删掉，暂留注释
-              //   path: "refund",
-              //   name: "退款列表",
-              //   meta: {
-              //     perm: "finance-book-order"
-              //   },
-              //   component: () => import("@/pages/sale/finance/refund/index.vue")
-              // },
+              {
+                path: "refund",
+                name: "退款列表",
+                meta: {
+                  perm: "finance-book-order"
+                },
+                component: () => import("@/pages/sale/finance/refund/index.vue")
+              },
               {
                 path: "billmanage",
                 name: "发票管理",
                 meta: {
-                  perm: "sale-finance-billmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/billmanage/index.vue")
@@ -335,7 +330,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "sale-finance-billmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/billmanage/billInfo.vue")
@@ -346,7 +341,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "sale-finance-billmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/billmanage/auditbill.vue")
@@ -357,7 +352,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "sale-finance-billmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/billmanage/editbill.vue")
@@ -366,7 +361,7 @@ export const asyncRoute = [
                 path: "refundmanage",
                 name: "退票管理",
                 meta: {
-                  perm: "sale-finance-refundmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/refundmanage/list.vue")
@@ -377,7 +372,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "sale-finance-refundmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/refundmanage/refundApply.vue")
@@ -388,16 +383,24 @@ export const asyncRoute = [
                 meta: {
                   back: true,
                   invisible: true,
-                  perm: "sale-finance-refundmanage"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/refundmanage/reviewRefund.vue")
               },
+              // {
+              //   path: "rechargeCentre",
+              //   name: "充值中心",
+              //   meta: {
+              //     perm: "sale-finance-refund"
+              //   },
+              //   component: () => import("@/pages/sale/finance/rechargeCentre/index.vue")
+              // },
               {
                 path: "withdraw",
                 name: "提现管理",
                 meta: {
-                  perm: "sale-finance-withdraw"
+                  perm: "sale-finance-refund"
                 },
                 component: () =>
                   import("@/pages/sale/finance/withdraw/index.vue")
@@ -419,7 +422,7 @@ export const asyncRoute = [
             path: "manage",
             name: "财务管理",
             meta: {
-              icon: "icon-caiwuguanli",
+              icon: "home",
               perm: "purchase-manage"
             },
             component: BlankView,
@@ -428,7 +431,7 @@ export const asyncRoute = [
                 path: "rechargeCentre",
                 name: "充值中心",
                 meta: {
-                  perm: "purchase-manage-rechargeCenter"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () =>
                   import("@/pages/purchase/manage/rechargeCentre/index.vue")
@@ -484,8 +487,8 @@ export const asyncRoute = [
             path: "order",
             name: "订单管理",
             meta: {
-              icon: "icon-dingdanguanli",
-              perm: "purchase-order"
+              icon: "home",
+              perm: "purchase-manage"
             },
             component: BlankView,
             children: [
@@ -493,7 +496,7 @@ export const asyncRoute = [
                 path: "list",
                 name: "订单列表",
                 meta: {
-                  perm: "purchase-order-list"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () => import("@/pages/purchase/order/index.vue")
               },
@@ -503,7 +506,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "purchase-order-list"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () => import("@/pages/purchase/order/detail.vue")
               },
@@ -511,7 +514,7 @@ export const asyncRoute = [
                 path: "unsubscribe/list",
                 name: "订单退单管理",
                 meta: {
-                  perm: "purchase-order-refund"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () =>
                   import("@/pages/purchase/order/unsubscribe/index")
@@ -522,7 +525,7 @@ export const asyncRoute = [
                 meta: {
                   invisible: true,
                   back: true,
-                  perm: "purchase-order-refund"
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () =>
                   import("@/pages/purchase/order/unsubscribe/detail")
@@ -531,7 +534,8 @@ export const asyncRoute = [
                 path: "bill",
                 name: "采购账单",
                 meta: {
-                  perm: "purchase-order-bill"
+                  // invisible: true,
+                  perm: "purchase-manage-withdraw"
                 },
                 component: () => import("@/pages/purchase/order/bill/index.vue")
               }
@@ -680,7 +684,7 @@ export const asyncRoute = [
             path: "cloudservers",
             name: "云服务器",
             meta: {
-              icon: "icon-yunfuwuqi",
+              icon: "home",
               perm: "product-cloud"
             },
             component: BlankView,
@@ -782,8 +786,8 @@ export const asyncRoute = [
             path: "cdn",
             name: "CDN云加速",
             meta: {
-              icon: "icon-CDNyunjiasu",
-              perm: "product-cdn"
+              icon: "home",
+              perm: "product-cloud"
             },
             component: BlankView,
             children: [
@@ -791,7 +795,7 @@ export const asyncRoute = [
                 path: "domain",
                 name: "域名管理",
                 meta: {
-                  perm: "product-cdn-domain"
+                  perm: "product-cloud-businessList"
                 },
                 component: () => import("@/pages/product/domain/index.vue")
               },
@@ -799,7 +803,7 @@ export const asyncRoute = [
                 path: "bill",
                 name: "账单管理",
                 meta: {
-                  perm: "product-cdn-bill"
+                  perm: "product-cloud-businessList"
                 },
                 component: () => import("@/pages/product/bill/index.vue")
               }
@@ -982,7 +986,7 @@ export const asyncRoute = [
             path: "workorderManage",
             name: "工单管理",
             meta: {
-              icon: "icon-gongdanguanli",
+              icon: "home",
               perm: "workOrder-workorderManage"
             },
             component: BlankView,
@@ -1030,7 +1034,7 @@ export const asyncRoute = [
             path: "setting",
             name: "工单设置",
             meta: {
-              icon: "icon-gongdanshezhi",
+              icon: "home",
               perm: "workOrder-setting"
             },
             component: BlankView,
@@ -1130,7 +1134,7 @@ export const asyncRoute = [
             path: "web",
             name: "网站管理",
             meta: {
-              icon: "icon-wangzhanguanli",
+              icon: "home",
               perm: "depot-web"
             },
             component: BlankView,
@@ -1238,7 +1242,7 @@ export const asyncRoute = [
             path: "help",
             name: "帮助文档",
             meta: {
-              icon: "icon-bangzhuwendang",
+              icon: "home",
               perm: "depot-help"
             },
             component: BlankView,
@@ -1325,7 +1329,7 @@ export const asyncRoute = [
             path: "news",
             name: "新闻公告",
             meta: {
-              icon: "icon-xinwengonggao",
+              icon: "home",
               perm: "depot-news"
             },
             component: BlankView,
@@ -1407,7 +1411,7 @@ export const asyncRoute = [
             path: "admin",
             name: "组织管理",
             meta: {
-              icon: "icon-zuzhiguanli",
+              icon: "home",
               perm: "organization-admin"
             },
             component: BlankView,
@@ -1455,7 +1459,7 @@ export const asyncRoute = [
             path: "admin",
             name: "系统设置",
             meta: {
-              icon: "icon-xitongshezhi",
+              icon: "home",
               perm: "system-admin"
             },
             component: BlankView,
@@ -1521,7 +1525,7 @@ export const asyncRoute = [
                 path: "enterprise",
                 name: "企业认证",
                 meta: {
-                  perm: "user-center-enterprise"
+                  perm: "user-center-message"
                 },
                 component: () => import("@/pages/user/enterprise/index.vue")
               },
