@@ -18,14 +18,16 @@ const reconciliation = {
     getData({ commit, state }, id) {
       return request({
         url: `/customer/${id}`,
-        method: "get"
+        method: "get",
+        billService: true
       });
     },
     // 删除
     del({ commit, state }, id) {
       return request({
         url: `/customer/${id}`,
-        method: "delete"
+        method: "delete",
+        billService: true
       });
     },
     // 确认
@@ -33,7 +35,8 @@ const reconciliation = {
       return request({
         url: "/tcOrder/unSubscrube/confirm",
         method: "post",
-        data
+        data,
+        billService: true
       });
     },
     // 退回
@@ -41,7 +44,8 @@ const reconciliation = {
       return request({
         url: "/tcOrder/unSubscrube/back",
         method: "post",
-        data
+        data,
+        billService: true
       });
     },
     // 新增建议添加项
@@ -49,7 +53,8 @@ const reconciliation = {
       return request({
         url: "/tcOrder/unSubscrube/addSteerItem",
         method: "post",
-        data
+        data,
+        billService: true
       });
     },
     // 获取开票明细
@@ -57,7 +62,8 @@ const reconciliation = {
       return request({
         url: "/billDetail/getInitData",
         method: "post",
-        data
+        data,
+        billService: true
       });
     }
   }

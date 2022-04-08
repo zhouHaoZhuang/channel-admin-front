@@ -23,7 +23,7 @@
         {{ data.modifyTime }}
       </a-descriptions-item>
       <a-descriptions-item label="备注">
-        {{ data.supplierName }}
+        {{ data.supplierName }}----
       </a-descriptions-item>
     </a-descriptions>
     <div>
@@ -333,7 +333,7 @@ export default {
         //(对账单明细)
         key: "",
         search: "",
-        currentPage: 1,
+        pageNo: 1,
         pageSize: 10,
         total: 0
       },
@@ -369,7 +369,7 @@ export default {
   },
   activated() {
     this.data = JSON.parse(this.$route.query.data);
-    this.getData();
+    this.getsteerList();
   },
   methods: {
     showModal() {
@@ -436,8 +436,8 @@ export default {
           billNo: data.billNo
         })
         .then(res => {
-          this.steerList = res.data.data;
-          this.steerPaginationProps.total = res.data.total;
+          this.dataDetails = res.data.list;
+          this.paginationProps.total = res.data.total * 1;
         });
     },
     // 获取页面数据

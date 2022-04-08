@@ -106,12 +106,12 @@
         <div slot="action" slot-scope="text, record">
           <a-button
             type="link"
-            @click="$router.push('/sale/finance/billInfo?data=' + JSON.stringify(record))"
+            @click="$router.push('/purchase/manage/reconinfo?data=' + JSON.stringify(record))"
           >
             详情
           </a-button>
           <a-button
-            @click="$router.push('/sale/finance/billInfo?id=' + record.id)"
+            @click="$router.push('/purchase/manage/reconinfo??id=' + record.id)"
             type="link"
             style="margin-left:10px"
           >
