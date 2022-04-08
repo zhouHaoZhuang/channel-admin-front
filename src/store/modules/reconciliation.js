@@ -83,6 +83,15 @@ const reconciliation = {
         data,
         billService: true
       });
+    },
+    // 获取金额
+    getAmount({ commit, state }, data) {
+      return request({
+        url: "/billDetail/getTotal",
+        method: "post",
+        data,
+        billService: true
+      });
     }
   }
 };

@@ -100,6 +100,18 @@
           rowKey="id"
           :pagination="paginationPropsInvoice"
         >
+          <div slot="action" slot-scope="text, record">
+            <a-button
+              type="link"
+              @click="
+                $router.push(
+                  '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+                )
+              "
+            >
+              详情
+            </a-button>
+          </div>
           <div slot="canInvoiceAmount" slot-scope="text, record">
             {{ record.originalAmountShow }}
           </div>
@@ -336,19 +348,19 @@ export default {
         },
         {
           title: "账期",
-          dataIndex: "zcreateTime"
+          dataIndex: "billDate"
         },
         {
           title: "供应商名称",
-          dataIndex: "companyName"
+          dataIndex: "supplierName"
         },
         {
           title: "账单总金额（元）",
-          dataIndex: "finalTotalAomount"
+          dataIndex: "initTotalAmount"
         },
         {
           title: "可开票总金额（元）",
-          dataIndex: "finalInvoiceAmount"
+          dataIndex: "initInvoiceAmount"
         },
         {
           title: "操作",

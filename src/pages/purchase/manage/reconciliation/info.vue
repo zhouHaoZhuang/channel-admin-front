@@ -23,7 +23,7 @@
         {{ data.modifyTime }}
       </a-descriptions-item>
       <a-descriptions-item label="备注">
-        {{ data.supplierName }}----
+        {{ data.memo }}
       </a-descriptions-item>
     </a-descriptions>
     <div>
@@ -33,10 +33,13 @@
       <div>
         <a-form-model layout="inline">
           <a-form-model-item>
-            <a-input v-model="form.name" placeholder="请输入账单编号" />
+            <a-input
+              v-model="steerListQuery.billNo"
+              placeholder="请输入账单编号"
+            />
           </a-form-model-item>
           <a-form-model-item>
-            <a-button type="primary" @click="getData">
+            <a-button type="primary" @click="getsteerList">
               查询
             </a-button>
           </a-form-model-item>
@@ -47,13 +50,17 @@
           :columns="columnsDetails"
           :data-source="dataDetails"
           :pagination="paginationProps"
+          rowKey="id"
         >
+          <div slot="finishTime" slot-scope="text">
+            {{ text | formatDate }}
+          </div>
         </a-table>
         <p>
           账单拉取总金额：
-          <span>¥ 2233</span>
+          <span>¥ {{ details.totalAmount }}</span>
           可开票拉取总金额：
-          <span>¥ 2233</span>
+          <span>¥ {{ details.invoiceAmount }}</span>
         </p>
       </div>
       <div class="table-title">
@@ -102,10 +109,13 @@
       <div>
         <a-form-model layout="inline">
           <a-form-model-item>
-            <a-input v-model="form.name" placeholder="请输入账单编号" />
+            <a-input
+              v-model="steerListQuery.billNo"
+              placeholder="请输入账单编号"
+            />
           </a-form-model-item>
           <a-form-model-item>
-            <a-button type="primary" @click="getData">
+            <a-button type="primary" @click="getsteerListSteer">
               查询
             </a-button>
           </a-form-model-item>
@@ -113,10 +123,14 @@
       </div>
       <div>
         <a-table
-          :columns="columns"
-          :data-source="data"
+          :columns="steercolumns"
+          :data-source="steerdata"
           :pagination="steerPaginationProps"
+          rowKey="id"
         >
+          <div slot="finishTime" slot-scope="text">
+            {{ text | formatDate }}
+          </div>
           <div slot="action" slot-scope="text, record">
             <a-button @click="del(record.id)" type="link">
               调整
@@ -125,39 +139,58 @@
         </a-table>
         <p>
           建议账单调整总金额：
-          <span>¥ -20.00</span>
+          <span>¥ {{ steer.totalAmount }}</span>
           建议可开票调整总金额：
-          <span>¥ -20.00</span>
+          <span>¥ {{ steer.invoiceAmount }}</span>
         </p>
       </div>
       <b>实际调整项</b>
+      <div>
+        <a-form-model layout="inline">
+          <a-form-model-item>
+            <a-input
+              v-model="actualListQuery.billNo"
+              placeholder="请输入账单编号"
+            />
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button type="primary" @click="getsteerListActual">
+              查询
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
+      </div>
       <div>
         <a-table
           :columns="actualColumns"
           :data-source="actualData"
           :pagination="actualPaginationProps"
+          rowKey="id"
         >
+          <div slot="finishTime" slot-scope="text">
+            {{ text | formatDate }}
+          </div>
         </a-table>
         <p>
           实际账单调整总金额：
-          <span>¥ -20.00</span>
+          <span>¥{{ actual.totalAmount }}</span>
           实际可开票调整总金额：
-          <span>¥ -20.00</span>
+          <span>¥ {{ actual.invoiceAmount }}</span>
         </p>
       </div>
       <p>
         对账单总金额:
-        <span>¥ 2213.00</span>
+        <span>¥ {{ amount.totalAmount }}</span>
         可开票总金额：
-        <span>¥ 2213.00</span>
+        <span>¥ {{ amount.invoiceAmount }}</span>
       </p>
       <div class="bottom-button">
         <a-button type="primary" @click="confirm">
           确认
         </a-button>
-        <a-button type="danger" style="margin-left: 10px;" @click="goBack">
+        <!-- <a-button type="danger" style="margin-left: 10px;" @click="goBack">
           退回
-        </a-button>
+        </a-button> -->
       </div>
     </div>
   </div>
@@ -170,6 +203,7 @@ export default {
   data() {
     return {
       data: null,
+      steerdata: [],
       invoiceStatusEnum,
       statementStatusEnum,
       actualData: null,
@@ -177,14 +211,14 @@ export default {
         //(对账单明细)
         key: "",
         search: "",
-        currentPage: 1,
+        pageNo: 1,
         pageSize: 10,
         total: 0
       },
-      columns: [
+      steercolumns: [
         {
           title: "账单编号",
-          dataIndex: "orderNo"
+          dataIndex: "billNo"
         },
         {
           title: "类型",
@@ -196,23 +230,17 @@ export default {
         },
         {
           title: "消费时间",
-          dataIndex: "createTime"
+          dataIndex: "finishTime",
+          scopedSlots: { customRender: "finishTime" }
         },
         {
           title: "账单金额（元）",
-          dataIndex: "producta"
-        },
-        {
-          title: "已支付金额（元）",
-          dataIndex: "kproductName"
-        },
-        {
-          title: "欠费金额（元）",
-          dataIndex: "tza"
+          dataIndex: "totalAmount"
         },
         {
           title: "可开票金额（元）",
-          dataIndex: "kza"
+          dataIndex: "actualAmount",
+          key: "kactualAmount"
         },
         {
           title: "操作",
@@ -223,7 +251,7 @@ export default {
       columnsDetails: [
         {
           title: "账单编号",
-          dataIndex: "orderNo"
+          dataIndex: "billNo"
         },
         {
           title: "类型",
@@ -235,29 +263,23 @@ export default {
         },
         {
           title: "消费时间",
-          dataIndex: "createTime"
+          dataIndex: "finishTime",
+          scopedSlots: { customRender: "finishTime" }
         },
         {
-          title: "账单金额",
-          dataIndex: "producta"
-        },
-        {
-          title: "已支付金额",
-          dataIndex: "yproductName"
-        },
-        {
-          title: "欠费金额",
-          dataIndex: "tza"
+          title: "账单金额（元）",
+          dataIndex: "totalAmount"
         },
         {
           title: "可开票金额",
-          dataIndex: "kproductName"
+          dataIndex: "actualAmount",
+          key: "kactualAmount"
         }
       ],
       actualColumns: [
         {
           title: "账单编号",
-          dataIndex: "orderNo"
+          dataIndex: "billNo"
         },
         {
           title: "类型",
@@ -269,31 +291,32 @@ export default {
         },
         {
           title: "消费时间",
-          dataIndex: "createTime"
+          dataIndex: "finishTime",
+          scopedSlots: { customRender: "finishTime" }
         },
         {
           title: "原账单金额（元）",
-          dataIndex: "yproducta"
+          dataIndex: "totalAmount"
         },
         {
           title: "原可开票金额（元）",
-          dataIndex: "kproductName"
+          dataIndex: "actualAmount"
         },
         {
           title: "账单调整金额（元）",
-          dataIndex: "tza"
+          dataIndex: "recheckTotalAmount"
         },
         {
           title: "可开票调整金额（元）",
-          dataIndex: "kza"
+          dataIndex: "recheckInvoiceAmount"
         },
         {
           title: "调整后账单金额（元）",
-          dataIndex: "producta"
+          dataIndex: "afterTotalAmount"
         },
         {
           title: "调整后可开票金额（元）",
-          dataIndex: "tzkproductName"
+          dataIndex: "afterInvoiceAmount"
         }
       ],
       dataDetails: null,
@@ -303,7 +326,7 @@ export default {
         showSizeChanger: true,
         total: 0,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
+          `共 ${total} 条记录 第 ${this.listQuery.pageNo} / ${Math.ceil(
             total / this.listQuery.pageSize
           )} 页`,
         onChange: this.quickJump,
@@ -311,41 +334,46 @@ export default {
       },
       steerListQuery: {
         //(建议调整项)
+        billNo: "",
         key: "",
         search: "",
         pageNo: 1,
         pageSize: 10,
         total: 0
       },
+      steer: {},
       steerPaginationProps: {
         //(建议调整项)
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${
-            this.steerListQuery.currentPage
-          } / ${Math.ceil(total / this.steerListQuery.pageSize)} 页`,
+          `共 ${total} 条记录 第 ${this.steerListQuery.pageNo} / ${Math.ceil(
+            total / this.steerListQuery.pageSize
+          )} 页`,
         onChange: this.quickJumpSteer,
         onShowSizeChange: this.onShowSizeChangeSteer
       },
       actualListQuery: {
         //(实际调整项)
+        billNo: "",
         key: "",
         search: "",
         pageNo: 1,
         pageSize: 10,
         total: 0
       },
+      details: {},
+      actual: {},
       actualPaginationProps: {
         //(实际调整项)
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
         showTotal: (total, range) =>
-          `共 ${total} 条记录 第 ${
-            this.actualListQuery.currentPage
-          } / ${Math.ceil(total / this.actualListQuery.pageSize)} 页`,
+          `共 ${total} 条记录 第 ${this.actualListQuery.pageNo} / ${Math.ceil(
+            total / this.actualListQuery.pageSize
+          )} 页`,
         onChange: this.quickJumpActual,
         onShowSizeChange: this.onShowSizeChangeActual
       },
@@ -364,14 +392,17 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      amount: {}
     };
   },
   activated() {
     this.data = JSON.parse(this.$route.query.data);
+    console.log(`this.data: `, this.data);
     this.getsteerList();
     this.getsteerListSteer();
     this.getsteerListActual();
+    this.getAmount();
   },
   methods: {
     showModal() {
@@ -438,8 +469,10 @@ export default {
           billNo: data.billNo
         })
         .then(res => {
-          this.dataDetails = res.data.list;
-          this.paginationProps.total = res.data.total * 1;
+          console.log(`获取开票明细`, res);
+          this.dataDetails = res.data.page.list;
+          this.paginationProps.total = res.data.page.totalCount * 1;
+          this.details = res.data;
         });
     },
     // 建议调整项
@@ -451,8 +484,9 @@ export default {
           billNo: data.billNo
         })
         .then(res => {
-          this.data = res.data.list;
-          this.steerPaginationProps.total = res.data.total * 1;
+          this.steerdata = res.data.page.list;
+          this.steerPaginationProps.total = res.data.page.totalCount * 1;
+          this.steer = res.data;
         });
     },
     // 实际调整项
@@ -464,12 +498,13 @@ export default {
           billNo: data.billNo
         })
         .then(res => {
-          this.actualData = res.data.list;
-          this.actualPaginationProps.total = res.data.total * 1;
+          this.actualData = res.data.page.list;
+          this.actualPaginationProps.total = res.data.page.totalCount * 1;
+          this.actual = res.data;
         });
     },
     // 获取金额
-    getAmount() {
+    getAmount(item) {
       let data = JSON.parse(this.$route.query.data);
       this.$store
         .dispatch("reconciliation/getAmount", {
@@ -477,16 +512,15 @@ export default {
         })
         .then(res => {
           console.log(res);
-          // this.amount = res.data.amount;
+          this.amount = res.data;
         });
-      
     },
     // 获取页面数据
     getData() {
       this.$store.dispatch("reconciliation/getData").then(res => {
         this.data = res.data;
         this.actualData = res.actualData;
-        this.dataDetails = res.dataDetails;
+        // this.dataDetails = res.dataDetails;
       });
     },
     //表格分页跳转(对账单明细)

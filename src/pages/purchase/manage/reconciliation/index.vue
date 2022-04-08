@@ -7,7 +7,12 @@
             :disabled="selectedRowKeys.length == 0"
             type="primary"
             icon="plus"
-            @click="$router.push('/purchase/manage/applybill?data=' + JSON.stringify(selectedRowKeysList))"
+            @click="
+              $router.push(
+                '/purchase/manage/applybill?data=' +
+                  JSON.stringify(selectedRowKeysList)
+              )
+            "
           >
             合并开票
           </a-button>
@@ -103,21 +108,40 @@
         <div v-if="text" slot="feedbackTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
+        <div v-if="text" slot="modifyTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
         <div slot="action" slot-scope="text, record">
           <a-button
             type="link"
-            @click="$router.push('/purchase/manage/reconinfo?data=' + JSON.stringify(record))"
+            @click="
+              $router.push(
+                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+              )
+            "
           >
             详情
           </a-button>
           <a-button
-            @click="$router.push('/purchase/manage/reconinfo??id=' + record.id)"
+            @click="
+              $router.push(
+                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+              )
+            "
             type="link"
             style="margin-left:10px"
           >
             对账
           </a-button>
-          <a-button type="link" style="margin-left:10px">
+          <a-button
+            type="link"
+            style="margin-left:10px"
+            @click="
+              $router.push(
+                '/purchase/manage/applybill?data=' + JSON.stringify([record])
+              )
+            "
+          >
             开票
           </a-button>
         </div>
@@ -127,7 +151,7 @@
 </template>
 
 <script>
-import { invoiceStatusEnum,statementStatusEnum } from "@/utils/enum";
+import { invoiceStatusEnum, statementStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
@@ -194,7 +218,8 @@ export default {
         },
         {
           title: "最后更新时间",
-          dataIndex: "modifyTime"
+          dataIndex: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" }
         },
         {
           title: "操作",
@@ -204,8 +229,7 @@ export default {
           }
         }
       ],
-      data: [
-      ],
+      data: [],
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -218,7 +242,7 @@ export default {
         onShowSizeChange: this.onShowSizeChange
       },
       selectedRowKeys: [], // Check here to configure the default column
-      selectedRowKeysList:[]
+      selectedRowKeysList: []
     };
   },
   activated() {
@@ -242,15 +266,15 @@ export default {
     endValue(date, dateString) {
       this.listQuery.endTime = dateString;
     },
-    onSelectChange(selectedRowKeys,obj) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys,obj);
+    onSelectChange(selectedRowKeys, obj) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys, obj);
       this.selectedRowKeys = selectedRowKeys;
       this.selectedRowKeysList = obj;
     },
     //查询数据表格
     getList() {
       this.$getList("reconciliation/getList", this.listQuery).then(res => {
-        console.log(res,'-------');
+        console.log(res, "-------");
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
       });
