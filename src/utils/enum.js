@@ -49,7 +49,8 @@ export const paymentTypeMap = {
   1: "在线充值",
   2: "线下充值",
   3: "下单",
-  4: "退款"
+  4: "退款",
+  7: "用户提现扣除"
 };
 // 地域列表map
 export const regionDataEnum = {
@@ -235,7 +236,7 @@ export const feeReduction = {
   35: "esc实例降低配置",
   45: "交易关闭",
   55: "退订",
-  65: "后付费订单",
+  65: "后付费订单"
 };
 //cdn状态
 export const cdnStatus = {
