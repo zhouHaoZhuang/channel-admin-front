@@ -46,7 +46,7 @@
         <a-table
           :columns="columnsDetails"
           :data-source="dataDetails"
-          :pagination="paginationProps"
+          :pagination="steerPaginationProps"
         >
         </a-table>
         <p>
@@ -313,7 +313,7 @@ export default {
         //(对账单明细)
         key: "",
         search: "",
-        currentPage: 1,
+        pageNo: 1,
         pageSize: 10,
         total: 0
       },
@@ -462,12 +462,12 @@ export default {
 
     //表格分页跳转(建议调整项)
     quickJumpSteer(currentPage) {
-      this.steerListQuery.currentPage = currentPage;
+      this.steerListQuery.pageNo = currentPage;
       // this.getSteerList();
     },
     //表格分页切换每页条数(建议调整项)
     onShowSizeChangeSteer(current, pageSize) {
-      this.steerListQuery.currentPage = current;
+      this.steerListQuery.pageNo = current;
       this.steerListQuery.pageSize = pageSize;
       // this.getSteerList();
     },
