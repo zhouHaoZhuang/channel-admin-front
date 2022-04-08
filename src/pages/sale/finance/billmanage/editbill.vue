@@ -205,6 +205,8 @@ export default {
           console.log(res, "-------");
           this.data = res.data;
           this.dataList = res.data.invoiceEvaluatePage.list;
+          this.form.businessExpressDelivery = res.data.businessExpressDelivery;
+          this.form.feedbackRemark = res.data.feedbackRemark;
           this.paginationProps.total =
             res.data.invoiceEvaluatePage.totalCount * 1;
         });

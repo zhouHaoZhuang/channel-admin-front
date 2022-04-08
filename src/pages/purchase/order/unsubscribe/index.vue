@@ -72,7 +72,7 @@
             style="width:150px"
             placeholder="计费方式"
             allowClear
-            v-model="listQuery['qp-charingType-eq']"
+            v-model="listQuery['qp-chargingType-eq']"
           >
             <a-select-option
               v-for="(value, key) in charingStatus"
@@ -278,18 +278,18 @@ export default {
           key: "orderNo",
           width: 170
         },
-        {
-          title: "终端客户名称",
-          dataIndex: "corporationName",
-          key: "corporationName",
-          width: 150
-        },
-         {
-          title: "终端客户ID",
-          dataIndex: "corporationCode",
-          key: "corporationCode",
-          width: 150
-        },
+        // {
+        //   title: "终端客户名称",
+        //   dataIndex: "corporationName",
+        //   key: "corporationName",
+        //   width: 150
+        // },
+        //  {
+        //   title: "终端客户ID",
+        //   dataIndex: "corporationCode",
+        //   key: "corporationCode",
+        //   width: 150
+        // },
       ];
     }
   },
