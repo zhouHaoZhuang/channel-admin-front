@@ -14,14 +14,14 @@
         </a-form-model-item>
         <a-form-model-item>
           <a-input
-            v-model="listQuery.invoiceNo"
+            v-model="listQuery.billNo"
             placeholder="请输入对账单号"
             allowClear
           />
         </a-form-model-item>
         <a-form-model-item>
           <a-input
-            v-model="listQuery.companyName"
+            v-model="listQuery.supplierName"
             placeholder="请输入供应商名称"
             allowClear
           />
@@ -47,7 +47,7 @@
           <a-select
             allowClear
             style="width:200px"
-            v-model="listQuery.status"
+            v-model="listQuery.currentStatus"
             placeholder="请选择状态"
           >
             <a-select-option
@@ -63,12 +63,12 @@
           <a-select
             allowClear
             style="width:200px"
-            v-model="listQuery.status"
+            v-model="listQuery.invoiceStatus"
             placeholder="请选择开票状态"
           >
             <a-select-option
               :value="inx"
-              v-for="(item, inx) in invoiceStatusEnum"
+              v-for="(item, inx) in statementStatusEnum"
               :key="inx"
             >
               {{ item }}
@@ -91,8 +91,11 @@
         }"
         rowKey="id"
       >
-        <div slot="status" slot-scope="text">
+        <div slot="invoiceStatus" slot-scope="text">
           {{ invoiceStatusEnum[text] }}
+        </div>
+        <div slot="currentStatus" slot-scope="text">
+          {{ statementStatusEnum[text] }}
         </div>
         <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
@@ -103,7 +106,7 @@
         <div slot="action" slot-scope="text, record">
           <a-button
             type="link"
-            @click="$router.push('/sale/finance/billInfo?id=' + record.id)"
+            @click="$router.push('/sale/finance/billInfo?data=' + JSON.stringify(record))"
           >
             详情
           </a-button>
@@ -124,19 +127,24 @@
 </template>
 
 <script>
-import { invoiceStatusEnum } from "@/utils/enum";
+import { invoiceStatusEnum,statementStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
       invoiceStatusEnum,
+      statementStatusEnum,
       listQuery: {
         key: "",
         search: "",
+        billNo: "",
+        supplierName: "",
         currentPage: 1,
+        currentStatus: undefined,
         pageSize: 10,
         total: 0,
         startTime: "",
         endTime: "",
+        invoiceStatus: undefined,
         companyName: "",
         invoiceNo: "",
         status: undefined
@@ -148,8 +156,8 @@ export default {
         },
         {
           title: "状态",
-          dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          dataIndex: "currentStatus",
+          scopedSlots: { customRender: "currentStatus" }
         },
         // {
         //   title: "客户名称",
@@ -157,35 +165,36 @@ export default {
         // },
         {
           title: "开票状态",
-          dataIndex: "invoiceStatus"
+          dataIndex: "invoiceStatus",
+          scopedSlots: { customRender: "invoiceStatus" }
         },
         {
           title: "账期",
-          dataIndex: "zcreateTime"
+          dataIndex: "billDate"
         },
         {
           title: "供应商编码",
-          dataIndex: "companyCode"
+          dataIndex: "supplierCode"
         },
         {
           title: "供应商名称",
-          dataIndex: "companyName"
+          dataIndex: "supplierName"
         },
         {
           title: "账单总金额（元）",
-          dataIndex: "finalTotalAomount"
+          dataIndex: "initTotalAmount"
         },
         {
           title: "可开票总金额（元）",
-          dataIndex: "finalInvoiceAmount"
+          dataIndex: "initInvoiceAmount"
         },
         {
           title: "最后更新人",
-          dataIndex: "updateUser"
+          dataIndex: "modifyUserName"
         },
         {
           title: "最后更新时间",
-          dataIndex: "updateTime"
+          dataIndex: "modifyTime"
         },
         {
           title: "操作",
@@ -196,19 +205,6 @@ export default {
         }
       ],
       data: [
-        {
-          id: 1,
-          billNo: "123456789",
-          status: 1,
-          invoiceStatus: 1,
-          zcreateTime: "2019-01-01",
-          companyCode: "123456789",
-          companyName: "测试供应商",
-          finalTotalAomount: "123456789",
-          finalInvoiceAmount: "123456789",
-          updateUser: "张三",
-          updateTime: "2019-01-01"
-        }
       ],
       paginationProps: {
         showQuickJumper: true,
@@ -226,7 +222,7 @@ export default {
     };
   },
   activated() {
-    // this.getList();
+    this.getList();
   },
   methods: {
     takeOver(id) {
@@ -254,7 +250,7 @@ export default {
     //查询数据表格
     getList() {
       this.$getList("reconciliation/getList", this.listQuery).then(res => {
-        console.log(res);
+        console.log(res,'-------');
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
       });

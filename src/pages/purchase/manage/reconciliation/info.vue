@@ -2,28 +2,28 @@
   <div class="recon-info">
     <a-descriptions title="基本信息">
       <a-descriptions-item label="对账单号">
-        DZ210000000
+        {{ data.billNo }}
       </a-descriptions-item>
       <a-descriptions-item label="供应商">
-        有限公司
+        {{ data.supplierName }}
       </a-descriptions-item>
       <a-descriptions-item label="账期">
-        2022-02
+        {{ data.billDate }}
       </a-descriptions-item>
       <a-descriptions-item label="状态">
-        确认
+        {{ statementStatusEnum[data.currentStatus] }}
       </a-descriptions-item>
       <a-descriptions-item label="开票状态">
-        确认
+        {{ invoiceStatusEnum[data.invoiceStatus] }}
       </a-descriptions-item>
       <a-descriptions-item label="最后更新人">
-        浙江云盾科技有限公司
+        {{ data.modifyUserName }}
       </a-descriptions-item>
       <a-descriptions-item label="最后更新时间">
-        2022-03-01 00:00:00
+        {{ data.modifyTime }}
       </a-descriptions-item>
       <a-descriptions-item label="备注">
-        测试
+        {{ data.supplierName }}
       </a-descriptions-item>
     </a-descriptions>
     <div>
@@ -164,10 +164,14 @@
 </template>
 
 <script>
+import { invoiceStatusEnum, statementStatusEnum } from "@/utils/enum";
+
 export default {
   data() {
     return {
       data: null,
+      invoiceStatusEnum,
+      statementStatusEnum,
       actualData: null,
       listQuery: {
         //(对账单明细)
@@ -248,7 +252,7 @@ export default {
         {
           title: "可开票金额",
           dataIndex: "kproductName"
-        },
+        }
       ],
       actualColumns: [
         {
@@ -364,7 +368,8 @@ export default {
     };
   },
   activated() {
-    // this.getData()
+    this.data = JSON.parse(this.$route.query.data);
+    this.getData();
   },
   methods: {
     showModal() {
@@ -421,6 +426,19 @@ export default {
         this.$message.success("操作成功");
         // this.getData();
       });
+    },
+    // 开票明细
+    getsteerList() {
+      let data = JSON.parse(this.$route.query.data);
+      this.$store
+        .dispatch("reconciliation/getsteerList", {
+          ...this.steerListQuery,
+          billNo: data.billNo
+        })
+        .then(res => {
+          this.steerList = res.data.data;
+          this.steerPaginationProps.total = res.data.total;
+        });
     },
     // 获取页面数据
     getData() {

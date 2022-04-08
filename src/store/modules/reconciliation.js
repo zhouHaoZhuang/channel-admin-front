@@ -8,9 +8,10 @@ const reconciliation = {
     // 获取退订记录列表
     getList({ commit, state }, data) {
       return request({
-        url: "/tcOrder/unSubscrube/list",
+        url: "/bill/doPage",
         method: "post",
-        data
+        data,
+        billService: true
       });
     },
     // 获取详情
@@ -47,6 +48,14 @@ const reconciliation = {
     addSteerItem({ commit, state }, data) {
       return request({
         url: "/tcOrder/unSubscrube/addSteerItem",
+        method: "post",
+        data
+      });
+    },
+    // 获取开票明细
+    getsteerList({ commit, state }, data) {
+      return request({
+        url: "/billDetail/getInitData",
         method: "post",
         data
       });
