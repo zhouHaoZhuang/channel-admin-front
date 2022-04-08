@@ -67,7 +67,6 @@
             <a-button
               style="width:100%"
               size="large"
-              :loading="loading"
               @click="toPer"
             >
               主账号登录
