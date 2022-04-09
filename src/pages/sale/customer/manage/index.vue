@@ -14,7 +14,11 @@
             <a-button type="primary" @click="distribute"> 分配客服 </a-button>
           </a-form-model-item>
           <a-form-model-item>
-            <a-input v-model="listQuery.search" placeholder="请输入客服姓名" />
+            <a-input
+              v-model="listQuery.name"
+              allow-clear
+              placeholder="请输入客服姓名"
+            />
           </a-form-model-item>
           <a-form-model-item>
             <a-button type="primary" @click="searchClick"> 查询 </a-button>
@@ -29,36 +33,19 @@
           rowKey="id"
           :pagination="paginationProps"
         >
-          <span slot="name" slot-scope="text">{{ text }}</span>
-          <span
-            :class="{ status0: text == 0, status1: text == 1, status: true }"
-            slot="status"
-            slot-scope="text"
-            v-if="text"
-            >{{ text == 0 ? "冻结" : "正常" }}</span
-          >
-          <span
-            :class="{ status0: text == 1, status1: text == 0, status: true }"
-            slot="loginLock"
-            slot-scope="text"
-            v-if="text"
-            >{{ text == 0 ? "正常" : "锁定" }}</span
-          >
-          <span
-            :class="{ status0: text != 1, status1: text == 1, status: true }"
-            slot="certificationStatus"
-            slot-scope="text"
-            >{{ text == 1 ? "已认证" : "未认证" }}</span
-          >
-          <span slot="action" slot-scope="text" class="action">
-            <a-button
-              v-permission="'view'"
-              type="link"
-              class=""
-              @click="selectInfo(text.id)"
-            >
+          <span slot="customers" slot-scope="text, record">
+            <a-button type="link" @click="selectInfo(record.id, text)">
               查看
             </a-button>
+            ({{ text }})
+          </span>
+          <span slot="action" slot-scope="text, record" class="action">
+            <a-space>
+              <a-button type="link" @click="editortInfo(record)">
+                编辑
+              </a-button>
+              <a-button type="link" @click="delInfo(record)"> 删除 </a-button>
+            </a-space>
           </span>
         </a-table>
       </div>
@@ -78,68 +65,44 @@ export default {
       columns: [
         {
           title: "客服ID",
-          dataIndex: "corporationCode",
-          scopedSlots: { customRender: "corporationCode" },
-          width: 190,
+          dataIndex: "id",
         },
         {
           title: "客服姓名",
-          dataIndex: "realName",
-          width: 120,
+          dataIndex: "name",
         },
         {
           title: "工号",
-          dataIndex: "phoneNumbers",
-          width: 120,
+          dataIndex: "employeeId",
         },
         {
           title: "联系方式",
-          dataIndex: "phoneNumber",
-          width: 120,
+          dataIndex: "phone",
         },
         {
           title: "QQ",
           dataIndex: "qq",
-          width: 120,
         },
         {
           title: "微信号",
-          dataIndex: "email",
-          width: 180,
-        },
-        {
-          title: "权限",
-          dataIndex: "ecsCount",
-          width: 100,
-          scopedSlots: { customRender: "ecsCount" },
-        },
-
-        {
-          title: "关联子账号",
-          dataIndex: "status",
-          scopedSlots: { customRender: "status" },
-          width: 110,
+          dataIndex: "wechat",
         },
         {
           title: "客户",
-          dataIndex: "statuss",
-          width: 110,
+          dataIndex: "customers",
+          scopedSlots: { customRender: "customers" },
         },
         {
           title: "操作",
           Index: "action",
-          fixed: "right",
           scopedSlots: { customRender: "action" },
-          width: 200,
         },
       ],
       listQuery: {
-        key: "",
-        search: "",
+        name: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        sorter: "",
       },
       paginationProps: {
         showQuickJumper: true,
@@ -160,6 +123,17 @@ export default {
   created() {
     this.getList();
   },
+  watch: {
+    $route: {
+      handler(newVal) {
+        if (newVal.path === "/sale/customer/customermanage") {
+          this.getList();
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
   methods: {
     changepage(current) {
       this.paginationProps.current = current;
@@ -170,18 +144,11 @@ export default {
       this.paginationProps.current = current;
       this.getList();
     },
-    onSelectChange(selectedRowKeys) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
-      this.selectedRowKeys = selectedRowKeys;
-    },
-    addMember() {
-      this.$router.push({ path: "/sale/customer/add" });
-    },
     getList() {
       this.listQuery.currentPage = this.paginationProps.current;
       this.listQuery.pageSize = this.paginationProps.pageSize;
       this.$store
-        .dispatch("member/getList", this.listQuery)
+        .dispatch("customer/getList", this.listQuery)
         .then((res) => {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
@@ -197,27 +164,49 @@ export default {
         },
       });
     },
+    //添加客服
     addCustomer() {
       this.$router.push({
         path: "/sale/customer/addcustomer",
-      
       });
     },
-    selectInfo(key) {
+    //查看
+    selectInfo(key, text) {
+      console.log(text, "<<<");
+      if (text === 0) {
+        this.$message.warning("该客服暂无客户");
+      } else {
+        this.$router.push({
+          path: "/sale/customer/list",
+          query: {
+            id: key,
+          },
+        });
+      }
+    },
+    //编辑客服
+    editortInfo(record) {
       this.$router.push({
-        path: "/sale/customer/detail",
+        path: "/sale/customer/editorcustomer",
         query: {
-          id: key,
+          record: record,
         },
       });
     },
-    clickMore(key) {
-      this.isMoreId = key;
+    //删除客服
+    delInfo(item) {
+      this.$getListQp("customer/del", item.id).then((res) => {
+        if (res.code === "000000") {
+          this.$message.success("删除成功");
+          this.getList();
+        } else {
+          this.$message.success(res.msg);
+        }
+      });
     },
     searchClick() {
       this.listQuery.currentPage = 1;
-      this.listQuery.key = this.title;
-      this.$getListQp("member/getList", this.listQuery).then((res) => {
+      this.$getListQp("customer/getList", this.listQuery).then((res) => {
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });

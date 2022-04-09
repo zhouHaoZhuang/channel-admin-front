@@ -67,8 +67,12 @@ export default {
       labelCol: { span: 15 },
       wrapperCol: { span: 6 },
       loading: false,
+      domainReg: "",
       data: [],
       selectedRowKeys: [],
+      form: {
+        domain: "",
+      },
       listQuery: {
         name: undefined,
         phone: undefined,
@@ -87,7 +91,15 @@ export default {
           dataIndex: "phone",
         },
       ],
-
+      rules: {
+        domain: [
+          {
+            required: true,
+            message: "请输入域名",
+            tigger: ["blur", "change"],
+          },
+        ],
+      },
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -132,13 +144,9 @@ export default {
     handleCancel() {
       this.$emit("changeVisible", false);
     },
-    // 重置表单数据
-    resetForm() {
-      this.$refs.ruleForm.clearValidate();
-    },
     // 弹窗提交
     handleOk() {
-      this.$emit("filtercustomer", this.selectData, this.selectedRowKeys);
+      this.$emit("averageCustomer", this.selectData, this.selectedRowKeys);
     },
   },
 };

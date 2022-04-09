@@ -29,27 +29,17 @@
         <a-form-model layout="inline" :model="listQuery">
           <a-form-model-item>
             <a-select style="width: 120px" v-model="title">
-              <a-select-option value="realName">
-                姓名
-              </a-select-option>
-              <a-select-option value="phoneNumber">
-                手机号码
-              </a-select-option>
-              <a-select-option value="qq">
-                QQ
-              </a-select-option>
-              <a-select-option value="email">
-                邮箱
-              </a-select-option>
+              <a-select-option value="realName"> 姓名 </a-select-option>
+              <a-select-option value="phoneNumber"> 手机号码 </a-select-option>
+              <a-select-option value="qq"> QQ </a-select-option>
+              <a-select-option value="email"> 邮箱 </a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item>
             <a-input v-model="listQuery.search" placeholder="搜索关键字" />
           </a-form-model-item>
           <a-form-model-item>
-            <a-button type="primary" @click="searchClick">
-              查询
-            </a-button>
+            <a-button type="primary" @click="searchClick"> 查询 </a-button>
           </a-form-model-item>
         </a-form-model>
         <!-- <a-button @click="isfilter = !isfilter">
@@ -77,21 +67,11 @@
                 @change="handleChange"
                 placeholder="请选择"
               >
-                <a-select-option value="jack">
-                  不限
-                </a-select-option>
-                <a-select-option value="lucy">
-                  正常
-                </a-select-option>
-                <a-select-option value="disabled">
-                  未激活
-                </a-select-option>
-                <a-select-option value="Yiminghe">
-                  已锁定
-                </a-select-option>
-                <a-select-option value="delete">
-                  已删除
-                </a-select-option>
+                <a-select-option value="jack"> 不限 </a-select-option>
+                <a-select-option value="lucy"> 正常 </a-select-option>
+                <a-select-option value="disabled"> 未激活 </a-select-option>
+                <a-select-option value="Yiminghe"> 已锁定 </a-select-option>
+                <a-select-option value="delete"> 已删除 </a-select-option>
               </a-select>
             </div>
             <div>
@@ -101,24 +81,12 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  大于
-                </a-select-option>
-                <a-select-option value="lucy">
-                  小于
-                </a-select-option>
-                <a-select-option value="disabled">
-                  大于等于
-                </a-select-option>
-                <a-select-option value="Yiminghe">
-                  小于等于
-                </a-select-option>
-                <a-select-option value="delete">
-                  等于
-                </a-select-option>
-                <a-select-option value="delete">
-                  不等于
-                </a-select-option>
+                <a-select-option value="jack"> 大于 </a-select-option>
+                <a-select-option value="lucy"> 小于 </a-select-option>
+                <a-select-option value="disabled"> 大于等于 </a-select-option>
+                <a-select-option value="Yiminghe"> 小于等于 </a-select-option>
+                <a-select-option value="delete"> 等于 </a-select-option>
+                <a-select-option value="delete"> 不等于 </a-select-option>
               </a-select>
               <div class="div-input100 left5">
                 <a-input />
@@ -132,24 +100,12 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  大于
-                </a-select-option>
-                <a-select-option value="lucy">
-                  小于
-                </a-select-option>
-                <a-select-option value="disabled">
-                  大于等于
-                </a-select-option>
-                <a-select-option value="Yiminghe">
-                  小于等于
-                </a-select-option>
-                <a-select-option value="delete">
-                  等于
-                </a-select-option>
-                <a-select-option value="delete">
-                  不等于
-                </a-select-option>
+                <a-select-option value="jack"> 大于 </a-select-option>
+                <a-select-option value="lucy"> 小于 </a-select-option>
+                <a-select-option value="disabled"> 大于等于 </a-select-option>
+                <a-select-option value="Yiminghe"> 小于等于 </a-select-option>
+                <a-select-option value="delete"> 等于 </a-select-option>
+                <a-select-option value="delete"> 不等于 </a-select-option>
               </a-select>
               <div class="div-input100 left5">
                 <a-input />
@@ -163,12 +119,8 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  普通会员
-                </a-select-option>
-                <a-select-option value="lucy">
-                  原CPS分销组
-                </a-select-option>
+                <a-select-option value="jack"> 普通会员 </a-select-option>
+                <a-select-option value="lucy"> 原CPS分销组 </a-select-option>
               </a-select>
             </div>
           </div>
@@ -190,15 +142,9 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  不限
-                </a-select-option>
-                <a-select-option value="lucy">
-                  有产品
-                </a-select-option>
-                <a-select-option value="lucy">
-                  无产品
-                </a-select-option>
+                <a-select-option value="jack"> 不限 </a-select-option>
+                <a-select-option value="lucy"> 有产品 </a-select-option>
+                <a-select-option value="lucy"> 无产品 </a-select-option>
               </a-select>
             </div>
             <div>
@@ -208,15 +154,9 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  不限
-                </a-select-option>
-                <a-select-option value="lucy">
-                  未认证
-                </a-select-option>
-                <a-select-option value="lucy">
-                  已认证
-                </a-select-option>
+                <a-select-option value="jack"> 不限 </a-select-option>
+                <a-select-option value="lucy"> 未认证 </a-select-option>
+                <a-select-option value="lucy"> 已认证 </a-select-option>
               </a-select>
             </div>
           </div>
@@ -228,21 +168,11 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  不限登陆时间
-                </a-select-option>
-                <a-select-option value="lucy">
-                  1个月内登录
-                </a-select-option>
-                <a-select-option value="lucy">
-                  1-3个月登录
-                </a-select-option>
-                <a-select-option value="lucy">
-                  3-6个月登录
-                </a-select-option>
-                <a-select-option value="lucy">
-                  6-12个月登录
-                </a-select-option>
+                <a-select-option value="jack"> 不限登陆时间 </a-select-option>
+                <a-select-option value="lucy"> 1个月内登录 </a-select-option>
+                <a-select-option value="lucy"> 1-3个月登录 </a-select-option>
+                <a-select-option value="lucy"> 3-6个月登录 </a-select-option>
+                <a-select-option value="lucy"> 6-12个月登录 </a-select-option>
                 <a-select-option value="lucy">
                   12个月以上未登录
                 </a-select-option>
@@ -255,24 +185,12 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  不限
-                </a-select-option>
-                <a-select-option value="lucy">
-                  服务器
-                </a-select-option>
-                <a-select-option value="lucy">
-                  托管
-                </a-select-option>
-                <a-select-option value="lucy">
-                  虚拟主机
-                </a-select-option>
-                <a-select-option value="lucy">
-                  SLL证书
-                </a-select-option>
-                <a-select-option value="lucy">
-                  域名
-                </a-select-option>
+                <a-select-option value="jack"> 不限 </a-select-option>
+                <a-select-option value="lucy"> 服务器 </a-select-option>
+                <a-select-option value="lucy"> 托管 </a-select-option>
+                <a-select-option value="lucy"> 虚拟主机 </a-select-option>
+                <a-select-option value="lucy"> SLL证书 </a-select-option>
+                <a-select-option value="lucy"> 域名 </a-select-option>
               </a-select>
             </div>
             <div>
@@ -282,18 +200,10 @@
                 style="width: 120px"
                 @change="handleChange"
               >
-                <a-select-option value="jack">
-                  请选择
-                </a-select-option>
-                <a-select-option value="lucy">
-                  已开通
-                </a-select-option>
-                <a-select-option value="lucy">
-                  未开通
-                </a-select-option>
-                <a-select-option value="lucy">
-                  已禁用
-                </a-select-option>
+                <a-select-option value="jack"> 请选择 </a-select-option>
+                <a-select-option value="lucy"> 已开通 </a-select-option>
+                <a-select-option value="lucy"> 未开通 </a-select-option>
+                <a-select-option value="lucy"> 已禁用 </a-select-option>
               </a-select>
             </div>
           </div>
@@ -405,33 +315,33 @@ export default {
           title: "会员ID",
           dataIndex: "corporationCode",
           scopedSlots: { customRender: "corporationCode" },
-          width: 190
+          width: 190,
         },
         {
           title: "姓名",
           dataIndex: "realName",
-          width: 120
+          width: 120,
         },
         {
           title: "手机",
           dataIndex: "phoneNumber",
-          width: 120
+          width: 120,
         },
         {
           title: "QQ",
           dataIndex: "qq",
-          width: 120
+          width: 120,
         },
         {
           title: "邮箱",
           dataIndex: "email",
-          width: 180
+          width: 180,
         },
         {
           title: "服务器",
           dataIndex: "ecsCount",
           width: 100,
-          scopedSlots: { customRender: "ecsCount" }
+          scopedSlots: { customRender: "ecsCount" },
         },
         // {
         //   title: "托管",
@@ -472,7 +382,7 @@ export default {
           title: "帐号状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
-          width: 110
+          width: 110,
         },
         // {
         //   title: "锁定状态",
@@ -484,7 +394,7 @@ export default {
           title: "余额",
           dataIndex: "balance",
           width: 100,
-          scopedSlots: { customRender: "balance" }
+          scopedSlots: { customRender: "balance" },
         },
         // {
         //   title: "授信额度",
@@ -500,21 +410,21 @@ export default {
           dataIndex: "certificationStatus",
           key: "certificationStatus",
           scopedSlots: { customRender: "certificationStatus" },
-          width: 100
+          width: 100,
         },
         {
           title: "注册时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
           // sorter: true,
-          width: 200
+          width: 200,
         },
         {
           title: "最后登录时间",
           dataIndex: "modifyTime",
           scopedSlots: { customRender: "modifyTime" },
           // sorter: true,
-          width: 200
+          width: 200,
         },
         // {
         //   title: "备注",
@@ -526,8 +436,8 @@ export default {
           Index: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" },
-          width: 200
-        }
+          width: 200,
+        },
       ],
       listQuery: {
         key: "",
@@ -535,7 +445,8 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        sorter: ""
+        sorter: "",
+        id: "",
       },
       paginationProps: {
         showQuickJumper: true,
@@ -549,13 +460,26 @@ export default {
             total / this.paginationProps.pageSize
           )} 页`,
         onChange: this.changepage,
-        onShowSizeChange: this.onShowSizeChange
-      }
+        onShowSizeChange: this.onShowSizeChange,
+      },
     };
   },
-  created() {
-    this.getList();
+  created() {},
+  watch: {
+    $route: {
+      handler(newVal) {
+        if (newVal.query.id) {
+          this.listQuery.id = newVal.query.id;
+          this.getDetailList();
+        } else {
+          this.getList();
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
   },
+
   methods: {
     // 点击排序之后的回调
     handleTableChange(pagination, filters, sorter) {
@@ -568,14 +492,24 @@ export default {
       }
     },
     changepage(current) {
-      // console.log(a);
       this.paginationProps.current = current;
-      this.getList();
+      if (this.$route.query.id) {
+        this.listQuery.id = this.$route.query.id;
+        this.getDetailList();
+      } else {
+        this.getList();
+      }
     },
     onShowSizeChange(current, pageSize) {
       this.paginationProps.pageSize = pageSize;
       this.paginationProps.current = current;
-      this.getList();
+      console.log(this.$route.query.id);
+      if (this.$route.query.id) {
+        this.listQuery.id = this.$route.query.id;
+        this.getDetailList();
+      } else {
+        this.getList();
+      }
     },
     onSelectChange(selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
@@ -595,10 +529,21 @@ export default {
       this.listQuery.pageSize = this.paginationProps.pageSize;
       this.$store
         .dispatch("member/getList", this.listQuery)
-        .then(res => {
+        .then((res) => {
           this.data = res.data.list;
-          // console.log("3333333");
           this.paginationProps.total = res.data.totalCount * 1;
+        })
+        .finally(() => {});
+    },
+    getDetailList() {
+      this.listQuery.currentPage = this.paginationProps.current;
+      this.listQuery.pageSize = this.paginationProps.pageSize;
+      this.$store
+        .dispatch("customer/getCustomerClient", this.listQuery)
+        .then((res) => {
+          this.data = res.data.list;
+          this.paginationProps.total = res.data.totalCount * 1;
+          this.listQuery.id = "";
         })
         .finally(() => {});
     },
@@ -607,8 +552,8 @@ export default {
       this.$router.push({
         path: "/sale/customer/detail",
         query: {
-          id: key
-        }
+          id: key,
+        },
       });
     },
     clickMore(key) {
@@ -618,13 +563,13 @@ export default {
     searchClick() {
       this.listQuery.currentPage = 1;
       this.listQuery.key = this.title;
-      this.$getListQp("member/getList", this.listQuery).then(res => {
+      this.$getListQp("member/getList", this.listQuery).then((res) => {
         // console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

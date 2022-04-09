@@ -12,22 +12,34 @@
   >
     <a-form-model layout="inline" :model="listQuery">
       <a-form-model-item>
-        <a-input v-model="listQuery.search" placeholder="请输入姓名" />
+        <a-input
+          v-model="listQuery.name"
+          allow-clear
+          placeholder="请输入姓名"
+        />
       </a-form-model-item>
       <a-form-model-item>
-        <a-input v-model="listQuery.search" placeholder="请输入企业" />
+        <a-input
+          v-model="listQuery.companyName"
+          allow-clear
+          placeholder="请输入企业"
+        />
       </a-form-model-item>
       <a-form-model-item>
-        <a-input v-model="listQuery.search" placeholder="请输入手机号" />
+        <a-input
+          v-model="listQuery.phone"
+          allow-clear
+          placeholder="请输入手机号"
+        />
       </a-form-model-item>
       <a-form-model-item>
-        <a-button type="primary" @click="searchClick"> 查询 </a-button>
+        <a-button type="primary" @click="getList"> 查询 </a-button>
       </a-form-model-item>
     </a-form-model>
     <a-table
       :columns="columns"
       :data-source="data"
-      rowKey="id"
+      rowKey="corporationCode"
       :pagination="paginationProps"
       :row-selection="{
         selectedRowKeys: selectedRowKeys,
@@ -51,25 +63,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    //客服id
+    advocateList: {},
   },
   watch: {
     value: {
       handler(newVal) {
-        if (!newVal) {
+        if (newVal) {
+          //调用获取列表数据的接口
+          this.listQuery.id = this.advocateList;
           this.$nextTick(() => {
-            this.resetForm();
+            this.getList();
           });
         }
       },
     },
   },
   data() {
-    const validateDomain = (rule, value, callback) => {
-      if (!this.urlReg.test(value)) {
-        callback(new Error("请输入正确格式的域名"));
-      }
-      callback();
-    };
     return {
       labelCol: { span: 15 },
       wrapperCol: { span: 6 },
@@ -77,21 +87,21 @@ export default {
       domainReg: "",
       data: [],
       selectedRowKeys: [],
-      form: {
-        domain: "",
-      },
+      selectData: [],
+      throwData: [],
       listQuery: {
-        key: "",
-        search: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
-        sorter: "",
+        name: undefined,
+        phone: undefined,
+        companyName: undefined,
+        id: undefined,
       },
       columns: [
         {
           title: "用户ID",
-          dataIndex: "realNames",
+          dataIndex: "corporationCode",
         },
         {
           title: "姓名",
@@ -99,45 +109,53 @@ export default {
         },
         {
           title: "企业",
-          dataIndex: "realNamess",
+          dataIndex: "companyName",
         },
         {
           title: "手机号",
           dataIndex: "phoneNumber",
         },
       ],
-      rules: {
-        domain: [
-          {
-            required: true,
-            message: "请输入域名",
-            tigger: ["blur", "change"],
-          },
-          {
-            validator: validateDomain,
-            tigger: ["blur", "change"],
-          },
-        ],
-      },
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        total: 1,
+        pageSizeOptions: ["5", "10", "20", "30"],
+        total: 0,
+        current: 1, //当前页
+        pageSize: 5, //每页显示数量
         showTotal: (total, range) =>
           `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
             total / this.listQuery.pageSize
           )} 页`,
-        onChange: this.quickJump,
+        onChange: this.changepage,
         onShowSizeChange: this.onShowSizeChange,
       },
-      urlReg:
-        /^[\w\-_\u4E00-\u9FA5:/]+(\.[\w\-_\u4E00-\u9FA5]+)+([\u4E00-\u9FA5\w\-.,@?^=%&:/~+#]*[\u4E00-\u9FA5\w\-@?^=%&/~+#])?$/,
     };
   },
   methods: {
-    onSelectChange(selectedRowKeys) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
+    changepage(current) {
+      this.paginationProps.current = current;
+      this.getList();
+    },
+    onShowSizeChange(current, pageSize) {
+      this.paginationProps.pageSize = pageSize;
+      this.paginationProps.current = current;
+      this.getList();
+    },
+    getList() {
+      this.listQuery.currentPage = this.paginationProps.current;
+      this.listQuery.pageSize = this.paginationProps.pageSize;
+      this.$store
+        .dispatch("customer/getCustomerList", this.listQuery)
+        .then((res) => {
+          this.data = res.data.list;
+          this.paginationProps.total = res.data.totalCount * 1;
+        })
+        .finally(() => {});
+    },
+    onSelectChange(selectedRowKeys, data) {
       this.selectedRowKeys = selectedRowKeys;
+      this.selectData = data;
     },
     // 关闭弹窗
     handleCancel() {
@@ -146,35 +164,20 @@ export default {
     // 重置表单数据
     resetForm() {
       this.$refs.ruleForm.clearValidate();
-      this.form = {
-        domain: "",
-      };
-    },
-    searchClick() {
-      console.log("查询事件");
     },
     // 弹窗提交
     handleOk() {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("domain/add", this.form)
-            .then((res) => {
-              this.$message.success("新增域名成功");
-              this.$emit("success");
-              this.$emit("changeVisible", false);
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-        }
-      });
+      console.log("我是客户提交的值", this.selectData, this.selectedRowKeys);
+      this.$emit("selectData", this.selectData, this.selectedRowKeys);
     },
   },
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.ant-form-item {
+  width: 150px !important;
+}
+</style>
 
 
 

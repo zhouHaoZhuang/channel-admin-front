@@ -144,9 +144,10 @@ export default {
   watch: {
     $route: {
       handler(newVal, oldVal) {
-        if (newVal.path === "/sale/customer/addcustomer") {
+        if (newVal.path === "/sale/customer/editorcustomer") {
           this.$nextTick(() => {
             this.resetForm();
+            this.form = JSON.parse(JSON.stringify(this.$route.query.record));
           });
         }
       },
@@ -155,6 +156,9 @@ export default {
     },
   },
   methods: {
+    back() {
+      this.$router.back();
+    },
     preview() {
       if (this.form.wechatUrl === undefined) {
         this.$message.warn("请先上传二维码图片");
@@ -173,9 +177,9 @@ export default {
         if (valid) {
           const data = JSON.parse(JSON.stringify(this.form));
           this.$store
-            .dispatch("customer/add", data)
+            .dispatch("customer/editor", data)
             .then((res) => {
-              this.$message.success("添加客服成功");
+              this.$message.success("编辑客服成功");
               this.resetForm();
               this.$router.back();
             })
@@ -184,9 +188,6 @@ export default {
             });
         }
       });
-    },
-    back() {
-      this.$router.back();
     },
     // 重置表单数据
     resetForm() {

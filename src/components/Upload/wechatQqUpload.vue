@@ -169,6 +169,8 @@ export default {
         //   return false;
         // }
         resolve(file);
+        this.$message.success("上传成功");
+
         // lrz(file, {
         //   width: 1920
         // }).then(res => {

@@ -201,6 +201,17 @@ export const asyncRoute = [
                 },
                 component: () =>
                   import("@/pages/sale/customer/manage/addcustomer.vue")
+              },
+              {
+                path: "editorcustomer",
+                name: "编辑客服",
+                meta: {
+                  invisible: true,
+                  back: true,
+                  perm: "sale-customer-productionDiscount"
+                },
+                component: () =>
+                  import("@/pages/sale/customer/manage/editorcustomer.vue")
               }
             ]
           },

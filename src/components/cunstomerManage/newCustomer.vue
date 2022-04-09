@@ -3,7 +3,7 @@
     :visible="value"
     width="760px"
     centered
-    title="选择原客服"
+    title="选择新客服"
     wrapClassName="add-domain-container"
     okText="确定"
     :confirmLoading="loading"
@@ -49,6 +49,7 @@ export default {
       default: false,
     },
     //客服id
+    newAdvocateList: {},
   },
   watch: {
     value: {
@@ -56,7 +57,7 @@ export default {
         if (newVal) {
           //调用获取列表数据的接口
           this.$nextTick(() => {
-            this.getCustomerList();
+            this.data = this.newAdvocateList;
           });
         }
       },
@@ -67,8 +68,12 @@ export default {
       labelCol: { span: 15 },
       wrapperCol: { span: 6 },
       loading: false,
+      domainReg: "",
       data: [],
       selectedRowKeys: [],
+      form: {
+        domain: "",
+      },
       listQuery: {
         name: undefined,
         phone: undefined,
@@ -87,7 +92,15 @@ export default {
           dataIndex: "phone",
         },
       ],
-
+      rules: {
+        domain: [
+          {
+            required: true,
+            message: "请输入域名",
+            tigger: ["blur", "change"],
+          },
+        ],
+      },
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -107,22 +120,20 @@ export default {
   methods: {
     changepage(current) {
       this.paginationProps.current = current;
-      this.getCustomerList();
+      this.searchClick();
     },
     onShowSizeChange(current, pageSize) {
       this.paginationProps.pageSize = pageSize;
       this.paginationProps.current = current;
-      this.getCustomerList();
+      this.searchClick();
     },
     getCustomerList() {
       this.listQuery.currentPage = this.paginationProps.current;
       this.listQuery.pageSize = this.paginationProps.pageSize;
-      this.$store
-        .dispatch("customer/getNewList", this.listQuery)
-        .then((res) => {
-          this.data = res.data.list;
-          this.paginationProps.total = res.data.totalCount * 1;
-        });
+      this.$store.dispatch("customer/getList", this.listQuery).then((res) => {
+        this.data = res.data.list;
+        this.paginationProps.total = res.data.totalCount * 1;
+      });
     },
     onSelectChange(selectedRowKeys, data) {
       this.selectedRowKeys = selectedRowKeys;
@@ -138,7 +149,7 @@ export default {
     },
     // 弹窗提交
     handleOk() {
-      this.$emit("filtercustomer", this.selectData, this.selectedRowKeys);
+      this.$emit("filterNewCustomer", this.selectData, this.selectedRowKeys);
     },
   },
 };

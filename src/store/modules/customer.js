@@ -20,12 +20,28 @@ const customer = {
         data
       });
     },
-    // 获取列表
-    getList({ commit, state }, params) {
+    // 获取客服列表
+    getList({ commit, state }, data) {
       return request({
-        url: "/customerAdvocate",
+        url: "/customerAdvocate/getCustomerAdvocateList",
+        method: "post",
+        data
+      });
+    },
+    // 获取客服列表(新接口)
+    getNewList({ commit, state }, params) {
+      return request({
+        url: "/customerAdvocate/list",
         method: "get",
         params
+      });
+    },
+    //获取客户列表
+    getCustomerList({ commit, state }, data) {
+      return request({
+        url: "/corporationCustomerAdvocate/getUnrelatedList",
+        method: "post",
+        data
       });
     },
     // 编辑客服信息
@@ -35,7 +51,30 @@ const customer = {
         method: "patch",
         data
       });
-    }
+    },
+    //删除客服
+    del({ commit, state }, id) {
+      return request({
+        url: `/corporationCustomerAdvocate/${id}`,
+        method: "delete"
+      });
+    },
+    //过滤已经选择的客服
+    getFilterCustomer({ commit, state }, data) {
+      return request({
+        url: "/customerAdvocate/filterList",
+        method: "post",
+        data
+      });
+    },
+    //查询客服下方的客户
+    getCustomerClient({ commit, state }, data) {
+      return request({
+        url: "/corporationCustomerAdvocate/getCorporationList",
+        method: "post",
+        data
+      });
+    },
   }
 };
 export default customer;
