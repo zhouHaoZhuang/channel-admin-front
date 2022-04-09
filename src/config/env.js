@@ -14,7 +14,7 @@ const formBaseUrl = {
   prod: "/fs"
 };
 
-// form服务接口请求地址
+// 对账单接口请求地址
 const billUrl = {
   local: "http://site.sailayun.com/settle",
   dev: "/settle",
