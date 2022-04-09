@@ -4,9 +4,9 @@
       <a-form-model layout="inline">
         <a-form-model-item>
           <a-input
-            style="width:230px"
-            placeholder="请输入发票订单ID进行搜索"
             v-model="listQuery.invoiceNo"
+            style="width:220px"
+            placeholder="请输入发票订单ID进行搜索"
             allowClear
           />
         </a-form-model-item>
@@ -31,39 +31,28 @@
           <a-button
             type="link"
             @click="
-              $router.push('/purchase/billmanage/billinfo?id=' + record.id)
+              $router.push('/purchase/billmanage/bounceInfo?id=' + record.id)
             "
           >
             详情
           </a-button>
           <a-button
-            v-show="record.status === 1"
             style="margin-left:10px"
             type="link"
-            @click="
-              $router.push('/purchase/billmanage/changeadress?id=' + record.id)"
+            @click="cancel(record.id)"
+            v-show="record.status === 3"
           >
-            修改地址
+            取消
           </a-button>
           <a-button
-            v-show="record.status === 5"
             type="link"
             style="margin-left:10px"
-            class="btn-red"
+            v-show="record.status === 2 || record.status === 8"
             @click="
               $router.push('/purchase/billmanage/bounceapply?id=' + record.id)
             "
           >
-            申请退票
-          </a-button>
-          <a-button
-            v-show="record.status === 1"
-            style="margin-left:10px"
-            type="link"
-            class="btn-red"
-            @click="cancel(record.id)"
-          >
-            取消
+            重新提交
           </a-button>
         </div>
       </a-table>
@@ -84,11 +73,12 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 0,
+        status: "",
         invoiceNo: ""
       },
       columns: [
         {
-          title: "发票ID",
+          title: "发票申请号",
           dataIndex: "invoiceNo"
         },
         {
@@ -100,17 +90,27 @@ export default {
           dataIndex: "invoiceAmount"
         },
         {
-          title: "申请状态",
+          title: "状态",
           dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          scopedSlots: {
+            customRender: "status"
+          }
         },
         {
-          title: "申请时间",
-          dataIndex: "createTimeShow"
+          title: "退票申请时间",
+          dataIndex: "refundCreateTimeShow"
         },
         {
-          title: "反馈时间",
-          dataIndex: "feedbackTimeShow"
+          title: "备注",
+          dataIndex: "refundRemark"
+        },
+        {
+          title: "退票申请反馈时间",
+          dataIndex: "refundFeedbackTimeShow"
+        },
+        {
+          title: "退票申请反馈说明",
+          dataIndex: "refundFeedbackRemark"
         },
         {
           title: "操作",
@@ -142,7 +142,7 @@ export default {
     //查询数据表格
     getList() {
       this.loading = true;
-      this.$getList("cbilllist/getList", this.listQuery)
+      this.$getList("cbouncelist/getList", this.listQuery)
         .then(res => {
           console.log(res);
           this.data = [...res.data.list];
@@ -184,8 +184,5 @@ export default {
   margin: 0 20px;
   padding: 20px;
   background-color: #fff;
-}
-.btn-red {
-  color: #d9001b;
 }
 </style>

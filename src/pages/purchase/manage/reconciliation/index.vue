@@ -3,35 +3,50 @@
     <div class="public-header-wrap">
       <a-form-model layout="inline">
         <a-form-model-item>
+          <a-button
+            :disabled="selectedRowKeys.length == 0"
+            type="primary"
+            icon="plus"
+            @click="
+              $router.push(
+                '/purchase/manage/applybill?data=' +
+                  JSON.stringify(selectedRowKeysList)
+              )
+            "
+          >
+            合并开票
+          </a-button>
+        </a-form-model-item>
+        <a-form-model-item>
           <a-input
-            v-model="listQuery.invoiceNo"
-            placeholder="请输入发票ID"
+            v-model="listQuery.billNo"
+            placeholder="请输入对账单号"
             allowClear
           />
         </a-form-model-item>
-        <!-- <a-form-model-item>
+        <a-form-model-item>
           <a-input
-            v-model="listQuery.companyName"
-            placeholder="请输入客户名称"
+            v-model="listQuery.supplierName"
+            placeholder="请输入供应商名称"
             allowClear
           />
-        </a-form-model-item> -->
+        </a-form-model-item>
         <a-form-model-item>
-          <a-date-picker
-            placeholder="创建开始日期"
-            format="YYYY-MM-DD HH:mm:ss"
+          <a-month-picker
+            placeholder="开始账期"
+            format="YYYY-MM"
             @change="startValue"
           >
-          </a-date-picker>
+          </a-month-picker>
         </a-form-model-item>
         <a-form-model-item> --</a-form-model-item>
         <a-form-model-item>
-          <a-date-picker
-            placeholder="创建结束日期"
-            format="YYYY-MM-DD HH:mm:ss"
+          <a-month-picker
+            placeholder="结束账期"
+            format="YYYY-MM"
             @change="endValue"
           >
-          </a-date-picker>
+          </a-month-picker>
         </a-form-model-item>
         <a-form-model-item>
           <a-select
@@ -39,6 +54,22 @@
             style="width:200px"
             v-model="listQuery.status"
             placeholder="请选择状态"
+          >
+            <a-select-option
+              :value="inx"
+              v-for="(item, inx) in statementStatusEnum"
+              :key="inx"
+            >
+              {{ item }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            allowClear
+            style="width:200px"
+            v-model="listQuery.invoiceStatus"
+            placeholder="请选择开票状态"
           >
             <a-select-option
               :value="inx"
@@ -59,10 +90,18 @@
         :columns="columns"
         :data-source="data"
         :pagination="paginationProps"
+        :row-selection="{
+          selectedRowKeys: selectedRowKeys,
+          onChange: onSelectChange
+        }"
         rowKey="id"
+        :scroll="{ x: 1200 }"
       >
-        <div slot="status" slot-scope="text">
+        <div slot="invoiceStatus" slot-scope="text">
           {{ invoiceStatusEnum[text] }}
+        </div>
+        <div slot="currentStatus" slot-scope="text">
+          {{ statementStatusEnum[text] }}
         </div>
         <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
@@ -70,36 +109,43 @@
         <div v-if="text" slot="feedbackTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
+        <div v-if="text" slot="modifyTime" slot-scope="text">
+          {{ text | formatDate }}
+        </div>
         <div slot="action" slot-scope="text, record">
           <a-button
             type="link"
-            @click="$router.push('/sale/finance/billInfo?id=' + record.id)"
+            @click="
+              $router.push(
+                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+              )
+            "
           >
             详情
           </a-button>
           <a-button
+            @click="
+              $router.push(
+                '/purchase/manage/recon?data=' + JSON.stringify(record)
+              )
+            "
             type="link"
+            v-show="record.currentStatus * 1 === 2"
             style="margin-left:10px"
-            :disabled="record.status !== 1"
-            @click="takeOver(record.id)"
           >
-            接收
+            对账
           </a-button>
           <a-button
             type="link"
             style="margin-left:10px"
-            @click="$router.push('/sale/finance/auditbill?id=' + record.id)"
-            :disabled="record.status !== 3"
+            v-show="record.currentStatus * 1 === 9"
+            @click="
+              $router.push(
+                '/purchase/manage/applybill?data=' + JSON.stringify([record])
+              )
+            "
           >
-            审核
-          </a-button>
-          <a-button
-            type="link"
-            v-if="record.status === 5"
-            style="margin-left:10px"
-            @click="$router.push('/sale/finance/editbill?id=' + record.id)"
-          >
-            编辑
+            开票
           </a-button>
         </div>
       </a-table>
@@ -108,60 +154,90 @@
 </template>
 
 <script>
-import { invoiceStatusEnum } from "@/utils/enum";
+import { invoiceStatusEnum, statementStatusEnum } from "@/utils/enum";
 export default {
   data() {
     return {
       invoiceStatusEnum,
+      statementStatusEnum,
       listQuery: {
         key: "",
         search: "",
+        billNo: "",
+        supplierName: "",
         currentPage: 1,
         pageSize: 10,
         total: 0,
         startTime: "",
         endTime: "",
+        invoiceStatus: undefined,
         companyName: "",
         invoiceNo: "",
         status: undefined
       },
       columns: [
         {
-          title: "发票ID",
-          dataIndex: "invoiceNo"
+          title: "对账单号",
+          dataIndex: "billNo",
+          width: 180,
         },
         {
           title: "状态",
-          dataIndex: "status",
-          scopedSlots: { customRender: "status" }
+          dataIndex: "currentStatus",
+          width: 120,
+          scopedSlots: { customRender: "currentStatus" }
         },
         // {
         //   title: "客户名称",
         //   dataIndex: "companyName"
         // },
         {
-          title: "开票金额",
-          dataIndex: "invoiceAmount"
+          title: "开票状态",
+          dataIndex: "invoiceStatus",
+          scopedSlots: { customRender: "invoiceStatus" },
+          width: 120,
         },
         {
-          title: "发票抬头",
-          dataIndex: "invoiceTitle"
+          title: "账期",
+          dataIndex: "billDate",
+          width: 120,
         },
         {
-          title: "创建时间",
-          dataIndex: "createTimeShow",
+          title: "供应商编码",
+          dataIndex: "supplierCode",
+          width: 180,
         },
         {
-          title: "反馈时间",
-          dataIndex: "feedbackTimeShow",
+          title: "供应商名称",
+          dataIndex: "supplierName",
+          width: 180,
         },
         {
-          title: "反馈信息",
-          dataIndex: "feedbackRemark"
+          title: "账单总金额（元）",
+          dataIndex: "initTotalAmount",
+          width: 150,
+        },
+        {
+          title: "可开票总金额（元）",
+          dataIndex: "initInvoiceAmount",
+          width: 170,
+        },
+        {
+          title: "最后更新人",
+          dataIndex: "modifyUserName",
+          width: 140,
+        },
+        {
+          title: "最后更新时间",
+          dataIndex: "modifyTime",
+          scopedSlots: { customRender: "modifyTime" },
+          width: 180,
         },
         {
           title: "操作",
           dataIndex: "action",
+          fixed: "right",
+          width: 150,
           scopedSlots: {
             customRender: "action"
           }
@@ -178,7 +254,9 @@ export default {
           )} 页`,
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
-      }
+      },
+      selectedRowKeys: [], // Check here to configure the default column
+      selectedRowKeysList: []
     };
   },
   activated() {
@@ -202,10 +280,15 @@ export default {
     endValue(date, dateString) {
       this.listQuery.endTime = dateString;
     },
+    onSelectChange(selectedRowKeys, obj) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys, obj);
+      this.selectedRowKeys = selectedRowKeys;
+      this.selectedRowKeysList = obj;
+    },
     //查询数据表格
     getList() {
-      this.$getList("billmangage/getList", this.listQuery).then(res => {
-        console.log(res);
+      this.$getList("reconciliation/getList", this.listQuery).then(res => {
+        console.log(res, "-------");
         this.data = [...res.data.list];
         this.paginationProps.total = res.data.totalCount * 1;
       });
@@ -230,5 +313,8 @@ export default {
   margin: 0 20px;
   padding: 20px;
   background-color: #fff;
+}
+.public-header-wrap {
+  margin-bottom: 10px;
 }
 </style>

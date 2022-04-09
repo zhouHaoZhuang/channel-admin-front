@@ -7,7 +7,7 @@
         shape="circle"
         :src="userInfo.photo"
       />
-      <div class="name text-overflow">{{ userInfo.username }}</div>
+      <span class="name">{{ userInfo.username }}</span>
     </div>
     <a-menu :class="['avatar-menu']" slot="overlay">
       <a-menu-item @click="handleGoUserCenter">
@@ -42,7 +42,7 @@ export default {
   methods: {
     // 跳转个人中心
     handleGoUserCenter() {
-      this.$router.push("/user/center/changePassword");
+      this.$router.push("/user");
     },
     // 退出
     logout() {
@@ -67,10 +67,9 @@ export default {
     margin-right: 8px;
   }
   .name {
-    max-width: 160px;
     font-weight: 500;
   }
-  &:hover {
+  &:hover{
     background: transparent !important;
   }
 }

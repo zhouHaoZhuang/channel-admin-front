@@ -71,13 +71,11 @@
           placeholder="输入验证码"
           v-number-evolution
           :max-length="6"
-          autocomplete="off"
         />
         <CodeBtn :phone="form.phone" codeType="1" />
       </a-form-model-item>
       <a-form-model-item v-if="type === 'add'" label="设置密码" prop="password">
         <a-input-password
-          autocomplete="new-password"
           v-model="form.password"
           v-password-input
           :max-length="20"
@@ -217,7 +215,7 @@ export default {
         roleIds: undefined,
         verificationCode: ""
       },
-      pwdReg: /(?=.*[0-9])(?=.*[a-zA-Z]).{6,20}/,
+      pwdReg: /(?=.*[0-9])(?=.*[a-z]).{6,20}/,
       rules: {
         nickname: [
           {

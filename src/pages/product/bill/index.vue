@@ -108,7 +108,7 @@
             <span style="color:#ccc">{{ record.corporationCode }}</span>
           </div>
           <div slot="useData" slot-scope="text, record">
-            {{ text }}{{ record.useDataPerUnit }}
+            {{ text }}{{ record.unitPricePerUnit }}
           </div>
           <span slot="customTitle">
             支付状态
@@ -414,10 +414,10 @@ export default {
       if (nowMonth >= 1 && nowMonth <= 9) {
         nowMonth = "0" + nowMonth;
       }
-      // if (this.listQuery["qp-billType-eq"] == "month") {
-      //   this.listQuery["qp-billPeriod-eq"] =
-      //     new Date().getFullYear() + "-" + nowMonth;
-      // }
+      if (this.listQuery["qp-billType-eq"] == "month") {
+        this.listQuery["qp-billPeriod-eq"] =
+          new Date().getFullYear() + "-" + nowMonth;
+      }
       return new Date().getFullYear() + "-" + nowMonth;
     },
     // 日期选择
