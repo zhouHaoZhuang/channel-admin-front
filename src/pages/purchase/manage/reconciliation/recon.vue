@@ -212,9 +212,9 @@
         <a-button type="primary" @click="confirm">
           确认
         </a-button>
-        <!-- <a-button type="danger" style="margin-left: 10px;" @click="goBack">
+        <a-button type="danger" style="margin-left: 10px;" @click="goBack">
           退回
-        </a-button> -->
+        </a-button>
       </div>
     </div>
   </div>
@@ -510,6 +510,8 @@ export default {
           this.$store.dispatch("reconciliation/del", { id }).then(() => {
             this.$message.success("删除成功");
             // this.getData();
+          }).finally(() => {
+            this.getsteerListSteer()
           });
         }
       });
@@ -525,9 +527,9 @@ export default {
     },
     // 退回
     goBack(id) {
-      this.$store.dispatch("reconciliation/goBack", { id }).then(() => {
+      this.$store.dispatch("reconciliation/goBack", { billNo:this.data.billNo }).then(() => {
         this.$message.success("操作成功");
-        // this.getData();
+        this.$router.back();
       });
     },
     // 开票明细

@@ -23,9 +23,9 @@ const reconciliation = {
       });
     },
     // 删除
-    del({ commit, state }, id) {
+    del({ commit, state }, data) {
       return request({
-        url: `/customer/${id}`,
+        url: `/billDetail/${data.id}`,
         method: "delete",
         billService: true
       });
@@ -42,8 +42,8 @@ const reconciliation = {
     // 退回
     goBack({ commit, state }, data) {
       return request({
-        url: "/tcOrder/unSubscrube/back",
-        method: "post",
+        url: `/bill/back/${data.billNo}`,
+        method: "get",
         data,
         billService: true
       });

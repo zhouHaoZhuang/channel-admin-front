@@ -151,9 +151,9 @@ export default {
         .then(res => {
           console.log(res, "---------");
           this.data = res.data;
-          // this.dataDetails = res.data.invoiceEvaluatePage.list;
-          // this.paginationProps.total =
-          //   res.data.invoiceEvaluatePage.totalCount * 1;
+          this.dataDetails = res.data.invoiceEvaluatePage?.list ?? [];
+          this.paginationProps.total =
+            res.data.invoiceEvaluatePage?.totalCount * 1 ?? 0;
         });
     },
     //表格分页跳转

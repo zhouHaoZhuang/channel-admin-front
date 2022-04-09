@@ -146,7 +146,9 @@ export default {
           console.log(res);
           // this.dataList = res.data.invoiceEvaluatePage.list;
           this.data = res.data;
-          this.paginationProps.total = res.data.totalCount * 1;
+          this.dataList = res.data.invoiceEvaluatePage?.list ?? [];
+          this.paginationProps.total =
+            res.data.invoiceEvaluatePage?.totalCount * 1 ?? 0;
         });
     },
     //表格分页跳转
