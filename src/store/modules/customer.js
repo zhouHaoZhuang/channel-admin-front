@@ -55,7 +55,7 @@ const customer = {
     //删除客服
     del({ commit, state }, id) {
       return request({
-        url: `/corporationCustomerAdvocate/${id}`,
+        url: `/customerAdvocate/${id}`,
         method: "delete"
       });
     },
@@ -74,7 +74,7 @@ const customer = {
         method: "post",
         data
       });
-    },
+    }
   }
 };
 export default customer;
