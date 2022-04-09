@@ -513,7 +513,7 @@ export default {
     // 查询客服列表
     getCustomerList() {
       this.$store
-        .dispatch("customer/getNewList", { currentPage: 1, pageSize: 999 })
+        .dispatch("customer/getInterfaceLists", { currentPage: 1, pageSize: 999 })
         .then((res) => {
           this.SelectCustomerList = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
@@ -544,7 +544,7 @@ export default {
             if (this.form.advocateList.length < 2) {
               this.$message.warning("至少选择两个客服");
             } else {
-              newData.formerAdvocateList = this.form.advocateList;
+              newData.advocateList = this.form.advocateList;
               this.distinguish(newData);
             }
           }

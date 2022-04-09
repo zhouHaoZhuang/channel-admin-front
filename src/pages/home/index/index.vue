@@ -222,6 +222,7 @@ export default {
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
+      customerInfo: (state) => state.customer.customerInfo,
     }),
     ...mapGetters(["token"]),
   },

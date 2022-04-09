@@ -1,12 +1,8 @@
 <template>
   <div class="header-right">
-     <img
-      class="icon-two" 
-        width="24px"
-        src="@/assets/img/workOrder/phone.png"
-      />
+    <img class="icon-two" width="24px" src="@/assets/img/workOrder/phone.png" />
     <div class="outbox">
-      <h1 style="font-weight:600">专属客服</h1>
+      <h1 style="font-weight: 600">专属客服</h1>
       <img
         width="140px"
         class="imgclass"
@@ -37,6 +33,7 @@ export default {
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
+      customerInfo: (state) => state.customer.customerInfo,
     }),
   },
   data() {

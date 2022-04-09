@@ -2,7 +2,15 @@ import request from "@/utils/request";
 
 const customer = {
   namespaced: true,
-
+state: {
+  //专属客服信息
+  customerInfo:{}
+},
+mutation:{
+  saveCustomerInfo(state, payload) {
+    state.customerInfo = { ...payload };
+  }
+},
   actions: {
     // 添加客服
     add({ commit, state }, data) {
@@ -22,6 +30,14 @@ const customer = {
     },
     // 获取客服列表
     getList({ commit, state }, data) {
+      return request({
+        url: "/customerAdvocate/getCustomerAdvocateList",
+        method: "post",
+        data
+      });
+    },
+    //指定客户获取客服接口
+    getInterfaceLists({ commit, state }, data) {
       return request({
         url: "/customerAdvocate/getCustomerAdvocateList",
         method: "post",
@@ -73,6 +89,23 @@ const customer = {
         url: "/corporationCustomerAdvocate/getCorporationList",
         method: "post",
         data
+      });
+    },
+     //获取专属客服信息
+     getCustomerInfo({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: "/customerAdvocate/getAdvocate",
+          method: "get"
+        })
+          .then((res) => {
+            console.log(res,"获取客服二维码信息")
+            commit("saveCustomerInfo", res.data.list[0]);
+            resolve();
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
     }
   }
