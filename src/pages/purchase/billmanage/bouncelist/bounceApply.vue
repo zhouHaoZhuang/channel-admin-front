@@ -43,11 +43,16 @@
           <div v-if="text" slot="createTime" slot-scope="text">
             {{ text | formatDate }}
           </div>
-          <div slot="operation">
-            <a-button type="link">
-              详情
-            </a-button>
-          </div>
+          <a-button
+            type="link"
+            @click="
+              $router.push(
+                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+              )
+            "
+          >
+            详情
+          </a-button>
         </a-table>
         <div>
           <a-button class="next" type="primary" @click="current = 1">
@@ -149,18 +154,28 @@ export default {
       },
       current: 0,
       columns: [
-        { title: "对账单ID", dataIndex: "id" },
+        {
+          title: "对账单号",
+          dataIndex: "billNo"
+        },
         {
           title: "账期",
-          dataIndex: "type",
-          scopedSlots: { customRender: "type" }
+          dataIndex: "billDate"
         },
-        { title: "账单总金额", dataIndex: "productName" },
-        { title: "可开票金额", dataIndex: "canInvoiceAmount" },
+        {
+          title: "账单总金额（元）",
+          dataIndex: "initTotalAmount"
+        },
+        {
+          title: "可开票总金额（元）",
+          dataIndex: "initInvoiceAmount"
+        },
         {
           title: "操作",
-          dataIndex: "operation",
-          scopedSlots: { customRender: "operation" }
+          dataIndex: "action",
+          scopedSlots: {
+            customRender: "action"
+          }
         }
       ],
       dataDetails: [],
@@ -190,7 +205,7 @@ export default {
   },
   activated() {
     this.getData();
-    this.current= 0;
+    this.current = 0;
     this.resetForm();
   },
   methods: {
@@ -223,7 +238,7 @@ export default {
           this.data = res.data;
           // this.dataDetails = res.data.invoiceEvaluatePage.list;
           // this.paginationProps.total =
-            // res.data.invoiceEvaluatePage.totalCount * 1;
+          // res.data.invoiceEvaluatePage.totalCount * 1;
         });
     },
     //查询数据表格

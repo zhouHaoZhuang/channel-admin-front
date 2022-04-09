@@ -32,32 +32,32 @@
           />
         </a-form-model-item>
         <a-form-model-item>
-          <a-date-picker
+          <a-month-picker
             placeholder="开始账期"
             format="YYYY-MM"
             @change="startValue"
           >
-          </a-date-picker>
+          </a-month-picker>
         </a-form-model-item>
         <a-form-model-item> --</a-form-model-item>
         <a-form-model-item>
-          <a-date-picker
+          <a-month-picker
             placeholder="结束账期"
             format="YYYY-MM"
             @change="endValue"
           >
-          </a-date-picker>
+          </a-month-picker>
         </a-form-model-item>
         <a-form-model-item>
           <a-select
             allowClear
             style="width:200px"
-            v-model="listQuery.currentStatus"
+            v-model="listQuery.status"
             placeholder="请选择状态"
           >
             <a-select-option
               :value="inx"
-              v-for="(item, inx) in invoiceStatusEnum"
+              v-for="(item, inx) in statementStatusEnum"
               :key="inx"
             >
               {{ item }}
@@ -73,7 +73,7 @@
           >
             <a-select-option
               :value="inx"
-              v-for="(item, inx) in statementStatusEnum"
+              v-for="(item, inx) in invoiceStatusEnum"
               :key="inx"
             >
               {{ item }}
@@ -95,6 +95,7 @@
           onChange: onSelectChange
         }"
         rowKey="id"
+        :scroll="{ x: 1200 }"
       >
         <div slot="invoiceStatus" slot-scope="text">
           {{ invoiceStatusEnum[text] }}
@@ -125,10 +126,11 @@
           <a-button
             @click="
               $router.push(
-                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+                '/purchase/manage/recon?data=' + JSON.stringify(record)
               )
             "
             type="link"
+            v-show="record.currentStatus * 1 === 2"
             style="margin-left:10px"
           >
             对账
@@ -136,6 +138,7 @@
           <a-button
             type="link"
             style="margin-left:10px"
+            v-show="record.currentStatus * 1 === 9"
             @click="
               $router.push(
                 '/purchase/manage/applybill?data=' + JSON.stringify([record])
@@ -163,7 +166,6 @@ export default {
         billNo: "",
         supplierName: "",
         currentPage: 1,
-        currentStatus: undefined,
         pageSize: 10,
         total: 0,
         startTime: "",
@@ -176,11 +178,13 @@ export default {
       columns: [
         {
           title: "对账单号",
-          dataIndex: "billNo"
+          dataIndex: "billNo",
+          width: 180,
         },
         {
           title: "状态",
           dataIndex: "currentStatus",
+          width: 120,
           scopedSlots: { customRender: "currentStatus" }
         },
         // {
@@ -190,40 +194,50 @@ export default {
         {
           title: "开票状态",
           dataIndex: "invoiceStatus",
-          scopedSlots: { customRender: "invoiceStatus" }
+          scopedSlots: { customRender: "invoiceStatus" },
+          width: 120,
         },
         {
           title: "账期",
-          dataIndex: "billDate"
+          dataIndex: "billDate",
+          width: 120,
         },
         {
           title: "供应商编码",
-          dataIndex: "supplierCode"
+          dataIndex: "supplierCode",
+          width: 180,
         },
         {
           title: "供应商名称",
-          dataIndex: "supplierName"
+          dataIndex: "supplierName",
+          width: 180,
         },
         {
           title: "账单总金额（元）",
-          dataIndex: "initTotalAmount"
+          dataIndex: "initTotalAmount",
+          width: 150,
         },
         {
           title: "可开票总金额（元）",
-          dataIndex: "initInvoiceAmount"
+          dataIndex: "initInvoiceAmount",
+          width: 170,
         },
         {
           title: "最后更新人",
-          dataIndex: "modifyUserName"
+          dataIndex: "modifyUserName",
+          width: 140,
         },
         {
           title: "最后更新时间",
           dataIndex: "modifyTime",
-          scopedSlots: { customRender: "modifyTime" }
+          scopedSlots: { customRender: "modifyTime" },
+          width: 180,
         },
         {
           title: "操作",
           dataIndex: "action",
+          fixed: "right",
+          width: 150,
           scopedSlots: {
             customRender: "action"
           }

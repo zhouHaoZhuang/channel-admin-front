@@ -50,15 +50,22 @@
       </a-descriptions>
     </div>
     <div>
-      <h2 style="margin: 20px 0">开票明细</h2>
+      <h2 style="margin: 20px 0">开票列表</h2>
       <a-table
         :pagination="false"
         rowKey="id"
         :columns="columns"
         :data-source="dataList"
       >
-        <div slot="action">
-          <a-button type="link">
+        <div slot="action" slot-scope="text, record">
+          <a-button
+            type="link"
+            @click="
+              $router.push(
+                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+              )
+            "
+          >
             详情
           </a-button>
         </div>
@@ -83,19 +90,19 @@ export default {
       columns: [
         {
           title: "对账单号",
-          dataIndex: "orderNo"
+          dataIndex: "billNo"
         },
         {
           title: "账期",
-          dataIndex: "zyunorderId"
+          dataIndex: "billDate"
         },
         {
           title: "账单总金额（元）",
-          dataIndex: "yunorderId"
+          dataIndex: "initTotalAmount"
         },
         {
           title: "可开票总金额（元）",
-          dataIndex: "canInvoiceAmount"
+          dataIndex: "initInvoiceAmount"
         },
         {
           title: "操作",

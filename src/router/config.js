@@ -458,7 +458,9 @@ export const asyncRoute = [
                 path: "recon",
                 name: "确认对账",
                 meta: {
-                  perm: "purchase-manage-withdraw"
+                  perm: "purchase-manage-withdraw",
+                  back: true,
+                  invisible: true,
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/recon.vue")
@@ -467,7 +469,9 @@ export const asyncRoute = [
                 path: "reconinfo",
                 name: "对账单详情",
                 meta: {
-                  perm: "purchase-manage-withdraw"
+                  perm: "purchase-manage-withdraw",
+                  back: true,
+                  invisible: true,
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/info.vue")
@@ -476,7 +480,9 @@ export const asyncRoute = [
                 path: "applybill",
                 name: "申请开票",
                 meta: {
-                  perm: "purchase-manage-withdraw"
+                  perm: "purchase-manage-withdraw",
+                  back: true,
+                  invisible: true,
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/apply/list.vue")

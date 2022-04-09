@@ -59,8 +59,17 @@
         :pagination="false"
         rowKey="id"
       >
-        <div slot="operation">
-          <a-button type="link">详情</a-button>
+        <div slot="action" slot-scope="text, record">
+          <a-button
+            type="link"
+            @click="
+              $router.push(
+                '/purchase/manage/reconinfo?data=' + JSON.stringify(record)
+              )
+            "
+          >
+            详情
+          </a-button>
         </div>
       </a-table>
     </div>
@@ -77,25 +86,25 @@ export default {
       columns: [
         {
           title: "对账单号",
-          dataIndex: "orderNo"
+          dataIndex: "billNo"
         },
         {
           title: "账期",
-          dataIndex: "type"
+          dataIndex: "billDate"
         },
         {
-          title: "账单总金额",
-          dataIndex: "productName"
+          title: "账单总金额（元）",
+          dataIndex: "initTotalAmount"
         },
         {
-          title: "可开票金额",
-          dataIndex: "canInvoiceAmount"
+          title: "可开票总金额（元）",
+          dataIndex: "initInvoiceAmount"
         },
         {
           title: "操作",
-          dataIndex: "operation",
+          dataIndex: "action",
           scopedSlots: {
-            customRender: "operation"
+            customRender: "action"
           }
         }
       ],

@@ -33,8 +33,8 @@ const reconciliation = {
     // 确认
     confirm({ commit, state }, data) {
       return request({
-        url: "/tcOrder/unSubscrube/confirm",
-        method: "post",
+        url: `/bill/confirm/${data.id}`,
+        method: "get",
         data,
         billService: true
       });
@@ -51,7 +51,7 @@ const reconciliation = {
     // 新增建议添加项
     addSteerItem({ commit, state }, data) {
       return request({
-        url: "/tcOrder/unSubscrube/addSteerItem",
+        url: "/billDetail/modify",
         method: "post",
         data,
         billService: true
