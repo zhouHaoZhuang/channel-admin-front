@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="login">
-        <a-tabs size="large" style="margin-left:20px" @change="callback">
+        <a-tabs size="large"  @change="callback">
           <a-tab-pane key="pass" tab="账号密码登录">
             <a-form-model
               ref="ruleForm"
