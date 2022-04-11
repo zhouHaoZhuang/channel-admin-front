@@ -20,7 +20,6 @@
           <span>创建时间:</span>
           <span>{{ orderInfo.createTime | formatDate }}</span>
         </li>
-      
       </ul>
     </div>
     <!-- 支付信息 -->
@@ -31,7 +30,7 @@
           <span>支付金额:</span>
           <span>{{ orderInfo.actualAmount }}</span>
         </li>
-          <li>
+        <li>
           <span>支付时间:</span>
           <span>{{ orderInfo.payTime | formatDate }}</span>
         </li>
@@ -52,7 +51,21 @@
           :pagination="false"
         >
           <div slot="chargingType" slot-scope="text">
-             {{ text == 'AfterPay' ?'后支付':'预支付' }}
+            {{ text == "AfterPay" ? "后支付" : "预支付" }}
+          </div>
+          <div slot="ecsPrice" slot-scope="text, record">
+            <div v-if="record.chargingType == 'AfterPay'">
+              {{ record.productName }}功能开通：按流量计费
+            </div>
+            <div v-else>
+              <div>CPU：{{ text.cpu }}</div>
+              <div>内存：{{ text.memory }}</div>
+              <div>磁盘：{{ diskLength }}</div>
+              <div>带宽：{{ text.internetMaxBandwidthOut }}</div>
+              <div>防御：{{ "20G" }}</div>
+              <div>镜像：{{ text.imageId }}</div>
+              <div>所在区：{{ regionDataEnum[text.regionId] }}</div>
+            </div>
           </div>
         </a-table>
       </div>
@@ -84,11 +97,18 @@ export default {
       regionDataEnum,
       orderInfo: null,
       data: [],
+      diskLength:0,
       columns: [
         {
           title: "产品名称",
           dataIndex: "productName",
-          key: "productName",
+          key: "productName"
+        },
+        {
+          title: "具体配置",
+          dataIndex: "ecsPrice",
+          key: "ecsPrice",
+          scopedSlots: { customRender: "ecsPrice" }
         },
         {
           title: "计费方式",
@@ -117,6 +137,11 @@ export default {
   activated() {
     let id = this.$route.query.id;
     this.$store.dispatch("purchaseOrder/getProOne", id).then(res => {
+              if(res.data.ecsPrice){
+      let dataDisk = res.data.ecsPrice.dataDisk? res.data.ecsPrice.dataDisk.length:0;
+      console.log(dataDisk,'dataDisk');
+      this.diskLength = dataDisk + 1
+      }
       this.orderInfo = res.data;
       this.data = [res.data];
     });

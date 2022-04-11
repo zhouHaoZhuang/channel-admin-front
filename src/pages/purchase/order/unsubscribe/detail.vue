@@ -54,13 +54,18 @@
             {{ text == "AfterPay" ? "后支付" : "预支付" }}
           </div>
           <div slot="productConfig" slot-scope="text, record">
-            <div>CPU:{{ record.cpu }}核</div>
-            <div>内存:{{ record.memory }}G</div>
-            <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
-            <div>系统盘:{{ record.systemDiskSize }}G</div>
-            <div>数据盘:{{ record.dataDiskSize }}G</div>
-            <div>操作系统:{{ record.osName }}</div>
-            <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
+            <div v-if="record.chargingType == 'AfterPay'">
+              {{ record.productName }}功能开通：按流量计费
+            </div>
+            <div v-else>
+              <div>CPU:{{ record.cpu }}核</div>
+              <div>内存:{{ record.memory }}G</div>
+              <div>带宽:{{ record.internetMaxBandwidthOut }}M</div>
+              <div>系统盘:{{ record.systemDiskSize }}G</div>
+              <div>数据盘:{{ record.dataDiskSize }}G</div>
+              <div>操作系统:{{ record.osName }}</div>
+              <div>所在区:{{ regionDataEnum[record.regionId] }}</div>
+            </div>
           </div>
           <span slot="chargeModel">包年包月</span>
         </a-table>
@@ -91,6 +96,7 @@ export default {
     return {
       orderInfo: null,
       data: [],
+      diskLength: 0,
       orderStatusEnum,
       orderTypeMap,
       regionDataEnum,
@@ -129,13 +135,20 @@ export default {
   activated() {
     let id = this.$route.query.id;
     this.$store.dispatch("financialOrder/getOne", id).then(res => {
-      let dataDisk = res.data.ecsPrice.dataDisk;
-      let dataDiskSize = 0;
-      if (dataDisk) {
-        for (let index = 0; index < dataDisk.length; index++) {
-          dataDiskSize += dataDisk[index].size;
-        }
-        res.data.ecsPrice.dataDiskSize = dataDiskSize;
+      // let dataDisk = res.data.ecsPrice.dataDisk;
+      // let dataDiskSize = 0;
+      // if (dataDisk) {
+      //   for (let index = 0; index < dataDisk.length; index++) {
+      //     dataDiskSize += dataDisk[index].size;
+      //   }
+      //   res.data.ecsPrice.dataDiskSize = dataDiskSize;
+      // }
+      if (res.data.ecsPrice) {
+        let dataDisk = res.data.ecsPrice.dataDisk
+          ? res.data.ecsPrice.dataDisk.length
+          : 0;
+        console.log(dataDisk, "dataDisk");
+        this.diskLength = dataDisk + 1;
       }
       this.orderInfo = res.data;
       this.data = [res.data];
