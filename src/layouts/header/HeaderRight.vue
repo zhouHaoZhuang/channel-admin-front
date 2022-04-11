@@ -1,5 +1,6 @@
 <template>
   <div class="header-right">
+    <div v-if="customerInfo.name != undefined">
     <img class="icon-two" width="24px" src="@/assets/img/workOrder/phone.png" />
     <div class="outbox">
       <h1 style="font-weight: 600">专属客服</h1>
@@ -17,6 +18,7 @@
         <li>{{ customerInfo.wechat }}</li>
       </ul>
       <span class="bottom-title">客服微信二维码</span>
+    </div>
     </div>
     <a-icon class="icon" type="home" @click="handleGoCloudMall" />
   </div>
@@ -39,7 +41,7 @@ export default {
   },
   created() {
     this.getDomain();
-    console.log(this.customerInfo, "我是专属客服");
+    console.log(this.customerInfo.name === undefined, "我是专属客服");
   },
   methods: {
     // 获取默认云商城域名
