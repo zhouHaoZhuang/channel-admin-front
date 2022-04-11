@@ -236,9 +236,9 @@ export default {
         .then(res => {
           console.log(res, "---------");
           this.data = res.data;
-          this.dataDetails = res.data.invoiceEvaluatePage?.list ?? [];
+          this.dataDetails = res.data.billResPager?.list ?? [];
           this.paginationProps.total =
-            res.data.invoiceEvaluatePage?.totalCount * 1 ?? 0;
+            res.data.billResPager?.totalCount * 1 ?? 0;
         });
     },
     //查询数据表格
