@@ -162,22 +162,27 @@
       <!-- 消息提醒页面 -->
       <div class="outbox">
         <h1 style="font-weight: 600">专属客服</h1>
-        <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
-        <ul class="right-box">
-          <li><a-icon type="user" class="left-icon" />客服姓名:</li>
-          <li>
-            <a-icon type="phone" :rotate="90" class="left-icon" />联系方式:
-          </li>
-          <li><a-icon type="qq" class="left-icon" />qq号:</li>
-          <li><a-icon type="wechat" class="left-icon" />微信号:</li>
-        </ul>
-        <ul class="right-box">
-        <li>{{customerInfo.name}}</li>
-        <li>{{customerInfo.phone}}</li>
-        <li>{{customerInfo.qq}}</li>
-        <li>{{customerInfo.wechat}}</li>
-        </ul>
-        <span class="bottom-title">客服微信二维码</span>
+        <div v-if="customerInfo.name != undefined">
+          <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
+          <ul class="right-box">
+            <li><a-icon type="user" class="left-icon" />客服姓名:</li>
+            <li>
+              <a-icon type="phone" :rotate="90" class="left-icon" />联系方式:
+            </li>
+            <li><a-icon type="qq" class="left-icon" />qq号:</li>
+            <li><a-icon type="wechat" class="left-icon" />微信号:</li>
+          </ul>
+          <ul class="right-box">
+            <li>{{ customerInfo.name }}</li>
+            <li>{{ customerInfo.phone }}</li>
+            <li>{{ customerInfo.qq }}</li>
+            <li>{{ customerInfo.wechat }}</li>
+          </ul>
+          <span class="bottom-title">客服微信二维码</span>
+        </div>
+        <div v-else >
+          <span>暂无客服信息</span>
+        </div>
       </div>
     </div>
     <!-- <Tinymce @tinymceinput="tinymceinput" /> -->
@@ -450,25 +455,25 @@ export default {
       padding-left: 24px;
     }
   }
-  .business-statistics:nth-child(1){
+  .business-statistics:nth-child(1) {
     margin-top: 0px;
   }
   .home-info {
     display: flex;
     width: 100%;
     .outbox {
-          width: 30.2%;
+      width: 30.2%;
 
       height: 290px;
       background-color: #ffffff;
-      padding: 30px  30px;
+      padding: 30px 30px;
       position: relative;
       margin-left: 20px;
       .imgclass {
         display: inline-block;
         float: left;
-             width: 140px;
-          height: 140px;
+        width: 140px;
+        height: 140px;
       }
       .right-box {
         margin-top: -10px;
