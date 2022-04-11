@@ -155,6 +155,10 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          if(!this.form.username.includes('@')){
+            this.$message.warn("请确认账号是否正确");
+            return
+          }
           this.loading = true;
           this.$store
             .dispatch("user/channelUserLogin", this.form)

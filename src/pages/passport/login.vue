@@ -238,11 +238,20 @@ export default {
         ]
       },
       rulesCode: {
-        phone: [
+          phone: [
           {
-            pattern: /^1[3456789]\d{9}$/,
-            message: "手机号格式不正确",
-            trigger: ["blur", "change"]
+            required: true,
+            message: '请输入手机号',
+            trigger: ['blur', 'change']
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (!/^1[3456789]\d{9}$/.test(value)) {
+                callback(new Error('手机号格式不正确'))
+              }
+              callback()
+            },
+            trigger: ['blur', 'change']
           }
         ],
         code: [
