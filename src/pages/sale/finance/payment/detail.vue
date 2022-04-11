@@ -36,13 +36,16 @@
       </div>
       <div>
         <span class="details-type">入款凭证:</span>
-        <img
+        <!-- <img
           height="90px"
           :src="url"
           alt=""
           v-for="(url, index) in imgList"
           :key="index"
-        />
+        /> -->
+        <div v-for="(url, index) in imgList" :key="index">
+          <Upload :size="5" :defaultFile="url" />
+        </div>
       </div>
     </div>
     <div class="placeholder"></div>
@@ -65,15 +68,9 @@
           prop="status"
         >
           <a-select v-model="form.status">
-            <a-select-option value="">
-              请选择
-            </a-select-option>
-            <a-select-option value="9">
-              通过
-            </a-select-option>
-            <a-select-option value="2">
-              拒绝
-            </a-select-option>
+            <a-select-option value=""> 请选择 </a-select-option>
+            <a-select-option value="9"> 通过 </a-select-option>
+            <a-select-option value="2"> 拒绝 </a-select-option>
           </a-select>
         </a-form-model-item>
         <a-form-model-item
@@ -85,9 +82,7 @@
             v-model="form.checkMemo"
             :auto-size="{ minRows: 2, maxRows: 4 }"
           />
-          <div class="annotation">
-            注：仅供内部查看，不面向用户
-          </div>
+          <div class="annotation">注：仅供内部查看，不面向用户</div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 14, offset: 8 }">
           <a-button
@@ -107,7 +102,11 @@
 
 <script>
 import { paymentTypeMapData, detailTypeMapData } from "@/utils/enum";
+import Upload from "@/components/Upload/previewimg.vue";
 export default {
+  components: {
+    Upload,
+  },
   data() {
     return {
       data: null,
@@ -117,58 +116,58 @@ export default {
         {
           title: "步骤",
           dataIndex: "productName",
-          key: "productName"
+          key: "productName",
         },
         {
           title: "审核节点",
           dataIndex: "tradeType",
           key: "tradeType",
-          scopedSlots: { customRender: "tradeType" }
+          scopedSlots: { customRender: "tradeType" },
         },
         {
           title: "审核状态",
           key: "productConfig",
-          scopedSlots: { customRender: "productConfig" }
+          scopedSlots: { customRender: "productConfig" },
         },
         {
           title: "审核人",
           dataIndex: "quantity",
-          key: "quantity"
+          key: "quantity",
         },
         {
           title: "审核意见",
           dataIndex: "chargeModel",
-          key: "chargeModel"
-        }
+          key: "chargeModel",
+        },
       ],
       form: {
         applyUserCode: "",
         checkMemo: "",
         status: "",
-        id: ""
+        id: "",
       },
       rules: {
         status: [
           {
             required: true,
             message: "请选择审核结果",
-            trigger: "change"
-          }
+            trigger: "change",
+          },
         ],
         checkMemo: [
           {
             required: true,
             message: "请填写审核意见",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       labelCol: {
-        span: 8
+        span: 8,
       },
       wrapperCol: {
-        span: 10
-      }
+        span: 10,
+      },
     };
   },
   activated() {
@@ -184,13 +183,13 @@ export default {
       } else {
         return [];
       }
-    }
+    },
   },
   methods: {
     getList() {
       this.$store
         .dispatch("manualDeposit/getOne", this.$route.query.id)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.data = res.data;
         });
@@ -201,18 +200,18 @@ export default {
       this.$confirm({
         title: "确定要提交吗?",
         onOk: () => {
-          this.$refs.ruleForm.validate(valid => {
+          this.$refs.ruleForm.validate((valid) => {
             if (valid) {
               this.$store
                 .dispatch("manualDeposit/changeReview", this.form)
-                .then(res => {
+                .then((res) => {
                   console.log(res);
                   this.$message.success("审核成功");
                   this.$router.back();
                 });
             }
           });
-        }
+        },
       });
     },
     resetForm() {
@@ -223,10 +222,10 @@ export default {
         applyUserCode: "",
         checkMemo: "",
         status: "",
-        id: ""
+        id: "",
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

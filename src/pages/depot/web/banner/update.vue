@@ -169,7 +169,6 @@ export default {
         ],
         title: [
           {
-            required: true,
             message: "请输入轮播图标题",
             trigger: ["blur", "change"]
           }
