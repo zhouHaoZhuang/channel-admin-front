@@ -22,7 +22,7 @@ const billUrl = {
   prod: "/settle"
 };
 const domains = {
-  local: "t410796.site.sailayun.com"
+  local: "t546789.site.sailayun.com"
 };
 
 export default {
