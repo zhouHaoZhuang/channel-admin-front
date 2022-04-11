@@ -75,8 +75,8 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item label="反馈说明" prop="refundFeedbackRemark ">
-          <a-input v-model="form.refundFeedbackRemark" />
+        <a-form-model-item label="反馈说明" prop="feedbackRemark ">
+          <a-input v-model="form.feedbackRemark" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary" @click="onSubmit">
@@ -129,7 +129,7 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       form: {
-        refundFeedbackRemark: ""
+        feedbackRemark: ""
       },
       rules: {
         feedbackRemark: [
@@ -202,7 +202,6 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
-      this.form.feedbackRemark = "";
     },
     //查询数据表格
     getData() {

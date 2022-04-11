@@ -33,17 +33,13 @@
           :columns="columns"
           :data-source="data"
           rowKey="id"
-          :pagination="paginationProps"
+          :pagination="false"
         >
           <div slot="type" slot-scope="text">
             {{ roleTypeEnum[text] }}
           </div>
           <div slot="status" slot-scope="text, record">
-            <a-switch
-              :checked="text"
-              :disabled="record.type === 0"
-              @change="handleChangeStatus(record)"
-            >
+            <a-switch :checked="text" @change="handleChangeStatus(record)">
               <a-icon slot="checkedChildren" type="check" />
               <a-icon slot="unCheckedChildren" type="close" />
             </a-switch>
@@ -53,7 +49,6 @@
               <a-button
                 v-permission="'relation'"
                 type="link"
-                :disabled="record.type === 0"
                 @click="handleRelation(record)"
               >
                 关联资源
@@ -61,7 +56,6 @@
               <a-button
                 v-permission="'edit'"
                 type="link"
-                :disabled="record.type === 0"
                 @click="handleEditRole(record)"
               >
                 编辑
@@ -69,7 +63,6 @@
               <a-button
                 v-permission="'del'"
                 type="link"
-                :disabled="record.type === 0"
                 @click="handleDel(record)"
               >
                 移除

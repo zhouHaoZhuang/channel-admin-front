@@ -64,14 +64,6 @@
         <div slot="status" slot-scope="text">
           {{ invoiceStatusEnum[text] }}
         </div>
-        <div slot="feedbackRemark" slot-scope="text, record">
-          <span v-if="record.status === 4">
-            {{ record.rejectRemark }}
-          </span>
-          <span v-if="record.status === 5">
-            {{ text }}
-          </span>
-        </div>
         <div v-if="text" slot="createTime" slot-scope="text">
           {{ text | formatDate }}
         </div>
@@ -157,16 +149,15 @@ export default {
         },
         {
           title: "创建时间",
-          dataIndex: "createTimeShow"
+          dataIndex: "createTimeShow",
         },
         {
           title: "反馈时间",
-          dataIndex: "feedbackTimeShow"
+          dataIndex: "feedbackTimeShow",
         },
         {
           title: "反馈信息",
-          dataIndex: "feedbackRemark",
-          scopedSlots: { customRender: "feedbackRemark" }
+          dataIndex: "feedbackRemark"
         },
         {
           title: "操作",

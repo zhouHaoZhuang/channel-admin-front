@@ -369,8 +369,13 @@ export default {
         res.data.dataDisk.forEach(item => {
           dataDiskSize += item.size;
         });
-        this.data.dataDiskSize = dataDiskSize;
       }
+      if (res.data.systemDisk) {
+        res.data.systemDisk.forEach(item => {
+          dataDiskSize += item.size;
+        });
+      }
+      this.data.dataDiskSize = dataDiskSize;
       console.log(this.data);
     });
   }

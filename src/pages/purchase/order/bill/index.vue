@@ -63,9 +63,10 @@
               <div v-if="text" slot="originAmount" slot-scope="text">
                 {{ text }}
               </div>
-
-              <div slot="channelName">
-                浙江云盾科技有限公司
+              <div slot="channelName" slot-scope="text, record">
+                {{ record.channelName }}
+                <!-- <br />
+            <span style="color:#ccc">{{ record.channelCode }}</span> -->
               </div>
               <span slot="customTitle">
                 支付状态
@@ -89,7 +90,7 @@
                 {{ text }}
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.useDataPerUnit }}
+                {{ text }}{{ record.unitPricePerUnit }}
               </div>
               <div slot="actualAmount" slot-scope="text">
                 {{ text }}
@@ -199,16 +200,13 @@
               <div v-if="text" slot="originAmount" slot-scope="text">
                 {{ text }}
               </div>
-              <!-- <div slot="channelName" slot-scope="text, record">
+              <div slot="channelName" slot-scope="text, record">
                 {{ record.channelName }}
-               <br />
-            <span style="color:#ccc">{{ record.channelCode }}</span> 
-              </div> -->
-              <div slot="channelName">
-                浙江云盾科技有限公司
+                <!-- <br />
+            <span style="color:#ccc">{{ record.channelCode }}</span> -->
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.useDataPerUnit }}
+                {{ text }}{{ record.unitPricePerUnit }}
               </div>
               <span slot="customTitle">
                 支付状态
@@ -481,6 +479,9 @@ export default {
     },
     onChange(value) {
       this.listQuery["qp-billPeriod-eq"] = moment(value).format("YYYY-MM");
+      if (!value || value === "null" || value === undefined) {
+        delete this.listQuery["qp-billPeriod-eq"];
+      }
     },
     //切换tab
     callback(key) {
@@ -501,8 +502,8 @@ export default {
       if (nowMonth >= 1 && nowMonth <= 9) {
         nowMonth = "0" + nowMonth;
       }
-      // this.listQuery["qp-billPeriod-eq"] =
-      //   new Date().getFullYear() + "-" + nowMonth;
+      this.listQuery["qp-billPeriod-eq"] =
+        new Date().getFullYear() + "-" + nowMonth;
       return new Date().getFullYear() + "-" + nowMonth;
     },
     // 日期选择

@@ -30,6 +30,12 @@ request.interceptors.request.use(async config => {
     config.headers.system = "fs";
     config.headers["authing-id"] = store.state.user.userInfo.userCode;
   }
+  // 账单服务接口请求地址
+  if (config.billService) {
+    config.baseURL = env.BILL_URL;
+    config.headers.system = "settle";
+    // config.headers["authing-id"] = store.state.user.userInfo.userCode;
+  }
   config.cancelToken = axiosSource.token;
   config.headers.domain = getDomainUrl();
   // config.headers.domain = 'ydidc.com'

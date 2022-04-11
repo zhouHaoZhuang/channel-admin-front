@@ -48,7 +48,7 @@
             :max-length="4"
             style="width:280px"
             size="large"
-            @keyup="getCode"
+             @keyup="getCode"
           />
           <div @click="refreshCode()" class="code" title="点击切换验证码">
             <Identify :identifyCode="identifyCode" />
@@ -237,11 +237,12 @@ export default {
       let flag = false;
       // if (this.$refs.verificationCode.value) {
       // }
-      this.$refs.ruleForm.validateField(
-        "verificationCode",
-        err => (flag = err ? false : true)
-      );
-      callback(flag);
+        this.$refs.ruleForm.validateField(
+          "verificationCode",
+          err => (flag = err ? false : true)
+        );
+        callback(flag);
+    
     },
     // 更新验证码
     refreshCode() {
@@ -255,10 +256,7 @@ export default {
     },
     //是否调用发送验证码接口
     getCode() {
-      if (
-        this.$refs.verificationCode.value.toLowerCase() ==
-        this.identifyCode.toLowerCase()
-      ) {
+      if (this.$refs.verificationCode.value.toLowerCase() == this.identifyCode.toLowerCase()) {
         console.log("相等");
         this.$refs.child.getMsg();
       }

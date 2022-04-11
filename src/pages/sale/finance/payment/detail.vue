@@ -35,10 +35,6 @@
         <span class="details-value">{{ data.memo }}</span>
       </div>
       <div>
-        <span class="details-type">审核意见:</span>
-        <span class="details-value">{{ data.checkMemo }}</span>
-      </div>
-      <div>
         <span class="details-type">入款凭证:</span>
         <img
           height="90px"
@@ -49,7 +45,7 @@
         />
       </div>
     </div>
-    <div v-show="data.status == 0" class="placeholder"></div>
+    <div class="placeholder"></div>
     <!-- <h1 class="details-title">审核过程</h1>
     <a-table :columns="columns" rowKey="ID" :scroll="{ x: 1000 }">
       <a slot="name" slot-scope="text">{{ text }}</a>

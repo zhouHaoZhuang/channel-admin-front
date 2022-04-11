@@ -10,7 +10,7 @@
         </li>
         <li>
           <span>订单类型:</span>
-          <span>{{ orderTypeMap[orderInfo.tradeType] }}</span>
+          <span>{{ orderInfo.tradeType === 1 ? "新购" : "销售" }} </span>
         </li>
         <li>
           <span>状态:</span>
@@ -51,7 +51,21 @@
           :pagination="false"
         >
           <div slot="chargingType" slot-scope="text">
-            {{ charingStatus[text] }}
+            {{ text == "AfterPay" ? "后支付" : "预支付" }}
+          </div>
+          <div slot="ecsPrice" slot-scope="text, record">
+            <div v-if="record.chargingType == 'AfterPay'">
+              {{ record.productName }}功能开通：按流量计费
+            </div>
+            <div v-else>
+              <div>CPU：{{ text.cpu }}</div>
+              <div>内存：{{ text.memory }}</div>
+              <div>磁盘：{{ diskLength }}</div>
+              <div>带宽：{{ text.internetMaxBandwidthOut }}</div>
+              <div>防御：{{ "20G" }}</div>
+              <div>镜像：{{ text.imageId }}</div>
+              <div>所在区：{{ regionDataEnum[text.regionId] }}</div>
+            </div>
           </div>
         </a-table>
       </div>
@@ -74,13 +88,7 @@
 </template>
 
 <script>
-import {
-  orderStatus,
-  feeReduction,
-  regionDataEnum,
-  charingStatus,
-  orderTypeMap
-} from "@/utils/enum.js";
+import { orderStatus, feeReduction, regionDataEnum } from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -88,14 +96,19 @@ export default {
       feeReduction,
       regionDataEnum,
       orderInfo: null,
-      charingStatus,
-      orderTypeMap,
       data: [],
+      diskLength:0,
       columns: [
         {
           title: "产品名称",
           dataIndex: "productName",
           key: "productName"
+        },
+        {
+          title: "具体配置",
+          dataIndex: "ecsPrice",
+          key: "ecsPrice",
+          scopedSlots: { customRender: "ecsPrice" }
         },
         {
           title: "计费方式",
@@ -124,6 +137,11 @@ export default {
   activated() {
     let id = this.$route.query.id;
     this.$store.dispatch("purchaseOrder/getProOne", id).then(res => {
+              if(res.data.ecsPrice){
+      let dataDisk = res.data.ecsPrice.dataDisk? res.data.ecsPrice.dataDisk.length:0;
+      console.log(dataDisk,'dataDisk');
+      this.diskLength = dataDisk + 1
+      }
       this.orderInfo = res.data;
       this.data = [res.data];
     });

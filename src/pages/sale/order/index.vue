@@ -32,9 +32,8 @@
             style="width: 140px"
             defaultValue="0"
             placeholder=" 订单类型"
-            allowClear
             v-model="listQuery.tradeType"
-          >
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderTypeMap"
@@ -44,14 +43,14 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item>
+         <a-form-model-item>
           <a-select
             style="width: 130px"
             defaultValue="0"
-            placeholder=" 订单状态"
+            placeholder="订单状态"
             allowClear
             v-model="listQuery.tradeStatus"
-            ><a-select-option value=""> </a-select-option>
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -66,9 +65,8 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
-            allowClear
             v-model="listQuery.chargingType"
-          >
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in charingStatus"
@@ -111,9 +109,7 @@
           >
             {{ record.ccCorporation.corporationName }}
             <br />
-            <span style="color:#ccc;">{{
-              record.ccCorporation.corporationCode
-            }}</span>
+            <span style="color:#ccc;">{{ record.ccCorporation.corporationCode }}</span>
           </span>
           <div slot="originAmount" slot-scope="text">
             {{ text.toFixed(2) }}
@@ -276,19 +272,19 @@ export default {
           dataIndex: "orderNo",
           key: "orderNo",
           width: 170
+        },
+        {
+          title: "终端客户名称",
+          dataIndex: "corporationName",
+          key: "corporationName",
+          width: 150
+        },
+        {
+          title: "终端客户ID",
+          dataIndex: "corporationCode",
+          key: "corporationCode",
+          width: 150
         }
-        // {
-        //   title: "终端客户名称",
-        //   dataIndex: "corporationName",
-        //   key: "corporationName",
-        //   width: 150
-        // },
-        // {
-        //   title: "终端客户ID",
-        //   dataIndex: "corporationCode",
-        //   key: "corporationCode",
-        //   width: 150
-        // }
       ];
     }
   },

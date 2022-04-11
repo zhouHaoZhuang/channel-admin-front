@@ -33,12 +33,7 @@
           {{ data.feedbackTimeShow }}
         </a-descriptions-item>
         <a-descriptions-item label="反馈说明">
-          <span v-if="data.status === 4">
-            {{ data.rejectRemark }}
-          </span>
-          <span v-if="data.status === 5">
-            {{ data.feedbackRemark }}
-          </span>
+          {{ data.feedbackRemark }}
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions style="margin: 20px 0" title="收件人信息">
