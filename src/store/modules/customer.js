@@ -2,15 +2,15 @@ import request from "@/utils/request";
 
 const customer = {
   namespaced: true,
-state: {
-  //专属客服信息
-  customerInfo:{}
-},
-mutation:{
-  saveCustomerInfo(state, payload) {
-    state.customerInfo = { ...payload };
-  }
-},
+  state: {
+    //专属客服信息
+    customerInfo: {}
+  },
+  mutations: {
+    saveCustomerInfo: (state, payload) => {
+      state.customerInfo = payload;
+    }
+  },
   actions: {
     // 添加客服
     add({ commit, state }, data) {
@@ -91,19 +91,20 @@ mutation:{
         data
       });
     },
-     //获取专属客服信息
-     getCustomerInfo({ commit, state }) {
+    //获取专属客服信息
+    getCustomerInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         request({
           url: "/customerAdvocate/getAdvocate",
           method: "get"
         })
-          .then((res) => {
-            console.log(res,"获取客服二维码信息")
-            commit("saveCustomerInfo", res.data.list[0]);
+          .then(res => {
+            const data = res.data;
+            console.log(data, "获取客服二维码信息");
+            commit("saveCustomerInfo", data);
             resolve();
           })
-          .catch((error) => {
+          .catch(error => {
             reject(error);
           });
       });

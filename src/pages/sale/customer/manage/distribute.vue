@@ -513,7 +513,10 @@ export default {
     // 查询客服列表
     getCustomerList() {
       this.$store
-        .dispatch("customer/getInterfaceLists", { currentPage: 1, pageSize: 999 })
+        .dispatch("customer/getInterfaceLists", {
+          currentPage: 1,
+          pageSize: 999,
+        })
         .then((res) => {
           this.SelectCustomerList = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
@@ -551,8 +554,8 @@ export default {
         }
       });
     },
-    back(){
-      this.$router.back()
+    back() {
+      this.$router.back();
     },
     //区分请求列表
     distinguish(data) {
@@ -578,12 +581,18 @@ export default {
     // 重置表单数据
     resetForm() {
       this.$refs.ruleForm.clearValidate();
-      this.form = {
-        advocateList: undefined,
-        userCodeList: undefined,
-        distributeWay: 1,
-        newAdvocateList: undefined,
-      };
+      //选择的客服id
+      (this.advocateList = []),
+        //筛选出的新客服
+        (this.newAdvocateList = []),
+        //选择的客户id
+        (this.userCodeList = []),
+        (this.form = {
+          advocateList: undefined,
+          userCodeList: undefined,
+          distributeWay: 1,
+          newAdvocateList: undefined,
+        });
     },
   },
 };

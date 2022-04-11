@@ -3,11 +3,7 @@
     <img class="icon-two" width="24px" src="@/assets/img/workOrder/phone.png" />
     <div class="outbox">
       <h1 style="font-weight: 600">专属客服</h1>
-      <img
-        width="140px"
-        class="imgclass"
-        src="@/assets/img/workOrder/weixinphoto.png"
-      />
+      <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
       <ul class="right-box">
         <li><a-icon type="user" class="left-icon" />客服姓名:</li>
         <li><a-icon type="phone" :rotate="90" class="left-icon" />联系方式:</li>
@@ -15,10 +11,10 @@
         <li><a-icon type="wechat" class="left-icon" />微信号:</li>
       </ul>
       <ul class="right-box">
-        <li>王大富</li>
-        <li>15201010202</li>
-        <li>11111111</li>
-        <li>wff033001</li>
+        <li>{{ customerInfo.name }}</li>
+        <li>{{ customerInfo.phone }}</li>
+        <li>{{ customerInfo.qq }}</li>
+        <li>{{ customerInfo.wechat }}</li>
       </ul>
       <span class="bottom-title">客服微信二维码</span>
     </div>
@@ -43,6 +39,7 @@ export default {
   },
   created() {
     this.getDomain();
+    console.log(this.customerInfo, "我是专属客服");
   },
   methods: {
     // 获取默认云商城域名
@@ -105,6 +102,8 @@ export default {
     .imgclass {
       display: inline-block;
       float: left;
+      width: 140px;
+      height: 140px;
     }
     .right-box {
       margin-top: -10px;

@@ -169,6 +169,8 @@ export default {
     handleOk() {
       console.log("我是客户提交的值", this.selectData, this.selectedRowKeys);
       this.$emit("selectData", this.selectData, this.selectedRowKeys);
+      this.selectedRowKeys = []
+      this.selectData = []
     },
   },
 };
