@@ -1,24 +1,30 @@
 <template>
   <div class="header-right">
-    <div v-if="customerInfo.name != undefined">
-    <img class="icon-two" width="24px" src="@/assets/img/workOrder/phone.png" />
-    <div class="outbox">
-      <h1 style="font-weight: 600">专属客服</h1>
-      <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
-      <ul class="right-box">
-        <li><a-icon type="user" class="left-icon" />客服姓名:</li>
-        <li><a-icon type="phone" :rotate="90" class="left-icon" />联系方式:</li>
-        <li><a-icon type="qq" class="left-icon" />qq号:</li>
-        <li><a-icon type="wechat" class="left-icon" />微信号:</li>
-      </ul>
-      <ul class="right-box">
-        <li>{{ customerInfo.name }}</li>
-        <li>{{ customerInfo.phone }}</li>
-        <li>{{ customerInfo.qq }}</li>
-        <li>{{ customerInfo.wechat }}</li>
-      </ul>
-      <span class="bottom-title">客服微信二维码</span>
-    </div>
+    <div v-if="customerInfo != undefined">
+      <img
+        class="icon-two"
+        width="24px"
+        src="@/assets/img/workOrder/phone.png"
+      />
+      <div class="outbox">
+        <h1 style="font-weight: 600">专属客服</h1>
+        <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
+        <ul class="right-box">
+          <li><a-icon type="user" class="left-icon" />客服姓名:</li>
+          <li>
+            <a-icon type="phone" :rotate="90" class="left-icon" />联系方式:
+          </li>
+          <li><a-icon type="qq" class="left-icon" />qq号:</li>
+          <li><a-icon type="wechat" class="left-icon" />微信号:</li>
+        </ul>
+        <ul class="right-box">
+          <li>{{ customerInfo.name }}</li>
+          <li>{{ customerInfo.phone }}</li>
+          <li>{{ customerInfo.qq }}</li>
+          <li>{{ customerInfo.wechat }}</li>
+        </ul>
+        <span class="bottom-title">客服微信二维码</span>
+      </div>
     </div>
     <a-icon class="icon" type="home" @click="handleGoCloudMall" />
   </div>
@@ -41,7 +47,7 @@ export default {
   },
   created() {
     this.getDomain();
-    console.log(this.customerInfo.name === undefined, "我是专属客服");
+    console.log(this.customerInfo, "我是专属客服");
   },
   methods: {
     // 获取默认云商城域名
