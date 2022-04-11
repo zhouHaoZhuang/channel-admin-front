@@ -9,13 +9,13 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-form-model-item prop="username" label="账号">
+        <!-- <a-form-model-item prop="username" label="账号">
           <a-input
             v-model="form.username"
             placeholder="请输入账号"
             size="large"
           />
-        </a-form-model-item>
+        </a-form-model-item> -->
         <a-form-model-item prop="phone" label="手机号">
           <a-input
             v-model="form.phone"
