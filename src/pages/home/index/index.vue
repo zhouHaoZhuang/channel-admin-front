@@ -1,6 +1,39 @@
 <template>
   <div class="home-container">
-    <div style="background-color: #F0F2F5; padding: 20px; padding-left: 0;">
+    <div style="background-color: #f0f2f5; padding: 20px; padding-left: 0">
+      <div class="top-header">
+        <div class="left">
+          <img
+            src="https://tcs-devops.aliyuncs.com/thumbnail/112ba1538eba7923507a4e75c569d754eb5a/w/200/h/200"
+            alt=""
+            class="left-img"
+          />
+          <div class="con">
+            <div class="user">早安，云小二 [超级管理员]，祝你开心每一天！</div>
+            <div class="info">
+              您的上次登录信息: {{ userInfo.lastIP }} (IP地址)
+              {{ userInfo.lastLogin | formatDate }}
+              (登录时间)
+            </div>
+          </div>
+        </div>
+        <!-- <div class="right">
+        <div class="item">
+          <span>企业数量</span>
+          <span>56</span>
+        </div>
+        <div class="line"></div>
+        <div class="item">
+          <span>渠道数</span>
+          <span>6</span>
+        </div>
+        <div class="line"></div>
+        <div class="item">
+          <span>企业数量</span>
+          <span>2,250</span>
+        </div>
+      </div> -->
+      </div>
       <a-row type="flex" :gutter="16">
         <a-col :flex="1">
           <a-card title="注册客户" :bordered="false">
@@ -106,59 +139,45 @@
     </div>
     <div class="home-info">
       <div class="home-info-left">
-        <div class="top-header">
-          <div class="left">
-            <img
-              src="https://tcs-devops.aliyuncs.com/thumbnail/112ba1538eba7923507a4e75c569d754eb5a/w/200/h/200"
-              alt=""
-              class="left-img"
-            />
-            <div class="con">
-              <div class="user">
-                早安，云小二 [超级管理员]，祝你开心每一天！
-              </div>
-              <div class="info">
-                您的上次登录信息: {{ userInfo.lastIP }} (IP地址)
-                {{ userInfo.lastLogin | formatDate }}
-                (登录时间)
-              </div>
-            </div>
+        <div class="business-statistics">
+          <h1>消息提醒</h1>
+          <div class="message-info">
+            <p
+              v-for="(item, index) in messageList"
+              :key="index"
+              @click="massageInfo(item.id)"
+            >
+              {{ item.title }}
+            </p>
           </div>
-          <!-- <div class="right">
-        <div class="item">
-          <span>企业数量</span>
-          <span>56</span>
-        </div>
-        <div class="line"></div>
-        <div class="item">
-          <span>渠道数</span>
-          <span>6</span>
-        </div>
-        <div class="line"></div>
-        <div class="item">
-          <span>企业数量</span>
-          <span>2,250</span>
-        </div>
-      </div> -->
         </div>
         <!-- 业务统计模块 -->
         <div class="business-statistics">
           <h1>业务统计</h1>
-          <div class="business-info">云服务器（当月{{ SuccessCountNum }}台）</div>
+          <div class="business-info">
+            云服务器（当月{{ SuccessCountNum }}台）
+          </div>
         </div>
       </div>
       <!-- 消息提醒页面 -->
-      <div class="message-notification">
-        <h1>消息提醒</h1>
-        <div class="message-info">
-          <p
-            v-for="(item, index) in messageList"
-            :key="index"
-            @click="massageInfo(item.id)"
-          >
-            {{ item.title }}
-          </p>
-        </div>
+      <div class="outbox">
+        <h1 style="font-weight: 600">专属客服</h1>
+        <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
+        <ul class="right-box">
+          <li><a-icon type="user" class="left-icon" />客服姓名:</li>
+          <li>
+            <a-icon type="phone" :rotate="90" class="left-icon" />联系方式:
+          </li>
+          <li><a-icon type="qq" class="left-icon" />qq号:</li>
+          <li><a-icon type="wechat" class="left-icon" />微信号:</li>
+        </ul>
+        <ul class="right-box">
+        <li>{{customerInfo.name}}</li>
+        <li>{{customerInfo.phone}}</li>
+        <li>{{customerInfo.qq}}</li>
+        <li>{{customerInfo.wechat}}</li>
+        </ul>
+        <span class="bottom-title">客服微信二维码</span>
       </div>
     </div>
     <!-- <Tinymce @tinymceinput="tinymceinput" /> -->
@@ -189,18 +208,19 @@ export default {
         currentPage: 1,
         pageSize: 5,
         total: 0,
-        "qp-status-eq": "0"
+        "qp-status-eq": "0",
       },
       messageList: null,
       dayWorkOrder: "",
-      monthWorkOrder: ""
+      monthWorkOrder: "",
     };
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.userInfo
+      userInfo: (state) => state.user.userInfo,
+      customerInfo: (state) => state.customer.customerInfo,
     }),
-    ...mapGetters(["token"])
+    ...mapGetters(["token"]),
   },
   created() {
     this.getRegister(this.currentDay(), "day");
@@ -224,24 +244,20 @@ export default {
     currentMonth() {
       // //获取当前月份
       return {
-        startTime: this.moment()
-          .startOf("month")
-          .format("YYYY-MM-DD HH:mm:ss"),
-        endTime: this.moment()
-          .endOf("month")
-          .format("YYYY-MM-DD HH:mm:ss")
+        startTime: this.moment().startOf("month").format("YYYY-MM-DD HH:mm:ss"),
+        endTime: this.moment().endOf("month").format("YYYY-MM-DD HH:mm:ss"),
       };
     },
     // 跳转消息详情
     massageInfo(id) {
       this.$router.push({
         path: "/user/center/detail",
-        query: { id }
+        query: { id },
       });
     },
     // 获取消息列表
     getMessageList() {
-      this.$store.dispatch("message/getList", this.listQuery).then(res => {
+      this.$store.dispatch("message/getList", this.listQuery).then((res) => {
         // console.log(res);
         this.messageList = res.data.list;
       });
@@ -249,17 +265,13 @@ export default {
     currentDay() {
       // //获取当前日
       return {
-        startTime: this.moment()
-          .startOf("day")
-          .format("YYYY-MM-DD HH:mm:ss"),
-        endTime: this.moment()
-          .startOf("day")
-          .format("YYYY-MM-DD 23:59:59")
+        startTime: this.moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
+        endTime: this.moment().startOf("day").format("YYYY-MM-DD 23:59:59"),
       };
     },
     // 获取交易订单数
     getRegister(date, type) {
-      this.$store.dispatch("frontPage/orderCountNum", date).then(val => {
+      this.$store.dispatch("frontPage/orderCountNum", date).then((val) => {
         if (type == "day") {
           this.registerDay = val.data;
         }
@@ -271,18 +283,20 @@ export default {
     },
     // 注册客户
     getBasicCompanyInfo(date, type) {
-      this.$store.dispatch("frontPage/getBasicCompanyInfo", date).then(val => {
-        if (type == "day") {
-          this.loginDay = val.data;
-        }
-        if (type == "month") {
-          this.loginMonth = val.data;
-        }
-      });
+      this.$store
+        .dispatch("frontPage/getBasicCompanyInfo", date)
+        .then((val) => {
+          if (type == "day") {
+            this.loginDay = val.data;
+          }
+          if (type == "month") {
+            this.loginMonth = val.data;
+          }
+        });
     },
     // 成交客户
     coountInfo(date, type) {
-      this.$store.dispatch("frontPage/coountInfo", date).then(val => {
+      this.$store.dispatch("frontPage/coountInfo", date).then((val) => {
         if (type == "day") {
           this.clinchDay = val.data;
         }
@@ -293,7 +307,7 @@ export default {
     },
     // 消费金额
     orderSumInfo(date, type) {
-      this.$store.dispatch("frontPage/orderSumInfo", date).then(val => {
+      this.$store.dispatch("frontPage/orderSumInfo", date).then((val) => {
         if (type == "day") {
           this.orderSumDay = val.data;
         }
@@ -304,26 +318,26 @@ export default {
     },
     // 统计今日工单
     getDayWorkOrder() {
-      this.$store.dispatch("frontPage/getDayWorkOrder").then(res => {
+      this.$store.dispatch("frontPage/getDayWorkOrder").then((res) => {
         console.log(res, "----");
         this.dayWorkOrder = res.data;
       });
     },
     // 获取本月工单统计
     getMonthWorkOrder() {
-      this.$store.dispatch("frontPage/getMonthWorkOrder").then(res => {
+      this.$store.dispatch("frontPage/getMonthWorkOrder").then((res) => {
         console.log(res, "----");
         this.monthWorkOrder = res.data;
       });
     },
     // getSuccessCount获取当日云服务器台数
     getSuccessCount(date) {
-      this.$store.dispatch("frontPage/getSuccessCount", date).then(val => {
+      this.$store.dispatch("frontPage/getSuccessCount", date).then((val) => {
         this.SuccessCountNum = val.data;
         // console.log(val);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -358,13 +372,14 @@ export default {
     }
   }
   .home-info-left {
-    width: 61%;
+    width: 67%;
   }
   .top-header {
     display: flex;
     justify-content: space-between;
     background-color: #fff;
     padding: 24px;
+    margin-bottom: 20px;
     .left {
       display: flex;
       align-items: center;
@@ -417,6 +432,13 @@ export default {
     margin-top: 24px;
     background-color: #fff;
     padding-bottom: 24px;
+    .message-info {
+      padding: 0 24px;
+      p {
+        border-bottom: 1px solid #e3e3e3;
+        padding-bottom: 10px;
+      }
+    }
     h1 {
       padding: 24px;
       font-size: 25px;
@@ -428,9 +450,45 @@ export default {
       padding-left: 24px;
     }
   }
+  .business-statistics:nth-child(1){
+    margin-top: 0px;
+  }
   .home-info {
     display: flex;
     width: 100%;
+    .outbox {
+          width: 30.2%;
+
+      height: 290px;
+      background-color: #ffffff;
+      padding: 30px  30px;
+      position: relative;
+      margin-left: 20px;
+      .imgclass {
+        display: inline-block;
+        float: left;
+             width: 140px;
+          height: 140px;
+      }
+      .right-box {
+        margin-top: -10px;
+        float: left;
+        list-style: none;
+        line-height: 40px;
+        font-size: 12px;
+        color: #000000;
+        .left-icon {
+          margin-right: 6px;
+        }
+      }
+      .bottom-title {
+        position: absolute;
+        bottom: 50px;
+        left: 60px;
+        font-size: 12px;
+        color: #000000;
+      }
+    }
   }
   .message-notification {
     width: 36%;
