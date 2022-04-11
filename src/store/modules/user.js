@@ -102,6 +102,25 @@ const user = {
           });
       });
     },
+      // 登录
+      loginBycode({ commit, state, dispatch }, data) {
+        return new Promise((resolve, reject) => {
+          request({
+            url: "/user/loginByCodeForChannel",
+            method: "post",
+            data
+          })
+            .then(res => {
+              const token = res.data.token;
+              commit("SET_TOKEN", token);
+              commit("SET_USERINFO", res.data);
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            });
+        });
+      },
     // 登录后获取当前用户的权限数据
     getUserPerms({ commit, state }) {
       return new Promise((resolve, reject) => {
@@ -166,7 +185,15 @@ const user = {
         method: "post",
         data
       });
-    }
+    },
+        //测试手机号
+        getTest({ commit, state }, params) {
+          return request({
+            url: `/user/phone`,
+            method: "get",
+            params
+          });
+        },
   }
 };
 
