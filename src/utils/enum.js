@@ -25,6 +25,14 @@ export const invoiceStatusEnum = {
   8: "退票申请已拒绝",
   9: "已退票（退票申请确认）"
 };
+// 对账单状态
+export const statementStatusEnum = {
+  1: "初始化",
+  2: "供应商审核中",
+  3: "渠道商复审中",
+  4: "已退回",
+  9: "已完成"
+};
 //续费降配列表状态
 export const renewalStatusEnum = {
   1: "待降配",
@@ -104,13 +112,8 @@ export const orderTypeMap = {
 
 // 充值方式map
 export const rechargeTypeMap = {
-  1: "在线充值",
-  2: "线下充值",
-  3: "下单",
-  4: "退款",
-  5: "冻结",
-  6: "资金解冻",
-  7: "扣除冻结"
+  "1": "余额支付",
+  ali: "支付宝"
 };
 // 订单状态
 export const orderStatusEnum = {
@@ -119,8 +122,7 @@ export const orderStatusEnum = {
   1: "待支付",
   3: "订单支付中",
   5: "交易完成",
-  "-5": "退款失败",
-  0: "支付失败"
+  "-5": "退款失败"
 };
 // 轮播图类型map
 export const bannerTypeEnum = {
@@ -250,7 +252,7 @@ export const cdnStatus = {
   "-2": "已下线"
 };
 // 计费方式、
-export const charingStatus = {
-  AfterPay: "后付费",
-  BeforePay: "预付费"
-};
+export const charingStatus ={
+  "AfterPay":'后付费',
+  "BeforePay":'预付费'
+}

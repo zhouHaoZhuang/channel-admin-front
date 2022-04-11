@@ -42,6 +42,12 @@ import cdnDomain from "./cdnDomain";
 import customer from "./customer";
 
 
+import cbilllist from "./cbilllist";
+import cbouncelist from "./cbouncelist";
+import cbillinfo from "./cbillinfo";
+import mangeaddress from "./mangeaddress";
+import reconciliation from "./reconciliation";
+import billapply from "./billapply";
 
 export default {
   user,
@@ -85,5 +91,11 @@ export default {
   purchaseOrder,
   bills,
   cdnDomain,
-  customer
+  customer,
+  cbilllist,
+  cbouncelist,
+  cbillinfo,
+  mangeaddress,
+  reconciliation,
+  billapply
 };

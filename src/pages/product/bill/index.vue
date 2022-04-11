@@ -108,7 +108,7 @@
             <span style="color:#ccc">{{ record.corporationCode }}</span>
           </div>
           <div slot="useData" slot-scope="text, record">
-            {{ text }}{{ record.useDataPerUnit }}
+            {{ text }}{{ record.unitPricePerUnit }}
           </div>
           <span slot="customTitle">
             支付状态
@@ -374,7 +374,6 @@ export default {
     moment,
     //查询表格数据
     getList() {
-      console.log(this.listQuery["qp-billPeriod-eq"]);
       this.tableLoading = true;
       this.$getListQp("cdnDomain/getBillList", this.listQuery)
         .then(res => {
@@ -392,6 +391,9 @@ export default {
     },
     onChange(value) {
       this.listQuery["qp-billPeriod-eq"] = moment(value).format("YYYY-MM");
+      if (!value || value === "null" || value === undefined) {
+        delete this.listQuery["qp-billPeriod-eq"];
+      }
     },
     //切换tab
     callback(key) {
@@ -412,10 +414,10 @@ export default {
       if (nowMonth >= 1 && nowMonth <= 9) {
         nowMonth = "0" + nowMonth;
       }
-      // if (this.listQuery["qp-billType-eq"] == "month") {
-      //   this.listQuery["qp-billPeriod-eq"] =
-      //     new Date().getFullYear() + "-" + nowMonth;
-      // }
+      if (this.listQuery["qp-billType-eq"] == "month") {
+        this.listQuery["qp-billPeriod-eq"] =
+          new Date().getFullYear() + "-" + nowMonth;
+      }
       return new Date().getFullYear() + "-" + nowMonth;
     },
     // 日期选择
