@@ -215,6 +215,7 @@ export default {
     handleRegister() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          this.form.username = this.form.phone;
           this.loading = true;
           this.$store
             .dispatch("user/resetPassword", this.form)
