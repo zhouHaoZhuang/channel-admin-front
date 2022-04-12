@@ -16,9 +16,9 @@
         <a-button type="primary">上传微信二维码</a-button>
     </a-upload>
     <!-- 预览图片弹窗 -->
-    <!-- <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+    <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
       <img alt="example" style="width: 100%" :src="previewImage" />
-    </a-modal> -->
+    </a-modal>
   </div>
 </template>
 
