@@ -90,7 +90,7 @@
                 {{ text }}
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.unitPricePerUnit }}
+                {{ text }}{{ record.useDataPerUnit }}
               </div>
               <div slot="actualAmount" slot-scope="text">
                 {{ text }}
@@ -206,7 +206,7 @@
             <span style="color:#ccc">{{ record.channelCode }}</span> -->
               </div>
               <div slot="useData" slot-scope="text, record">
-                {{ text }}{{ record.unitPricePerUnit }}
+                {{ text }}{{ record.useDataPerUnit }}
               </div>
               <span slot="customTitle">
                 支付状态
