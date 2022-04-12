@@ -108,7 +108,7 @@
             <span style="color:#ccc">{{ record.corporationCode }}</span>
           </div>
           <div slot="useData" slot-scope="text, record">
-            {{ text }}{{ record.unitPricePerUnit }}
+            {{ text }}{{ record.useDataPerUnit }}
           </div>
           <span slot="customTitle">
             支付状态

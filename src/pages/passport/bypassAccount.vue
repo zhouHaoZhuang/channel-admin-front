@@ -161,7 +161,7 @@ export default {
           }
           this.loading = true;
           this.$store
-            .dispatch("user/channelUserLogin", this.form)
+            .dispatch("user/login", this.form)
             .then(res => {
               this.$message.success("登录成功");
               this.$router.push("/");
