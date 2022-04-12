@@ -162,7 +162,7 @@
       <!-- 消息提醒页面 -->
       <div class="outbox">
         <h1 style="font-weight: 600">专属客服</h1>
-        <div v-if="customerInfo.name != undefined">
+        <div v-if="customerInfo != undefined">
           <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
           <ul class="right-box">
             <li><a-icon type="user" class="left-icon" />客服姓名:</li>
@@ -180,7 +180,7 @@
           </ul>
           <span class="bottom-title">客服微信二维码</span>
         </div>
-        <div v-else >
+        <div v-else>
           <span>暂无客服信息</span>
         </div>
       </div>
