@@ -674,11 +674,11 @@ export default {
     onSelectChange(selectedRowKeys, obj) {
       console.log("selectedRowKeys changed: ", selectedRowKeys, obj);
       this.selectedRowKeys = selectedRowKeys;
-      // this.invoiceAmount = obj.reduce((prev, cur) => {
-      //   return math.format(math.add(prev, cur.originalAmount), {
-      //     precision: 14
-      //   });
-      // }, 0);
+      this.invoiceAmount = obj.reduce((prev, cur) => {
+        return math.format(math.add(prev, cur.initInvoiceAmount), {
+          precision: 14
+        });
+      }, 0);
       // this.invoiceAmount = math.format(
       //   math.subtract(
       //     math.bignumber(this.invoiceAmount),

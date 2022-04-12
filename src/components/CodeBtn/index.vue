@@ -12,12 +12,16 @@
 <script>
 export default {
   props: {
-    isDisabled:{
+    isDisabled: {
       type: Boolean,
       default: false
     },
     phone: {
       type: [String, Number]
+    },
+    isCode: {
+      type: Boolean,
+      default: false
     },
     size: {
       type: String,
@@ -57,6 +61,20 @@ export default {
       if (!this.phoneReg.test(this.phone)) {
         this.$message.warning("手机号格式不正确");
         return;
+      }
+      if (this.isCode) {
+        this.$store
+          .dispatch("user/getTest", {
+            phone: this.phone
+          })
+          .then(res => {
+            if (res.code === "000000") {
+              this.$emit("showPicCode", true);
+              this.$message.warning("请输入图形验证码");
+            } else {
+              this.$message.warning(res.msg);
+            }
+          });
       }
       //判断父组件是否传递显示图片校验的方法
       if (this.$listeners["showValidate"]) {
