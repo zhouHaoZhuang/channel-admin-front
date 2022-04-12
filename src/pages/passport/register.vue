@@ -39,7 +39,7 @@
             @showValidate="showValidate"
           />
         </a-form-model-item>
-        <a-form-model-item prop="verificationCode" v-show="showVerfication">
+        <!-- <a-form-model-item prop="verificationCode" v-show="showVerfication">
           <a-input
             type="text"
             ref="verificationCode"
@@ -53,7 +53,7 @@
           <div @click="refreshCode()" class="code" title="点击切换验证码">
             <Identify :identifyCode="identifyCode" />
           </div>
-        </a-form-model-item>
+        </a-form-model-item> -->
         <a-form-model-item prop="password">
           <a-input-password
             v-model="form.password"
@@ -104,10 +104,10 @@
 <script>
 import CommonLayout from "@/layouts/CommonLayout";
 import CodeBtn from "@/components/CodeBtn/index";
-import Identify from "@/components/Identify";
+// import Identify from "@/components/Identify";
 import { getRandomCode } from "@/utils/index";
 export default {
-  components: { CommonLayout, CodeBtn, Identify },
+  components: { CommonLayout, CodeBtn },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === "") {
