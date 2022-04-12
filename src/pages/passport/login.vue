@@ -109,7 +109,7 @@
                   @showPicCode="showPicCodes"
                 />
               </a-form-model-item>
-              <a-form-model-item
+              <!-- <a-form-model-item
                 v-show="showVerfication && showPicCode"
                 prop="verificationCode"
               >
@@ -130,7 +130,7 @@
                     :identify-code="identifyPicCode"
                   />
                 </div>
-              </a-form-model-item>
+              </a-form-model-item> -->
             </a-form-model>
           </a-tab-pane>
         </a-tabs>
@@ -176,11 +176,11 @@
 import CommonLayout from "@/layouts/CommonLayout";
 import CodeBtn from "@/components/CodeBtn/index";
 import Identify from "@/components/Identify";
-import IdentifyCode from "@/components/Identify";
+// import IdentifyCode from "@/components/Identify";
 import { getRandomCode } from "@/utils/index";
 export default {
   name: "Login",
-  components: { CommonLayout, Identify, CodeBtn, IdentifyCode },
+  components: { CommonLayout, Identify, CodeBtn  },
   data() {
     return {
       labelCol: { span: 0 },

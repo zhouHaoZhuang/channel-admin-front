@@ -1,16 +1,23 @@
 <template>
-  <a-button
-    class="code-btn"
-    :size="size"
-    :disabled="loading"
-    @click="handleCode"
-  >
-    {{ btnTxt }}
-  </a-button>
+<div>
+    <a-button
+      class="code-btn"
+      :size="size"
+      :disabled="loading"
+      @click="handleCode"
+    >
+      {{ btnTxt }}
+    </a-button>
+    <Verify ref="verify" @success="win()" :type="4" />
+  </div>
 </template>
 
 <script>
+import Verify from '@/components/verify/verify.vue'
 export default {
+  components: {
+   Verify
+  },
   props: {
     isDisabled: {
       type: Boolean,
@@ -53,6 +60,14 @@ export default {
     clearInterval(this.time);
   },
   methods: {
+     win () {
+      this.graph = true
+      this.$message.success("验证码已发送")
+      this.getMsg()
+    },
+    check () {
+      this.$refs.verify.open()
+    },
     handleCode() {
       if (!this.phone) {
         this.$message.warning("请正确输入手机号");
@@ -62,42 +77,43 @@ export default {
         this.$message.warning("手机号格式不正确");
         return;
       }
-      if (this.isCode) {
-        this.$store
-          .dispatch("user/getTest", {
-            phone: this.phone
-          })
-          .then(res => {
-            if (res.code === "000000") {
-              this.$emit("showPicCode", true);
-              this.$message.warning("请输入图形验证码");
-            } else {
-              this.$message.warning(res.msg);
-            }
-          });
-      }
+      this.check()
+      // if (this.isCode) {
+      //   this.$store
+      //     .dispatch("user/getTest", {
+      //       phone: this.phone
+      //     })
+      //     .then(res => {
+      //       if (res.code === "000000") {
+      //         this.$emit("showPicCode", true);
+      //         this.$message.warning("请输入图形验证码");
+      //       } else {
+      //         this.$message.warning(res.msg);
+      //       }
+      //     });
+      // }
       //判断父组件是否传递显示图片校验的方法
-      if (this.$listeners["showValidate"]) {
-        let isShow;
-        this.$emit("showValidate", val => {
-          isShow = val;
-        });
-        if (!isShow) {
-          return;
-        }
-      }
-      //判断父组件是否传递图片校验的方法
-      if (this.$listeners["validate"]) {
-        let flag;
-        this.$emit("validate", val => {
-          flag = val;
-        });
-        if (!flag) {
-          return;
-        }
-      }
-      if (this.loading) return;
-      this.getMsg();
+      // if (this.$listeners["showValidate"]) {
+      //   let isShow;
+      //   this.$emit("showValidate", val => {
+      //     isShow = val;
+      //   });
+      //   if (!isShow) {
+      //     return;
+      //   }
+      // }
+      // //判断父组件是否传递图片校验的方法
+      // if (this.$listeners["validate"]) {
+      //   let flag;
+      //   this.$emit("validate", val => {
+      //     flag = val;
+      //   });
+      //   if (!flag) {
+      //     return;
+      //   }
+      // }
+      // if (this.loading) return;
+      // this.getMsg();
     },
     startTime() {
       this.time = setInterval(() => {
