@@ -162,7 +162,7 @@
       <!-- 消息提醒页面 -->
       <div class="outbox">
         <h1 style="font-weight: 600">专属客服</h1>
-        <div v-if="customerInfo != undefined">
+        <div v-if="customerInfo != undefined" class="flexbox">
           <img width="140px" class="imgclass" :src="customerInfo.wechatUrl" />
           <ul class="right-box">
             <li><a-icon type="user" class="left-icon" />客服姓名:</li>
@@ -377,7 +377,7 @@ export default {
     }
   }
   .home-info-left {
-    width: 67%;
+    width: 68.6%;
   }
   .top-header {
     display: flex;
@@ -460,15 +460,20 @@ export default {
   }
   .home-info {
     display: flex;
-    width: 100%;
+    justify-content: space-between;
+    width: 98.6%;
     .outbox {
       width: 30.2%;
-
+      // min-width: 420px;
       height: 290px;
       background-color: #ffffff;
       padding: 30px 30px;
       position: relative;
-      margin-left: 20px;
+      // margin-left: 20px;
+      .flexbox{
+        display: flex;
+        justify-content:flex-start;
+      }
       .imgclass {
         display: inline-block;
         float: left;
@@ -482,6 +487,9 @@ export default {
         line-height: 40px;
         font-size: 12px;
         color: #000000;
+        padding: 0;
+        white-space: nowrap;
+        margin-right: 6%;
         .left-icon {
           margin-right: 6px;
         }
