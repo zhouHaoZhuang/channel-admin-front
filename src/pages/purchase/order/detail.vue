@@ -8,9 +8,9 @@
           <span>订单编号:</span>
           <span>{{ orderInfo.orderNo }}</span>
         </li>
-        <li>
+       <li>
           <span>订单类型:</span>
-          <span>{{ orderInfo.tradeType === 1 ? "新购" : "销售" }} </span>
+          <span>{{ orderTypeMap[orderInfo.tradeType] }} </span>
         </li>
         <li>
           <span>状态:</span>
@@ -60,7 +60,9 @@
             <div v-else>
               <div>CPU：{{ text.cpu }}</div>
               <div>内存：{{ text.memory }}</div>
-              <div>磁盘：{{ diskLength }}</div>
+              <!-- <div>磁盘：{{ diskLength }}</div> -->
+              <div>系统盘:{{ systemDiskSize }}G</div>
+              <div>数据盘:{{ dataDiskSize }}G</div>
               <div>带宽：{{ text.internetMaxBandwidthOut }}</div>
               <div>防御：{{ "20G" }}</div>
               <div>镜像：{{ text.imageId }}</div>
@@ -88,7 +90,7 @@
 </template>
 
 <script>
-import { orderStatus, feeReduction, regionDataEnum } from "@/utils/enum.js";
+import { orderStatus, feeReduction, regionDataEnum ,orderTypeMap} from "@/utils/enum.js";
 export default {
   data() {
     return {
@@ -96,8 +98,11 @@ export default {
       feeReduction,
       regionDataEnum,
       orderInfo: null,
+      orderTypeMap,
       data: [],
-      diskLength:0,
+      // diskLength: 0,
+      systemDiskSize: 0,
+      dataDiskSize: 0,
       columns: [
         {
           title: "产品名称",
@@ -135,12 +140,23 @@ export default {
     };
   },
   activated() {
+    this.dataDiskSize = 0;
+    this.systemDiskSize = 0;
     let id = this.$route.query.id;
     this.$store.dispatch("purchaseOrder/getProOne", id).then(res => {
-              if(res.data.ecsPrice){
-      let dataDisk = res.data.ecsPrice.dataDisk? res.data.ecsPrice.dataDisk.length:0;
-      console.log(dataDisk,'dataDisk');
-      this.diskLength = dataDisk + 1
+      // if (res.data.ecsPrice) {
+      //   let dataDisk = res.data.ecsPrice.dataDisk
+      //     ? res.data.ecsPrice.dataDisk.length
+      //     : 0;
+      //   console.log(dataDisk, "dataDisk");
+      //   this.diskLength = dataDisk + 1;
+      // }
+      if (res.data.ecsPrice) {
+        let dataDisk = res.data.ecsPrice.dataDisk;
+        this.systemDiskSize = res.data.ecsPrice.systemDisk.size;
+        dataDisk.forEach(element => {
+          this.dataDiskSize += element.size;
+        });
       }
       this.orderInfo = res.data;
       this.data = [res.data];

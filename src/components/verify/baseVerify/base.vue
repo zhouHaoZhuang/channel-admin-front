@@ -52,18 +52,14 @@ export default {
       default() {
         // 默认语言不输入为浏览器语言
         if (navigator.language) {
-          var language = navigator.language
+          this.language = navigator.language
         } else {
-          var language = navigator.browserLanguage
+          this.language = navigator.browserLanguage
         }
-        return language
+        return this.language
       }
     },
-    type: {
-      type: String | Number,
-      require: false,
-      default: 'picture'
-    },
+    type: {},
     figure: {
       type: Number
     },
@@ -127,7 +123,8 @@ export default {
       // 内部类型
       verifyType: undefined,
       // 所用组件类型
-      componentType: undefined
+      componentType: undefined,
+      language:undefined
     }
   },
   methods: {
