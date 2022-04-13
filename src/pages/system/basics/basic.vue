@@ -393,11 +393,11 @@ export default {
           { min: 11, max: 35, message: "长度在11-35个字符内", trigger: "blur" }
         ],
         email: [
-          {
-            required: true,
-            message: "邮箱为必填",
-            trigger: "blur"
-          },
+          // {
+          //   required: true,
+          //   message: "邮箱为必填",
+          //   trigger: "blur"
+          // },
           {
             type: "email",
             message: "请输入正确的邮箱地址",
