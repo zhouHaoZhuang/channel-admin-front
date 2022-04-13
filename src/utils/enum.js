@@ -57,7 +57,8 @@ export const paymentTypeMap = {
   1: "在线充值",
   2: "线下充值",
   3: "下单",
-  4: "退款"
+  4: "退款",
+  7: "用户提现扣除"
 };
 // 地域列表map
 export const regionDataEnum = {
