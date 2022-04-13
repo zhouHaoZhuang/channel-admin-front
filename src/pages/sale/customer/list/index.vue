@@ -232,28 +232,31 @@
             slot="status"
             slot-scope="text"
             v-if="text"
-            >{{ text == 0 ? "冻结" : "正常" }}</span
           >
+            {{ text == 0 ? "冻结" : "正常" }}
+          </span>
           <span
             :class="{ status0: text == 1, status1: text == 0, status: true }"
             slot="loginLock"
             slot-scope="text"
             v-if="text"
-            >{{ text == 0 ? "正常" : "锁定" }}</span
           >
+            {{ text == 0 ? "正常" : "锁定" }}
+          </span>
           <!-- 认证状态 -->
           <span
-            :class="{ status0: text != 1, status1: text == 1, status: true }"
+            :class="{ status0: text == 0, status1: text != 0, status: true }"
             slot="certificationStatus"
             slot-scope="text"
-            >{{ text == 1 ? "已认证" : "未认证" }}</span
           >
-          <span slot="createTime" slot-scope="text">{{
-            text | formatDate
-          }}</span>
-          <span slot="modifyTime" slot-scope="text">{{
-            text | formatDate
-          }}</span>
+            {{ certificationStatusMap[text] }}
+          </span>
+          <span slot="createTime" slot-scope="text">
+            {{ text | formatDate }}
+          </span>
+          <span slot="modifyTime" slot-scope="text">
+            {{ text | formatDate }}
+          </span>
           <div slot-scope="text" slot="ecsCount">{{ text }}个</div>
           <div v-if="text != undefined" slot="balance" slot-scope="text">
             {{ text.toFixed(2) }}
@@ -315,33 +318,33 @@ export default {
           title: "会员ID",
           dataIndex: "corporationCode",
           scopedSlots: { customRender: "corporationCode" },
-          width: 190,
+          width: 190
         },
         {
           title: "姓名",
           dataIndex: "realName",
-          width: 120,
+          width: 120
         },
         {
           title: "手机",
           dataIndex: "phoneNumber",
-          width: 120,
+          width: 120
         },
         {
           title: "QQ",
           dataIndex: "qq",
-          width: 120,
+          width: 120
         },
         {
           title: "邮箱",
           dataIndex: "email",
-          width: 180,
+          width: 180
         },
         {
           title: "服务器",
           dataIndex: "ecsCount",
           width: 100,
-          scopedSlots: { customRender: "ecsCount" },
+          scopedSlots: { customRender: "ecsCount" }
         },
         // {
         //   title: "托管",
@@ -382,7 +385,7 @@ export default {
           title: "帐号状态",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
-          width: 110,
+          width: 110
         },
         // {
         //   title: "锁定状态",
@@ -394,7 +397,7 @@ export default {
           title: "余额",
           dataIndex: "balance",
           width: 100,
-          scopedSlots: { customRender: "balance" },
+          scopedSlots: { customRender: "balance" }
         },
         // {
         //   title: "授信额度",
@@ -410,21 +413,21 @@ export default {
           dataIndex: "certificationStatus",
           key: "certificationStatus",
           scopedSlots: { customRender: "certificationStatus" },
-          width: 100,
+          width: 100
         },
         {
           title: "注册时间",
           dataIndex: "createTime",
           scopedSlots: { customRender: "createTime" },
           // sorter: true,
-          width: 200,
+          width: 200
         },
         {
           title: "最后登录时间",
           dataIndex: "modifyTime",
           scopedSlots: { customRender: "modifyTime" },
           // sorter: true,
-          width: 200,
+          width: 200
         },
         // {
         //   title: "备注",
@@ -436,9 +439,15 @@ export default {
           Index: "action",
           fixed: "right",
           scopedSlots: { customRender: "action" },
-          width: 200,
-        },
+          width: 200
+        }
       ],
+      certificationStatusMap: {
+        0: "未认证",
+        1: "个人已认证",
+        2: "企业已认证",
+        3: "个人与企业已认证"
+      },
       listQuery: {
         key: "",
         search: "",
@@ -446,7 +455,7 @@ export default {
         pageSize: 10,
         total: 0,
         sorter: "",
-        id: "",
+        id: ""
       },
       paginationProps: {
         showQuickJumper: true,
@@ -460,8 +469,8 @@ export default {
             total / this.paginationProps.pageSize
           )} 页`,
         onChange: this.changepage,
-        onShowSizeChange: this.onShowSizeChange,
-      },
+        onShowSizeChange: this.onShowSizeChange
+      }
     };
   },
   created() {},
@@ -476,8 +485,8 @@ export default {
         }
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
 
   methods: {
@@ -529,7 +538,7 @@ export default {
       this.listQuery.pageSize = this.paginationProps.pageSize;
       this.$store
         .dispatch("member/getList", this.listQuery)
-        .then((res) => {
+        .then(res => {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
         })
@@ -540,7 +549,7 @@ export default {
       this.listQuery.pageSize = this.paginationProps.pageSize;
       this.$store
         .dispatch("customer/getCustomerClient", this.listQuery)
-        .then((res) => {
+        .then(res => {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
           this.listQuery.id = "";
@@ -552,8 +561,8 @@ export default {
       this.$router.push({
         path: "/sale/customer/detail",
         query: {
-          id: key,
-        },
+          id: key
+        }
       });
     },
     clickMore(key) {
@@ -563,13 +572,13 @@ export default {
     searchClick() {
       this.listQuery.currentPage = 1;
       this.listQuery.key = this.title;
-      this.$getListQp("member/getList", this.listQuery).then((res) => {
+      this.$getListQp("member/getList", this.listQuery).then(res => {
         // console.log(res);
         this.data = res.data.list;
         this.paginationProps.total = res.data.totalCount * 1;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
