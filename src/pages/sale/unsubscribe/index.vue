@@ -273,12 +273,12 @@ export default {
           key: "orderNo",
           width: 170
         },
-        {
-          title: "订单编号",
-          dataIndex: "orderNo",
-          key: "orderNo",
-          width: 170
-        },
+        // {
+        //   title: "订单编号",
+        //   dataIndex: "orderNo",
+        //   key: "orderNo",
+        //   width: 170
+        // },
         {
           title: "终端客户名称",
           dataIndex: "corporationName",
