@@ -72,7 +72,7 @@
             style="width:150px"
             placeholder="计费方式"
             allowClear
-            v-model="listQuery['qp-charingType-eq']"
+            v-model="listQuery['qp-chargingType-eq']"
           >
             <a-select-option
               v-for="(value, key) in charingStatus"
