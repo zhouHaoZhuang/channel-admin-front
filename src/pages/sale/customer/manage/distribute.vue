@@ -401,6 +401,7 @@ export default {
           });
           this.getCustomerList();
           this.btnShow = true
+          this.data = []
         }
       },
       immediate: true,
@@ -560,9 +561,13 @@ export default {
       this.$store
         .dispatch("customer/distribute", data)
         .then((res) => {
-          this.data = res.data.list;
-          this.$message.success(res.msg);
-          this.btnShow = false
+          if (res.code === "000000") {
+            this.data = res.data.list;
+            this.$message.success("分配客服成功");
+            this.btnShow = false;
+          } else {
+            this.$message.error(res.msg);
+          }
         })
         .finally(() => {});
     },
