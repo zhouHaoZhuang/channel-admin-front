@@ -110,11 +110,11 @@
             :class="{
               'menber-info': true,
               'menber-certstate-uncert': dataBase.status == 0,
-              'menber-state-freeze': dataBase.status == 1
+              'menber-state-freeze': dataBase.status != 0
             }"
             v-if="dataBase.certificationStatus"
           >
-            {{ dataBase.certificationStatus == 1 ? "已认证" : "未认证" }}
+            {{ certificationStatusMap[dataBase.certificationStatus] }}
           </span>
         </div>
         <!-- <div>
@@ -319,6 +319,12 @@ export default {
         // }
       ],
       MemberServer: null,
+      certificationStatusMap: {
+        0: "未认证",
+        1: "个人已认证",
+        2: "企业已认证",
+        3: "个人与企业已认证"
+      },
       columnsHosting: [
         {
           title: "业务ID",
