@@ -26,6 +26,7 @@
       :data-source="data"
       rowKey="id"
       :pagination="paginationProps"
+      :scroll="{ y: 300 }"
       :row-selection="{
         selectedRowKeys: selectedRowKeys,
         onChange: onSelectChange,
@@ -91,10 +92,10 @@ export default {
       paginationProps: {
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "20", "30"],
+        pageSizeOptions: ["10", "20", "30", "50"],
         total: 0,
         current: 1, //当前页
-        pageSize: 5, //每页显示数量
+        pageSize: 10, //每页显示数量
         showTotal: (total, range) =>
           `共 ${total} 条记录 第 ${this.listQuery.currentPage} / ${Math.ceil(
             total / this.listQuery.pageSize
