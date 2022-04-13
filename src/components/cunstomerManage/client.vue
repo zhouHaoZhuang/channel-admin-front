@@ -15,16 +15,16 @@
         <a-input
           v-model="listQuery.name"
           allow-clear
-          placeholder="请输入姓名"
+          placeholder="请输入客户名称"
         />
       </a-form-model-item>
-      <a-form-model-item>
+      <!-- <a-form-model-item>
         <a-input
           v-model="listQuery.companyName"
           allow-clear
           placeholder="请输入企业"
         />
-      </a-form-model-item>
+      </a-form-model-item> -->
       <a-form-model-item>
         <a-input
           v-model="listQuery.phone"
@@ -95,7 +95,7 @@ export default {
         total: 0,
         name: undefined,
         phone: undefined,
-        companyName: undefined,
+        // companyName: undefined,
         id: undefined,
       },
       columns: [
@@ -104,13 +104,13 @@ export default {
           dataIndex: "corporationCode",
         },
         {
-          title: "姓名",
+          title: "客户名称",
           dataIndex: "realName",
         },
-        {
-          title: "企业",
-          dataIndex: "companyName",
-        },
+        // {
+        //   title: "企业",
+        //   dataIndex: "companyName",
+        // },
         {
           title: "手机号",
           dataIndex: "phoneNumber",

@@ -100,7 +100,6 @@ const customer = {
         })
           .then(res => {
             const data = res.data;
-            console.log(data, "获取客服二维码信息");
             commit("saveCustomerInfo", data);
             resolve();
           })

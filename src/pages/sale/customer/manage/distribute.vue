@@ -195,7 +195,7 @@
             >
           </a-space>
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ span: 18, offset: 11 }">
+        <a-form-model-item :wrapper-col="{ span: 18, offset: 11 }" v-if="btnShow">
           <a-space :size="80">
             <a-button type="primary" @click="onSubmit" :loading="loading">
               确认
@@ -319,7 +319,7 @@ export default {
       form: {
         advocateList: undefined,
         userCodeList: undefined,
-        distributeWay: 1,
+        distributeWay: undefined,
         newAdvocateList: undefined,
       },
       columns: [
@@ -328,12 +328,8 @@ export default {
           dataIndex: "userCode",
         },
         {
-          title: "姓名",
+          title: "客户名称",
           dataIndex: "realName",
-        },
-        {
-          title: "企业",
-          dataIndex: "companyName",
         },
         {
           title: "手机",
@@ -379,6 +375,7 @@ export default {
         ],
       },
       loading: false,
+      btnShow:true,
       data: [],
       paginationProps: {
         showQuickJumper: true,
@@ -403,6 +400,7 @@ export default {
             this.resetForm();
           });
           this.getCustomerList();
+          this.btnShow = true
         }
       },
       immediate: true,
@@ -564,6 +562,7 @@ export default {
         .then((res) => {
           this.data = res.data.list;
           this.$message.success(res.msg);
+          this.btnShow = false
         })
         .finally(() => {});
     },
@@ -590,7 +589,7 @@ export default {
         (this.form = {
           advocateList: undefined,
           userCodeList: undefined,
-          distributeWay: 1,
+          distributeWay: undefined,
           newAdvocateList: undefined,
         });
     },

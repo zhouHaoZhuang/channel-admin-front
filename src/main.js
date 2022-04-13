@@ -24,7 +24,9 @@ import "vue-photo-preview/dist/skin.css";
 
 const router = initRouter(store.state.setting.asyncRoutes);
 const i18n = initI18n("CN", "US");
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
 Vue.use(Antd);
 Vue.config.productionTip = false;
 Vue.use(Viser);

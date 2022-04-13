@@ -27,6 +27,11 @@ export const basicRoute = [
     component: () => import("@/pages/passport/resetpassword")
   },
   {
+    path: "/bypassAccount",
+    name: "子账号登录",
+    component: () => import("@/pages/passport/bypassAccount")
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("@/pages/exception/404")
@@ -274,6 +279,25 @@ export const asyncRoute = [
             ]
           },
           {
+            path: "bill",
+            name: "账单管理",
+            meta: {
+              icon: "home",
+              perm: "sale-finance"
+            },
+            component: BlankView,
+            children: [
+              {
+                path: "bill",
+                name: "账单管理",
+                meta: {
+                  perm: "sale-finance-list"
+                },
+                component: () => import("@/pages/product/bill/index.vue")
+              }
+            ]
+          },
+          {
             path: "finance",
             name: "财务管理",
             meta: {
@@ -502,7 +526,7 @@ export const asyncRoute = [
                 meta: {
                   perm: "purchase-manage-withdraw",
                   back: true,
-                  invisible: true,
+                  invisible: true
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/recon.vue")
@@ -513,7 +537,7 @@ export const asyncRoute = [
                 meta: {
                   perm: "purchase-manage-withdraw",
                   back: true,
-                  invisible: true,
+                  invisible: true
                 },
                 component: () =>
                   import("@/pages/purchase/manage/reconciliation/info.vue")
@@ -524,10 +548,12 @@ export const asyncRoute = [
                 meta: {
                   perm: "purchase-manage-withdraw",
                   back: true,
-                  invisible: true,
+                  invisible: true
                 },
                 component: () =>
-                  import("@/pages/purchase/manage/reconciliation/apply/list.vue")
+                  import(
+                    "@/pages/purchase/manage/reconciliation/apply/list.vue"
+                  )
               }
             ]
           },
@@ -652,7 +678,9 @@ export const asyncRoute = [
                   perm: "purchase-manage"
                 },
                 component: () =>
-                  import("@/pages/purchase/billmanage/billlist/address/index.vue")
+                  import(
+                    "@/pages/purchase/billmanage/billlist/address/index.vue"
+                  )
               },
               {
                 path: "bouncelist",
@@ -846,14 +874,6 @@ export const asyncRoute = [
                   perm: "product-cloud-businessList"
                 },
                 component: () => import("@/pages/product/domain/index.vue")
-              },
-              {
-                path: "bill",
-                name: "账单管理",
-                meta: {
-                  perm: "product-cloud-businessList"
-                },
-                component: () => import("@/pages/product/bill/index.vue")
               }
             ]
           }

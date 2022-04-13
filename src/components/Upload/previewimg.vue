@@ -1,5 +1,24 @@
 <template>
   <div class="upload-container">
+    <!-- 自定义渲染的图片列表 -->
+    <transition-group name="list" class="imgListBox">
+      <div class="item" v-for="img in imageList" :key="img.uid">
+        <a-avatar
+          shape="square"
+          :src="img.url"
+          style="width: 100%; height: 100%"
+        />
+        <div class="imgMask">
+          <a-icon
+            class="icon"
+            v-show="showPreview"
+            type="eye"
+            @click="handlePreview(img)"
+          />
+          <!-- <a-icon v-show="isDel" class="icon" type="delete" @click="delImg(img)" /> -->
+        </div>
+      </div>
+    </transition-group>
     <!-- 上传按钮 -->
     <a-upload
       :name="name"
@@ -8,12 +27,16 @@
       :multiple="multiple"
       :headers="{ ...headers, system: headerSystem }"
       :action="uploadUrl"
+      list-type="picture-card"
       :file-list="fileList"
       :showUploadList="false"
       :before-upload="beforeUpload"
       @change="handleImgChange"
     >
-        <a-button type="primary">上传微信二维码</a-button>
+      <div v-if="fileList.length < limit">
+        <a-icon type="plus" />
+        <div class="ant-upload-text">{{ title }}</div>
+      </div>
     </a-upload>
     <!-- 预览图片弹窗 -->
     <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
@@ -57,7 +80,7 @@ export default {
       type: Boolean,
       default: true
     },
-    // 是否可删除
+    // isDel 是否可删除
     isDel: {
       type: Boolean,
       default: true
@@ -105,7 +128,7 @@ export default {
     // 返回请求头system的值
     headerSystem() {
       if (this.replaceUrl === "default") {
-        return "channel";
+        return "idc";
       }
       if (this.replaceUrl === "formService") {
         return "fs";
@@ -159,24 +182,21 @@ export default {
           });
           return false;
         }
-        // const sizeFlag = file.size / 1024 / 1024 < this.size;
-        // if (!sizeFlag) {
-        //   this.$notification.error({
-        //     message: "提示",
-        //     description: `图片大小不能超过${this.size}M`,
-        //     duration: 2
-        //   });
-        //   return false;
-        // }
-        resolve(file);
-        this.$message.success("上传成功");
-
-        // lrz(file, {
-        //   width: 1920
-        // }).then(res => {
-        //   const file = base64ToFile(res.base64, res.origin.name);
-        //   resolve(file);
-        // });
+        const sizeFlag = file.size / 1024 / 1024 < this.size;
+        if (!sizeFlag) {
+          this.$notification.error({
+            message: "提示",
+            description: `图片大小不能超过${this.size}M`,
+            duration: 2
+          });
+          return false;
+        }
+        lrz(file, {
+          width: 1920
+        }).then((res) => {
+          const file = base64ToFile(res.base64, res.origin.name);
+          resolve(file);
+        });
       });
     },
     // 关闭预览图片
@@ -193,7 +213,7 @@ export default {
       const { fileList } = info;
       this.fileList = this.$clonedeep(fileList);
       let successCount = 0;
-      fileList.forEach(ele => {
+      fileList.forEach((ele) => {
         if (ele.status === "done") {
           successCount += 1;
         }
@@ -201,11 +221,11 @@ export default {
       if (successCount === fileList.length) {
         const urlList =
           fileList
-            .filter(item => item.response || item.url)
-            .map(item => item.response?.data || item.url) || [];
+            .filter((item) => item.response || item.url)
+            .map((item) => item.response?.data || item.url) || [];
         const firstImageUrl =
           urlList.length && urlList.length > 0 ? urlList[0] : "";
-        this.imageList = this.$clonedeep(fileList).map(item => {
+        this.imageList = this.$clonedeep(fileList).map((item) => {
           return {
             ...item,
             url: item.url || item.response?.data
@@ -213,12 +233,12 @@ export default {
         });
         let reqArr = [];
         // 请求多个或单个数据
-        urlList.forEach(ele => {
+        urlList.forEach((ele) => {
           reqArr.push(imgUrlToBase64(ele));
         });
-        Promise.all(reqArr).then(result => {
+        Promise.all(reqArr).then((result) => {
           console.log(result);
-          const base64List = result.map(ele => {
+          const base64List = result.map((ele) => {
             return {
               ...getBase64Str(ele)
             };
@@ -233,21 +253,21 @@ export default {
     },
     // 删除图片
     delImg(data) {
-      const index = this.imageList.findIndex(item => item.uid === data.uid);
+      const index = this.imageList.findIndex((item) => item.uid === data.uid);
       this.imageList.splice(index, 1);
       this.fileList.splice(index, 1);
       const urlList =
-        this.fileList.map(item => item.response?.data || item.url) || [];
+        this.fileList.map((item) => item.response?.data || item.url) || [];
       const firstImageUrl =
         urlList.length && urlList.length > 0 ? urlList[0] : "";
 
       let reqArr = [];
       // 请求多个或单个数据
-      urlList.forEach(ele => {
+      urlList.forEach((ele) => {
         reqArr.push(imgUrlToBase64(ele));
       });
-      Promise.all(reqArr).then(result => {
-        const base64List = result.map(ele => {
+      Promise.all(reqArr).then((result) => {
+        const base64List = result.map((ele) => {
           return {
             ...getBase64Str(ele)
           };
@@ -265,6 +285,7 @@ export default {
 
 <style lang="less" scoped>
 .upload-container {
+  margin-right: 60px!important;
   .imgListBox {
     display: flex;
     // width: 600px;

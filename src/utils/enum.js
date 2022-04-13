@@ -107,7 +107,7 @@ export const orderTypeMap = {
   35: "云服务降配",
   45: "交易关闭",
   55: "服务器退订",
-  65: "cdn流量"
+  65: "后付费产品"
 };
 
 // 充值方式map
@@ -237,7 +237,7 @@ export const feeReduction = {
   35: "esc实例降低配置",
   45: "交易关闭",
   55: "退订",
-  65: "后付费订单",
+  65: "后付费产品",
 };
 //cdn状态
 export const cdnStatus = {
