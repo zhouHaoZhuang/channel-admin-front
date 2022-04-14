@@ -131,7 +131,7 @@ export default {
       this.listQuery.currentPage = this.paginationProps.current;
       this.listQuery.pageSize = this.paginationProps.pageSize;
       this.$store
-        .dispatch("customer/getNewList", this.listQuery)
+        .dispatch("customer/getList", this.listQuery)
         .then((res) => {
           this.data = res.data.list;
           this.paginationProps.total = res.data.totalCount * 1;
