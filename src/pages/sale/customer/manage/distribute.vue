@@ -66,7 +66,7 @@
                 {{ item.realName }}
               </a-select-option>
             </a-select>
-            <a-button type="primary" @click="selectClient(1)"
+            <a-button type="primary" @click="selectClient(1)" v-if="btnShow"
               >选择客户</a-button
             >
           </a-space>
@@ -92,7 +92,7 @@
                 {{ item.name }}
               </a-select-option>
             </a-select>
-            <a-button type="primary" @click="selectClient(2)"
+            <a-button type="primary" @click="selectClient(2)" v-if="btnShow"
               >选择原客服</a-button
             >
           </a-space>
@@ -139,7 +139,7 @@
                 {{ item.name }}
               </a-select-option>
             </a-select>
-            <a-button type="primary" @click="selectClient(3, 'yuan')"
+            <a-button type="primary" @click="selectClient(3, 'yuan')" v-if="btnShow"
               >选择原客服</a-button
             >
           </a-space>
@@ -164,7 +164,7 @@
                 {{ item.name }}
               </a-select-option>
             </a-select>
-            <a-button type="primary" @click="selectClient(3, 'new')"
+            <a-button type="primary" @click="selectClient(3, 'new')" v-if="btnShow"
               >选择新客服</a-button
             >
           </a-space>
@@ -190,7 +190,7 @@
                 {{ item.name }}
               </a-select-option>
             </a-select>
-            <a-button type="primary" @click="selectClient(4)"
+            <a-button type="primary" @click="selectClient(4)" v-if="btnShow"
               >选择客服</a-button
             >
           </a-space>
