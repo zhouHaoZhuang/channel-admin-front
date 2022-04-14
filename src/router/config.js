@@ -466,7 +466,7 @@ export const asyncRoute = [
                 path: "withdraw",
                 name: "提现管理",
                 meta: {
-                  perm: "sale-finance-refund"
+                  perm: "sale-finance-payment"
                 },
                 component: () =>
                   import("@/pages/sale/finance/withdraw/index.vue")

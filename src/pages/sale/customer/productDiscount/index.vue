@@ -12,6 +12,45 @@
             新增产品折扣
           </a-button>
         </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width:150px"
+            allowClear
+            v-model="listQuery['qp-productName-eq']"
+            placeholder="请选择产品名称"
+          >
+            <a-select-option
+              v-for="item in productList"
+              :key="item.productCode"
+              :value="item.productName"
+            >
+              {{ item.productName }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-select
+            style="width:150px"
+            v-model="listQuery['qp-productTypeName-eq']"
+            placeholder="产品分类"
+          >
+            <a-select-option
+              v-for="item in productTypeList"
+              :value="item.productTypeName"
+              :key="item.productTypeCode"
+            >
+              {{ item.productTypeName }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button
+            type="primary"
+            @click="search"
+          >
+            查询
+          </a-button>
+        </a-form-model-item>
       </a-form-model>
     </div>
     <div class="public-table-wrap">
@@ -55,6 +94,8 @@ export default {
       memberDiscountType,
       listQuery: {
         key: undefined,
+        'qp-productName-eq': undefined,
+        'qp-productTypeName-eq': undefined,
         search: "",
         currentPage: 1,
         pageSize: 10,
@@ -68,6 +109,10 @@ export default {
         {
           title: "产品名称",
           dataIndex: "productName"
+        },
+        {
+          title: "分类名称",
+          dataIndex: "productTypeName"
         },
         {
           title: "折扣方式",
@@ -98,13 +143,24 @@ export default {
         onChange: this.quickJump,
         onShowSizeChange: this.onShowSizeChange
       },
-      tableLoading: false
+      tableLoading: false,
+      productList: [],
+      productTypeList: []
     };
   },
   activated() {
     this.getList();
+    this.getProductList();
   },
   methods: {
+    // 获取产品列表
+    getProductList() {
+      this.$store
+        .dispatch("member/getProductList", { currentPage: 1, pageSize: 999 })
+        .then(res => {
+          this.productList = [...res.data.list];
+        });
+    },
     // 查询
     search() {
       this.listQuery.currentPage = 1;

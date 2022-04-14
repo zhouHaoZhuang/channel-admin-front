@@ -32,6 +32,7 @@
             style="width: 140px"
             defaultValue="0"
             placeholder=" 订单类型"
+            allowClear
             v-model="listQuery.tradeType"
             >
             <a-select-option
@@ -65,6 +66,7 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
+            allowClear
             v-model="listQuery.chargingType"
             >
             <a-select-option
