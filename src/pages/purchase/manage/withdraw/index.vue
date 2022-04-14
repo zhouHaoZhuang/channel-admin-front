@@ -336,7 +336,8 @@ export default {
 <style lang="less" scoped>
 .channel-list-container {
   background: #fff;
-  padding: 24px;
+  padding: 20px;
+   margin: 0 20px 20px;
   .public-table-wrap {
     .status {
       display: flex;
