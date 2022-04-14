@@ -48,9 +48,9 @@
             style="width: 130px"
             defaultValue="0"
             placeholder=" 订单状态"
+            allowClear
             v-model="listQuery.tradeStatus"
-            ><a-select-option value="">
-            </a-select-option>
+            >
             <a-select-option
               :value="index"
               v-for="(item, index) in orderStatus"
@@ -65,6 +65,7 @@
             style="width: 130px"
             defaultValue="0"
             placeholder="计费方式"
+            allowClear
             v-model="listQuery.chargingType"
             >
             <a-select-option
