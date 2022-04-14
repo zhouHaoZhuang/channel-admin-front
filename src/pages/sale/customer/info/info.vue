@@ -109,10 +109,9 @@
           <span
             :class="{
               'menber-info': true,
-              'menber-certstate-uncert': dataBase.status == 0,
-              'menber-state-freeze': dataBase.status != 0
+              'menber-certstate-uncert': dataBase.certificationStatus == 0,
+              'menber-state-freeze': dataBase.certificationStatus > 0
             }"
-            v-if="dataBase.certificationStatus"
           >
             {{ certificationStatusMap[dataBase.certificationStatus] }}
           </span>
@@ -516,12 +515,9 @@ export default {
       data: []
     };
   },
-  created() {
-    let id = this.$route.query.id;
-    // console.log(id,'子组件的id');
-    this.getData(id);
-  },
   activated() {
+    this.MemberServer = null
+    this.dataBase = null
     let id = this.$route.query.id;
     // console.log(id,'子组件的id');
     this.getData(id);
