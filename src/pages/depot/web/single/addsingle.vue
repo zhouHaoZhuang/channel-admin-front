@@ -52,7 +52,7 @@
         </a-form-model-item>
         <a-form-model-item label="内容" :wrapper-col="{ span: 20 }">
           <div class="Deputy">
-            <Tinymce @tinymceinput="tinymceinput" />
+            <Tinymce @tinymceinput="tinymceinput" :tinyvalue="form.context"/>
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ span: 10, offset: 3 }">

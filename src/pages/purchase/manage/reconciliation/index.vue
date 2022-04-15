@@ -35,6 +35,7 @@
           <a-month-picker
             placeholder="开始账期"
             format="YYYY-MM"
+            :disabled-date="disabledDate"
             @change="startValue"
           >
           </a-month-picker>
@@ -43,6 +44,7 @@
         <a-form-model-item>
           <a-month-picker
             placeholder="结束账期"
+            :disabled-date="disabledDate"
             format="YYYY-MM"
             @change="endValue"
           >
@@ -175,6 +177,9 @@ export default {
         invoiceNo: "",
         status: undefined
       },
+      disabledDate(current) {
+        return current && current.valueOf() > Date.now();
+      },
       columns: [
         {
           title: "对账单号",
@@ -195,7 +200,7 @@ export default {
           title: "开票状态",
           dataIndex: "invoiceStatus",
           scopedSlots: { customRender: "invoiceStatus" },
-          width: 120,
+          width: 180,
         },
         {
           title: "账期",
