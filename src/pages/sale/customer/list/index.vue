@@ -477,11 +477,14 @@ export default {
   watch: {
     $route: {
       handler(newVal) {
-        if (newVal.query.id) {
-          this.listQuery.id = newVal.query.id;
-          this.getDetailList();
-        } else {
-          this.getList();
+        console.log(newVal.path, "newVal");
+        if (newVal.path === "/sale/customer/detail") {
+          if (newVal.query.id) {
+            this.listQuery.id = newVal.query.id;
+            // this.getDetailList();
+          } else {
+            this.getList();
+          }
         }
       },
       immediate: true,
