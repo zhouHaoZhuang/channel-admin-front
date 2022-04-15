@@ -78,6 +78,7 @@
         <a-input-password
           v-model="form.password"
           v-password-input
+          autoComplete="new-password"
           :max-length="20"
           placeholder="6 - 20位密码，区分大小写"
           @keydown.native="keydown($event)"
