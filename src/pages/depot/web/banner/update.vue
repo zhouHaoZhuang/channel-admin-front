@@ -61,6 +61,7 @@
           label=" "
           class="input-skip"
           v-if="form.pcButtonLink === '自定义'"
+          prop="pcSkip"
         >
           <a-input
             v-model="form.pcSkip"
@@ -85,6 +86,7 @@
           label=" "
           class="input-skip"
           v-if="form.pictureLink === '自定义'"
+          prop="imgSkip"
         >
           <a-input
             v-model="form.imgSkip"
@@ -185,6 +187,12 @@ export default {
         imgSkip: "",
       },
       rules: {
+        pcSkip: [
+          { pattern: /(http|https):\/\/\S*/, message: "请以http://或https://开头", trigger: "blur" }
+        ],
+        imgSkip: [
+          { pattern: /(http|https):\/\/\S*/, message: "请以http://或https://开头", trigger: "blur" }
+        ],
         bannerType: [
           {
             required: true,
@@ -324,5 +332,8 @@ export default {
   .content {
     width: 600px;
   }
+}
+::v-deep .input-skip div label::after{
+  content:""
 }
 </style>
