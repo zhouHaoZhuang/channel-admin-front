@@ -16,7 +16,7 @@
           <a-select
             style="width:150px"
             allowClear
-            v-model="listQuery['qp-productName-eq']"
+            v-model="listQuery.productName"
             placeholder="请选择产品名称"
           >
             <a-select-option
@@ -31,8 +31,9 @@
         <a-form-model-item>
           <a-select
             style="width:150px"
-            v-model="listQuery['qp-productTypeName-eq']"
-            placeholder="产品分类"
+            v-model="listQuery.productTypeName"
+            placeholder="请选择产品分类"
+            allowClear
           >
             <a-select-option
               v-for="item in productTypeList"
@@ -94,8 +95,8 @@ export default {
       memberDiscountType,
       listQuery: {
         key: undefined,
-        'qp-productName-eq': undefined,
-        'qp-productTypeName-eq': undefined,
+        productName: undefined,
+        productTypeName: undefined,
         search: "",
         currentPage: 1,
         pageSize: 10,
