@@ -115,6 +115,7 @@ function loadRoutes(routesConfig) {
   /*************** 兼容 version < v0.6.1 *****************/
   // 应用配置
   const { router, store, i18n } = appOptions;
+  console.log("appOptions", appOptions);
   // console.log("加载路由", routesConfig, router, store);
 
   // 如果 routesConfig 有值，则更新到本地，否则从本地获取
@@ -137,9 +138,12 @@ function loadRoutes(routesConfig) {
   // }
   // 提取路由国际化数据
   mergeI18nFromRoutes(i18n, router.options.routes);
+  console.log(router.options.routes,"========");
   // 初始化Admin后台菜单数据
   const rootRoute = router.options.routes.find(item => item.path === "/");
   const menuRoutes = rootRoute && rootRoute.children;
+  console.log('menuRoutes',menuRoutes)
+  console.log('rootRoute',rootRoute)
   if (menuRoutes) {
     store.commit("setting/setMenuData", menuRoutes);
   }

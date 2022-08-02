@@ -38,7 +38,7 @@ const loginGuard = (to, from, next, options) => {
   if (to.path === "/login") {
     localStorage.clear();
   }
-  if (!loginIgnore.includes(to) && !store.state.user.token) {
+  if (!loginIgnore.includes(to) && !store.state.user.token) { // 如果没有登录 并且不是白名单页面
     message.warning("登录已失效，请重新登录");
     next({ path: "/login" });
   } else {

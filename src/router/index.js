@@ -28,6 +28,7 @@ function initRouter(isAsync) {
     ? require("./async/config.async").default
     : require("./config").default;
   formatRoutes(options.routes);
+  console.log('options',options)
   return new Router({
     mode: "history",
     base: "shop",

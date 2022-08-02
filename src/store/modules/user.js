@@ -129,6 +129,7 @@ const user = {
           method: "get"
         })
           .then(res => {
+            console.log(res, "res");  
             commit("SET_PERMS", res.data);
             resolve();
           })
